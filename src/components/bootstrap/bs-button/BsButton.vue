@@ -1,14 +1,24 @@
 <template>
   <button
+    class="btn bs-button"
     :type="nativeType"
-    class="btn"
-    :class="btnClass">Primary</button>
+    :class="btnClass"
+    :disabled="disabled || loading"
+    :aria-disabled="disabled || loading"
+    @click="onBtnClick">
+    <slot name="loading" v-if="loading">
+      <span class="spinner-border" role="status"></span>
+    </slot>
+    <slot></slot>
+  </button>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, PropType } from 'vue';
+import { defineComponent, computed, PropType } from 'vue';
 // 定义按钮支持类型
 type buttonType = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'link';
+// 定义按钮尺寸类型
+type buttonSize = 'lg' | 'sm';
 const supportTypes = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark', 'link'];
 const nativeTypes = ['button', 'submit'];
 
@@ -28,19 +38,89 @@ export default defineComponent({
       validator (nativeTypeVal: string) {
         return nativeTypes.includes(nativeTypeVal);
       }
+    },
+    size: { // 按钮大小
+      type: String as PropType<buttonSize>,
+      default: ''
+    },
+    plain: { // 是否为朴素按钮
+      type: Boolean,
+      default: false
+    },
+    block: { // 是否为块级按钮，块级按钮宽占满整个父级
+      type: Boolean,
+      default: false
+    },
+    /* round: { // 是否圆角按钮
+      type: Boolean,
+      default: false
+    }, */
+    disabled: { // 是否禁用
+      type: Boolean,
+      default: false
+    },
+    loading: { // 是否加载中
+      type: Boolean,
+      default: false
     }
   },
-  setup (props, ctx) {
-    let btnClass = reactive([]);
-    btnClass.push(props.type);
+  emits: ['click'],
+  setup (props: any, ctx) {
+    let btnClass = computed<Array<string|unknown>>(() => {
+      let classArr = [];
+      let bntType = props.type;
+
+      if (props.plain) {
+        classArr.push(`btn-outline-${bntType}`);
+      } else {
+        classArr.push(`btn-${bntType}`); // 按钮类型的class
+      }
+      if (props.size) {
+        classArr.push(`btn-${props.size}`);
+      }
+      if (props.block) {
+        classArr.push('btn-block');
+      }
+      /* if (props.round) {
+        classArr.push('btn-round');
+      } */
+      if (props.disabled) {
+        classArr.push('is-disabled');
+      }
+      if (props.loading) {
+        classArr.push('is-loading');
+      }
+      return classArr;
+    });
+    let onBtnClick = function (evt: MouseEvent): void {
+      if (props.disabled) {
+        return;
+      }
+      ctx.emit('click', evt);
+    };
 
     return {
-      btnClass
+      btnClass,
+      onBtnClick
     };
   }
 });
 </script>
 
 <style lang="scss">
-
+.btn.bs-button{
+  &.is-disabled,
+  &.is-loading{
+    opacity: 0.65;
+    cursor: default;
+  }
+  .spinner-border,
+  .spinner-grow{
+    width: 1em;
+    height: 1em;
+    border-width: 0.15em;
+    vertical-align: -0.06em;
+    margin-right: 0.4em;
+  }
+}
 </style>

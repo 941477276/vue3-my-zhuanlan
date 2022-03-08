@@ -17,6 +17,9 @@ module.exports = {
     'no-extra-semi': "off",
     'no-unused-vars': 'off',
     'prefer-const': 'off',
-    'semi': ["error", "always"]
+    'no-trailing-spaces': 'off',
+    'semi': ["error", "always"],
+    '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/no-explicit-any': 'off'
   }
 }
