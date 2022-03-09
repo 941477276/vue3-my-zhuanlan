@@ -8,6 +8,7 @@
     "moduleResolution": "node",
     "skipLibCheck": true,
     "esModuleInterop": true,
+    "allowJs": true,// 允许引入js
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
@@ -28,6 +29,7 @@
   },
   "include": [
     "src/**/*.ts",
+    "src/**/*.js",
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
@@ -35,5 +37,10 @@
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "linterOptions": {
+    "exclude": [
+      "src/**/*.js"
+    ]
+  }
 }

@@ -18,6 +18,8 @@ module.exports = {
     'no-unused-vars': 'off',
     'prefer-const': 'off',
     'no-trailing-spaces': 'off',
+    'eqeqeq': 'off',
+    'no-case-declarations': 'off',
     'semi': ["error", "always"],
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/no-explicit-any': 'off'

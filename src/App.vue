@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <!--<div class="box">
     <bs-button @click="onClick">简单按钮</bs-button>
     <hr>
     <bs-button @click="onClick" plain>朴素按钮</bs-button>
@@ -14,6 +14,19 @@
     <hr>
 
     <bs-button @click="onClick" loading>加载中按钮</bs-button>
+  </div>-->
+  <div class="box">
+    <bs-dropdown>
+      <bs-button class="dropdown-toggle" @click="onClick">简单按钮</bs-button>
+    </bs-dropdown>
+    <hr>
+    <bs-dropdown trigger="hover">
+    <bs-button class="dropdown-toggle" @click="onClick">hover触发</bs-button>
+    </bs-dropdown>
+    <hr>
+    <bs-dropdown trigger="hover">
+      <bs-button class="dropdown-toggle" @click="onClick">hover触发2</bs-button>
+    </bs-dropdown>
   </div>
 </template>
 
@@ -28,7 +41,7 @@ export default defineComponent({
   },
   setup () {
     let onClick = function (evt: MouseEvent) {
-      console.log(evt);
+      // console.log(evt);
     };
     return {
       onClick
