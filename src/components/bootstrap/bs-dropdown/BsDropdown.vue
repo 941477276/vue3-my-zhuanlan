@@ -1,13 +1,14 @@
 <template>
   <div
     class="dropdown"
-    :class="[directionClass]"
+    :class="[directionClass, {'is-disabled': disabled}]"
     ref="dropdownRef">
     <slot></slot>
     <ol
       ref="dropdownMenuRef"
       class="dropdown-menu"
-      :class="{show: expanded}">
+      :class="{show: expanded}"
+      :style="styleText">
       <li class="dropdown-item" href="#">Action</li>
       <li class="dropdown-item" href="#">Another action</li>
       <li class="dropdown-item" href="#">Something else here</li>
@@ -16,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { ref, PropType, computed, onMounted, onUnmounted, onBeforeUnmount, watch, Ref } from 'vue';
+import { ref, PropType, computed, onMounted, nextTick, onBeforeUnmount, watch, Ref } from 'vue';
 import { util } from '@/common/util';
 
 // 下来菜单显示方向
@@ -40,6 +41,10 @@ export default {
     trigger: { // 触发下拉菜单显示的事件
       type: String as PropType<triggers>,
       default: 'click'
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   setup (props: any, ctx: any) {
@@ -52,6 +57,7 @@ export default {
     let directionClass = computed<string>(() => {
       return directionOfClass[props.direction];
     });
+    let styleText = ref<string>('');
     let eventTimer: number;
     let isClickOutside = ref(false); // 是否点击了下拉菜单的外卖
 
@@ -61,6 +67,27 @@ export default {
       eventTimer = setTimeout(() => {
         clearTimeout(eventTimer);
         expanded.value = true;
+        /* nextTick(() => {
+          let toggleElReact: DOMRect = toggleEl.getBoundingClientRect();
+          let dropdownMenuRect: DOMRect = (dropdownMenuRef.value as HTMLElement).getBoundingClientRect();
+          console.log(dropdownMenuRect);
+          switch (props.direction) {
+            case 'bottom':
+              styleText.value = 'transform:translate3d(0px, 0px, 0px);';
+              break;
+            case 'top':
+              // let topPosition = toggleElReact.height + dropdownMenuRect.height;
+              styleText.value = 'transform:translate3d(0px, 0px, 0px);';
+              break;
+            case 'left':
+              styleText.value = 'transform:translate3d(0px, 0px, 0px);';
+              break;
+            case 'right':
+              // console.log(toggleElReact.width + dropdownMenuRect.width);
+              styleText.value = `top:0;left:auto;transform:translate3d(${toggleElReact.width}px, 0px, 0px);`;
+              break;
+          }
+        }); */
       }, props.trigger == 'click' ? 0 : 150);
     };
     // 隐藏
@@ -122,6 +149,13 @@ export default {
         hide();
       }
     });
+    watch(() => props.disabled, (disabled: boolean) => {
+      if (disabled) {
+        offEvent();
+      } else {
+        bindEvent();
+      }
+    });
     onMounted(() => {
       toggleEl = (dropdownRef.value as HTMLElement).querySelector('.dropdown-toggle') as HTMLElement;
       if (!toggleEl) {
@@ -131,6 +165,9 @@ export default {
         return;
       }
       // console.log('toggleEl', toggleEl);
+      if (props.disabled) {
+        return;
+      }
       bindEvent();
     });
     onBeforeUnmount(() => {
@@ -143,6 +180,7 @@ export default {
       dropdownMenuRef,
       directionClass,
       isClickOutside,
+      styleText,
 
       hide,
       show
@@ -152,5 +190,13 @@ export default {
 </script>
 
 <style lang="scss">
-
+.dropdown{
+  display: inline-block;
+  vertical-align: middle;
+  &.is-disabled{
+    opacity: 0.65;
+    cursor: default;
+    pointer-events: none;
+  }
+}
 </style>

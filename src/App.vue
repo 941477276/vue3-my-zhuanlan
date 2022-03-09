@@ -24,14 +24,26 @@
     <bs-button class="dropdown-toggle" @click="onClick">hover触发</bs-button>
     </bs-dropdown>
     <hr>
-    <bs-dropdown trigger="hover">
-      <bs-button class="dropdown-toggle" @click="onClick">hover触发2</bs-button>
+    <bs-dropdown direction="top">
+      <bs-button class="dropdown-toggle" @click="onClick">向上</bs-button>
+    </bs-dropdown>
+    <hr>
+    <bs-dropdown direction="left" style="margin-left: 30%;">
+      <bs-button class="dropdown-toggle" @click="onClick">向左</bs-button>
+    </bs-dropdown>
+    <hr>
+    <bs-dropdown direction="right">
+      <bs-button class="dropdown-toggle" @click="onClick">向右</bs-button>
+    </bs-dropdown>
+    <hr>
+    <bs-dropdown :disabled="isDisabled" direction="right">
+      <bs-button class="dropdown-toggle" @click="onClick">禁用的</bs-button>
     </bs-dropdown>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 // import HelloWorld from './components/HelloWorld.vue'
 
 export default defineComponent({
@@ -43,8 +55,17 @@ export default defineComponent({
     let onClick = function (evt: MouseEvent) {
       // console.log(evt);
     };
+    let isDisabled = ref(true);
+
+    let timer = setTimeout(() => {
+      clearInterval(timer);
+      isDisabled.value = false;
+      console.log('解禁了！');
+    }, 1500);
+
     return {
-      onClick
+      onClick,
+      isDisabled
     };
   }
 });
