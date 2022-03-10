@@ -40,6 +40,36 @@ var tool = {
     return positon;
   },
   /**
+   * 判断元素是否完全出现在视口中
+   * @param ele dom元素
+   * @param top dom元素距浏览器最顶端的距离
+   * @param left dom元素距浏览器最左端的距离
+   * @returns {{horizontal: boolean, vertical: boolean}}
+   */
+  eleInView (ele, top, left) {
+    // 浏览器滚动条高度
+    let scrollTop = tool.scrollTop();
+    let scrollLeft = tool.scrollLeft();
+    // console.log('scrollTop/scrollLeft', scrollTop, scrollLeft);
+    if(!top){
+      top = tool.offset(ele).top;
+    }
+    if(!left){
+      left = tool.offset(ele).left;
+    }
+    top = top - scrollTop;
+    console.log('top', top)
+    left = left - scrollLeft;
+    let bottom = ele.offsetHeight + top;
+    let right = ele.offsetWidth + left;
+    let windowWH = tool.getDocumentWidthHeight();
+    console.log('windowWH', windowWH, right)
+    return {
+      vertical: top > 0 && top < windowWH.height && bottom > 0 && bottom <= windowWH.height,
+      horizontal: left > 0 && left < windowWH.width && right > 0 && right <= windowWH.width
+    };
+  },
+  /**
    * 获取浏览器垂直滚动条的位置
    */
   scrollTop () {

@@ -16,7 +16,7 @@
     <bs-button @click="onClick" loading>加载中按钮</bs-button>
   </div>-->
   <div class="box">
-    <bs-dropdown>
+    <bs-dropdown direction="top">
       <bs-button class="dropdown-toggle" @click="onClick">简单按钮</bs-button>
     </bs-dropdown>
     <hr>
@@ -28,12 +28,24 @@
       <bs-button class="dropdown-toggle" @click="onClick">向上</bs-button>
     </bs-dropdown>
     <hr>
+    <bs-dropdown direction="bottom">
+      <bs-button class="dropdown-toggle" @click="onClick">向下</bs-button>
+    </bs-dropdown>
+    <hr>
     <bs-dropdown direction="left" style="margin-left: 30%;">
       <bs-button class="dropdown-toggle" @click="onClick">向左</bs-button>
     </bs-dropdown>
     <hr>
+    <bs-dropdown direction="left">
+      <bs-button class="dropdown-toggle" @click="onClick">向左2</bs-button>
+    </bs-dropdown>
+    <hr>
     <bs-dropdown direction="right">
       <bs-button class="dropdown-toggle" @click="onClick">向右</bs-button>
+    </bs-dropdown>
+    <hr>
+    <bs-dropdown direction="right" style="margin-left: 95%;">
+      <bs-button class="dropdown-toggle" @click="onClick">向右2</bs-button>
     </bs-dropdown>
     <hr>
     <bs-dropdown :disabled="isDisabled" direction="right">
@@ -57,12 +69,12 @@ export default defineComponent({
     };
     let isDisabled = ref(true);
 
-    let timer = setTimeout(() => {
+    /* let timer = setTimeout(() => {
       clearInterval(timer);
       isDisabled.value = false;
       console.log('解禁了！');
     }, 1500);
-
+ */
     return {
       onClick,
       isDisabled
@@ -72,6 +84,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+body{
+  height: 2000px;
+}
 .box{
   padding: 20px;
 }
