@@ -19,7 +19,9 @@
     <bs-dropdown direction="top">
       <bs-button class="dropdown-toggle" @click="onClick">简单按钮</bs-button>
       <template #dropdown-item>
-        <bs-dropdown-item>JavaScript</bs-dropdown-item>
+        <bs-button>
+          <bs-dropdown-item>JavaScript</bs-dropdown-item>
+        </bs-button>
         <bs-dropdown-item>HTML</bs-dropdown-item>
         <bs-dropdown-item>CSS</bs-dropdown-item>
       </template>

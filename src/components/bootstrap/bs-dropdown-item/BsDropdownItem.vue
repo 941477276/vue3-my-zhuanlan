@@ -9,8 +9,10 @@
 </template>
 
 <script lang="ts">
-
-export default {
+import Vue, { defineComponent } from 'vue';
+// 定义vue实例类型
+type VueIns = InstanceType<typeof Vue>;
+export default defineComponent({
   name: 'BsDropdownItem',
   props: {
     disabled: {
@@ -27,18 +29,27 @@ export default {
     }
   },
   emits: ['click'],
-  setup (props: any, ctx: any) {
-    let onDropdownItemClick = (evt: MouseEvent) => {
-      if (props.disabled) {
-        return;
+  methods: {
+    onDropdownItemClick (evt: MouseEvent) {
+      // console.log('this', this.$parent);
+      // 寻找距离当前组件最近的<bs-dropdown>组件，找到后调用它的hide方法
+      let findParentWhichIsBsDropdown = function (compentIns: VueIns): VueIns {
+        if (compentIns.$options.name === 'BsDropdown') {
+          return compentIns;
+        }
+        let bsDropdownIns = findParentWhichIsBsDropdown(compentIns.$parent);
+        if (bsDropdownIns) {
+          return bsDropdownIns;
+        }
+      };
+      let $parent = findParentWhichIsBsDropdown(this);
+      if ($parent && typeof $parent.hide === 'function') {
+        $parent.hide();
       }
-      ctx.emit('click', evt);
-    };
-    return {
-      onDropdownItemClick
-    };
+      this.$emit('click', evt);
+    }
   }
-};
+});
 </script>
 
 <style lang="scss">
