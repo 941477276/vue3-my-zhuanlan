@@ -18,7 +18,15 @@
   <div class="box">
     <bs-input v-model="inputValue"></bs-input>
     <h2>inputValue的值为：{{inputValue}}</h2>
-    <!--<bs-input disabled></bs-input>-->
+    <hr>
+    <bs-input>
+      <template #prepend v-if="showPrepend">
+        一个前置slot
+      </template>
+    </bs-input>
+    <hr>
+    <h3>密码输入框</h3>
+    <bs-input type="password" :show-password="true"></bs-input>
   </div>
 </template>
 
@@ -36,18 +44,21 @@ export default defineComponent({
       // console.log(evt);
     };
     let isDisabled = ref(true);
+    let showPrepend = ref(false);
 
-    /* let timer = setTimeout(() => {
+    let timer = setTimeout(() => {
       clearInterval(timer);
-      isDisabled.value = false;
+      // isDisabled.value = false;
       console.log('解禁了！');
+      showPrepend.value = true;
     }, 1500);
- */
     let inputValue = ref('哈哈');
     return {
       onClick,
       isDisabled,
-      inputValue
+      inputValue,
+
+      showPrepend
     };
   }
 });
