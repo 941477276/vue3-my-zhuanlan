@@ -1,5 +1,11 @@
 .bs-input{
   width: auto;
+  &.input-group-sm .form-control:not(textarea){
+    height: calc(1.5em + 0.5rem + 2px);
+  }
+  &.input-group-lg .form-control:not(textarea){
+    height: calc(1.5em + 1rem + 2px);
+  }
   &.has-show-password_icon,
   &.has-clear-content_icon,
   &.has-suffix-icon{
@@ -39,9 +45,8 @@
 .bs-input-prefix{
   position: absolute;
   top: 1px;
-  left: 1px;
+  left: 5px;
   bottom: 1px;
-  background-color: #ccc;
   .bs-svg-icon{
     width: 1em;
     height: 1em;
@@ -50,9 +55,8 @@
 .bs-input-suffix{
   position: absolute;
   top: 1px;
-  right: 1px;
+  right: 5px;
   bottom: 1px;
-  background-color: #ccc;
   .bs-svg-icon{
     width: 1em;
     height: 1em;

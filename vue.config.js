@@ -12,7 +12,7 @@ module.exports = {
     config.module
       .rule('svg')
       // .exclude.add(resolve('bootstrap-icons/icons'))
-      .exclude.add(resolve('./src/icons/svg'))
+      .exclude.add(resolve('./src/icons/svg')) // 从作为普通图片使用的svg规则中移除，因为这些svg是作为图标使用的
       .end();
     console.log('进入了chainWebpack');
 

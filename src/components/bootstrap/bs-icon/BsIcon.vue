@@ -32,6 +32,7 @@ export default defineComponent({
 .bs-svg-icon{
   width: 1em;
   height: 1em;
+  vertical-align: -3px;
   fill: currentColor;
   overflow: hidden;
 }
