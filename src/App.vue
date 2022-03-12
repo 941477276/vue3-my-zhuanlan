@@ -26,6 +26,7 @@
     </bs-input>
     <hr>
     <h3>密码输入框</h3>
+    <bs-icon name="eye"></bs-icon>
     <bs-input type="password" :show-password="true"></bs-input>
   </div>
 </template>

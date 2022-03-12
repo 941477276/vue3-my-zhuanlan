@@ -1,0 +1,38 @@
+<template>
+  <svg class="bs-svg-icon" :class="`bsicon-${name}`" aria-hidden="true" v-bind="$attrs">
+    <use :xlink:href="iconId" />
+  </svg>
+</template>
+
+<script lang="ts">
+import { defineComponent, computed } from 'vue';
+
+export default defineComponent({
+  name: 'BsIcon',
+  props: {
+    name: {
+      type: String,
+      default: '',
+      required: true
+    }
+  },
+  inheritAttrs: false,
+  setup (props: any) {
+    let iconId = computed(() => {
+      return `#bsicon-${props.name}`;
+    });
+    return {
+      iconId
+    };
+  }
+});
+</script>
+
+<style lang="scss">
+.bs-svg-icon{
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+  overflow: hidden;
+}
+</style>

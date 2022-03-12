@@ -97,6 +97,7 @@ export default defineComponent({
     let onInput = function (evt: KeyboardEvent) {
       let val = (evt.target as HTMLInputElement).value;
       console.log('触发了input 事件');
+      inputValue.value = val;
       ctx.emit('update:modelValue', val);
       ctx.emit('input', val);
     };
