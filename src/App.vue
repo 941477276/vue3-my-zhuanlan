@@ -16,7 +16,7 @@
     <bs-button @click="onClick" loading>加载中按钮</bs-button>
   </div>-->
   <div class="box">
-    <bs-input v-model="inputValue"></bs-input>
+    <bs-input v-model="inputValue" clearable></bs-input>
     <h2>inputValue的值为：{{inputValue}}</h2>
     <hr>
     <bs-input>
