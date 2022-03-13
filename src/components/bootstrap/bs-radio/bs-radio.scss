@@ -1,0 +1,82 @@
+.bs-input{
+  width: auto;
+  &.input-group-sm .form-control:not(textarea){
+    height: calc(1.5em + 0.5rem + 2px);
+  }
+  &.input-group-lg .form-control:not(textarea){
+    height: calc(1.5em + 1rem + 2px);
+  }
+  &.has-show-password_icon,
+  &.has-clear-content_icon,
+  &.has-suffix-icon{
+    .form-control{
+      padding-right: calc(0.75rem + 1.5rem);
+    }
+  }
+  &.has-prefix-icon{
+    .form-control{
+      padding-left: calc(0.75rem + 1.5rem);
+    }
+  }
+  &.has-show-password_icon.has-clear-content_icon{
+    .form-control{
+      padding-right: calc(0.75rem + 1.5rem + 1.5rem);
+    }
+  }
+  &.has-show-password_icon.has-suffix-icon{
+    .form-control{
+      padding-right: calc(0.75rem + 1.5rem + 1.5rem);
+    }
+  }
+  &.has-clear-content_icon.has-suffix-icon{
+    .form-control{
+      padding-right: calc(0.75rem + 1.5rem + 1.5rem);
+    }
+  }
+  &.has-show-password_icon.has-clear-content_icon.has-suffix-icon{
+    .form-control{
+      padding-right: calc(0.75rem + 1.5rem + 1.5rem + 1.5rem);
+    }
+  }
+}
+.bs-input-wrap{
+  position: relative;
+}
+.bs-input-prefix{
+  position: absolute;
+  top: 1px;
+  left: 5px;
+  bottom: 1px;
+  .bs-svg-icon{
+    width: 1em;
+    height: 1em;
+  }
+}
+.bs-input-suffix{
+  position: absolute;
+  top: 1px;
+  right: 5px;
+  bottom: 1px;
+  .bs-svg-icon{
+    width: 1em;
+    height: 1em;
+  }
+}
+.bs-input-prefix-icon,
+.bs-input-suffix-icon{
+  display: inline-block;
+  width: 1.5rem;
+  text-align: center;
+  line-height: calc(1.5em + 0.75rem);
+}
+
+.bs-input-suffix-icon{
+  &.clear-content_icon,
+  &.show-password_icon{
+    cursor: pointer;
+  }
+  &.clear-content_icon .bs-svg-icon{
+    width: 0.9em;
+    height: 0.9em;
+  }
+}
