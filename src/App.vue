@@ -47,7 +47,7 @@
     <h3>只读的输入框</h3>
     <bs-input value="fsdfsd" readonly max="10"></bs-input>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <h2>字符串类型的值</h2>
     <bs-radio v-model="radioVal" value="yuwen">语文</bs-radio>
     <bs-radio v-model="radioVal" value="shuxue">数学</bs-radio>
@@ -61,6 +61,13 @@
     <h2>boolean类型的值</h2>
     <bs-radio v-model="radioVal" :value="true">启用</bs-radio>
     <bs-radio v-model="radioVal" :value="false">禁用</bs-radio>
+  </div>-->
+  <div class="box">
+    <bs-radio-group v-model="inputGroupVal">
+      <bs-radio value="yuwen">语文</bs-radio>
+      <bs-radio value="shuxue">数学</bs-radio>
+      <bs-radio value="yingyu">英语</bs-radio>
+    </bs-radio-group>
   </div>
 </template>
 
@@ -92,6 +99,8 @@ export default defineComponent({
     let radioValNumber = ref(null);
     let radioValBool = ref(null);
 
+    let inputGroupVal = ref('yingyu');
+
     return {
       onClick,
       isDisabled,
@@ -99,6 +108,8 @@ export default defineComponent({
       radioVal,
       radioValNumber,
       radioValBool,
+
+      inputGroupVal,
 
       showPrepend
     };

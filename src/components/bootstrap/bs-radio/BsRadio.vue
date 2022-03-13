@@ -2,8 +2,8 @@
   <div
     class="form-check bs-radio"
     :class="{
-      'is-disabled': disabled,
-      'is-readonly': disabled,
+      'is-disabled': disabled || disabledInner,
+      'is-readonly': readonly || readonlyInner,
       'is-focus': isFocus
     }">
     <input
@@ -13,8 +13,8 @@
       :name="name || null"
       :id="radioId"
       :value="value"
-      :disabled="disabled"
-      :readonly="readonly"
+      :disabled="disabled || disabledInner"
+      :readonly="readonly || readonlyInner"
       :checked="isChecked"
       :aria-label="ariaLabel || null"
       @focus="isFocus = true"
@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed, ref, watch, onUpdated } from 'vue';
+import { defineComponent, computed, ref, onUpdated, getCurrentInstance, ComponentInternalInstance } from 'vue';
 import { getRadioCount } from '@/common/globalData';
 
 export default defineComponent({
@@ -83,20 +83,70 @@ export default defineComponent({
       return props.id || `bs-radio_${radioCount}`;
     });
     let isFocus = ref(false);
-    let isChecked = computed(() => {
-      return props.modelValue === props.value;
+
+    // 获取当前组件所在的父级<bs-radio-group>组件
+    let getRadioGroup = function ():ComponentInternalInstance|null {
+      let $parent = (getCurrentInstance() as ComponentInternalInstance).parent;
+
+      while ($parent?.type.name !== 'BsRadioGroup') {
+        $parent = $parent?.parent || null;
+      }
+
+      return $parent;
+    };
+    // 当前组件所在的父级<bs-radio-group>组件
+    let $radioGroup = ref<ComponentInternalInstance|null>(getRadioGroup());
+    onUpdated(() => {
+      // 组件更新的时候重新获取当前组件的父级<bs-radio-group>组件
+      $radioGroup.value = getRadioGroup();
     });
+
+    // console.log('当前组建实例：', getCurrentInstance());
+    // console.log('组件的<bs-radio-group>组件：', getRadioGroup());
+    // 判断是否在<bs-radio-group>组件内
+    let isInGroup = computed(() => {
+      return !!$radioGroup.value;
+    });
+    let isChecked = computed(() => {
+      let flag = false;
+      if (isInGroup.value) {
+        let $radioGroupIns = $radioGroup.value as ComponentInternalInstance;
+        flag = (props.value === $radioGroupIns.props.modelValue) || (props.value === $radioGroupIns.props.value);
+      } else {
+        flag = props.modelValue === props.value;
+      }
+      return flag;
+    });
+
+    let disabledInner = ref(false);
+    let readonlyInner = ref(false);
+    let setDisabled = function (flag: boolean) {
+      disabledInner.value = false;
+    };
+    let setReadonly = function (flag: boolean) {
+      readonlyInner.value = false;
+    };
 
     /* eslint-disable */
     let on_change = function (evt: Event) {
-      console.log(evt);
-      ctx.emit('update:modelValue', props.value);
+      // console.log(evt);
+      if (isInGroup.value) {
+        // 调用<bs-radio-group>组件的changeVal方法将值传递出去，父组件setup中暴露出去的函数及属性都可以在父组件都ctx中获取的到
+        ($radioGroup.value as any)?.ctx.changeVal(props.value);
+      } else {
+        ctx.emit('update:modelValue', props.value);
+      }
       ctx.emit('change', props.value, evt);
     };
     return {
       radioId,
       isFocus,
       isChecked,
+
+      disabledInner,
+      readonlyInner,
+      setDisabled,
+      setReadonly,
 
       on_change
     };
@@ -108,6 +158,7 @@ export default defineComponent({
 .bs-radio{
   display: inline-block;
   vertical-align: middle;
+  line-height: 1.5;
   & + .bs-radio{
     margin-left: 20px;
   }
