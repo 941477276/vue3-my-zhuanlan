@@ -88,7 +88,7 @@ export default defineComponent({
     let getRadioGroup = function ():ComponentInternalInstance|null {
       let $parent = (getCurrentInstance() as ComponentInternalInstance).parent;
 
-      while ($parent?.type.name !== 'BsRadioGroup') {
+      while ($parent && $parent?.type.name !== 'BsRadioGroup') {
         $parent = $parent?.parent || null;
       }
 
