@@ -47,11 +47,11 @@
     <h3>只读的输入框</h3>
     <bs-input value="fsdfsd" readonly max="10"></bs-input>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <h3>Textarea</h3>
     <bs-input v-model="textareaVal" type="textarea"></bs-input>
     <bs-input v-model="inputValue" clearable></bs-input>
-  </div>
+  </div>-->
   <!--<div class="box">
     <h2>字符串类型的值</h2>
     <bs-radio v-model="radioVal" value="yuwen">语文</bs-radio>
@@ -115,6 +115,18 @@
       <bs-checkbox value="shengwu">生物</bs-checkbox>
     </bs-checkbox-group>
   </div>-->
+  <!--<bs-input v-model="inputValue" clearable></bs-input>-->
+  <div class="box">
+    <bs-select v-model="selectVal">
+      <bs-option value="1">第1个选项</bs-option>
+      <bs-option value="2">第2个选项</bs-option>
+      <bs-option-group label="前端语言">
+        <bs-option value="html">html</bs-option>
+        <bs-option value="javascript">javascript</bs-option>
+        <bs-option value="css">css</bs-option>
+      </bs-option-group>
+    </bs-select>
+  </div>
 </template>
 
 <script lang="ts">
@@ -154,6 +166,8 @@ export default defineComponent({
     let checkboxGroupVal = ref([]);
     let checkboxGroupVal2 = ref('');
 
+    let selectVal = ref('');
+
     return {
       onClick,
       isDisabled,
@@ -171,6 +185,8 @@ export default defineComponent({
 
       checkboxGroupVal,
       checkboxGroupVal2,
+
+      selectVal,
 
       showPrepend
     };
