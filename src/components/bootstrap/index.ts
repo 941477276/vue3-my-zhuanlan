@@ -6,6 +6,7 @@ import BsIcon from './bs-icon/BsIcon.vue';
 import BsRadio from './bs-radio/BsRadio.vue';
 import BsRadioGroup from './bs-radio-group/BsRadioGroup.vue';
 import BsCheckbox from './bs-checkbox/BsCheckbox.vue';
+import BsCheckboxGroup from './bs-checkbox-group/BsCheckboxGroup.vue';
 
 export default function (vueApp: any) {
   vueApp.component(BsButton.name, BsButton);
@@ -16,4 +17,5 @@ export default function (vueApp: any) {
   vueApp.component(BsRadio.name, BsRadio);
   vueApp.component(BsRadioGroup.name, BsRadioGroup);
   vueApp.component(BsCheckbox.name, BsCheckbox);
+  vueApp.component(BsCheckboxGroup.name, BsCheckboxGroup);
 }

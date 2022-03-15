@@ -3,7 +3,8 @@
     class="form-check bs-checkbox"
     :class="{
       'is-disabled': disabled || disabledInner,
-      'is-focus': isFocus
+      'is-focus': isFocus,
+      'is-checked': isChecked
     }">
     <input
       v-if="trueValue || falseValue"
@@ -15,7 +16,7 @@
       :true-value="trueValue"
       :false-value="falseValue"
       v-model="checkboxVal"
-      :disabled="disabled || disabledInner"
+      :disabled="disabled || disabledInner || isCountLimitDisable"
       :aria-label="ariaLabel || null"
       @focus="isFocus = true"
       @blur="isFocus = false"
@@ -29,7 +30,7 @@
       :id="checkboxId"
       :value="value"
       v-model="checkboxVal"
-      :disabled="disabled || disabledInner"
+      :disabled="disabled || disabledInner || isCountLimitDisable"
       :aria-label="ariaLabel || null"
       @focus="isFocus = true"
       @blur="isFocus = false"
@@ -136,7 +137,7 @@ export default defineComponent({
     });
 
     // console.log('当前组建实例：', getCurrentInstance());
-    // console.log('组件的<bs-checkbox-group>组件：', getCheckboxGroup());
+    console.log('组件的<bs-checkbox-group>组件：', getCheckboxGroup());
     // 判断是否在<bs-checkbox-group>组件内
     let isInGroup = computed(() => {
       return !!$checkboxGroup.value;
@@ -146,13 +147,27 @@ export default defineComponent({
     let checkboxVal = computed({
       get () {
         if (isInGroup.value) {
-          return props.value;
+          let checkboxGroupIns:any = ($checkboxGroup.value as ComponentInternalInstance);
+          return varIsNone(checkboxGroupIns.ctx.modelValue) ? checkboxGroupIns.ctx.value : checkboxGroupIns.ctx.modelValue;
         } else {
           return varIsNone(props.modelValue) ? (props.value || selfModelVal.value) : props.modelValue;
         }
       },
       set (newVal: any) {
         if (isInGroup.value) {
+          console.log('是在复选框组中');
+
+          let checkboxGroupIns:any = ($checkboxGroup.value as ComponentInternalInstance);
+          let maxLimit = checkboxGroupIns.ctx.max;
+          if (typeof maxLimit !== 'number' || maxLimit <= 0) {
+            console.log('给复选框组设置新的值了: ', newVal);
+            checkboxGroupIns.ctx.changeVal(newVal);
+            return;
+          }
+          if (newVal.length <= Math.floor(maxLimit)) {
+            console.log('给复选框组设置新的值了: ', newVal);
+            checkboxGroupIns.ctx.changeVal(newVal);
+          }
           // return props.value;
         } else {
           console.log('设置新的值了：', newVal);
@@ -161,15 +176,30 @@ export default defineComponent({
         }
       }
     });
+    // 是否选中了
     let isChecked = computed(() => {
       let flag = false;
+      let value = checkboxVal.value;
       if (isInGroup.value) {
-        let $checkboxGroupIns = $checkboxGroup.value as ComponentInternalInstance;
-        flag = (props.value === $checkboxGroupIns.props.modelValue) || (props.value === $checkboxGroupIns.props.value);
+        // let $checkboxGroupIns = $checkboxGroup.value as ComponentInternalInstance;
+        flag = (value || []).includes(props.value);
       } else {
-        // flag = checkboxCheckedInner.value; // || props.modelValue === props.value;
+        flag = varIsNone(props.modelValue) ? (value == props.trueValue || value == props.falseValue) : value === props.modelValue;
       }
       return flag;
+    });
+    // 复选框组中允许选择的最大个数是否超出了
+    let isCountLimitDisable = computed(() => {
+      if ($checkboxGroup.value) {
+        // console.log('isCountMaxLimit', 1);
+        let max: number = ($checkboxGroup.value as any).ctx.max;
+        if (typeof max === 'number' && max > 0 && !isChecked.value) {
+          // console.log('isCountMaxLimit', 22, (checkboxVal.value || '').length, max);
+          return (checkboxVal.value || []).length >= max;
+        }
+        return false;
+      }
+      return false;
     });
 
     let disabledInner = ref(false);
@@ -180,7 +210,7 @@ export default defineComponent({
     /* eslint-disable */
     let on_change = function (evt: Event) {
       let isChecked = (evt.target as HTMLInputElement).checked;
-      console.log('是否选中', isChecked);
+      // console.log('是否选中', isChecked);
 
       let value = '';
       if (isChecked) {
@@ -190,19 +220,24 @@ export default defineComponent({
       }
       ctx.emit('change', value);
 
-      if (isInGroup.value) {
+      /* if (isInGroup.value) {
       //
-      }
+      } */
     };
 
     onMounted(() => {
       // 设置默认选择项
       if (props.checked) {
-        if (Array.isArray(checkboxVal.value) && !checkboxVal.value.includes(props.value)) {
-          checkboxVal.value.push(props.value);
-        } else {
-          checkboxVal.value = varIsNone(props.trueValue) ? true : props.trueValue;
-        }
+        // 60秒后再设置默认选中向是因为有可能<bs-checkbox-group>组件的modelValue值为空字符串
+        // 在<bs-checkbox-group>组件中，modelValue值若为字符串类型，会先转成数组，所以子组件在设置默认选中项时需延迟一点
+        let timer = setTimeout(() => {
+          clearTimeout(timer);
+          if (Array.isArray(checkboxVal.value) && !checkboxVal.value.includes(props.value)) {
+            checkboxVal.value.push(props.value);
+          } else {
+            checkboxVal.value = varIsNone(props.trueValue) ? true : props.trueValue;
+          }
+        }, 60);
       }
     });
 
@@ -210,6 +245,7 @@ export default defineComponent({
       checkboxId,
       isFocus,
       isChecked,
+      isCountLimitDisable,
 
       checkboxVal,
       disabledInner,

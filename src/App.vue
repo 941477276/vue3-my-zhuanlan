@@ -69,7 +69,7 @@
       <bs-radio value="yingyu">英语</bs-radio>
     </bs-radio-group>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <h3>默认绑定</h3>
     <bs-checkbox v-model="checkboxVal">复选框1</bs-checkbox>
     <bs-checkbox v-model="checkboxVal">复选框2</bs-checkbox>
@@ -86,12 +86,29 @@
     <bs-checkbox v-model="checkboxVal2" disabled value="tiyu">体育</bs-checkbox>
     <bs-checkbox v-model="checkboxVal2" value="wuli">物理</bs-checkbox>
     <bs-checkbox v-model="checkboxVal2"  readonly value="shengwu">生物</bs-checkbox>
+  </div>-->
 
-    <!--<input type="checkbox" v-model="checkboxVal2" value="yuwen" />
-    <input type="checkbox" v-model="checkboxVal2" value="shuxue" />
-    <input type="checkbox" v-model="checkboxVal2" value="yingyu" />
-    <input type="checkbox" v-model="checkboxVal2" value="wuli" />-->
+  <div class="box">
+    <h3>默认效果</h3>
+    <bs-checkbox-group v-model="checkboxGroupVal">
+      <bs-checkbox checked value="yuwen">语文</bs-checkbox>
+      <bs-checkbox value="shuxue">数学</bs-checkbox>
+      <bs-checkbox value="yingyu">英语</bs-checkbox>
+      <bs-checkbox disabled value="tiyu">体育</bs-checkbox>
+      <bs-checkbox value="wuli">物理</bs-checkbox>
+      <bs-checkbox readonly value="shengwu">生物</bs-checkbox>
+    </bs-checkbox-group>
 
+    <hr>
+    <h3>限制最大选择4个选项</h3>
+    <bs-checkbox-group v-model="checkboxGroupVal2" :max="4">
+      <bs-checkbox checked value="yuwen">语文</bs-checkbox>
+      <bs-checkbox value="shuxue">数学</bs-checkbox>
+      <bs-checkbox value="yingyu">英语</bs-checkbox>
+      <bs-checkbox value="tiyu">体育</bs-checkbox>
+      <bs-checkbox value="wuli">物理</bs-checkbox>
+      <bs-checkbox value="shengwu">生物</bs-checkbox>
+    </bs-checkbox-group>
   </div>
 </template>
 
@@ -128,6 +145,9 @@ export default defineComponent({
     let checkboxVal2 = ref([]);
     let checkboxVal3 = ref(1);
 
+    let checkboxGroupVal = ref([]);
+    let checkboxGroupVal2 = ref('');
+
     return {
       onClick,
       isDisabled,
@@ -141,6 +161,9 @@ export default defineComponent({
       checkboxVal,
       checkboxVal2,
       checkboxVal3,
+
+      checkboxGroupVal,
+      checkboxGroupVal2,
 
       showPrepend
     };
