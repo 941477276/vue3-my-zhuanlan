@@ -4,7 +4,8 @@
     :class="{
       'is-disabled': disabled || disabledInner,
       'is-readonly': readonly || readonlyInner,
-      'is-focus': isFocus
+      'is-focus': isFocus,
+      'is-checked': isChecked
     }">
     <input
       class="form-check-input"
