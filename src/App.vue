@@ -48,6 +48,11 @@
     <bs-input value="fsdfsd" readonly max="10"></bs-input>
   </div>-->
   <div class="box">
+    <h3>Textarea</h3>
+    <bs-input v-model="textareaVal" type="textarea"></bs-input>
+    <bs-input v-model="inputValue" clearable></bs-input>
+  </div>
+  <!--<div class="box">
     <h2>字符串类型的值</h2>
     <bs-radio v-model="radioVal" value="yuwen">语文</bs-radio>
     <bs-radio v-model="radioVal" value="shuxue">数学</bs-radio>
@@ -61,7 +66,7 @@
     <h2>boolean类型的值</h2>
     <bs-radio v-model="radioVal" :value="true">启用</bs-radio>
     <bs-radio v-model="radioVal" :value="false">禁用</bs-radio>
-  </div>
+  </div>-->
   <!--<div class="box">
     <bs-radio-group v-model="inputGroupVal">
       <bs-radio value="yuwen">语文</bs-radio>
@@ -88,7 +93,7 @@
     <bs-checkbox v-model="checkboxVal2"  readonly value="shengwu">生物</bs-checkbox>
   </div>-->
 
-  <div class="box">
+  <!--<div class="box">
     <h3>默认效果</h3>
     <bs-checkbox-group v-model="checkboxGroupVal">
       <bs-checkbox checked value="yuwen">语文</bs-checkbox>
@@ -109,7 +114,7 @@
       <bs-checkbox value="wuli">物理</bs-checkbox>
       <bs-checkbox value="shengwu">生物</bs-checkbox>
     </bs-checkbox-group>
-  </div>
+  </div>-->
 </template>
 
 <script lang="ts">
@@ -133,8 +138,9 @@ export default defineComponent({
       // isDisabled.value = false;
       console.log('解禁了！');
       showPrepend.value = true;
-    }, 1500);
-    let inputValue = ref('哈哈'); */
+    }, 1500); */
+    let inputValue = ref('哈哈');
+    let textareaVal = ref('文本框');
 
     let radioVal = ref('');
     let radioValNumber = ref(null);
@@ -151,7 +157,8 @@ export default defineComponent({
     return {
       onClick,
       isDisabled,
-      // inputValue,
+      inputValue,
+      textareaVal,
       radioVal,
       radioValNumber,
       radioValBool,

@@ -11,72 +11,91 @@
       },
       inputClass
     ]">
-    <div class="input-group-prepend" v-if="hasPrepend">
-      <slot name="prepend"></slot>
-    </div>
-    <div
-      class="bs-input-wrap"
-      @mouseenter="on_mouseenter"
-      @mouseleave="on_mouseleave">
-      <input
-        ref="inputRef"
-        class="form-control"
-        autocomplete="off"
-        :type="inputType"
-        v-bind="$attrs"
-        :value="inputValue || value"
-        :disabled="disabled"
-        :readonly="readonly"
-        :placeholder="placeholder"
-        :aria-label="ariaLabel || placeholder"
-        :name="name"
-        @input="on_input"
-        @change="on_change"
-        @focus="on_focus"
-        @blur="on_blur">
-      <div
-        v-if="prefixIcon || hasPrefix"
-        class="bs-input-prefix">
-        <span class="bs-input-suffix-icon custom-suffix-icon">
-          <slot name="prefix">
-            <bs-icon :name="prefixIcon"></bs-icon>
-          </slot>
-        </span>
+    <template v-if="type != 'textarea'">
+      <div class="input-group-prepend" v-if="hasPrepend">
+        <slot name="prepend"></slot>
       </div>
       <div
-        v-if="(suffixIcon || hasSuffix) || showPassword || clearable"
-        class="bs-input-suffix">
-        <span
-          v-show="suffixIcon || hasSuffix"
-          class="bs-input-suffix-icon custom-suffix-icon">
-          <slot name="suffix">
-            <bs-icon :name="suffixIcon"></bs-icon>
-          </slot>
-        </span>
-        <span
-          v-show="clearContentIconDisplay"
-          class="bs-input-suffix-icon clear-content_icon"
-          @click="clearContent">
-          <bs-icon name="x-circle"></bs-icon>
-        </span>
-        <span
-          v-show="showPasswordIconDisplay"
-          class="bs-input-suffix-icon show-password_icon"
-          @click="togglePasswordText">
-          <bs-icon :name="passwordIsShow ? 'eye-slash' : 'eye'"></bs-icon>
-        </span>
-      </div>
+        class="bs-input-wrap"
+        @mouseenter="on_mouseenter"
+        @mouseleave="on_mouseleave">
+        <input
+          ref="inputRef"
+          class="form-control"
+          autocomplete="off"
+          :type="inputType"
+          v-bind="$attrs"
+          :value="inputValue || value"
+          :disabled="disabled"
+          :readonly="readonly"
+          :placeholder="placeholder"
+          :aria-label="ariaLabel || placeholder"
+          :name="name"
+          @input="on_input"
+          @change="on_change"
+          @focus="on_focus"
+          @blur="on_blur">
+        <div
+          v-if="prefixIcon || hasPrefix"
+          class="bs-input-prefix">
+          <span class="bs-input-suffix-icon custom-suffix-icon">
+            <slot name="prefix">
+              <bs-icon :name="prefixIcon"></bs-icon>
+            </slot>
+          </span>
+        </div>
+        <div
+          v-if="(suffixIcon || hasSuffix) || showPassword || clearable"
+          class="bs-input-suffix">
+          <span
+            v-show="suffixIcon || hasSuffix"
+            class="bs-input-suffix-icon custom-suffix-icon">
+            <slot name="suffix">
+              <bs-icon :name="suffixIcon"></bs-icon>
+            </slot>
+          </span>
+          <span
+            v-show="clearContentIconDisplay"
+            class="bs-input-suffix-icon clear-content_icon"
+            @click="clearContent">
+            <bs-icon name="x-circle"></bs-icon>
+          </span>
+          <span
+            v-show="showPasswordIconDisplay"
+            class="bs-input-suffix-icon show-password_icon"
+            @click="togglePasswordText">
+            <bs-icon :name="passwordIsShow ? 'eye-slash' : 'eye'"></bs-icon>
+          </span>
+        </div>
 
-    </div>
-    <div class="input-group-append" v-if="hasAppend">
-      <slot name="append"></slot>
-    </div>
+      </div>
+      <div class="input-group-append" v-if="hasAppend">
+        <slot name="append"></slot>
+      </div>
+    </template>
+
+    <textarea
+      v-else
+      ref="inputRef"
+      class="form-control"
+      autocomplete="off"
+      v-bind="$attrs"
+      :value="inputValue || value"
+      :disabled="disabled"
+      :readonly="readonly"
+      :placeholder="placeholder"
+      :aria-label="ariaLabel || placeholder"
+      :name="name"
+      @input="on_input"
+      @change="on_change"
+      @focus="on_focus"
+      @blur="on_blur"></textarea>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType, computed, ref, watch, onUpdated } from 'vue';
-type InputType = 'text' | 'password' | 'number' | 'email' | 'file' | 'hidden' | 'image' | 'submit' | 'button' | 'reset';
+type InputType = 'text' | 'password' | 'number' | 'textarea' | 'email' | 'file' | 'hidden' | 'image' | 'submit' | 'button' | 'reset';
 type InputSize = 'lg' | 'sm';
 
 export default defineComponent({
