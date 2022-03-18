@@ -48,12 +48,11 @@ import {
   defineComponent,
   computed,
   ref,
-  onUpdated,
-  getCurrentInstance,
   ComponentInternalInstance,
   onMounted
 } from 'vue';
 import { getCheckboxCount } from '@/common/globalData';
+import { useGetParent } from '@/hooks/useGetParent';
 // 判断一个变量是否为空值
 const varIsNone = function (variable:string|undefined|null):boolean {
   return variable === null || typeof variable === 'undefined' || (!Array.isArray(variable) && (variable + '').length === 0);
@@ -117,27 +116,11 @@ export default defineComponent({
     });
     let isFocus = ref(false);
 
-    // 获取当前组件所在的父级<bs-checkbox-group>组件
-    let getCheckboxGroup = function ():ComponentInternalInstance|null {
-      let $parent = (getCurrentInstance() as ComponentInternalInstance).parent;
-
-      // console.log('$parent', $parent);
-      while ($parent && $parent?.type.name !== 'BsCheckboxGroup') {
-        $parent = $parent?.parent || null;
-      }
-      // console.log('$parent', $parent);
-
-      return $parent;
-    };
     // 当前组件所在的父级<bs-checkbox-group>组件
-    let $checkboxGroup = ref<ComponentInternalInstance|null>(getCheckboxGroup());
-    onUpdated(() => {
-      // 组件更新的时候重新获取当前组件的父级<bs-checkbox-group>组件
-      $checkboxGroup.value = getCheckboxGroup();
-    });
+    let $checkboxGroup = useGetParent('BsCheckboxGroup');
 
     // console.log('当前组建实例：', getCurrentInstance());
-    console.log('组件的<bs-checkbox-group>组件：', getCheckboxGroup());
+    // console.log('组件的<bs-checkbox-group>组件：', getCheckboxGroup());
     // 判断是否在<bs-checkbox-group>组件内
     let isInGroup = computed(() => {
       return !!$checkboxGroup.value;
@@ -155,22 +138,22 @@ export default defineComponent({
       },
       set (newVal: any) {
         if (isInGroup.value) {
-          console.log('是在复选框组中');
+          // console.log('是在复选框组中');
 
           let checkboxGroupIns:any = ($checkboxGroup.value as ComponentInternalInstance);
           let maxLimit = checkboxGroupIns.ctx.max;
           if (typeof maxLimit !== 'number' || maxLimit <= 0) {
-            console.log('给复选框组设置新的值了: ', newVal);
+            // console.log('给复选框组设置新的值了: ', newVal);
             checkboxGroupIns.ctx.changeVal(newVal);
             return;
           }
           if (newVal.length <= Math.floor(maxLimit)) {
-            console.log('给复选框组设置新的值了: ', newVal);
+            // console.log('给复选框组设置新的值了: ', newVal);
             checkboxGroupIns.ctx.changeVal(newVal);
           }
           // return props.value;
         } else {
-          console.log('设置新的值了：', newVal);
+          // console.log('设置新的值了：', newVal);
           ctx.emit('update:modelValue', newVal);
           selfModelVal.value = newVal;
         }
@@ -182,7 +165,7 @@ export default defineComponent({
       let value = checkboxVal.value;
       if (isInGroup.value) {
         // let $checkboxGroupIns = $checkboxGroup.value as ComponentInternalInstance;
-        flag = (value || []).includes(props.value);
+        flag = (Array.isArray(value) ? value : []).includes(props.value);
       } else {
         flag = varIsNone(props.modelValue) ? (value == props.trueValue || value == props.falseValue) : value === props.modelValue;
       }
