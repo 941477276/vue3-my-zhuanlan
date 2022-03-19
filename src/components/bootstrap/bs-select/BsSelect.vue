@@ -12,8 +12,8 @@
       :class="sizeClass"
       :disabled="disabled"
       :multiple="multiple"
-      :id="id"
-      :name="name"
+      :id="selectId"
+      :name="name || null"
       :placeholder="placeholder"
       :aria-label="ariaLabel"
       @change="on_change"
@@ -27,6 +27,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, PropType } from 'vue';
+import { getSelectCount } from '@/common/globalData';
+
 type InputSize = 'lg' | 'sm';
 export default defineComponent({
   name: 'BsSelect',
@@ -78,6 +80,7 @@ export default defineComponent({
   emits: ['update:modelValue', 'change', 'focus', 'blur'],
   setup (props: any, ctx: any) {
     let selectRef = ref<HTMLSelectElement|null>(null);
+    let selectId = ref(props.id || `bs-select_${getSelectCount()}`);
 
     let selectVal = computed({
       get () {
@@ -120,6 +123,7 @@ export default defineComponent({
       sizeClass,
       isFocus,
       selectRef,
+      selectId,
 
       on_focus,
       on_blur,

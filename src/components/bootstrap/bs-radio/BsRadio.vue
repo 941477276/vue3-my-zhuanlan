@@ -80,9 +80,7 @@ export default defineComponent({
   setup (props: any, ctx: any) {
     let radioCount = getRadioCount();
     // 计算单选框的ID
-    let radioId = computed(() => {
-      return props.id || `bs-radio_${radioCount}`;
-    });
+    let radioId = ref(props.id || `bs-radio_${radioCount}`);
     let isFocus = ref(false);
 
     // 获取当前组件所在的父级<bs-radio-group>组件

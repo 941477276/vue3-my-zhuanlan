@@ -26,12 +26,13 @@
           autocomplete="off"
           :type="inputType"
           v-bind="$attrs"
+          :id="inputId"
           :value="inputValue || value"
           :disabled="disabled"
           :readonly="readonly"
-          :placeholder="placeholder"
-          :aria-label="ariaLabel || placeholder"
-          :name="name"
+          :placeholder="placeholder || null"
+          :aria-label="ariaLabel || placeholder || null"
+          :name="name || null"
           @input="on_input"
           @change="on_change"
           @focus="on_focus"
@@ -81,12 +82,13 @@
       class="form-control"
       autocomplete="off"
       v-bind="$attrs"
+      :id="inputId"
       :value="inputValue || value"
       :disabled="disabled"
       :readonly="readonly"
-      :placeholder="placeholder"
-      :aria-label="ariaLabel || placeholder"
-      :name="name"
+      :placeholder="placeholder || null"
+      :aria-label="ariaLabel || placeholder || null"
+      :name="name || null"
       @input="on_input"
       @change="on_change"
       @focus="on_focus"
@@ -96,6 +98,8 @@
 
 <script lang="ts">
 import { defineComponent, PropType, computed, ref, watch } from 'vue';
+import { getInputCount, getTextAreaCount } from '@/common/globalData';
+
 type InputType = 'text' | 'password' | 'number' | 'textarea' | 'email' | 'file' | 'hidden' | 'image' | 'submit' | 'button' | 'reset';
 type InputSize = 'lg' | 'sm';
 
@@ -136,6 +140,17 @@ export default defineComponent({
       type: String as PropType<InputSize>,
       default: ''
     },
+    id: {
+      type: String,
+      default: '',
+      validator (idVal: string) {
+        if (typeof idVal !== 'string' || /^\d+/.test(idVal)) {
+          console.warn('id必须为字符串类型，且不能以数字开头');
+          return false;
+        }
+        return true;
+      }
+    },
     placeholder: {
       type: String,
       default: ''
@@ -162,6 +177,16 @@ export default defineComponent({
   setup (props: any, ctx: any) {
     let showPasswordIconDisplay = ref(false); // 切换输入框类型为“密码/文本”按钮是否显示
     let clearContentIconDisplay = ref(false); // 清空内容按钮是否显示
+    let inputId = ref('');
+    if (props.id) {
+      inputId.value = props.id;
+    } else {
+      if (props.type === 'textarea') {
+        inputId.value = `bs-textarea_${getTextAreaCount()}`;
+      } else {
+        inputId.value = `bs-input_${getInputCount()}`;
+      }
+    }
 
     let passwordIsShow = ref(false); // 密码是否显示了
     // 切换输入框类型为密码或文本
@@ -263,6 +288,7 @@ export default defineComponent({
       inputClass,
       inputValue,
       inputType,
+      inputId,
       showPasswordIconDisplay,
       passwordIsShow,
       clearContentIconDisplay,
