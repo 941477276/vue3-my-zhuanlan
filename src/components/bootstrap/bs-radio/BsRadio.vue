@@ -11,6 +11,10 @@
       class="form-check-input"
       type="radio"
       autocomplete="off"
+      :class="{
+        'is-valid': validateStatus === 'success',
+        'is-invalid': validateStatus === 'error'
+      }"
       :name="name || null"
       :id="radioId"
       :value="value"
@@ -38,10 +42,11 @@ import {
   getCurrentInstance,
   ComponentInternalInstance,
   onMounted,
-  onUnmounted
+  onUnmounted, nextTick
 } from 'vue';
 import { getRadioCount } from '@/common/globalData';
 import { useGetParent } from '@/hooks/useGetParent';
+import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
 
 export default defineComponent({
   name: 'BsRadio',
@@ -123,6 +128,20 @@ export default defineComponent({
     let setReadonly = function (flag: boolean) {
       readonlyInner.value = false;
     };
+    let { validateStatus, setValidateStatus, getValidateStatus } = useSetValidateStatus();
+
+    /**
+     * 调用当前<bs-form-item>父组件的方法
+     * @param fnName 方法名称
+     * @param args 参数
+     */
+    let callFormItem = function (fnName: string, ...args: any) {
+      nextTick(function () {
+        if ($formItem.value) {
+          ($formItem.value as any).ctx[fnName](...args);
+        }
+      });
+    };
 
     /* eslint-disable */
     let on_change = function (evt: Event) {
@@ -134,6 +153,7 @@ export default defineComponent({
         ctx.emit('update:modelValue', props.value);
       }
       ctx.emit('change', props.value, evt);
+      callFormItem('validate', 'change');
     };
 
     onMounted(function () {
@@ -151,11 +171,13 @@ export default defineComponent({
       radioId,
       isFocus,
       isChecked,
+      validateStatus,
 
       disabledInner,
       readonlyInner,
       setDisabled,
       setReadonly,
+      setValidateStatus,
 
       on_change
     };

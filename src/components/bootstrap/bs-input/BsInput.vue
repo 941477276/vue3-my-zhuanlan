@@ -24,6 +24,10 @@
           ref="inputRef"
           class="form-control"
           autocomplete="off"
+          :class="{
+            'is-valid': validateStatus === 'success',
+            'is-invalid': validateStatus === 'error'
+          }"
           :type="inputType"
           v-bind="$attrs"
           :id="inputId"
@@ -81,6 +85,10 @@
       ref="inputRef"
       class="form-control"
       autocomplete="off"
+      :class="{
+        'is-valid': validateStatus === 'success',
+        'is-invalid': validateStatus === 'error'
+      }"
       v-bind="$attrs"
       :id="inputId"
       :value="inputValue || value"
@@ -106,10 +114,12 @@ import {
   onMounted,
   onUnmounted,
   getCurrentInstance,
-  ComponentInternalInstance
+  ComponentInternalInstance,
+  nextTick
 } from 'vue';
 import { getInputCount, getTextAreaCount } from '@/common/globalData';
 import { useGetParent } from '@/hooks/useGetParent';
+import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
 
 type InputType = 'text' | 'password' | 'number' | 'textarea' | 'email' | 'file' | 'hidden' | 'image' | 'submit' | 'button' | 'reset';
 type InputSize = 'lg' | 'sm';
@@ -232,6 +242,19 @@ export default defineComponent({
       }
     });
 
+    /**
+     * 调用当前<bs-form-item>父组件的方法
+     * @param fnName 方法名称
+     * @param args 参数
+     */
+    let callFormItem = function (fnName: string, ...args: any) {
+      nextTick(function () {
+        if ($formItem.value) {
+          ($formItem.value as any).ctx[fnName](...args);
+        }
+      });
+    };
+
     // input事件
     /* eslint-disable */
     let on_input = function (evt: Event) {
@@ -245,6 +268,8 @@ export default defineComponent({
       }
       ctx.emit('update:modelValue', val);
       ctx.emit('input', val);
+
+      callFormItem('validate', 'input');
     };
     let on_focus = function (evt: Event) {
       if (props.showPassword) {
@@ -253,6 +278,8 @@ export default defineComponent({
       if (props.clearable && (inputValue.value + '').length > 0) {
         clearContentIconDisplay.value = true;
       }
+      ctx.emit('focus', evt);
+      callFormItem('validate', 'focus');
     };
     let on_blur = function (evt: Event) {
       if ((inputValue.value + '').length > 0) {
@@ -265,10 +292,12 @@ export default defineComponent({
         }
       }
       ctx.emit('blur', evt);
+      callFormItem('validate', 'blur');
     };
     let on_change = function (evt: Event) {
       let val = (evt.target as HTMLInputElement).value;
       ctx.emit('change', val);
+      callFormItem('validate', 'change');
     };
     let on_mouseenter = function (evt: MouseEvent) {
       if (props.clearable && (inputValue.value + '').length > 0) {
@@ -296,6 +325,7 @@ export default defineComponent({
     let blur = function () {
       (inputRef.value as HTMLInputElement).blur();
     };
+    let { validateStatus, setValidateStatus, getValidateStatus } = useSetValidateStatus();
 
     onMounted(function () {
       if ($formItem.value) {
@@ -317,6 +347,7 @@ export default defineComponent({
       showPasswordIconDisplay,
       passwordIsShow,
       clearContentIconDisplay,
+      validateStatus,
 
       on_input,
       on_change,
@@ -327,7 +358,8 @@ export default defineComponent({
       togglePasswordText,
       clearContent,
       focus,
-      blur
+      blur,
+      setValidateStatus
     };
   },
   methods: {

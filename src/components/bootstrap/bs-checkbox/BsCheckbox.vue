@@ -11,6 +11,10 @@
       class="form-check-input"
       type="checkbox"
       autocomplete="off"
+      :class="{
+        'is-valid': validateStatus === 'success',
+        'is-invalid': validateStatus === 'error'
+      }"
       :name="name || null"
       :id="checkboxId"
       :true-value="trueValue"
@@ -26,6 +30,10 @@
       class="form-check-input"
       type="checkbox"
       autocomplete="off"
+      :class="{
+        'is-valid': validateStatus === 'success',
+        'is-invalid': validateStatus === 'error'
+      }"
       :name="name || null"
       :id="checkboxId"
       :value="value"
@@ -51,10 +59,12 @@ import {
   ComponentInternalInstance,
   onMounted,
   onUnmounted,
-  getCurrentInstance
+  getCurrentInstance,
+  nextTick
 } from 'vue';
 import { getCheckboxCount } from '@/common/globalData';
 import { useGetParent } from '@/hooks/useGetParent';
+import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
 // 判断一个变量是否为空值
 const varIsNone = function (variable:string|undefined|null):boolean {
   return variable === null || typeof variable === 'undefined' || (!Array.isArray(variable) && (variable + '').length === 0);
@@ -191,6 +201,19 @@ export default defineComponent({
     let setDisabled = function (flag: boolean) {
       disabledInner.value = false;
     };
+    let { validateStatus, setValidateStatus, getValidateStatus } = useSetValidateStatus();
+    /**
+     * 调用当前<bs-form-item>父组件的方法
+     * @param fnName 方法名称
+     * @param args 参数
+     */
+    let callFormItem = function (fnName: string, ...args: any) {
+      nextTick(function () {
+        if ($formItem.value) {
+          ($formItem.value as any).ctx[fnName](...args);
+        }
+      });
+    };
 
     /* eslint-disable */
     let on_change = function (evt: Event) {
@@ -205,9 +228,7 @@ export default defineComponent({
       }
       ctx.emit('change', value);
 
-      /* if (isInGroup.value) {
-      //
-      } */
+      callFormItem('validate', 'change');
     };
 
     onMounted(() => {
@@ -243,8 +264,10 @@ export default defineComponent({
       isCountLimitDisable,
 
       checkboxVal,
+      validateStatus,
       disabledInner,
       setDisabled,
+      setValidateStatus,
 
       on_change
     };

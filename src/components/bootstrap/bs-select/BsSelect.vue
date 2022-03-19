@@ -9,7 +9,13 @@
       ref="selectRef"
       v-model="selectVal"
       class="form-control"
-      :class="sizeClass"
+      :class="[
+        sizeClass,
+        {
+          'is-valid': validateStatus === 'success',
+          'is-invalid': validateStatus === 'error'
+        }
+      ]"
       :disabled="disabled"
       :multiple="multiple"
       :id="selectId"
@@ -34,10 +40,11 @@ import {
   onMounted,
   onUnmounted,
   getCurrentInstance,
-  ComponentInternalInstance
+  ComponentInternalInstance, nextTick
 } from 'vue';
 import { getSelectCount } from '@/common/globalData';
 import { useGetParent } from '@/hooks/useGetParent';
+import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
 
 type InputSize = 'lg' | 'sm';
 export default defineComponent({
@@ -111,19 +118,36 @@ export default defineComponent({
       return sizeClass;
     });
 
+    /**
+     * 调用当前<bs-form-item>父组件的方法
+     * @param fnName 方法名称
+     * @param args 参数
+     */
+    let callFormItem = function (fnName: string, ...args: any) {
+      nextTick(function () {
+        if ($formItem.value) {
+          ($formItem.value as any).ctx[fnName](...args);
+        }
+      });
+    };
+
     let isFocus = ref(false);
     /* eslint-disable */
     let on_focus = function (evt: Event) {
       isFocus.value = true;
       ctx.emit('focus', evt);
+      callFormItem('validate', 'focus');
     };
     let on_blur = function (evt: Event) {
       isFocus.value = false;
       ctx.emit('blur', evt);
+      callFormItem('validate', 'blur');
     };
     let on_change = function (evt: Event) {
       ctx.emit('change', Array.isArray(selectVal.value) ? [...selectVal.value] : selectVal.value);
+      callFormItem('validate', 'change');
     };
+    let { validateStatus, setValidateStatus, getValidateStatus } = useSetValidateStatus();
 
 
     onMounted(function () {
@@ -143,7 +167,9 @@ export default defineComponent({
       isFocus,
       selectRef,
       selectId,
+      validateStatus,
 
+      setValidateStatus,
       on_focus,
       on_blur,
       on_change,
