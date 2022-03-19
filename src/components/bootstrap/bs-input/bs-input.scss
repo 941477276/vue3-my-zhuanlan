@@ -6,8 +6,6 @@
   &.input-group-lg .form-control:not(textarea){
     height: calc(1.5em + 1rem + 2px);
   }
-  &.has-show-password_icon,
-  &.has-clear-content_icon,
   &.has-suffix-icon{
     .form-control{
       padding-right: calc(0.75rem + 1.5rem);
@@ -18,21 +16,14 @@
       padding-left: calc(0.75rem + 1.5rem);
     }
   }
-  &.has-show-password_icon.has-clear-content_icon{
+  &.has-show-password_icon.has-clear-content_icon,
+  &.has-show-password_icon.has-custom-suffix_icon,
+  &.has-clear-content_icon.has-custom-suffix_icon{
     .form-control{
       padding-right: calc(0.75rem + 1.5rem + 1.5rem);
     }
   }
-  &.has-show-password_icon.has-suffix-icon{
-    .form-control{
-      padding-right: calc(0.75rem + 1.5rem + 1.5rem);
-    }
-  }
-  &.has-clear-content_icon.has-suffix-icon{
-    .form-control{
-      padding-right: calc(0.75rem + 1.5rem + 1.5rem);
-    }
-  }
+
   &.has-show-password_icon.has-clear-content_icon.has-suffix-icon{
     .form-control{
       padding-right: calc(0.75rem + 1.5rem + 1.5rem + 1.5rem);

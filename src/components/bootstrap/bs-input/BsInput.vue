@@ -6,13 +6,14 @@
         disabled,
         'has-show-password_icon': showPasswordIconDisplay,
         'has-clear-content_icon': clearContentIconDisplay,
-        'has-suffix-icon': (suffixIcon || hasSuffix) || showPassword || clearable,
-        'has-prefix-icon': prefixIcon || hasPrefix
+        'has-custom-suffix_icon': suffixIcon || $slots.suffix,
+        'has-suffix-icon': (suffixIcon || $slots.suffix) || showPassword || clearable,
+        'has-prefix-icon': prefixIcon || $slots.prefix
       },
       inputClass
     ]">
     <template v-if="type != 'textarea'">
-      <div class="input-group-prepend" v-if="hasPrepend">
+      <div class="input-group-prepend" v-if="$slots.prepend">
         <slot name="prepend"></slot>
       </div>
       <div
@@ -36,7 +37,7 @@
           @focus="on_focus"
           @blur="on_blur">
         <div
-          v-if="prefixIcon || hasPrefix"
+          v-if="prefixIcon || $slots.prefix"
           class="bs-input-prefix">
           <span class="bs-input-suffix-icon custom-suffix-icon">
             <slot name="prefix">
@@ -45,10 +46,10 @@
           </span>
         </div>
         <div
-          v-if="(suffixIcon || hasSuffix) || showPassword || clearable"
+          v-if="(suffixIcon || $slots.suffix) || showPassword || clearable"
           class="bs-input-suffix">
           <span
-            v-show="suffixIcon || hasSuffix"
+            v-show="suffixIcon || $slots.suffix"
             class="bs-input-suffix-icon custom-suffix-icon">
             <slot name="suffix">
               <bs-icon :name="suffixIcon"></bs-icon>
@@ -69,7 +70,7 @@
         </div>
 
       </div>
-      <div class="input-group-append" v-if="hasAppend">
+      <div class="input-group-append" v-if="$slots.append">
         <slot name="append"></slot>
       </div>
     </template>
@@ -94,7 +95,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed, ref, watch, onUpdated } from 'vue';
+import { defineComponent, PropType, computed, ref, watch } from 'vue';
 type InputType = 'text' | 'password' | 'number' | 'textarea' | 'email' | 'file' | 'hidden' | 'image' | 'submit' | 'button' | 'reset';
 type InputSize = 'lg' | 'sm';
 
@@ -159,18 +160,6 @@ export default defineComponent({
   inheritAttrs: false,
   emits: ['input', 'update:modelValue', 'change', 'blur', 'focus', 'clear'],
   setup (props: any, ctx: any) {
-    let hasPrepend = ref(!!ctx.slots.prepend); // 是否有前置插槽
-    let hasAppend = ref(!!ctx.slots.append); // 是否有后置插槽
-    let hasPrefix = ref(!!ctx.slots.prefix); // 是否有前置图标
-    let hasSuffix = ref(!!ctx.slots.suffix); // 是否有后置图标
-    onUpdated(() => {
-      console.log('bs-input组件更新了！');
-      hasPrepend.value = !!ctx.slots.prepend;
-      hasAppend.value = !!ctx.slots.append;
-      hasPrefix.value = !!ctx.slots.prefix;
-      hasSuffix.value = !!ctx.slots.suffix;
-    });
-
     let showPasswordIconDisplay = ref(false); // 切换输入框类型为“密码/文本”按钮是否显示
     let clearContentIconDisplay = ref(false); // 清空内容按钮是否显示
 
@@ -270,11 +259,6 @@ export default defineComponent({
     };
 
     return {
-      hasPrepend,
-      hasAppend,
-      hasPrefix,
-      hasSuffix,
-
       inputRef,
       inputClass,
       inputValue,
