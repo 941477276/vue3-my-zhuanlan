@@ -30,8 +30,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, onUpdated, getCurrentInstance, ComponentInternalInstance } from 'vue';
+import {
+  defineComponent,
+  computed,
+  ref,
+  onUpdated,
+  getCurrentInstance,
+  ComponentInternalInstance,
+  onMounted,
+  onUnmounted
+} from 'vue';
 import { getRadioCount } from '@/common/globalData';
+import { useGetParent } from '@/hooks/useGetParent';
 
 export default defineComponent({
   name: 'BsRadio',
@@ -83,22 +93,10 @@ export default defineComponent({
     let radioId = ref(props.id || `bs-radio_${radioCount}`);
     let isFocus = ref(false);
 
-    // 获取当前组件所在的父级<bs-radio-group>组件
-    let getRadioGroup = function ():ComponentInternalInstance|null {
-      let $parent = (getCurrentInstance() as ComponentInternalInstance).parent;
-
-      while ($parent && $parent?.type.name !== 'BsRadioGroup') {
-        $parent = $parent?.parent || null;
-      }
-
-      return $parent;
-    };
+    // 当前组件所在的父级<bs-form-item>组件
+    let $formItem = useGetParent('BsFormItem');
     // 当前组件所在的父级<bs-radio-group>组件
-    let $radioGroup = ref<ComponentInternalInstance|null>(getRadioGroup());
-    onUpdated(() => {
-      // 组件更新的时候重新获取当前组件的父级<bs-radio-group>组件
-      $radioGroup.value = getRadioGroup();
-    });
+    let $radioGroup = useGetParent('BsRadioGroup');
 
     // console.log('当前组建实例：', getCurrentInstance());
     // console.log('组件的<bs-radio-group>组件：', getRadioGroup());
@@ -137,6 +135,18 @@ export default defineComponent({
       }
       ctx.emit('change', props.value, evt);
     };
+
+    onMounted(function () {
+      if ($formItem.value) {
+        ($formItem.value as any).ctx.addChildComponent(getCurrentInstance() as ComponentInternalInstance);
+      }
+    });
+    onUnmounted(function () {
+      if ($formItem.value) {
+        ($formItem.value as any).ctx.removeChildComponent(getCurrentInstance() as ComponentInternalInstance);
+      }
+    });
+
     return {
       radioId,
       isFocus,

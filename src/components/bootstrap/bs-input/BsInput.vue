@@ -97,8 +97,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed, ref, watch } from 'vue';
+import {
+  defineComponent,
+  PropType,
+  computed,
+  ref,
+  watch,
+  onMounted,
+  onUnmounted,
+  getCurrentInstance,
+  ComponentInternalInstance
+} from 'vue';
 import { getInputCount, getTextAreaCount } from '@/common/globalData';
+import { useGetParent } from '@/hooks/useGetParent';
 
 type InputType = 'text' | 'password' | 'number' | 'textarea' | 'email' | 'file' | 'hidden' | 'image' | 'submit' | 'button' | 'reset';
 type InputSize = 'lg' | 'sm';
@@ -187,6 +198,9 @@ export default defineComponent({
         inputId.value = `bs-input_${getInputCount()}`;
       }
     }
+
+    // 当前组件所在的父级<bs-form-item>组件
+    let $formItem = useGetParent('BsFormItem');
 
     let passwordIsShow = ref(false); // 密码是否显示了
     // 切换输入框类型为密码或文本
@@ -282,6 +296,17 @@ export default defineComponent({
     let blur = function () {
       (inputRef.value as HTMLInputElement).blur();
     };
+
+    onMounted(function () {
+      if ($formItem.value) {
+        ($formItem.value as any).ctx.addChildComponent(getCurrentInstance() as ComponentInternalInstance);
+      }
+    });
+    onUnmounted(function () {
+      if ($formItem.value) {
+        ($formItem.value as any).ctx.removeChildComponent(getCurrentInstance() as ComponentInternalInstance);
+      }
+    });
 
     return {
       inputRef,

@@ -49,7 +49,9 @@ import {
   computed,
   ref,
   ComponentInternalInstance,
-  onMounted
+  onMounted,
+  onUnmounted,
+  getCurrentInstance
 } from 'vue';
 import { getCheckboxCount } from '@/common/globalData';
 import { useGetParent } from '@/hooks/useGetParent';
@@ -111,13 +113,13 @@ export default defineComponent({
   setup (props: any, ctx: any) {
     let checkboxCount = getCheckboxCount();
     // 计算单选框的ID
-    let checkboxId = computed(() => {
-      return props.id || `bs-checkbox_${checkboxCount}`;
-    });
+    let checkboxId = ref(props.id || `bs-checkbox_${checkboxCount}`);
     let isFocus = ref(false);
 
     // 当前组件所在的父级<bs-checkbox-group>组件
     let $checkboxGroup = useGetParent('BsCheckboxGroup');
+    // 当前组件所在的父级<bs-form-item>组件
+    let $formItem = useGetParent('BsFormItem');
 
     // console.log('当前组建实例：', getCurrentInstance());
     // console.log('组件的<bs-checkbox-group>组件：', getCheckboxGroup());
@@ -221,6 +223,16 @@ export default defineComponent({
             checkboxVal.value = varIsNone(props.trueValue) ? true : props.trueValue;
           }
         }, 60);
+      }
+      // 如果当前组件处在<bs-form-item>组件中，则将其实例存储到<bs-form-item>组件中
+      if ($formItem.value) {
+        ($formItem.value as any).ctx.addChildComponent(getCurrentInstance() as ComponentInternalInstance);
+      }
+    });
+
+    onUnmounted(function () {
+      if ($formItem.value) {
+        ($formItem.value as any).ctx.removeChildComponent(getCurrentInstance() as ComponentInternalInstance);
       }
     });
 

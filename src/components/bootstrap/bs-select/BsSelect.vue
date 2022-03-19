@@ -26,8 +26,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, PropType } from 'vue';
+import {
+  defineComponent,
+  ref,
+  computed,
+  PropType,
+  onMounted,
+  onUnmounted,
+  getCurrentInstance,
+  ComponentInternalInstance
+} from 'vue';
 import { getSelectCount } from '@/common/globalData';
+import { useGetParent } from '@/hooks/useGetParent';
 
 type InputSize = 'lg' | 'sm';
 export default defineComponent({
@@ -92,6 +102,9 @@ export default defineComponent({
       }
     });
 
+    // 当前组件所在的父级<bs-form-item>组件
+    let $formItem = useGetParent('BsFormItem');
+
     // 计算输入框的class
     let sizeClass = computed<string>(() => {
       let sizeClass = props.size ? `form-control-${props.size}` : '';
@@ -113,10 +126,16 @@ export default defineComponent({
     };
 
 
-    setTimeout(() => {
-      console.log('获得焦点');
-      focus();
-    }, 2500);
+    onMounted(function () {
+      if ($formItem.value) {
+        ($formItem.value as any).ctx.addChildComponent(getCurrentInstance() as ComponentInternalInstance);
+      }
+    });
+    onUnmounted(function () {
+      if ($formItem.value) {
+        ($formItem.value as any).ctx.removeChildComponent(getCurrentInstance() as ComponentInternalInstance);
+      }
+    });
 
     return {
       selectVal,
