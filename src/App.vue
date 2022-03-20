@@ -1,44 +1,10 @@
 <template>
-  <div class="box">
+  <!--<div class="box">
     <BsButtonUsage></BsButtonUsage>
+  </div>-->
+  <div class="box">
+    <BsInputUsage></BsInputUsage>
   </div>
-  <!--<div class="box">
-    <bs-input v-model="inputValue" clearable></bs-input>
-    <h2>inputValue的值为：{{inputValue}}</h2>
-    <hr>
-    <bs-input>
-      <template #prepend v-if="showPrepend">
-        一个前置slot
-      </template>
-    </bs-input>
-    <hr>
-    <h3>密码输入框</h3>
-    <bs-icon name="eye"></bs-icon>
-    <bs-input type="password" :show-password="true"></bs-input>
-    <hr>
-    <h3>带前置图标的输入框</h3>
-    <bs-input placeholder="请输入名称进行查找" prefix-icon="search"></bs-input>
-    <hr>
-    <h3>带后置图标的输入框</h3>
-    <bs-input suffix-icon="search"></bs-input>
-    <hr>
-    <h3>大的输入框</h3>
-    <bs-input size="lg"></bs-input>
-    <hr>
-    <h3>小的输入框</h3>
-    <bs-input size="sm"></bs-input>
-    <hr>
-    <h3>禁用的输入框</h3>
-    <bs-input disabled></bs-input>
-    <hr>
-    <h3>只读的输入框</h3>
-    <bs-input value="fsdfsd" readonly max="10"></bs-input>
-  </div>-->
-  <!--<div class="box">
-    <h3>Textarea</h3>
-    <bs-input v-model="textareaVal" type="textarea"></bs-input>
-    <bs-input v-model="inputValue" clearable></bs-input>
-  </div>-->
   <!--<div class="box">
     <h2>字符串类型的值</h2>
     <bs-radio v-model="radioVal" value="yuwen">语文</bs-radio>
@@ -125,6 +91,7 @@ import { computed, defineComponent, ref, reactive } from 'vue';
 // import AsyncValidatorUsage from './components/AsyncValidatorUsage.vue';
 import BsFormUsage from '@/components/bootstrap/bs-form/BsFormUsage.vue';
 import BsButtonUsage from '@/components/bootstrap/bs-button/BsButtonUsage.vue';
+import BsInputUsage from '@/components/bootstrap/bs-input/BsInputUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -133,20 +100,11 @@ export default defineComponent({
     // HelloWorld
     // AsyncValidatorUsage,
     BsFormUsage,
-    BsButtonUsage
+    BsButtonUsage,
+    BsInputUsage
   },
   setup () {
     let isDisabled = ref(true);
-    let showPrepend = ref(false);
-
-    /* let timer = setTimeout(() => {
-      clearInterval(timer);
-      // isDisabled.value = false;
-      console.log('解禁了！');
-      showPrepend.value = true;
-    }, 1500); */
-    let inputValue = ref('哈哈');
-    let textareaVal = ref('文本框');
 
     let radioVal = ref('');
     let radioValNumber = ref(null);
@@ -170,8 +128,6 @@ export default defineComponent({
 
     return {
       isDisabled,
-      inputValue,
-      textareaVal,
       radioVal,
       radioValNumber,
       radioValBool,
