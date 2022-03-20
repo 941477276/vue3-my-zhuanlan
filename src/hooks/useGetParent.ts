@@ -1,22 +1,22 @@
-import { ComponentInternalInstance, ref, onUpdated, getCurrentInstance, Ref } from 'vue';
+import { ComponentInternalInstance, ref, onUpdated, getCurrentInstance, Ref, computed } from 'vue';
 
 /**
  * 获取当前组件指定类型的父组件
  * @param parentComponentName 父组件名称
  */
 export function useGetParent (parentComponentName: string): Ref<ComponentInternalInstance|null> {
-  let $parent = ref<ComponentInternalInstance|null>(null);
-  if (!parentComponentName) {
-    return $parent;
-  }
   let getParent = function () {
-    $parent.value = (getCurrentInstance() as ComponentInternalInstance).parent;
-    while ($parent.value && $parent.value?.type.name !== parentComponentName) {
-      $parent.value = $parent.value?.parent || null;
+    console.log('useGetParent');
+    let parent = (getCurrentInstance() as ComponentInternalInstance).parent;
+    while (parent && parent?.type.name !== parentComponentName) {
+      parent = parent?.parent || null;
     }
+    return parent;
   };
-  getParent();
-  onUpdated(getParent);
+  // 这里不能使用onUpdated钩子来获取父组件，会出现无限循环触发onUpdated钩子问题
+  let $parent = computed<ComponentInternalInstance|null>(function () {
+    return getParent();
+  });
 
   return $parent;
 }
