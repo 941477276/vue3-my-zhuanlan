@@ -11,32 +11,12 @@
   <!--<div class="box">
     <BsRadioGroupUsage></BsRadioGroupUsage>
   </div>-->
-  <div class="box">
-    <BsCheckboxUsage></BsCheckboxUsage>
-  </div>
-
   <!--<div class="box">
-    <h3>默认效果</h3>
-    <bs-checkbox-group v-model="checkboxGroupVal">
-      <bs-checkbox checked value="yuwen">语文</bs-checkbox>
-      <bs-checkbox value="shuxue">数学</bs-checkbox>
-      <bs-checkbox value="yingyu">英语</bs-checkbox>
-      <bs-checkbox disabled value="tiyu">体育</bs-checkbox>
-      <bs-checkbox value="wuli">物理</bs-checkbox>
-      <bs-checkbox readonly value="shengwu">生物</bs-checkbox>
-    </bs-checkbox-group>
-
-    <hr>
-    <h3>限制最大选择4个选项</h3>
-    <bs-checkbox-group v-model="checkboxGroupVal2" :max="4">
-      <bs-checkbox checked value="yuwen">语文</bs-checkbox>
-      <bs-checkbox value="shuxue">数学</bs-checkbox>
-      <bs-checkbox value="yingyu">英语</bs-checkbox>
-      <bs-checkbox value="tiyu">体育</bs-checkbox>
-      <bs-checkbox value="wuli">物理</bs-checkbox>
-      <bs-checkbox value="shengwu">生物</bs-checkbox>
-    </bs-checkbox-group>
+    <BsCheckboxUsage></BsCheckboxUsage>
   </div>-->
+  <div class="box">
+    <BsCheckboxGroupUsage></BsCheckboxGroupUsage>
+  </div>
   <!--<bs-input v-model="inputValue" clearable></bs-input>-->
   <!--<div class="box">
     <bs-select v-model="selectVal">
@@ -64,6 +44,7 @@ import BsInputUsage from '@/components/bootstrap/bs-input/BsInputUsage.vue';
 import BsRadioUsage from '@/components/bootstrap/bs-radio/BsRadioUsage.vue';
 import BsRadioGroupUsage from '@/components/bootstrap/bs-radio-group/BsRadioGroupUsage.vue';
 import BsCheckboxUsage from '@/components/bootstrap/bs-checkbox/BsCheckboxUsage.vue';
+import BsCheckboxGroupUsage from '@/components/bootstrap/bs-checkbox-group/BsCheckboxGroupUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -76,13 +57,11 @@ export default defineComponent({
     BsInputUsage,
     BsRadioUsage,
     BsRadioGroupUsage,
-    BsCheckboxUsage
+    BsCheckboxUsage,
+    BsCheckboxGroupUsage
   },
   setup () {
     let isDisabled = ref(true);
-
-    let checkboxGroupVal = ref([]);
-    let checkboxGroupVal2 = ref('');
 
     let selectVal = ref('');
 
@@ -94,9 +73,6 @@ export default defineComponent({
 
     return {
       isDisabled,
-
-      checkboxGroupVal,
-      checkboxGroupVal2,
 
       selectVal,
 
