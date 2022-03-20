@@ -120,6 +120,7 @@ import {
 import { getInputCount, getTextAreaCount } from '@/common/globalData';
 import { useGetParent } from '@/hooks/useGetParent';
 import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
+import { useInput } from './useInput';
 
 type InputType = 'text' | 'password' | 'number' | 'textarea' | 'email' | 'file' | 'hidden' | 'image' | 'submit' | 'button' | 'reset';
 type InputSize = 'lg' | 'sm';
@@ -212,35 +213,9 @@ export default defineComponent({
     // 当前组件所在的父级<bs-form-item>组件
     let $formItem = useGetParent('BsFormItem');
 
-    let passwordIsShow = ref(false); // 密码是否显示了
-    // 切换输入框类型为密码或文本
-    let togglePasswordText = () => {
-      if (props.showPassword) {
-        passwordIsShow.value = !passwordIsShow.value;
-      }
-    };
-
     let inputRef = ref<HTMLInputElement | null>(null);
-    // 计算输入框的class
-    let inputClass = computed<string>(() => {
-      let sizeClass = props.size ? `input-group-${props.size}` : '';
-      return sizeClass;
-    });
-    // 处理input的type
-    let inputType = computed(() => {
-      if (props.showPassword && passwordIsShow.value) {
-        return 'text';
-      }
-      return props.type;
-    });
-
-    // 处理input的值
-    let inputValue = ref<string|number>(props.modelValue);
-    watch(() => props.modelValue, newVal => {
-      if (inputValue.value != newVal) {
-        inputValue.value = newVal;
-      }
-    });
+    let { passwordIsShow, inputValue, inputClass, inputType, togglePasswordText } = useInput(props);
+    let { validateStatus, setValidateStatus, getValidateStatus } = useSetValidateStatus();
 
     /**
      * 调用当前<bs-form-item>父组件的方法
@@ -325,7 +300,6 @@ export default defineComponent({
     let blur = function () {
       (inputRef.value as HTMLInputElement).blur();
     };
-    let { validateStatus, setValidateStatus, getValidateStatus } = useSetValidateStatus();
 
     onMounted(function () {
       if ($formItem.value) {
