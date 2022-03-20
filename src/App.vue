@@ -1,20 +1,7 @@
 <template>
-  <!--<div class="box">
-    <bs-button @click="onClick">简单按钮</bs-button>
-    <hr>
-    <bs-button @click="onClick" plain>朴素按钮</bs-button>
-    <hr>
-    <bs-button @click="onClick" round>圆角按钮</bs-button>
-    <hr>
-
-    <bs-button @click="onClick" block>块级按钮</bs-button>
-    <hr>
-
-    <bs-button @click="onClick" disabled>禁用按钮</bs-button>
-    <hr>
-
-    <bs-button @click="onClick" loading>加载中按钮</bs-button>
-  </div>-->
+  <div class="box">
+    <BsButtonUsage></BsButtonUsage>
+  </div>
   <!--<div class="box">
     <bs-input v-model="inputValue" clearable></bs-input>
     <h2>inputValue的值为：{{inputValue}}</h2>
@@ -127,9 +114,9 @@
       </bs-option-group>
     </bs-select>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsFormUsage></BsFormUsage>
-  </div>
+  </div>-->
 </template>
 
 <script lang="ts">
@@ -137,18 +124,18 @@ import { computed, defineComponent, ref, reactive } from 'vue';
 // import HelloWorld from './components/HelloWorld.vue'
 // import AsyncValidatorUsage from './components/AsyncValidatorUsage.vue';
 import BsFormUsage from '@/components/bootstrap/bs-form/BsFormUsage.vue';
+import BsButtonUsage from '@/components/bootstrap/bs-button/BsButtonUsage.vue';
 
 export default defineComponent({
   name: 'App',
+  /* eslint-disable */
   components: {
     // HelloWorld
     // AsyncValidatorUsage,
-    BsFormUsage
+    BsFormUsage,
+    BsButtonUsage
   },
   setup () {
-    let onClick = function (evt: MouseEvent) {
-      // console.log(evt);
-    };
     let isDisabled = ref(true);
     let showPrepend = ref(false);
 
@@ -182,7 +169,6 @@ export default defineComponent({
     }, 1500);
 
     return {
-      onClick,
       isDisabled,
       inputValue,
       textareaVal,
