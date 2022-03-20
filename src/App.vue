@@ -5,16 +5,12 @@
   <!--<div class="box">
     <BsInputUsage></BsInputUsage>
   </div>-->
-  <div class="box">
-    <BsRadioUsage></BsRadioUsage>
-  </div>
   <!--<div class="box">
-    <bs-radio-group v-model="inputGroupVal">
-      <bs-radio value="yuwen">语文</bs-radio>
-      <bs-radio value="shuxue">数学</bs-radio>
-      <bs-radio value="yingyu">英语</bs-radio>
-    </bs-radio-group>
+    <BsRadioUsage></BsRadioUsage>
   </div>-->
+  <div class="box">
+    <BsRadioGroupUsage></BsRadioGroupUsage>
+  </div>
   <!--<div class="box">
     <h3>默认绑定</h3>
     <bs-checkbox v-model="checkboxVal">复选框1</bs-checkbox>
@@ -81,6 +77,7 @@ import BsFormUsage from '@/components/bootstrap/bs-form/BsFormUsage.vue';
 import BsButtonUsage from '@/components/bootstrap/bs-button/BsButtonUsage.vue';
 import BsInputUsage from '@/components/bootstrap/bs-input/BsInputUsage.vue';
 import BsRadioUsage from '@/components/bootstrap/bs-radio/BsRadioUsage.vue';
+import BsRadioGroupUsage from '@/components/bootstrap/bs-radio-group/BsRadioGroupUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -91,14 +88,14 @@ export default defineComponent({
     BsFormUsage,
     BsButtonUsage,
     BsInputUsage,
-    BsRadioUsage
+    BsRadioUsage,
+    BsRadioGroupUsage
   },
   setup () {
     let isDisabled = ref(true);
 
     let radioValBool = ref(null);
 
-    let inputGroupVal = ref('yingyu');
     let checkboxVal = ref('');
     let checkboxVal2 = ref([]);
     let checkboxVal3 = ref(1);
@@ -117,8 +114,6 @@ export default defineComponent({
     return {
       isDisabled,
       radioValBool,
-
-      inputGroupVal,
 
       checkboxVal,
       checkboxVal2,
