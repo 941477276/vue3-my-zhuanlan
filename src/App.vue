@@ -8,27 +8,12 @@
   <!--<div class="box">
     <BsRadioUsage></BsRadioUsage>
   </div>-->
-  <div class="box">
-    <BsRadioGroupUsage></BsRadioGroupUsage>
-  </div>
   <!--<div class="box">
-    <h3>默认绑定</h3>
-    <bs-checkbox v-model="checkboxVal">复选框1</bs-checkbox>
-    <bs-checkbox v-model="checkboxVal">复选框2</bs-checkbox>
-    <hr>
-    <h3>有trueValue属性</h3>
-    <bs-checkbox v-model="checkboxVal3" checked :true-value="1" :false-value="0">小学</bs-checkbox>
-    <bs-checkbox v-model="checkboxVal3" :true-value="2" :false-value="0">中学</bs-checkbox>
-    <bs-checkbox v-model="checkboxVal3" :true-value="3" :false-value="0">高中</bs-checkbox>
-    <hr>
-    <h3>复选框有值</h3>
-    <bs-checkbox v-model="checkboxVal2" checked value="yuwen">语文</bs-checkbox>
-    <bs-checkbox v-model="checkboxVal2" value="shuxue">数学</bs-checkbox>
-    <bs-checkbox v-model="checkboxVal2" value="yingyu">英语</bs-checkbox>
-    <bs-checkbox v-model="checkboxVal2" disabled value="tiyu">体育</bs-checkbox>
-    <bs-checkbox v-model="checkboxVal2" value="wuli">物理</bs-checkbox>
-    <bs-checkbox v-model="checkboxVal2"  readonly value="shengwu">生物</bs-checkbox>
+    <BsRadioGroupUsage></BsRadioGroupUsage>
   </div>-->
+  <div class="box">
+    <BsCheckboxUsage></BsCheckboxUsage>
+  </div>
 
   <!--<div class="box">
     <h3>默认效果</h3>
@@ -78,6 +63,7 @@ import BsButtonUsage from '@/components/bootstrap/bs-button/BsButtonUsage.vue';
 import BsInputUsage from '@/components/bootstrap/bs-input/BsInputUsage.vue';
 import BsRadioUsage from '@/components/bootstrap/bs-radio/BsRadioUsage.vue';
 import BsRadioGroupUsage from '@/components/bootstrap/bs-radio-group/BsRadioGroupUsage.vue';
+import BsCheckboxUsage from '@/components/bootstrap/bs-checkbox/BsCheckboxUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -89,16 +75,11 @@ export default defineComponent({
     BsButtonUsage,
     BsInputUsage,
     BsRadioUsage,
-    BsRadioGroupUsage
+    BsRadioGroupUsage,
+    BsCheckboxUsage
   },
   setup () {
     let isDisabled = ref(true);
-
-    let radioValBool = ref(null);
-
-    let checkboxVal = ref('');
-    let checkboxVal2 = ref([]);
-    let checkboxVal3 = ref(1);
 
     let checkboxGroupVal = ref([]);
     let checkboxGroupVal2 = ref('');
@@ -113,11 +94,6 @@ export default defineComponent({
 
     return {
       isDisabled,
-      radioValBool,
-
-      checkboxVal,
-      checkboxVal2,
-      checkboxVal3,
 
       checkboxGroupVal,
       checkboxGroupVal2,
