@@ -14,21 +14,12 @@
   <!--<div class="box">
     <BsCheckboxUsage></BsCheckboxUsage>
   </div>-->
-  <div class="box">
-    <BsCheckboxGroupUsage></BsCheckboxGroupUsage>
-  </div>
-  <!--<bs-input v-model="inputValue" clearable></bs-input>-->
   <!--<div class="box">
-    <bs-select v-model="selectVal">
-      <bs-option value="1">第1个选项</bs-option>
-      <bs-option value="2">第2个选项</bs-option>
-      <bs-option-group label="前端语言">
-        <bs-option value="html">html</bs-option>
-        <bs-option value="javascript">javascript</bs-option>
-        <bs-option value="css">css</bs-option>
-      </bs-option-group>
-    </bs-select>
+    <BsCheckboxGroupUsage></BsCheckboxGroupUsage>
   </div>-->
+  <div class="box">
+    <BsSelectUsage></BsSelectUsage>
+  </div>
   <!--<div class="box">
     <BsFormUsage></BsFormUsage>
   </div>-->
@@ -45,6 +36,7 @@ import BsRadioUsage from '@/components/bootstrap/bs-radio/BsRadioUsage.vue';
 import BsRadioGroupUsage from '@/components/bootstrap/bs-radio-group/BsRadioGroupUsage.vue';
 import BsCheckboxUsage from '@/components/bootstrap/bs-checkbox/BsCheckboxUsage.vue';
 import BsCheckboxGroupUsage from '@/components/bootstrap/bs-checkbox-group/BsCheckboxGroupUsage.vue';
+import BsSelectUsage from '@/components/bootstrap/bs-select/BsSelectUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -58,25 +50,11 @@ export default defineComponent({
     BsRadioUsage,
     BsRadioGroupUsage,
     BsCheckboxUsage,
-    BsCheckboxGroupUsage
+    BsCheckboxGroupUsage,
+    BsSelectUsage
   },
   setup () {
-    let isDisabled = ref(true);
-
-    let selectVal = ref('');
-
-    let show = ref(true);
-    setTimeout(function () {
-      console.log('隐藏');
-      show.value = false;
-    }, 1500);
-
     return {
-      isDisabled,
-
-      selectVal,
-
-      show
 
     };
   }
