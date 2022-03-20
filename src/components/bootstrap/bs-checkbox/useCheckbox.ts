@@ -9,9 +9,9 @@ import { util } from '@/common/util';
 
 export function useCheckbox (props: any, ctx: any) {
   let selfModelVal = ref('');
-  onUpdated(function () {
+  /* onUpdated(function () {
     console.log('useCheckbox updated');
-  });
+  }); */
   // 当前组件所在的父级<bs-checkbox-group>组件
   let $checkboxGroup = useGetParent('BsCheckboxGroup');
   let checkboxVal = computed({

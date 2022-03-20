@@ -8,6 +8,7 @@ import BsRadioGroup from './bs-radio-group/BsRadioGroup.vue';
 import BsCheckbox from './bs-checkbox/BsCheckbox.vue';
 import BsCheckboxGroup from './bs-checkbox-group/BsCheckboxGroup.vue';
 import BsSelect from './bs-select/index';
+import BsForm from '@/components/bootstrap/bs-form';
 
 export default function (vueApp: any) {
   vueApp.component(BsButton.name, BsButton);
@@ -21,4 +22,5 @@ export default function (vueApp: any) {
   vueApp.component(BsCheckboxGroup.name, BsCheckboxGroup);
   // vueApp.component(BsSelect.name, BsSelect);
   vueApp.use(BsSelect);
+  vueApp.use(BsForm);
 }

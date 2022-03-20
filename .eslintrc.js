@@ -21,6 +21,7 @@ module.exports = {
     'eqeqeq': 'off',
     'no-case-declarations': 'off',
     'semi': ["error", "always"],
+    'prefer-promise-reject-errors': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-extra-semi': 'off',

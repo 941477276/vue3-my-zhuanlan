@@ -116,7 +116,7 @@
     </bs-checkbox-group>
   </div>-->
   <!--<bs-input v-model="inputValue" clearable></bs-input>-->
-  <div class="box">
+  <!--<div class="box">
     <bs-select v-model="selectVal">
       <bs-option value="1">第1个选项</bs-option>
       <bs-option value="2">第2个选项</bs-option>
@@ -126,17 +126,53 @@
         <bs-option value="css">css</bs-option>
       </bs-option-group>
     </bs-select>
+  </div>-->
+  <div class="box">
+    <!--<AsyncValidatorUsage></AsyncValidatorUsage>-->
+    <bs-form :model="formData" :rules="rules">
+      <bs-form-item label="用户名" field-prop-name="username">
+        <bs-input v-model="formData.username"></bs-input>
+        <template #hint>
+          <p>sdfsdf</p>
+        </template>
+      </bs-form-item>
+      <bs-form-item
+        label="性别"
+        field-prop-name="gender"
+        :rules="[{ required: true, trigger: 'change', message: '请输选择性别' }]">
+
+        <bs-select v-model="formData.gender">
+          <bs-option value="">请选择</bs-option>
+          <bs-option value="man">男</bs-option>
+          <bs-option value="woman">女</bs-option>
+        </bs-select>
+      </bs-form-item>
+      <bs-form-item label="爱好" field-prop-name="hobby">
+        <bs-checkbox v-model="formData.hobby" v-if="show" checked value="yuwen">语文</bs-checkbox>
+        <bs-checkbox v-model="formData.hobby" value="shuxue">数学</bs-checkbox>
+        <bs-checkbox v-model="formData.hobby" value="yingyu">英语</bs-checkbox>
+        <bs-checkbox v-model="formData.hobby" value="tiyu">体育</bs-checkbox>
+        <bs-checkbox v-model="formData.hobby" value="wuli">物理</bs-checkbox>
+        <bs-checkbox v-model="formData.hobby" value="shengwu">生物</bs-checkbox>
+      </bs-form-item>
+      <bs-form-item label="状态" field-prop-name="status">
+        <bs-radio v-model="formData.status" :value="1">启用</bs-radio>
+        <bs-radio v-model="formData.status" :value="0">禁用</bs-radio>
+      </bs-form-item>
+    </bs-form>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref, reactive } from 'vue';
 // import HelloWorld from './components/HelloWorld.vue'
+// import AsyncValidatorUsage from './components/AsyncValidatorUsage.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
     // HelloWorld
+    // AsyncValidatorUsage
   },
   setup () {
     let onClick = function (evt: MouseEvent) {
@@ -158,7 +194,7 @@ export default defineComponent({
     let radioValNumber = ref(null);
     let radioValBool = ref(null);
 
-    // let inputGroupVal = ref('yingyu');
+    let inputGroupVal = ref('yingyu');
     let checkboxVal = ref('');
     let checkboxVal2 = ref([]);
     let checkboxVal3 = ref(1);
@@ -167,6 +203,43 @@ export default defineComponent({
     let checkboxGroupVal2 = ref('');
 
     let selectVal = ref('');
+
+    let show = ref(true);
+    setTimeout(function () {
+      console.log('隐藏');
+      show.value = false;
+    }, 1500);
+
+    let formData = reactive({
+      username: '',
+      status: '',
+      hobby: []
+    });
+    let rules = computed(function () {
+      return {
+        username: [
+          { required: true, trigger: 'input', message: '请输入用户名', whitespace: true },
+          {
+            validator (rule: any, value: any, callback: any) {
+              if (/^\d+/.test(value)) {
+                callback(new Error('用户名不能以数字开头'));
+                /* eslint-disable */
+                // callback('用户名不能以数字开头');
+              } else {
+                callback();
+              }
+            },
+            trigger: 'input'
+          }
+        ],
+        hobby: [
+          {required: true, type: 'array', trigger: 'change', min: 1, message: '请至少选择一个爱好'}
+        ],
+        status: [
+          {required: true, type: 'number', trigger: 'change', message: '请选择状态'}
+        ]
+      };
+    });
 
     return {
       onClick,
@@ -177,7 +250,7 @@ export default defineComponent({
       radioValNumber,
       radioValBool,
 
-      // inputGroupVal,
+      inputGroupVal,
 
       checkboxVal,
       checkboxVal2,
@@ -188,7 +261,11 @@ export default defineComponent({
 
       selectVal,
 
-      showPrepend
+      showPrepend,
+      show,
+
+      rules,
+      formData
     };
   }
 });

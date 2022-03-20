@@ -6,7 +6,7 @@ import { ComponentInternalInstance, ref, onUpdated, getCurrentInstance, Ref, com
  */
 export function useGetParent (parentComponentName: string): Ref<ComponentInternalInstance|null> {
   let getParent = function () {
-    console.log('useGetParent');
+    // console.log('useGetParent');
     let parent = (getCurrentInstance() as ComponentInternalInstance).parent;
     while (parent && parent?.type.name !== parentComponentName) {
       parent = parent?.parent || null;

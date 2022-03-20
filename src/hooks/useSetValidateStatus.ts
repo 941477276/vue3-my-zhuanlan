@@ -10,6 +10,7 @@ export function useSetValidateStatus (status?: ValidateStatus) {
   let validateStatus = ref<ValidateStatus>(status || '');
   let setValidateStatus = function (status: ValidateStatus) {
     validateStatus.value = status;
+    console.log('setValidateStatus', status);
   };
   let getValidateStatus = function () {
     return validateStatus.value;
