@@ -8,13 +8,14 @@
     }">
     <input
       v-if="trueValue || falseValue"
+      ref="checkboxRef"
       class="form-check-input"
-      type="checkbox"
-      autocomplete="off"
       :class="{
         'is-valid': validateStatus === 'success',
         'is-invalid': validateStatus === 'error'
       }"
+      type="checkbox"
+      autocomplete="off"
       :name="name || null"
       :id="checkboxId"
       :true-value="trueValue"
@@ -27,22 +28,23 @@
       @change="on_change">
     <input
       v-else
+      ref="checkboxRef"
       class="form-check-input"
-      type="checkbox"
-      autocomplete="off"
       :class="{
         'is-valid': validateStatus === 'success',
         'is-invalid': validateStatus === 'error'
       }"
+      type="checkbox"
+      autocomplete="off"
+      v-model="checkboxVal"
       :name="name || null"
       :id="checkboxId"
       :value="value"
-      v-model="checkboxVal"
       :disabled="disabled || disabledInner || isCountLimitDisable"
       :aria-label="ariaLabel || null"
       @focus="isFocus = true"
       @blur="isFocus = false"
-     @change="on_change">
+      @change="on_change">
     <label
       class="form-check-label"
       :for="checkboxId">
@@ -54,7 +56,6 @@
 <script lang="ts">
 import {
   defineComponent,
-  computed,
   ref,
   ComponentInternalInstance,
   onMounted,
@@ -65,10 +66,9 @@ import {
 import { getCheckboxCount } from '@/common/globalData';
 import { useGetParent } from '@/hooks/useGetParent';
 import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
-// 判断一个变量是否为空值
-const varIsNone = function (variable:string|undefined|null):boolean {
-  return variable === null || typeof variable === 'undefined' || (!Array.isArray(variable) && (variable + '').length === 0);
-};
+import { useCheckbox } from './useCheckbox';
+import { util } from '@/common/util';
+
 export default defineComponent({
   name: 'BsCheckbox',
   components: {},
@@ -121,81 +121,16 @@ export default defineComponent({
   inheritAttrs: false,
   emits: ['update:modelValue', 'change'],
   setup (props: any, ctx: any) {
-    let checkboxCount = getCheckboxCount();
+    let checkboxRef = ref<HTMLInputElement|null>(null);
     // 计算单选框的ID
-    let checkboxId = ref(props.id || `bs-checkbox_${checkboxCount}`);
+    let checkboxId = ref(props.id || `bs-checkbox_${getCheckboxCount()}`);
     let isFocus = ref(false);
 
     // 当前组件所在的父级<bs-checkbox-group>组件
-    let $checkboxGroup = useGetParent('BsCheckboxGroup');
+    // let $checkboxGroup = useGetParent('BsCheckboxGroup');
     // 当前组件所在的父级<bs-form-item>组件
     let $formItem = useGetParent('BsFormItem');
-
-    // console.log('当前组建实例：', getCurrentInstance());
-    // console.log('组件的<bs-checkbox-group>组件：', getCheckboxGroup());
-    // 判断是否在<bs-checkbox-group>组件内
-    let isInGroup = computed(() => {
-      return !!$checkboxGroup.value;
-    });
-    // 存储当前复选框设置的值
-    let selfModelVal = ref('');
-    let checkboxVal = computed({
-      get () {
-        if (isInGroup.value) {
-          let checkboxGroupIns:any = ($checkboxGroup.value as ComponentInternalInstance);
-          return varIsNone(checkboxGroupIns.ctx.modelValue) ? checkboxGroupIns.ctx.value : checkboxGroupIns.ctx.modelValue;
-        } else {
-          return varIsNone(props.modelValue) ? (props.value || selfModelVal.value) : props.modelValue;
-        }
-      },
-      set (newVal: any) {
-        if (isInGroup.value) {
-          // console.log('是在复选框组中');
-
-          let checkboxGroupIns:any = ($checkboxGroup.value as ComponentInternalInstance);
-          let maxLimit = checkboxGroupIns.ctx.max;
-          if (typeof maxLimit !== 'number' || maxLimit <= 0) {
-            // console.log('给复选框组设置新的值了: ', newVal);
-            checkboxGroupIns.ctx.changeVal(newVal);
-            return;
-          }
-          if (newVal.length <= Math.floor(maxLimit)) {
-            // console.log('给复选框组设置新的值了: ', newVal);
-            checkboxGroupIns.ctx.changeVal(newVal);
-          }
-          // return props.value;
-        } else {
-          // console.log('设置新的值了：', newVal);
-          ctx.emit('update:modelValue', newVal);
-          selfModelVal.value = newVal;
-        }
-      }
-    });
-    // 是否选中了
-    let isChecked = computed(() => {
-      let flag = false;
-      let value = checkboxVal.value;
-      if (isInGroup.value) {
-        // let $checkboxGroupIns = $checkboxGroup.value as ComponentInternalInstance;
-        flag = (Array.isArray(value) ? value : []).includes(props.value);
-      } else {
-        flag = varIsNone(props.modelValue) ? (value == props.trueValue || value == props.falseValue) : value === props.modelValue;
-      }
-      return flag;
-    });
-    // 复选框组中允许选择的最大个数是否超出了
-    let isCountLimitDisable = computed(() => {
-      if ($checkboxGroup.value) {
-        // console.log('isCountMaxLimit', 1);
-        let max: number = ($checkboxGroup.value as any).ctx.max;
-        if (typeof max === 'number' && max > 0 && !isChecked.value) {
-          // console.log('isCountMaxLimit', 22, (checkboxVal.value || '').length, max);
-          return (checkboxVal.value || []).length >= max;
-        }
-        return false;
-      }
-      return false;
-    });
+    let { checkboxVal, isChecked, isCountLimitDisable } = useCheckbox(props, ctx);
 
     let disabledInner = ref(false);
     let setDisabled = function (flag: boolean) {
@@ -222,9 +157,9 @@ export default defineComponent({
 
       let value = '';
       if (isChecked) {
-        value = !varIsNone(props.value) ? props.value : (varIsNone(props.trueValue) ? true : props.trueValue);
+        value = !util.varIsNone(props.value) ? props.value : (util.varIsNone(props.trueValue) ? true : props.trueValue);
       } else {
-        value = varIsNone(props.value) ? props.value : (varIsNone(props.falseValue) ? true : props.falseValue);
+        value = util.varIsNone(props.value) ? props.value : (util.varIsNone(props.falseValue) ? true : props.falseValue);
       }
       ctx.emit('change', value);
 
@@ -238,10 +173,11 @@ export default defineComponent({
         // 在<bs-checkbox-group>组件中，modelValue值若为字符串类型，会先转成数组，所以子组件在设置默认选中项时需延迟一点
         let timer = setTimeout(() => {
           clearTimeout(timer);
-          if (Array.isArray(checkboxVal.value) && !checkboxVal.value.includes(props.value)) {
-            checkboxVal.value.push(props.value);
+          let checkboxValue = checkboxVal.value;
+          if (Array.isArray(checkboxValue) && !checkboxValue.includes(props.value)) {
+            checkboxValue.push(props.value);
           } else {
-            checkboxVal.value = varIsNone(props.trueValue) ? true : props.trueValue;
+            checkboxVal.value = util.varIsNone(props.trueValue) ? true : props.trueValue;
           }
         }, 60);
       }
@@ -252,12 +188,30 @@ export default defineComponent({
     });
 
     onUnmounted(function () {
+      /* TODO
+        当checkbox移除的时候，<bs-form-item>组件并不能将其从数组中移除掉，很奇怪
+       */
       if ($formItem.value) {
         ($formItem.value as any).ctx.removeChildComponent(getCurrentInstance() as ComponentInternalInstance);
+      }
+      // 设置默认选择项
+      if (props.checked) {
+        let checkboxValue = checkboxVal.value;
+        if (Array.isArray(checkboxValue)) {
+          console.log('onUnmounted checkboxValue 11', checkboxValue);
+          let index = checkboxValue.findIndex(item => item === props.value);
+          if (index > -1) {
+            checkboxValue.splice(index, 1);
+          }
+        } else {
+          console.log('onUnmounted checkboxValue 22', checkboxValue);
+          checkboxVal.value = false;
+        }
       }
     });
 
     return {
+      checkboxRef,
       checkboxId,
       isFocus,
       isChecked,

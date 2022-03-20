@@ -519,6 +519,48 @@ var tool = {
       return obj + '';
     }
     return typeof obj === 'object' || typeof obj === 'function' ? class2type[toString.call(obj)] || 'object' : typeof obj;
+  },
+  /**
+   * 根据路径从对象中获取值
+   * @param obj 对象
+   * @param path 路径
+   * @returns {*}
+   */
+  getPropValueByPath: function (obj, path) {
+    if (!obj || (path + '').length === 0) {
+      return;
+    }
+    // 将 'a.b.c["d"].e["f"]' 转换成 'a.b.c.d.e.f'
+    path = path.replace(/\["?'?(\w+)"?'?\]/g, '.$1');
+    // 将字符的首个"."去除掉
+    path = path.replace(/^\./, '');
+    // console.log('path', path);
+    var pathArr = path.split('.');
+    var tempObj = obj;
+    var value;
+    var key = '';
+    while (pathArr.length > 1) {
+      key = pathArr.shift();
+      tempObj = tempObj[key];
+      // console.log('key', key)
+      // value = obj[key];
+    }
+
+    key = pathArr.shift();
+    value = tempObj[key];
+    return {
+      value,
+      lastKey: key,
+      parentObj: tempObj
+    };
+  },
+  /**
+   * 判断一个变量是否为空值
+   * @param variable 变量
+   * @returns {boolean}
+   */
+  varIsNone: function (variable) {
+    return variable === null || typeof variable === 'undefined' || (!Array.isArray(variable) && (variable + '').length === 0);
   }
 };
 export default tool;
