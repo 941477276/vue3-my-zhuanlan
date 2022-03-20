@@ -5,6 +5,7 @@
     'bs-form-hide-error-message': !showErrorMessage
   }">
   <slot></slot>
+
 </form>
 </template>
 
@@ -103,7 +104,7 @@ export default defineComponent({
      *  @param fieldPropNames 表单项的 fieldPropName 属性
      *  @param callback 回调函数
      */
-    let validateFields = function (fieldPropNames: string|string[] = '', callback: ValidateCallback): any {
+    let validateFields = function (fieldPropNames: string|string[] = '', callback?: ValidateCallback): any {
       let promise;
       // 支持promise的情况下返回一个promise
       if (typeof callback !== 'function' && Promise) {
@@ -115,12 +116,12 @@ export default defineComponent({
       }
       let trueFlag = true;
       if (!fieldPropNames || fieldPropNames.length === 0) {
-        callback(true);
+        callback?.(true);
         return promise;
       }
       let formItemsIns = formItems.value;
       if (formItemsIns.length === 0) {
-        callback(trueFlag);
+        callback?.(trueFlag);
         return promise;
       }
       fieldPropNames = typeof fieldPropNames === 'string' ? [fieldPropNames] : fieldPropNames;
@@ -137,7 +138,8 @@ export default defineComponent({
         }
       });
 
-      callback(validateResult);
+      /* eslint-disable */
+      callback?.(validateResult);
       return promise;
     };
 
