@@ -20,8 +20,11 @@
   <!--<div class="box">
     <BsSelectUsage></BsSelectUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsFormUsage></BsFormUsage>
+  </div>-->
+  <div class="box">
+    <BsDropdownUsage></BsDropdownUsage>
   </div>
 </template>
 
@@ -37,6 +40,7 @@ import BsRadioGroupUsage from '@/components/bootstrap/bs-radio-group/BsRadioGrou
 import BsCheckboxUsage from '@/components/bootstrap/bs-checkbox/BsCheckboxUsage.vue';
 import BsCheckboxGroupUsage from '@/components/bootstrap/bs-checkbox-group/BsCheckboxGroupUsage.vue';
 import BsSelectUsage from '@/components/bootstrap/bs-select/BsSelectUsage.vue';
+import BsDropdownUsage from '@/components/bootstrap/bs-dropdown/BsDropdownUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -51,7 +55,8 @@ export default defineComponent({
     BsRadioGroupUsage,
     BsCheckboxUsage,
     BsCheckboxGroupUsage,
-    BsSelectUsage
+    BsSelectUsage,
+    BsDropdownUsage
   },
   setup () {
     return {
