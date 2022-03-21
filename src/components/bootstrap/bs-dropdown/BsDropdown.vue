@@ -15,8 +15,9 @@
 </template>
 
 <script lang="ts">
-import { ref, PropType, onMounted, nextTick, onBeforeUnmount, watch, Ref } from 'vue';
+import { ref, PropType, defineComponent, onMounted, nextTick, onBeforeUnmount, watch, Ref } from 'vue';
 import { util } from '@/common/util';
+import { useClickOutside } from '@/hooks/useClickOutside';
 
 // 下来菜单显示方向
 type directions = 'bottom' | 'top' | 'left' | 'right';
@@ -36,7 +37,7 @@ const directionOfClass: any = {
   left: 'dropleft',
   right: 'dropright'
 };
-export default {
+export default defineComponent({
   name: 'BsDropdown',
   props: {
     direction: { // 下拉菜单显示方向
@@ -62,7 +63,8 @@ export default {
     let directionClass = ref<string>('');
     let styleText = ref<string>('');
     let eventTimer: number;
-    let isClickOutside = ref(false); // 是否点击了下拉菜单的外卖
+
+    let isClickOutside = useClickOutside(dropdownRef); // 是否点击了下拉菜单的外面
 
     watch(() => props.direction, (newDirection: directions) => {
       directionClass.value = directionOfClass[newDirection];
@@ -234,19 +236,13 @@ export default {
     let clickEvent = function () {
       expanded.value ? hide() : show();
     };
-    // document点击事件，如果不是点击下拉菜单本身，则隐藏当前下拉菜单
-    let documentClickEvt = function (evt: MouseEvent) {
-      if (!util.elementContains(dropdownRef.value, evt.target)) {
-        hide();
-      }
-    };
+
     // 绑定事件
     let bindEvent = function () {
       switch (props.trigger) {
         case 'click':
           // console.log('toggle is click');
           toggleEl.addEventListener('click', clickEvent, false);
-          document.addEventListener('click', documentClickEvt, false);
           break;
         case 'hover':
           toggleEl.addEventListener('mouseenter', show, false);
@@ -262,7 +258,6 @@ export default {
       switch (props.trigger) {
         case 'click':
           toggleEl.removeEventListener('click', clickEvent, false);
-          document.removeEventListener('click', documentClickEvt, false);
           break;
         case 'hover':
           toggleEl.removeEventListener('mouseenter', show, false);
@@ -275,7 +270,8 @@ export default {
     };
 
     watch(isClickOutside, (newVal: Ref) => {
-      if (newVal.value) {
+      console.log('watch isClickOutside', newVal);
+      if (newVal) {
         hide();
       }
     });
@@ -316,7 +312,7 @@ export default {
       show
     };
   }
-};
+});
 </script>
 
 <style lang="scss">
