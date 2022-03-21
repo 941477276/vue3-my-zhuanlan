@@ -98,6 +98,7 @@ export default defineComponent({
   setup (props: any, ctx: any) {
     let selectRef = ref<HTMLSelectElement|null>(null);
     let selectId = ref(props.id || `bs-select_${getSelectCount()}`);
+    let $currCom = getCurrentInstance() as ComponentInternalInstance;
 
     let selectVal = computed({
       get () {
@@ -152,12 +153,12 @@ export default defineComponent({
 
     onMounted(function () {
       if ($formItem.value) {
-        ($formItem.value as any).ctx.addChildComponent(getCurrentInstance() as ComponentInternalInstance);
+        ($formItem.value as any).ctx.addChildComponent($currCom);
       }
     });
     onUnmounted(function () {
       if ($formItem.value) {
-        ($formItem.value as any).ctx.removeChildComponent(getCurrentInstance() as ComponentInternalInstance);
+        ($formItem.value as any).ctx.removeChildComponent($currCom);
       }
     });
 

@@ -210,6 +210,7 @@ export default defineComponent({
       }
     }
 
+    let $currCom = getCurrentInstance() as ComponentInternalInstance;
     // 当前组件所在的父级<bs-form-item>组件
     let $formItem = useGetParent('BsFormItem');
 
@@ -303,12 +304,12 @@ export default defineComponent({
 
     onMounted(function () {
       if ($formItem.value) {
-        ($formItem.value as any).ctx.addChildComponent(getCurrentInstance() as ComponentInternalInstance);
+        ($formItem.value as any).ctx.addChildComponent($currCom);
       }
     });
     onUnmounted(function () {
       if ($formItem.value) {
-        ($formItem.value as any).ctx.removeChildComponent(getCurrentInstance() as ComponentInternalInstance);
+        ($formItem.value as any).ctx.removeChildComponent($currCom);
       }
     });
 

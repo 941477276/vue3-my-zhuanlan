@@ -126,6 +126,7 @@ export default defineComponent({
     let checkboxId = ref(props.id || `bs-checkbox_${getCheckboxCount()}`);
     let isFocus = ref(false);
 
+    let $currCom = getCurrentInstance() as ComponentInternalInstance;
     // 当前组件所在的父级<bs-checkbox-group>组件
     // let $checkboxGroup = useGetParent('BsCheckboxGroup');
     // 当前组件所在的父级<bs-form-item>组件
@@ -183,7 +184,7 @@ export default defineComponent({
       }
       // 如果当前组件处在<bs-form-item>组件中，则将其实例存储到<bs-form-item>组件中
       if ($formItem.value) {
-        ($formItem.value as any).ctx.addChildComponent(getCurrentInstance() as ComponentInternalInstance);
+        ($formItem.value as any).ctx.addChildComponent($currCom);
       }
     });
 
@@ -192,7 +193,7 @@ export default defineComponent({
         当checkbox移除的时候，<bs-form-item>组件并不能将其从数组中移除掉，很奇怪
        */
       if ($formItem.value) {
-        ($formItem.value as any).ctx.removeChildComponent(getCurrentInstance() as ComponentInternalInstance);
+        ($formItem.value as any).ctx.removeChildComponent($currCom);
       }
       // 设置默认选择项
       if (props.checked) {
