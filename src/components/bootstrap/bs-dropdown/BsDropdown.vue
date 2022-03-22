@@ -283,11 +283,11 @@ export default defineComponent({
       }
     });
     onMounted(() => {
-      toggleEl = (dropdownRef.value as HTMLElement).querySelector('.dropdown-toggle') as HTMLElement;
-      if (!toggleEl) {
-        toggleEl = (dropdownRef.value as HTMLElement).querySelector('[data-toggle="dropdown"]') as HTMLElement;
+      toggleEl = (dropdownRef.value as HTMLElement).firstElementChild as HTMLElement;
+      if (toggleEl) {
+        util.addClass(toggleEl, 'dropdown-toggle');
       }
-      if (!toggleEl) {
+      if (!toggleEl && props.trigger === 'click') {
         return;
       }
       // console.log('toggleEl', toggleEl);
