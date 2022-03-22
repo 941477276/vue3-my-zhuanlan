@@ -12,11 +12,16 @@
 <script lang="ts">
 import {
   defineComponent,
-  computed,
+  provide,
   ref,
+  reactive,
   ComponentInternalInstance
 } from 'vue';
-import { util } from '@/common/util';
+import {
+  FormContext,
+  formContextKey
+} from '@/ts-tokens/bootstrap';
+
 type ValidateCallback = (valid:boolean) => void;
 
 export default defineComponent({
@@ -40,26 +45,26 @@ export default defineComponent({
     }
   },
   setup (props: any, ctx: any) {
-    // 存储<bs-form-item>子组件
-    let formItems = ref<ComponentInternalInstance[]>([]);
+    // 存储<bs-form-item>子组件的上下文
+    let formItemCtxs = ref<any[]>([]);
     /**
      * 添加form-item组件实例
      * @param formItem
      */
-    let addFormItem = function (formItem: ComponentInternalInstance): void {
-      if (!formItems.value.includes(formItem)) {
-        formItems.value.push(formItem);
+    let addFormItemCtx = function (formItem: any): void {
+      if (!formItemCtxs.value.includes(formItem)) {
+        formItemCtxs.value.push(formItem);
       }
-      // console.log('formItems', formItems.value);
+      // console.log('formItemCtxs', formItemCtxs.value);
     };
     /**
      * 移除form-item组件实例
      * @param formItem
      */
-    let removeFormItem = function (formItem: ComponentInternalInstance): void {
-      let index = formItems.value.indexOf(formItem);
+    let removeFormItemCtx = function (formItem: any): void {
+      let index = formItemCtxs.value.indexOf(formItem);
       if (index > -1) {
-        formItems.value.splice(index, 1);
+        formItemCtxs.value.splice(index, 1);
       }
     };
 
@@ -77,18 +82,20 @@ export default defineComponent({
           };
         });
       }
-      let formItemsIns = formItems.value;
+      let formItemsCtxArr = formItemCtxs.value;
+      console.log('<bs-form>validate函数，formItemsCtxArr：', formItemsCtxArr);
       let trueFlag = true;
-      if (formItemsIns.length === 0) {
+      if (formItemsCtxArr.length === 0) {
         /* eslint-disable */
         callback?.(trueFlag);
         return promise;
       }
       let validateResult = true;
-      formItemsIns.forEach(comIns => {
+      formItemsCtxArr.forEach(formItemCtx => {
         // 调用<bs-form-item>子组件的validate方法获取校验结果
         /* eslint-disable */
-        (comIns as any).ctx?.validate('', (errorMsg: string|undefined) => {
+        formItemCtx.validate?.('', (errorMsg: string|undefined) => {
+          console.log('11111111')
           if (typeof errorMsg !== 'undefined') {
             validateResult = false;
           }
@@ -119,18 +126,18 @@ export default defineComponent({
         callback?.(true);
         return promise;
       }
-      let formItemsIns = formItems.value;
-      if (formItemsIns.length === 0) {
+      let formItemsArr = formItemCtxs.value;
+      if (formItemsArr.length === 0) {
         callback?.(trueFlag);
         return promise;
       }
       fieldPropNames = typeof fieldPropNames === 'string' ? [fieldPropNames] : fieldPropNames;
       let validateResult = true;
-      formItemsIns.forEach(comIns => {
-        if (fieldPropNames.includes(comIns.props.fieldPropName as string)) {
+      formItemsArr.forEach(formIteCtx => {
+        if (fieldPropNames.includes(formIteCtx.props.fieldPropName as string)) {
           // 调用<bs-form-item>子组件的validate方法获取校验结果
           /* eslint-disable */
-          (comIns as any).ctx?.validate('', (errorMsg: string|undefined) => {
+          formIteCtx.validate?.('', (errorMsg: string|undefined) => {
             if (typeof errorMsg !== 'undefined') {
               validateResult = false;
             }
@@ -148,22 +155,22 @@ export default defineComponent({
      * @param fieldPropNames
      */
     let clearValidate = function (fieldPropNames: string|string[] = '') {
-      let formItemsIns = formItems.value;
-      if (formItemsIns.length === 0) {
+      let formItemsArr = formItemCtxs.value;
+      if (formItemsArr.length === 0) {
         return;
       }
       if (!fieldPropNames || fieldPropNames.length === 0) {
-        formItemsIns.forEach(comIns => {
+        formItemsArr.forEach(formItemCtx => {
           /* eslint-disable */
-          (comIns as any).ctx?.clearValidate();
+          formItemCtx.clearValidate?.();
         });
         return;
       }
       fieldPropNames = typeof fieldPropNames === 'string' ? [fieldPropNames] : fieldPropNames;
-      formItemsIns.forEach(comIns => {
-        if (fieldPropNames.includes(comIns.props.fieldPropName as string)) {
+      formItemsArr.forEach(formItemCtx => {
+        if (fieldPropNames.includes(formItemCtx.props.fieldPropName as string)) {
           /* eslint-disable */
-          (comIns as any).ctx?.clearValidate();
+          formItemCtx.clearValidate?.();
         }
       });
     };
@@ -171,19 +178,29 @@ export default defineComponent({
      * 重置表单值，并移除表单校验结果
      */
     let resetFields = function () {
-      let formItemsIns = formItems.value;
-      if (formItemsIns.length === 0) {
+      let formItemsArr = formItemCtxs.value;
+      if (formItemsArr.length === 0) {
         return;
       }
-      formItemsIns.forEach(comIns => {
+      formItemsArr.forEach(formItemCtx => {
           /* eslint-disable */
-          (comIns as any).ctx?.resetField();
+          formItemCtx.resetField?.();
       });
     };
 
+    provide(formContextKey, reactive({
+      props,
+      addChildComponentContext: addFormItemCtx,
+      removeChildComponentContext: removeFormItemCtx,
+      validate,
+      validateFields,
+      resetFields,
+      clearValidate
+    }));
+
     return {
-      addFormItem,
-      removeFormItem,
+      addFormItemCtx,
+      removeFormItemCtx,
       validate,
       validateFields,
       resetFields,

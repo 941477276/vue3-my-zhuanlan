@@ -6,6 +6,7 @@ module.exports = {
   devServer: {
     open: true // 默认打开浏览器
   },
+  publicPath: './',
   chainWebpack: config => {
     // 获取svg文件名称正则
     let svgNameReg = /([\w-]+)(\.\w*)*\.svg$/;

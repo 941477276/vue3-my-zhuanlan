@@ -38,15 +38,17 @@ import {
   defineComponent,
   computed,
   ref,
-  onUpdated,
-  getCurrentInstance,
-  ComponentInternalInstance,
-  onMounted,
-  onUnmounted, nextTick
+  nextTick,
+  inject
 } from 'vue';
 import { getRadioCount } from '@/common/globalData';
-import { useGetParent } from '@/hooks/useGetParent';
 import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
+import { FormItemContext, formItemContextKey } from '@/ts-tokens/bootstrap';
+import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
+import {
+  radioGroupContextKey,
+  RadioGroupContext
+} from '@/ts-tokens/bootstrap/radio';
 
 export default defineComponent({
   name: 'BsRadio',
@@ -97,24 +99,13 @@ export default defineComponent({
     // 计算单选框的ID
     let radioId = ref(props.id || `bs-radio_${radioCount}`);
     let isFocus = ref(false);
+    let radioGroupCtx = inject<RadioGroupContext|null>(radioGroupContextKey, null);
+    let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
 
-    let $currCom = getCurrentInstance() as ComponentInternalInstance;
-    // 当前组件所在的父级<bs-form-item>组件
-    let $formItem = useGetParent('BsFormItem');
-    // 当前组件所在的父级<bs-radio-group>组件
-    let $radioGroup = useGetParent('BsRadioGroup');
-
-    // console.log('当前组建实例：', getCurrentInstance());
-    // console.log('组件的<bs-radio-group>组件：', getRadioGroup());
-    // 判断是否在<bs-radio-group>组件内
-    let isInGroup = computed(() => {
-      return !!$radioGroup.value;
-    });
     let isChecked = computed(() => {
       let flag = false;
-      if (isInGroup.value) {
-        let $radioGroupIns = $radioGroup.value as ComponentInternalInstance;
-        flag = (props.value === $radioGroupIns.props.modelValue) || (props.value === $radioGroupIns.props.value);
+      if (radioGroupCtx) {
+        flag = (props.value === radioGroupCtx.props.modelValue) || (props.value === radioGroupCtx.props.value);
       } else {
         flag = props.modelValue === props.value;
       }
@@ -138,8 +129,8 @@ export default defineComponent({
      */
     let callFormItem = function (fnName: string, ...args: any) {
       nextTick(function () {
-        if ($formItem.value) {
-          ($formItem.value as any).ctx[fnName](...args);
+        if (formItemContext) {
+          (formItemContext as any)[fnName](...args);
         }
       });
     };
@@ -147,9 +138,9 @@ export default defineComponent({
     /* eslint-disable */
     let on_change = function (evt: Event) {
       // console.log(evt);
-      if (isInGroup.value) {
+      if (radioGroupCtx) {
         // 调用<bs-radio-group>组件的changeVal方法将值传递出去，父组件setup中暴露出去的函数及属性都可以在父组件都ctx中获取的到
-        ($radioGroup.value as any)?.ctx.changeVal(props.value);
+        radioGroupCtx.changeVal(props.value);
       } else {
         ctx.emit('update:modelValue', props.value);
       }
@@ -157,16 +148,13 @@ export default defineComponent({
       callFormItem('validate', 'change');
     };
 
-    onMounted(function () {
-      if ($formItem.value) {
-        ($formItem.value as any).ctx.addChildComponent($currCom);
-      }
-    });
-    onUnmounted(function () {
-      if ($formItem.value) {
-        ($formItem.value as any).ctx.removeChildComponent($currCom);
-      }
-    });
+    // 传递给<bs-form-item>组件的参数
+    let deliverToFormItemCtx = {
+      id: radioId.value,
+      setValidateStatus
+    };
+    // 如果当前组件处在<bs-form-item>组件中，则将setValidateStatus方法存储到<bs-form-item>组件中
+    useDeliverContextToParent<FormItemContext>(formItemContextKey, deliverToFormItemCtx);
 
     return {
       radioId,

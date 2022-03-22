@@ -5,7 +5,7 @@ export function useClickOutside (eleRef: Ref<HTMLElement|null>, callback?: (isCl
   let flag = ref(false);
   let documentClickEvt = function (evt: MouseEvent) {
     flag.value = !util.elementContains(eleRef.value, evt.target);
-    console.log('document click event', flag.value);
+    // console.log('document click event', flag.value);
     if (typeof callback == 'function') {
       callback(flag.value);
     }

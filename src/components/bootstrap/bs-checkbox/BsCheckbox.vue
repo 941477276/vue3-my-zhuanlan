@@ -57,17 +57,19 @@
 import {
   defineComponent,
   ref,
-  ComponentInternalInstance,
   onMounted,
   onUnmounted,
-  getCurrentInstance,
-  nextTick
+  nextTick, inject
 } from 'vue';
 import { getCheckboxCount } from '@/common/globalData';
-import { useGetParent } from '@/hooks/useGetParent';
 import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
+import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
 import { useCheckbox } from './useCheckbox';
 import { util } from '@/common/util';
+import {
+  FormItemContext,
+  formItemContextKey
+} from '@/ts-tokens/bootstrap';
 
 export default defineComponent({
   name: 'BsCheckbox',
@@ -126,11 +128,7 @@ export default defineComponent({
     let checkboxId = ref(props.id || `bs-checkbox_${getCheckboxCount()}`);
     let isFocus = ref(false);
 
-    let $currCom = getCurrentInstance() as ComponentInternalInstance;
-    // 当前组件所在的父级<bs-checkbox-group>组件
-    // let $checkboxGroup = useGetParent('BsCheckboxGroup');
-    // 当前组件所在的父级<bs-form-item>组件
-    let $formItem = useGetParent('BsFormItem');
+    let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
     let { checkboxVal, isChecked, isCountLimitDisable } = useCheckbox(props, ctx);
 
     let disabledInner = ref(false);
@@ -145,8 +143,8 @@ export default defineComponent({
      */
     let callFormItem = function (fnName: string, ...args: any) {
       nextTick(function () {
-        if ($formItem.value) {
-          ($formItem.value as any).ctx[fnName](...args);
+        if (formItemContext) {
+          (formItemContext as any)[fnName](...args);
         }
       });
     };
@@ -167,6 +165,14 @@ export default defineComponent({
       callFormItem('validate', 'change');
     };
 
+    // 传递给<bs-form-item>组件的参数
+    let deliverToFormItemCtx = {
+      id: checkboxId.value,
+      setValidateStatus
+    };
+    // 如果当前组件处在<bs-form-item>组件中，则将setValidateStatus方法存储到<bs-form-item>组件中
+    useDeliverContextToParent<FormItemContext>(formItemContextKey, deliverToFormItemCtx);
+
     onMounted(() => {
       // 设置默认选择项
       if (props.checked) {
@@ -182,19 +188,9 @@ export default defineComponent({
           }
         }, 60);
       }
-      // 如果当前组件处在<bs-form-item>组件中，则将其实例存储到<bs-form-item>组件中
-      if ($formItem.value) {
-        ($formItem.value as any).ctx.addChildComponent($currCom);
-      }
     });
 
     onUnmounted(function () {
-      /* TODO
-        当checkbox移除的时候，<bs-form-item>组件并不能将其从数组中移除掉，很奇怪
-       */
-      if ($formItem.value) {
-        ($formItem.value as any).ctx.removeChildComponent($currCom);
-      }
       // 设置默认选择项
       if (props.checked) {
         let checkboxValue = checkboxVal.value;

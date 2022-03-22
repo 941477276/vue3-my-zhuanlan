@@ -110,7 +110,7 @@ import {
   PropType,
   computed,
   ref,
-  watch,
+  inject,
   onMounted,
   onUnmounted,
   getCurrentInstance,
@@ -118,9 +118,13 @@ import {
   nextTick
 } from 'vue';
 import { getInputCount, getTextAreaCount } from '@/common/globalData';
-import { useGetParent } from '@/hooks/useGetParent';
 import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
+import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
 import { useInput } from './useInput';
+import {
+  FormItemContext,
+  formItemContextKey
+} from '@/ts-tokens/bootstrap';
 
 type InputType = 'text' | 'password' | 'number' | 'textarea' | 'email' | 'file' | 'hidden' | 'image' | 'submit' | 'button' | 'reset';
 type InputSize = 'lg' | 'sm';
@@ -210,10 +214,7 @@ export default defineComponent({
       }
     }
 
-    let $currCom = getCurrentInstance() as ComponentInternalInstance;
-    // 当前组件所在的父级<bs-form-item>组件
-    let $formItem = useGetParent('BsFormItem');
-
+    let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
     let inputRef = ref<HTMLInputElement | null>(null);
     let { passwordIsShow, inputValue, inputClass, inputType, togglePasswordText } = useInput(props);
     let { validateStatus, setValidateStatus, getValidateStatus } = useSetValidateStatus();
@@ -225,8 +226,8 @@ export default defineComponent({
      */
     let callFormItem = function (fnName: string, ...args: any) {
       nextTick(function () {
-        if ($formItem.value) {
-          ($formItem.value as any).ctx[fnName](...args);
+        if (formItemContext !== null) {
+          (formItemContext as any)[fnName](...args);
         }
       });
     };
@@ -302,16 +303,14 @@ export default defineComponent({
       (inputRef.value as HTMLInputElement).blur();
     };
 
-    onMounted(function () {
-      if ($formItem.value) {
-        ($formItem.value as any).ctx.addChildComponent($currCom);
-      }
-    });
-    onUnmounted(function () {
-      if ($formItem.value) {
-        ($formItem.value as any).ctx.removeChildComponent($currCom);
-      }
-    });
+    // 传递给<bs-form-item>组件的参数
+    let deliverToFormItemCtx = {
+      id: inputId.value,
+      setValidateStatus
+    };
+    // 如果当前组件处在<bs-form-item>组件中，则将setValidateStatus方法存储到<bs-form-item>组件中
+    useDeliverContextToParent<FormItemContext>(formItemContextKey, deliverToFormItemCtx);
+
 
     return {
       inputRef,

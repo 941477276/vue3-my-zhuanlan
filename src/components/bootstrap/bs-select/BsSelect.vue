@@ -37,14 +37,13 @@ import {
   ref,
   computed,
   PropType,
-  onMounted,
-  onUnmounted,
-  getCurrentInstance,
-  ComponentInternalInstance, nextTick
+  nextTick,
+  inject
 } from 'vue';
 import { getSelectCount } from '@/common/globalData';
-import { useGetParent } from '@/hooks/useGetParent';
 import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
+import { FormItemContext, formItemContextKey } from '@/ts-tokens/bootstrap';
+import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
 
 type InputSize = 'lg' | 'sm';
 export default defineComponent({
@@ -98,7 +97,6 @@ export default defineComponent({
   setup (props: any, ctx: any) {
     let selectRef = ref<HTMLSelectElement|null>(null);
     let selectId = ref(props.id || `bs-select_${getSelectCount()}`);
-    let $currCom = getCurrentInstance() as ComponentInternalInstance;
 
     let selectVal = computed({
       get () {
@@ -110,8 +108,7 @@ export default defineComponent({
       }
     });
 
-    // 当前组件所在的父级<bs-form-item>组件
-    let $formItem = useGetParent('BsFormItem');
+    let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
 
     // 计算输入框的class
     let sizeClass = computed<string>(() => {
@@ -126,8 +123,8 @@ export default defineComponent({
      */
     let callFormItem = function (fnName: string, ...args: any) {
       nextTick(function () {
-        if ($formItem.value) {
-          ($formItem.value as any).ctx[fnName](...args);
+        if (formItemContext) {
+          (formItemContext as any)[fnName](...args);
         }
       });
     };
@@ -151,16 +148,13 @@ export default defineComponent({
     let { validateStatus, setValidateStatus, getValidateStatus } = useSetValidateStatus();
 
 
-    onMounted(function () {
-      if ($formItem.value) {
-        ($formItem.value as any).ctx.addChildComponent($currCom);
-      }
-    });
-    onUnmounted(function () {
-      if ($formItem.value) {
-        ($formItem.value as any).ctx.removeChildComponent($currCom);
-      }
-    });
+    // 传递给<bs-form-item>组件的参数
+    let deliverToFormItemCtx = {
+      id: selectId.value,
+      setValidateStatus
+    };
+    // 如果当前组件处在<bs-form-item>组件中，则将setValidateStatus方法存储到<bs-form-item>组件中
+    useDeliverContextToParent<FormItemContext>(formItemContextKey, deliverToFormItemCtx);
 
     return {
       selectVal,

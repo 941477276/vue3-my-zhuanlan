@@ -7,7 +7,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, provide, reactive } from 'vue';
+import {
+  checkboxGroupContextKey,
+  CheckboxGroupContext
+} from '@/ts-tokens/bootstrap';
 
 export default defineComponent({
   name: 'BsCheckboxGroup',
@@ -46,6 +50,12 @@ export default defineComponent({
       ctx.emit('update:modelValue', val);
       ctx.emit('change', val);
     };
+
+    provide<CheckboxGroupContext>(checkboxGroupContextKey, reactive({
+      props,
+      changeVal
+    }));
+
     return {
       changeVal
     };

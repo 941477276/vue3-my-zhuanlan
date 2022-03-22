@@ -7,7 +7,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, provide, reactive } from 'vue';
+import {
+  radioGroupContextKey,
+  RadioGroupContext
+} from '@/ts-tokens/bootstrap/radio';
 
 export default defineComponent({
   name: 'BsRadioGroup',
@@ -43,6 +47,12 @@ export default defineComponent({
       ctx.emit('update:modelValue', val);
       ctx.emit('change', val);
     };
+
+    provide<RadioGroupContext>(radioGroupContextKey, reactive({
+      props,
+      changeVal
+    }));
+
     return {
       changeVal
     };
