@@ -42,10 +42,9 @@ import {
 } from 'vue';
 import { getSelectCount } from '@/common/globalData';
 import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
-import { FormItemContext, formItemContextKey } from '@/ts-tokens/bootstrap';
+import { FormItemContext, BsSize, formItemContextKey } from '@/ts-tokens/bootstrap';
 import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
 
-type InputSize = 'lg' | 'sm';
 export default defineComponent({
   name: 'BsSelect',
   props: {
@@ -66,7 +65,7 @@ export default defineComponent({
       default: false
     },
     size: { // 输入框大小
-      type: String as PropType<InputSize>,
+      type: String as PropType<BsSize>,
       default: ''
     },
     id: {

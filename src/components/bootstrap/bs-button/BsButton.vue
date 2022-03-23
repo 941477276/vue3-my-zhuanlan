@@ -15,10 +15,9 @@
 
 <script lang="ts">
 import { defineComponent, computed, PropType } from 'vue';
+import { BsSize } from '@/ts-tokens/bootstrap';
 // 定义按钮支持类型
 type buttonType = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'link';
-// 定义按钮尺寸类型
-type buttonSize = 'lg' | 'sm';
 const supportTypes = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark', 'link'];
 const nativeTypes = ['button', 'submit'];
 
@@ -40,7 +39,7 @@ export default defineComponent({
       }
     },
     size: { // 按钮大小
-      type: String as PropType<buttonSize>,
+      type: String as PropType<BsSize>,
       default: ''
     },
     plain: { // 是否为朴素按钮

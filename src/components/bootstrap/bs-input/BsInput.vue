@@ -123,11 +123,11 @@ import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
 import { useInput } from './useInput';
 import {
   FormItemContext,
+  BsSize,
   formItemContextKey
 } from '@/ts-tokens/bootstrap';
 
 type InputType = 'text' | 'password' | 'number' | 'textarea' | 'email' | 'file' | 'hidden' | 'image' | 'submit' | 'button' | 'reset';
-type InputSize = 'lg' | 'sm';
 
 export default defineComponent({
   name: 'BsInput',
@@ -163,7 +163,7 @@ export default defineComponent({
       default: false
     },
     size: { // 输入框大小
-      type: String as PropType<InputSize>,
+      type: String as PropType<BsSize>,
       default: ''
     },
     id: {
