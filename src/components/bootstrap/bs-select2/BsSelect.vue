@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="bsSelectRef"
     class="bs-select"
     :class="{
       'is-disabled': disabled,
@@ -37,12 +38,15 @@
 
 <script lang="ts">
 import {
-  defineComponent,
+  defineComponent, nextTick,
   PropType,
-  ref
+  ref,
+  watch
 } from 'vue';
 import { BsSize } from '@/ts-tokens/bootstrap';
 import { getSelectCount } from '@/common/globalData';
+import { util } from '@/common/util';
+import { useClickOutside } from '@/hooks/useClickOutside';
 
 export default defineComponent({
   name: 'BsSelect',
@@ -96,29 +100,71 @@ export default defineComponent({
     }
   },
   setup (props: any, ctx: any) {
+    let bsSelectRef = ref<HTMLElement|null>(null);
     let bsInputRef = ref<HTMLInputElement|null>(null);
-    let bsSelectDropdownRef = ref<HTMLInputElement|null>(null);
+    let bsSelectDropdownRef = ref<HTMLElement|null>(null);
     let bsInputReadonly = ref(true);
     let isFocus = ref(false);
     let selectId = ref(props.id || `bs-select_${getSelectCount()}`);
     let dropdownDisplayed = ref(false); // 下来菜单是否已经渲染
     let dropdownVisible = ref(false); // 下来菜单是否显示
 
+    /**
+     * 显示下拉菜单
+     */
     let dropdownShow = function () {
       let doShow = function () {
-      //
+        dropdownVisible.value = true;
+        nextTick(function () {
+          let bsSelectRect = (bsSelectRef.value as HTMLElement).getBoundingClientRect();
+          let bsSelectOffset = util.offset(bsSelectRef.value as HTMLElement);
+          let bsSelectDropdownEl = bsSelectDropdownRef.value as HTMLElement;
+          let originOpacity = bsSelectDropdownEl.style.opacity;
+          // bsSelectDropdownEl.style.opacity = '0';
+          // let scrollTop = util.scrollTop();
+          // let scrollLeft = util.scrollLeft();
+          bsSelectDropdownEl.style.width = bsSelectRect.width + 'px';
+          bsSelectDropdownEl.style.top = (bsSelectOffset.top + bsSelectRect.height) + 'px';
+          bsSelectDropdownEl.style.left = (bsSelectOffset.left) + 'px';
+        });
       };
       if (!dropdownDisplayed.value) {
+        console.log('dropdownShow 1');
         dropdownDisplayed.value = true;
+        let timer = setTimeout(function () {
+          clearTimeout(timer);
+          doShow();
+        }, 0);
+      } else {
+        console.log('dropdownShow 2');
+        doShow();
       }
     };
-    let onSelectRootClick = function () {
-      if (!props.disabled) {
-        isFocus.value = true;
+    /**
+     * 隐藏下拉菜单
+     */
+    let dropdownHide = function () {
+      dropdownVisible.value = false;
+      isFocus.value = false;
+    };
+
+    let isClickOutside = useClickOutside([bsSelectRef, bsSelectDropdownRef]);
+    watch(isClickOutside, (newVal: boolean) => {
+      console.log('isClickOutside', isClickOutside.value);
+      if (newVal) {
+        dropdownHide();
       }
-      // if () {}
+    });
+
+    let onSelectRootClick = function () {
+      if (props.disabled) {
+        return;
+      }
+      isFocus.value = true;
+      dropdownShow();
     };
     return {
+      bsSelectRef,
       bsInputRef,
       bsSelectDropdownRef,
       bsInputReadonly,
@@ -127,7 +173,9 @@ export default defineComponent({
       dropdownDisplayed,
       dropdownVisible,
 
-      onSelectRootClick
+      onSelectRootClick,
+      dropdownShow,
+      dropdownHide
     };
   }
 });

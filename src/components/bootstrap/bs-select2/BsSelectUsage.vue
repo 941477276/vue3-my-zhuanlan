@@ -1,6 +1,6 @@
 <template>
 <div class="component-usage">
-  <bs-select v-model="selectVal">
+  <bs-select v-model="selectVal" style="margin-top: 300px;">
     <!--<bs-option-group label="组1">
       <bs-option value="1">第1个选项</bs-option>
       <bs-option value="2">第2个选项</bs-option>

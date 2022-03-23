@@ -561,6 +561,19 @@ var tool = {
    */
   varIsNone: function (variable) {
     return variable === null || typeof variable === 'undefined' || (!Array.isArray(variable) && (variable + '').length === 0);
+  },
+  /**
+   * 计算绝对定位元素能完全出现在视口的展示方位
+   * @param referenceEl 参照元素
+   * @param targetEl 目标元素
+   * @param defaultDirection 默认方向，支持top、bottom、left、right
+   * @param tryAllDirection 当切换到defaultDirection对应的反方向目标元素也不能完全出现在视口时是否尝试切换其他方向
+   */
+  calcAbsoluteElementDisplayDirection: function (referenceEl, targetEl, defaultDirection, tryAllDirection = false) {
+    if (!referenceEl || targetEl || !defaultDirection) {
+      throw new Error('calcAbsoluteElementDisplayDirection函数确少referenceEl, targetEl, defaultDirection其中的某个参数');
+    }
+
   }
 };
 export default tool;

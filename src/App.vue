@@ -23,9 +23,9 @@
   <!--<div class="box">
     <BsFormUsage></BsFormUsage>
   </div>-->
-  <div class="box">
+  <!--div class="box">
     <BsDropdownUsage></BsDropdownUsage>
-  </div>
+  </div>-->
 </template>
 
 <script lang="ts">
