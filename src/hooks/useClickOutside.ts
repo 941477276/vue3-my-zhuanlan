@@ -1,4 +1,4 @@
-import { ref, onMounted, onUnmounted, Ref } from 'vue';
+import { ref, onMounted, onBeforeUnmount, Ref } from 'vue';
 import { util } from '@/common/util';
 
 export function useClickOutside (eleRef: Ref<HTMLElement|null>, callback?: (isClickOutside: boolean) => void):Ref {
@@ -13,7 +13,7 @@ export function useClickOutside (eleRef: Ref<HTMLElement|null>, callback?: (isCl
   onMounted(() => {
     document.documentElement.addEventListener('click', documentClickEvt, false);
   });
-  onUnmounted(() => {
+  onBeforeUnmount(() => {
     document.documentElement.removeEventListener('click', documentClickEvt, false);
   });
   return flag;

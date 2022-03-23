@@ -1,4 +1,4 @@
-import { inject, onMounted, onUnmounted } from 'vue';
+import { inject, onMounted, onBeforeUnmount } from 'vue';
 
 type HasFun = {
   // 存储子组件上下文
@@ -21,7 +21,7 @@ export function useDeliverContextToParent <T extends HasFun> (injectKey: any, co
       console.warn('useDeliverContextToParent函数中的context参数缺少[addChildComponentContext]属性');
     }
   });
-  onUnmounted(function () {
+  onBeforeUnmount(function () {
     if (formItemContext && typeof formItemContext.removeChildComponentContext === 'function') {
       formItemContext.removeChildComponentContext(context);
     }
