@@ -207,16 +207,16 @@ export default defineComponent({
           directionClass.value = directionOfClass[props.direction];
           switch (directionInfo.direction) {
             case 'bottom':
-              styleText.value = `position:absolute;transform:translate3d(${directionInfo.left}px, ${directionInfo.top + 2}px, 0);opacity:1;top:0;left:0;bottom:auto;`;
+              styleText.value = `position:absolute;transform:translate3d(${directionInfo.left}px, ${directionInfo.top}px, 0);opacity:1;top:0;left:0;bottom:auto;`;
               break;
             case 'top':
-              styleText.value = `position:absolute;transform:translate3d(${directionInfo.left}px, ${directionInfo.top - 4}px, 0);opacity:1;top:auto;left:0;bottom:auto;`;
+              styleText.value = `position:absolute;transform:translate3d(${directionInfo.left}px, ${directionInfo.top}px, 0);opacity:1;top:auto;left:0;bottom:auto;`;
               break;
             case 'left':
-              styleText.value = `position:absolute;transform:translate3d(${directionInfo.left - 2}px, ${directionInfo.top}px, 0);opacity:1;top:0;left:0;right:auto;`;
+              styleText.value = `position:absolute;transform:translate3d(${directionInfo.left}px, ${directionInfo.top}px, 0);opacity:1;top:0;left:0;right:auto;`;
               break;
             case 'right':
-              styleText.value = `position:absolute;transform:translate3d(${directionInfo.left + 4}px, ${directionInfo.top}px, 0);opacity:1;top:0;left:auto;right:0;`;
+              styleText.value = `position:absolute;transform:translate3d(${directionInfo.left}px, ${directionInfo.top}px, 0);opacity:1;top:0;left:auto;right:0;`;
               break;
           }
         });
