@@ -5,7 +5,7 @@ import BsRadio from './bs-radio/BsRadio.vue';
 import BsRadioGroup from './bs-radio-group/BsRadioGroup.vue';
 import BsCheckbox from './bs-checkbox/BsCheckbox.vue';
 import BsCheckboxGroup from './bs-checkbox-group/BsCheckboxGroup.vue';
-import BsSelect from './bs-select/index';
+import BsSelect from './bs-select2/index';
 import BsForm from '@/components/bootstrap/bs-form';
 import BsDropdown from '@/components/bootstrap/bs-dropdown';
 
