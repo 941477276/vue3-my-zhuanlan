@@ -333,6 +333,9 @@ var tool = {
     if (ele === childEle) {
       return false;
     }
+    if (!ele) {
+      return false;
+    }
     if (typeof ele.contains === 'function') {
       return ele.contains(childEle);
     } else {
@@ -573,7 +576,107 @@ var tool = {
     if (!referenceEl || targetEl || !defaultDirection) {
       throw new Error('calcAbsoluteElementDisplayDirection函数确少referenceEl, targetEl, defaultDirection其中的某个参数');
     }
+    var referenceOffset = tool.offset(referenceEl);
+    var referenceRect = referenceEl.getBoundingClientRect();
+    var targetElDisplay = util.getStyle(targetEl, 'display');
+    var targetElOpacity = util.getStyle(targetEl, 'opacity');
+    if (targetElDisplay === 'none') {
+      targetEl.style.display = 'block';
+      targetEl.style.opacity = '0';
+    }
+    var targetElRect = targetEl.getBoundingClientRect();
 
+    var calcedDirection = null;
+    var directionCalcFlow = []; // 存储按流程计算方向的函数，当下拉菜单在某个方向上不能完全展示时会自动切换一个方向
+    var handleBottom = function () {
+      var top = referenceOffset.top + referenceRect.height;
+      var left = referenceOffset.left;
+      var isInView = tool.eleInView(targetEl, top, left);
+      console.log('handleBottom isInView', isInView);
+      return {
+        vertical: isInView.vertical,
+        horizontal: isInView.horizontal,
+        direction: 'bottom',
+        left: left,
+        top: top
+      };
+    };
+    let handleTop = function () {
+      var top = referenceOffset.top - referenceRect.height;
+      var left = referenceOffset.left;
+      var isInView = tool.eleInView(targetEl, top, left);
+      console.log('handleTop isInView', isInView);
+      return {
+        vertical: isInView.vertical,
+        horizontal: isInView.horizontal,
+        direction: 'top',
+        left: left,
+        top: top
+      };
+    };
+    let handleLeft = function () {
+      var top = referenceOffset.top;
+      var left = referenceOffset.left - targetElRect.width;
+      var isInView = tool.eleInView(targetEl, top, left);
+      console.log('handleTop handleLeft', isInView);
+      return {
+        vertical: isInView.vertical,
+        horizontal: isInView.horizontal,
+        direction: 'left',
+        left: left,
+        top: top
+      };
+    };
+    let handleRight = function () {
+      var top = referenceOffset.top;
+      var left = referenceOffset.left + targetElRect.width;
+      var isInView = tool.eleInView(targetEl, top, left);
+      console.log('handleTop handleRight', isInView);
+      return {
+        vertical: isInView.vertical,
+        horizontal: isInView.horizontal,
+        direction: 'right',
+        left: left,
+        top: top
+      };
+    };
+    switch (currentDirection) {
+      case 'bottom':
+        directionCalcFlow.push(handleBottom);
+        directionCalcFlow.push(handleTop);
+        directionCalcFlow.push(handleLeft);
+        directionCalcFlow.push(handleRight);
+        break;
+      case 'top':
+        directionCalcFlow.push(handleTop);
+        directionCalcFlow.push(handleBottom);
+        directionCalcFlow.push(handleLeft);
+        directionCalcFlow.push(handleRight);
+        break;
+      case 'left':
+        directionCalcFlow.push(handleLeft);
+        directionCalcFlow.push(handleRight);
+        directionCalcFlow.push(handleBottom);
+        directionCalcFlow.push(handleTop);
+        break;
+      case 'right':
+        directionCalcFlow.push(handleRight);
+        directionCalcFlow.push(handleLeft);
+        directionCalcFlow.push(handleBottom);
+        directionCalcFlow.push(handleTop);
+        break;
+    }
+
+    // 寻找元素在水平、垂直方向都完全出现在视口中的方向
+    directionCalcFlow.some(function (calcFn) {
+      let result = calcFn();
+      let inView = result.vertical && result.horizontal;
+      if (inView) {
+        calcedDirection = result;
+      }
+      return inView;
+    });
+    console.log('calcedDirection', calcedDirection);
   }
 };
 export default tool;
