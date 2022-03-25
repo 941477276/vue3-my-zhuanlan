@@ -10,7 +10,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import {
+  defineComponent,
+  provide,
+  reactive
+} from 'vue';
+import {
+  SelectOptionGroupContext,
+  selectOptionGroupContextKey
+} from '@/ts-tokens/bootstrap/select';
 
 export default defineComponent({
   name: 'BsOptionGroup',
@@ -23,6 +31,12 @@ export default defineComponent({
       type: Boolean,
       default: false
     }
+  },
+  setup (props: any) {
+    provide<SelectOptionGroupContext>(selectOptionGroupContextKey, reactive({
+      props
+    }));
+    return {};
   }
 });
 </script>

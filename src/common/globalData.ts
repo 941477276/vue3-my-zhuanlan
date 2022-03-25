@@ -6,6 +6,7 @@ let checkboxCount = 0;
 let inputCount = 0;
 let textareaCount = 0;
 let selectCount = 0;
+let selectOptionCount = 0;
 
 export function getRadioCount (): number {
   return ++radioCount;
@@ -21,4 +22,8 @@ export function getTextAreaCount (): number {
 };
 export function getSelectCount (): number {
   return ++selectCount;
+};
+
+export function getSelectOptionCount (): number {
+  return ++selectOptionCount;
 };

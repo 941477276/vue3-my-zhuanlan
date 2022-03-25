@@ -28,7 +28,11 @@
         v-show="dropdownVisible"
         ref="bsSelectDropdownRef"
         class="bs-select-dropdown"
-        :class="{'is-multiple': multiple}"
+        :class="{
+          'is-multiple': multiple,
+          'display-on-top': dropdownDisplayDirection === 'top',
+          'display-on-bottom': dropdownDisplayDirection === 'bottom',
+        }"
         :data-for-bs-select="selectId">
         <slot></slot>
       </ul>
@@ -41,18 +45,31 @@ import {
   defineComponent, nextTick,
   PropType,
   ref,
-  watch
+  reactive,
+  watch,
+  provide,
+  getCurrentInstance
 } from 'vue';
 import { BsSize } from '@/ts-tokens/bootstrap';
 import { getSelectCount } from '@/common/globalData';
 import { util } from '@/common/util';
 import { useClickOutside } from '@/hooks/useClickOutside';
+import {
+  SelectContext,
+  selectContextKey
+} from '@/ts-tokens/bootstrap/select';
+
+type OptionItem = {
+  id: string,
+  value: any,
+  label: string
+};
 
 export default defineComponent({
   name: 'BsSelect',
   props: {
     modelValue: {
-      type: [String, Number],
+      type: [String, Number, Array],
       default: ''
     },
     value: {
@@ -66,6 +83,10 @@ export default defineComponent({
     multiple: { // 是否支持多选
       type: Boolean,
       default: false
+    },
+    multipleLimit: { // 可被选择的最大数量
+      type: Number,
+      default: undefined
     },
     clearable: { // 是否可以清空内容
       type: Boolean,
@@ -99,6 +120,7 @@ export default defineComponent({
       default: ''
     }
   },
+  emits: ['update:modelValue', 'change', 'selectLimit'],
   setup (props: any, ctx: any) {
     let bsSelectRef = ref<HTMLElement|null>(null);
     let bsInputRef = ref<HTMLInputElement|null>(null);
@@ -106,9 +128,11 @@ export default defineComponent({
     let bsInputReadonly = ref(true);
     let isFocus = ref(false);
     let selectId = ref(props.id || `bs-select_${getSelectCount()}`);
-    let dropdownDisplayed = ref(false); // 下来菜单是否已经渲染
-    let dropdownVisible = ref(false); // 下来菜单是否显示
-
+    let dropdownDisplayed = ref(false); // 下拉菜单是否已经渲染
+    let dropdownVisible = ref(false); // 下拉菜单是否显示
+    let dropdownDisplayDirection = ref(''); // 下拉菜单展示方位
+    let options = ref<OptionItem[]>([]); // 存储option的label及value
+    console.log('getCurrentInstance', (getCurrentInstance()?.proxy as any).value);
     /**
      * 显示下拉菜单
      */
@@ -117,15 +141,14 @@ export default defineComponent({
         dropdownVisible.value = true;
         nextTick(function () {
           let bsSelectRect = (bsSelectRef.value as HTMLElement).getBoundingClientRect();
-          let bsSelectOffset = util.offset(bsSelectRef.value as HTMLElement);
           let bsSelectDropdownEl = bsSelectDropdownRef.value as HTMLElement;
-          let originOpacity = bsSelectDropdownEl.style.opacity;
-          // bsSelectDropdownEl.style.opacity = '0';
-          // let scrollTop = util.scrollTop();
-          // let scrollLeft = util.scrollLeft();
           bsSelectDropdownEl.style.width = bsSelectRect.width + 'px';
-          bsSelectDropdownEl.style.top = (bsSelectOffset.top + bsSelectRect.height) + 'px';
-          bsSelectDropdownEl.style.left = (bsSelectOffset.left) + 'px';
+
+          let displayDirection: any = util.calcAbsoluteElementDisplayDirection(bsSelectRef.value, bsSelectDropdownEl, 'bottom', false);
+          console.log('displayDirection', displayDirection);
+          dropdownDisplayDirection.value = displayDirection.direction;
+          bsSelectDropdownEl.style.top = displayDirection.top + 'px';
+          bsSelectDropdownEl.style.left = displayDirection.left + 'px';
         });
       };
       if (!dropdownDisplayed.value) {
@@ -144,13 +167,49 @@ export default defineComponent({
      * 隐藏下拉菜单
      */
     let dropdownHide = function () {
-      dropdownVisible.value = false;
-      isFocus.value = false;
+      // 延迟一会隐藏下拉菜单是因为为了等待背景色改变后再隐藏
+      let timer = setTimeout(function () {
+        clearTimeout(timer);
+        dropdownVisible.value = false;
+        isFocus.value = false;
+      }, 120);
+    };
+
+    /**
+     * 修改值
+     * @param val 值
+     * @param isDelete 是否移除
+     */
+    let changeVal = function (val: any, isDelete?: boolean) {
+      if (props.multiple) {
+        let selectModelValue: unknown[] = (props.modelValue || []).slice();
+        if (isDelete === true) {
+          let index = selectModelValue.indexOf(val);
+          if (index > -1) {
+            selectModelValue.splice(index, 1);
+            ctx.emit('update:modelValue', selectModelValue);
+            ctx.emit('change', selectModelValue);
+          }
+        } else {
+          let multipleLimit = props.multipleLimit;
+          if (typeof multipleLimit === 'number' && multipleLimit > 0 && selectModelValue.length >= multipleLimit) {
+            ctx.emit('selectLimit', multipleLimit);
+            return;
+          }
+          selectModelValue.push(val);
+          ctx.emit('update:modelValue', selectModelValue);
+          ctx.emit('change', selectModelValue);
+        }
+      } else {
+        ctx.emit('update:modelValue', val);
+        ctx.emit('change', val);
+        dropdownHide();
+      }
     };
 
     let isClickOutside = useClickOutside([bsSelectRef, bsSelectDropdownRef]);
     watch(isClickOutside, (newVal: boolean) => {
-      console.log('isClickOutside', isClickOutside.value);
+      // console.log('isClickOutside', isClickOutside.value);
       if (newVal) {
         dropdownHide();
       }
@@ -163,6 +222,11 @@ export default defineComponent({
       isFocus.value = true;
       dropdownShow();
     };
+
+    provide<SelectContext>(selectContextKey, reactive({
+      props,
+      changeVal
+    }));
     return {
       bsSelectRef,
       bsInputRef,
@@ -172,6 +236,7 @@ export default defineComponent({
       selectId,
       dropdownDisplayed,
       dropdownVisible,
+      dropdownDisplayDirection,
 
       onSelectRootClick,
       dropdownShow,

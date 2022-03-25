@@ -2,9 +2,10 @@
   <li
     class="bs-option"
     :class="{
-      'is-disabled': disabled,
-      'is-checked': isChecked
-    }">
+      'is-disabled': isDisabled,
+      'is-checked': isSelected
+    }"
+    @click="onOptionClick">
     <slot>
       <span class="bs-option-label">{{ label }}</span>
     </slot>
@@ -15,14 +16,23 @@
 <script lang="ts">
 import {
   defineComponent,
-  ref
+  ref,
+  inject,
+  computed
 } from 'vue';
+import { getSelectOptionCount } from '@/common/globalData';
+import {
+  SelectContext,
+  SelectOptionGroupContext,
+  selectContextKey,
+  selectOptionGroupContextKey
+} from '@/ts-tokens/bootstrap/select';
 
 export default defineComponent({
   name: 'BsOption',
   props: {
     value: {
-      type: [String, Number],
+      type: [String, Number, Boolean],
       default: null
     },
     label: {
@@ -35,9 +45,40 @@ export default defineComponent({
     }
   },
   setup (props: any) {
-    let isChecked = ref(false);
+    let optionId = `selectOption_${getSelectOptionCount()}`;
+    let selectCtx = inject<SelectContext|null>(selectContextKey, null);
+    let optionGroupCtx = inject<SelectOptionGroupContext|null>(selectOptionGroupContextKey, null);
+
+    let isSelected = computed<boolean>(function () {
+      if (selectCtx) {
+        let selectModelValue: unknown[] = Array.isArray(selectCtx.props.modelValue) ? selectCtx.props.modelValue : [selectCtx.props.modelValue];
+        let propsVal = props.value;
+        return selectModelValue.some(modelValItem => modelValItem === propsVal);
+      }
+      return false;
+    });
+
+    let isDisabled = computed<boolean>(function () {
+      if (optionGroupCtx) {
+        return optionGroupCtx.props.disabled;
+      }
+      return props.disabled;
+    });
+
+    let onOptionClick = function () {
+      if (!isDisabled.value && selectCtx) {
+        if (selectCtx.props.multiple) {
+          selectCtx.changeVal(props.value, isSelected.value);
+        } else {
+          selectCtx.changeVal(props.value);
+        }
+      }
+    };
+
     return {
-      isChecked
+      isSelected,
+      isDisabled,
+      onOptionClick
     };
   }
 });
@@ -48,10 +89,10 @@ export default defineComponent({
   position: relative;
   padding: 0.3rem 1.2rem;
   color: #212529;
-  transition: background-color .2s, color .2s;
+  transition: background-color .1s, color .1s;
   cursor: pointer;
   background-color: #fff;
-  &:not(.is-disabled):hover{
+  &:not(.is-disabled,.is-checked):hover{
     background-color: #E9ECEF;
   }
   &.is-disabled{
@@ -72,7 +113,9 @@ export default defineComponent({
   .bs-option-check-icon{
     display: none;
     position: absolute;
-    /*top: 0;*/
+    z-index: 5;
+    top: 50%;
+    transform: translateY(-50%);
     right: 1.1rem;
     font-size: 1.5rem;
   }

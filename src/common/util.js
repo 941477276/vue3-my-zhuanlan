@@ -5,13 +5,13 @@ var tool = {
   getDocumentWidthHeight () {
     if (window.innerHeight != null) {
       return {
-        width: window.innerWidth,
+        width: window.innerWidth, // 包含了浏览器的滚动条
         height: window.innerHeight
       };
     } else if (document.compatMode === 'CSS1Compat') {
       // 怪异模式浏览器
       return {
-        width: document.documentElement.scrollWidth,
+        width: document.documentElement.scrollWidth, // 不包含浏览器滚动条
         height: document.documentElement.scrollHeight
       };
     }
@@ -48,8 +48,9 @@ var tool = {
    */
   eleInView (ele, top, left) {
     // 浏览器滚动条高度
-    let scrollTop = tool.scrollTop();
-    let scrollLeft = tool.scrollLeft();
+    var scrollTop = tool.scrollTop();
+    var scrollLeft = tool.scrollLeft();
+    var scrollWidth = tool.scrollWidth();
     // console.log('scrollTop/scrollLeft', scrollTop, scrollLeft);
     if(!top){
       top = tool.offset(ele).top;
@@ -58,15 +59,15 @@ var tool = {
       left = tool.offset(ele).left;
     }
     top = top - scrollTop;
-    console.log('top', top)
+    // console.log('top', top)
     left = left - scrollLeft;
     let bottom = ele.offsetHeight + top;
     let right = ele.offsetWidth + left;
     let windowWH = tool.getDocumentWidthHeight();
-    console.log('windowWH', windowWH, right)
+    // console.log('windowWH', windowWH, right)
     return {
-      vertical: top > 0 && top < windowWH.height && bottom > 0 && bottom <= windowWH.height,
-      horizontal: left > 0 && left < windowWH.width && right > 0 && right <= windowWH.width
+      vertical: top > 0 && top < (windowWH.height - scrollWidth.horizontal) && bottom > 0 && bottom <= (windowWH.height - scrollWidth.horizontal),
+      horizontal: left > 0 && left < (windowWH.width - scrollWidth.vertical) && right > 0 && right <= (windowWH.width - scrollWidth.vertical)
     };
   },
   /**
@@ -80,6 +81,36 @@ var tool = {
    */
   scrollLeft () {
     return window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0;
+  },
+  /**
+   * 获取元素或浏览器滚动条的宽高
+   * @param ele
+   * @returns {{horizontal: number, vertical: number}}
+   */
+  scrollWidth (ele) {
+    var tempDiv;
+    var tempInnerDiv = document.createElement('div');
+    var result = {
+      vertical: 0,
+      horizontal: 0
+    };
+    tempInnerDiv.style.cssText = 'width: 200px;height: 200px';
+    if (!ele) {
+      tempDiv = document.createElement('div');
+      tempDiv.style.cssText = 'width: 100px;height: 100px;opacity: 0;position:absolute;left: -100px;overflow:auto;';
+    } else {
+      tempDiv = ele.cloneNode(true);
+      tempDiv.style.cssText = 'width: 100px;height: 100px;opacity: 0;position:absolute;left: -100px;overflow:auto;';
+    }
+    tempDiv.appendChild(tempInnerDiv);
+    document.body.appendChild(tempDiv);
+
+    result.vertical = tempDiv.offsetWidth - tempDiv.clientWidth;
+    result.horizontal = tempDiv.offsetHeight - tempDiv.clientHeight;
+
+    document.body.removeChild(tempDiv);
+    tempDiv = tempInnerDiv = null;
+    return result;
   },
   /**
    * 给指定元素添加class
@@ -573,13 +604,13 @@ var tool = {
    * @param tryAllDirection 当切换到defaultDirection对应的反方向目标元素也不能完全出现在视口时是否尝试切换其他方向
    */
   calcAbsoluteElementDisplayDirection: function (referenceEl, targetEl, defaultDirection, tryAllDirection = false) {
-    if (!referenceEl || targetEl || !defaultDirection) {
+    if (!referenceEl || !targetEl || !defaultDirection) {
       throw new Error('calcAbsoluteElementDisplayDirection函数确少referenceEl, targetEl, defaultDirection其中的某个参数');
     }
     var referenceOffset = tool.offset(referenceEl);
     var referenceRect = referenceEl.getBoundingClientRect();
-    var targetElDisplay = util.getStyle(targetEl, 'display');
-    var targetElOpacity = util.getStyle(targetEl, 'opacity');
+    var targetElDisplay = tool.getStyle(targetEl, 'display');
+    var targetElOpacity = tool.getStyle(targetEl, 'opacity');
     if (targetElDisplay === 'none') {
       targetEl.style.display = 'block';
       targetEl.style.opacity = '0';
@@ -592,7 +623,7 @@ var tool = {
       var top = referenceOffset.top + referenceRect.height;
       var left = referenceOffset.left;
       var isInView = tool.eleInView(targetEl, top, left);
-      console.log('handleBottom isInView', isInView);
+      // console.log('handleBottom isInView', isInView);
       return {
         vertical: isInView.vertical,
         horizontal: isInView.horizontal,
@@ -602,10 +633,10 @@ var tool = {
       };
     };
     let handleTop = function () {
-      var top = referenceOffset.top - referenceRect.height;
+      var top = referenceOffset.top - targetElRect.height;
       var left = referenceOffset.left;
       var isInView = tool.eleInView(targetEl, top, left);
-      console.log('handleTop isInView', isInView);
+      // console.log('handleTop isInView', isInView, top, left);
       return {
         vertical: isInView.vertical,
         horizontal: isInView.horizontal,
@@ -618,7 +649,7 @@ var tool = {
       var top = referenceOffset.top;
       var left = referenceOffset.left - targetElRect.width;
       var isInView = tool.eleInView(targetEl, top, left);
-      console.log('handleTop handleLeft', isInView);
+      // console.log('handleTop handleLeft', isInView);
       return {
         vertical: isInView.vertical,
         horizontal: isInView.horizontal,
@@ -629,9 +660,9 @@ var tool = {
     };
     let handleRight = function () {
       var top = referenceOffset.top;
-      var left = referenceOffset.left + targetElRect.width;
+      var left = referenceOffset.left + referenceRect.width;
       var isInView = tool.eleInView(targetEl, top, left);
-      console.log('handleTop handleRight', isInView);
+      // console.log('handleTop handleRight', isInView);
       return {
         vertical: isInView.vertical,
         horizontal: isInView.horizontal,
@@ -640,30 +671,38 @@ var tool = {
         top: top
       };
     };
-    switch (currentDirection) {
+    switch (defaultDirection) {
       case 'bottom':
         directionCalcFlow.push(handleBottom);
         directionCalcFlow.push(handleTop);
-        directionCalcFlow.push(handleLeft);
-        directionCalcFlow.push(handleRight);
+        if (tryAllDirection) {
+          directionCalcFlow.push(handleLeft);
+          directionCalcFlow.push(handleRight);
+        }
         break;
       case 'top':
         directionCalcFlow.push(handleTop);
         directionCalcFlow.push(handleBottom);
-        directionCalcFlow.push(handleLeft);
-        directionCalcFlow.push(handleRight);
+        if (tryAllDirection) {
+          directionCalcFlow.push(handleLeft);
+          directionCalcFlow.push(handleRight);
+        }
         break;
       case 'left':
         directionCalcFlow.push(handleLeft);
         directionCalcFlow.push(handleRight);
-        directionCalcFlow.push(handleBottom);
-        directionCalcFlow.push(handleTop);
+        if (tryAllDirection) {
+          directionCalcFlow.push(handleBottom);
+          directionCalcFlow.push(handleTop);
+        }
         break;
       case 'right':
         directionCalcFlow.push(handleRight);
         directionCalcFlow.push(handleLeft);
-        directionCalcFlow.push(handleBottom);
-        directionCalcFlow.push(handleTop);
+        if (tryAllDirection) {
+          directionCalcFlow.push(handleBottom);
+          directionCalcFlow.push(handleTop);
+        }
         break;
     }
 
@@ -676,7 +715,31 @@ var tool = {
       }
       return inView;
     });
-    console.log('calcedDirection', calcedDirection);
+    // console.log('calcedDirection', calcedDirection);
+    // 如果尝试了所有方位后都无法显示，则显示默认方位
+    if (!calcedDirection) {
+      switch (defaultDirection) {
+        case 'bottom':
+          calcedDirection = handleBottom();
+          break;
+        case 'top':
+          calcedDirection = handleTop();
+          break;
+        case 'left':
+          calcedDirection = handleLeft();
+          break;
+        case 'right':
+          calcedDirection = handleRight();
+          break;
+      }
+    }
+    // console.log('使用默认的方位：', calcedDirection);
+    // 恢复目标元素的display、opacity属性
+    if (targetElDisplay === 'none') {
+      targetEl.style.display = '';
+      targetEl.style.opacity = targetElOpacity || '';
+    }
+    return calcedDirection;
   }
 };
 export default tool;
