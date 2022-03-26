@@ -1,59 +1,98 @@
 <template>
   <div
+    ref="bsSelectRef"
     class="bs-select"
     :class="{
-    'is-disabled': disabled,
-    'is-focus': isFocus
-   }">
+      'is-disabled': disabled,
+      'is-focus': isFocus,
+      'is-multiple': multiple
+    }"
+    :data-bs-id="selectId"
+    @click="onSelectRootClick">
     <select
-      ref="selectRef"
-      v-model="selectVal"
-      class="form-control"
-      :class="[
-        sizeClass,
-        {
-          'is-valid': validateStatus === 'success',
-          'is-invalid': validateStatus === 'error'
-        }
-      ]"
-      :disabled="disabled"
+      v-model="nativeSelectModel"
+      :name="name"
       :multiple="multiple"
-      :id="selectId"
-      :name="name || null"
-      :placeholder="placeholder"
-      :aria-label="ariaLabel"
-      @change="on_change"
-      @focus="on_focus"
-      @blur="on_blur">
-      <slot></slot>
+      style="display: none;">
+      <option
+        v-for="item in options"
+        :key="item.id"
+        :value="item.value"
+        :disabled="item.disabled">{{ item.label || item.labelSlot }}</option>
     </select>
+    <bs-input
+      ref="bsInputRef"
+      :disabled="disabled"
+      :readonly="bsInputReadonly"
+      :clearable="clearable"
+      :id="selectId"
+      :value="viewText"
+      :size="size"
+      :delive-context-to-form-item="false"
+      :placeholder="placeholder"
+      :ariaLabel="ariaLabel"
+      @clear="onInputClear">
+      <template #suffix>
+        <bs-icon name="chevron-down"></bs-icon>
+      </template>
+    </bs-input>
+    <!-- 这里不能使用延迟渲染的方案，因为这会导致子组件也延迟渲染，从而导致上面的<select>标签不能在组件渲染时就生成
+      <teleport to="body" v-if="dropdownDisplayed">-->
+    <teleport to="body">
+      <ul
+        v-show="dropdownVisible"
+        ref="bsSelectDropdownRef"
+        class="bs-select-dropdown"
+        :class="{
+          'is-multiple': multiple,
+          'display-on-top': dropdownDisplayDirection === 'top',
+          'display-on-bottom': dropdownDisplayDirection === 'bottom',
+        }"
+        :data-for-bs-select="selectId">
+        <slot></slot>
+      </ul>
+    </teleport>
   </div>
-
 </template>
 
 <script lang="ts">
 import {
   defineComponent,
-  ref,
-  computed,
-  PropType,
   nextTick,
+  PropType,
+  ref,
+  reactive,
+  watch,
+  provide,
+  ComponentInternalInstance,
+  computed,
   inject
 } from 'vue';
+import {
+  BsSize,
+  FormItemContext,
+  ValidateStatus,
+  formItemContextKey
+} from '@/ts-tokens/bootstrap';
 import { getSelectCount } from '@/common/globalData';
-import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
-import { FormItemContext, BsSize, formItemContextKey } from '@/ts-tokens/bootstrap';
+import { util } from '@/common/util';
+import { useClickOutside } from '@/hooks/useClickOutside';
+import {
+  SelectContext,
+  SelectOptionItem,
+  selectContextKey
+} from '@/ts-tokens/bootstrap/select';
 import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
 
 export default defineComponent({
   name: 'BsSelect',
   props: {
     modelValue: {
-      type: [String, Array],
+      type: [String, Number, Array],
       default: ''
     },
     value: {
-      type: [String, Array],
+      type: [String, Number],
       default: ''
     },
     disabled: {
@@ -64,16 +103,24 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
+    multipleLimit: { // 可被选择的最大数量
+      type: Number,
+      default: undefined
+    },
+    clearable: { // 是否可以清空内容
+      type: Boolean,
+      default: false
+    },
     size: { // 输入框大小
       type: String as PropType<BsSize>,
       default: ''
     },
     id: {
       type: String,
-      default: null,
+      default: '',
       validator (idVal: string) {
-        if (/^\d/.test(idVal)) {
-          console.warn('id不能以数字开头');
+        if (typeof idVal !== 'string' || /^\d+/.test(idVal)) {
+          console.warn('id必须为字符串类型，且不能以数字开头');
           return false;
         }
         return true;
@@ -89,31 +136,80 @@ export default defineComponent({
     },
     ariaLabel: { // area-label属性值
       type: String,
-      default: null
+      default: ''
     }
   },
-  emits: ['update:modelValue', 'change', 'focus', 'blur'],
+  emits: ['update:modelValue', 'change', 'selectLimit'],
   setup (props: any, ctx: any) {
-    let selectRef = ref<HTMLSelectElement|null>(null);
+    let bsSelectRef = ref<HTMLElement|null>(null);
+    let bsInputRef = ref<ComponentInternalInstance|null>(null);
+    let bsSelectDropdownRef = ref<HTMLElement|null>(null);
+    let bsInputReadonly = ref(true);
+    let isFocus = ref(false);
     let selectId = ref(props.id || `bs-select_${getSelectCount()}`);
-
-    let selectVal = computed({
-      get () {
-        return props.modelValue || props.value;
-      },
-      set (newVal:string|string[]) {
-        ctx.emit('update:modelValue', newVal);
-        ctx.emit('change', newVal);
-      }
-    });
-
+    let dropdownDisplayed = ref(false); // 下拉菜单是否已经渲染
+    let dropdownVisible = ref(false); // 下拉菜单是否显示
+    let dropdownDisplayDirection = ref(''); // 下拉菜单展示方位
+    let options = ref<SelectOptionItem[]>([]); // 存储option的label及value
     let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
 
-    // 计算输入框的class
-    let sizeClass = computed<string>(() => {
-      let sizeClass = props.size ? `form-control-${props.size}` : '';
-      return sizeClass;
+    let nativeSelectModel = computed({
+      get () {
+        if (Array.isArray(props.modelValue)) {
+          return [...props.modelValue];
+        } else {
+          return props.modelValue;
+        }
+      },
+      set (newVal: any) {
+        console.log('原生select修改值：', newVal);
+      }
     });
+    /**
+     * 显示下拉菜单
+     */
+    let dropdownShow = function () {
+      let doShow = function () {
+        dropdownVisible.value = true;
+        nextTick(function () {
+          let bsSelectRect = (bsSelectRef.value as HTMLElement).getBoundingClientRect();
+          let bsSelectDropdownEl = bsSelectDropdownRef.value as HTMLElement;
+          bsSelectDropdownEl.style.width = bsSelectRect.width + 'px';
+
+          let displayDirection: any = util.calcAbsoluteElementDisplayDirection(bsSelectRef.value, bsSelectDropdownEl, 'bottom', false);
+          // console.log('displayDirection', displayDirection);
+          dropdownDisplayDirection.value = displayDirection.direction;
+          bsSelectDropdownEl.style.top = displayDirection.top + 'px';
+          bsSelectDropdownEl.style.left = displayDirection.left + 'px';
+        });
+      };
+      if (props.disabled) {
+        return;
+      }
+      /* if (!dropdownDisplayed.value) {
+        console.log('dropdownShow 1');
+        dropdownDisplayed.value = true;
+        let timer = setTimeout(function () {
+          clearTimeout(timer);
+          doShow();
+        }, 0);
+      } else {
+        console.log('dropdownShow 2');
+        doShow();
+      } */
+      doShow();
+    };
+    /**
+     * 隐藏下拉菜单
+     */
+    let dropdownHide = function () {
+      // 延迟一会隐藏下拉菜单是因为为了等待背景色改变后再隐藏
+      let timer = setTimeout(function () {
+        clearTimeout(timer);
+        dropdownVisible.value = false;
+        isFocus.value = false;
+      }, 120);
+    };
 
     /**
      * 调用当前<bs-form-item>父组件的方法
@@ -128,53 +224,151 @@ export default defineComponent({
       });
     };
 
-    let isFocus = ref(false);
-    /* eslint-disable */
-    let on_focus = function (evt: Event) {
-      isFocus.value = true;
-      ctx.emit('focus', evt);
-      callFormItem('validate', 'focus');
+    /**
+     * 修改值
+     * @param val 值
+     * @param isDelete 是否移除
+     */
+    let changeVal = function (val: any, isDelete?: boolean) {
+      if (props.multiple) {
+        let selectModelValue: unknown[] = (props.modelValue || []).slice();
+        if (isDelete === true) {
+          let index = selectModelValue.indexOf(val);
+          if (index > -1) {
+            selectModelValue.splice(index, 1);
+            ctx.emit('update:modelValue', selectModelValue);
+            ctx.emit('change', selectModelValue);
+            callFormItem('validate', 'change');
+          }
+        } else {
+          let multipleLimit = props.multipleLimit;
+          if (typeof multipleLimit === 'number' && multipleLimit > 0 && selectModelValue.length >= multipleLimit) {
+            ctx.emit('selectLimit', multipleLimit);
+            return;
+          }
+          selectModelValue.push(val);
+          ctx.emit('update:modelValue', selectModelValue);
+          ctx.emit('change', selectModelValue);
+          callFormItem('validate', 'change');
+        }
+      } else {
+        if (isDelete === true && props.modelValue === val) {
+          ctx.emit('update:modelValue', '');
+          ctx.emit('change', '');
+          dropdownHide();
+          callFormItem('validate', 'change');
+          return;
+        }
+        ctx.emit('update:modelValue', val);
+        ctx.emit('change', val);
+        dropdownHide();
+        callFormItem('validate', 'change');
+      }
     };
-    let on_blur = function (evt: Event) {
-      isFocus.value = false;
-      ctx.emit('blur', evt);
-      callFormItem('validate', 'blur');
-    };
-    let on_change = function (evt: Event) {
-      ctx.emit('change', Array.isArray(selectVal.value) ? [...selectVal.value] : selectVal.value);
-      callFormItem('validate', 'change');
-    };
-    let { validateStatus, setValidateStatus, getValidateStatus } = useSetValidateStatus();
 
+    /**
+     * 添加option
+     * @param option
+     */
+    let addOption = function (option: SelectOptionItem) {
+      let optionExists = options.value.some((optionItem: SelectOptionItem) => optionItem.id === option.id);
+      // console.log('optionExists', optionExists);
+      if (!optionExists) {
+        options.value.push(option);
+      }
+    };
+    /**
+     * 移除option
+     * @param option
+     */
+    let removeOption = function (optionId: string, optionValue: any) {
+      let index = options.value.findIndex((optionItem: SelectOptionItem) => optionItem.id === optionId);
+      if (index > -1) {
+        options.value.splice(index, 1);
+        changeVal(optionValue, true);
+      }
+    };
+
+    let viewText = computed(function () {
+      let modelValue = Array.isArray(props.modelValue) ? props.modelValue : [props.modelValue];
+      let selectedOptionLabels = options.value.filter(function (option: SelectOptionItem) {
+        // console.log('option.value', option.value);
+        return modelValue.includes(option.value);
+      }).map(function (option: SelectOptionItem) {
+        return option.label || (option as any).labelSlot;
+      });
+      // console.log('selectedOptionLabels', selectedOptionLabels);
+      return selectedOptionLabels.join(',');
+    });
+    watch([() => props.clearable, viewText], function (newVals: any[]) {
+      (bsInputRef.value as any).setClearIconDisplay(newVals[0] && newVals[1].length > 0);
+    });
+
+    let isClickOutside = useClickOutside([bsSelectRef, bsSelectDropdownRef]);
+    watch(isClickOutside, (newVal: boolean) => {
+      // console.log('isClickOutside', isClickOutside.value);
+      if (newVal) {
+        dropdownHide();
+      }
+    });
+
+    let onSelectRootClick = function () {
+      if (props.disabled) {
+        return;
+      }
+      isFocus.value = true;
+      dropdownShow();
+    };
+
+    // 清空内容
+    let onInputClear = function () {
+      let val = props.multiple ? [] : '';
+      ctx.emit('update:modelValue', val);
+      ctx.emit('change', val);
+    };
 
     // 传递给<bs-form-item>组件的参数
     let deliverToFormItemCtx = {
       id: selectId.value,
-      setValidateStatus
+      setValidateStatus: (status: ValidateStatus) => {
+        // console.log('调select组件的setValidateStatus方法l');
+        if (bsInputRef.value) {
+          (bsInputRef.value as any).setValidateStatus(status);
+        }
+      }
     };
     // 如果当前组件处在<bs-form-item>组件中，则将setValidateStatus方法存储到<bs-form-item>组件中
     useDeliverContextToParent<FormItemContext>(formItemContextKey, deliverToFormItemCtx);
 
+    provide<SelectContext>(selectContextKey, reactive({
+      props,
+      changeVal,
+      addOption,
+      removeOption
+    }));
     return {
-      selectVal,
-      sizeClass,
+      bsSelectRef,
+      bsInputRef,
+      bsSelectDropdownRef,
+      bsInputReadonly,
       isFocus,
-      selectRef,
       selectId,
-      validateStatus,
+      dropdownDisplayed,
+      dropdownVisible,
+      dropdownDisplayDirection,
+      options,
+      nativeSelectModel,
+      viewText,
 
-      setValidateStatus,
-      on_focus,
-      on_blur,
-      on_change,
+      onSelectRootClick,
+      onInputClear,
+      dropdownShow,
+      dropdownHide
     };
   }
 });
 </script>
 
 <style lang="scss">
-.bs-select{
-  display: inline-block;
-  vertical-align: middle;
-}
+@import "bs-select";
 </style>
