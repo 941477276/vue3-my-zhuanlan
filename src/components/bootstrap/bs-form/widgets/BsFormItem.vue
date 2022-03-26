@@ -132,7 +132,7 @@ export default defineComponent({
      * 根据规则的触发类型获取规则
      * @param trigger
      */
-    let getRulesByTrigger = function (trigger: string): Array<any> {
+    /* let getRulesByTrigger = function (trigger: string): Array<any> {
       if (rules.value.length == 0) {
         return [];
       }
@@ -147,7 +147,7 @@ export default defineComponent({
         }
       });
       return ([] as Array<any>).concat(filteredRules);
-    };
+    }; */
 
     // 表单校验失败文案
     let invalidMessage = ref<string>('');
@@ -159,12 +159,12 @@ export default defineComponent({
      * @param childCtx
      */
     let addChildComponentContext = function (childCtx: SetValidateStatusContext) {
-      console.log('调用了添加子组件方法');
+      // console.log('调用了添加子组件方法');
       if (!childComponentContext.value.includes(childCtx)) {
-        console.log('添加子组件', childCtx);
+        // console.log('添加子组件', childCtx);
         childComponentContext.value.push(childCtx);
       }
-      console.log('childComponentContext', childComponentContext.value);
+      // console.log('childComponentContext', childComponentContext.value);
     };
     /**
      * 移除存储的子组件
@@ -177,11 +177,11 @@ export default defineComponent({
         }
         return item == childCtx;
       });
-      console.log('调用了移除子组件方法', childCtx, index);
+      // console.log('调用了移除子组件方法', childCtx, index);
       if (index > -1) {
-        console.log('移除子组件');
+        // console.log('移除子组件');
         childComponentContext.value.splice(index, 1);
-        console.log('childComponentContext', childComponentContext);
+        // console.log('childComponentContext', childComponentContext);
       }
     };
     // label标签的for属性值
@@ -225,11 +225,11 @@ export default defineComponent({
         return;
       }
       let fieldVal = util.getPropValueByPath(formContext?.props.model, props.fieldPropName).value;
-      console.log('validate fieldVal', fieldVal);
+      // console.log('validate fieldVal', fieldVal);
       let rule = !trigger ? rules.value : rules.value.filter(ruleItem => {
         return Array.isArray(ruleItem.trigger) ? ruleItem.trigger.includes(trigger) : ruleItem.trigger === trigger;
       });
-      console.log('validate rule', rule, trigger);
+      // console.log('validate rule', rule, trigger);
       if (rule.length === 0) {
         callback?.('');
         return;
