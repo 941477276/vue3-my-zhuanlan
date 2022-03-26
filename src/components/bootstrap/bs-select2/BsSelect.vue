@@ -9,21 +9,35 @@
     }"
     :data-bs-id="selectId"
     @click="onSelectRootClick">
+    <select
+      v-model="nativeSelectModel"
+      :name="name"
+      :multiple="multiple"
+      style="display: none;">
+      <option
+        v-for="item in options"
+        :key="item.id"
+        :value="item.value"
+        :disabled="item.disabled">{{ item.label || item.labelSlot }}</option>
+    </select>
     <bs-input
       ref="bsInputRef"
       :disabled="disabled"
       :readonly="bsInputReadonly"
       :clearable="clearable"
       :id="selectId"
-      :name="name"
+      :value="viewText"
       :size="size"
       :placeholder="placeholder"
-      :ariaLabel="ariaLabel">
+      :ariaLabel="ariaLabel"
+      @clear="onInputClear">
       <template #suffix>
         <bs-icon name="chevron-down"></bs-icon>
       </template>
     </bs-input>
-    <teleport to="body" v-if="dropdownDisplayed">
+    <!-- 这里不能使用延迟渲染的方案，因为这会导致子组件也延迟渲染，从而导致上面的<select>标签不能在组件渲染时就生成
+      <teleport to="body" v-if="dropdownDisplayed">-->
+    <teleport to="body">
       <ul
         v-show="dropdownVisible"
         ref="bsSelectDropdownRef"
@@ -48,7 +62,9 @@ import {
   reactive,
   watch,
   provide,
-  getCurrentInstance
+  getCurrentInstance,
+  ComponentInternalInstance,
+  computed
 } from 'vue';
 import { BsSize } from '@/ts-tokens/bootstrap';
 import { getSelectCount } from '@/common/globalData';
@@ -56,14 +72,9 @@ import { util } from '@/common/util';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import {
   SelectContext,
+  SelectOptionItem,
   selectContextKey
 } from '@/ts-tokens/bootstrap/select';
-
-type OptionItem = {
-  id: string,
-  value: any,
-  label: string
-};
 
 export default defineComponent({
   name: 'BsSelect',
@@ -113,7 +124,7 @@ export default defineComponent({
     },
     name: { // input原生的name属性
       type: String,
-      default: ''
+      default: null
     },
     ariaLabel: { // area-label属性值
       type: String,
@@ -123,7 +134,7 @@ export default defineComponent({
   emits: ['update:modelValue', 'change', 'selectLimit'],
   setup (props: any, ctx: any) {
     let bsSelectRef = ref<HTMLElement|null>(null);
-    let bsInputRef = ref<HTMLInputElement|null>(null);
+    let bsInputRef = ref<ComponentInternalInstance|null>(null);
     let bsSelectDropdownRef = ref<HTMLElement|null>(null);
     let bsInputReadonly = ref(true);
     let isFocus = ref(false);
@@ -131,8 +142,21 @@ export default defineComponent({
     let dropdownDisplayed = ref(false); // 下拉菜单是否已经渲染
     let dropdownVisible = ref(false); // 下拉菜单是否显示
     let dropdownDisplayDirection = ref(''); // 下拉菜单展示方位
-    let options = ref<OptionItem[]>([]); // 存储option的label及value
+    let options = ref<SelectOptionItem[]>([]); // 存储option的label及value
     console.log('getCurrentInstance', (getCurrentInstance()?.proxy as any).value);
+
+    let nativeSelectModel = computed({
+      get () {
+        if (Array.isArray(props.modelValue)) {
+          return [...props.modelValue];
+        } else {
+          return props.modelValue;
+        }
+      },
+      set (newVal: any) {
+        console.log('原生select修改值：', newVal);
+      }
+    });
     /**
      * 显示下拉菜单
      */
@@ -151,7 +175,10 @@ export default defineComponent({
           bsSelectDropdownEl.style.left = displayDirection.left + 'px';
         });
       };
-      if (!dropdownDisplayed.value) {
+      if (props.disabled) {
+        return;
+      }
+      /* if (!dropdownDisplayed.value) {
         console.log('dropdownShow 1');
         dropdownDisplayed.value = true;
         let timer = setTimeout(function () {
@@ -161,7 +188,8 @@ export default defineComponent({
       } else {
         console.log('dropdownShow 2');
         doShow();
-      }
+      } */
+      doShow();
     };
     /**
      * 隐藏下拉菜单
@@ -201,11 +229,55 @@ export default defineComponent({
           ctx.emit('change', selectModelValue);
         }
       } else {
+        if (isDelete === true && props.modelValue === val) {
+          ctx.emit('update:modelValue', '');
+          ctx.emit('change', '');
+          dropdownHide();
+          return;
+        }
         ctx.emit('update:modelValue', val);
         ctx.emit('change', val);
         dropdownHide();
       }
     };
+
+    /**
+     * 添加option
+     * @param option
+     */
+    let addOption = function (option: SelectOptionItem) {
+      let optionExists = options.value.some((optionItem: SelectOptionItem) => optionItem.id === option.id);
+      // console.log('optionExists', optionExists);
+      if (!optionExists) {
+        options.value.push(option);
+      }
+    };
+    /**
+     * 移除option
+     * @param option
+     */
+    let removeOption = function (optionId: string, optionValue: any) {
+      let index = options.value.findIndex((optionItem: SelectOptionItem) => optionItem.id === optionId);
+      if (index > -1) {
+        options.value.splice(index, 1);
+        changeVal(optionValue, true);
+      }
+    };
+
+    let viewText = computed(function () {
+      let modelValue = Array.isArray(props.modelValue) ? props.modelValue : [props.modelValue];
+      let selectedOptionLabels = options.value.filter(function (option: SelectOptionItem) {
+        // console.log('option.value', option.value);
+        return modelValue.includes(option.value);
+      }).map(function (option: SelectOptionItem) {
+        return option.label || (option as any).labelSlot;
+      });
+      console.log('selectedOptionLabels', selectedOptionLabels);
+      return selectedOptionLabels.join(',');
+    });
+    watch([() => props.clearable, viewText], function (newVals: any[]) {
+      (bsInputRef.value as any).setClearIconDisplay(newVals[0] && newVals[1].length > 0);
+    });
 
     let isClickOutside = useClickOutside([bsSelectRef, bsSelectDropdownRef]);
     watch(isClickOutside, (newVal: boolean) => {
@@ -223,9 +295,18 @@ export default defineComponent({
       dropdownShow();
     };
 
+    // 清空内容
+    let onInputClear = function () {
+      let val = props.multiple ? [] : '';
+      ctx.emit('update:modelValue', val);
+      ctx.emit('change', val);
+    };
+
     provide<SelectContext>(selectContextKey, reactive({
       props,
-      changeVal
+      changeVal,
+      addOption,
+      removeOption
     }));
     return {
       bsSelectRef,
@@ -237,8 +318,12 @@ export default defineComponent({
       dropdownDisplayed,
       dropdownVisible,
       dropdownDisplayDirection,
+      options,
+      nativeSelectModel,
+      viewText,
 
       onSelectRootClick,
+      onInputClear,
       dropdownShow,
       dropdownHide
     };

@@ -63,13 +63,13 @@
           <span
             v-show="clearContentIconDisplay"
             class="bs-input-suffix-icon clear-content_icon"
-            @click="clearContent">
+            @click.stop="clearContent">
             <bs-icon name="x-circle"></bs-icon>
           </span>
           <span
             v-show="showPasswordIconDisplay"
             class="bs-input-suffix-icon show-password_icon"
-            @click="togglePasswordText">
+            @click.stop="togglePasswordText">
             <bs-icon :name="passwordIsShow ? 'eye-slash' : 'eye'"></bs-icon>
           </span>
         </div>
@@ -111,10 +111,6 @@ import {
   computed,
   ref,
   inject,
-  onMounted,
-  onUnmounted,
-  getCurrentInstance,
-  ComponentInternalInstance,
   nextTick
 } from 'vue';
 import { getInputCount, getTextAreaCount } from '@/common/globalData';
@@ -302,6 +298,13 @@ export default defineComponent({
     let blur = function () {
       (inputRef.value as HTMLInputElement).blur();
     };
+    /**
+     *  切换清空内容按钮显示
+     * @param flag
+     */
+    let setClearIconDisplay = function (flag: boolean) {
+      clearContentIconDisplay.value = !!flag;
+    }
 
     // 传递给<bs-form-item>组件的参数
     let deliverToFormItemCtx = {
@@ -333,7 +336,8 @@ export default defineComponent({
       clearContent,
       focus,
       blur,
-      setValidateStatus
+      setValidateStatus,
+      setClearIconDisplay
     };
   },
   methods: {

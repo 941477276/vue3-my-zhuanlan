@@ -1,9 +1,9 @@
 <template>
 <div class="component-usage">
   <h3 style="margin-top: 300px;margin-bottom: 15px;">单选</h3>
-  <bs-select v-model="selectVal">
-    <bs-option value="a">第1个选项</bs-option>
-    <bs-option value="b">第2个选项</bs-option>
+  <bs-select v-model="selectVal" clearable>
+    <bs-option value="a" v-if="show">第1个选项</bs-option>
+    <bs-option value="b" label="第2个选项"></bs-option>
     <bs-option :value="3">第3个选项，值为number类型</bs-option>
     <bs-option :value="4">第4个选项，值为number类型</bs-option>
     <bs-option value="5" :disabled="true">禁用项</bs-option>
@@ -13,15 +13,16 @@
   <bs-select
     v-model="selectVals"
     multiple
+    clearable
     :multiple-limit="4"
     @select-limit="onMultipleLimit">
     <bs-option-group label="组1">
       <bs-option value="group-value1">第1个选项</bs-option>
-      <bs-option value="group-value2">第2个选项</bs-option>
+      <bs-option value="group-value2" label="第2个选项"></bs-option>
       <bs-option :value="3">第3个选项，值为number类型</bs-option>
     </bs-option-group>
     <bs-option value="4">第4个选项</bs-option>
-    <bs-option :value="true">第5个选项，值为boolean类型</bs-option>
+    <bs-option :value="true" label="第5个选项，值为boolean类型"></bs-option>
     <bs-option value="6" :disabled="true">禁用项</bs-option>
     <bs-option-group label="组2">
       <bs-option value="group-value7">第7个选项</bs-option>
@@ -43,6 +44,7 @@ export default defineComponent({
   components: {},
 
   setup (props: any) {
+    let show = ref(true);
     let selectVal = ref('');
     let selectVals = ref([]);
 
@@ -50,7 +52,14 @@ export default defineComponent({
       alert(`最多只能选择${limitCount}项！`);
     };
 
+    /* let timer = setTimeout(function () {
+      clearTimeout(timer);
+      show.value = false;
+      console.log('隐藏了');
+    }, 5500); */
+
     return {
+      show,
       selectVal,
       selectVals,
       onMultipleLimit

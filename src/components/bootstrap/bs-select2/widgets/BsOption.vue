@@ -1,5 +1,6 @@
 <template>
   <li
+    ref="bsOptionRef"
     class="bs-option"
     :class="{
       'is-disabled': isDisabled,
@@ -17,8 +18,12 @@
 import {
   defineComponent,
   ref,
+  toRef,
+  reactive,
   inject,
-  computed
+  computed,
+  onMounted,
+  onBeforeUnmount
 } from 'vue';
 import { getSelectOptionCount } from '@/common/globalData';
 import {
@@ -45,6 +50,7 @@ export default defineComponent({
     }
   },
   setup (props: any) {
+    let bsOptionRef = ref<HTMLElement|null>(null);
     let optionId = `selectOption_${getSelectOptionCount()}`;
     let selectCtx = inject<SelectContext|null>(selectContextKey, null);
     let optionGroupCtx = inject<SelectOptionGroupContext|null>(selectOptionGroupContextKey, null);
@@ -75,9 +81,28 @@ export default defineComponent({
       }
     };
 
+    onMounted(function () {
+      if (selectCtx) {
+        selectCtx.addOption(reactive({
+          id: optionId,
+          value: toRef(props, 'value'),
+          label: toRef(props, 'label'),
+          labelSlot: (bsOptionRef.value as HTMLElement).innerText,
+          disabled: isDisabled
+        }));
+      }
+    });
+
+    onBeforeUnmount(function () {
+      if (selectCtx) {
+        selectCtx.removeOption(optionId, props.value);
+      }
+    });
+
     return {
       isSelected,
       isDisabled,
+      bsOptionRef,
       onOptionClick
     };
   }
