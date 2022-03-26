@@ -28,6 +28,7 @@
       :id="selectId"
       :value="viewText"
       :size="size"
+      :delive-context-to-form-item="false"
       :placeholder="placeholder"
       :ariaLabel="ariaLabel"
       @clear="onInputClear">
@@ -56,17 +57,23 @@
 
 <script lang="ts">
 import {
-  defineComponent, nextTick,
+  defineComponent,
+  nextTick,
   PropType,
   ref,
   reactive,
   watch,
   provide,
-  getCurrentInstance,
   ComponentInternalInstance,
-  computed
+  computed,
+  inject
 } from 'vue';
-import { BsSize } from '@/ts-tokens/bootstrap';
+import {
+  BsSize,
+  FormItemContext,
+  ValidateStatus,
+  formItemContextKey
+} from '@/ts-tokens/bootstrap';
 import { getSelectCount } from '@/common/globalData';
 import { util } from '@/common/util';
 import { useClickOutside } from '@/hooks/useClickOutside';
@@ -75,6 +82,7 @@ import {
   SelectOptionItem,
   selectContextKey
 } from '@/ts-tokens/bootstrap/select';
+import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
 
 export default defineComponent({
   name: 'BsSelect',
@@ -143,7 +151,7 @@ export default defineComponent({
     let dropdownVisible = ref(false); // 下拉菜单是否显示
     let dropdownDisplayDirection = ref(''); // 下拉菜单展示方位
     let options = ref<SelectOptionItem[]>([]); // 存储option的label及value
-    console.log('getCurrentInstance', (getCurrentInstance()?.proxy as any).value);
+    let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
 
     let nativeSelectModel = computed({
       get () {
@@ -169,7 +177,7 @@ export default defineComponent({
           bsSelectDropdownEl.style.width = bsSelectRect.width + 'px';
 
           let displayDirection: any = util.calcAbsoluteElementDisplayDirection(bsSelectRef.value, bsSelectDropdownEl, 'bottom', false);
-          console.log('displayDirection', displayDirection);
+          // console.log('displayDirection', displayDirection);
           dropdownDisplayDirection.value = displayDirection.direction;
           bsSelectDropdownEl.style.top = displayDirection.top + 'px';
           bsSelectDropdownEl.style.left = displayDirection.left + 'px';
@@ -204,6 +212,19 @@ export default defineComponent({
     };
 
     /**
+     * 调用当前<bs-form-item>父组件的方法
+     * @param fnName 方法名称
+     * @param args 参数
+     */
+    let callFormItem = function (fnName: string, ...args: any) {
+      nextTick(function () {
+        if (formItemContext) {
+          (formItemContext as any)[fnName](...args);
+        }
+      });
+    };
+
+    /**
      * 修改值
      * @param val 值
      * @param isDelete 是否移除
@@ -217,6 +238,7 @@ export default defineComponent({
             selectModelValue.splice(index, 1);
             ctx.emit('update:modelValue', selectModelValue);
             ctx.emit('change', selectModelValue);
+            callFormItem('validate', 'change');
           }
         } else {
           let multipleLimit = props.multipleLimit;
@@ -227,17 +249,20 @@ export default defineComponent({
           selectModelValue.push(val);
           ctx.emit('update:modelValue', selectModelValue);
           ctx.emit('change', selectModelValue);
+          callFormItem('validate', 'change');
         }
       } else {
         if (isDelete === true && props.modelValue === val) {
           ctx.emit('update:modelValue', '');
           ctx.emit('change', '');
           dropdownHide();
+          callFormItem('validate', 'change');
           return;
         }
         ctx.emit('update:modelValue', val);
         ctx.emit('change', val);
         dropdownHide();
+        callFormItem('validate', 'change');
       }
     };
 
@@ -272,7 +297,7 @@ export default defineComponent({
       }).map(function (option: SelectOptionItem) {
         return option.label || (option as any).labelSlot;
       });
-      console.log('selectedOptionLabels', selectedOptionLabels);
+      // console.log('selectedOptionLabels', selectedOptionLabels);
       return selectedOptionLabels.join(',');
     });
     watch([() => props.clearable, viewText], function (newVals: any[]) {
@@ -301,6 +326,19 @@ export default defineComponent({
       ctx.emit('update:modelValue', val);
       ctx.emit('change', val);
     };
+
+    // 传递给<bs-form-item>组件的参数
+    let deliverToFormItemCtx = {
+      id: selectId.value,
+      setValidateStatus: (status: ValidateStatus) => {
+        // console.log('调select组件的setValidateStatus方法l');
+        if (bsInputRef.value) {
+          (bsInputRef.value as any).setValidateStatus(status);
+        }
+      }
+    };
+    // 如果当前组件处在<bs-form-item>组件中，则将setValidateStatus方法存储到<bs-form-item>组件中
+    useDeliverContextToParent<FormItemContext>(formItemContextKey, deliverToFormItemCtx);
 
     provide<SelectContext>(selectContextKey, reactive({
       props,

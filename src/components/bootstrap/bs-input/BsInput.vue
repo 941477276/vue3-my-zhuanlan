@@ -158,6 +158,10 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
+    deliveContextToFormItem: { // 是否向form-item组件传递上下文信息
+      type: Boolean,
+      default: true
+    },
     size: { // 输入框大小
       type: String as PropType<BsSize>,
       default: ''
@@ -306,14 +310,15 @@ export default defineComponent({
       clearContentIconDisplay.value = !!flag;
     }
 
-    // 传递给<bs-form-item>组件的参数
-    let deliverToFormItemCtx = {
-      id: inputId.value,
-      setValidateStatus
-    };
-    // 如果当前组件处在<bs-form-item>组件中，则将setValidateStatus方法存储到<bs-form-item>组件中
-    useDeliverContextToParent<FormItemContext>(formItemContextKey, deliverToFormItemCtx);
-
+    if (props.deliveContextToFormItem) {
+      // 传递给<bs-form-item>组件的参数
+      let deliverToFormItemCtx = {
+        id: inputId.value,
+        setValidateStatus
+      };
+      // 如果当前组件处在<bs-form-item>组件中，则将setValidateStatus方法存储到<bs-form-item>组件中
+      useDeliverContextToParent<FormItemContext>(formItemContextKey, deliverToFormItemCtx);
+    }
 
     return {
       inputRef,
