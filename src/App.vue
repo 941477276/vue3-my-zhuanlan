@@ -17,15 +17,16 @@
   <!--<div class="box">
     <BsCheckboxGroupUsage></BsCheckboxGroupUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsSelectUsage></BsSelectUsage>
-  </div>
-  <div class="box">
+  </div>-->
+  <!--<div class="box">
     <BsFormUsage></BsFormUsage>
-  </div>
+  </div>-->
   <!--div class="box">
     <BsDropdownUsage></BsDropdownUsage>
   </div>-->
+  <router-view></router-view>
 </template>
 
 <script lang="ts">
@@ -67,9 +68,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-body{
+/*body{
   height: 2000px;
-}
+}*/
 .box{
   padding: 20px;
 }
