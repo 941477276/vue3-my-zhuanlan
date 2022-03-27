@@ -8,15 +8,17 @@
 
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <router-link class="account-link" to="/login">登陆</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="account-link" to="/regist">注册</router-link>
-          </li>
-          <li class="nav-item">
+          <template v-if="!userInfo.id">
+            <li class="nav-item">
+              <router-link class="account-link" to="/login">登陆</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="account-link" to="/regist">注册</router-link>
+            </li>
+          </template>
+          <li class="nav-item" v-else>
             <bs-dropdown>
-              <bs-button type="info">欢迎你，xxx</bs-button>
+              <bs-button type="info">欢迎你，{{ userInfo.username }}</bs-button>
               <template #dropdown-item>
                 <bs-dropdown-item>新建文章</bs-dropdown-item>
                 <bs-dropdown-item>管理账户</bs-dropdown-item>
@@ -32,13 +34,22 @@
 
 <script lang="ts">
 import {
+  computed,
   defineComponent
 } from 'vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'GlobalHeader',
-  components: {}
+  components: {},
+  setup () {
+    const store = useStore();
 
+    let userInfo = computed(() => store.state.userInfo);
+    return {
+      userInfo
+    };
+  }
 });
 </script>
 
