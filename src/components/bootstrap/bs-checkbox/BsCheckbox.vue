@@ -92,6 +92,10 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
+    deliveContextToFormItem: { // 是否向form-item组件传递上下文信息
+      type: Boolean,
+      default: true
+    },
     id: {
       type: String,
       default: '',
@@ -165,13 +169,15 @@ export default defineComponent({
       callFormItem('validate', 'change');
     };
 
-    // 传递给<bs-form-item>组件的参数
-    let deliverToFormItemCtx = {
-      id: checkboxId.value,
-      setValidateStatus
-    };
-    // 如果当前组件处在<bs-form-item>组件中，则将setValidateStatus方法存储到<bs-form-item>组件中
-    useDeliverContextToParent<FormItemContext>(formItemContextKey, deliverToFormItemCtx);
+    if (props.deliveContextToFormItem) {
+      // 传递给<bs-form-item>组件的参数
+      let deliverToFormItemCtx = {
+        id: checkboxId.value,
+        setValidateStatus
+      };
+      // 如果当前组件处在<bs-form-item>组件中，则将setValidateStatus方法存储到<bs-form-item>组件中
+      useDeliverContextToParent<FormItemContext>(formItemContextKey, deliverToFormItemCtx);
+    }
 
     onMounted(() => {
       // 设置默认选择项
