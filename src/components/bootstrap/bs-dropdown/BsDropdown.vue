@@ -195,7 +195,7 @@ export default defineComponent({
       });
       console.log('calcedDirection', calcedDirection);
 
-      if (!calcedDirection) {
+      if (!calcedDirection && tryAllDirection) {
         // 寻找元素在水平或垂直方向都有一个地方完全出现在视口中的方向，因为可能出现除currentDirection外的其他3个方向都无法完全出现在视口的情况
         directionCalcFlow.some(function (calcFn) {
           let result = calcFn();
