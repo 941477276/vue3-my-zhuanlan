@@ -9,6 +9,7 @@ import BsSelect from './bs-select/index';
 import BsForm from '@/components/bootstrap/bs-form';
 import BsDropdown from '@/components/bootstrap/bs-dropdown';
 import BsPagination from '@/components/bootstrap/bs-pagination';
+import BsBadge from '@/components/bootstrap/bs-badge/BsBadge.vue';
 
 export default function (vueApp: any) {
   vueApp.component(BsButton.name, BsButton);
@@ -18,6 +19,7 @@ export default function (vueApp: any) {
   vueApp.component(BsRadioGroup.name, BsRadioGroup);
   vueApp.component(BsCheckbox.name, BsCheckbox);
   vueApp.component(BsCheckboxGroup.name, BsCheckboxGroup);
+  vueApp.component(BsBadge.name, BsBadge);
   // vueApp.component(BsSelect.name, BsSelect);
   vueApp.use(BsSelect);
   vueApp.use(BsForm);
