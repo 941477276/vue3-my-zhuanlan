@@ -26,7 +26,10 @@
   <!--div class="box">
     <BsDropdownUsage></BsDropdownUsage>
   </div>-->
-  <router-view></router-view>
+  <!--<router-view></router-view>-->
+  <div class="box">
+    <BsPaginationUsage></BsPaginationUsage>
+  </div>
 </template>
 
 <script lang="ts">
@@ -42,6 +45,7 @@ import BsCheckboxUsage from '@/components/bootstrap/bs-checkbox/BsCheckboxUsage.
 import BsCheckboxGroupUsage from '@/components/bootstrap/bs-checkbox-group/BsCheckboxGroupUsage.vue';
 import BsSelectUsage from '@/components/bootstrap/bs-select/BsSelectUsage.vue';
 import BsDropdownUsage from '@/components/bootstrap/bs-dropdown/BsDropdownUsage.vue';
+import BsPaginationUsage from '@/components/bootstrap/bs-pagination/BsPaginationUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -57,7 +61,8 @@ export default defineComponent({
     BsCheckboxUsage,
     BsCheckboxGroupUsage,
     BsSelectUsage,
-    BsDropdownUsage
+    BsDropdownUsage,
+    BsPaginationUsage
   },
   setup () {
     return {

@@ -8,6 +8,7 @@ import BsCheckboxGroup from './bs-checkbox-group/BsCheckboxGroup.vue';
 import BsSelect from './bs-select/index';
 import BsForm from '@/components/bootstrap/bs-form';
 import BsDropdown from '@/components/bootstrap/bs-dropdown';
+import BsPagination from '@/components/bootstrap/bs-pagination';
 
 export default function (vueApp: any) {
   vueApp.component(BsButton.name, BsButton);
@@ -21,4 +22,5 @@ export default function (vueApp: any) {
   vueApp.use(BsSelect);
   vueApp.use(BsForm);
   vueApp.use(BsDropdown);
+  vueApp.use(BsPagination);
 }

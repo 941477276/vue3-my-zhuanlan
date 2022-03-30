@@ -1,0 +1,52 @@
+.bs-pagination-pager{
+  &.pagination-sm{
+    .page-link{
+      padding: 0.35rem 0.6rem;
+    }
+    .bs-svg-icon{
+      transform: translateY(-0.1rem);
+    }
+  }
+  &.pagination-lg{
+
+  }
+  .page-link{
+    cursor: pointer;
+  }
+  .page-item{
+    &.active{
+      .page-link{
+        cursor: default;
+      }
+    }
+    &.disabled {
+      .page-link {
+        cursor: not-allowed;
+      }
+    }
+  }
+  .chevron-double-left,
+  .chevron-double-right{
+    display: none;
+  }
+  .prev-more{
+    &:hover{
+      .three-dots{
+        display: none;
+      }
+      .chevron-double-left{
+        display: inline-block;
+      }
+    }
+  }
+  .next-more{
+    &:hover{
+      .three-dots{
+        display: none;
+      }
+      .chevron-double-right{
+        display: inline-block;
+      }
+    }
+  }
+}
