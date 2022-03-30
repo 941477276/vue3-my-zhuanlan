@@ -2,11 +2,14 @@
   <div
     ref="bsSelectRef"
     class="bs-select"
-    :class="{
-      'is-disabled': disabled,
-      'is-focus': isFocus,
-      'is-multiple': multiple
-    }"
+    :class="[
+      {
+        'is-disabled': disabled,
+        'is-focus': isFocus,
+        'is-multiple': multiple
+      },
+      size ? `bs-select-${size}` :''
+    ]"
     :data-bs-id="selectId"
     @click="onSelectRootClick">
     <select
