@@ -17,9 +17,9 @@
   <!--<div class="box">
     <BsCheckboxGroupUsage></BsCheckboxGroupUsage>
   </div>-->
-  <!--<div class="box">
+  <div class="box">
     <BsSelectUsage></BsSelectUsage>
-  </div>-->
+  </div>
   <!--<div class="box">
     <BsFormUsage></BsFormUsage>
   </div>-->
@@ -27,9 +27,9 @@
     <BsDropdownUsage></BsDropdownUsage>
   </div>-->
   <!--<router-view></router-view>-->
-  <div class="box">
+  <!--<div class="box">
     <BsPaginationUsage></BsPaginationUsage>
-  </div>
+  </div>-->
 </template>
 
 <script lang="ts">

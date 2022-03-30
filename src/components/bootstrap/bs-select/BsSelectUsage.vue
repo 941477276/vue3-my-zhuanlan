@@ -33,6 +33,15 @@
       <bs-option value="group-value10">第10个选项</bs-option>
     </bs-option-group>
   </bs-select>
+
+  <h3 style="margin-top: 50px;margin-bottom: 15px;">加载中</h3>
+  <bs-select v-model="selectVal" loading>
+    <bs-option value="a" v-if="show">第1个选项</bs-option>
+    <bs-option value="b" label="第2个选项"></bs-option>
+    <bs-option :value="3">第3个选项，值为number类型</bs-option>
+    <bs-option :value="4">第4个选项，值为number类型</bs-option>
+    <bs-option value="5" :disabled="true">禁用项</bs-option>
+  </bs-select>
 </div>
 </template>
 

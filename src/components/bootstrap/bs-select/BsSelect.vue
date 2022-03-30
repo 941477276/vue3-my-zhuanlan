@@ -25,14 +25,14 @@
     </select>
     <bs-input
       ref="bsInputRef"
-      :disabled="disabled"
+      :disabled="disabled || loading"
       :readonly="bsInputReadonly"
       :clearable="clearable"
       :id="selectId"
       :value="viewText"
       :size="size"
       :delive-context-to-form-item="false"
-      :placeholder="placeholder"
+      :placeholder="loading ? loadingText : placeholder"
       :ariaLabel="ariaLabel"
       @clear="onInputClear">
       <template #suffix>
@@ -101,6 +101,14 @@ export default defineComponent({
     disabled: {
       type: Boolean,
       default: false
+    },
+    loading: { // 是否正在加载数据
+      type: Boolean,
+      default: false
+    },
+    loadingText: { // 正在加载数据时的提示文字
+      type: String,
+      default: '加载中...'
     },
     multiple: { // 是否支持多选
       type: Boolean,
@@ -242,6 +250,7 @@ export default defineComponent({
         if (isDelete === true) {
           let index = selectModelValue.indexOf(val);
           if (index > -1) {
+            // console.log('changeVal 2, isDelete=true', props.modelValue, val, index);
             selectModelValue.splice(index, 1);
             ctx.emit('update:modelValue', selectModelValue);
             ctx.emit('change', selectModelValue);
@@ -259,11 +268,15 @@ export default defineComponent({
           callFormItem('validate', 'change');
         }
       } else {
-        if (isDelete === true && props.modelValue === val) {
-          ctx.emit('update:modelValue', '');
-          ctx.emit('change', '');
-          dropdownHide();
-          callFormItem('validate', 'change');
+        if (isDelete === true) {
+          if (props.modelValue === val) {
+            // console.log('changeVal 2, isDelete=true', props.modelValue, val);
+            ctx.emit('update:modelValue', '');
+            ctx.emit('change', '');
+            dropdownHide();
+            callFormItem('validate', 'change');
+            return;
+          }
           return;
         }
         ctx.emit('update:modelValue', val);
@@ -292,6 +305,7 @@ export default defineComponent({
       let index = options.value.findIndex((optionItem: SelectOptionItem) => optionItem.id === optionId);
       if (index > -1) {
         options.value.splice(index, 1);
+        // console.log('removeOption changeVal', optionValue);
         changeVal(optionValue, true);
       }
     };
@@ -320,7 +334,7 @@ export default defineComponent({
     });
 
     let onSelectRootClick = function () {
-      if (props.disabled) {
+      if (props.disabled || props.loading) {
         return;
       }
       isFocus.value = true;
