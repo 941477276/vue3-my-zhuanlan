@@ -42,6 +42,11 @@
     <bs-option :value="4">第4个选项，值为number类型</bs-option>
     <bs-option value="5" :disabled="true">禁用项</bs-option>
   </bs-select>
+
+  <h3 style="margin-top: 50px;margin-bottom: 15px;">无下拉项</h3>
+  <bs-select v-model="selectVal">
+    <!--<bs-option value="b" label="第2个选项"></bs-option>-->
+  </bs-select>
 </div>
 </template>
 

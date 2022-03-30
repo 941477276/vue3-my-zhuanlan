@@ -53,6 +53,11 @@
         }"
         :data-for-bs-select="selectId">
         <slot></slot>
+        <li
+          v-if="options.length == 0"
+          class="bs-select-empty">
+          <slot name="empty">{{ noDataText }}</slot>
+        </li>
       </ul>
     </teleport>
   </div>
@@ -152,6 +157,10 @@ export default defineComponent({
     ariaLabel: { // area-label属性值
       type: String,
       default: ''
+    },
+    noDataText: { // 下拉列表为空时显示的文字，也可以使用slot="empty"设置
+      type: String,
+      default: '无数据'
     }
   },
   emits: ['update:modelValue', 'change', 'selectLimit'],
