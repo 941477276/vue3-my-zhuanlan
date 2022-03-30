@@ -1,6 +1,6 @@
 <template>
   <div
-    class="dropdown"
+    class="bs-dropdown dropdown"
     :class="[directionClass, {'is-disabled': disabled}]"
     ref="dropdownRef">
     <slot></slot>
@@ -44,6 +44,14 @@ export default defineComponent({
       type: String as PropType<directions>,
       default: 'bottom'
     },
+    tryReverseDirection: { // 当在props.direction方向不能完全显示时，是否尝试反方向显示
+      type: Boolean,
+      default: true
+    },
+    tryAllDirection: { // 当在props.direction方向不能完全显示时，是否尝试所有方向显示
+      type: Boolean,
+      default: false
+    },
     trigger: { // 触发下拉菜单显示的事件
       type: String as PropType<triggers>,
       default: 'click'
@@ -77,6 +85,8 @@ export default defineComponent({
       let dropdownMenuWidth = (dropdownMenuRef.value as HTMLElement).offsetWidth;
       let dropdownMenuHeight = (dropdownMenuRef.value as HTMLElement).offsetHeight;
 
+      let tryReverseDirection = props.tryReverseDirection;
+      let tryAllDirection = props.tryAllDirection;
       let calcedDirection: calcDirection|null = null;
       let directionCalcFlow = []; // 存储按流程计算方向的函数，当下拉菜单在某个方向上不能完全展示时会自动切换一个方向
       let handleBottom = function (): calcDirection {
@@ -134,27 +144,43 @@ export default defineComponent({
       switch (currentDirection) {
         case 'bottom':
           directionCalcFlow.push(handleBottom);
-          directionCalcFlow.push(handleTop);
-          directionCalcFlow.push(handleLeft);
-          directionCalcFlow.push(handleRight);
+          if (tryReverseDirection || tryAllDirection) {
+            directionCalcFlow.push(handleTop);
+          }
+          if (tryAllDirection) {
+            directionCalcFlow.push(handleLeft);
+            directionCalcFlow.push(handleRight);
+          }
           break;
         case 'top':
           directionCalcFlow.push(handleTop);
-          directionCalcFlow.push(handleBottom);
-          directionCalcFlow.push(handleLeft);
-          directionCalcFlow.push(handleRight);
+          if (tryReverseDirection || tryAllDirection) {
+            directionCalcFlow.push(handleBottom);
+          }
+          if (tryAllDirection) {
+            directionCalcFlow.push(handleLeft);
+            directionCalcFlow.push(handleRight);
+          }
           break;
         case 'left':
           directionCalcFlow.push(handleLeft);
-          directionCalcFlow.push(handleRight);
-          directionCalcFlow.push(handleBottom);
-          directionCalcFlow.push(handleTop);
+          if (tryReverseDirection || tryAllDirection) {
+            directionCalcFlow.push(handleRight);
+          }
+          if (tryAllDirection) {
+            directionCalcFlow.push(handleBottom);
+            directionCalcFlow.push(handleTop);
+          }
           break;
         case 'right':
           directionCalcFlow.push(handleRight);
-          directionCalcFlow.push(handleLeft);
-          directionCalcFlow.push(handleBottom);
-          directionCalcFlow.push(handleTop);
+          if (tryReverseDirection || tryAllDirection) {
+            directionCalcFlow.push(handleLeft);
+          }
+          if (tryAllDirection) {
+            directionCalcFlow.push(handleBottom);
+            directionCalcFlow.push(handleTop);
+          }
           break;
       }
 
@@ -316,13 +342,16 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.dropdown{
+.bs-dropdown{
   display: inline-block;
   vertical-align: middle;
   &.is-disabled{
     opacity: 0.65;
     cursor: default;
     pointer-events: none;
+  }
+  .dropdown-menu{
+    margin: 0;
   }
 }
 </style>
