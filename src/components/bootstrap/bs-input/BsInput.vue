@@ -122,13 +122,15 @@ import {
   BsSize,
   formItemContextKey
 } from '@/ts-tokens/bootstrap';
+import BsIcon from '../bs-icon/BsIcon.vue';
 
 type InputType = 'text' | 'password' | 'number' | 'textarea' | 'email' | 'file' | 'hidden' | 'image' | 'submit' | 'button' | 'reset';
 
 export default defineComponent({
   name: 'BsInput',
-  components: {},
-
+  components: {
+    BsIcon
+  },
   props: {
     modelValue: {
       type: [String, Number],

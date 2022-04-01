@@ -86,9 +86,13 @@ import {
 } from 'vue';
 import { BsSize } from '@/ts-tokens/bootstrap';
 import { util } from '@/common/util';
+import BsIcon from '../../../bs-icon/BsIcon.vue';
 
 export default defineComponent({
   name: 'BsPager',
+  components: {
+    BsIcon
+  },
   props: {
     pageSize: { // 每页显示条目个数，支持v-model
       type: Number,

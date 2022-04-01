@@ -17,9 +17,13 @@ import {
   PropType
 } from 'vue';
 import { BsSize } from '@/ts-tokens/bootstrap';
+import BsSelect from '../../../bs-select/BsSelect.vue';
 
 export default defineComponent({
   name: 'Sizes',
+  components: {
+    BsSelect
+  },
   props: {
     size: {
       type: String as PropType<BsSize>,

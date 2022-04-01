@@ -32,9 +32,13 @@ import {
   selectContextKey,
   selectOptionGroupContextKey
 } from '@/ts-tokens/bootstrap/select';
+import BsIcon from '../../bs-icon/BsIcon.vue';
 
 export default defineComponent({
   name: 'BsOption',
+  components: {
+    BsIcon
+  },
   props: {
     value: {
       type: [String, Number, Boolean],

@@ -19,9 +19,13 @@ import {
   PropType
 } from 'vue';
 import { BsSize } from '@/ts-tokens/bootstrap';
+import BsInput from '../../../bs-input/BsInput.vue';
 
 export default defineComponent({
   name: 'Jumper',
+  components: {
+    BsInput
+  },
   props: {
     currentPage: { // 当前页码，支持v-model
       type: Number,

@@ -91,9 +91,13 @@ import {
   selectContextKey
 } from '@/ts-tokens/bootstrap/select';
 import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
+import BsInput from '../bs-input/BsInput.vue';
 
 export default defineComponent({
   name: 'BsSelect',
+  components: {
+    BsInput
+  },
   props: {
     modelValue: {
       type: [String, Number, Array],
