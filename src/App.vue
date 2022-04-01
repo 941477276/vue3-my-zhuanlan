@@ -30,8 +30,11 @@
   <!--<div class="box">
     <BsPaginationUsage></BsPaginationUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsBadgeUsage></BsBadgeUsage>
+  </div>-->
+  <div class="box">
+    <BsMessageUsage></BsMessageUsage>
   </div>
 </template>
 
@@ -50,6 +53,7 @@ import BsSelectUsage from '@/components/bootstrap/bs-select/BsSelectUsage.vue';
 import BsDropdownUsage from '@/components/bootstrap/bs-dropdown/BsDropdownUsage.vue';
 import BsPaginationUsage from '@/components/bootstrap/bs-pagination/BsPaginationUsage.vue';
 import BsBadgeUsage from '@/components/bootstrap/bs-badge/BsBadgeUsage.vue';
+import BsMessageUsage from '@/components/bootstrap/bs-message/BsMessageUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -67,7 +71,8 @@ export default defineComponent({
     BsSelectUsage,
     BsDropdownUsage,
     BsPaginationUsage,
-    BsBadgeUsage
+    BsBadgeUsage,
+    BsMessageUsage
   },
   setup () {
     return {

@@ -20,6 +20,7 @@ module.exports = {
     'no-trailing-spaces': 'off',
     'eqeqeq': 'off',
     'no-case-declarations': 'off',
+    'no-unused-expressions': 'off',
     'semi': ["error", "always"],
     'prefer-promise-reject-errors': 'off',
     '@typescript-eslint/no-unused-vars': 'off',

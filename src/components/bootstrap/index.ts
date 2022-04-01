@@ -10,6 +10,7 @@ import BsForm from '@/components/bootstrap/bs-form';
 import BsDropdown from '@/components/bootstrap/bs-dropdown';
 import BsPagination from '@/components/bootstrap/bs-pagination';
 import BsBadge from '@/components/bootstrap/bs-badge/BsBadge.vue';
+import BsMessage from '@/components/bootstrap/bs-message';
 
 export default function (vueApp: any) {
   vueApp.component(BsButton.name, BsButton);
@@ -25,4 +26,5 @@ export default function (vueApp: any) {
   vueApp.use(BsForm);
   vueApp.use(BsDropdown);
   vueApp.use(BsPagination);
+  vueApp.use(BsMessage);
 }
