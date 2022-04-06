@@ -1,7 +1,7 @@
 <template>
-  <div class="box">
+  <!--<div class="box">
     <BsButtonUsage></BsButtonUsage>
-  </div>
+  </div>-->
   <!--<div class="box">
     <BsInputUsage></BsInputUsage>
   </div>-->
@@ -36,6 +36,9 @@
   <!--<div class="box">
     <BsMessageUsage></BsMessageUsage>
   </div>-->
+  <div class="box">
+    <BsBreadcrumbUsage></BsBreadcrumbUsage>
+  </div>
 </template>
 
 <script lang="ts">
@@ -54,6 +57,7 @@ import BsDropdownUsage from '@/components/bootstrap/bs-dropdown/BsDropdownUsage.
 import BsPaginationUsage from '@/components/bootstrap/bs-pagination/BsPaginationUsage.vue';
 import BsBadgeUsage from '@/components/bootstrap/bs-badge/BsBadgeUsage.vue';
 import BsMessageUsage from '@/components/bootstrap/bs-message/BsMessageUsage.vue';
+import BsBreadcrumbUsage from '@/components/bootstrap/bs-breadcrumb/BsBreadcrumbUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -72,7 +76,8 @@ export default defineComponent({
     BsDropdownUsage,
     BsPaginationUsage,
     BsBadgeUsage,
-    BsMessageUsage
+    BsMessageUsage,
+    BsBreadcrumbUsage
   },
   setup () {
     return {
@@ -88,5 +93,15 @@ export default defineComponent({
 }*/
 .box{
   padding: 20px;
+}
+.component-usage{
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6{
+    margin-bottom: 1.5rem;
+  }
 }
 </style>
