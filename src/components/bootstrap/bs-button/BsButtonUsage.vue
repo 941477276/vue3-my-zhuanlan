@@ -7,6 +7,12 @@
   <bs-button @click="onClick" round>圆角按钮</bs-button>
   <hr>
 
+  <bs-button @click="onClick" size="sm">小按钮</bs-button>
+  <hr>
+
+  <bs-button @click="onClick" size="lg">大按钮</bs-button>
+  <hr>
+
   <bs-button @click="onClick" block>块级按钮</bs-button>
   <hr>
 
@@ -14,6 +20,9 @@
   <hr>
 
   <bs-button @click="onClick" loading>加载中按钮</bs-button>
+
+  <hr>
+  <bs-button type="link" tag="a" href="https://www.baidu.com" target="_blank">a标签(跳转到百度)</bs-button>
 </div>
 </template>
 

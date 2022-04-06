@@ -1,6 +1,7 @@
 <template>
-  <button
+  <component
     class="btn bs-button"
+    :is="tag"
     :type="nativeType"
     :class="btnClass"
     :disabled="disabled || loading"
@@ -10,7 +11,7 @@
       <span class="spinner-border" role="status"></span>
     </slot>
     <slot></slot>
-  </button>
+  </component>
 </template>
 
 <script lang="ts">
@@ -37,6 +38,10 @@ export default defineComponent({
       validator (nativeTypeVal: string) {
         return nativeTypes.includes(nativeTypeVal);
       }
+    },
+    tag: {
+      type: String,
+      default: 'button'
     },
     size: { // 按钮大小
       type: String as PropType<BsSize>,
