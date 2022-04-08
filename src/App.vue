@@ -26,7 +26,7 @@
   <!--<div class="box">
     <BsDropdownUsage></BsDropdownUsage>
   </div>-->
-  <!--<router-view></router-view>-->
+  <router-view></router-view>
   <!--<div class="box">
     <BsPaginationUsage></BsPaginationUsage>
   </div>-->
@@ -36,9 +36,9 @@
   <!--<div class="box">
     <BsMessageUsage></BsMessageUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsBreadcrumbUsage></BsBreadcrumbUsage>
-  </div>
+  </div>-->
 </template>
 
 <script lang="ts">

@@ -78,6 +78,7 @@ export default defineComponent({
       if (typeof callback !== 'function' && Promise) {
         promise = new Promise(function (resolve, reject) {
           callback = function (valid: boolean) {
+            // valid ? resolve(valid) : reject(valid);
             resolve(valid);
           };
         });
@@ -95,8 +96,8 @@ export default defineComponent({
         // 调用<bs-form-item>子组件的validate方法获取校验结果
         /* eslint-disable */
         formItemCtx.validate?.('', (errorMsg: string|undefined) => {
-          console.log('11111111')
-          if (typeof errorMsg !== 'undefined') {
+          // console.log('11111111', errorMsg)
+          if (errorMsg) {
             validateResult = false;
           }
         });

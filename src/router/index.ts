@@ -51,5 +51,9 @@ const router = createRouter({
   routes
 });
 
+router.afterEach(function (to, from) {
+  window.scroll(0, 0);
+});
+
 export { router };
 export default router;

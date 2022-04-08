@@ -294,6 +294,7 @@ export default defineComponent({
       clearContentIconDisplay.value = false;
       ctx.emit('update:modelValue', '');
       ctx.emit('clear');
+      callFormItem('validate', 'change');
       focus();
     }
     // 让元素获得焦点

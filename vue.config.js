@@ -4,7 +4,14 @@ function resolve(dirPath) {
 }
 module.exports = {
   devServer: {
-    open: true // 默认打开浏览器
+    open: true, // 默认打开浏览器
+    proxy: {
+      '/viking': {
+        target: 'http://api.vikingship.xyz',
+        pathRewrite: { '^/viking': '' },
+        changeOrigin: true
+      }
+    }
   },
   publicPath: './',
   chainWebpack: config => {
