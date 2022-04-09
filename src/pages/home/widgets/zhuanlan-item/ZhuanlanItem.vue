@@ -1,12 +1,12 @@
 <template>
 <div class="zhuanlan-item">
-  <img src="../../../../assets/logo.png" alt="" class="zhuanlan-avatar">
+  <img :src="column.avatar ? column.avatar.url : ''" :alt="column.title" class="zhuanlan-avatar">
   <dl>
-    <dt class="zhuanlan-title">李先生的专栏</dt>
-    <dd class="zhuanlan-desc">这是李先生的专栏，一个非常有趣的专栏！</dd>
+    <dt class="zhuanlan-title">{{ column.title }}</dt>
+    <dd class="zhuanlan-desc">{{ column.description }}</dd>
   </dl>
   <div class="text-center">
-    <bs-button class="to-zhuanlan-btn" type="primary" plain>进入专栏</bs-button>
+    <bs-button class="to-zhuanlan-btn" type="primary" plain @click="$router.push(`/zhuanlan/${column._id}`)">进入专栏</bs-button>
   </div>
 </div>
 </template>
@@ -17,7 +17,15 @@ import {
 } from 'vue';
 
 export default defineComponent({
-  name: 'ZhuanlanItem'
+  name: 'ZhuanlanItem',
+  props: {
+    column: {
+      type: Object,
+      default () {
+        return {};
+      }
+    }
+  }
 });
 </script>
 

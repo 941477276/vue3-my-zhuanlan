@@ -33,7 +33,7 @@ let routes: RouteRecordRaw[] = [
         component: Login
       },
       {
-        path: '/zhuanlan',
+        path: '/zhuanlan/:id',
         component: ZhuanLan,
         meta: {
           requireAuth: true

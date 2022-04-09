@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { BsMessage } from '@/components/bootstrap/bs-message';
 import { accountUtil } from '@/common/accountUtil';
-import { useRouter } from 'vue-router';
 
 let isDev = process.env.NODE_ENV === 'development';
 const request = axios.create({
@@ -12,13 +11,12 @@ const request = axios.create({
 request.interceptors.request.use(function (config) {
   let token = accountUtil.getToken();
   let isLogin = accountUtil.isLogin();
-  let router = useRouter();
 
   if (isLogin && token) {
-    console.log(111);
+    // console.log(111);
     (config.headers as any).Authorization = token;
   }
-  console.log('config', config);
+  // console.log('config', config);
 
   return config;
 }, function (error) {

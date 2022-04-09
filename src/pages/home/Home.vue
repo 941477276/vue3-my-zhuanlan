@@ -11,14 +11,19 @@
 
       <!--推荐的专栏列表 start-->
       <div class="recommend-zhuanlan-list">
-        <ZhuanlanItem></ZhuanlanItem>
-        <ZhuanlanItem></ZhuanlanItem>
-        <ZhuanlanItem></ZhuanlanItem>
-        <ZhuanlanItem></ZhuanlanItem>
-        <ZhuanlanItem></ZhuanlanItem>
-        <ZhuanlanItem></ZhuanlanItem>
-        <ZhuanlanItem></ZhuanlanItem>
-        <ZhuanlanItem></ZhuanlanItem>
+        <ZhuanlanItem
+          v-for="item in columns"
+          :key="item._id"
+          :column="item"></ZhuanlanItem>
+      </div>
+      <div class="loadmore-btn-wrap" v-if="totalPage > 1">
+        <bs-button
+          type="primary"
+          :loading="loading"
+          :disabled="loading || currentPage === totalPage"
+          @click="loadMoreColumn">
+          {{ currentPage === totalPage ? '没有更多了～': '加载更多' }}
+        </bs-button>
       </div>
       <!--推荐的专栏列表 end-->
     </div>
@@ -27,10 +32,12 @@
 
 <script lang="ts">
 import {
-  defineComponent
+  defineComponent,
+  ref
 } from 'vue';
 import ZhuanlanItem from './widgets/zhuanlan-item/ZhuanlanItem.vue';
 import { useRouter } from 'vue-router';
+import { columnApi } from '@/apis/columnApi';
 
 export default defineComponent({
   name: 'Home',
@@ -39,11 +46,49 @@ export default defineComponent({
   },
   setup () {
     let router = useRouter();
+
+    let loading = ref(false);
+    let columns = ref<any[]>([]);
+    let currentPage = ref(1);
+    let pageSize = ref(2);
+    let total = ref(0);
+    let totalPage = ref(0);
+
+    let getColumns = function () {
+      loading.value = true;
+      columnApi.getList(currentPage.value, pageSize.value)
+        .then(res => {
+          loading.value = false;
+          let data = res.data;
+          columns.value = [...columns.value, ...data.list];
+          total.value = data.count;
+          totalPage.value = Math.ceil(data.count / pageSize.value);
+        })
+        .catch(() => {
+          loading.value = false;
+        });
+    };
+    getColumns();
+
     let toWriteArticle = function () {
       router.push('/create-zhuanlan-article');
     };
+    // 加载更多专栏
+    let loadMoreColumn = function () {
+      if (currentPage.value == totalPage.value) {
+        return;
+      }
+      currentPage.value++;
+      getColumns();
+    };
     return {
-      toWriteArticle
+      toWriteArticle,
+      loadMoreColumn,
+
+      loading,
+      columns,
+      currentPage,
+      totalPage
     };
   }
 });
