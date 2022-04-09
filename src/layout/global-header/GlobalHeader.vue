@@ -8,7 +8,7 @@
 
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
-          <template v-if="!userInfo.id">
+          <template v-if="!userInfo._id">
             <li class="nav-item">
               <router-link class="account-link" to="/login">登陆</router-link>
             </li>
@@ -18,9 +18,11 @@
           </template>
           <li class="nav-item" v-else>
             <bs-dropdown>
-              <bs-button type="info">欢迎你，{{ userInfo.username }}</bs-button>
+              <bs-button type="info">欢迎你，{{ userInfo.nickName }}</bs-button>
               <template #dropdown-item>
-                <bs-dropdown-item>新建文章</bs-dropdown-item>
+                <bs-dropdown-item>
+                  <router-link to="/create-zhuanlan-article">新建文章</router-link>
+                </bs-dropdown-item>
                 <bs-dropdown-item>管理账户</bs-dropdown-item>
               </template>
             </bs-dropdown>

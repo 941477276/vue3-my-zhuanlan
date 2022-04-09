@@ -22,6 +22,7 @@ module.exports = {
     'no-case-declarations': 'off',
     'no-unused-expressions': 'off',
     'no-useless-escape': 'off',
+    'no-unneeded-ternary': 'off',
     'semi': ["error", "always"],
     'prefer-promise-reject-errors': 'off',
     '@typescript-eslint/no-unused-vars': 'off',

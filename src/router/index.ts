@@ -4,6 +4,7 @@ import {
   createWebHashHistory,
   RouteRecordRaw
 } from 'vue-router';
+import { accountUtil } from '@/common/accountUtil';
 import DefaultLayout from '@/layout/default-layout/DefaultLayout.vue';
 
 import Home from '@/pages/home/Home.vue';
@@ -33,15 +34,24 @@ let routes: RouteRecordRaw[] = [
       },
       {
         path: '/zhuanlan',
-        component: ZhuanLan
+        component: ZhuanLan,
+        meta: {
+          requireAuth: true
+        }
       },
       {
         path: '/zhuanlan-article-detail',
-        component: ZhuanlanArticleDetail
+        component: ZhuanlanArticleDetail,
+        meta: {
+          requireAuth: true
+        }
       },
       {
         path: '/create-zhuanlan-article',
-        component: CreateZhuanlanArticle
+        component: CreateZhuanlanArticle,
+        meta: {
+          requireAuth: true
+        }
       }
     ]
   }
@@ -49,10 +59,6 @@ let routes: RouteRecordRaw[] = [
 const router = createRouter({
   history: createWebHistory(),
   routes
-});
-
-router.afterEach(function (to, from) {
-  window.scroll(0, 0);
 });
 
 export { router };

@@ -78,8 +78,8 @@ export default defineComponent({
       if (typeof callback !== 'function' && Promise) {
         promise = new Promise(function (resolve, reject) {
           callback = function (valid: boolean) {
-            // valid ? resolve(valid) : reject(valid);
-            resolve(valid);
+            valid ? resolve(valid) : reject(valid);
+            // resolve(valid);
           };
         });
       }

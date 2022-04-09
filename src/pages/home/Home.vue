@@ -5,7 +5,8 @@
         <img src="../../assets/imgs/home_img.png" alt="写作向导">
         <bs-button
           type="primary"
-          class="start-write-btn">开始写作</bs-button>
+          class="start-write-btn"
+          @click="toWriteArticle">开始写作</bs-button>
       </div>
 
       <!--推荐的专栏列表 start-->
@@ -29,7 +30,7 @@ import {
   defineComponent
 } from 'vue';
 import ZhuanlanItem from './widgets/zhuanlan-item/ZhuanlanItem.vue';
-import { request } from '@/apis/request';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'Home',
@@ -37,10 +38,13 @@ export default defineComponent({
     ZhuanlanItem
   },
   setup () {
-    request.get('/api/user/current')
-      .then(res => {
-        console.log('res', res);
-      });
+    let router = useRouter();
+    let toWriteArticle = function () {
+      router.push('/create-zhuanlan-article');
+    };
+    return {
+      toWriteArticle
+    };
   }
 });
 </script>

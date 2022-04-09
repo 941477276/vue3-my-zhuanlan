@@ -1,5 +1,7 @@
 export type UserInfo = {
-  id: string|null;
-  username: string|null;
-  [propName: string]: any
+  column: string;
+  email: string;
+  nickName: string;
+  _id: string;
+  [propName: string]: any;
 }
