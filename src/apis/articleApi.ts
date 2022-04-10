@@ -3,19 +3,19 @@ type BodyData = {
   [key: string]: any;
 };
 export const articleApi = {
-  getListByColumnId (columnId = '', page = 1, pageSize = 10) {
+  getListByColumnId (columnId = '', page = 1, pageSize = 10): Promise<any> {
     return request.get(`/api/columns/${columnId}/posts?currentPage=${page}&pageSize=${pageSize}`);
   },
-  getDetail (id: string) {
+  getDetail (id: string): Promise<any> {
     return request.get(`/api/posts/${id}`);
   },
-  create (data: BodyData) {
-    return request.patch(`/api/posts`, data);
+  create (data: BodyData): Promise<any> {
+    return request.patch('/api/posts', data);
   },
-  update (id: string, data: BodyData) {
+  update (id: string, data: BodyData): Promise<any> {
     return request.patch(`/api/posts/${id}`, data);
   },
-  delete (id: string) {
+  delete (id: string): Promise<any> {
     return request.delete(`/api/posts/${id}`);
   }
 };

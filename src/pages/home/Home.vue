@@ -50,7 +50,7 @@ export default defineComponent({
     let loading = ref(false);
     let columns = ref<any[]>([]);
     let currentPage = ref(1);
-    let pageSize = ref(2);
+    let pageSize = ref(3);
     let total = ref(0);
     let totalPage = ref(0);
 

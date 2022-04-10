@@ -40,7 +40,7 @@ let routes: RouteRecordRaw[] = [
         }
       },
       {
-        path: '/zhuanlan-article-detail',
+        path: '/zhuanlan-article-detail/:id',
         component: ZhuanlanArticleDetail,
         meta: {
           requireAuth: true
@@ -57,7 +57,7 @@ let routes: RouteRecordRaw[] = [
   }
 ];
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes
 });
 
