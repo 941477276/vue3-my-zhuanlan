@@ -197,7 +197,7 @@ export function closeAllMessage (): void {
  * @param id 消息id
  * @param userOnClose 使用者传递的onClose函数
  */
-export function closeMessage (id: string, userOnClose: (vm: VNode) => void): void {
+export function closeMessage (id: string, userOnClose?: (vm: VNode) => void): void {
   let index = bsMessageInstanceQueue.findIndex(item => item.id === id);
   if (index == -1) {
     return;

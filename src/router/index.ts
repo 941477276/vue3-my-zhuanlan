@@ -47,7 +47,7 @@ let routes: RouteRecordRaw[] = [
         }
       },
       {
-        path: '/create-zhuanlan-article',
+        path: '/create-zhuanlan-article/:id?',
         component: CreateZhuanlanArticle,
         meta: {
           requireAuth: true

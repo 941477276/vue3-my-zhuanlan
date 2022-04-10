@@ -10,7 +10,7 @@ export const articleApi = {
     return request.get(`/api/posts/${id}`);
   },
   create (data: BodyData): Promise<any> {
-    return request.patch('/api/posts', data);
+    return request.post('/api/posts', data);
   },
   update (id: string, data: BodyData): Promise<any> {
     return request.patch(`/api/posts/${id}`, data);

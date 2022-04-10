@@ -274,8 +274,8 @@ export default defineComponent({
       callFormItem('validate', 'blur');
     };
     let on_change = function (evt: Event) {
-      let val = (evt.target as HTMLInputElement).value;
-      ctx.emit('change', val);
+      // let val = (evt.target as HTMLInputElement).value;
+      ctx.emit('change', evt);
       callFormItem('validate', 'change');
     };
     let on_mouseenter = function (evt: MouseEvent) {
