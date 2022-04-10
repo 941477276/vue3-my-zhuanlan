@@ -31,6 +31,13 @@
   word-wrap: break-word;
 }
 
+.article-operate{
+  margin-bottom: 2rem;
+  .bs-button{
+    margin-right: 1rem;
+  }
+}
+
 @media (min-width: 1200px) {
   .container{
     width: 960px;
