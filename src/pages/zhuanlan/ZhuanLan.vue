@@ -14,7 +14,7 @@
       <!--专栏信息 end-->
 
       <!--专栏文章列表 start-->
-      <ol class="article-list">
+      <ol class="article-list" v-if="articles.length > 0">
         <li
           class="article-item"
           v-for="article in articles"
@@ -30,6 +30,13 @@
           </router-link>
         </li>
       </ol>
+      <div v-if="articles.length === 0 && columnId === userInfo.column">
+        <h4 class="no-article-tips">
+          您的专栏里一篇文章都没有，立即去
+          <router-link to="/create-zhuanlan-article">创建一篇文章</router-link>
+          吧！
+        </h4>
+      </div>
       <div class="article-list-loadmore" v-if="pageData.totalPage > 1">
         <bs-button
           :loading="articleLoading"
@@ -48,9 +55,11 @@ import {
   defineComponent,
   reactive,
   ref,
+  computed,
   onMounted
 } from 'vue';
 import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 import { columnApi } from '@/apis/columnApi';
 import { articleApi } from '@/apis/articleApi';
 
@@ -58,7 +67,13 @@ export default defineComponent({
   name: 'ZhuanLan',
   setup () {
     let route = useRoute();
+    let store = useStore();
     let columnId = ref('');
+
+    let userInfo = computed(function () {
+      return store.state.userInfo;
+    });
+
     // 专栏详情
     let columnDetail = ref({});
     let getColumnDetail = function () {
@@ -105,10 +120,12 @@ export default defineComponent({
     });
 
     return {
+      columnId,
       columnDetail,
       articles,
       pageData,
       articleLoading,
+      userInfo,
 
       loadMoreArticle
     };

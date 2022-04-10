@@ -23,7 +23,9 @@
                 <bs-dropdown-item>
                   <router-link to="/create-zhuanlan-article">新建文章</router-link>
                 </bs-dropdown-item>
-                <bs-dropdown-item>管理账户</bs-dropdown-item>
+                <bs-dropdown-item>
+                  <router-link :to="`/zhuanlan/${userInfo.column}`">我的专栏</router-link>
+                </bs-dropdown-item>
               </template>
             </bs-dropdown>
           </li>
