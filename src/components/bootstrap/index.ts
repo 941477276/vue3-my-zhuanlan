@@ -12,6 +12,7 @@ import BsPagination from '@/components/bootstrap/bs-pagination';
 import BsBadge from '@/components/bootstrap/bs-badge/BsBadge.vue';
 import BsMessage from '@/components/bootstrap/bs-message';
 import BsBreadcrumb from '@/components/bootstrap/bs-breadcrumb';
+import BsTag from '@/components/bootstrap/bs-tag';
 
 export default function (vueApp: any) {
   vueApp.component(BsButton.name, BsButton);
@@ -29,4 +30,5 @@ export default function (vueApp: any) {
   vueApp.use(BsPagination);
   vueApp.use(BsMessage);
   vueApp.use(BsBreadcrumb);
+  vueApp.use(BsTag);
 }

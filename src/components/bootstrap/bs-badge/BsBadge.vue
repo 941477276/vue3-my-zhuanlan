@@ -10,9 +10,7 @@
 
 <script lang="ts">
 import { defineComponent, computed, PropType } from 'vue';
-// 定义支持的类型
-type badgeType = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
-const supportTypes = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark', 'link'];
+import { BsColorType, supportedBsColorTypes } from '@/ts-tokens/bootstrap';
 
 export default defineComponent({
   name: 'BsBadge',
@@ -22,10 +20,10 @@ export default defineComponent({
       default: 'span'
     },
     type: { // 类型
-      type: String as PropType<badgeType>,
+      type: String as PropType<BsColorType>,
       default: 'primary',
-      validator (typeVal: badgeType) {
-        return supportTypes.includes(typeVal);
+      validator (typeVal: BsColorType) {
+        return supportedBsColorTypes.includes(typeVal);
       }
     },
     pill: { // 是否为胶囊样式
