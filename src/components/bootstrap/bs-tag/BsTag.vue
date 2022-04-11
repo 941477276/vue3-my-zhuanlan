@@ -4,12 +4,16 @@
       v-if="show"
       class="bs-tag"
       :class="[
-      `bs-tag-${type || 'primary'}`,
-      size ? `bs-tag-${size}` : '',
-      `bs-tag--${effect}`
-    ]">
+        `bs-tag-${type || 'primary'}`,
+        size ? `bs-tag-${size}` : '',
+        `bs-tag--${effect}`
+      ]"
+      @click="doClick">
     <slot></slot>
-    <span class="bs-tag-operate" v-if="closeable">
+    <span
+      class="bs-tag-operate"
+      v-if="closeable"
+      @click="doClose">
       <BsIcon class="bs-tag-close" name="x"></BsIcon>
       <BsIcon class="bs-tag-close" name="x-circle-fill"></BsIcon>
     </span>
@@ -61,17 +65,40 @@ export default defineComponent({
     hit: { // 是否有边框描边
       type: Boolean,
       default: false
+    },
+    beforeClose: { // 标签关闭前触发的事件，如果函数返回false，则不会关闭
+      type: Function,
+      default: null
     }
   },
-  setup () {
+  emit: ['close', 'click'],
+  setup (props: any, ctx: any) {
     let show = ref(false);
 
     onMounted(function () {
       show.value = true;
     });
 
+    let doClose = function () {
+      let beforeClose = props.beforeClose;
+      if (typeof beforeClose === 'function') {
+        let res = beforeClose();
+        if (res === false) {
+          return;
+        }
+      }
+      show.value = false;
+      ctx.emit('close');
+    };
+
+    let doClick = function () {
+      ctx.emit('click');
+    };
+
     return {
-      show
+      show,
+      doClose,
+      doClick
     };
   }
 });

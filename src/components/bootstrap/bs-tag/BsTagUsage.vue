@@ -63,7 +63,8 @@
   <div>
     <bs-tag
       v-for="(item, index) in tags"
-      :key="index">{{ item }}</bs-tag>
+      :key="index"
+      :closeable="true">{{ item }}</bs-tag>
     <bs-button type="primary" @click="addTag">添加标签</bs-button>
   </div>
 

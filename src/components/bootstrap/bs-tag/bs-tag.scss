@@ -10,9 +10,14 @@
   color: #007bff;
   font-size: 0.75rem;
   transition: width .3s, height .3s, font-size .3s, transform .3s;
+  &.fold-enter-active,
+  &.fold-leave-active{
+    transition: all .3s cubic-bezier(.55, 0, .1, 1);
+  }
   &.fold-enter-from,
   &.fold-leave-to{
-    transform: skewX(0);
+    opacity: 0;
+    transform: scaleX(0);
     overflow: hidden;
   }
   &.bs-tag--dark{
@@ -31,8 +36,12 @@
     margin-left: 0.35rem;
     font-size: 1.4em;
   }
+  .bsicon-x{
+    vertical-align: middle;
+  }
   .bsicon-x-circle-fill{
     display: none;
+    vertical-align: middle;
   }
   .bs-tag-operate{
     cursor: pointer;
@@ -99,8 +108,8 @@
   }
   &.bs-tag-danger{
     border-color: #f3949d;
-    color: #dc3545;
-    background-color: #eb8e97;
+    color: #d11728;
+    background-color: #ee7783;
     &.bs-tag--dark{
       border-color: #dc3545;
       color: #fff;
