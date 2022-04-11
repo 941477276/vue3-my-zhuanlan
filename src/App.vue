@@ -39,8 +39,11 @@
   <!--<div class="box">
     <BsBreadcrumbUsage></BsBreadcrumbUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsTagUsage></BsTagUsage>
+  </div>-->
+  <div class="box">
+    <BsProgressUsage></BsProgressUsage>
   </div>
 </template>
 
@@ -62,6 +65,7 @@ import BsBadgeUsage from '@/components/bootstrap/bs-badge/BsBadgeUsage.vue';
 import BsMessageUsage from '@/components/bootstrap/bs-message/BsMessageUsage.vue';
 import BsBreadcrumbUsage from '@/components/bootstrap/bs-breadcrumb/BsBreadcrumbUsage.vue';
 import BsTagUsage from '@/components/bootstrap/bs-tag/BsTagUsage.vue';
+import BsProgressUsage from '@/components/bootstrap/bs-progress/BsProgressUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -82,7 +86,8 @@ export default defineComponent({
     BsBadgeUsage,
     BsMessageUsage,
     BsBreadcrumbUsage,
-    BsTagUsage
+    BsTagUsage,
+    BsProgressUsage
   },
   setup () {
     return {
