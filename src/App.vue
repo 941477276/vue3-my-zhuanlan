@@ -20,9 +20,9 @@
   <!--<div class="box">
     <BsSelectUsage></BsSelectUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsFormUsage></BsFormUsage>
-  </div>
+  </div>-->
   <!--<div class="box">
     <BsDropdownUsage></BsDropdownUsage>
   </div>-->
@@ -39,6 +39,9 @@
   <!--<div class="box">
     <BsBreadcrumbUsage></BsBreadcrumbUsage>
   </div>-->
+  <div class="box">
+    <BsTagUsage></BsTagUsage>
+  </div>
 </template>
 
 <script lang="ts">
@@ -58,6 +61,7 @@ import BsPaginationUsage from '@/components/bootstrap/bs-pagination/BsPagination
 import BsBadgeUsage from '@/components/bootstrap/bs-badge/BsBadgeUsage.vue';
 import BsMessageUsage from '@/components/bootstrap/bs-message/BsMessageUsage.vue';
 import BsBreadcrumbUsage from '@/components/bootstrap/bs-breadcrumb/BsBreadcrumbUsage.vue';
+import BsTagUsage from '@/components/bootstrap/bs-tag/BsTagUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -77,7 +81,8 @@ export default defineComponent({
     BsPaginationUsage,
     BsBadgeUsage,
     BsMessageUsage,
-    BsBreadcrumbUsage
+    BsBreadcrumbUsage,
+    BsTagUsage
   },
   setup () {
     return {
