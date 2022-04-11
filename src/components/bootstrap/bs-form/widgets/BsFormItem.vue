@@ -4,7 +4,9 @@
   class="form-group bs-form-item"
   :class="{
     'bs-form-item-valid': validStatus === 'success',
-    'bs-form-item-invalid': validStatus === 'error'
+    'bs-form-item-invalid': validStatus === 'error',
+    'is-required': isRequired,
+    'hide-required-asterisk': hideRequiredAsterisk
   }">
   <label
     :for="labelFor || htmlLabelFor || null"
@@ -88,6 +90,14 @@ export default defineComponent({
     validSuccessText: { // 表单校验成功后的文案
       type: String,
       default: ''
+    },
+    required: { // 是否必填，如不设置，则会根据校验规则自动生成
+      type: Boolean,
+      default: false
+    },
+    hideRequiredAsterisk: { // 是否隐藏必填字段的标签旁边的红色星号
+      type: Boolean,
+      default: false
     }
   },
   setup (props: any, ctx: any) {
@@ -125,29 +135,17 @@ export default defineComponent({
       // console.log('rules', 5);
       return [];
     });
-    /* watch(() => rules, function (newRules) {
-      console.log('校验规则', rules.value);
-    }, { immediate: true }); */
-    /**
-     * 根据规则的触发类型获取规则
-     * @param trigger
-     */
-    /* let getRulesByTrigger = function (trigger: string): Array<any> {
-      if (rules.value.length == 0) {
-        return [];
+
+    // 是否必填
+    let isRequired = computed(function () {
+      let required = props.required;
+      if (required) {
+        return true;
       }
-      let filteredRules = rules.value.filter((rule: any) => {
-        if (!trigger || (trigger + '').length == 0) {
-          return true;
-        }
-        if (Array.isArray(rule.trigger)) {
-          return rule.trigger.include(trigger);
-        } else {
-          return rule.trigger === trigger;
-        }
-      });
-      return ([] as Array<any>).concat(filteredRules);
-    }; */
+      let formItemRules = rules.value;
+      required = formItemRules.some(ruleItem => ruleItem.required === true);
+      return required;
+    });
 
     // 表单校验失败文案
     let invalidMessage = ref<string>('');
@@ -303,6 +301,7 @@ export default defineComponent({
       validStatus,
       htmlLabelFor,
       invalidMessage,
+      isRequired,
 
       validate,
       clearValidate,
@@ -315,6 +314,27 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+.bs-form-item{
+  &.is-required{
+    &>.bs-form-label{
+      &::before{
+        display: inline-block;
+        vertical-align: top;
+        content: '*';
+        margin-right: 0.3rem;
+        font-size: 1.2em;
+        color: #dc3545;
+      }
+    }
+    &.hide-required-asterisk{
+      &>.bs-form-label{
+        &::before{
+          display: none;
+        }
+      }
+    }
+  }
+}
 .bs-form-item-valid{
   &>.bs-form-item-content{
     &>.valid-feedback,

@@ -12,6 +12,7 @@
     <bs-form-item
       label="性别"
       field-prop-name="gender"
+      :hide-required-asterisk="true"
       :rules="[{ required: true, trigger: 'change', message: '请输选择性别' }]">
       <bs-select v-model="formData.gender">
         <bs-option value="">请选择</bs-option>
