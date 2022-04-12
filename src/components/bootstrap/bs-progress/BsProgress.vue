@@ -1,125 +1,66 @@
-<template>
+<!--<template>
   <div
     class="bs-progress progress"
     :class="[
       `bs-progress-${colorType}`
     ]">
-    <div
-      class="progress-bar"
-      :class="[
-        `bg-${colorType}`,
-        {
-          'progress-bar-striped': striped,
-          'progress-bar-animated': animated
-        }
-      ]"
-      style="width: 30%;"
-      role="progressbar"
-      :aria-valuenow="percentage"
-      aria-valuemin="0"
-      aria-valuemax="100"></div>
+    <BsProgressBar
+      v-if="!multiple"
+      v-bind="$props">
+      &lt;!&ndash;<template><slot></slot></template>&ndash;&gt;
+      <slot></slot>
+    </BsProgressBar>
+    <template v-else>
+      <BsProgressBar
+        v-for="(progress, index) in progresses"
+        v-bind="progress"
+        :key="`multiple_progress_item-${index}`">
+        <slot></slot>
+      </BsProgressBar>
+    </template>
   </div>
-</template>
+</template>-->
 
 <script lang="ts">
-import { BsColorType, supportedBsColorTypes } from '@/ts-tokens/bootstrap';
 import {
   defineComponent,
-  PropType,
-  ref,
-  onMounted
+  h
 } from 'vue';
-
-type ColorFunctionType = (percentage: number) => string|Array<{color: string;percentage:number}>;
-interface MultipleProgressDefine {
-  progress: number;
-  colorType: BsColorType;
-  showText: boolean;
-  color: string|Array<{color: string;percentage:number}>|ColorFunctionType;
-  textFormat: (percentage: number) => string;
-  striped: boolean;
-  animated: boolean;
-};
-
-const tagSupportedBsColorTypes = [...supportedBsColorTypes];
-tagSupportedBsColorTypes.pop();
+import props, { MultipleProgressDefine } from './bs-progress-props';
+import BsProgressBar from './widgets/BsProgressBar.vue';
 
 export default defineComponent({
   name: 'BsProgress',
   components: {
+    BsProgressBar
   },
-  props: {
-    percentage: { // 进度值
-      type: Number,
-      default: 0
-    },
-    percentages: { // 多个进度条，只有在multiple为true时有效
-      type: Array as PropType<MultipleProgressDefine[]>,
-      default () {
-        return [];
-      }
-    },
-    showText: { // 是否显示进度值
-      type: Boolean,
-      default: true
-    },
-    textFormat: { // 指定进度条文字内容
-      type: Function,
-      default: null
-    },
-    colorType: { // 颜色类型
-      type: String as PropType<BsColorType>,
-      default: 'primary',
-      validator (typeVal: BsColorType) {
-        return tagSupportedBsColorTypes.includes(typeVal);
-      }
-    },
-    striped: { // 是否为条纹进度条
-      type: Boolean,
-      default: false
-    },
-    animated: { // 是否为显示条纹动画
-      type: Boolean,
-      default: false
-    },
-    multiple: { // 是否为多个进度条
-      type: Boolean,
-      default: false
-    }
-  },
+  props,
   emit: ['close', 'click'],
   setup (props: any, ctx: any) {
-    let show = ref(false);
+    return function () {
+      let children;
+      let slotDefault = ctx.slots.default;
 
-    onMounted(function () {
-      show.value = true;
-    });
-
-    let doClose = function () {
-      let beforeClose = props.beforeClose;
-      if (typeof beforeClose === 'function') {
-        let res = beforeClose();
-        if (res === false) {
-          return;
-        }
+      if (!props.multiple) {
+        children = h(BsProgressBar, props, slotDefault);
+      } else {
+        children = props.progresses.map((progress: MultipleProgressDefine, index: number) => {
+          return h(BsProgressBar, {
+            ...progress,
+            key: `multiple_progress_item-${index}`
+          }, slotDefault);
+        });
       }
-      show.value = false;
-      ctx.emit('close');
-    };
+      // console.log('children', children);
 
-    let doClick = function () {
-      ctx.emit('click');
-    };
-
-    return {
-      show,
-      doClose,
-      doClick
+      return h('div', {
+        'class': ['bs-progress progress', `bs-progress-${props.colorType}`]
+      }, children);
     };
   }
 });
 </script>
 
 <style lang="scss">
-@import "bs-progress";
+
 </style>
