@@ -17,17 +17,20 @@
 <script lang="ts">
 import { defineComponent, computed, PropType } from 'vue';
 import { BsSize, BsColorType, supportedBsColorTypes } from '@/ts-tokens/bootstrap';
+
+type ButtonColorType = BsColorType | 'link';
 // 定义按钮支持类型
 const nativeTypes = ['button', 'submit'];
+const supportedTypes = [...supportedBsColorTypes, 'link'];
 
 export default defineComponent({
   name: 'BsButton',
   props: {
     type: { // 按钮类型
-      type: String as PropType<BsColorType>,
+      type: String as PropType<ButtonColorType>,
       default: 'primary',
-      validator (typeVal: BsColorType) {
-        return supportedBsColorTypes.includes(typeVal);
+      validator (typeVal: ButtonColorType) {
+        return supportedTypes.includes(typeVal);
       }
     },
     nativeType: { // 原生按钮类型

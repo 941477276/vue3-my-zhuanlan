@@ -33,9 +33,7 @@ import {
 import BsIcon from '../bs-icon/BsIcon.vue';
 
 type Effect = 'dark' | 'light' | 'plain';
-type BsTagSize = 'medium' | 'small' | 'mini'
-const tagSupportedBsColorTypes = [...supportedBsColorTypes];
-tagSupportedBsColorTypes.pop();
+type BsTagSize = 'medium' | 'small' | 'mini';
 
 export default defineComponent({
   name: 'BsTag',
@@ -47,7 +45,7 @@ export default defineComponent({
       type: String as PropType<BsColorType>,
       default: 'primary',
       validator (typeVal: BsColorType) {
-        return tagSupportedBsColorTypes.includes(typeVal);
+        return supportedBsColorTypes.includes(typeVal);
       }
     },
     size: { // 大小
