@@ -351,6 +351,7 @@ export default defineComponent({
     pointer-events: none;
   }
   .dropdown-menu{
+    min-width: 5rem;
     margin: 0;
   }
 }

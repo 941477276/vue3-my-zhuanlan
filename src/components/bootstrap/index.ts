@@ -14,6 +14,7 @@ import BsMessage from '@/components/bootstrap/bs-message';
 import BsBreadcrumb from '@/components/bootstrap/bs-breadcrumb';
 import BsTag from '@/components/bootstrap/bs-tag';
 import BsProgress from '@/components/bootstrap/bs-progress';
+import BsTabs from '@/components/bootstrap/bs-tabs';
 
 export default function (vueApp: any) {
   vueApp.component(BsButton.name, BsButton);
@@ -33,4 +34,5 @@ export default function (vueApp: any) {
   vueApp.use(BsBreadcrumb);
   vueApp.use(BsTag);
   vueApp.use(BsProgress);
+  vueApp.use(BsTabs);
 }

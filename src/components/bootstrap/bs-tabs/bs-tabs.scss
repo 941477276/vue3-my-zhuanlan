@@ -1,0 +1,37 @@
+.bs-tabs{
+  &.bs-tabs-left,
+  &.bs-tabs-right{
+    display: flex;
+    .bs-tabs-header{
+      flex: 0;
+    }
+    .bs-tabs-body{
+      flex: auto;
+      min-width: 0; /* 不加 min-width: 0; 的话会导致使用js计算宽度不正确问题 */
+      min-height: 0;
+    }
+  }
+  &.bs-tabs-right{
+    .bs-tabs-header{
+      order: 1;
+    }
+    .bs-tabs-body{
+      order: 0;
+    }
+  }
+  &.bs-tabs-bottom{
+    display: flex;
+    flex-direction: column;
+    .bs-tabs-header{
+      order: 1;
+      min-width: 0; /* 不加 min-width: 0; 的话会导致使用js计算宽度不正确问题 */
+      min-height: 0;
+    }
+    .bs-tabs-body{
+      order: 0;
+      flex: auto;
+      min-width: 0; /* 不加 min-width: 0; 的话会导致使用js计算宽度不正确问题 */
+      min-height: 0;
+    }
+  }
+}
