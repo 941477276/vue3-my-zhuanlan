@@ -1,9 +1,12 @@
 <template>
   <div
-    class="bs-tabs-nav-wrapper has-scroll"
+    class="bs-tabs-nav-wrapper"
     :class="[
       `tab-position-${tabPosition}`,
-      `trigger-type-${triggerType}`
+      `trigger-type-${triggerType}`,
+      {
+        'has-scroll': hiddenTabsCount > 0
+      }
     ]">
     <button
       v-if="triggerType === 'button'"
@@ -12,7 +15,10 @@
       <BsIcon name="chevron-left"></BsIcon>
     </button>
     <slot name="left-extra"></slot>
-    <div class="bs-tabs-nav-scroller" ref="navScrollerRef">
+    <div
+      class="bs-tabs-nav-scroller"
+      ref="navScrollerRef"
+      :style="navScrollerStyle">
       <ul class="bs-tabs-nav" ref="tabsNavRef">
         <BsTabsNavItem
           v-for="item in panes"
@@ -94,23 +100,45 @@ export default defineComponent({
     tabPosition: { // 标签的位置
       type: String as PropType<TabPosition>,
       default: 'top'
+    },
+    tabBarMaxHeight: { // 标签导航最大高度
+      type: [String, Number],
+      default: 0
     }
   },
   emit: ['close', 'click'],
   setup (props: any, ctx: any) {
     let navScrollerRef = ref<HTMLElement|null>(null);
     let tabsNavRef = ref<HTMLElement|null>(null);
+
+    // 滚动容器的样式
+    let navScrollerStyle = computed(function () {
+      let tabBarMaxHeight = props.tabBarMaxHeight;
+      if (props.tabPosition === 'top' || props.tabPosition === 'bottom') {
+        return '';
+      }
+      if (!tabBarMaxHeight) {
+        return '';
+      }
+      if (typeof tabBarMaxHeight === 'number') {
+        return `max-height: ${tabBarMaxHeight}px;`;
+      }
+      return `max-height: ${tabBarMaxHeight}`;
+    });
+
+    // 获取隐藏的标签页信息
+    let { hiddenTabsCount, isOverflow, hiddenTabs } = useHiddenTabsInfo(props, navScrollerRef, tabsNavRef);
+    // 切换隐藏的标签页方式
     let triggerType = computed(function () {
       let propsTriggerType = props.triggerTypeOnOverflow;
       if (propsTriggerType !== 'auto') {
         return propsTriggerType;
       }
-      return props.panes?.length >= props.hiddenTabsGreaterThan ? 'more' : 'button';
+      return hiddenTabsCount.value >= props.hiddenTabsGreaterThan ? 'more' : 'button';
     });
 
-    // 获取隐藏的标签页信息
-    let { hiddenTabsCount } = useHiddenTabsInfo(props, navScrollerRef, tabsNavRef);
-
+    // 激活的tab
+    let activeTabId = ref('');
     let onNavItemClick = function (itemName: string) {
       console.log('onNavItemClick', itemName);
     };
@@ -119,6 +147,7 @@ export default defineComponent({
       hiddenTabsCount,
       navScrollerRef,
       tabsNavRef,
+      navScrollerStyle,
 
       onNavItemClick
     };

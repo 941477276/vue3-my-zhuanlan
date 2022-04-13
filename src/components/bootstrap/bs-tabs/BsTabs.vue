@@ -9,7 +9,8 @@
       :tab-position="tabPosition"
       :panes="panes"
       :trigger-type-on-overflow="triggerTypeOnOverflow"
-      :hidden-tabs-greater-than="hiddenTabsGreaterThan"></BsTabsNav>
+      :hidden-tabs-greater-than="hiddenTabsGreaterThan"
+      :tab-bar-max-height="tabBarMaxHeight"></BsTabsNav>
   </div>
   <div class="bs-tabs-body">
     标签页内容
@@ -47,7 +48,11 @@ export default defineComponent({
     },
     hiddenTabsGreaterThan: { // 当triggerTypeOnOverflow为auto时，隐藏掉的标签导航个数达到该阈值时才会使用'more'
       type: Number,
-      default: 5
+      default: 10
+    },
+    tabBarMaxHeight: { // 标签导航最大高度
+      type: [String, Number],
+      default: 0
     }
   },
   emit: ['close', 'click'],
@@ -59,7 +64,10 @@ export default defineComponent({
       { name: 'tag_4', id: 'tab_4', label: '文章关键词管理', itemSlot: null, disabled: false },
       { name: 'tag_5', id: 'tab_5', label: '用户管理', itemSlot: null, disabled: false },
       { name: 'tag_6', id: 'tab_6', label: '标识管理', itemSlot: null, disabled: false },
-      { name: 'tag_7', id: 'tab_7', label: '机构管理', itemSlot: null, disabled: false }
+      { name: 'tag_7', id: 'tab_7', label: '机构管理', itemSlot: null, disabled: false },
+      { name: 'tag_8', id: 'tab_8', label: '策略管理', itemSlot: null, disabled: false },
+      { name: 'tag_9', id: 'tab_9', label: 'vpn管理', itemSlot: null, disabled: false },
+      { name: 'tag_10', id: 'tab_10', label: '应用发布管理', itemSlot: null, disabled: false }
     ]);
     return {
       panes

@@ -1,13 +1,13 @@
 <template>
 <div class="component-usage">
- <h3>基础用法</h3>
+  <h3>基础用法</h3>
   <div class="max-w-600">
     <bs-tabs></bs-tabs>
   </div>
   <br>
   <br>
   <div class="max-w-600" style="overflow-x: scroll;white-space: nowrap;">
-    <span>aaaaaaaaaaaaaaaa</span><bs-tabs style="display: inline-block;"></bs-tabs>
+    <span>aaaaaaaaaaaaaaaa</span><bs-tabs style="display: inline-block;max-width: 500px;margin: 0 20px;"></bs-tabs>
   </div>
   <br>
   <br>
@@ -17,25 +17,27 @@
   <h3>靠左</h3>
   <div class="max-w-600">
     <bs-tabs
+      tabBarMaxHeight="280px"
       tab-position="left"
       triggerTypeOnOverflow="more"></bs-tabs>
   </div>
 
-  <hr>
+  <!--<hr>
   <h3>靠右</h3>
   <div class="max-w-600">
     <bs-tabs
+      tabBarMaxHeight="280px"
       :tab-position="`right`"
       triggerTypeOnOverflow="more"></bs-tabs>
-  </div>
+  </div>-->
 
-  <hr>
+  <!--<hr>
   <h3>靠下</h3>
   <div class="max-w-600">
     <bs-tabs
       tab-position="bottom"
       triggerTypeOnOverflow="more"></bs-tabs>
-  </div>
+  </div>-->
 </div>
 </template>
 
