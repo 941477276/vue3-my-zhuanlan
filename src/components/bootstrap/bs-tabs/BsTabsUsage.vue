@@ -4,6 +4,13 @@
   <div class="max-w-600">
     <bs-tabs></bs-tabs>
   </div>
+
+  <br>
+  <hr>
+  <div style="max-width: 400px;">
+    <bs-tabs v-model="tab2"></bs-tabs>
+  </div>
+
   <br>
   <br>
   <div class="max-w-600" style="overflow-x: scroll;white-space: nowrap;">
@@ -12,6 +19,10 @@
   <br>
   <br>
   <bs-tabs></bs-tabs>
+
+  <!--<hr>
+  <h3>高亮条两端向外延伸长度为20px(inkBarSpaceBetween = 10)</h3>
+  <bs-tabs :inkBarSpaceBetween="10"></bs-tabs>-->
 
   <hr>
   <h3>靠左</h3>
@@ -49,7 +60,9 @@ export default defineComponent({
   components: {},
 
   setup (props: any) {
+    let tab2 = ref('tag_5');
     return {
+      tab2
     };
   }
 });

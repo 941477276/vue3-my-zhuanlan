@@ -18,18 +18,20 @@
     <div
       class="bs-tabs-nav-scroller"
       ref="navScrollerRef"
-      :style="navScrollerStyle">
+      :style="navScrollerStyle"
+      @wheel.stop.prevent="onScroll">
       <ul class="bs-tabs-nav" ref="tabsNavRef">
         <BsTabsNavItem
           v-for="item in panes"
           :name="item.name"
           :label="item.label"
           :id="item.id"
+          :active-tab-id="activeTabId"
           :disabled="item.disabled"
           :item-slot="item.itemSlot"
-          :key="item.name"
+          :key="item.name || item.id"
           @click="onNavItemClick"></BsTabsNavItem>
-        <li class="bs-tabs-ink-bar"></li>
+        <li class="bs-tabs-ink-bar" ref="inkBarRef"></li>
       </ul>
     </div>
     <slot name="right-extra"></slot>
@@ -73,6 +75,9 @@ import {
   TriggerTypeOnOverflow
 } from '@/ts-tokens/bootstrap/tabs';
 import { useHiddenTabsInfo } from './useHiddenTabsInfo';
+import { useActiveTab } from './useActiveTab';
+import { useTabsNavMove } from './useTabsNavMove';
+import { useNavScrollerScroll } from './useNavScrollerScroll';
 
 export default defineComponent({
   name: 'BsTabsNav',
@@ -85,9 +90,14 @@ export default defineComponent({
   props: {
     panes: { // 面板列表
       type: Array,
+      required: true,
       default () {
         return [];
       }
+    },
+    activeTabName: { // 当前激活的标签导航名称
+      type: String,
+      default: ''
     },
     triggerTypeOnOverflow: { // 当标签导航列表宽度超出父容器时选择超出部分标签导航的方式
       type: String as PropType<TriggerTypeOnOverflow>,
@@ -104,12 +114,17 @@ export default defineComponent({
     tabBarMaxHeight: { // 标签导航最大高度
       type: [String, Number],
       default: 0
+    },
+    inkBarSpaceBetween: { // 标签导航高亮条向两端延伸的长度
+      type: Number,
+      default: 0
     }
   },
-  emit: ['close', 'click'],
+  emit: ['close', 'click', 'changeActiveTab'],
   setup (props: any, ctx: any) {
     let navScrollerRef = ref<HTMLElement|null>(null);
     let tabsNavRef = ref<HTMLElement|null>(null);
+    let inkBarRef = ref<HTMLElement|null>(null);
 
     // 滚动容器的样式
     let navScrollerStyle = computed(function () {
@@ -126,9 +141,9 @@ export default defineComponent({
       return `max-height: ${tabBarMaxHeight}`;
     });
 
-    // 获取隐藏的标签页信息
+    // 计算隐藏的标签页信息
     let { hiddenTabsCount, isOverflow, hiddenTabs } = useHiddenTabsInfo(props, navScrollerRef, tabsNavRef);
-    // 切换隐藏的标签页方式
+    // 计算切换隐藏的标签页方式
     let triggerType = computed(function () {
       let propsTriggerType = props.triggerTypeOnOverflow;
       if (propsTriggerType !== 'auto') {
@@ -136,20 +151,25 @@ export default defineComponent({
       }
       return hiddenTabsCount.value >= props.hiddenTabsGreaterThan ? 'more' : 'button';
     });
+    // 计算当前激活的标签导航信息
+    let { activeTabId, onNavItemClick } = useActiveTab(props, tabsNavRef, inkBarRef);
+    // 标签导航移动
+    useTabsNavMove(props, navScrollerRef, tabsNavRef, inkBarRef, activeTabId, hiddenTabs);
+    // 标签导航滚动事件
+    let onScroll = useNavScrollerScroll(navScrollerRef, tabsNavRef);
 
-    // 激活的tab
-    let activeTabId = ref('');
-    let onNavItemClick = function (itemName: string) {
-      console.log('onNavItemClick', itemName);
-    };
     return {
-      triggerType,
-      hiddenTabsCount,
       navScrollerRef,
       tabsNavRef,
+      inkBarRef,
+
+      activeTabId,
+      triggerType,
+      hiddenTabsCount,
       navScrollerStyle,
 
-      onNavItemClick
+      onNavItemClick,
+      onScroll
     };
   }
 });

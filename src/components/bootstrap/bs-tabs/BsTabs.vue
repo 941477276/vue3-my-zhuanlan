@@ -6,11 +6,13 @@
   ]">
   <div class="bs-tabs-header">
     <BsTabsNav
+      :active-tab-name="modelValue"
       :tab-position="tabPosition"
       :panes="panes"
       :trigger-type-on-overflow="triggerTypeOnOverflow"
       :hidden-tabs-greater-than="hiddenTabsGreaterThan"
-      :tab-bar-max-height="tabBarMaxHeight"></BsTabsNav>
+      :tab-bar-max-height="tabBarMaxHeight"
+      :ink-bar-space-between="inkBarSpaceBetween"></BsTabsNav>
   </div>
   <div class="bs-tabs-body">
     标签页内容
@@ -38,6 +40,10 @@ export default defineComponent({
     BsTabsNav
   },
   props: {
+    modelValue: { // 绑定值，选中选项卡的 name
+      type: String,
+      default: ''
+    },
     tabPosition: { // 标签的位置
       type: String as PropType<TabPosition>,
       default: 'top'
@@ -53,21 +59,25 @@ export default defineComponent({
     tabBarMaxHeight: { // 标签导航最大高度
       type: [String, Number],
       default: 0
+    },
+    inkBarSpaceBetween: { // 标签导航高亮条向两端延伸的长度
+      type: Number,
+      default: 0
     }
   },
   emit: ['close', 'click'],
   setup (props: any, ctx: any) {
     let panes = ref([
-      { name: 'tag_1', id: 'tab_1', label: '标签一', itemSlot: null, disabled: false },
-      { name: 'tag_2', id: 'tab_2', label: '文章管理', itemSlot: null, disabled: true },
-      { name: 'tag_3', id: 'tab_3', label: '文章分类管理', itemSlot: () => h('strong', '文章分类管理'), disabled: false },
-      { name: 'tag_4', id: 'tab_4', label: '文章关键词管理', itemSlot: null, disabled: false },
-      { name: 'tag_5', id: 'tab_5', label: '用户管理', itemSlot: null, disabled: false },
-      { name: 'tag_6', id: 'tab_6', label: '标识管理', itemSlot: null, disabled: false },
-      { name: 'tag_7', id: 'tab_7', label: '机构管理', itemSlot: null, disabled: false },
-      { name: 'tag_8', id: 'tab_8', label: '策略管理', itemSlot: null, disabled: false },
-      { name: 'tag_9', id: 'tab_9', label: 'vpn管理', itemSlot: null, disabled: false },
-      { name: 'tag_10', id: 'tab_10', label: '应用发布管理', itemSlot: null, disabled: false }
+      { name: 'tag_1', id: 'tab_id_1', label: '标签一', itemSlot: null, disabled: false },
+      { name: 'tag_2', id: 'tab_id_2', label: '文章管理', itemSlot: null, disabled: true },
+      { name: 'tag_3', id: 'tab_id_3', label: '文章分类管理', itemSlot: () => h('strong', '文章分类管理'), disabled: false },
+      { name: 'tag_4', id: 'tab_id_4', label: '文章关键词管理', itemSlot: null, disabled: false },
+      { name: 'tag_5', id: 'tab_id_5', label: '用户管理', itemSlot: null, disabled: false },
+      { name: 'tag_6', id: 'tab_id_6', label: '标识管理', itemSlot: null, disabled: false },
+      { name: 'tag_7', id: 'tab_id_7', label: '机构管理', itemSlot: null, disabled: false },
+      { name: 'tag_8', id: 'tab_id_8', label: '策略管理', itemSlot: null, disabled: false },
+      { name: 'tag_9', id: 'tab_id_9', label: 'vpn管理', itemSlot: null, disabled: false },
+      { name: 'tag_10', id: 'tab_id_10', label: '应用发布管理', itemSlot: null, disabled: false }
     ]);
     return {
       panes

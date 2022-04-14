@@ -6,11 +6,9 @@ import {
   onUnmounted
 } from 'vue';
 import { util } from '@/common/util';
-
-type HiddenTabInfo = {
-  id: string;
-  disabled: boolean;
-};
+import {
+  HiddenTabInfo
+} from '@/ts-tokens/bootstrap/tabs';
 
 function getHiddenTabs (navScrollerRef: Ref<HTMLElement|null>, tabsNavRef: Ref<HTMLElement|null>, tabPosition: string) {
   let result = {

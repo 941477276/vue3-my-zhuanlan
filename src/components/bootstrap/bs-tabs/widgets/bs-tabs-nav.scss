@@ -44,8 +44,11 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  color: #666;
+  color: #333;
   font-size: 0.875rem;
+  &[disabled]{
+    color: #aaa;
+  }
 }
 .bs-tabs-nav-prev{
   padding-right: 0.25rem;
@@ -77,7 +80,8 @@
 .bs-tabs-nav-scroller{
   display: flex;
   overflow: hidden;
-  /*transform: translateX(0);*/
+  /*transform: translate(0);
+  align-self: stretch;*/
 }
 .bs-tabs-nav{
   position: relative;
@@ -91,6 +95,7 @@
   padding: 0.5rem 0;
   margin: 0 1rem;
   color: #333;
+  cursor: pointer;
   &:first-child{
     margin-left: 0;
   }
@@ -99,6 +104,13 @@
   }
   &.is-disabled{
     color: #ccc;
+    cursor: default;
+  }
+  &.is-active{
+    color: var(--primary);
+    .bs-tabs-nav-button{
+      color: var(--primary);
+    }
   }
 }
 .bs-tabs-ink-bar{
@@ -108,7 +120,7 @@
   left: 0;
   height: 1px;
   width: 50px;
-  transition: width .3s, left .3s, right .3s;
+  transition: width .3s, left .3s, right .3s, top .3s, height .3s;
   pointer-events: none;
   background-color: var(--primary);
 }

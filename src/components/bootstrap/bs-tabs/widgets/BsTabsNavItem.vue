@@ -25,6 +25,10 @@ import {
 export default defineComponent({
   name: 'BsTabsNavItem',
   props: {
+    activeTabId: {
+      type: String,
+      default: ''
+    },
     label: {
       type: [String, Number],
       default: ''
@@ -49,10 +53,13 @@ export default defineComponent({
   emits: ['click'],
   setup (props: any, ctx: any) {
     let onClick = function () {
-      if (props.disabled) {
+      if (props.disabled || props.id === props.activeTabId) {
         return;
       }
-      ctx.emit('click', props.name);
+      ctx.emit('click', {
+        name: props.name,
+        id: props.id
+      });
     };
 
     return () => {
@@ -67,6 +74,7 @@ export default defineComponent({
         'class': [
           'bs-tabs-nav-item',
           {
+            'is-active': props.activeTabId === props.id,
             'is-disabled': props.disabled
           }
         ],

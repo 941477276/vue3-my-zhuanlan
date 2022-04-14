@@ -24,6 +24,7 @@ module.exports = {
     'no-useless-escape': 'off',
     'no-unneeded-ternary': 'off',
     'quote-props': 'off',
+    'no-useless-return': 'off',
     'semi': ["error", "always"],
     'prefer-promise-reject-errors': 'off',
     '@typescript-eslint/no-unused-vars': 'off',

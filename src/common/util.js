@@ -71,6 +71,42 @@ var tool = {
     };
   },
   /**
+   * 判断元素是否完全出现在父级容器的可视区域中
+   * @param ele
+   * @param referenceEl
+   * @returns {{horizontal: boolean, vertical: boolean}}
+   */
+  eleInParentFullView (ele, referenceEl) {
+    var result = {
+      horizontal: true,
+      vertical: true
+    };
+    if (!ele || !referenceEl) {
+      return result;
+    }
+    var referenceOffset = tool.offset(referenceEl);
+    var offset = tool.offset(ele);
+
+    var referenceOffsetRight = referenceOffset.left + referenceEl.offsetWidth;
+    var referenceOffsetBottom = referenceOffset.top + referenceEl.offsetHeight;
+    var eleOffsetRight = offset.left + ele.offsetWidth;
+    var eleOffsetBottom = offset.top + ele.offsetHeight;
+
+    // 元素的水平方向完全在可视区域中
+    var offsetStartInView = offset.left >= referenceOffset.left && offset.left < referenceOffsetRight;
+    var offsetEndInView = eleOffsetRight > referenceOffset.left && eleOffsetRight < referenceOffsetRight;
+    // console.log('offsetEndInView', offsetEndInView, eleOffsetRight, referenceOffsetRight);
+
+    // 元素的垂直方向完全在可视区域中
+    var offsetStartInView2 = offset.top >= referenceOffset.top && offset.top < referenceOffsetBottom;
+    var offsetEndInView2 = eleOffsetBottom > referenceOffset.top && eleOffsetBottom < referenceOffsetBottom;
+
+    result.horizontal = offsetStartInView && offsetEndInView;
+    result.vertical = offsetStartInView2 && offsetEndInView2;
+
+    return result;
+  },
+  /**
    * 获取浏览器垂直滚动条的位置
    */
   scrollTop () {
