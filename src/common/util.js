@@ -309,6 +309,51 @@ var tool = {
     }
   },
   /**
+   * 获取元素的transform: translate的值
+   * @param transformValue
+   * @returns {{x:number;y:number;z:number;rotate:number;}}
+   */
+  getEleTranslateValue(transformValue) {
+    var resultObj = {
+      x: 0,
+      y: 0,
+      z: 0,
+      rotate: 0
+    };
+    // console.log('transformValue', transformValue);
+    if (!transformValue || transformValue == 'none') {
+      return resultObj;
+    }
+    var translates = transformValue.substring(6);
+    // console.log('translates', translates);
+    var result = translates.match(/\(([^)]*)\)/);// 正则()内容
+    // console.log('result', result)
+    //获取Rotate值
+    var getRotate = function(matrix) {
+      var aa = Math.round(180 * Math.asin(matrix[0]) / Math.PI);
+      var bb = Math.round(180 * Math.acos(matrix[1]) / Math.PI);
+      var cc = Math.round(180 * Math.asin(matrix[2]) / Math.PI);
+      var dd = Math.round(180 * Math.acos(matrix[3]) / Math.PI);
+      var deg = 0;
+      if (aa == bb || -aa == bb) {
+        deg = dd;
+      } else if (-aa + bb == 180) {
+        deg = 180 + cc;
+      } else if (aa + bb == 180) {
+        deg = 360 - cc || 360 - dd;
+      }
+      return deg >= 360 ? 0 : deg;
+    }
+    var matrix = result ? result[1].split(',') : translates.split(',');
+
+    resultObj.x = matrix.length > 6 ? parseFloat(matrix[12]) : parseFloat(matrix[4]);
+    resultObj.y = matrix.length > 6 ? parseFloat(matrix[13]) : parseFloat(matrix[5]);
+    resultObj.z = matrix.length > 6 ? parseFloat(matrix[14]) : 0;
+    resultObj.rotate = matrix.length > 6 ? getRotate([parseFloat(matrix[0]), parseFloat(matrix[1]), parseFloat(matrix[4]), parseFloat(matrix[5])]) : getRotate(matrix);
+
+    return resultObj;
+  },
+  /**
    * 给元素设置css属性
    * @param ele dom元素
    * @param attr css属性名

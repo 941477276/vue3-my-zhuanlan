@@ -11,11 +11,11 @@ let getPaneByName = function (name: string, panes: any[]) {
     return pane.name === name;
   });
 };
-let getPaneById = function (id: string, panes: any[]) {
+/* let getPaneById = function (id: string, panes: any[]) {
   return panes.find((pane: {[key: string]: any}) => {
     return pane.id === id;
   });
-};
+}; */
 
 export function useActiveTab (props: any, tabsNavRef: Ref<HTMLElement|null>, inkBarRef: Ref<HTMLElement|null>): any {
   // 激活的tab

@@ -141,8 +141,10 @@ export default defineComponent({
       return `max-height: ${tabBarMaxHeight}`;
     });
 
+    // 计算当前激活的标签导航信息
+    let { activeTabId, onNavItemClick } = useActiveTab(props, tabsNavRef, inkBarRef);
     // 计算隐藏的标签页信息
-    let { hiddenTabsCount, isOverflow, hiddenTabs } = useHiddenTabsInfo(props, navScrollerRef, tabsNavRef);
+    let { hiddenTabsCount, isOverflow, hiddenTabs } = useHiddenTabsInfo(props, activeTabId, navScrollerRef, tabsNavRef);
     // 计算切换隐藏的标签页方式
     let triggerType = computed(function () {
       let propsTriggerType = props.triggerTypeOnOverflow;
@@ -151,8 +153,6 @@ export default defineComponent({
       }
       return hiddenTabsCount.value >= props.hiddenTabsGreaterThan ? 'more' : 'button';
     });
-    // 计算当前激活的标签导航信息
-    let { activeTabId, onNavItemClick } = useActiveTab(props, tabsNavRef, inkBarRef);
     // 标签导航移动
     useTabsNavMove(props, navScrollerRef, tabsNavRef, inkBarRef, activeTabId, hiddenTabs);
     // 标签导航滚动事件

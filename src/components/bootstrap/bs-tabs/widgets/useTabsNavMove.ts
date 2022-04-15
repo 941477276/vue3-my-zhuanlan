@@ -33,12 +33,14 @@ let getOffsetInfo = function (navItemEl: HTMLElement, navScrollerEl: HTMLElement
 // 移动标签导航高亮条
 function moveInkBar (tabPositionIsHorizontal: boolean, inkBarSpaceBetween: number, inkBarEl: HTMLElement, activeTabEl: HTMLElement) {
   if (tabPositionIsHorizontal) {
-    inkBarEl.style.left = (activeTabEl.offsetLeft - inkBarSpaceBetween) + 'px';
+    // inkBarEl.style.left = (activeTabEl.offsetLeft - inkBarSpaceBetween) + 'px';
+    inkBarEl.style.transform = `translate(${(activeTabEl.offsetLeft - inkBarSpaceBetween) + 'px'}, 0)`;
     inkBarEl.style.width = activeTabEl.offsetWidth + (inkBarSpaceBetween * 2) + 'px';
     inkBarEl.style.top = '';
     inkBarEl.style.height = '';
   } else {
-    inkBarEl.style.top = (activeTabEl.offsetTop - inkBarSpaceBetween) + 'px';
+    // inkBarEl.style.top = (activeTabEl.offsetTop - inkBarSpaceBetween) + 'px';
+    inkBarEl.style.transform = `translate(0, ${(activeTabEl.offsetTop - inkBarSpaceBetween) + 'px'})`;
     inkBarEl.style.height = activeTabEl.offsetHeight + (inkBarSpaceBetween * 2) + 'px';
     inkBarEl.style.left = '';
     inkBarEl.style.width = '';
@@ -62,7 +64,7 @@ export function useTabsNavMove (props: any, navScrollerRef: Ref<HTMLElement|null
       // 判断元素在父容器中是否完全可见
       let elIsFullView = util.eleInParentFullView(activeTabEl, navScrollerRef.value as HTMLElement);
       let tabPositionIsHorizontal = props.tabPosition === 'top' || props.tabPosition === 'bottom';
-      console.log('activeTabEl', activeTabEl, elIsFullView, activeTabEl.offsetLeft, props.tabPosition);
+      // console.log('activeTabEl', activeTabEl, elIsFullView, activeTabEl.offsetLeft, props.tabPosition);
 
       if (tabPositionIsHorizontal) {
         // 元素在水平方向完全可见，则不做任何操作
@@ -70,12 +72,12 @@ export function useTabsNavMove (props: any, navScrollerRef: Ref<HTMLElement|null
           let offsetInfo = getOffsetInfo(activeTabEl, navScrollerRef.value as HTMLElement);
           let translateX = 0;
           if (offsetInfo.navItemOffsetLeft > 0) {
-            console.log('navItemOffsetRight', offsetInfo.navItemOffsetLeft, offsetInfo.navItemOffsetRight, offsetInfo.navScrollerWidth);
+            // console.log('navItemOffsetRight', offsetInfo.navItemOffsetLeft, offsetInfo.navItemOffsetRight, offsetInfo.navScrollerWidth);
             translateX = offsetInfo.navItemOffsetRight - offsetInfo.navScrollerWidth;
           } else {
             translateX = 0;
           }
-          console.log('translateX', translateX);
+          // console.log('translateX', translateX);
           tabsNavEl.style.transform = `translate(${-translateX}px, 0)`;
         }
       } else {
@@ -87,7 +89,7 @@ export function useTabsNavMove (props: any, navScrollerRef: Ref<HTMLElement|null
           } else {
             translateY = 0;
           }
-          console.log('translateY', translateY);
+          // console.log('translateY', translateY);
           tabsNavEl.style.transform = `translate(${-translateY}px, 0)`;
         }
       }
