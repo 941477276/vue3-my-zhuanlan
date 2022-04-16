@@ -44,6 +44,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
+  z-index: 5;
   color: #333;
   font-size: 0.875rem;
   &[disabled]{
@@ -64,6 +65,7 @@
   top: 0;
   right: 0;
   bottom: 0;
+  z-index: 5;
   padding: 0 .5rem;
   align-items: center;
   /*background-color: #ccc;*/
@@ -141,6 +143,10 @@
     &.has-scroll{
       padding-left: 0;
       padding-right: 0;
+      &.trigger-type-button{
+        padding-top: 1.325rem;
+        padding-bottom: 1.325rem;
+      }
       &.trigger-type-more{
         padding-bottom: 1.5rem; // 24px
       }
@@ -153,7 +159,7 @@
     }
     .bs-tabs-nav-prev{
       left: 0;
-      right: 0;
+      right: 1px;
       top: 0;
       bottom: auto;
       .bs-svg-icon{
@@ -161,7 +167,7 @@
       }
     }
     .bs-tabs-nav-next{
-      right: 0;
+      right: 1px;
       left: 0;
       top: auto;
       bottom: 0;
@@ -185,10 +191,12 @@
       text-align: right;
     }
     .bs-tabs-ink-bar{
+      top: 0;
       left: auto;
+      right: 0;
+      bottom: auto;
       width: 1px;
       height: 50px;
-      right: 0;
     }
     .bs-tabs-nav-operation{
       top: auto;

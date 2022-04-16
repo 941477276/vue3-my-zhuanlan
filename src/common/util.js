@@ -74,9 +74,11 @@ var tool = {
    * 判断元素是否完全出现在父级容器的可视区域中
    * @param ele
    * @param referenceEl
+   * @param eleOffsetX 元素x轴坐标的偏移量
+   * @param eleOffsetY 元素y轴坐标的偏移量
    * @returns {{horizontal: boolean, vertical: boolean}}
    */
-  eleInParentFullView (ele, referenceEl) {
+  eleInParentFullView (ele, referenceEl, eleOffsetX = 0, eleOffsetY = 0) {
     var result = {
       horizontal: true,
       vertical: true
@@ -86,6 +88,8 @@ var tool = {
     }
     var referenceOffset = tool.offset(referenceEl);
     var offset = tool.offset(ele);
+    offset.left += eleOffsetX;
+    offset.top += eleOffsetY;
 
     var referenceOffsetRight = referenceOffset.left + referenceEl.offsetWidth;
     var referenceOffsetBottom = referenceOffset.top + referenceEl.offsetHeight;

@@ -93,7 +93,7 @@ export default defineComponent({
         let offsetTop = dropdownMenuOffset.top + dropdownMenuHeight;
         let offsetLeft = dropdownMenuOffset.left + dropdownMenuWidth;
         let isInView = util.eleInView(dropdownMenuRef.value, offsetTop, offsetLeft);
-        console.log('handleBottom isInView', isInView);
+        // console.log('handleBottom isInView', isInView);
         return {
           vertical: isInView.vertical,
           horizontal: isInView.horizontal,
@@ -106,7 +106,7 @@ export default defineComponent({
         let offsetTop = dropdownMenuOffset.top - (toggleElReact.height + dropdownMenuHeight);
         let offsetLeft = dropdownMenuOffset.left + dropdownMenuWidth;
         let isInView = util.eleInView(dropdownMenuRef.value, offsetTop, offsetLeft);
-        console.log('handleTop isInView', isInView);
+        // console.log('handleTop isInView', isInView);
         return {
           vertical: isInView.vertical,
           horizontal: isInView.horizontal,
@@ -119,7 +119,7 @@ export default defineComponent({
         let offsetTop = dropdownMenuOffset.top;
         let offsetLeft = dropdownMenuOffset.left - dropdownMenuWidth;
         let isInView = util.eleInView(dropdownMenuRef.value, offsetTop, offsetLeft);
-        console.log('handleTop handleLeft', isInView);
+        // console.log('handleTop handleLeft', isInView);
         return {
           vertical: isInView.vertical,
           horizontal: isInView.horizontal,
@@ -132,7 +132,7 @@ export default defineComponent({
         let newTop = dropdownMenuOffset.top;
         let newLeft = dropdownMenuOffset.left + dropdownMenuWidth;
         let isInView = util.eleInView(dropdownMenuRef.value, newTop, newLeft);
-        console.log('handleTop handleRight', isInView);
+        // console.log('handleTop handleRight', isInView);
         return {
           vertical: isInView.vertical,
           horizontal: isInView.horizontal,
@@ -193,7 +193,7 @@ export default defineComponent({
         }
         return inView;
       });
-      console.log('calcedDirection', calcedDirection);
+      // console.log('calcedDirection', calcedDirection);
 
       if (!calcedDirection && tryAllDirection) {
         // 寻找元素在水平或垂直方向都有一个地方完全出现在视口中的方向，因为可能出现除currentDirection外的其他3个方向都无法完全出现在视口的情况
@@ -229,7 +229,7 @@ export default defineComponent({
 
         nextTick(() => {
           let directionInfo = calcDirection(props.direction);
-          console.log('directionInfo', directionInfo);
+          // console.log('directionInfo', directionInfo);
           directionClass.value = directionOfClass[props.direction];
           switch (directionInfo.direction) {
             case 'bottom':
@@ -296,7 +296,7 @@ export default defineComponent({
     };
 
     watch(isClickOutside, (newVal: Ref) => {
-      console.log('watch isClickOutside', newVal);
+      // console.log('watch isClickOutside', newVal);
       if (newVal) {
         hide();
       }

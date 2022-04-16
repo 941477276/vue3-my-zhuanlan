@@ -5,24 +5,28 @@ import {
   watch,
   Ref
 } from 'vue';
+import {
+  PaneItem
+} from '@/ts-tokens/bootstrap/tabs';
 
-let getPaneByName = function (name: string, panes: any[]) {
-  return panes.find((pane: {[key: string]: any}) => {
+let getPaneByName = function (name: string, panes: PaneItem[]) {
+  return panes.find((pane: PaneItem) => {
     return pane.name === name;
   });
 };
-/* let getPaneById = function (id: string, panes: any[]) {
-  return panes.find((pane: {[key: string]: any}) => {
+let getPaneById = function (id: string, panes: PaneItem[]) {
+  return panes.find((pane: PaneItem) => {
     return pane.id === id;
   });
-}; */
+};
 
-export function useActiveTab (props: any, tabsNavRef: Ref<HTMLElement|null>, inkBarRef: Ref<HTMLElement|null>): any {
+export function useActiveTab (props: any, ctx: any, tabsNavRef: Ref<HTMLElement|null>, inkBarRef: Ref<HTMLElement|null>): any {
   // 激活的tab
   let activeTabId = ref('');
   let onNavItemClick = function (tab: { id: string; name: string; }) {
     console.log('onNavItemClick', tab);
     activeTabId.value = tab.id;
+    ctx.emit('click', tab);
   };
 
   let stopWatchActiveTabName = watch(() => props.activeTabName, function (newActiveTabName: string) {
@@ -37,8 +41,16 @@ export function useActiveTab (props: any, tabsNavRef: Ref<HTMLElement|null>, ink
     }
   });
 
+  let stopWatchActiveTabId = watch(activeTabId, function (newActiveId, oldActiveId) {
+    if (newActiveId === oldActiveId) {
+      return;
+    }
+    let activeTab = getPaneById(newActiveId, props.panes);
+    ctx.emit('changeActiveTab', activeTab);
+  });
+
   onMounted(function () {
-    let tab = getPaneByName(props.activeTabName, props.panes);
+    let tab = getPaneByName(props.activeTabName, props.panes) as PaneItem;
     if (!tab) {
       tab = props.panes[0];
     }
@@ -46,6 +58,7 @@ export function useActiveTab (props: any, tabsNavRef: Ref<HTMLElement|null>, ink
   });
   onUnmounted(function () {
     stopWatchActiveTabName();
+    stopWatchActiveTabId();
   });
 
   return {

@@ -5,4 +5,13 @@ export type TriggerTypeOnOverflow = 'auto' | 'more' | 'button';
 export type HiddenTabInfo = {
   id: string;
   disabled: boolean;
+  text?: string|undefined;
+};
+
+export type PaneItem = {
+  name: string;
+  id: string;
+  label: string;
+  itemSlot: any;
+  disabled:boolean
 };

@@ -12,7 +12,8 @@
       :trigger-type-on-overflow="triggerTypeOnOverflow"
       :hidden-tabs-greater-than="hiddenTabsGreaterThan"
       :tab-bar-max-height="tabBarMaxHeight"
-      :ink-bar-space-between="inkBarSpaceBetween"></BsTabsNav>
+      :ink-bar-space-between="inkBarSpaceBetween"
+      @change-active-tab="onActiveTabChange"></BsTabsNav>
   </div>
   <div class="bs-tabs-body">
     标签页内容
@@ -30,6 +31,7 @@ import {
 } from 'vue';
 import BsTabsNav from './widgets/BsTabsNav.vue';
 import {
+  PaneItem,
   TabPosition,
   TriggerTypeOnOverflow
 } from '@/ts-tokens/bootstrap/tabs';
@@ -67,7 +69,7 @@ export default defineComponent({
   },
   emit: ['close', 'click'],
   setup (props: any, ctx: any) {
-    let panes = ref([
+    let panes = ref<PaneItem[]>([
       { name: 'tag_1', id: 'tab_id_1', label: '标签一', itemSlot: null, disabled: false },
       { name: 'tag_2', id: 'tab_id_2', label: '文章管理', itemSlot: null, disabled: true },
       { name: 'tag_3', id: 'tab_id_3', label: '文章分类管理', itemSlot: () => h('strong', '文章分类管理'), disabled: false },
@@ -79,8 +81,12 @@ export default defineComponent({
       { name: 'tag_9', id: 'tab_id_9', label: 'vpn管理', itemSlot: null, disabled: false },
       { name: 'tag_10', id: 'tab_id_10', label: '应用发布管理', itemSlot: null, disabled: false }
     ]);
+    let onActiveTabChange = function (activeTab: any) {
+      console.log('active tab changed', activeTab);
+    };
     return {
-      panes
+      panes,
+      onActiveTabChange
     };
   }
 });

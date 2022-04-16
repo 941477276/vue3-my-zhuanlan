@@ -7,11 +7,13 @@
       {
         'has-scroll': hiddenTabsCount > 0
       }
-    ]">
+    ]"
+    @keydown.prevent="onKeyDown">
     <button
       v-if="triggerType === 'button'"
       class="bs-tabs-nav-prev"
-      aria-label="tabs nav prev">
+      aria-label="tabs nav prev"
+      @click="scrollPrev">
       <BsIcon name="chevron-left"></BsIcon>
     </button>
     <slot name="left-extra"></slot>
@@ -20,7 +22,10 @@
       ref="navScrollerRef"
       :style="navScrollerStyle"
       @wheel.stop.prevent="onScroll">
-      <ul class="bs-tabs-nav" ref="tabsNavRef">
+      <ul
+        class="bs-tabs-nav"
+        ref="tabsNavRef"
+        :style="`transform: translate(${-tabsNavTranslate.x}px, ${-tabsNavTranslate.y}px);`">
         <BsTabsNavItem
           v-for="item in panes"
           :name="item.name"
@@ -38,7 +43,8 @@
     <button
       v-if="triggerType === 'button'"
       class="bs-tabs-nav-next"
-      aria-label="tabs nav next">
+      aria-label="tabs nav next"
+      @click="scrollNext">
       <BsIcon name="chevron-right"></BsIcon>
     </button>
     <div
@@ -49,9 +55,13 @@
           <BsIcon name="three-dots"></BsIcon>
         </span>
         <template #dropdown-item>
-          <bs-dropdown-item>下拉框1</bs-dropdown-item>
-          <bs-dropdown-item>下拉框2</bs-dropdown-item>
-          <bs-dropdown-item>下拉框3</bs-dropdown-item>
+          <bs-dropdown-item
+            v-for="hiddenTab in hiddenTabsOptions"
+            :key="hiddenTab.id"
+            :disabled="hiddenTab.disabled"
+            @click="changeTab(hiddenTab.id)">
+            {{ hiddenTab.text }}
+          </bs-dropdown-item>
         </template>
       </BsDropdown>
     </div>
@@ -64,20 +74,22 @@ import {
   PropType,
   ref,
   computed,
-  onMounted
+  onMounted,
+  onUnmounted
 } from 'vue';
 import BsIcon from '../../bs-icon/BsIcon.vue';
 import BsDropdown from '@/components/bootstrap/bs-dropdown/BsDropdown.vue';
 import BsDropdownItem from '@/components/bootstrap/bs-dropdown/widgets/BsDropdownItem.vue';
 import BsTabsNavItem from './BsTabsNavItem.vue';
 import {
+  HiddenTabInfo,
+  PaneItem,
   TabPosition,
   TriggerTypeOnOverflow
 } from '@/ts-tokens/bootstrap/tabs';
 import { useHiddenTabsInfo } from './useHiddenTabsInfo';
 import { useActiveTab } from './useActiveTab';
 import { useTabsNavMove } from './useTabsNavMove';
-import { useNavScrollerScroll } from './useNavScrollerScroll';
 
 export default defineComponent({
   name: 'BsTabsNav',
@@ -89,7 +101,7 @@ export default defineComponent({
   },
   props: {
     panes: { // 面板列表
-      type: Array,
+      type: Array as PropType<PaneItem[]>,
       required: true,
       default () {
         return [];
@@ -142,9 +154,9 @@ export default defineComponent({
     });
 
     // 计算当前激活的标签导航信息
-    let { activeTabId, onNavItemClick } = useActiveTab(props, tabsNavRef, inkBarRef);
+    let { activeTabId, onNavItemClick } = useActiveTab(props, ctx, tabsNavRef, inkBarRef);
     // 计算隐藏的标签页信息
-    let { hiddenTabsCount, isOverflow, hiddenTabs } = useHiddenTabsInfo(props, activeTabId, navScrollerRef, tabsNavRef);
+    let { hiddenTabsCount, isOverflow, hiddenTabs, calcHiddenTabInfo } = useHiddenTabsInfo(props, activeTabId, navScrollerRef, tabsNavRef);
     // 计算切换隐藏的标签页方式
     let triggerType = computed(function () {
       let propsTriggerType = props.triggerTypeOnOverflow;
@@ -154,9 +166,143 @@ export default defineComponent({
       return hiddenTabsCount.value >= props.hiddenTabsGreaterThan ? 'more' : 'button';
     });
     // 标签导航移动
-    useTabsNavMove(props, navScrollerRef, tabsNavRef, inkBarRef, activeTabId, hiddenTabs);
+    let { tabsNavTranslate, scrollPrev, scrollNext } = useTabsNavMove(props, navScrollerRef, tabsNavRef, inkBarRef, activeTabId, calcHiddenTabInfo);
+
+    // 下拉框展示的隐藏的标签导航
+    let hiddenTabsOptions = computed(function () {
+      if (triggerType.value !== 'more') {
+        return [];
+      }
+      let hiddenTabsArr = hiddenTabs.value;
+      let panesArr = props.panes;
+      return hiddenTabsArr.map(function (hiddenTabInfo: HiddenTabInfo) {
+        let newHiddenTab = {
+          ...hiddenTabInfo
+        };
+        if (!newHiddenTab.text) {
+          let tabInfo = panesArr.find((item: PaneItem) => item.id == newHiddenTab.id);
+          if (tabInfo) {
+            newHiddenTab.text = tabInfo.label || '未命名标签';
+          }
+        }
+        return newHiddenTab;
+      });
+    });
+
     // 标签导航滚动事件
-    let onScroll = useNavScrollerScroll(navScrollerRef, tabsNavRef);
+    // let timer:number;
+    let lastScrollTime = 0;
+    let onScroll = function (evt: WheelEvent) {
+      evt = evt || window.event;
+      let isDown = (evt as any).wheelDelta ? (evt as any).wheelDelta < 0 : evt.detail > 0;
+      // console.log('isDown', isDown);\
+      /* clearTimeout(timer);
+      timer = setTimeout(function () {
+        clearTimeout(timer);
+        if (isDown) {
+          scrollNext();
+        } else {
+          scrollPrev();
+        }
+      }, 300); */
+      let now = new Date().getTime();
+      if (lastScrollTime == 0 || now - lastScrollTime > 300) {
+        lastScrollTime = now;
+        if (isDown) {
+          scrollNext();
+        } else {
+          scrollPrev();
+        }
+      }
+    };
+    // 上下左右健切换标签
+    let onKeyDown = function (evt: KeyboardEvent) {
+      evt = evt || window.event;
+      let keyCode = evt.keyCode;
+      // 上下左右健进行切换
+      if ([37, 38, 39, 40].indexOf(keyCode) == -1) {
+        return;
+      }
+      let tabNavItems = tabsNavRef.value?.querySelectorAll('.bs-tabs-nav-item') || [];
+      if (tabNavItems.length == 0) {
+        return;
+      }
+      let activeIdVal = activeTabId.value;
+      let panesArr = props.panes;
+      let activeTabIndex = panesArr.findIndex((item: PaneItem) => item.id === activeIdVal);
+
+      /* for (let i = 0, len = tabNavItems.length; i < len; i++) {
+        if (tabNavItems[i].getAttribute('data-tabs-nav-item-id') === activeIdVal) {
+          activeTabIndex = i;
+          break;
+        }
+      } */
+
+      if (keyCode === 37 || keyCode === 38) { // 上下
+        let prevTabIndex = activeTabIndex;
+        let prevTab = null;
+        if (activeTabIndex == 0) {
+          return;
+        }
+        while (prevTabIndex >= 0) {
+          prevTabIndex--;
+          if (!panesArr[prevTabIndex].disabled) {
+            prevTab = panesArr[prevTabIndex];
+          }
+          if (prevTab) {
+            break;
+          }
+        };
+        if (prevTab) {
+          activeTabId.value = prevTab.id;
+        }
+      } else { // 上下
+        let nextTabIndex = activeTabIndex;
+        let nextTab = null;
+        let panesLen = panesArr.length;
+        if (activeTabIndex == panesArr.length - 1) {
+          return;
+        }
+        while (nextTabIndex < panesLen) {
+          nextTabIndex++;
+          if (!panesArr[nextTabIndex].disabled) {
+            nextTab = panesArr[nextTabIndex];
+          }
+          if (nextTab) {
+            break;
+          }
+        };
+        if (nextTab) {
+          activeTabId.value = nextTab.id;
+        }
+      }
+    };
+
+    let changeTab = function (tabId: string) {
+      // console.log('tabId', tabId);
+      let tabItem = props.panes.find((item: PaneItem) => item.id === tabId);
+      if (tabItem.disabled) {
+        return;
+      }
+      activeTabId.value = tabId;
+    };
+
+    let resizeEventName = 'orientationchange' in window ? 'orientationchange' : 'resize';
+    let resizeTime: number;
+    let resizeEvent = function () {
+      clearTimeout(resizeTime);
+      resizeTime = setTimeout(function () {
+        clearTimeout(resizeTime);
+        calcHiddenTabInfo();
+      }, 300);
+    };
+
+    onMounted(function () {
+      window.addEventListener(resizeEventName, resizeEvent, false);
+    });
+    onUnmounted(function () {
+      window.removeEventListener(resizeEventName, resizeEvent, false);
+    });
 
     return {
       navScrollerRef,
@@ -167,9 +313,15 @@ export default defineComponent({
       triggerType,
       hiddenTabsCount,
       navScrollerStyle,
+      tabsNavTranslate,
+      hiddenTabsOptions,
 
+      onKeyDown,
       onNavItemClick,
-      onScroll
+      onScroll,
+      scrollPrev,
+      scrollNext,
+      changeTab
     };
   }
 });
