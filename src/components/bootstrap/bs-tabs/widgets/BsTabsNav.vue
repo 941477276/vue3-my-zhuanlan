@@ -35,6 +35,7 @@
           :disabled="item.disabled"
           :item-slot="item.itemSlot"
           :key="item.name || item.id"
+          :closeable="closeable"
           @click="onNavItemClick"></BsTabsNavItem>
         <li class="bs-tabs-ink-bar" ref="inkBarRef"></li>
       </ul>
@@ -59,7 +60,8 @@
             v-for="hiddenTab in hiddenTabsOptions"
             :key="hiddenTab.id"
             :disabled="hiddenTab.disabled"
-            @click="changeTab(hiddenTab.id)">
+            @click="changeTab(hiddenTab.id)"
+            @close="handleClose">
             {{ hiddenTab.text }}
           </bs-dropdown-item>
         </template>
@@ -130,6 +132,10 @@ export default defineComponent({
     inkBarSpaceBetween: { // 标签导航高亮条向两端延伸的长度
       type: Number,
       default: 0
+    },
+    closeable: { // 是否可关闭
+      type: Boolean,
+      default: false
     }
   },
   emit: ['close', 'click', 'changeActiveTab'],
@@ -287,6 +293,11 @@ export default defineComponent({
       activeTabId.value = tabId;
     };
 
+    // 标签关闭事件
+    let handleClose = function (tabInfo: {id: string; name: string;}) {
+      ctx.emit('close', tabInfo);
+    };
+
     let resizeEventName = 'orientationchange' in window ? 'orientationchange' : 'resize';
     let resizeTime: number;
     let resizeEvent = function () {
@@ -321,7 +332,8 @@ export default defineComponent({
       onScroll,
       scrollPrev,
       scrollNext,
-      changeTab
+      changeTab,
+      handleClose
     };
   }
 });

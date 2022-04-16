@@ -13,6 +13,7 @@
       :hidden-tabs-greater-than="hiddenTabsGreaterThan"
       :tab-bar-max-height="tabBarMaxHeight"
       :ink-bar-space-between="inkBarSpaceBetween"
+      :closeable="closeable"
       @change-active-tab="onActiveTabChange"></BsTabsNav>
   </div>
   <div class="bs-tabs-body">
@@ -65,6 +66,10 @@ export default defineComponent({
     inkBarSpaceBetween: { // 标签导航高亮条向两端延伸的长度
       type: Number,
       default: 0
+    },
+    closeable: { // 是否可关闭
+      type: Boolean,
+      default: false
     }
   },
   emit: ['close', 'click'],

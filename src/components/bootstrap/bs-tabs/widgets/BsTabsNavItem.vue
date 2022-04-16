@@ -21,9 +21,13 @@ import {
   defineComponent,
   h
 } from 'vue';
+import BsIcon from '../../bs-icon/BsIcon.vue';
 
 export default defineComponent({
   name: 'BsTabsNavItem',
+  components: {
+    BsIcon
+  },
   props: {
     activeTabId: {
       type: String,
@@ -45,12 +49,16 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
+    closeable: { // 是否可关闭
+      type: Boolean,
+      default: false
+    },
     itemSlot: {
       type: Function,
       default: null
     }
   },
-  emits: ['click'],
+  emits: ['click', 'close'],
   setup (props: any, ctx: any) {
     let onClick = function () {
       if (props.disabled || props.id === props.activeTabId) {
@@ -62,7 +70,23 @@ export default defineComponent({
       });
     };
 
+    let onClose = function () {
+      if (props.disabled) {
+        return;
+      }
+      ctx.emit('close', {
+        name: props.name,
+        id: props.id
+      });
+    };
+
     return () => {
+      let closeIcon = props.closeable ? h('span', {
+        'class': 'bs-tabs-nav-close'
+      }, h(BsIcon, {
+        name: 'x',
+        onClick: onClose
+      })) : null;
       let children = h('button', {
         'class': 'bs-tabs-nav-button',
         type: 'button',
@@ -80,7 +104,7 @@ export default defineComponent({
         ],
         'data-tabs-nav-item-id': props.id,
         onClick
-      }, children);
+      }, [children, closeIcon]);
     };
   }
 });

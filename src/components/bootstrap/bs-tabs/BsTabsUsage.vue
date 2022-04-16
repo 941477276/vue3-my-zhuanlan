@@ -2,7 +2,7 @@
 <div class="component-usage">
   <h3>基础用法</h3>
   <div class="max-w-600">
-    <bs-tabs></bs-tabs>
+    <bs-tabs closeable></bs-tabs>
   </div>
 
   <!--<br>
