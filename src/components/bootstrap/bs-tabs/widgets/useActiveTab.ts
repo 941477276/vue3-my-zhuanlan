@@ -6,16 +6,16 @@ import {
   Ref
 } from 'vue';
 import {
-  PaneItem
+  TabNavItem
 } from '@/ts-tokens/bootstrap/tabs';
 
-let getPaneByName = function (name: string, panes: PaneItem[]) {
-  return panes.find((pane: PaneItem) => {
+let getPaneByName = function (name: string, panes: TabNavItem[]) {
+  return panes.find((pane: TabNavItem) => {
     return pane.name === name;
   });
 };
-let getPaneById = function (id: string, panes: PaneItem[]) {
-  return panes.find((pane: PaneItem) => {
+let getPaneById = function (id: string, panes: TabNavItem[]) {
+  return panes.find((pane: TabNavItem) => {
     return pane.id === id;
   });
 };
@@ -50,7 +50,7 @@ export function useActiveTab (props: any, ctx: any, tabsNavRef: Ref<HTMLElement|
   });
 
   onMounted(function () {
-    let tab = getPaneByName(props.activeTabName, props.panes) as PaneItem;
+    let tab = getPaneByName(props.activeTabName, props.panes) as TabNavItem;
     if (!tab) {
       tab = props.panes[0];
     }

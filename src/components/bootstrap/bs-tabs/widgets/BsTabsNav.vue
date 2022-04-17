@@ -35,8 +35,9 @@
           :disabled="item.disabled"
           :item-slot="item.itemSlot"
           :key="item.name || item.id"
-          :closeable="closeable"
-          @click="onNavItemClick"></BsTabsNavItem>
+          :closeable="closeable || item.closeable"
+          @click="onNavItemClick"
+          @close="handleClose"></BsTabsNavItem>
         <li class="bs-tabs-ink-bar" ref="inkBarRef"></li>
       </ul>
     </div>
@@ -60,8 +61,7 @@
             v-for="hiddenTab in hiddenTabsOptions"
             :key="hiddenTab.id"
             :disabled="hiddenTab.disabled"
-            @click="changeTab(hiddenTab.id)"
-            @close="handleClose">
+            @click="changeTab(hiddenTab.id)">
             {{ hiddenTab.text }}
           </bs-dropdown-item>
         </template>
@@ -85,7 +85,7 @@ import BsDropdownItem from '@/components/bootstrap/bs-dropdown/widgets/BsDropdow
 import BsTabsNavItem from './BsTabsNavItem.vue';
 import {
   HiddenTabInfo,
-  PaneItem,
+  TabNavItem,
   TabPosition,
   TriggerTypeOnOverflow
 } from '@/ts-tokens/bootstrap/tabs';
@@ -103,7 +103,7 @@ export default defineComponent({
   },
   props: {
     panes: { // 面板列表
-      type: Array as PropType<PaneItem[]>,
+      type: Array as PropType<TabNavItem[]>,
       required: true,
       default () {
         return [];
@@ -186,7 +186,7 @@ export default defineComponent({
           ...hiddenTabInfo
         };
         if (!newHiddenTab.text) {
-          let tabInfo = panesArr.find((item: PaneItem) => item.id == newHiddenTab.id);
+          let tabInfo = panesArr.find((item: TabNavItem) => item.id == newHiddenTab.id);
           if (tabInfo) {
             newHiddenTab.text = tabInfo.label || '未命名标签';
           }
@@ -235,7 +235,7 @@ export default defineComponent({
       }
       let activeIdVal = activeTabId.value;
       let panesArr = props.panes;
-      let activeTabIndex = panesArr.findIndex((item: PaneItem) => item.id === activeIdVal);
+      let activeTabIndex = panesArr.findIndex((item: TabNavItem) => item.id === activeIdVal);
 
       /* for (let i = 0, len = tabNavItems.length; i < len; i++) {
         if (tabNavItems[i].getAttribute('data-tabs-nav-item-id') === activeIdVal) {
@@ -286,7 +286,7 @@ export default defineComponent({
 
     let changeTab = function (tabId: string) {
       // console.log('tabId', tabId);
-      let tabItem = props.panes.find((item: PaneItem) => item.id === tabId);
+      let tabItem = props.panes.find((item: TabNavItem) => item.id === tabId);
       if (tabItem.disabled) {
         return;
       }

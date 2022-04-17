@@ -70,7 +70,9 @@ export default defineComponent({
       });
     };
 
-    let onClose = function () {
+    let onClose = function (evt: Event) {
+      evt = evt || window.event;
+      ('stopPropagation' in evt) ? evt.stopPropagation() : (evt as any).cancelBubble;
       if (props.disabled) {
         return;
       }
