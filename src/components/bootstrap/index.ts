@@ -15,6 +15,7 @@ import BsBreadcrumb from '@/components/bootstrap/bs-breadcrumb';
 import BsTag from '@/components/bootstrap/bs-tag';
 import BsProgress from '@/components/bootstrap/bs-progress';
 import BsTabs from '@/components/bootstrap/bs-tabs';
+import BsSwitch from '@/components/bootstrap/bs-switch';
 
 export default function (vueApp: any) {
   vueApp.component(BsButton.name, BsButton);
@@ -35,4 +36,5 @@ export default function (vueApp: any) {
   vueApp.use(BsTag);
   vueApp.use(BsProgress);
   vueApp.use(BsTabs);
+  vueApp.use(BsSwitch);
 }

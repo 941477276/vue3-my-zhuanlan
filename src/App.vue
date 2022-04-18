@@ -17,9 +17,9 @@
   <!--<div class="box">
     <BsCheckboxGroupUsage></BsCheckboxGroupUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsSelectUsage></BsSelectUsage>
-  </div>
+  </div>-->
   <!--<div class="box">
     <BsFormUsage></BsFormUsage>
   </div>-->
@@ -48,6 +48,9 @@
   <!--<div class="box">
     <BsTabsUsage></BsTabsUsage>
   </div>-->
+  <div class="box">
+    <BsSwitchUsage></BsSwitchUsage>
+  </div>
 </template>
 
 <script lang="ts">
@@ -70,6 +73,7 @@ import BsBreadcrumbUsage from '@/components/bootstrap/bs-breadcrumb/BsBreadcrumb
 import BsTagUsage from '@/components/bootstrap/bs-tag/BsTagUsage.vue';
 import BsProgressUsage from '@/components/bootstrap/bs-progress/BsProgressUsage.vue';
 import BsTabsUsage from '@/components/bootstrap/bs-tabs/BsTabsUsage.vue';
+import BsSwitchUsage from '@/components/bootstrap/bs-switch/BsSwitchUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -92,7 +96,8 @@ export default defineComponent({
     BsBreadcrumbUsage,
     BsTagUsage,
     BsProgressUsage,
-    BsTabsUsage
+    BsTabsUsage,
+    BsSwitchUsage
   },
   setup () {
     return {
