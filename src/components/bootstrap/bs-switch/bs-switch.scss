@@ -1,15 +1,55 @@
 .bs-switch{
   display: inline-block;
   vertical-align: middle;
+  .switch-disabled-box,
+  .switch-loading-box{
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    opacity: 0.45;
+    background-color: #fff;
+  }
+  .spinner-border{
+    position: absolute;
+    top: 50%;
+    right: .2rem;
+    width: 0.9rem;
+    height: 0.9rem;
+    border-width: 0.1rem;
+    margin-top: -0.45rem;
+  }
+  &.bs-switch-loading{
+    .switch-loading-box{
+      display: block;
+    }
+    &.bs-switch-open{
+      .spinner-border{
+        left: .2rem;
+        right: auto;
+      }
+    }
+  }
+  &.is-disabled{
+    opacity: 0.7;
+    cursor: not-allowed;
+    .switch-disabled-box{
+      display: block;
+      opacity: 0.5;
+    }
+  }
 }
-/*.bs-switch-hidden-input{
+.bs-switch-hidden-input{
   position: absolute;
   width: 0;
   height: 0;
   line-height: 0;
   opacity: 0;
   margin: 0;
-}*/
+}
 .bs-switch-inner{
   position: relative;
   min-width: 2.75rem;
