@@ -1,6 +1,7 @@
 .bs-switch{
   display: inline-block;
   vertical-align: middle;
+  cursor: pointer;
   .switch-disabled-box,
   .switch-loading-box{
     display: none;
@@ -16,30 +17,12 @@
   .spinner-border{
     position: absolute;
     top: 50%;
-    right: .2rem;
-    width: 0.9rem;
-    height: 0.9rem;
+    left: .25rem;
+    width: 0.875rem;
+    height: 0.875rem;
     border-width: 0.1rem;
     margin-top: -0.45rem;
-  }
-  &.bs-switch-loading{
-    .switch-loading-box{
-      display: block;
-    }
-    &.bs-switch-open{
-      .spinner-border{
-        left: .2rem;
-        right: auto;
-      }
-    }
-  }
-  &.is-disabled{
-    opacity: 0.7;
-    cursor: not-allowed;
-    .switch-disabled-box{
-      display: block;
-      opacity: 0.5;
-    }
+    transition: left .3s, right .3s;
   }
 }
 .bs-switch-hidden-input{
@@ -55,7 +38,7 @@
   min-width: 2.75rem;
   line-height: 1.375rem;
   height: 1.375rem;
-  padding: 0 .35rem;
+  padding: 0 .35rem 0 calc(1.125rem + .25rem + 2px);
   border-radius: 1.375rem;
   //overflow: hidden;
   font-size: 0.75rem;
@@ -69,6 +52,7 @@
   &::before{
     left: 0;
     top: 0;
+    z-index: 1;
     width:  100%;
     height: 100%;
     border-radius: 1.375rem;
@@ -79,29 +63,34 @@
     top: 50%;
     //right: .1rem;
     //left: 0;
-    left: calc(100% - 1.125rem - 0.1rem);
+    left: .15rem;
     z-index: 5;
     width: 1.125rem;
     height: 1.125rem;
     border-radius: 50%;
     transform: translateY(-50%);
-    //transform: translate(100%, -50%);
     box-shadow: 0 1px 3px rgb(0 0 0 / 40%);
     background-color: #fff;
+  }
+  &.has-inactive-color{
+    &::before{
+      background-color: var(--inactive-color);
+    }
   }
 }
 .bs-switch-hidden-input{
   &:checked ~ .bs-switch-inner{
+    padding: 0 calc(1.125rem + .25rem + 2px) 0 .35rem;
     &::before{
       transform: scale(0);
     }
     &::after{
-      left: .1rem;
+      left: calc(100% - 1.125rem - .15rem);
       //right: auto;
       //transform: translate(.1rem, -50%);
     }
     .bs-switch-text{
-      text-align: right;
+      text-align: left;
     }
   }
 }
@@ -110,4 +99,116 @@
   position: relative;
   z-index: 2;
   color: #fff;
+  text-align: right;
+}
+
+.bs-switch{
+  &.bs-switch-loading{
+    cursor: default;
+    .switch-loading-box{
+      display: block;
+    }
+    &.bs-switch-open{
+      .spinner-border{
+        right: .25rem;
+        left: auto;
+      }
+    }
+  }
+  &.is-disabled{
+    opacity: 0.7;
+    cursor: not-allowed;
+    .switch-disabled-box{
+      display: block;
+      opacity: 0.5;
+    }
+  }
+  &.bs-switch-sm{
+    .bs-switch-inner{
+      min-width: 2.375rem;
+      line-height: 1.125rem;
+      height: 1.125rem;
+      padding: 0 .35rem 0 calc(0.8725rem + .25rem + 1px);
+      border-radius: 1.125rem;
+      &::before{
+        border-radius: 1.125rem;
+      }
+      &::after{
+        left: 1px;
+        width: 0.8725rem;
+        height: 0.8725rem;
+      }
+    }
+    .bs-switch-hidden-input{
+      &:checked ~ .bs-switch-inner{
+        padding: 0 calc(0.8725rem + .25rem + 1px) 0 .35rem;
+        &::before{
+          transform: scale(0);
+        }
+        &::after{
+          left: calc(100% - 0.8725rem - 1px);
+        }
+      }
+    }
+    .spinner-border{
+      left: .12rem;
+      width: 0.75rem;
+      height: 0.75rem;
+      border-width: 1px;
+      margin-top: -0.375rem;
+    }
+    &.bs-switch-loading{
+      &.bs-switch-open{
+        .spinner-border{
+          right: .1rem;
+          left: auto;
+        }
+      }
+    }
+  }
+
+  &.bs-switch-lg{
+    .bs-switch-inner{
+      min-width: 3.125rem;
+      line-height: 1.625rem;
+      height: 1.625rem;
+      padding: 0 .35rem 0 calc(1.375rem + .3rem + 0.15rem);
+      border-radius: 1.625rem;
+      font-size: 0.875rem;
+      &::before{
+        border-radius: 1.625rem;
+      }
+      &::after{
+        left: 0.22rem;
+        width: 1.375rem;
+        height: 1.375rem;
+      }
+    }
+    .bs-switch-hidden-input{
+      &:checked ~ .bs-switch-inner{
+        padding: 0 calc(1.375rem + .3rem + 0.22rem) 0 .35rem;
+        &::before{
+          transform: scale(0);
+        }
+        &::after{
+          left: calc(100% - 1.375rem - 0.22rem);
+        }
+      }
+    }
+    .spinner-border{
+      left: .35rem;
+      width: 1.125rem;
+      height: 1.125rem;
+      border-width: .15rem;
+      margin-top: -0.5625rem;
+    }
+    &.bs-switch-loading{
+      &.bs-switch-open{
+        .spinner-border{
+          right: .3rem;
+          left: auto;
+        }
+      }
+    }
+  }
 }

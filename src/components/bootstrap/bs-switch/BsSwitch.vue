@@ -1,25 +1,33 @@
 <template>
 <div
   class="bs-switch"
-  :class="{
+  :class="[{
     'bs-switch-loading': loading,
     'bs-switch-open': isOpen,
     'is-disabled': disabled
-  }">
+  }, size ? `bs-switch-${size}` : '']">
   <input
     ref="switchInputRef"
     :name="null"
     :disabled="disabled || loading"
     type="checkbox"
     class="bs-switch-hidden-input" />
-  <div class="bs-switch-inner" @click="switchClick">
-    <span class="bs-switch-text">开</span>
+  <div
+    class="bs-switch-inner"
+    :class="{
+      'has-inactive-color': inactiveColor
+    }"
+    :style="switchInnerStyle"
+    @click="switchClick">
+    <span class="bs-switch-text">
+      {{ isOpen ? activeText : inactiveText }}
+    </span>
     <div class="switch-loading-box" v-if="loading" @click.stop="switchLoadingBoxClick">
       <div class="spinner-border" :class="`text-${loadingColorType}`" role="status">
         <span class="sr-only">Switch Loading...</span>
       </div>
     </div>
-    <div class="switch-disabled-box"></div>
+    <div v-if="disabled" class="switch-disabled-box"></div>
   </div>
 </div>
 </template>
@@ -32,10 +40,12 @@ import {
   computed,
   watch,
   nextTick,
-  onUnmounted
+  onUnmounted, inject
 } from 'vue';
 import {
-  BsColorType
+  BsColorType,
+  BsSize, FormItemContext,
+  formItemContextKey
 } from '@/ts-tokens/bootstrap';
 
 export default defineComponent({
@@ -53,6 +63,10 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
+    colorType: { // 背景色
+      type: String as PropType<BsColorType>,
+      default: ''
+    },
     loadingColorType: { // 加载中旋转图标的颜色
       type: String as PropType<BsColorType>,
       default: 'primary'
@@ -61,7 +75,7 @@ export default defineComponent({
       type: [Boolean, String, Number],
       default: true
     },
-    inActiveValue: { // switch  关闭时的值
+    inactiveValue: { // switch  关闭时的值
       type: [Boolean, String, Number],
       default: false
     },
@@ -69,12 +83,20 @@ export default defineComponent({
       type: String,
       default: ''
     },
-    inActiveText: { // switch  关闭时的文字描述
+    inactiveText: { // switch  关闭时的文字描述
       type: String,
       default: ''
     },
-    activeColor: { // switch 打开时的文字描述
+    activeColor: { // switch 打开时的背景色
       type: String,
+      default: ''
+    },
+    inactiveColor: { // switch 关闭时的背景色
+      type: String,
+      default: ''
+    },
+    size: { // 大小
+      type: String as PropType<BsSize>,
       default: ''
     },
     name: { // switch 对应的 name 属性
@@ -87,11 +109,16 @@ export default defineComponent({
     beforeChange: { // switch状态改变前的回调函数，如果返回false或promise.reject则不会改变
       type: Function,
       default: null
+    },
+    validateEvent: { // 改变 switch 状态时是否触发表单的校验
+      type: Boolean,
+      default: true
     }
   },
   emit: ['update:modelValue', 'change', 'click'],
   setup (props: any, ctx: any) {
     let switchInputRef = ref<HTMLInputElement|null>(null);
+    // 是否打开
     let isOpen = computed(function () {
       return props.modelValue === props.activeValue;
     });
@@ -102,15 +129,39 @@ export default defineComponent({
       });
     }, { immediate: true });
 
+    // 计算 .bs-switch-inner 的样式
+    let switchInnerStyle = computed(function () {
+      let colorType = props.colorType ? 'background-color: var(--' + props.colorType + ')' : '';
+      let activeColor = props.activeColor ? `background-color: ${props.activeColor}` : '';
+      let inActiveColor = props.inactiveColor ? `--inactive-color: ${props.inactiveColor}` : '';
+      let result = activeColor;
+      if (!activeColor) {
+        result = colorType;
+      }
+      if (result) {
+        result += '; ' + inActiveColor;
+      } else {
+        result = inActiveColor;
+      }
+      return result;
+    });
+
+    let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
+
+    // 开关点击事件
     let switchClick = function () {
       if (props.disabled || props.loading) {
         return;
       }
-      let val = isOpen.value ? props.inActiveValue : props.activeValue;
+      let val = isOpen.value ? props.inactiveValue : props.activeValue;
       let beforeChange = props.beforeChange;
       let changeVal = function () {
         ctx.emit('update:modelValue', val);
         ctx.emit('change', val);
+        // 调用<bs-form-item>组件，触发数据校验
+        if (props.validateEvent && formItemContext) {
+          formItemContext.validate('change');
+        }
       };
       ctx.emit('click');
       if (typeof beforeChange === 'function') {
@@ -139,6 +190,7 @@ export default defineComponent({
     return {
       switchInputRef,
       isOpen,
+      switchInnerStyle,
 
       switchClick,
       switchLoadingBoxClick
