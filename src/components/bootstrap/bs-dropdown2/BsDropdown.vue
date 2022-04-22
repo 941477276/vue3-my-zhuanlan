@@ -4,15 +4,13 @@
     :class="[directionClass, {'is-disabled': disabled}]"
     ref="dropdownRef">
     <slot></slot>
-    <teleport to="body">
-      <ol
-        ref="dropdownMenuRef"
-        class="bs-dropdown-menu dropdown-menu"
-        :class="{show: expanded}"
-        :style="styleText">
-        <slot name="dropdown-item"></slot>
-      </ol>
-    </teleport>
+    <ol
+      ref="dropdownMenuRef"
+      class="dropdown-menu"
+      :class="{show: expanded}"
+      :style="styleText">
+      <slot name="dropdown-item"></slot>
+    </ol>
   </div>
 </template>
 
@@ -230,12 +228,12 @@ export default defineComponent({
         expanded.value = true;
 
         nextTick(() => {
-          let directionInfo = util.calcAbsoluteElementDisplayDirection(toggleEl, dropdownMenuRef.value, props.direction, true) as calcDirection;
-          console.log('directionInfo', directionInfo);
+          let directionInfo = calcDirection(props.direction);
+          // console.log('directionInfo', directionInfo);
           directionClass.value = directionOfClass[props.direction];
-          /* switch (directionInfo.direction) {
+          switch (directionInfo.direction) {
             case 'bottom':
-              styleText.value = `position:absolute;transform:translate3d(${directionInfo.left}px, ${directionInfo.top}px, 0);opacity:1;top:0;left:${directionInfo.left}px;bottom:auto;`;
+              styleText.value = `position:absolute;transform:translate3d(${directionInfo.left}px, ${directionInfo.top}px, 0);opacity:1;top:0;left:0;bottom:auto;`;
               break;
             case 'top':
               styleText.value = `position:absolute;transform:translate3d(${directionInfo.left}px, ${directionInfo.top}px, 0);opacity:1;top:auto;left:0;bottom:auto;`;
@@ -246,8 +244,7 @@ export default defineComponent({
             case 'right':
               styleText.value = `position:absolute;transform:translate3d(${directionInfo.left}px, ${directionInfo.top}px, 0);opacity:1;top:0;left:auto;right:0;`;
               break;
-          } */
-          styleText.value = `opacity:1;top:${directionInfo.top}px;left:${directionInfo.left}px;`;
+          }
         });
       }, props.trigger == 'click' ? 0 : 150);
     };
@@ -345,5 +342,18 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import "bs-dropdown";
+.bs-dropdown{
+  display: inline-block;
+  vertical-align: middle;
+  &.is-disabled{
+    opacity: 0.65;
+    cursor: default;
+    pointer-events: none;
+  }
+  .dropdown-menu{
+    min-width: 5rem;
+    margin: 0;
+    box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014, 0 9px 28px 8px #0000000d;
+  }
+}
 </style>

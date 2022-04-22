@@ -693,6 +693,7 @@ var tool = {
       throw new Error('calcAbsoluteElementDisplayDirection函数确少referenceEl, targetEl, defaultDirection其中的某个参数');
     }
     var referenceOffset = tool.offset(referenceEl);
+    console.log('referenceOffset', referenceOffset);
     var referenceRect = referenceEl.getBoundingClientRect();
     var targetElDisplay = tool.getStyle(targetEl, 'display');
     var targetElOpacity = tool.getStyle(targetEl, 'opacity');

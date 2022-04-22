@@ -1,17 +1,5 @@
 <template>
   <div class="component-usage">
-
-    <header class="fixed-header">
-      <bs-dropdown>
-        <bs-button class="dropdown-toggle" type="primary">你好，vue3</bs-button>
-        <template #dropdown-item>
-          <bs-dropdown-item>下拉框1</bs-dropdown-item>
-          <bs-dropdown-item>下拉框2</bs-dropdown-item>
-          <bs-dropdown-item>下拉框3</bs-dropdown-item>
-        </template>
-      </bs-dropdown>
-    </header>
-
     <h3 style="margin-top: 100px">向下</h3>
     <bs-dropdown>
       <bs-button class="dropdown-toggle" type="primary">使用</bs-button>
@@ -102,18 +90,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 .component-usage{
   height: 2000px;
-}
-.fixed-header{
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 10;
-  width: 100%;
-  height: 60px;
-  line-height: 60px;
-  text-align: right;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  background-color: #fff;
 }
 h3{
   margin-bottom: 0.8rem;
