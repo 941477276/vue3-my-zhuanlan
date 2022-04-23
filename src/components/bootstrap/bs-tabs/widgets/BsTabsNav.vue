@@ -56,7 +56,7 @@
         <span class="more-btn">
           <BsIcon name="three-dots"></BsIcon>
         </span>
-        <template #dropdown-item>
+        <template #dropdown-content>
           <bs-dropdown-item
             v-for="hiddenTab in hiddenTabsOptions"
             :key="hiddenTab.id"
