@@ -92,6 +92,9 @@ import {
 import { useHiddenTabsInfo } from './useHiddenTabsInfo';
 import { useActiveTab } from './useActiveTab';
 import { useTabsNavMove } from './useTabsNavMove';
+import {
+  useGlobalEvent
+} from '@/hooks/useGlobalEvent';
 
 export default defineComponent({
   name: 'BsTabsNav',
@@ -309,10 +312,12 @@ export default defineComponent({
     };
 
     onMounted(function () {
-      window.addEventListener(resizeEventName, resizeEvent, false);
+      // window.addEventListener(resizeEventName, resizeEvent, false);
+      useGlobalEvent.addEvent('window', resizeEventName, resizeEvent);
     });
     onUnmounted(function () {
-      window.removeEventListener(resizeEventName, resizeEvent, false);
+      // window.removeEventListener(resizeEventName, resizeEvent, false);
+      useGlobalEvent.removeEvent('window', resizeEventName, resizeEvent);
     });
 
     return {
