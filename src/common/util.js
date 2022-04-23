@@ -50,6 +50,11 @@ var tool = {
     // 浏览器滚动条高度
     var scrollTop = tool.scrollTop();
     var scrollLeft = tool.scrollLeft();
+    var hasScroll = {
+      vertical: document.body.offsetWidth < window.innerWidth,
+      horizontal: document.body.offsetWidth < document.body.scrollWidth
+    }
+    // console.log('hasScroll', hasScroll);
     var scrollWidth = tool.scrollWidth();
     // console.log('scrollTop/scrollLeft', scrollTop, scrollLeft);
     if(!top){
@@ -64,10 +69,17 @@ var tool = {
     let bottom = ele.offsetHeight + top;
     let right = ele.offsetWidth + left;
     let windowWH = tool.getDocumentWidthHeight();
-    // console.log('windowWH', windowWH, right)
+    // 如果有浏览器有滚动条，则需减去滚动条的宽度
+    if (hasScroll.vertical) {
+      windowWH.width = windowWH.width - scrollWidth.vertical;
+    }
+    if (hasScroll.horizontal) {
+      windowWH.height = windowWH.height - scrollWidth.horizontal
+    }
+    // console.log('left', left, right, scrollLeft);
     return {
-      vertical: top > 0 && top < (windowWH.height - scrollWidth.horizontal) && bottom > 0 && bottom <= (windowWH.height - scrollWidth.horizontal),
-      horizontal: left > 0 && left < (windowWH.width - scrollWidth.vertical) && right > 0 && right <= (windowWH.width - scrollWidth.vertical)
+      vertical: top > 0 && top < windowWH.height && bottom > 0 && bottom <= windowWH.height,
+      horizontal: left > 0 && left < windowWH.width && right > 0 && right <= windowWH.width
     };
   },
   /**
@@ -692,11 +704,33 @@ var tool = {
     if (!referenceEl || !targetEl || !defaultDirection) {
       throw new Error('calcAbsoluteElementDisplayDirection函数确少referenceEl, targetEl, defaultDirection其中的某个参数');
     }
+    let rightTailReg = /(\w+)Right$/;
+    let bottomTailReg = /(\w+)Bottom$/;
+    // 判断方向中是否含有Right
+    let defaultDirectionIsRight = false;
+    let defaultDirectionIsTop = false;
+    if (rightTailReg.test(defaultDirection)) {
+      defaultDirection = RegExp.$1;
+      defaultDirectionIsRight = true;
+    } else if (bottomTailReg.test(defaultDirection)){
+      defaultDirection = RegExp.$1;
+      defaultDirectionIsTop = true;
+    }
     var referenceOffset = tool.offset(referenceEl);
-    console.log('referenceOffset', referenceOffset);
+    // 判断参照元素是否在position: fixed的元素中
+    var referenceIsInFixedPosition = tool.isInFixedParents(referenceEl);
+    // console.log('referenceOffset原始的', { ...referenceOffset });
     var referenceRect = referenceEl.getBoundingClientRect();
+    var styleDisplay = targetEl.style.display;
+    var styleOpacity = targetEl.style.opacity;
     var targetElDisplay = tool.getStyle(targetEl, 'display');
-    var targetElOpacity = tool.getStyle(targetEl, 'opacity');
+    // var targetElOpacity = tool.getStyle(targetEl, 'opacity');
+    if (referenceIsInFixedPosition) {
+      // 如果reference元素处于fixed定位的父级容器，则需要加上浏览器滚动条滚动的距离
+      referenceOffset.top = referenceOffset.top + tool.scrollTop();
+      referenceOffset.left = referenceOffset.left + tool.scrollLeft();
+    }
+    // console.log('referenceOffset加上滚动条滚动距离的', referenceIsInFixedPosition, referenceOffset);
     if (targetElDisplay === 'none') {
       targetEl.style.display = 'block';
       targetEl.style.opacity = '0';
@@ -705,97 +739,152 @@ var tool = {
 
     var calcedDirection = null;
     var directionCalcFlow = []; // 存储按流程计算方向的函数，当下拉菜单在某个方向上不能完全展示时会自动切换一个方向
-    var handleBottom = function () {
+    var handleBottom = function (isBottomRight) {
       var top = referenceOffset.top + referenceRect.height;
-      var left = referenceOffset.left;
+      var left = isBottomRight ? Math.floor(referenceOffset.left - (targetElRect.width - referenceRect.width)) : referenceOffset.left;
+      // console.log('handleBottom,-----------', referenceOffset.left, targetElRect.width,referenceRect.width);
       var isInView = tool.eleInView(targetEl, top, left);
-      // console.log('handleBottom isInView', isInView);
+      // console.log('handleBottom isInView', isInView, isBottomRight, (targetElRect.width - referenceRect.width), left);
       return {
         vertical: isInView.vertical,
         horizontal: isInView.horizontal,
-        direction: 'bottom',
+        direction: isBottomRight ? 'bottomRight' : 'bottom',
         left: left,
         top: top
       };
     };
-    let handleTop = function () {
+    let handleTop = function (isTopRight) {
       var top = referenceOffset.top - targetElRect.height;
-      var left = referenceOffset.left;
+      var left = isTopRight ? Math.floor(referenceOffset.left - (targetElRect.width - referenceRect.width)) : referenceOffset.left;
       var isInView = tool.eleInView(targetEl, top, left);
       // console.log('handleTop isInView', isInView, top, left);
       return {
         vertical: isInView.vertical,
         horizontal: isInView.horizontal,
-        direction: 'top',
+        direction: isTopRight ? 'topRight' : 'top',
         left: left,
         top: top
       };
     };
-    let handleLeft = function () {
-      var top = referenceOffset.top;
+    let handleLeft = function (isLeftBottom) {
+      var top = isLeftBottom ? Math.floor(referenceOffset.top - (targetElRect.height - referenceRect.height)) : referenceOffset.top;
       var left = referenceOffset.left - targetElRect.width;
       var isInView = tool.eleInView(targetEl, top, left);
       // console.log('handleTop handleLeft', isInView);
       return {
         vertical: isInView.vertical,
         horizontal: isInView.horizontal,
-        direction: 'left',
+        direction: isLeftBottom ? 'leftBottom' : 'left',
         left: left,
         top: top
       };
     };
-    let handleRight = function () {
-      var top = referenceOffset.top;
+    let handleRight = function (isRightBottom) {
+      var top = isRightBottom ? Math.floor(referenceOffset.top - (targetElRect.height - referenceRect.height)) : referenceOffset.top;
       var left = referenceOffset.left + referenceRect.width;
       var isInView = tool.eleInView(targetEl, top, left);
       // console.log('handleTop handleRight', isInView);
       return {
         vertical: isInView.vertical,
         horizontal: isInView.horizontal,
-        direction: 'right',
+        direction: isRightBottom ? 'rightBottom' : 'right',
         left: left,
         top: top
       };
     };
+
     switch (defaultDirection) {
       case 'bottom':
-        directionCalcFlow.push(handleBottom);
-        directionCalcFlow.push(handleTop);
+        directionCalcFlow.push({
+          isTail: defaultDirectionIsRight,
+          handler: handleBottom
+        });
+        directionCalcFlow.push({
+          isTail: defaultDirectionIsRight,
+          handler: handleTop
+        });
         if (tryAllDirection) {
-          directionCalcFlow.push(handleLeft);
-          directionCalcFlow.push(handleRight);
+          directionCalcFlow.push({
+            isTail: false,
+            handler: handleLeft
+          });
+          directionCalcFlow.push({
+            isTail: false,
+            handler: handleRight
+          });
         }
         break;
       case 'top':
-        directionCalcFlow.push(handleTop);
-        directionCalcFlow.push(handleBottom);
+        directionCalcFlow.push({
+          isTail: defaultDirectionIsRight,
+          handler: handleTop
+        });
+        directionCalcFlow.push({
+          isTail: defaultDirectionIsRight,
+          handler: handleBottom
+        });
         if (tryAllDirection) {
-          directionCalcFlow.push(handleLeft);
-          directionCalcFlow.push(handleRight);
+          directionCalcFlow.push({
+            isTail: false,
+            handler: handleLeft
+          });
+          directionCalcFlow.push({
+            isTail: false,
+            handler: handleRight
+          });
         }
         break;
       case 'left':
-        directionCalcFlow.push(handleLeft);
-        directionCalcFlow.push(handleRight);
+        directionCalcFlow.push({
+          isTail: defaultDirectionIsTop,
+          handler: handleLeft
+        });
+        directionCalcFlow.push({
+          isTail: defaultDirectionIsTop,
+          handler: handleRight
+        });
         if (tryAllDirection) {
-          directionCalcFlow.push(handleBottom);
-          directionCalcFlow.push(handleTop);
+          directionCalcFlow.push({
+            isTail: false,
+            handler: handleBottom
+          });
+          directionCalcFlow.push({
+            isTail: false,
+            handler: handleTop
+          });
         }
         break;
       case 'right':
-        directionCalcFlow.push(handleRight);
-        directionCalcFlow.push(handleLeft);
+        directionCalcFlow.push({
+          isTail: defaultDirectionIsTop,
+          handler: handleRight
+        });
+        directionCalcFlow.push({
+          isTail: defaultDirectionIsTop,
+          handler: handleLeft
+        });
         if (tryAllDirection) {
-          directionCalcFlow.push(handleBottom);
-          directionCalcFlow.push(handleTop);
+          directionCalcFlow.push({
+            isTail: false,
+            handler: handleBottom
+          });
+          directionCalcFlow.push({
+            isTail: false,
+            handler: handleTop
+          });
         }
         break;
     }
 
     // 寻找元素在水平、垂直方向都完全出现在视口中的方向
-    directionCalcFlow.some(function (calcFn) {
-      let result = calcFn();
+    directionCalcFlow.some(function (flow) {
+      let result = flow.handler(flow.isTail);
       let inView = result.vertical && result.horizontal;
+      // 尝试一遍当前方向的尾方向
+      if (!inView) {
+        result = flow.handler(!flow.isTail);
+        inView = result.vertical && result.horizontal;
+      }
       if (inView) {
         calcedDirection = result;
       }
@@ -821,11 +910,36 @@ var tool = {
     }
     // console.log('使用默认的方位：', calcedDirection);
     // 恢复目标元素的display、opacity属性
-    if (targetElDisplay === 'none') {
-      targetEl.style.display = '';
-      targetEl.style.opacity = targetElOpacity || '';
+    if (styleOpacity) {
+      targetEl.style.opacity = styleOpacity;
+    } else {
+      targetEl.style.opacity = '';
+    }
+    if (styleDisplay) {
+      targetEl.style.display = styleDisplay;
     }
     return calcedDirection;
+  },
+  /**
+   * 判断dom元素是否处于fixed定位的元素中
+   * @param ele dom元素
+   * @returns {boolean}
+   */
+  isInFixedParents (ele) {
+    if (!ele || !ele.nodeType || ele.nodeType != 1) {
+      return false;
+    }
+    var offsetParent = ele.offsetParent;
+    var isFixedPosition = false;
+    while (offsetParent != null && !isFixedPosition) {
+      var positionVal = tool.getStyle(offsetParent, 'position');
+      if (positionVal === 'fixed') {
+        isFixedPosition = true;
+        break;
+      }
+      offsetParent = offsetParent.offsetParent;
+    }
+    return isFixedPosition;
   }
 };
 export default tool;

@@ -10,8 +10,25 @@
 
 .bs-dropdown-menu{
   float: none;
-  min-width: 5rem;
+  //min-width: 5rem;
+  min-width: 13rem;
   border-color: #ebebeb;
   margin: 0;
   box-shadow: 0 3px 6px -4px #0000001f, 0 5px 14px #00000014, 0 7px 24px 6px #0000000d;
+  &.bs-dropdown-menu-direction-top,
+  &.bs-dropdown-menu-direction-topRight{
+    margin-top: -.35rem;
+  }
+  &.bs-dropdown-menu-direction-bottom,
+  &.bs-dropdown-menu-direction-bottomRight{
+    margin-top: .35rem;
+  }
+  &.bs-dropdown-menu-direction-left,
+  &.bs-dropdown-menu-direction-leftBottom{
+    margin-left: -.35rem;
+  }
+  &.bs-dropdown-menu-direction-right,
+  &.bs-dropdown-menu-direction-rightBottom{
+    margin-left: .35rem;
+  }
 }

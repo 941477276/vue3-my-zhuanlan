@@ -1,11 +1,11 @@
 <template>
   <div class="dropdown-divider" v-if="divider"></div>
-  <li
+  <div
     class="dropdown-item"
     :class="{disabled: disabled, active: active}"
     @click="onDropdownItemClick">
     <slot></slot>
-  </li>
+  </div>
 </template>
 
 <script lang="ts">

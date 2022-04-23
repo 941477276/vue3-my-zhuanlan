@@ -1,4 +1,5 @@
 import { ref, onMounted, onBeforeUnmount, Ref } from 'vue';
+import { useGlobalEvent } from '@/hooks/useGlobalEvent';
 import { util } from '@/common/util';
 
 export function useClickOutside (eleRefs: Ref<HTMLElement|null>|Ref<HTMLElement|null>[], callback?: (isClickOutside: boolean) => void):Ref {
@@ -18,10 +19,12 @@ export function useClickOutside (eleRefs: Ref<HTMLElement|null>|Ref<HTMLElement|
     }
   };
   onMounted(() => {
-    document.documentElement.addEventListener('click', documentClickEvt, false);
+    // document.documentElement.addEventListener('click', documentClickEvt, false);
+    useGlobalEvent.addEvent('document', 'click', documentClickEvt);
   });
   onBeforeUnmount(() => {
-    document.documentElement.removeEventListener('click', documentClickEvt, false);
+    // document.documentElement.removeEventListener('click', documentClickEvt, false);
+    useGlobalEvent.removeEvent('document', 'click', documentClickEvt);
   });
   return flag;
 }
