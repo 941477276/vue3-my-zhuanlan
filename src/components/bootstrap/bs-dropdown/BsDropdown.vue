@@ -210,7 +210,7 @@ export default defineComponent({
       if (!visible.value) {
         return;
       }
-      if (resizeTimer == 0 || now - resizeTimer > 300) {
+      if (resizeTimer == 0 || now - resizeTimer >= 200) {
         let directionInfo = util.calcAbsoluteElementDisplayDirection(toggleEl, dropdownMenuRef.value, props.placement, true) as CalcDirection;
         // console.log('resize event directionInfo', directionInfo);
         dropdownMenuStyle.left = directionInfo.left;
