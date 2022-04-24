@@ -1,0 +1,77 @@
+@mixin slide-top{
+  &.slide-enter-active,
+  &.slide-leave{
+    transition: transform .2s, opacity .2s;
+  }
+  &.slide-enter-from,
+  &.slide-leave-to{
+    transform: scaleY(0.8);
+    transform-origin: 100% 100%;
+    opacity: 0;
+  }
+  &.slide-enter-to,
+  &.slide-leave-from{
+    transform: scaleY(1);
+    transform-origin: 100% 100%;
+    opacity: 1;
+  }
+}
+
+
+@mixin slide-down{
+  &.slide-enter-active,
+  &.slide-leave{
+    transition: transform .2s, opacity .2s;
+  }
+  &.slide-enter-from,
+  &.slide-leave-to{
+    transform: scaleY(0.8);
+    transform-origin: 0% 0%;
+    opacity: 0;
+  }
+  &.slide-enter-to,
+  &.slide-leave-from{
+    transform: scaleY(1);
+    transform-origin: 0% 0%;
+    opacity: 1;
+  }
+}
+
+
+@mixin slide-left{
+  &.slide-enter-active,
+  &.slide-leave{
+    transition: transform .2s, opacity .2s;
+  }
+  &.slide-enter-from,
+  &.slide-leave-to{
+    transform: scaleX(0.8);
+    transform-origin: 100% 100%;
+    opacity: 0;
+  }
+  &.slide-enter-to,
+  &.slide-leave-from{
+    transform: scaleX(1);
+    transform-origin: 100% 100%;
+    opacity: 1;
+  }
+}
+
+@mixin slide-right{
+  &.slide-enter-active,
+  &.slide-leave{
+    transition: transform .2s, opacity .2s;
+  }
+  &.slide-enter-from,
+  &.slide-leave-to{
+    transform: scaleX(0.8);
+    transform-origin: 0% 0%;
+    opacity: 0;
+  }
+  &.slide-enter-to,
+  &.slide-leave-from{
+    transform: scaleX(1);
+    transform-origin: 0% 0%;
+    opacity: 1;
+  }
+}
