@@ -17,9 +17,9 @@
   <!--<div class="box">
     <BsCheckboxGroupUsage></BsCheckboxGroupUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsSelectUsage></BsSelectUsage>
-  </div>
+  </div>-->
   <!--<div class="box">
     <BsFormUsage></BsFormUsage>
   </div>-->
@@ -51,7 +51,9 @@
   <!--<div class="box">
     <BsSwitchUsage></BsSwitchUsage>
   </div>-->
-  <!--<div class="box"></div>-->
+  <div class="box">
+    <BsMessageBoxUsage></BsMessageBoxUsage>
+  </div>
 </template>
 
 <script lang="ts">
@@ -75,6 +77,7 @@ import BsTagUsage from '@/components/bootstrap/bs-tag/BsTagUsage.vue';
 import BsProgressUsage from '@/components/bootstrap/bs-progress/BsProgressUsage.vue';
 import BsTabsUsage from '@/components/bootstrap/bs-tabs/BsTabsUsage.vue';
 import BsSwitchUsage from '@/components/bootstrap/bs-switch/BsSwitchUsage.vue';
+import BsMessageBoxUsage from '@/components/bootstrap/bs-message-box/BsMessageBoxUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -98,7 +101,8 @@ export default defineComponent({
     BsTagUsage,
     BsProgressUsage,
     BsTabsUsage,
-    BsSwitchUsage
+    BsSwitchUsage,
+    BsMessageBoxUsage
   },
   setup () {
     return {
