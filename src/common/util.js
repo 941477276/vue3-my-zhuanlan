@@ -334,7 +334,9 @@ var tool = {
       x: 0,
       y: 0,
       z: 0,
-      rotate: 0
+      rotate: 0,
+      scaleX: 1,
+      scaleY: 1
     };
     // console.log('transformValue', transformValue);
     if (!transformValue || transformValue == 'none') {
@@ -361,11 +363,13 @@ var tool = {
       return deg >= 360 ? 0 : deg;
     }
     var matrix = result ? result[1].split(',') : translates.split(',');
-
+    // console.log('matrix', matrix);
     resultObj.x = matrix.length > 6 ? parseFloat(matrix[12]) : parseFloat(matrix[4]);
     resultObj.y = matrix.length > 6 ? parseFloat(matrix[13]) : parseFloat(matrix[5]);
     resultObj.z = matrix.length > 6 ? parseFloat(matrix[14]) : 0;
     resultObj.rotate = matrix.length > 6 ? getRotate([parseFloat(matrix[0]), parseFloat(matrix[1]), parseFloat(matrix[4]), parseFloat(matrix[5])]) : getRotate(matrix);
+    resultObj.scaleX =  parseFloat(matrix[0]);
+    resultObj.scaleY =  parseFloat(matrix[3]);
 
     return resultObj;
   },
@@ -736,6 +740,12 @@ var tool = {
       targetEl.style.opacity = '0';
     }
     var targetElRect = targetEl.getBoundingClientRect();
+    var targetElTransform = tool.getEleTranslateValue(tool.getStyle(targetEl, 'transform'));
+    // console.log('targetElRect', targetElRect, tool.getStyle(targetEl, 'transform'), targetElTransform);
+    // 如果dom元素设置了scale的话需要根据当前的宽高计算出元素真正的宽高，否则计算位置会不准确
+    targetElRect.width = Math.round(targetElRect.width / Math.abs(targetElTransform.scaleX));
+    targetElRect.height = Math.round(targetElRect.height / Math.abs(targetElTransform.scaleY));
+    // console.log('计算scale后的宽高', {width: targetElRect.width, height: targetElRect.height});
 
     var calcedDirection = null;
     var directionCalcFlow = []; // 存储按流程计算方向的函数，当下拉菜单在某个方向上不能完全展示时会自动切换一个方向

@@ -5,22 +5,25 @@
     ref="dropdownRef">
     <slot></slot>
     <teleport to="body">
-      <div
-        v-if="display"
-        v-show="visible"
-        ref="dropdownMenuRef"
-        class="bs-dropdown-menu dropdown-menu"
-        :class="[
+      <transition
+        name="slide">
+        <div
+          v-if="display"
+          v-show="visible"
+          ref="dropdownMenuRef"
+          class="bs-dropdown-menu dropdown-menu"
+          :class="[
           dropdownMenuClass,
           `bs-dropdown-menu-direction-${displayDirection}`
         ]"
-        :style="{
+          :style="{
           left: dropdownMenuStyle.left + 'px',
           top: dropdownMenuStyle.top + 'px',
           zIndex: dropdownMenuStyle.zIndex
         }">
-        <slot name="dropdown-content"></slot>
-      </div>
+          <slot name="dropdown-content"></slot>
+        </div>
+      </transition>
     </teleport>
   </div>
 </template>
@@ -122,6 +125,14 @@ export default defineComponent({
     let isClickOutside = useClickOutside([dropdownRef, dropdownMenuRef]); // 是否点击了下拉菜单的外面
     let { nextZIndex } = useZIndex();
 
+    // 计算下拉菜单的显示位置
+    let calcDirection = function () {
+      let directionInfo = util.calcAbsoluteElementDisplayDirection(toggleEl, dropdownMenuRef.value, props.placement, true) as CalcDirection;
+      console.log('directionInfo', directionInfo);
+      dropdownMenuStyle.left = directionInfo.left;
+      dropdownMenuStyle.top = directionInfo.top;
+      displayDirection.value = directionInfo.direction;
+    };
     // 显示
     let show = function () {
       clearTimeout(eventTimer);
@@ -138,11 +149,12 @@ export default defineComponent({
         }
 
         nextTick(() => {
-          let directionInfo = util.calcAbsoluteElementDisplayDirection(toggleEl, dropdownMenuRef.value, props.placement, true) as CalcDirection;
+          /* let directionInfo = util.calcAbsoluteElementDisplayDirection(toggleEl, dropdownMenuRef.value, props.placement, true) as CalcDirection;
           console.log('directionInfo', directionInfo);
           dropdownMenuStyle.left = directionInfo.left;
           dropdownMenuStyle.top = directionInfo.top;
-          displayDirection.value = directionInfo.direction;
+          displayDirection.value = directionInfo.direction; */
+          calcDirection();
 
           ctx.emit('show');
         });
@@ -206,7 +218,7 @@ export default defineComponent({
         if (!mouseInDropdownEl && !mouseInDropdownMenuEl) {
           hide(0);
         }
-      }, 150);
+      }, 210);
     };
 
     let resizeTimer = 0;
@@ -218,11 +230,12 @@ export default defineComponent({
         return;
       }
       if (resizeTimer == 0 || now - resizeTimer >= 200) {
-        let directionInfo = util.calcAbsoluteElementDisplayDirection(toggleEl, dropdownMenuRef.value, props.placement, true) as CalcDirection;
+        /* let directionInfo = util.calcAbsoluteElementDisplayDirection(toggleEl, dropdownMenuRef.value, props.placement, true) as CalcDirection;
         // console.log('resize event directionInfo', directionInfo);
         dropdownMenuStyle.left = directionInfo.left;
         dropdownMenuStyle.top = directionInfo.top;
-        displayDirection.value = directionInfo.direction;
+        displayDirection.value = directionInfo.direction; */
+        calcDirection();
         resizeTimer = now;
       }
     };
