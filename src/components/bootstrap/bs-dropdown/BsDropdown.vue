@@ -146,17 +146,19 @@ export default defineComponent({
 
           ctx.emit('show');
         });
-      }, props.trigger == 'click' ? 0 : 120);
+      }, props.trigger == 'click' ? 0 : 150);
     };
     // 隐藏
     let hide = function (delayTime = 0) {
-      clearTimeout(eventTimer);
+      if (delayTime != 0) {
+        clearTimeout(eventTimer);
+      }
       // 鼠标离开trigger el后不立即隐藏下拉菜单，因为有可能鼠标是移动到了下拉菜单本身中
       eventTimer = setTimeout(() => {
         clearTimeout(eventTimer);
         visible.value = false;
         ctx.emit('hide');
-      }, delayTime || (props.trigger == 'click' ? 0 : 120));
+      }, delayTime || (props.trigger == 'click' ? 0 : 150));
     };
 
     // trigger el点击事件
@@ -178,28 +180,33 @@ export default defineComponent({
       clearTimeout(mouseLeaveTimer);
       show();
     };
+
     // 鼠标离开事件
+    let mouseMoveEventTarget: EventTarget|null; // 这里必须把触发鼠标移动事件的目标元素放到外面，这样当鼠标从下拉菜单触发元素移动到下拉菜单的时候才能始终保持显示
     let onMousemove = function (evt: MouseEvent) {
       if (!visible.value) {
         return;
       }
-      clearTimeout(mouseLeaveTimer);
+      mouseMoveEventTarget = evt.target;
+      // clearTimeout(mouseLeaveTimer);
       // 延迟一会才好计算鼠标是否在元素内
       mouseLeaveTimer = setTimeout(function () {
-        let target = evt.target;
-        let mouseInDropdownEl = util.elementContains(dropdownRef.value, target);
-        let mouseInDropdownMenuEl = util.elementContains(dropdownMenuRef.value, target);
-        // console.log('mouseInDropdownEl', target, mouseInDropdownEl, mouseInDropdownMenuEl);
+        clearTimeout(mouseLeaveTimer);
+
+        let mouseInDropdownEl = util.elementContains(dropdownRef.value, mouseMoveEventTarget);
+        let mouseInDropdownMenuEl = util.elementContains(dropdownMenuRef.value, mouseMoveEventTarget);
+        // console.log('mouseInDropdownEl', mouseMoveEventTarget, mouseInDropdownEl, mouseInDropdownMenuEl);
         if (!mouseInDropdownEl) {
-          mouseInDropdownEl = dropdownRef.value === target;
+          mouseInDropdownEl = dropdownRef.value === mouseMoveEventTarget;
         }
         if (!mouseInDropdownMenuEl) {
-          mouseInDropdownMenuEl = dropdownMenuRef.value === target;
+          mouseInDropdownMenuEl = dropdownMenuRef.value === mouseMoveEventTarget;
         }
+        // console.log('timeOut', !mouseInDropdownEl, !mouseInDropdownMenuEl);
         if (!mouseInDropdownEl && !mouseInDropdownMenuEl) {
           hide(0);
         }
-      }, 120);
+      }, 150);
     };
 
     let resizeTimer = 0;
