@@ -179,7 +179,7 @@ export default defineComponent({
     let selectId = ref(props.id || `bs-select_${getSelectCount()}`);
     let dropdownDisplayed = ref(false); // 下拉菜单是否已经渲染
     let dropdownVisible = ref(false); // 下拉菜单是否显示
-    let dropdownDisplayDirection = ref(''); // 下拉菜单展示方位
+    let dropdownDisplayDirection = ref('bottom'); // 下拉菜单展示方位
     let options = ref<SelectOptionItem[]>([]); // 存储option的label及value
     let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
 
