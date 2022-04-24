@@ -82,6 +82,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.bs-select{
+  width: auto;
+}
 </style>

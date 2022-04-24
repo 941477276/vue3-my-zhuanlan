@@ -1,10 +1,12 @@
+@import "../../../scss/slide-transition.mixin";
 .bs-select{
   display: inline-block;
   vertical-align: middle;
+  width: 100%;
   .bs-input-wrap{
     .form-control{
       &:not(:disabled){
-        cursor: default;
+        cursor: pointer;
         background-color: #fff;
       }
     }
@@ -33,6 +35,7 @@
 .bs-select-dropdown{
   position: absolute;
   //top: -100%;
+  display: none;
   z-index: 2222;
   max-height: 280px;
   border: 1px solid #e4e7eb;
@@ -42,9 +45,11 @@
   background-color: #fff;
   &.display-on-bottom{
     margin-top: 0.3rem;
+    @include slide-down;
   }
   &.display-on-top{
     margin-top: -0.3rem;
+    @include slide-top;
   }
 }
 .bs-select-empty{

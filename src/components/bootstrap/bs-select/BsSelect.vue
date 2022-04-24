@@ -42,23 +42,25 @@
     <!-- 这里不能使用延迟渲染的方案，因为这会导致子组件也延迟渲染，从而导致上面的<select>标签不能在组件渲染时就生成
       <teleport to="body" v-if="dropdownDisplayed">-->
     <teleport to="body">
-      <ul
-        v-show="dropdownVisible"
-        ref="bsSelectDropdownRef"
-        class="bs-select-dropdown"
-        :class="{
+      <transition name="slide">
+        <ul
+          v-show="dropdownVisible"
+          ref="bsSelectDropdownRef"
+          class="bs-select-dropdown"
+          :class="{
           'is-multiple': multiple,
           'display-on-top': dropdownDisplayDirection === 'top',
           'display-on-bottom': dropdownDisplayDirection === 'bottom',
         }"
-        :data-for-bs-select="selectId">
-        <slot></slot>
-        <li
-          v-if="options.length == 0"
-          class="bs-select-empty">
-          <slot name="empty">{{ noDataText }}</slot>
-        </li>
-      </ul>
+          :data-for-bs-select="selectId">
+          <slot></slot>
+          <li
+            v-if="options.length == 0"
+            class="bs-select-empty">
+            <slot name="empty">{{ noDataText }}</slot>
+          </li>
+        </ul>
+      </transition>
     </teleport>
   </div>
 </template>
