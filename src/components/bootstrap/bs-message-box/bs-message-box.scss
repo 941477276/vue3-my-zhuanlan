@@ -8,6 +8,22 @@
   border-radius: .25rem;
   background-color: #fff;
   &.theme-dialog{
+    .bs-message-box-header{
+      position: relative;
+      &.has-close{
+        padding-right: 3rem;
+      }
+    }
+    .bs-message-box-title{
+      margin-bottom: 0;
+      font-weight: 400;
+    }
+    .bs-message-box-close{
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+    }
     .bs-message-box-body{
       padding: .625rem 1rem;
     }
@@ -22,11 +38,45 @@
   font-weight: bold;
   color: #222;
 }
+.bs-message-box-title{
+  margin-bottom: .5rem;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow: hidden;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.bs-message-box-close{
+  line-height: 1;
+  padding: .25rem 1rem .25rem .5rem;
+  color: #ccc;
+  &:hover,
+  &:focus{
+    text-decoration: none;
+    box-shadow: none;
+  }
+  span{
+    line-height: 1;
+    font-size: 1.5rem;
+  }
+}
 .bs-message-box-body{
-  padding: 1rem;
+  padding: 2rem;
   font-size: 0.875rem;
 }
+.bs-message-box-icon{
+  float: left;
+  margin-right: 1.2rem;
+  .bs-svg-icon{
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+.bs-message-box-content-wrap{
+  overflow: hidden;
+}
 .bs-message-box-btns{
+  padding: 0 2rem 1.5rem 2rem;
   text-align: right;
   .bs-button + .bs-button{
     margin-left: .625rem;
