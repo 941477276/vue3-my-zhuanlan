@@ -1,36 +1,12 @@
 .bs-message-box-wrapper{
   display: inline-block;
-  padding: 100px;
+  padding: 30px;
   background-color: rgba(0,0,0,0.2);
 }
 .bs-message-box{
   min-width: 25rem; // 400px
   border-radius: .25rem;
   background-color: #fff;
-  &.theme-dialog{
-    .bs-message-box-header{
-      position: relative;
-      &.has-close{
-        padding-right: 3rem;
-      }
-    }
-    .bs-message-box-title{
-      margin-bottom: 0;
-      font-weight: 400;
-    }
-    .bs-message-box-close{
-      position: absolute;
-      top: 50%;
-      right: 0;
-      transform: translateY(-50%);
-    }
-    .bs-message-box-body{
-      padding: .625rem 1rem;
-    }
-    .bs-message-box-btns{
-      padding: .625rem 1rem 1rem 1rem;
-    }
-  }
 }
 .bs-message-box-header{
   padding: 1rem 1rem .625rem 1rem;
@@ -47,6 +23,7 @@
   font-weight: 600;
 }
 .bs-message-box-close{
+  display: none;
   line-height: 1;
   padding: .25rem 1rem .25rem .5rem;
   color: #ccc;
@@ -80,5 +57,57 @@
   text-align: right;
   .bs-button + .bs-button{
     margin-left: .625rem;
+  }
+}
+
+
+.bs-message-box{
+  &.theme-dialog{
+    .bs-message-box-header{
+      position: relative;
+      &.has-close{
+        padding-right: 3rem;
+        .bs-message-box-close{
+          display: block;
+        }
+      }
+    }
+    .bs-message-box-title{
+      margin-bottom: 0;
+      font-weight: 400;
+    }
+    .bs-message-box-close{
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      margin-top: .1rem;
+    }
+    .bs-message-box-body{
+      padding: .625rem 1rem;
+    }
+    .bs-message-box-btns{
+      padding: .625rem 1rem 1rem 1rem;
+    }
+  }
+  &.bs-message-box-info{
+    .bs-message-box-icon{
+      color: var(--primary);
+    }
+  }
+  &.bs-message-box-success{
+    .bs-message-box-icon{
+      color: var(--success);
+    }
+  }
+  &.bs-message-box-warning{
+    .bs-message-box-icon{
+      color: var(--warning);
+    }
+  }
+  &.bs-message-box-danger{
+    .bs-message-box-icon{
+      color: var(--danger);
+    }
   }
 }
