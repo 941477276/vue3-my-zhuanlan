@@ -1,10 +1,10 @@
 .bs-input{
-  &.input-group-sm .form-control:not(textarea){
+  /*&.input-group-sm .form-control:not(textarea){
     height: calc(1.5em + 0.5rem + 2px);
   }
   &.input-group-lg .form-control:not(textarea){
     height: calc(1.5em + 1rem + 2px);
-  }
+  }*/
   &.has-suffix-icon{
     .form-control{
       padding-right: calc(0.75rem + 1.5rem);

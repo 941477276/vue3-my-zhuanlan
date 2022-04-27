@@ -24,10 +24,13 @@
           ref="inputRef"
           class="form-control"
           autocomplete="off"
-          :class="{
-            'is-valid': validateStatus === 'success',
-            'is-invalid': validateStatus === 'error'
-          }"
+          :class="[
+            {
+              'is-valid': validateStatus === 'success',
+              'is-invalid': validateStatus === 'error'
+            },
+            size ? `form-control-${size}` : ''
+          ]"
           :type="inputType"
           v-bind="$attrs"
           :id="inputId"
@@ -120,11 +123,10 @@ import { useInput } from './useInput';
 import {
   FormItemContext,
   BsSize,
+  BsInputType,
   formItemContextKey
 } from '@/ts-tokens/bootstrap';
 import BsIcon from '../bs-icon/BsIcon.vue';
-
-type InputType = 'text' | 'password' | 'number' | 'textarea' | 'email' | 'file' | 'hidden' | 'image' | 'submit' | 'button' | 'reset';
 
 export default defineComponent({
   name: 'BsInput',
@@ -141,7 +143,7 @@ export default defineComponent({
       default: ''
     },
     type: { // 输入框类型
-      type: String as PropType<InputType>,
+      type: String as PropType<BsInputType>,
       default: 'text'
     },
     disabled: {
