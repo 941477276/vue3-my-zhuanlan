@@ -3,7 +3,9 @@
   <h3>UI样式</h3>
   <bs-message-box
     title="温馨提示"
-    message="一个消息盒子！"></bs-message-box>
+    message="一个消息盒子！">
+    消息盒子内容！
+  </bs-message-box>
 
   <hr>
   <h3>弹窗样式</h3>
@@ -21,6 +23,17 @@
     :dialog-theme="true"
     :show-close="true"
     :show-icon="false">
+    一个弹窗样式消息盒子！
+  </bs-message-box>
+
+  <hr>
+  <h3>提交内容(prompt)</h3>
+  <bs-message-box
+    title="没有图标的消息盒子"
+    type="prompt"
+    input-label="你的邮箱"
+    input-placeholder="请输入你的邮箱"
+    :dialog-theme="false">
     一个弹窗样式消息盒子！
   </bs-message-box>
 </div>

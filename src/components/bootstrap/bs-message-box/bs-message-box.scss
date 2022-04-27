@@ -7,6 +7,7 @@
   min-width: 25rem; // 400px
   border-radius: .25rem;
   background-color: #fff;
+  transition: all .3s cubic-bezier(.78,.14,.15,.86);
 }
 .bs-message-box-header{
   padding: 1rem 1rem .625rem 1rem;
@@ -62,6 +63,9 @@
 
 
 .bs-message-box{
+  .bs-form-item{
+    margin-bottom: 0;
+  }
   &.theme-dialog{
     .bs-message-box-header{
       position: relative;
@@ -81,7 +85,7 @@
       top: 50%;
       right: 0;
       transform: translateY(-50%);
-      margin-top: .1rem;
+      /*margin-top: .1rem;*/
     }
     .bs-message-box-body{
       padding: .625rem 1rem;
@@ -108,6 +112,11 @@
   &.bs-message-box-danger{
     .bs-message-box-icon{
       color: var(--danger);
+    }
+  }
+  &.bs-message-box-prompt{
+    .bs-message-box-content-wrap{
+      overflow: visible;
     }
   }
 }

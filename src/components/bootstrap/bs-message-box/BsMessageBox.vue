@@ -31,24 +31,39 @@
       </bs-button>
     </div>
     <div class="bs-message-box-body">
-      <span
-        v-if="showIcon"
-        class="bs-message-box-icon">
-        <slot name="icon">
-          <BsIcon :name="iconName"></BsIcon>
-        </slot>
-      </span>
-      <div class="bs-message-box-content-wrap">
-        <div class="bs-message-box-title" v-if="!dialogTheme">
-          <slot name="title">{{ typeof title === 'function' ? title() : title }}</slot>
-        </div>
-        <div class="bs-message-box-content">
-          <slot>
-            <div v-if="dangerouslyUseHTMLString" v-html="message"></div>
-            <template v-else>{{ message }}</template>
+      <template v-if="type !== 'prompt'">
+        <span
+          v-if="showIcon"
+          class="bs-message-box-icon">
+          <slot name="icon">
+            <BsIcon :name="iconName"></BsIcon>
           </slot>
+        </span>
+        <div class="bs-message-box-content-wrap">
+          <div class="bs-message-box-title" v-if="!dialogTheme">
+            <slot name="title">{{ typeof title === 'function' ? title() : title }}</slot>
+          </div>
+          <div class="bs-message-box-content">
+            <slot>
+              <div v-if="dangerouslyUseHTMLString" v-html="message"></div>
+              <template v-else>{{ message }}</template>
+            </slot>
+          </div>
         </div>
-      </div>
+      </template>
+      <template v-else>
+        <div class="bs-message-box-content-wrap">
+          <div class="bs-message-box-title" v-if="!dialogTheme">
+            <slot name="title">{{ typeof title === 'function' ? title() : title }}</slot>
+          </div>
+          <BsFormItem :label="inputLabel" :rules="inputRules">
+            <BsInput
+              v-bind="inputProps"
+              :type="inputType"
+              :placeholder="inputPlaceholder"></BsInput>
+          </BsFormItem>
+        </div>
+      </template>
     </div>
     <div class="bs-message-box-btns">
       <bs-button v-if="showCancelButton" type="primary" plain>取消</bs-button>
@@ -71,6 +86,8 @@ import {
 } from 'vue';
 import BsButton from '../bs-button/BsButton.vue';
 import BsIcon from '../bs-icon/BsIcon.vue';
+import BsInput from '../bs-input/BsInput.vue';
+import BsFormItem from '../bs-form/widgets/BsFormItem.vue';
 import { bsMessageBoxProps } from './bs-message-box-props';
 import { MessageType, supportMessageTypes } from '@/ts-tokens/bootstrap/message';
 
@@ -85,7 +102,9 @@ export default defineComponent({
   name: 'BsMessageBox',
   components: {
     BsButton,
-    BsIcon
+    BsIcon,
+    BsInput,
+    BsFormItem
   },
   props: bsMessageBoxProps,
   setup (props: any) {

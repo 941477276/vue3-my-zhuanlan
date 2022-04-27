@@ -3,11 +3,12 @@ import {
   VNode
 } from 'vue';
 import {
-  MessageType,
-  supportMessageTypes
+  MessageBoxType,
+  supportMessageBoxTypes
 } from '@/ts-tokens/bootstrap/message';
 import {
-  BsColorType
+  BsColorType,
+  BsInputType
 } from '@/ts-tokens/bootstrap';
 
 export const bsMessageBoxProps = {
@@ -15,10 +16,10 @@ export const bsMessageBoxProps = {
     default: null
   },
   type: { // 类型
-    type: String as PropType<MessageType>,
+    type: String as PropType<MessageBoxType>,
     default: 'info',
-    validator (typeVal: MessageType) {
-      return supportMessageTypes.includes(typeVal);
+    validator (typeVal: MessageBoxType) {
+      return supportMessageBoxTypes.includes(typeVal);
     }
   },
   id: {
@@ -59,7 +60,7 @@ export const bsMessageBoxProps = {
   },
   showClose: { // 是否显示关闭按钮
     type: Boolean,
-    default: false
+    default: true
   },
   showOnButton: { // 是否显示确定按钮
     type: Boolean,
@@ -116,5 +117,33 @@ export const bsMessageBoxProps = {
   okText: { // 确定按钮的文本
     type: String,
     default: '确定'
+  },
+  inputLabel: { // 输入框的描述文本
+    type: String,
+    default: ''
+  },
+  inputType: { // 输入框的类型
+    type: String as PropType<BsInputType>,
+    default: 'text'
+  },
+  inputPlaceholder: { // 输入框的占位符
+    type: String,
+    default: ''
+  },
+  inputValue: { // 输入框的初始值
+    type: [String, Number],
+    default: ''
+  },
+  inputRules: { // 输入框的校验规则，与<bs-form-item>的校验规则一致
+    type: Array,
+    default () {
+      return [];
+    }
+  },
+  inputProps: { // 输入框的其他属性
+    type: Object,
+    default () {
+      return { size: 'sm' };
+    }
   }
 };

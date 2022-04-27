@@ -4,6 +4,8 @@ import {
 
 export type MessageType = 'success' | 'danger' | 'warning' | 'info';
 
+export type MessageBoxType = 'success' | 'danger' | 'warning' | 'info' | 'prompt';
+
 export type MessageFn = (options: any, appContext?: AppContext) => string;
 
 export interface Message extends MessageFn {
@@ -15,3 +17,4 @@ export interface Message extends MessageFn {
 }
 
 export const supportMessageTypes = ['success', 'danger', 'warning', 'info'];
+export const supportMessageBoxTypes = ['success', 'danger', 'warning', 'info', 'prompt'];
