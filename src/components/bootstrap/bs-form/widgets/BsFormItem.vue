@@ -59,6 +59,9 @@ import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
 export default defineComponent({
   name: 'BsFormItem',
   props: {
+    value: { // 当前表单项的值，仅用来校验当前表单项时使用
+      default: null
+    },
     label: {
       type: String,
       default: ''
@@ -222,7 +225,13 @@ export default defineComponent({
         callback?.('');
         return;
       }
-      let fieldVal = util.getPropValueByPath(formContext?.props.model, props.fieldPropName).value;
+      let fieldVal;
+      if (props.fieldPropName) {
+        // 根据fieldPropName从<bs-form>组件中传递下来的model对象中查找字段值
+        fieldVal = util.getPropValueByPath(formContext?.props.model, props.fieldPropName).value;
+      } else {
+        fieldVal = props.value;
+      }
       // console.log('validate fieldVal', fieldVal);
       let rule = !trigger ? rules.value : rules.value.filter(ruleItem => {
         return Array.isArray(ruleItem.trigger) ? ruleItem.trigger.includes(trigger) : ruleItem.trigger === trigger;
@@ -234,12 +243,12 @@ export default defineComponent({
       }
       validStatus.value = 'validating';
       let descriptor = {
-        [props.fieldPropName]: rule
+        [props.fieldPropName || 'unnamed_field']: rule
       };
 
       let validator = new Schema(descriptor); // 创建校验器
       // console.log(validator);
-      validator.validate({ [props.fieldPropName]: fieldVal }, { firstFields: true }, (errors, fields) => {
+      validator.validate({ [props.fieldPropName || 'unnamed_field']: fieldVal }, { firstFields: true }, (errors, fields) => {
         // console.log('字段：', fields);
         if (errors) {
           // console.log('错误：', errors, (errors as Array<any>)[0].message);
