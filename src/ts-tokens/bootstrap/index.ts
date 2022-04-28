@@ -5,5 +5,8 @@ export type BsColorType = 'primary' | 'secondary' | 'success' | 'danger' | 'warn
 export type BsPlacement = 'left' | 'top' | 'bottom' | 'right' | 'leftBottom' | 'topRight' | 'bottomRight' | 'rightBottom';
 export type BsInputType = 'text' | 'password' | 'number' | 'textarea' | 'email' | 'file' | 'hidden' | 'image' | 'submit' | 'button' | 'reset';
 export type EventCallbackFn = (event?: any) => any;
+export type StringKeyObject = {
+  [key: string]: any;
+}
 
 export const supportedBsColorTypes = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'];

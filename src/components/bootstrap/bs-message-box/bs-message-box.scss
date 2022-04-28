@@ -1,7 +1,11 @@
-.bs-message-box-wrapper{
-  display: inline-block;
-  padding: 30px;
+.bs-message-box-root{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: rgba(0,0,0,0.2);
+  /*text-align: center;*/
 }
 .bs-message-box{
   min-width: 25rem; // 400px
@@ -63,6 +67,13 @@
 
 
 .bs-message-box{
+  position: relative;
+  top: 6.25rem; /* 100px */
+  width: 25rem; /* 400px */
+  /*display: inline-block;
+  vertical-align: middle;
+  text-align: left;*/
+  margin: 0 auto;
   .bs-form-item{
     margin-bottom: 0;
   }
@@ -117,6 +128,41 @@
   &.bs-message-box-prompt{
     .bs-message-box-content-wrap{
       overflow: visible;
+    }
+  }
+}
+.bs-message-box-root{
+  &.bs-message-box-centered{
+    &::after{
+      display: inline-block;
+      vertical-align: middle;
+      content: ' ';
+      width: 0;
+      height: 100%;
+    }
+    text-align: center;
+    .bs-message-box{
+      top: 0;
+      display: inline-block;
+      vertical-align: middle;
+      text-align: left;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .bs-message-box{
+    top: 8vh;
+    width: 100%;
+    max-width: calc(100% - 2rem);
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  .bs-message-box-root{
+    &.bs-message-box-centered{
+      .bs-message-box{
+        top: 0;
+      }
     }
   }
 }

@@ -662,8 +662,8 @@ var tool = {
    * @returns {*}
    */
   getPropValueByPath: function (obj, path) {
-    if (!obj || (path + '').length === 0) {
-      return;
+    if (!obj || !path || (path + '').length === 0) {
+      return {};
     }
     // 将 'a.b.c["d"].e["f"]' 转换成 'a.b.c.d.e.f'
     path = path.replace(/\["?'?(\w+)"?'?\]/g, '.$1');
@@ -950,6 +950,14 @@ var tool = {
       offsetParent = offsetParent.offsetParent;
     }
     return isFixedPosition;
+  },
+  /**
+   * 判断对象是否为promise对象
+   * @param obj
+   * @returns {boolean}
+   */
+  isPromise (obj) {
+    return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
   }
 };
 export default tool;

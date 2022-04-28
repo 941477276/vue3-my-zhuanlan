@@ -8,7 +8,8 @@ import {
 } from '@/ts-tokens/bootstrap/message';
 import {
   BsColorType,
-  BsInputType
+  BsInputType,
+  BsSize
 } from '@/ts-tokens/bootstrap';
 
 export const bsMessageBoxProps = {
@@ -38,13 +39,21 @@ export const bsMessageBoxProps = {
     type: Boolean,
     default: false
   },
+  width: { // 宽度
+    type: String,
+    default: ''
+  },
   maxWidth: { // 最大宽度
     type: String,
     default: ''
   },
+  centered: { // 是否居中显示
+    type: Boolean,
+    default: false
+  },
   icon: { // 图标，可以为一个字符串、vnode、返回vnode的函数
     type: [String, Object, Function] as PropType<string|VNode|(() => VNode)>,
-    default: 'info'
+    default: ''
   },
   dangerouslyUseHTMLString: { // 是否将 message 属性作为 HTML 片段处理
     type: Boolean,
@@ -54,15 +63,11 @@ export const bsMessageBoxProps = {
     type: String,
     default: ''
   },
-  duration: { // 显示时间，单位为毫秒。 设为 0 则不会自动关闭
-    type: Number,
-    default: 3000
-  },
   showClose: { // 是否显示关闭按钮
     type: Boolean,
     default: true
   },
-  showOnButton: { // 是否显示确定按钮
+  showOkButton: { // 是否显示确定按钮
     type: Boolean,
     default: true
   },
@@ -74,17 +79,13 @@ export const bsMessageBoxProps = {
     type: Boolean,
     default: true
   },
-  onClose: { // 关闭时的回调函数, 参数为被关闭的 message 实例
+  onClose: { // 关闭时的回调函数, 参数为关闭函数，返回 promise 时 resolve 后自动关闭，返回false则不会关闭
     type: Function,
     default: null
   },
   zIndex: {
     type: [Number, String],
     default: ''
-  },
-  offsetTop: { // Message 距离窗口顶部的偏移量
-    type: Number,
-    default: 20
   },
   appendTo: { // 设置组件的根元素，默认为document.body
     type: [String, HTMLElement],
@@ -102,9 +103,17 @@ export const bsMessageBoxProps = {
     type: Boolean,
     default: true
   },
+  onOkAutoClose: { // 点击确定按钮后是否字段关闭
+    type: Boolean,
+    default: true
+  },
   okLoading: { // 确定按钮的loading属性
     type: Boolean,
     default: false
+  },
+  cannotCloseOnOkLoading: { // 当确定按钮为loading状态时不允许关闭
+    type: Boolean,
+    default: true
   },
   okDisabled: { // 确定按钮的disabled属性
     type: Boolean,
@@ -117,6 +126,26 @@ export const bsMessageBoxProps = {
   okText: { // 确定按钮的文本
     type: String,
     default: '确定'
+  },
+  okSize: { // 确定按钮的大小
+    type: String as PropType<BsSize>,
+    default: ''
+  },
+  onOk: { // 点击确定回调，参数为关闭函数，返回 promise 时 resolve 后自动关闭
+    type: Function,
+    default: null
+  },
+  onCancel: { // 点击取消回调，参数为关闭函数，返回 promise 时 resolve 后自动关闭，返回false不会关闭
+    type: Function,
+    default: null
+  },
+  cancelText: { // 取消按钮的文本
+    type: String,
+    default: '取消'
+  },
+  cancelSize: { // 取消按钮的大小
+    type: String as PropType<BsSize>,
+    default: ''
   },
   inputLabel: { // 输入框的描述文本
     type: String,
@@ -143,7 +172,7 @@ export const bsMessageBoxProps = {
   inputProps: { // 输入框的其他属性
     type: Object,
     default () {
-      return { size: 'sm' };
+      return {};
     }
   }
 };
