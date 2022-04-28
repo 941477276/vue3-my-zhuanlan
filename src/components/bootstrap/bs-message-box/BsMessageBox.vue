@@ -1,6 +1,7 @@
 <template>
 <div
   v-show="visible"
+  ref="messageBoxRootRef"
   class="bs-message-box-root"
   :class="[
     {
@@ -152,6 +153,7 @@ export default defineComponent({
       return defaultIconMap[props.type as MessageType] || defaultIconMap.info;
     });
 
+    let messageBoxRootRef = ref<HTMLElement|null>(null);
     let formItemRef = ref<Component|null>(null);
 
     // 执行隐藏
@@ -192,8 +194,9 @@ export default defineComponent({
     };
 
     // 遮罩点击
-    let messageBoxRootClick = function () {
-      if (props.closeOnClickModal) {
+    let messageBoxRootClick = function (evt: MouseEvent) {
+      let target = ((evt || window.event) as any).target;
+      if (props.closeOnClickModal && target === (messageBoxRootRef.value as HTMLElement)) {
         hide();
       }
     };
@@ -205,6 +208,7 @@ export default defineComponent({
     return {
       iconName,
       id,
+      messageBoxRootRef,
       formItemRef,
       visible,
       okLoadingInner,
