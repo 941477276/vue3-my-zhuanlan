@@ -124,7 +124,7 @@ export default defineComponent({
     width: 1em;
     height: 1em;
     border-width: 0.15em;
-    vertical-align: -0.06em;
+    //vertical-align: -0.06em;
     margin-right: 0.4em;
   }
 }
