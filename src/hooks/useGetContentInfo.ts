@@ -4,7 +4,7 @@ import { isVNode, VNode } from 'vue';
  * 根据参数获取文本或slot内容
  * @param option
  */
-export function getContentInfo (option: string|VNode|unknown) {
+export function useGetContentInfo (option: string|VNode|unknown) {
   let text;
   let slotContent;
   let optionsType = typeof option;

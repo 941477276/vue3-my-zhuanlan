@@ -16,7 +16,7 @@ import {
   supportMessageBoxTypes
 } from '@/ts-tokens/bootstrap/message';
 import { useZIndex } from '@/hooks/useZIndex';
-import { getContentInfo } from '@/common/getContentInfo';
+import { useGetContentInfo } from '@/hooks/useGetContentInfo';
 
 type MessageQueueItem = {
   id?: string;
@@ -35,10 +35,10 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
   let context = null;
   // 重新组装组件的props
   let messageBoxProps: StringKeyObject = {};
-  let { text, slotContent } = getContentInfo(options);
+  let { text, slotContent } = useGetContentInfo(options);
   // text, slotContent这2个都没有，则说明传递的options为一个普通的对象
   if (!text && !slotContent) {
-    let contentInfo = getContentInfo(options.message);
+    let contentInfo = useGetContentInfo(options.message);
     text = contentInfo.text;
     slotContent = contentInfo.slotContent;
     id = options.id || `bs-message-box_${++messageBoxCount}`;
