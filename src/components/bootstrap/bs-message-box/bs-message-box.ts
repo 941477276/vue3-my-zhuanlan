@@ -17,6 +17,7 @@ import {
 } from '@/ts-tokens/bootstrap/message';
 import { useZIndex } from '@/hooks/useZIndex';
 import { useGetContentInfo } from '@/hooks/useGetContentInfo';
+import { useLockScroll } from '@/hooks/useLockScroll';
 
 type MessageQueueItem = {
   id?: string;
@@ -91,6 +92,7 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
   container.className = 'bs-message-box-wrapper';
   container.setAttribute('data-container-for', id);
 
+  let unLockScroll: () => void;
   let vm = createVNode(BsMessageBox, {
     ...messageBoxProps,
     type,
@@ -102,6 +104,8 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
       console.log('隐藏了');
       render(null, container);
       setTimeout(function () {
+        // j解除锁定滚动条
+        unLockScroll();
         // 移除container
         document.body.removeChild(container);
         (container as any) = (vm as any) = null;
@@ -118,6 +122,7 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
   vm.appContext = context;
 
   console.log('vm', vm);
+  unLockScroll = useLockScroll();
   document.body.appendChild(container);
   render(vm, container);
 

@@ -50,10 +50,7 @@ var tool = {
     // 浏览器滚动条高度
     var scrollTop = tool.scrollTop();
     var scrollLeft = tool.scrollLeft();
-    var hasScroll = {
-      vertical: document.body.offsetWidth < window.innerWidth,
-      horizontal: document.body.offsetWidth < document.body.scrollWidth
-    }
+    var hasScroll = tool.hasScroll();
     // console.log('hasScroll', hasScroll);
     var scrollWidth = tool.scrollWidth();
     // console.log('scrollTop/scrollLeft', scrollTop, scrollLeft);
@@ -147,9 +144,12 @@ var tool = {
       horizontal: 0
     };
     tempInnerDiv.style.cssText = 'width: 200px;height: 200px';
-    if (!ele) {
-      tempDiv = document.createElement('div');
-      tempDiv.style.cssText = 'width: 100px;height: 100px;opacity: 0;position:absolute;left: -100px;overflow:auto;';
+    if (!ele) { // 未传递dom元素则获取浏览器的滚动条
+      /* tempDiv = document.createElement('div');
+      tempDiv.style.cssText = 'width: 100px;height: 100px;opacity: 0;position:absolute;left: -100px;overflow:auto;'; */
+      result.vertical = window.innerWidth - document.documentElement.offsetWidth;
+      result.horizontal = window.innerHeight - document.documentElement.clientHeight;
+      return result;
     } else {
       tempDiv = ele.cloneNode(true);
       tempDiv.style.cssText = 'width: 100px;height: 100px;opacity: 0;position:absolute;left: -100px;overflow:auto;';
@@ -958,6 +958,16 @@ var tool = {
    */
   isPromise (obj) {
     return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
+  },
+  /**
+   * 判断浏览器是否有滚动条
+   * @returns {{horizontal: boolean, vertical: boolean}}
+   */
+  hasScroll () {
+    return {
+      vertical: document.body.offsetWidth < window.innerWidth,
+      horizontal: document.documentElement.clientHeight < window.innerHeight
+    };
   }
 };
 export default tool;
