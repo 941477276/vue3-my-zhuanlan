@@ -3,6 +3,7 @@
   <div>
     <h2>基本使用</h2>
     <bs-button type="primary" @click="showMessageBox1">点我显示</bs-button>
+    <bs-button type="primary" style="margin-left: 15px" @click="showMessageBox12">动态标题和内容</bs-button>
     <hr>
   </div>
 
@@ -13,6 +14,7 @@
     <bs-button type="warning" style="margin-left: 15px" @click="showMessageBox2('warning')">Warning</bs-button>
     <bs-button type="danger" style="margin-left: 15px" @click="showMessageBox2('danger')">Danger</bs-button>
     <bs-button type="info" style="margin-left: 15px" @click="showMessageBox2('prompt')">Prompt（提交内容）</bs-button>
+    <bs-button type="dark" style="margin-left: 15px" @click="showMessageBox2('dynamic')">动态标题和内容</bs-button>
     <hr>
   </div>
 
@@ -48,7 +50,15 @@
     <hr>
   </div>
 
-  <div style="display: none;">
+  <div>
+    <h2>手动关闭</h2>
+    <div style="text-align: right;">
+      <bs-button type="primary" @click="showMessageBox11">点我显示</bs-button>
+    </div>
+    <hr>
+  </div>
+
+  <!--<div style="display: none;">
     <h2>基础样式</h2>
     <h4>1、UI样式</h4>
     <bs-message-box
@@ -95,8 +105,7 @@
       :dialog-theme="false">
       一个弹窗样式消息盒子！
     </bs-message-box>
-  </div>
-
+  </div>-->
 </div>
 </template>
 
@@ -104,11 +113,12 @@
 import {
   defineComponent,
   ref,
-  h
+  h,
+  onMounted
 } from 'vue';
 import BsMessageBoxCom from '@/components/bootstrap/bs-message-box/BsMessageBox.vue';
 // import BsIcon from '@/components/bootstrap/bs-icon/BsIcon.vue';
-import { BsMessageBox } from '@/components/bootstrap/bs-message-box/bs-message-box';
+import { BsMessageBox, closeMessageBox } from '@/components/bootstrap/bs-message-box/bs-message-box';
 import {
   MessageBoxType
 } from '@/ts-tokens/bootstrap/message';
@@ -119,7 +129,7 @@ const imgSrc = require('@/assets/imgs/icons-hero.png');
 export default defineComponent({
   name: 'BsMessageBoxUsage',
   components: {
-    BsMessageBox: BsMessageBoxCom
+    // BsMessageBox: BsMessageBoxCom
   },
 
   setup () {
@@ -130,7 +140,7 @@ export default defineComponent({
       });
     };
 
-    let showMessageBox2 = function (typeName: MessageBoxType) {
+    let showMessageBox2 = function (typeName: MessageBoxType | 'dynamic') {
       if (typeName === 'prompt') {
         BsMessageBox[typeName]?.({
           title: '绑定邮箱',
@@ -151,10 +161,24 @@ export default defineComponent({
         });
         return;
       }
-      BsMessageBox[typeName]?.({
-        title: '温馨提示',
-        message: `一条${typeName}消息！`
-      });
+      if (typeName === 'dynamic') {
+        let title = ref('温馨提示');
+        let message = ref(`当前时间为：${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`);
+        let count = 0;
+        let timer: number;
+        BsMessageBox.success?.(title, message);
+        timer = setInterval(function () {
+          if (count > 50) {
+            clearInterval(timer);
+            return;
+          }
+          title.value = `温馨提示：${++count}`;
+          message.value = `当前时间为：${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
+        }, 1000);
+        return;
+      }
+
+      BsMessageBox[typeName]?.('温馨提示', `一条${typeName}消息！`);
     };
 
     let showMessageBox3 = function () {
@@ -162,6 +186,7 @@ export default defineComponent({
         title: '温馨提示',
         type: 'warning',
         message: '确定要删除吗？',
+        okLoadingText: 'Loading...',
         onOk () {
           return new Promise(resolve => {
             setTimeout(function () {
@@ -249,6 +274,44 @@ export default defineComponent({
       });
     };
 
+    let showMessageBox11 = function () {
+      let loading = ref(true);
+      let messageBoxId = BsMessageBox({
+        title: '温馨提示',
+        centered: true,
+        message: '2秒后关闭',
+        okLoadingText: '稍等2秒才可以点击哦~',
+        okLoading: loading,
+        onOk () {
+          closeMessageBox(messageBoxId);
+          return false;
+        }
+      });
+
+      setTimeout(function () {
+        loading.value = false;
+      }, 2000);
+    };
+
+    let showMessageBox12 = function () {
+      let title = ref('温馨提示');
+      let message = ref(`当前时间为：${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`);
+      let count = 0;
+      let timer: number;
+      BsMessageBox({
+        title: title,
+        centered: true,
+        message,
+        onCancel () {
+          clearInterval(timer);
+        }
+      });
+      timer = setInterval(function () {
+        title.value = `温馨提示：${++count}`;
+        message.value = `当前时间为：${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`;
+      }, 1000);
+    };
+
     return {
       showMessageBox1,
       showMessageBox2,
@@ -259,7 +322,9 @@ export default defineComponent({
       showMessageBox7,
       showMessageBox8,
       showMessageBox9,
-      showMessageBox10
+      showMessageBox10,
+      showMessageBox11,
+      showMessageBox12
     };
   }
 });

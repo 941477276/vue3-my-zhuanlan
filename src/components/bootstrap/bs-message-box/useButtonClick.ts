@@ -2,7 +2,8 @@ import {
   Component,
   computed,
   Ref,
-  ref
+  ref,
+  isRef
 } from 'vue';
 import { util } from '@/common/util';
 
@@ -12,8 +13,13 @@ import { util } from '@/common/util';
 export function useButtonClick (props: any, formItemRef: Ref<Component|null>, hideFn: () => any) {
   let okPromiseResolve = ref(false);
   let okLoadingInner = computed(function () {
-    if (props.okLoading) {
-      return props.okLoading;
+    let okLoadingProp = props.okLoading;
+    if (isRef(okLoadingProp)) {
+      if (okLoadingProp.value) {
+        return true;
+      }
+    } else if (okLoadingProp) {
+      return true;
     }
     return okPromiseResolve.value;
   });

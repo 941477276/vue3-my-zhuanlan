@@ -1,6 +1,7 @@
 import {
   PropType,
-  VNode
+  VNode,
+  Ref
 } from 'vue';
 import {
   MessageBoxType,
@@ -28,11 +29,11 @@ export const bsMessageBoxProps = {
     default: null
   },
   title: { // 标题
-    type: [String, Function] as PropType<string|(() => string)>,
+    type: [String, Function, Object],
     default: ''
   },
   message: { // 消息文字，可以为一个字符串、vnode、返回vnode的函数
-    type: [String, Object, Function] as PropType<string|VNode|(() => VNode)>,
+    type: [String, Object, Function, Object] as PropType<string|VNode|(() => VNode)>,
     default: ''
   },
   dialogTheme: { // 是否显示为弹窗样式
@@ -87,10 +88,6 @@ export const bsMessageBoxProps = {
     type: [Number, String],
     default: ''
   },
-  appendTo: { // 设置组件的根元素，默认为document.body
-    type: [String, HTMLElement],
-    default: ''
-  },
   mask: { // 是否显示遮罩
     type: Boolean,
     default: true
@@ -108,7 +105,7 @@ export const bsMessageBoxProps = {
     default: true
   },
   okLoading: { // 确定按钮的loading属性
-    type: Boolean,
+    type: [Boolean, Object],
     default: false
   },
   cannotCloseOnOkLoading: { // 当确定按钮为loading状态时不允许关闭
@@ -116,7 +113,7 @@ export const bsMessageBoxProps = {
     default: true
   },
   okDisabled: { // 确定按钮的disabled属性
-    type: Boolean,
+    type: [Boolean, Object],
     default: false
   },
   okType: {
@@ -126,6 +123,10 @@ export const bsMessageBoxProps = {
   okText: { // 确定按钮的文本
     type: String,
     default: '确定'
+  },
+  okLoadingText: { // 确定按钮loading状态下显示的文本
+    type: String,
+    default: ''
   },
   okSize: { // 确定按钮的大小
     type: String as PropType<BsSize>,

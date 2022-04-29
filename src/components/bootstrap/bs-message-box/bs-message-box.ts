@@ -4,7 +4,8 @@ import {
   render,
   isVNode,
   VNode,
-  AppContext
+  AppContext,
+  isRef
 } from 'vue';
 import BsMessageBox from './BsMessageBox.vue';
 import {
@@ -99,7 +100,7 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
     id,
     message: text,
     icon: typeof icon !== 'object' ? icon : '',
-    title: typeof title !== 'object' ? title : '',
+    title: !isVNode(title) ? title : '',
     onHide () {
       console.log('隐藏了');
       render(null, container);
@@ -138,19 +139,34 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
 supportMessageBoxTypes.forEach(typeName => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  messageBox[typeName] = function (optionsOrMessage, context) {
+  messageBox[typeName] = function (titleOrOptions, message, context) {
     let options: any = {
       type: typeName
     };
-    if (optionsOrMessage && (isVNode(optionsOrMessage) || typeof optionsOrMessage !== 'object')) {
-      options.message = optionsOrMessage;
+    // 只传递了一个参数的情况
+    if (arguments.length <= 2) {
+      if (typeof titleOrOptions !== 'object' || isVNode(titleOrOptions) || isRef(titleOrOptions)) {
+        options.title = titleOrOptions;
+      } else if (typeof titleOrOptions === 'function') {
+        options.title = titleOrOptions;
+      } else {
+        options = {
+          ...titleOrOptions,
+          type: typeName
+        };
+      }
+    }
+    options.message = message;
+    options.appContext = context;
+    /* if (message && (isVNode(message) || isRef(message) || typeof message !== 'object')) {
+      options.title = message;
       options.appContext = context;
     } else {
       options = {
-        ...optionsOrMessage,
+        ...message,
         type: typeName
       };
-    }
+    } */
     return messageBox(options);
   };
 });

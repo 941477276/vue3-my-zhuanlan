@@ -16,12 +16,13 @@ export interface Message extends MessageFn {
 }
 
 export type MessageBoxFn = (options: any, appContext?: AppContext) => string;
+type MessageBoxFastFn = (titleOrOptions: any, message?: any, appContext?: AppContext) => string;
 export interface MessageBox extends MessageBoxFn {
-  success: MessageBoxFn;
-  warning: MessageBoxFn;
-  info: MessageBoxFn;
-  danger: MessageBoxFn;
-  prompt: MessageBoxFn;
+  success: MessageBoxFastFn;
+  warning: MessageBoxFastFn;
+  info: MessageBoxFastFn;
+  danger: MessageBoxFastFn;
+  prompt: MessageBoxFastFn;
   closeMessageBox: (id: string) => void;
   closeAllMessageBox: () => void;
 }

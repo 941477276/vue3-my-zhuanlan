@@ -41,7 +41,7 @@
           'has-close': showClose
         }">
         <div class="bs-message-box-title">
-          <slot name="title">{{ typeof title === 'function' ? title() : title }}</slot>
+          <slot name="title">{{ titleInner }}</slot>
         </div>
 
         <bs-button class="bs-message-box-close" type="link" aria-label="close" @click.stop="hide">
@@ -59,12 +59,12 @@
           </span>
           <div class="bs-message-box-content-wrap">
             <div class="bs-message-box-title" v-if="!dialogTheme">
-              <slot name="title">{{ typeof title === 'function' ? title() : title }}</slot>
+              <slot name="title">{{ titleInner }}</slot>
             </div>
             <div class="bs-message-box-content">
               <slot>
-                <div v-if="dangerouslyUseHTMLString" v-html="message"></div>
-                <template v-else>{{ message }}</template>
+                <div v-if="dangerouslyUseHTMLString" v-html="messageInner"></div>
+                <template v-else>{{ messageInner }}</template>
               </slot>
             </div>
           </div>
@@ -72,7 +72,7 @@
         <template v-else>
           <div class="bs-message-box-content-wrap">
             <div class="bs-message-box-title" v-if="!dialogTheme">
-              <slot name="title">{{ typeof title === 'function' ? title() : title }}</slot>
+              <slot name="title">{{ titleInner }}</slot>
             </div>
             <BsFormItem
               ref="formItemRef"
@@ -100,8 +100,10 @@
           :type="okType"
           :size="okSize"
           :loading="okLoadingInner"
-          :disabled="okLoadingInner || okDisabled"
-          @click.stop="okClick">{{ okText }}</bs-button>
+          :disabled="okLoadingInner || (typeof okDisabled === 'boolean' ? okDisabled : okDisabled.value)"
+          @click.stop="okClick">
+          {{ okLoadingInner ? (okLoadingText || okText) : okText }}
+        </bs-button>
       </div>
     </div>
   </transition>
@@ -113,9 +115,11 @@ import {
   defineComponent,
   PropType,
   ref,
+  isRef,
   computed,
   Component,
-  onMounted
+  onMounted,
+  onUnmounted
 } from 'vue';
 import BsButton from '../bs-button/BsButton.vue';
 import BsIcon from '../bs-icon/BsIcon.vue';
@@ -125,6 +129,7 @@ import { bsMessageBoxProps } from './bs-message-box-props';
 import { MessageType } from '@/ts-tokens/bootstrap/message';
 // import { useVisible } from './useVisible';
 import { useButtonClick } from './useButtonClick';
+import { useGlobalEvent } from '@/hooks/useGlobalEvent';
 import { util } from '@/common/util';
 
 const defaultIconMap: Record<MessageType, string> = {
@@ -151,6 +156,26 @@ export default defineComponent({
         return props.icon;
       }
       return defaultIconMap[props.type as MessageType] || defaultIconMap.info;
+    });
+
+    // 标题
+    let titleInner = computed(function () {
+      let title = props.title;
+      if (typeof title === 'function') {
+        return title();
+      } else if (isRef(title)) {
+        return title.value;
+      }
+      return title;
+    });
+
+    // 内容
+    let messageInner = computed(function () {
+      let message = props.message;
+      if (isRef(message)) {
+        return message.value;
+      }
+      return message;
     });
 
     let messageBoxRootRef = ref<HTMLElement|null>(null);
@@ -201,8 +226,24 @@ export default defineComponent({
       }
     };
 
+    let handleKeydown = function (evt: KeyboardEvent) {
+      evt = (evt || window.event) as any;
+      console.log('evt.keyCode', evt.keyCode);
+      if (!visible.value) {
+        return;
+      }
+      if (evt.keyCode == 27 && props.keyboard) {
+        hide();
+      }
+    };
+
     onMounted(function () {
       show();
+      useGlobalEvent.addEvent('window', 'keydown', handleKeydown);
+    });
+
+    onUnmounted(function () {
+      useGlobalEvent.removeEvent('window', 'keydown', handleKeydown);
     });
 
     return {
@@ -213,6 +254,8 @@ export default defineComponent({
       visible,
       okLoadingInner,
       inputModelVal,
+      titleInner,
+      messageInner,
 
       hide,
       okClick,
