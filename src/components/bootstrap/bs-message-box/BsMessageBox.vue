@@ -41,7 +41,7 @@
           'has-close': showClose
         }">
         <div class="bs-message-box-title">
-          {{ typeof title === 'function' ? title() : title }}
+          <slot name="title">{{ typeof title === 'function' ? title() : title }}</slot>
         </div>
 
         <bs-button class="bs-message-box-close" type="link" aria-label="close" @click.stop="hide">

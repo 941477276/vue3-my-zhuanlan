@@ -76,8 +76,10 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
     (slotContent as any).icon = () => icon;
   }
   if (isVNode(title) || typeof title === 'function') {
+    console.log('title isVnode', title);
     (slotContent as any).title = () => title;
   }
+  console.log('slotContent', slotContent);
 
   delete messageBoxProps.id;
   delete messageBoxProps.message;
