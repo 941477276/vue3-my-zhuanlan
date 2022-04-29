@@ -6,7 +6,7 @@ export type MessageType = 'success' | 'danger' | 'warning' | 'info';
 
 export type MessageBoxType = 'success' | 'danger' | 'warning' | 'info' | 'prompt';
 
-export type MessageFn = (options: any, appContext?: AppContext) => string;
+export type MessageFn = (options: any, appContext?: AppContext) => string|undefined;
 export interface Message extends MessageFn {
   success: MessageFn;
   warning: MessageFn;

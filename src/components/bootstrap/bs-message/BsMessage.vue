@@ -1,7 +1,7 @@
 <template>
   <transition
     name="message_fade"
-    @leave="$emit('destroy')">
+    @after-leave="$emit('destroy')">
     <div
       v-show="visible"
       v-bind="$attrs"

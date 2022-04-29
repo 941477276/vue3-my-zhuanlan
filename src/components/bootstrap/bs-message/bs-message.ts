@@ -14,6 +14,7 @@ import {
   MessageFn,
   Message
 } from '@/ts-tokens/bootstrap/message';
+import { useGetContentInfo } from '@/hooks/useGetContentInfo';
 
 type MessageQueueItem = {
   id?: string;
@@ -24,64 +25,38 @@ type MessageQueueItem = {
 let bsMessageInstanceQueue: MessageQueueItem[] = [];
 let messageCount = 0;
 let offsetTopBase = 20;
-/**
- * 获取message显示的内容
- * @param options
- */
-const getMessageContentInfo = function (options: string|VNode|unknown) {
-  let messageText;
-  let slotContent;
-  let id;
-  let optionsType = typeof options;
-  if (optionsType === 'string' || optionsType === 'number' || optionsType === 'undefined' || optionsType === null) {
-    messageText = options;
-    id = `bs-message_${++messageCount}`;
-  } else if (isVNode(options)) {
-    // console.log('是vnode', options);
-    slotContent = {
-      default: () => options
-    };
-    id = `bs-message_${++messageCount}`;
-  } else if (optionsType === 'function') {
-    slotContent = { default: options };
-    id = `bs-message_${++messageCount}`;
-  }
-  return {
-    messageText,
-    slotContent,
-    id
-  };
-};
 
 const message:MessageFn & Partial<Message> & {_context: AppContext|null} = function (options = {} as any, context?: AppContext | null) {
   let type = 'info';
-  let { messageText, slotContent, id } = getMessageContentInfo(options);
-  // 如果messageText, slotContent, id这3个都没有，则说明传递的options为一个普通的对象
-  if (!messageText && !slotContent && !id) {
-    let messageContentInfo = getMessageContentInfo(options.message);
-    messageText = messageContentInfo.messageText;
+  let id = '';
+  let { text, slotContent } = useGetContentInfo(options);
+  // 如果text, slotContent这2个都没有，则说明传递的options为一个普通的对象
+  if (!text && !slotContent) {
+    let messageContentInfo = useGetContentInfo(options.message);
+    text = messageContentInfo.text;
     slotContent = messageContentInfo.slotContent;
-    id = options.id || messageContentInfo.id;
-    if (options.id) {
-      // 这里messageCount减1是因为前面进行了加1操作
-      messageCount--;
+    id = options.id;
+    if (!id) {
+      id = `bs-message_${++messageCount}`;
     }
+
     if (options.type) {
       type = options.type;
     }
   }
   if (isVNode(options) || typeof options !== 'object' || options === null) {
     options = {};
+    id = `bs-message_${++messageCount}`;
   }
 
-  // 根据messageText判断内容是否与之前其中的某个message组件的message值一致，如果一致则不创建新的
-  if (options.grouping && (messageText == 0 || messageText)) {
+  // 根据text判断内容是否与之前其中的某个message组件的message值一致，如果一致则不创建新的
+  if (options.grouping && (text == 0 || text)) {
     let tempQueue: MessageQueueItem | undefined = bsMessageInstanceQueue.find(queueItem => {
-      return queueItem.vm.component?.props.message == messageText;
+      return queueItem.vm.component?.props.message == text;
     });
     if (tempQueue) {
       (tempQueue.vm.component?.props as any).repeatNum++;
-      return tempQueue.id as string;
+      return tempQueue.id;
     }
   }
 
@@ -120,7 +95,7 @@ const message:MessageFn & Partial<Message> & {_context: AppContext|null} = funct
     offsetTop,
     id,
     type,
-    message: messageText,
+    message: text,
     onClose: () => {
       closeMessage(id as string, optionOnClose);
     }
@@ -142,12 +117,11 @@ const message:MessageFn & Partial<Message> & {_context: AppContext|null} = funct
     }, 0);
   };
 
+  appendTo?.appendChild(container);
   /* 直接render到appendTo中，会导致同时渲染多个message时后面的message覆盖前面的message的情况
     // render(vm, appendTo);
    */
   render(vm, container);
-  // eslint-disable-next-line no-unused-expressions
-  appendTo?.appendChild(container);
 
   // 将message实例添加进message实例列表中
   bsMessageInstanceQueue.push({
@@ -156,7 +130,7 @@ const message:MessageFn & Partial<Message> & {_context: AppContext|null} = funct
   });
 
   // console.log(vm);
-  return id as string;
+  return id;
 };
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
