@@ -191,6 +191,8 @@ export function closeMessage (id: string, userOnClose?: (vm: VNode) => void): vo
     // console.log('index', index, deletedItemHeight);
     for (let i = index, len = bsMessageInstanceQueue.length; i < len; i++) {
       let item: MessageQueueItem = bsMessageInstanceQueue[i];
+      // 后面的message位置改变后重启启动定时器，否则会出现后面的message位置还未改变完就消失的问题
+      (deletedItem.vm.component?.proxy as any).startTimer();
       // console.log(111, item, (item.vm.component?.props as any), deletedItemHeight);
       (item.vm.component?.props as any).offsetTop = (item.vm.component?.props as any).offsetTop - deletedItemHeight;
     }
