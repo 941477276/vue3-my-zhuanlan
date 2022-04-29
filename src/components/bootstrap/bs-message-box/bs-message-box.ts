@@ -19,6 +19,7 @@ import {
 import { useZIndex } from '@/hooks/useZIndex';
 import { useGetContentInfo } from '@/hooks/useGetContentInfo';
 import { useLockScroll } from '@/hooks/useLockScroll';
+import { useGetCurrentClickedElement } from '@/hooks/useGetCurrentClickedElement';
 
 type MessageQueueItem = {
   id?: string;
@@ -61,6 +62,7 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
     (slotContent as any) = {};
   }
   let { nextZIndex } = useZIndex();
+  let referenceEl = useGetCurrentClickedElement();
 
   /* if (isVNode(options) || typeof options !== 'object' || options === null) {
     messageBoxProps = {};

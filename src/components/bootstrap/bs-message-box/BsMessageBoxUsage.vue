@@ -14,7 +14,7 @@
     <bs-button type="warning" style="margin-left: 15px" @click="showMessageBox2('warning')">Warning</bs-button>
     <bs-button type="danger" style="margin-left: 15px" @click="showMessageBox2('danger')">Danger</bs-button>
     <bs-button type="info" style="margin-left: 15px" @click="showMessageBox2('prompt')">Prompt（提交内容）</bs-button>
-    <bs-button type="dark" style="margin-left: 15px" @click="showMessageBox2('dynamic')">动态标题和内容</bs-button>
+    <bs-button type="dark" style="margin-left: 15px" @click="showMessageBox2('dynamic')">动态标题和<span>内容</span></bs-button>
     <hr>
   </div>
 

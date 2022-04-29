@@ -133,10 +133,10 @@ var tool = {
   },
   /**
    * 获取元素或浏览器滚动条的宽高
-   * @param ele
+   * @param isGetElementScrollWidth 是否为获取元素的滚动条宽高
    * @returns {{horizontal: number, vertical: number}}
    */
-  scrollWidth (ele) {
+  scrollWidth (isGetElementScrollWidth, ele) {
     var tempDiv;
     var tempInnerDiv = document.createElement('div');
     var result = {
@@ -144,16 +144,18 @@ var tool = {
       horizontal: 0
     };
     tempInnerDiv.style.cssText = 'width: 200px;height: 200px';
-    if (!ele) { // 未传递dom元素则获取浏览器的滚动条
+    if (!isGetElementScrollWidth) { // 未传递dom元素则获取浏览器的滚动条
       /* tempDiv = document.createElement('div');
       tempDiv.style.cssText = 'width: 100px;height: 100px;opacity: 0;position:absolute;left: -100px;overflow:auto;'; */
       result.vertical = window.innerWidth - document.documentElement.offsetWidth;
       result.horizontal = window.innerHeight - document.documentElement.clientHeight;
       return result;
-    } else {
+    } else if (ele) {
       tempDiv = ele.cloneNode(true);
-      tempDiv.style.cssText = 'width: 100px;height: 100px;opacity: 0;position:absolute;left: -100px;overflow:auto;';
+    } else if (isGetElementScrollWidth && !ele) {
+      tempDiv = document.createElement('div');
     }
+    tempDiv.style.cssText = 'width: 100px;height: 100px;opacity: 0;position:absolute;left: -100px;overflow:auto;';
     tempDiv.appendChild(tempInnerDiv);
     document.body.appendChild(tempDiv);
 

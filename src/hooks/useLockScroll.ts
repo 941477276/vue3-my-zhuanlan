@@ -11,11 +11,15 @@ export function useLockScroll () {
   let originBodyOverflow = body.style.overflow;
   let originBodyPaddingRight = body.style.paddingRight;
   let originBodyPaddingBottom = body.style.paddingBottom;
+  let originBodyHasLockClass = util.hasClass(body, 'bs-lock-scroll');
   let hasScroll = util.hasScroll();
-  let scrollWidth = util.scrollWidth(0);
+  // @ts-ignore
+  let scrollWidth = util.scrollWidth();
 
   body.style.overflow = 'hidden';
-  util.addClass(body, 'bs-lock-scroll');
+  if (!originBodyHasLockClass) {
+    util.addClass(body, 'bs-lock-scroll');
+  }
   if (hasScroll.vertical) {
     body.style.paddingRight = scrollWidth.vertical + 'px';
   }
@@ -26,7 +30,9 @@ export function useLockScroll () {
   // 返回一个解除锁定滚动条的函数
   return function () {
     let body = document.body;
-    util.removeClass(body, 'bs-lock-scroll');
+    if (!originBodyHasLockClass) {
+      util.removeClass(body, 'bs-lock-scroll');
+    }
     if (!originBodyOverflow && originBodyOverflow !== 'hidden') {
       body.style.overflow = originBodyOverflow;
     } else {
