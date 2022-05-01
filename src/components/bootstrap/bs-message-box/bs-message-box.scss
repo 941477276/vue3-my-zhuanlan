@@ -11,7 +11,26 @@
   min-width: 25rem; // 400px
   border-radius: .25rem;
   background-color: #fff;
-  transition: all .3s cubic-bezier(.78,.14,.15,.86);
+
+  &.scalePop-enter-active,
+  &.scalePop-leave-to{
+    transition: all .3s cubic-bezier(.78,.14,.15,.86);
+    /* 这里的缩放和opacity都需设置为0，否则效果不佳 */
+    transform: scale(0);
+    opacity: 0;
+  }
+  &.scalePop-enter-to,
+  &.scalePop-leave-from{
+    transform: scale(1);
+    opacity: 1;
+  }
+  &.scalePop-leave-active{
+    transition: all .3s cubic-bezier(.78,.14,.15,.86);
+  }
+  /*&.scalePop-leave-to{
+    transform: scale(0.3);
+    opacity: 0;
+  }*/
 }
 .bs-message-box-header{
   padding: 1rem 1rem .625rem 1rem;

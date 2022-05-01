@@ -1,6 +1,6 @@
 <template>
 <div
-  v-show="visible"
+  v-show="rootVisible"
   ref="messageBoxRootRef"
   class="bs-message-box-root"
   :class="[
@@ -18,10 +18,12 @@
   :data-id="id"
   @click="messageBoxRootClick">
   <transition
-    name="scale"
+    name="scalePop"
+    @before-enter="$emit('before-enter')"
     @after-enter="$emit('show')"
-    @after-leave="$emit('hide')">
+    @after-leave="afterLeave">
     <div
+      ref="messageBoxRef"
       v-show="visible"
       class="bs-message-box"
       :class="[
@@ -32,7 +34,8 @@
       ]"
       :style="{
         width: width,
-        maxWidth: maxWidth
+        maxWidth: maxWidth,
+        transformOrigin: messageBoxTransformOrigin
       }">
       <div
         v-if="dialogTheme"
@@ -44,7 +47,7 @@
           <slot name="title">{{ titleInner }}</slot>
         </div>
 
-        <bs-button class="bs-message-box-close" type="link" aria-label="close" @click.stop="hide">
+        <bs-button class="bs-message-box-close" type="link" aria-label="close" @click="hide">
           <span>×</span>
         </bs-button>
       </div>
@@ -94,14 +97,14 @@
           type="primary"
           :size="cancelSize"
           plain
-          @click.stop="cancelClick">{{ cancelText }}</bs-button>
+          @click="cancelClick">{{ cancelText }}</bs-button>
         <bs-button
           v-if="showOkButton"
           :type="okType"
           :size="okSize"
           :loading="okLoadingInner"
           :disabled="okLoadingInner || (typeof okDisabled === 'boolean' ? okDisabled : okDisabled.value)"
-          @click.stop="okClick">
+          @click="okClick">
           {{ okLoadingInner ? (okLoadingText || okText) : okText }}
         </bs-button>
       </div>
@@ -148,8 +151,9 @@ export default defineComponent({
     BsFormItem
   },
   props: bsMessageBoxProps,
-  emits: ['show', 'hide'],
-  setup (props: any) {
+  emits: ['before-enter', 'show', 'hide'],
+  setup (props: any, ctx: any) {
+    let messageBoxRef = ref<HTMLElement|null>(null);
     let id = props.id || `bs_message_box-${++messageBoxCount}`;
     let iconName = computed(function () {
       if (props.icon) {
@@ -178,6 +182,21 @@ export default defineComponent({
       return message;
     });
 
+    // message box的transform-origin
+    let transformOrigin = ref('');
+    let messageBoxTransformOrigin = computed(function () {
+      if (props.transformOrigin) {
+        return props.transformOrigin;
+      }
+      return transformOrigin.value;
+    });
+    let setTransformOrigin = function (x: string|number, y?: string|number, z?: string|number) {
+      x = typeof x === 'number' ? (x + 'px') : x;
+      y = typeof y === 'number' ? (y + 'px') : y;
+      z = typeof z === 'number' ? (z + 'px') : z;
+      transformOrigin.value = `${x || '50%'} ${y || '50%'} ${z || 0}`;
+    };
+
     let messageBoxRootRef = ref<HTMLElement|null>(null);
     let formItemRef = ref<Component|null>(null);
 
@@ -205,9 +224,11 @@ export default defineComponent({
     let { okClick, cancelClick, okLoadingInner, inputModelVal } = useButtonClick(props, formItemRef, doHide);
 
     let visible = ref(false);
+    let rootVisible = ref(false);
 
     // 显示
     let show = function () {
+      rootVisible.value = true;
       visible.value = true;
     };
     // 隐藏
@@ -216,6 +237,11 @@ export default defineComponent({
         return;
       }
       doHide();
+    };
+    // message box隐藏动画执行完毕后的回调
+    let afterLeave = function () {
+      rootVisible.value = false;
+      ctx.emit('hide');
     };
 
     // 遮罩点击
@@ -250,16 +276,21 @@ export default defineComponent({
       iconName,
       id,
       messageBoxRootRef,
+      messageBoxRef,
       formItemRef,
       visible,
+      rootVisible,
       okLoadingInner,
       inputModelVal,
       titleInner,
       messageInner,
+      messageBoxTransformOrigin,
 
       hide,
       okClick,
       cancelClick,
+      afterLeave,
+      setTransformOrigin,
       messageBoxRootClick
     };
   }

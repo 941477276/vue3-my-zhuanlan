@@ -175,5 +175,9 @@ export const bsMessageBoxProps = {
     default () {
       return {};
     }
+  },
+  transformOrigin: { // message box的transform-origin值
+    type: String,
+    default: ''
   }
 };
