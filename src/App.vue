@@ -51,8 +51,11 @@
   <!--<div class="box">
     <BsSwitchUsage></BsSwitchUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsMessageBoxUsage></BsMessageBoxUsage>
+  </div>-->
+  <div class="box">
+    <BsMaskUsage></BsMaskUsage>
   </div>
 </template>
 
@@ -78,6 +81,7 @@ import BsProgressUsage from '@/components/bootstrap/bs-progress/BsProgressUsage.
 import BsTabsUsage from '@/components/bootstrap/bs-tabs/BsTabsUsage.vue';
 import BsSwitchUsage from '@/components/bootstrap/bs-switch/BsSwitchUsage.vue';
 import BsMessageBoxUsage from '@/components/bootstrap/bs-message-box/BsMessageBoxUsage.vue';
+import BsMaskUsage from '@/components/bootstrap/bs-mask/BsMaskUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -102,7 +106,8 @@ export default defineComponent({
     BsProgressUsage,
     BsTabsUsage,
     BsSwitchUsage,
-    BsMessageBoxUsage
+    BsMessageBoxUsage,
+    BsMaskUsage
   },
   setup () {
     return {

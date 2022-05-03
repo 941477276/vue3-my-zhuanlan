@@ -115,12 +115,12 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
         // console.log('messageBoxRef', messageBoxRef.getBoundingClientRect());
         let x = mouseX - offset.left;
         let y = mouseY - offset.top;
-        console.log('x, y', x, y);
+        // console.log('x, y', x, y);
         (vm.component?.proxy as any).setTransformOrigin(x, y);
       });
     },
     onHide () {
-      console.log('隐藏了');
+      // console.log('隐藏了');
       render(null, container);
       setTimeout(function () {
         // j解除锁定滚动条
