@@ -22,6 +22,7 @@ import { useZIndex } from '@/hooks/useZIndex';
 import { useGetContentInfo } from '@/hooks/useGetContentInfo';
 import { useLockScroll } from '@/hooks/useLockScroll';
 import { useGetMousePosition } from '@/hooks/useGetMousePosition';
+import { createMask } from '@/components/bootstrap/bs-mask';
 
 type MessageQueueItem = {
   id?: string;
@@ -77,9 +78,6 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
     icon = options.icon;
     context = options.appContext || null;
   } */
-  if (!messageBoxProps.zIndex) {
-    messageBoxProps.zIndex = nextZIndex();
-  }
   if (isVNode(icon) || typeof icon === 'function') {
     (slotContent as any).icon = () => icon;
   }
@@ -93,6 +91,11 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
   delete messageBoxProps.message;
   delete messageBoxProps.icon;
   delete messageBoxProps.type;
+
+  // 遮罩
+  let mask = createMask({
+    destroyOnHide: true
+  });
 
   // 创建包裹容器，因为render函数在渲染至同一dom节点时只能渲染一个vnode，渲染多个的话后面的会将前面的覆盖
   let container = document.createElement('div');
@@ -108,6 +111,12 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
     icon: typeof icon !== 'object' ? icon : '',
     title: !isVNode(title) ? title : '',
     onBeforeEnter () {
+      // 显示遮罩
+      mask.show();
+      // 如果未传递z-index，则使用全局的z-index
+      if (!messageBoxProps.zIndex) {
+        (vm.component?.props as any).zIndex = nextZIndex();
+      }
       nextTick(function () {
         let messageBoxRef = (vm.component?.proxy as any).messageBoxRef;
         // let messageBoxRect = messageBoxRef.getBoundingClientRect();
@@ -121,6 +130,7 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
     },
     onHide () {
       // console.log('隐藏了');
+      mask.hide(true);
       render(null, container);
       setTimeout(function () {
         // j解除锁定滚动条
@@ -141,6 +151,7 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
   vm.appContext = context;
 
   // console.log('vm', vm);
+  // 锁定浏览器滚动条
   unLockScroll = useLockScroll();
   document.body.appendChild(container);
   render(vm, container);

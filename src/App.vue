@@ -51,12 +51,12 @@
   <!--<div class="box">
     <BsSwitchUsage></BsSwitchUsage>
   </div>-->
-  <!--<div class="box">
-    <BsMessageBoxUsage></BsMessageBoxUsage>
-  </div>-->
   <div class="box">
-    <BsMaskUsage></BsMaskUsage>
+    <BsMessageBoxUsage></BsMessageBoxUsage>
   </div>
+  <!--<div class="box">
+    <BsMaskUsage></BsMaskUsage>
+  </div>-->
 </template>
 
 <script lang="ts">
