@@ -2,9 +2,9 @@
   <!--<div class="box">
     <BsButtonUsage></BsButtonUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsInputUsage></BsInputUsage>
-  </div>
+  </div>-->
   <!--<div class="box">
     <BsRadioUsage></BsRadioUsage>
   </div>-->
@@ -60,6 +60,9 @@
   <!--<div class="box">
     <BsAlertUsage></BsAlertUsage>
   </div>-->
+  <div class="box">
+    <BsInputNumberUsage></BsInputNumberUsage>
+  </div>
 </template>
 
 <script lang="ts">
@@ -86,6 +89,7 @@ import BsSwitchUsage from '@/components/bootstrap/bs-switch/BsSwitchUsage.vue';
 import BsMessageBoxUsage from '@/components/bootstrap/bs-message-box/BsMessageBoxUsage.vue';
 import BsMaskUsage from '@/components/bootstrap/bs-mask/BsMaskUsage.vue';
 import BsAlertUsage from '@/components/bootstrap/bs-alert/BsAlertUsage.vue';
+import BsInputNumberUsage from '@/components/bootstrap/bs-input-number/BsInputNumberUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -112,7 +116,8 @@ export default defineComponent({
     BsSwitchUsage,
     BsMessageBoxUsage,
     BsMaskUsage,
-    BsAlertUsage
+    BsAlertUsage,
+    BsInputNumberUsage
   },
   setup () {
     return {
