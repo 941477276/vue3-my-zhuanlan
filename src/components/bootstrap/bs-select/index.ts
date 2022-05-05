@@ -6,6 +6,7 @@ BsSelect.install = function (vueApp: any) {
   vueApp.component(BsSelect.name, BsSelect);
   vueApp.component(BsOption.name, BsOption);
   vueApp.component(BsOptionGroup.name, BsOptionGroup);
+  return vueApp;
 };
 
 export default BsSelect;

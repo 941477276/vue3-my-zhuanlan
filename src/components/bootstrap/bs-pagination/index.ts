@@ -1,7 +1,8 @@
 import BsPagination from './BsPagination.vue';
 
-BsPagination.install = function (vue: any) {
-  vue.component(BsPagination.name, BsPagination);
+BsPagination.install = function (vueApp: any) {
+  vueApp.component(BsPagination.name, BsPagination);
+  return vueApp;
 };
 
 export default BsPagination;

@@ -15,5 +15,6 @@ export default {
     app.config.globalProperties.$message = BsMessage;
     app.config.globalProperties.$closeAllMessage = closeAllMessage;
     app.config.globalProperties.$closeMessage = closeMessage;
+    return app;
   }
 };

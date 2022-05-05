@@ -1,8 +1,21 @@
-import BsMessageBox from './BsMessageBox.vue';
+import {
+  BsMessageBox,
+  closeMessageBox,
+  closeAllMessageBox
+} from './bs-message-box';
 
-BsMessageBox.install = function (vueApp: any) {
-  // vueApp.component(BsMessageBox.name, BsMessageBox);
-  return vueApp;
+export {
+  BsMessageBox,
+  closeMessageBox,
+  closeAllMessageBox
 };
 
-export default BsMessageBox;
+export default {
+  install (app: any) {
+    // 全局挂载 $messageBox 函数
+    app.config.globalProperties.$messageBox = BsMessageBox;
+    app.config.globalProperties.$closeAllMessageBox = closeAllMessageBox;
+    app.config.globalProperties.$closeMessageBox = closeMessageBox;
+    return app;
+  }
+};

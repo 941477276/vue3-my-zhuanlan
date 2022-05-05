@@ -3,12 +3,13 @@ import BreadcrumbItem from './widgets/Breadcrumb-item.vue';
 
 export default {
   installed: false,
-  install (app: any) {
+  install (vueApp: any) {
     if (this.installed) {
       return;
     }
-    app.component(BsBreadcrumb.name, BsBreadcrumb);
-    app.component(BreadcrumbItem.name, BreadcrumbItem);
+    vueApp.component(BsBreadcrumb.name, BsBreadcrumb);
+    vueApp.component(BreadcrumbItem.name, BreadcrumbItem);
     this.installed = true;
+    return vueApp;
   }
 };
