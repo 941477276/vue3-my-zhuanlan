@@ -8,102 +8,107 @@
         'has-clear-content_icon': clearContentIconDisplay,
         'has-custom-suffix_icon': suffixIcon || $slots.suffix,
         'has-suffix-icon': (suffixIcon || $slots.suffix) || showPassword || clearable,
-        'has-prefix-icon': prefixIcon || $slots.prefix
+        'has-prefix-icon': prefixIcon || $slots.prefix,
+        'has-prepend': $slots.prepend,
+        'has-append': $slots.append
       },
       inputClass
     ]">
-    <template v-if="type != 'textarea'">
-      <div class="input-group-prepend" v-if="$slots.prepend">
+    <div class="input-group-prepend" v-if="$slots.prepend">
+      <div class="input-group-text">
         <slot name="prepend"></slot>
       </div>
-      <div
-        class="bs-input-wrap"
-        @mouseenter="on_mouseenter"
-        @mouseleave="on_mouseleave">
-        <input
-          ref="inputRef"
-          class="form-control"
-          autocomplete="off"
-          :class="[
-            {
-              'is-valid': validateStatus === 'success',
-              'is-invalid': validateStatus === 'error'
-            },
-            size ? `form-control-${size}` : ''
-          ]"
-          :type="inputType"
-          v-bind="$attrs"
-          :id="inputId"
-          :value="inputValue || value"
-          :disabled="disabled"
-          :readonly="readonly"
-          :placeholder="placeholder || null"
-          :aria-label="ariaLabel || placeholder || null"
-          :name="name || null"
-          @input="on_input"
-          @change="on_change"
-          @focus="on_focus"
-          @blur="on_blur">
-        <div
-          v-if="prefixIcon || $slots.prefix"
-          class="bs-input-prefix">
-          <span class="bs-input-suffix-icon custom-suffix-icon">
-            <slot name="prefix">
-              <bs-icon :name="prefixIcon"></bs-icon>
-            </slot>
-          </span>
-        </div>
-        <div
-          v-if="(suffixIcon || $slots.suffix) || showPassword || clearable"
-          class="bs-input-suffix">
-          <span
-            v-show="suffixIcon || $slots.suffix"
-            class="bs-input-suffix-icon custom-suffix-icon">
-            <slot name="suffix">
-              <bs-icon :name="suffixIcon"></bs-icon>
-            </slot>
-          </span>
-          <span
-            v-show="clearContentIconDisplay"
-            class="bs-input-suffix-icon clear-content_icon"
-            @click.stop="clearContent">
-            <bs-icon name="x-circle"></bs-icon>
-          </span>
-          <span
-            v-show="showPasswordIconDisplay"
-            class="bs-input-suffix-icon show-password_icon"
-            @click.stop="togglePasswordText">
-            <bs-icon :name="passwordIsShow ? 'eye-slash' : 'eye'"></bs-icon>
-          </span>
-        </div>
+    </div>
+    <div
+      class="bs-input-wrap"
+      @mouseenter="on_mouseenter"
+      @mouseleave="on_mouseleave">
+      <input
+        v-if="type != 'textarea'"
+        ref="inputRef"
+        class="form-control"
+        autocomplete="off"
+        :class="[
+          {
+            'is-valid': validateStatus === 'success',
+            'is-invalid': validateStatus === 'error'
+          },
+          size ? `form-control-${size}` : ''
+        ]"
+        :type="inputType"
+        v-bind="$attrs"
+        :id="inputId"
+        :value="inputValue || value"
+        :disabled="disabled"
+        :readonly="readonly"
+        :placeholder="placeholder || null"
+        :aria-label="ariaLabel || placeholder || null"
+        :name="name || null"
+        @input="on_input"
+        @change="on_change"
+        @focus="on_focus"
+        @blur="on_blur" />
 
+      <textarea
+        v-else
+        ref="inputRef"
+        class="form-control"
+        autocomplete="off"
+        :class="{
+          'is-valid': validateStatus === 'success',
+          'is-invalid': validateStatus === 'error'
+        }"
+        v-bind="$attrs"
+        :id="inputId"
+        :value="inputValue || value"
+        :disabled="disabled"
+        :readonly="readonly"
+        :placeholder="placeholder || null"
+        :aria-label="ariaLabel || placeholder || null"
+        :name="name || null"
+        @input="on_input"
+        @change="on_change"
+        @focus="on_focus"
+        @blur="on_blur"></textarea>
+      <div
+        v-if="prefixIcon || $slots.prefix"
+        class="bs-input-prefix">
+        <span class="bs-input-suffix-icon custom-suffix-icon">
+          <slot name="prefix">
+            <bs-icon :name="prefixIcon"></bs-icon>
+          </slot>
+        </span>
       </div>
-      <div class="input-group-append" v-if="$slots.append">
+      <div
+        v-if="(suffixIcon || $slots.suffix) || showPassword || clearable"
+        class="bs-input-suffix">
+        <span
+          v-show="suffixIcon || $slots.suffix"
+          class="bs-input-suffix-icon custom-suffix-icon">
+          <slot name="suffix">
+            <bs-icon :name="suffixIcon"></bs-icon>
+          </slot>
+        </span>
+        <span
+          v-show="clearContentIconDisplay"
+          class="bs-input-suffix-icon clear-content_icon"
+          @click.stop="clearContent">
+          <bs-icon name="x-circle"></bs-icon>
+        </span>
+        <span
+          v-show="showPasswordIconDisplay"
+          class="bs-input-suffix-icon show-password_icon"
+          @click.stop="togglePasswordText">
+          <bs-icon :name="passwordIsShow ? 'eye-slash' : 'eye'"></bs-icon>
+        </span>
+      </div>
+
+    </div>
+    <div class="input-group-append" v-if="$slots.append">
+      <div class="input-group-text">
         <slot name="append"></slot>
       </div>
-    </template>
-
-    <textarea
-      v-else
-      ref="inputRef"
-      class="form-control"
-      autocomplete="off"
-      :class="{
-        'is-valid': validateStatus === 'success',
-        'is-invalid': validateStatus === 'error'
-      }"
-      v-bind="$attrs"
-      :id="inputId"
-      :value="inputValue || value"
-      :disabled="disabled"
-      :readonly="readonly"
-      :placeholder="placeholder || null"
-      :aria-label="ariaLabel || placeholder || null"
-      :name="name || null"
-      @input="on_input"
-      @change="on_change"
-      @focus="on_focus"
-      @blur="on_blur"></textarea>
+    </div>
   </div>
 </template>
 
