@@ -51,12 +51,15 @@
   <!--<div class="box">
     <BsSwitchUsage></BsSwitchUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsMessageBoxUsage></BsMessageBoxUsage>
-  </div>
+  </div>-->
   <!--<div class="box">
     <BsMaskUsage></BsMaskUsage>
   </div>-->
+  <div class="box">
+    <BsAlertUsage></BsAlertUsage>
+  </div>
 </template>
 
 <script lang="ts">
@@ -82,6 +85,7 @@ import BsTabsUsage from '@/components/bootstrap/bs-tabs/BsTabsUsage.vue';
 import BsSwitchUsage from '@/components/bootstrap/bs-switch/BsSwitchUsage.vue';
 import BsMessageBoxUsage from '@/components/bootstrap/bs-message-box/BsMessageBoxUsage.vue';
 import BsMaskUsage from '@/components/bootstrap/bs-mask/BsMaskUsage.vue';
+import BsAlertUsage from '@/components/bootstrap/bs-alert/BsAlertUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -107,7 +111,8 @@ export default defineComponent({
     BsTabsUsage,
     BsSwitchUsage,
     BsMessageBoxUsage,
-    BsMaskUsage
+    BsMaskUsage,
+    BsAlertUsage
   },
   setup () {
     return {
