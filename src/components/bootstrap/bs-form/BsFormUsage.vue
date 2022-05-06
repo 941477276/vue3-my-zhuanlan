@@ -1,44 +1,53 @@
 <template>
-  <bs-form
-    ref="formRef"
-    :model="formData"
-    :rules="rules">
-    <bs-form-item label="用户名" field-prop-name="username">
-      <bs-input v-model="formData.username"></bs-input>
-      <template #hint>
-        <p>用户名不能以数字开头</p>
-      </template>
-    </bs-form-item>
-    <bs-form-item
-      label="性别"
-      field-prop-name="gender"
-      :hide-required-asterisk="true"
-      :rules="[{ required: true, trigger: 'change', message: '请输选择性别' }]">
-      <bs-select v-model="formData.gender">
-        <bs-option value="">请选择</bs-option>
-        <bs-option value="man">男</bs-option>
-        <bs-option value="woman">女</bs-option>
-      </bs-select>
-    </bs-form-item>
-    <bs-form-item label="爱好" field-prop-name="hobby">
-      <bs-checkbox v-model="formData.hobby" v-if="show" checked value="yuwen">语文</bs-checkbox>
-      <bs-checkbox v-model="formData.hobby" value="shuxue">数学</bs-checkbox>
-      <bs-checkbox v-model="formData.hobby" value="yingyu">英语</bs-checkbox>
-      <bs-checkbox v-model="formData.hobby" value="tiyu">体育</bs-checkbox>
-      <bs-checkbox v-model="formData.hobby" value="wuli">物理</bs-checkbox>
-      <bs-checkbox v-model="formData.hobby" value="shengwu">生物</bs-checkbox>
-    </bs-form-item>
-    <bs-form-item label="状态" field-prop-name="status">
-      <bs-radio v-model="formData.status" :value="1">启用</bs-radio>
-      <bs-radio v-model="formData.status" :value="0">禁用</bs-radio>
-    </bs-form-item>
+  <div class="component-usage">
+    <bs-form
+      ref="formRef"
+      :model="formData"
+      :rules="rules">
+      <bs-form-item label="用户名" field-prop-name="username">
+        <bs-input v-model="formData.username"></bs-input>
+        <template #hint>
+          <p>用户名不能以数字开头</p>
+        </template>
+      </bs-form-item>
+      <bs-form-item
+        label="性别"
+        field-prop-name="gender"
+        :hide-required-asterisk="true"
+        :rules="[{ required: true, trigger: 'change', message: '请输选择性别' }]">
+        <bs-select v-model="formData.gender">
+          <bs-option value="">请选择</bs-option>
+          <bs-option value="man">男</bs-option>
+          <bs-option value="woman">女</bs-option>
+        </bs-select>
+      </bs-form-item>
+      <bs-form-item
+        label="工作时长"
+        field-prop-name="workTimer">
+        <bs-input-number
+          v-model="formData.workTimer"
+          placeholder="请填写工作时长"></bs-input-number>
+      </bs-form-item>
+      <bs-form-item label="爱好" field-prop-name="hobby">
+        <bs-checkbox v-model="formData.hobby" v-if="show" checked value="yuwen">语文</bs-checkbox>
+        <bs-checkbox v-model="formData.hobby" value="shuxue">数学</bs-checkbox>
+        <bs-checkbox v-model="formData.hobby" value="yingyu">英语</bs-checkbox>
+        <bs-checkbox v-model="formData.hobby" value="tiyu">体育</bs-checkbox>
+        <bs-checkbox v-model="formData.hobby" value="wuli">物理</bs-checkbox>
+        <bs-checkbox v-model="formData.hobby" value="shengwu">生物</bs-checkbox>
+      </bs-form-item>
+      <bs-form-item label="状态" field-prop-name="status">
+        <bs-radio v-model="formData.status" :value="1">启用</bs-radio>
+        <bs-radio v-model="formData.status" :value="0">禁用</bs-radio>
+      </bs-form-item>
 
-    <bs-button type="primary" @click="confirmForm">提交</bs-button>
-    <bs-button type="primary" @click="clearValidate">移除校验结果</bs-button>
-    <bs-button type="primary" @click="resetFields">清空表单</bs-button>
-    <bs-button type="primary" @click="clearPartialValidate">移除部分表单校验结果</bs-button>
-    <bs-button type="primary" @click="validateFields">校验部分表单校验结果</bs-button>
-  </bs-form>
+      <bs-button type="primary" style="margin-bottom: 10px;margin-right: 10px;" @click="confirmForm">提交</bs-button>
+      <bs-button type="primary" style="margin-bottom: 10px;margin-right: 10px;" @click="clearValidate">移除校验结果</bs-button>
+      <bs-button type="primary" style="margin-bottom: 10px;margin-right: 10px;" @click="resetFields">清空表单</bs-button>
+      <bs-button type="primary" style="margin-bottom: 10px;margin-right: 10px;" @click="clearPartialValidate">移除部分表单校验结果</bs-button>
+      <bs-button type="primary" style="margin-bottom: 10px;margin-right: 10px;" @click="validateFields">校验部分表单校验结果</bs-button>
+    </bs-form>
+  </div>
 </template>
 
 <script lang="ts">
@@ -46,6 +55,8 @@ import { computed, defineComponent, reactive, ref, ComponentInternalInstance } f
 
 export default defineComponent({
   name: 'BsFormUsage',
+  components: {},
+
   setup (props: any) {
     let formRef = ref<ComponentInternalInstance|null>(null);
     let show = ref(true);
@@ -57,6 +68,7 @@ export default defineComponent({
     let formData = reactive({
       username: '',
       status: '',
+      workTimer: '',
       hobby: []
     });
     let rules = computed(function () {
@@ -75,6 +87,11 @@ export default defineComponent({
             },
             trigger: 'input'
           }
+        ],
+        workTimer: [
+          {required: true, trigger: ['input', 'change', 'blur'], message: '请填写工作时长'},
+          {type: 'number', trigger: ['input', 'change', 'blur'], transform: (val: string|number) => Number(val), min: 8, message: '工作时长不能低于8小时'},
+          {type: 'number', trigger: ['input', 'change', 'blur'], transform: (val: string|number) => Number(val), max: 12, message: '工作时长不能高于12小时'},
         ],
         hobby: [
           {required: true, type: 'array', trigger: 'change', min: 1, message: '请至少选择一个爱好'}
@@ -125,6 +142,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.component-usage{
+  max-width: 600px;
+}
 </style>
