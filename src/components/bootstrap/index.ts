@@ -19,6 +19,7 @@ import BsSwitch from '@/components/bootstrap/bs-switch';
 import BsMessageBox from '@/components/bootstrap/bs-message-box';
 import BsAlert from '@/components/bootstrap/bs-alert';
 import BsInputNumber from '@/components/bootstrap/bs-input-number';
+import BsTooltip from '@/components/bootstrap/bs-tooltip';
 
 export default function (vueApp: any) {
   vueApp.component(BsButton.name, BsButton);
@@ -43,4 +44,5 @@ export default function (vueApp: any) {
   vueApp.use(BsMessageBox);
   vueApp.use(BsAlert);
   vueApp.use(BsInputNumber);
+  vueApp.use(BsTooltip);
 }

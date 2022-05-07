@@ -60,8 +60,11 @@
   <!--<div class="box">
     <BsAlertUsage></BsAlertUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsInputNumberUsage></BsInputNumberUsage>
+  </div>-->
+  <div class="box">
+    <BsTooltipUsage></BsTooltipUsage>
   </div>
 </template>
 
@@ -90,6 +93,7 @@ import BsMessageBoxUsage from '@/components/bootstrap/bs-message-box/BsMessageBo
 import BsMaskUsage from '@/components/bootstrap/bs-mask/BsMaskUsage.vue';
 import BsAlertUsage from '@/components/bootstrap/bs-alert/BsAlertUsage.vue';
 import BsInputNumberUsage from '@/components/bootstrap/bs-input-number/BsInputNumberUsage.vue';
+import BsTooltipUsage from '@/components/bootstrap/bs-tooltip/BsTooltipUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -117,7 +121,8 @@ export default defineComponent({
     BsMessageBoxUsage,
     BsMaskUsage,
     BsAlertUsage,
-    BsInputNumberUsage
+    BsInputNumberUsage,
+    BsTooltipUsage
   },
   setup () {
     return {
