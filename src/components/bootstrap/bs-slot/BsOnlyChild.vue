@@ -6,11 +6,19 @@ import {
   Comment,
   Text,
   Fragment,
-  VNode
+  VNode,
+  inject,
+  withDirectives
 } from 'vue';
 import {
-  isObject
+  isObject,
+  NOOP
 } from '@vue/shared';
+import {
+  ForwardRefContext,
+  useForwardRefDirective,
+  forwardRefKey
+} from '@/hooks/useForwardRef';
 
 /**
  * 获取第一个类型为元素的节点
@@ -24,7 +32,7 @@ function findFirstLegitChild (node: VNode[] | undefined): VNode | null {
     if (isObject(child)) {
       switch (child.type) {
         case Comment: // 注释节点
-          return wrapTextContent(child);
+          continue;
         case Text: // 文本节点
           return wrapTextContent(child);
         case Fragment: // 文档碎片
@@ -60,11 +68,19 @@ export default defineComponent({
       if (!defaultSlot) {
         return null;
       }
+      // 获取插槽里的第一个节点元素（非文本、注释、属性元素）
       let firstChild = findFirstLegitChild(defaultSlot);
       if (!firstChild) {
         return null;
       }
-      return cloneVNode(firstChild);
+      let forwardRefInjection = inject<ForwardRefContext>(forwardRefKey, {
+        setForwardRef: NOOP
+      });
+      // 获取更新forward ref的指令，以更新父级的forwardRef变量
+      const forwardRefDirective = useForwardRefDirective(forwardRefInjection.setForwardRef);
+      return withDirectives(cloneVNode(firstChild), [
+        [forwardRefDirective]
+      ]);
     };
   }
 });
