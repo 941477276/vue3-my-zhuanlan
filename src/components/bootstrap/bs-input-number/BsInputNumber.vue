@@ -29,7 +29,7 @@
           <span>{{ prefix }}</span>
         </label>
         <input
-          type="text"
+          :type="inputType"
           class="form-control"
           autocomplete="off"
           ref="inputRef"
@@ -107,6 +107,12 @@ export default defineComponent({
     } else {
       inputId.value = `bs_input_number-${++bsInputNumberCount}`;
     }
+    let inputType = computed(function () {
+      if (props.type !== 'number') {
+        return 'text';
+      }
+      return props.type;
+    });
 
     let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
     let inputRef = ref<HTMLInputElement | null>(null);
@@ -166,6 +172,7 @@ export default defineComponent({
       inputId,
       validateStatus,
       inputValue,
+      inputType,
 
       on_input,
       // on_change,

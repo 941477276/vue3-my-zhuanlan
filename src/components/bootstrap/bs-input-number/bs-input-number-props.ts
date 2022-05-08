@@ -1,6 +1,7 @@
 import { PropType } from 'vue';
 import { BsSize } from '@/ts-tokens/bootstrap';
 
+type InputNumberType = 'text' | 'number';
 export const bsInputNumberProps = {
   modelValue: {
     type: [String, Number],
@@ -9,6 +10,10 @@ export const bsInputNumberProps = {
   disabled: {
     type: Boolean,
     default: false
+  },
+  type: {
+    type: String as PropType<InputNumberType>,
+    default: 'text'
   },
   readonly: {
     type: Boolean,
