@@ -11,7 +11,8 @@
 <script lang="ts">
 import {
   defineComponent,
-  inject
+  inject,
+  watch
 } from 'vue';
 import {
   BsPopperContext,
@@ -32,7 +33,11 @@ export default defineComponent({
     }
   },
   setup () {
-    let { popperContentRef } = inject<BsPopperContext>(bsPopperContextKey, {} as BsPopperContext);
+    let {
+      popperContentRef,
+      popperInstance,
+      triggerRef
+    } = inject<BsPopperContext>(bsPopperContextKey, {} as BsPopperContext);
     // let z
     return {
       popperContentRef

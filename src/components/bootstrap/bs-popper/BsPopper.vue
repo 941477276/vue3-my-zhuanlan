@@ -46,7 +46,8 @@ export default defineComponent({
     provide<BsPopperContext>(bsPopperContextKey, {
       triggerRef,
       popperContentRef,
-      popperArrowRef
+      popperArrowRef,
+      popperInstance
     });
 
     let stopWatchRef: () => void;
@@ -77,6 +78,7 @@ export default defineComponent({
               }
             ]
           });
+          console.log('popperInstance.value', popperInstance.value);
         }
       }, { immediate: true });
     });
@@ -88,7 +90,8 @@ export default defineComponent({
     return {
       triggerRef,
       popperContentRef,
-      popperArrowRef
+      popperArrowRef,
+      popperInstance
     };
   }
 });
