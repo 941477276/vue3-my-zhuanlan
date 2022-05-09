@@ -6,7 +6,9 @@
     <slot></slot>
     <teleport to="body">
       <transition
-        name="slide">
+        name="slide"
+        @before-enter="transitionLeaveDone = false"
+        @after-leave="transitionLeaveDone = true">
         <div
           v-if="display"
           v-show="visible"
@@ -115,8 +117,10 @@ export default defineComponent({
     let toggleEl: HTMLElement; // 触发下拉菜单显示/隐藏的dom元素
     let eventTimer: number;
     let displayDirection = ref(props.placement);
+    let transitionLeaveDone = ref(false); // 过渡动画是否执行完毕
     let display = computed(function () {
-      if (props.destroyDropdownMenuOnHide && !visible.value) {
+      // 如果开启了“隐藏时销毁下拉内容”则需等离开过渡动画执行完毕后再销毁
+      if (props.destroyDropdownMenuOnHide && !visible.value && transitionLeaveDone.value) {
         return false;
       }
       return !props.lazy || loaded.value;
@@ -240,6 +244,15 @@ export default defineComponent({
       }
     };
 
+    // 滚动条滚动事件
+    let scrollEvent = function () {
+      if (!visible.value) {
+        return;
+      }
+      // 这里不能使用节流，如果触发下拉菜单的元素处于position: fixed元素中，使用了节流会出现下拉菜单跟随滚动条滚动的效果
+      calcDirection();
+    };
+
     // 绑定事件
     let bindEvent = function () {
       switch (props.trigger) {
@@ -254,6 +267,7 @@ export default defineComponent({
           break;
       }
       useGlobalEvent.addEvent('window', resizeEventName, resizeEvent);
+      useGlobalEvent.addEvent('window', 'scroll', scrollEvent);
     };
     // 解绑事件
     let offEvent = function () {
@@ -269,6 +283,7 @@ export default defineComponent({
           break;
       }
       useGlobalEvent.removeEvent('window', resizeEventName, resizeEvent);
+      useGlobalEvent.removeEvent('window', 'scroll', scrollEvent);
     };
 
     let stopWatchClickOutside = watch(isClickOutside, (newVal: Ref) => {
@@ -303,6 +318,7 @@ export default defineComponent({
       isClickOutside,
       dropdownMenuStyle,
       displayDirection,
+      transitionLeaveDone,
 
       hide,
       show

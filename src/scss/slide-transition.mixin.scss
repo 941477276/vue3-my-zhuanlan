@@ -3,7 +3,7 @@
  */
 @mixin slide-top{
   &.slide-enter-active,
-  &.slide-leave{
+  &.slide-leave-active{
     transition: transform .2s, opacity .2s;
   }
   &.slide-enter-from,
@@ -23,7 +23,7 @@
 
 @mixin slide-down{
   &.slide-enter-active,
-  &.slide-leave{
+  &.slide-leave-active{
     transition: transform .2s, opacity .2s;
   }
   &.slide-enter-from,
@@ -43,7 +43,7 @@
 
 @mixin slide-left{
   &.slide-enter-active,
-  &.slide-leave{
+  &.slide-leave-active{
     transition: transform .2s, opacity .2s;
   }
   &.slide-enter-from,
@@ -62,7 +62,7 @@
 
 @mixin slide-right{
   &.slide-enter-active,
-  &.slide-leave{
+  &.slide-leave-active{
     transition: transform .2s, opacity .2s;
   }
   &.slide-enter-from,
