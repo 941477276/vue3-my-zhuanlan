@@ -1,10 +1,8 @@
 <template>
   <div
     ref="popperContentRef"
-    class="bs-popper-content"
-    :class="[
-      popperClass
-    ]"
+    class="bs-popper"
+    :class="popperClass"
     role="tooltip">
     <slot></slot>
   </div>

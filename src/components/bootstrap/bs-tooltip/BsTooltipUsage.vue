@@ -3,12 +3,12 @@
     <div>
       <h3>基本使用</h3>
       <BsTooltip>
-        <bs-button>基本使用</bs-button>
+        <!--<bs-button>基本使用</bs-button>-->
       </BsTooltip>
 
-      <BsTooltip>
+      <!--<BsTooltip>
         一段文本
-      </BsTooltip>
+      </BsTooltip>-->
     </div>
   </div>
 </template>

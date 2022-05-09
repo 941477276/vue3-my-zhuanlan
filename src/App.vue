@@ -63,12 +63,12 @@
   <!--<div class="box">
     <BsInputNumberUsage></BsInputNumberUsage>
   </div>-->
-  <div class="box">
-    <BsPopperUsage></BsPopperUsage>
-  </div>
   <!--<div class="box">
-    <BsTooltipUsage></BsTooltipUsage>
+    <BsPopperUsage></BsPopperUsage>
   </div>-->
+  <div class="box">
+    <BsTooltipUsage></BsTooltipUsage>
+  </div>
 </template>
 
 <script lang="ts">
