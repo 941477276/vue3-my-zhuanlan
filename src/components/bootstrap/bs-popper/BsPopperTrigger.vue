@@ -17,6 +17,7 @@ import {
   onUnmounted
 } from 'vue';
 import BsOnlyChild from '../bs-slot/BsOnlyChild.vue';
+import { bsPopperTriggerProps } from './bs-popper-trigger-props';
 import {
   bsPopperContextKey,
   BsPopperContext
@@ -37,14 +38,7 @@ export default defineComponent({
     BsOnlyChild
   },
   props: {
-    virtualTriggering: { // 是否由虚拟元素触发
-      type: Boolean,
-      default: false
-    },
-    virtualRef: { // 触发元素的ref
-      type: [String, Function, Object],
-      default: null
-    }
+    ...bsPopperTriggerProps
   },
   setup (props: any, ctx: any) {
     let { triggerRef } = inject<BsPopperContext>(bsPopperContextKey, {} as BsPopperContext)!;
@@ -77,12 +71,13 @@ export default defineComponent({
       stopWatchTrigger = watch(() => triggerRef.value, function (triggerEl, prevTriggerEl) {
         if (triggerEl && triggerEl.nodeType == 1) {
           eventsName.forEach(eventName => {
-            eventName = eventName.slice(2).toLowerCase();
             let eventFn = props[eventName];
+            eventName = eventName.slice(2).toLowerCase();
             console.log('绑定事件');
             if (!eventFn) {
               return;
             }
+            // console.log('绑定事件', eventFn);
             triggerEl.addEventListener(eventName, eventFn, false);
             // 移除之前触发popper元素的事件
             if (prevTriggerEl && prevTriggerEl.nodeType == 1) {

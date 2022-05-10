@@ -38,7 +38,7 @@ export default defineComponent({
     // popper三角箭头元素
     let popperArrowRef = ref<HTMLElement|null>(null);
     // popper实例
-    let popperInstance = ref<PopperInstance>();
+    let popperInstanceRef = ref<PopperInstance>();
 
     // 向子孙组件传递（透传）触发popper元素的变量,让子孙组件去更新这个变量
     useForwardRef(triggerRef);
@@ -47,12 +47,11 @@ export default defineComponent({
       triggerRef,
       popperContentRef,
       popperArrowRef,
-      popperInstance
+      popperInstanceRef
     });
 
-    let stopWatchRef: () => void;
+    /* let stopWatchRef: () => void;
     onMounted(function () {
-      console.log(111);
       stopWatchRef = watch([triggerRef, popperContentRef], ([triggerEl, popperContentEl]) => {
         if (!popperInstance.value) {
           console.log('popperInstance.value', popperInstance.value);
@@ -85,13 +84,13 @@ export default defineComponent({
 
     onUnmounted(function () {
       stopWatchRef();
-    });
+    }); */
 
     return {
       triggerRef,
       popperContentRef,
       popperArrowRef,
-      popperInstance
+      popperInstanceRef
     };
   }
 });
