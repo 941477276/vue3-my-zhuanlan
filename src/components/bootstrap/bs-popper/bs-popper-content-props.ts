@@ -14,7 +14,7 @@ export const bsPopperContentProps = {
     default: 'bottom'
   },
   popperClass: { // popper的class
-    type: String,
+    type: [String, Array, Object],
     default: ''
   },
   zIndex: {
@@ -23,7 +23,7 @@ export const bsPopperContentProps = {
   },
   visible: {
     type: Boolean,
-    default: false
+    default: undefined
   },
   popperStyle: { // popper的样式
     type: [String, Array, Object],

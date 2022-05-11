@@ -3,13 +3,18 @@
     <BsTooltipTrigger
       :virtual-triggering="virtualTriggering"
       :virtual-ref="virtualRef"
-      :disabled="disabled">
+      :disabled="disabled"
+      :trigger="trigger"
+      :enterable="enterable">
       <slot v-if="$slots.default"></slot>
     </BsTooltipTrigger>
 
     <BsTooltipContent
       v-bind="$attrs"
-      :popper-class="popperClass || 'bs-tooltip'"
+      :id="tooltipId"
+      :teleported="teleported"
+      :append-to="appendTo"
+      :popper-class="popperClassInner"
       :visible="isShow"
       :placement="placement"
       :arrow-offset="arrowOffset"
@@ -18,6 +23,9 @@
       :offset="offset"
       :z-index="zIndex"
       :strategy="strategy"
+      :disabled="disabled"
+      :enterable="enterable"
+      :destroy-on-hide="destroyOnHide"
       :gpu-acceleration="gpuAcceleration">
       <slot name="content">
         <div v-if="!rawContent">
@@ -38,10 +46,12 @@ import {
   cloneVNode,
   defineComponent,
   PropType,
+  computed,
   ref,
   provide,
   toRef,
-  readonly
+  readonly,
+  watch
 } from 'vue';
 import {
   PopperTriggerType,
@@ -54,9 +64,11 @@ import BsPopper from '../bs-popper/BsPopper.vue';
 import BsPopperArrow from '../bs-popper/BsPopperArrow.vue';
 import { bsPopperContentProps } from '../bs-popper/bs-popper-content-props';
 import { bsTooltipContentProps } from './bs-tooltip-content-props';
+import { bsTooltipTriggerProps } from './bs-tooltip-trigger-props';
 import BsTooltipContent from './BsTooltipContent.vue';
 import BsTooltipTrigger from './BsTooltipTrigger.vue';
 
+let tooltipCount = 0;
 export default defineComponent({
   name: 'BsTooltip',
   components: {
@@ -70,14 +82,7 @@ export default defineComponent({
   props: {
     ...bsPopperContentProps,
     ...bsTooltipContentProps,
-    trigger: {
-      type: String as PropType<PopperTriggerType>,
-      default: 'hover'
-    },
-    id: {
-      type: String,
-      default: ''
-    },
+    ...bsTooltipTriggerProps,
     showArrow: { // 是否显示三角箭头
       type: Boolean,
       default: true
@@ -94,53 +99,110 @@ export default defineComponent({
       type: [String, Function, Object],
       default: null
     },
-    disabled: { // 是否禁用
+    showDelay: { // 延迟出现，单位毫秒
+      type: Number,
+      default: 100
+    },
+    hideDelay: { // 延迟关闭，单位毫秒
+      type: Number,
+      default: 200
+    },
+    pure: { // 是否为纯净的tooltip，如果是纯净的则会添加 bs-tooltip class类名
       type: Boolean,
-      default: false
+      default: true
     }
   },
-  setup (props: any) {
-    let triggerElType = ref(1);
-    let setTriggerEl = function (type: number) {
-      triggerElType.value = type;
-    };
+  emits: ['before-show', 'before-hide', 'content-mouseenter', 'content-mouseleave', 'show', 'hide'],
+  setup (props: any, ctx: any) {
+    let popperClassInner = computed(function () {
+      if (!props.pure) {
+        return props.popperClass;
+      }
+      return [
+        'bs-tooltip',
+        {
+          'is-dark': props.theme === 'dark',
+          'is-light': props.theme === 'light'
+        },
+        props.popperClass
+      ];
+    });
+    let tooltipId = ref(props.id || `tooltip_${++tooltipCount}`);
+
+    // 判断popper是否被外部控制，如果外部传递的 visible prop 变量值为boolean类型则认为被外部控制了
+    let isControlled = computed(function () {
+      return typeof props.visible === 'boolean';
+    });
 
     let isShow = ref(false);
 
+    let showTimer: number;
+    let hideTimer: number;
+
+    // 显示
     let show = function () {
-      if (props.disabled) {
+      if (props.disabled || isControlled.value) {
         return;
       }
-      isShow.value = true;
+      // 每次显示或隐藏时都清除两个定时器，这样当trigger类型为hover时就可以实现鼠标可以移入popper的效果
+      clearTimeout(showTimer);
+      clearTimeout(hideTimer);
+      showTimer = setTimeout(function () {
+        isShow.value = true;
+      }, props.showDelay);
     };
 
+    // 隐藏
     let hide = function () {
-      if (props.disabled) {
+      if (props.disabled || isControlled.value) {
         return;
       }
-      isShow.value = false;
+      clearTimeout(hideTimer);
+      clearTimeout(showTimer);
+      hideTimer = setTimeout(function () {
+        isShow.value = false;
+      }, props.hideDelay);
     };
 
-    let onClick = function () {
-      console.log('trigger click');
-      isShow.value = !isShow.value;
-    };
+    watch(() => props.visible, function (visibleVal: boolean) {
+      if (isControlled.value) {
+        isShow.value = visibleVal;
+      }
+    }, { immediate: true });
 
     provide<BsTooltipContext>(bsTooltipContextKey, {
       show,
       hide,
+      onBeforeShow: () => {
+        ctx.emit('before-show');
+      },
+      onShow: () => {
+        ctx.emit('show');
+      },
+      onBeforeHide: () => {
+        ctx.emit('before-hide');
+      },
+      onHide: () => {
+        ctx.emit('hide');
+      },
+      onContentMouseenter: () => {
+        ctx.emit('content-mouseenter');
+      },
+      onContentMouseleave: () => {
+        ctx.emit('content-mouseleave');
+      },
       trigger: toRef(props, 'trigger'),
-      isShow: readonly(isShow)
+      isShow: readonly(isShow),
+      isControlled
     });
 
     return {
-      triggerElType,
-      setTriggerEl,
+      popperClassInner,
       isShow,
+      tooltipId,
 
       show,
-      hide,
-      onClick
+      hide
     };
   }
 });

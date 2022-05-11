@@ -1,3 +1,8 @@
+import {
+  TooltipTheme
+} from '@/ts-tokens/bootstrap/popper';
+import { PropType } from 'vue';
+
 export const bsTooltipContentProps = {
   id: {
     type: String,
@@ -26,5 +31,17 @@ export const bsTooltipContentProps = {
   destroyOnHide: { // 隐藏后是否销毁内容
     type: Boolean,
     default: false
+  },
+  disabled: {
+    type: Boolean,
+    default: false
+  },
+  enterable: {
+    type: Boolean,
+    default: true
+  },
+  theme: { // 主题
+    type: String as PropType<TooltipTheme>,
+    default: 'dark'
   }
 };

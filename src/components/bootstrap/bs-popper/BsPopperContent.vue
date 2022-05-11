@@ -17,7 +17,7 @@ import {
   ref,
   computed,
   onMounted,
-  onUnmounted,
+  onBeforeUnmount,
   PropType
 } from 'vue';
 import {
@@ -65,6 +65,7 @@ export default defineComponent({
 
     let stopWatchTriggerRef: () => void;
     let stopWatchVisible: () => void;
+    let stopWatchElBoundingClient: () => void;
     onMounted(function () {
       // 监听触发popper的元素，并创建popper实例
       stopWatchTriggerRef = watch(() => triggerRef.value, (triggerEl) => {
@@ -72,15 +73,17 @@ export default defineComponent({
         if (popperInstance) {
           popperInstance.destroy();
         }
+        stopWatchElBoundingClient?.();
         if (triggerEl) {
-          console.log('newEl', triggerEl);
+          console.log('创建新的popper！newEl', triggerEl);
           popperInstanceRef.value = createPopper(triggerEl as Element, popperContentRef.value as HTMLElement, buildPopperOptions(props, triggerEl));
           console.log('popperInstanceRef.value', popperInstanceRef.value);
 
-          /* watch(() => triggerEl.getBoundingClientRect(), function (clientRect: DOMRect) {
-            console.log('clientRect', clientRect);
+          // 在dom元素位置改变后及时的更新popper
+          stopWatchElBoundingClient = watch(() => triggerEl.getBoundingClientRect?.(), function (clientRect: DOMRect) {
+            // console.log('clientRect', clientRect);
             updatePopper(false);
-          }, { immediate: true }); */
+          }, { immediate: true });
         } else {
           popperInstanceRef.value = undefined;
         }
@@ -98,9 +101,10 @@ export default defineComponent({
       }, { immediate: true });
     });
 
-    onUnmounted(function () {
+    onBeforeUnmount(function () {
       stopWatchTriggerRef();
       stopWatchVisible();
+      popperInstanceRef.value?.destroy();
     });
 
     return {
