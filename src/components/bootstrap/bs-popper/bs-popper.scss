@@ -29,7 +29,7 @@
 
   &.popper-fade-enter-active,
   &.popper-fade-leave-active{
-    transition: opacity .2s ease-in-out;
+    transition: opacity .2s ease-in;
   }
   /*&.popper-fade-enter-from{
     transform: scale(0.8);
@@ -49,31 +49,86 @@
     transform: scale(1);
   }*/
 
+  &.popper-scale-enter-active,
+  &.popper-scale-leave-active{
+    transition: opacity .2s, transform .2s;
+  }
+
+  &.popper-scale-enter-from,
+  &.popper-scale-leave-to{
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  &.popper-scale-leave-from,
+  &.popper-scale-enter-to{
+    opacity: 1;
+    transform: scale(1);
+  }
+
   &[data-popper-placement^='top']{
     & > .bs-popper-arrow {
       bottom: -0.25rem;
     }
-    //transform-origin: bottom
+    /*&[data-transition="popper-scale"]{
+      transform-origin: bottom;
+    }*/
+  }
+  &[data-popper-placement='top']{
+    &[data-transition="popper-scale"]{
+      transform-origin: bottom;
+    }
+  }
+  &[data-popper-placement='top-start']{
+    &[data-transition="popper-scale"]{
+      transform-origin: 0 bottom;
+    }
+  }
+  &[data-popper-placement='top-end']{
+    &[data-transition="popper-scale"]{
+      transform-origin: right bottom;
+    }
   }
 
   &[data-popper-placement^='bottom']{
     & > .bs-popper-arrow {
       top: -0.25rem;
     }
-    //transform-origin: top;
+    /*&[data-transition="popper-scale"]{
+      transform-origin: top;
+    }*/
+  }
+
+  &[data-popper-placement='bottom-start']{
+    &[data-transition="popper-scale"]{
+      transform-origin: left top;
+    }
+  }
+  &[data-popper-placement='bottom']{
+    &[data-transition="popper-scale"]{
+      transform-origin: top;
+    }
+  }
+  &[data-popper-placement='bottom-end']{
+    &[data-transition="popper-scale"]{
+      transform-origin: right top;
+    }
   }
 
   &[data-popper-placement^='left']{
     & > .bs-popper-arrow {
       right: -0.25rem;
     }
-    //transform-origin: right
+    &[data-transition="popper-scale"]{
+      transform-origin: right;
+    }
   }
 
   &[data-popper-placement^='right']{
     > .bs-popper-arrow {
       left: -0.25rem;
     }
-    //transform-origin: left
+    &[data-transition="popper-scale"]{
+      transform-origin: left;
+    }
   }
 }

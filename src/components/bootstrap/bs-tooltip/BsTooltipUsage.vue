@@ -131,6 +131,31 @@
           style="margin-left: 25px;"
           type="primary">light主题</bs-button>
       </BsTooltip>
+      <BsTooltip
+        theme="custom"
+        theme-class="is-pink"
+        content="自定义主题的Tooltip！">
+        <bs-button
+          style="margin-left: 25px;"
+          type="primary">自定义主题</bs-button>
+      </BsTooltip>
+    </div>
+
+    <div>
+      <hr>
+      <h3>不同过度效果</h3>
+      <BsTooltip
+        content="默认过渡效果！">
+        <bs-button
+          type="primary">fade(默认)</bs-button>
+      </BsTooltip>
+      <BsTooltip
+        transition-name="scale"
+        content="scale的过渡效果！">
+        <bs-button
+          style="margin-left: 25px;"
+          type="primary">scale</bs-button>
+      </BsTooltip>
     </div>
 
     <div>
@@ -316,6 +341,15 @@ export default defineComponent({
     line-height: 1.5;
     color: #f00;
     font-size: 14px;
+  }
+}
+</style>
+<style lang="scss">
+.bs-tooltip{
+  &.is-pink{
+    box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014, 0 9px 28px 8px #0000000d;
+    color: #fff;
+    background-color: #eb2f96;
   }
 }
 </style>

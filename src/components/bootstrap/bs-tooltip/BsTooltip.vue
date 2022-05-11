@@ -26,7 +26,8 @@
       :disabled="disabled"
       :enterable="enterable"
       :destroy-on-hide="destroyOnHide"
-      :gpu-acceleration="gpuAcceleration">
+      :transition-name="transitionName"
+      :gpu-acceleration="transitionName === 'scale' ? false : gpuAcceleration">
       <slot name="content">
         <div v-if="!rawContent">
           {{ content }}
@@ -110,6 +111,10 @@ export default defineComponent({
     pure: { // 是否为纯净的tooltip，如果是纯净的则会添加 bs-tooltip class类名
       type: Boolean,
       default: true
+    },
+    themeClass: { // 自定义主题class
+      type: String,
+      default: ''
     }
   },
   emits: ['before-show', 'before-hide', 'content-mouseenter', 'content-mouseleave', 'show', 'hide'],
@@ -120,10 +125,7 @@ export default defineComponent({
       }
       return [
         'bs-tooltip',
-        {
-          'is-dark': props.theme === 'dark',
-          'is-light': props.theme === 'light'
-        },
+        props.theme === 'custom' ? props.themeClass : `is-${props.theme}`,
         props.popperClass
       ];
     });
