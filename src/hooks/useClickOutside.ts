@@ -8,10 +8,18 @@ export function useClickOutside (eleRefs: Ref<HTMLElement|null>|Ref<HTMLElement|
     let target = evt.target;
     if (Array.isArray(eleRefs)) {
       flag.value = !eleRefs.some(function (refItem) {
+        // 点击的元素与参照元素一样，则不算点击在了外面
+        if (refItem.value === target) {
+          return true;
+        }
         return util.elementContains(refItem.value, target);
       });
     } else {
-      flag.value = !util.elementContains(eleRefs.value, target);
+      if (eleRefs.value === target) {
+        flag.value = false;
+      } else {
+        flag.value = !util.elementContains(eleRefs.value, target);
+      }
     }
     // console.log('document click event', flag.value);
     if (typeof callback == 'function') {
