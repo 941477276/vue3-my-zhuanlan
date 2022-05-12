@@ -125,6 +125,7 @@
           type="primary">dark主题</bs-button>
       </BsTooltip>
       <BsTooltip
+        placement="top"
         theme="light"
         content="light主题的Tooltip！">
         <bs-button
@@ -221,6 +222,16 @@
       <BsTooltip
         destroy-on-hide
         content="popper隐藏其dom就会被销毁">
+        <bs-button type="primary">一个Tooltip</bs-button>
+      </BsTooltip>
+    </div>
+
+    <div class="fixed-box">
+      <hr>
+      <h3>在fixed定位中</h3>
+      <BsTooltip
+        trigger="click"
+        content="trigger在fixed定位中的tooltip！">
         <bs-button type="primary">一个Tooltip</bs-button>
       </BsTooltip>
     </div>
@@ -342,6 +353,15 @@ export default defineComponent({
     color: #f00;
     font-size: 14px;
   }
+}
+.fixed-box{
+  position: fixed;
+  top: 10%;
+  right: 2%;
+  z-index: 5;
+  padding: 20px;
+  box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014, 0 9px 28px 8px #0000000d;
+  background-color: #fff;
 }
 </style>
 <style lang="scss">

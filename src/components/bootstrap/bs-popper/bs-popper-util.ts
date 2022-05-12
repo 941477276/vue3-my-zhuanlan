@@ -24,6 +24,7 @@ export function buildPopperOptions (props: any, triggerEl: Element): PopperOptio
 // 构建默认的修饰参数
 export function buildModifiers (props: any) {
   let offset = props.offset || [];
+  let gpuAcceleration = props.gpuAcceleration ?? true;
   return [
     { // 偏移量
       name: 'offset',
@@ -35,7 +36,9 @@ export function buildModifiers (props: any) {
       name: 'computeStyles',
       options: {
         // 默认值为true，改为false后，定位将会使用top、left，而不是translate，如果过度效果需要使用translate，那么需将该项改为false
-        gpuAcceleration: props.gpuAcceleration ?? true
+        gpuAcceleration: gpuAcceleration,
+        // 如果gpuAcceleration为false，而adaptive为true，并且元素应用了transition属性时会报警告
+        adaptive: gpuAcceleration
       }
     },
     { // 箭头
