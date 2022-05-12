@@ -730,11 +730,14 @@ var tool = {
     var styleDisplay = targetEl.style.display;
     var styleOpacity = targetEl.style.opacity;
     var targetElDisplay = tool.getStyle(targetEl, 'display');
+    var targetElIsFixed = tool.getStyle(targetEl, 'position') === 'fixed';
     // var targetElOpacity = tool.getStyle(targetEl, 'opacity');
     if (referenceIsInFixedPosition) {
-      // 如果reference元素处于fixed定位的父级容器，则需要加上浏览器滚动条滚动的距离
-      referenceOffset.top = referenceOffset.top + tool.scrollTop();
-      referenceOffset.left = referenceOffset.left + tool.scrollLeft();
+      if (!targetElIsFixed) {
+        // 如果reference元素处于fixed定位的父级容器，并且目标元素不是fixed定位，则需要加上浏览器滚动条滚动的距离
+        referenceOffset.top = referenceOffset.top + tool.scrollTop();
+        referenceOffset.left = referenceOffset.left + tool.scrollLeft();
+      }
     }
     // console.log('referenceOffset加上滚动条滚动距离的', referenceIsInFixedPosition, referenceOffset);
     if (targetElDisplay === 'none') {

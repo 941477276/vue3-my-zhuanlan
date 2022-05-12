@@ -221,6 +221,18 @@
       </div>
 
     </div>
+
+    <div class="fixed-box">
+      <h3>在fixed容器中</h3>
+      <bs-dropdown trigger="click">
+        <bs-button class="dropdown-toggle" type="primary">网页三剑客</bs-button>
+        <template #dropdown-content>
+          <bs-dropdown-item>Javascript</bs-dropdown-item>
+          <bs-dropdown-item>Css</bs-dropdown-item>
+          <bs-dropdown-item>Html</bs-dropdown-item>
+        </template>
+      </bs-dropdown>
+    </div>
   </div>
 </template>
 
@@ -259,5 +271,17 @@ export default defineComponent({
 h3{
   margin-bottom: 0.8rem;
   margin-top: 5rem;
+}
+.fixed-box{
+  position: fixed;
+  top: 40%;
+  right: 10%;
+  z-index: 15;
+  padding: 1.2rem;
+  box-shadow: 0 0 .6rem rgba(0,0,0,0.3);
+  background-color: #fff;
+  h3{
+    margin-top: 0;
+  }
 }
 </style>

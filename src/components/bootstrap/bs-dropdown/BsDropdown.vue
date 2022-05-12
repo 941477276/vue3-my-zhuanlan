@@ -19,10 +19,11 @@
           `bs-dropdown-menu-direction-${displayDirection}`
         ]"
           :style="{
-          left: dropdownMenuStyle.left + 'px',
-          top: dropdownMenuStyle.top + 'px',
-          zIndex: dropdownMenuStyle.zIndex
-        }">
+            position: dropdownMenuStyle.position,
+            left: dropdownMenuStyle.left + 'px',
+            top: dropdownMenuStyle.top + 'px',
+            zIndex: dropdownMenuStyle.zIndex
+          }">
           <slot name="dropdown-content"></slot>
         </div>
       </transition>
@@ -110,6 +111,7 @@ export default defineComponent({
     let dropdownRef = ref<HTMLElement|null>(null);
     let dropdownMenuRef = ref<HTMLElement|null>(null);
     let dropdownMenuStyle = reactive({
+      position: 'absolute',
       left: 0,
       top: 0,
       zIndex: 1000
@@ -150,6 +152,13 @@ export default defineComponent({
         dropdownMenuStyle.zIndex = nextZIndex();
         if (!loaded.value && visible.value) {
           loaded.value = true;
+        }
+
+        let toggleElIsInFixedContainer = util.isInFixedParents(toggleEl);
+        if (toggleElIsInFixedContainer) {
+          dropdownMenuStyle.position = 'fixed';
+        } else {
+          dropdownMenuStyle.position = 'absolute';
         }
 
         nextTick(() => {
@@ -245,12 +254,16 @@ export default defineComponent({
     };
 
     // 滚动条滚动事件
+    let scrollTimer = 0;
     let scrollEvent = function () {
-      if (!visible.value) {
+      if (!visible.value || dropdownMenuStyle.position == 'fixed') {
         return;
       }
-      // 这里不能使用节流，如果触发下拉菜单的元素处于position: fixed元素中，使用了节流会出现下拉菜单跟随滚动条滚动的效果
-      calcDirection();
+      let now = new Date().getTime();
+      if (scrollTimer == 0 || now - scrollTimer >= 125) {
+        calcDirection();
+        scrollTimer = now;
+      }
     };
 
     // 绑定事件
