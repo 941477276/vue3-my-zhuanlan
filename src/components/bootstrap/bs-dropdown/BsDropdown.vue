@@ -147,12 +147,11 @@ export default defineComponent({
       }
       eventTimer = setTimeout(() => {
         clearTimeout(eventTimer);
-        // 先将下拉菜单的样式清空掉，这样才能更准确的获取下拉菜单的位置、大小等信息
-        visible.value = true;
-        dropdownMenuStyle.zIndex = nextZIndex();
-        if (!loaded.value && visible.value) {
+        if (!loaded.value) {
           loaded.value = true;
         }
+        visible.value = true;
+        dropdownMenuStyle.zIndex = nextZIndex();
 
         let toggleElIsInFixedContainer = util.isInFixedParents(toggleEl);
         if (toggleElIsInFixedContainer) {
