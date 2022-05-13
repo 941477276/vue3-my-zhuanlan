@@ -23,9 +23,9 @@
   <!--<div class="box">
     <BsFormUsage></BsFormUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsDropdownUsage></BsDropdownUsage>
-  </div>
+  </div>-->
   <!--<router-view></router-view>-->
   <!--<div class="box">
     <BsPaginationUsage></BsPaginationUsage>
@@ -60,9 +60,9 @@
   <!--<div class="box">
     <BsAlertUsage></BsAlertUsage>
   </div>-->
-  <!--<div class="box">
+  <div class="box">
     <BsInputNumberUsage></BsInputNumberUsage>
-  </div>-->
+  </div>
   <!--<div class="box">
     <BsPopperUsage></BsPopperUsage>
   </div>-->

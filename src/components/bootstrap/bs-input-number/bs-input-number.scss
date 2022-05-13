@@ -1,5 +1,6 @@
 .bs-input-number{
   display: inline-block;
+  vertical-align: middle;
 }
 .bs-input-number-wrapper{
   position: relative;
@@ -27,6 +28,11 @@
     vertical-align: middle;
   }
 }
+.bs-input-number-operate-icon{
+  fill: currentColor;
+  //width: 1rem;
+  //height: 1rem;
+}
 .bs-input-number-operations{
   position: absolute;
   top: 1px;
@@ -39,7 +45,7 @@
   opacity: 0;
   transition: opacity .2s;
 }
-.bs-input-number-increase,
+/*.bs-input-number-increase,
 .bs-input-number-decrease{
   display: block;
   outline: none;
@@ -58,16 +64,28 @@
 }
 .bs-input-number-decrease{
   border-top: 1px solid #ced4da;
-}
+}*/
 
 .bs-input-number{
   &.has-prepend{
+    &.control-out{
+      .bs-input-number-decrease {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
     .form-control{
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
     }
   }
   &.has-append{
+    &.control-out{
+      .bs-input-number-increase{
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+    }
     .form-control{
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
@@ -84,21 +102,88 @@
       background-color: #e9ecef;
     }
   }
-  &:hover{
-    .form-control{
-      padding-right: 2.25rem;
-    }
-    .bs-input-number-operations{
-      opacity: 1;
-    }
-  }
   .form-control{
     width: 6.25rem; // 100px
-    &:focus{
+    /*&:focus{
       padding-right: 2.25rem;
       &+.bs-input-number-operations{
         opacity: 1;
       }
+    }*/
+  }
+  &.control-inner{
+    .bs-input-number-increase,
+    .bs-input-number-decrease{
+      display: block;
+      outline: none;
+      border: none;
+      width: 100%;
+      height: 50%;
+      line-height: 1;
+      border-left: 1px solid #ced4da;
+      text-align: center;
+      color: #999;
+      background-color: #fff;
+      transition: color .2s;
+      &:not([disabled]):hover{
+        color: var(--primary);
+      }
+    }
+    .bs-input-number-decrease{
+      border-top: 1px solid #ced4da;
+    }
+    &:hover{
+      .form-control{
+        padding-right: 2.25rem;
+      }
+      .bs-input-number-operations{
+        opacity: 1;
+      }
+    }
+    .form-control{
+      &:focus{
+        padding-right: 2.25rem;
+        &+.bs-input-number-operations{
+          opacity: 1;
+        }
+      }
+    }
+  }
+  &.control-out{
+    .form-control{
+      border-left: none;
+      border-right: none;
+      border-radius: 0;
+      text-align: center;
+    }
+    .bs-input-number-increase,
+    .bs-input-number-decrease{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.2rem;
+      line-height: 1;
+      outline: none;
+      border: 1px solid #ced4da;
+      text-align: center;
+      //font-size: 1.2rem;
+      color: #999;
+      background-color: #F5F7FA;
+      transition: color .2s;
+      &[disabled]{
+        background-color: #E9ECEF;
+      }
+      &:not([disabled]):hover{
+        color: var(--primary);
+      }
+    }
+    .bs-input-number-decrease{
+      border-top-left-radius: .25rem;
+      border-bottom-left-radius: .25rem;
+    }
+    .bs-input-number-increase{
+      border-top-right-radius: .25rem;
+      border-bottom-right-radius: .25rem;
     }
   }
   &.out-of-range{
@@ -124,10 +209,12 @@
     .form-control{
       width: 5rem;
     }
-    .bs-input-number-increase,
-    .bs-input-number-decrease{
+    &.control-inner {
+      .bs-input-number-increase,
+      .bs-input-number-decrease {
         line-height: 0;
         font-size: 0.875rem;
+      }
     }
     &.has-prefix{
       .form-control{

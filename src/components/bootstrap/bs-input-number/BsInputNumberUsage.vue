@@ -11,6 +11,17 @@
   </div>
 
   <div>
+    <h3>控制按钮在左右两边</h3>
+    <BsInputNumber
+      :control-inner="false"
+      v-model="number1">
+      <!--<template #prepend>￥</template>
+      <template #append>人</template>-->
+    </BsInputNumber>
+    <hr>
+  </div>
+
+  <div>
     <h3>最大、最小值限制</h3>
     <BsInputNumber
       v-model="number2"
@@ -92,6 +103,13 @@
         v-model="number8"
         prefix="￥"
         :step="2"></BsInputNumber>
+
+      <BsInputNumber
+        style="margin-left: 15px;"
+        v-model="number8"
+        prefix="￥"
+        :control-inner="false"
+        :step="2"></BsInputNumber>
     </div>
 
     <div style="margin-bottom: 20px;">
@@ -100,11 +118,27 @@
         :step="2">
         <template #prepend>￥</template>
       </BsInputNumber>
+
+      <BsInputNumber
+        v-model="number8"
+        style="margin-left: 15px;"
+        :control-inner="false"
+        :step="2">
+        <template #prepend>￥</template>
+      </BsInputNumber>
     </div>
 
     <div style="margin-bottom: 20px;">
       <BsInputNumber
         v-model="number8"
+        :step="2">
+        <template #append>￥</template>
+      </BsInputNumber>
+
+      <BsInputNumber
+        v-model="number8"
+        style="margin-left: 15px;"
+        :control-inner="false"
         :step="2">
         <template #append>￥</template>
       </BsInputNumber>
@@ -120,6 +154,14 @@
         v-model="number9"
         prefix="￥"
         disabled></BsInputNumber>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+      <BsInputNumber
+        v-model="number9"
+        prefix="￥"
+        disabled
+        :control-inner="false"></BsInputNumber>
     </div>
 
     <div style="margin-bottom: 20px;">

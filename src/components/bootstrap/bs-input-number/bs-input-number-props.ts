@@ -81,5 +81,9 @@ export const bsInputNumberProps = {
   precision: { // 数值精度
     type: Number,
     default: null
+  },
+  controlInner: { // 控制按钮是否在输入框内部
+    type: Boolean,
+    default: true
   }
 };
