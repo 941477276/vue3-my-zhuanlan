@@ -3,7 +3,9 @@
     class="bs-dropdown dropdown"
     :class="[{'is-disabled': disabled}, `bs-dropdown-direction-${displayDirection}`]"
     ref="dropdownRef">
-    <slot></slot>
+    <BsOnlyChild>
+      <slot></slot>
+    </BsOnlyChild>
     <teleport to="body">
       <transition
         name="slide"
@@ -15,15 +17,17 @@
           ref="dropdownMenuRef"
           class="bs-dropdown-menu dropdown-menu"
           :class="[
-          dropdownMenuClass,
-          `bs-dropdown-menu-direction-${displayDirection}`
-        ]"
+            dropdownMenuClass,
+            `bs-dropdown-menu-direction-${displayDirection}`
+          ]"
           :style="{
             position: dropdownMenuStyle.position,
             left: dropdownMenuStyle.left + 'px',
             top: dropdownMenuStyle.top + 'px',
             zIndex: dropdownMenuStyle.zIndex
-          }">
+          }"
+          @mouseenter="onDropdownMouseenter"
+          @mouseleave="onDropdownMouseleave">
           <slot name="dropdown-content"></slot>
         </div>
       </transition>
@@ -44,6 +48,7 @@ import {
   Ref,
   computed
 } from 'vue';
+import BsOnlyChild from '../bs-slot/BsOnlyChild.vue';
 import { util } from '@/common/util';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import {
@@ -55,6 +60,9 @@ import {
 import {
   useGlobalEvent
 } from '@/hooks/useGlobalEvent';
+import {
+  useForwardRef
+} from '@/hooks/useForwardRef';
 
 // 下来菜单显示方向
 type directions = 'bottom' | 'top' | 'left' | 'right';
@@ -70,6 +78,9 @@ interface CalcDirection {
 
 export default defineComponent({
   name: 'BsDropdown',
+  components: {
+    BsOnlyChild
+  },
   props: {
     placement: { // 显示方向
       type: String as PropType<BsPlacement>,
@@ -95,6 +106,10 @@ export default defineComponent({
       type: Boolean,
       default: true
     },
+    addDropdownToggleClass: { // 是否给触发下拉菜单元素添加 dropdown-toggle 类名
+      type: Boolean,
+      default: true
+    },
     destroyDropdownMenuOnHide: { // 隐藏时是否销毁 dropdown-menu
       type: Boolean,
       default: false
@@ -108,6 +123,10 @@ export default defineComponent({
   setup (props: any, ctx: any) {
     let loaded = ref(false);
     let visible = ref(false);
+    // 触发元素
+    let triggerRef = ref<HTMLElement|null>(null);
+    useForwardRef(triggerRef);
+
     let dropdownRef = ref<HTMLElement|null>(null);
     let dropdownMenuRef = ref<HTMLElement|null>(null);
     let dropdownMenuStyle = reactive({
@@ -116,8 +135,8 @@ export default defineComponent({
       top: 0,
       zIndex: 1000
     });
-    let toggleEl: HTMLElement; // 触发下拉菜单显示/隐藏的dom元素
-    let eventTimer: number;
+    let toggleEl: HTMLElement|null; // 触发下拉菜单显示/隐藏的dom元素
+
     let displayDirection = ref(props.placement);
     let transitionLeaveDone = ref(false); // 过渡动画是否执行完毕
     let display = computed(function () {
@@ -133,20 +152,27 @@ export default defineComponent({
 
     // 计算下拉菜单的显示位置
     let calcDirection = function () {
+      if (!toggleEl) {
+        return;
+      }
       let directionInfo = util.calcAbsoluteElementDisplayDirection(toggleEl, dropdownMenuRef.value, props.placement, true) as CalcDirection;
       console.log('directionInfo', directionInfo);
       dropdownMenuStyle.left = directionInfo.left;
       dropdownMenuStyle.top = directionInfo.top;
       displayDirection.value = directionInfo.direction;
     };
+
+    let showTimer: number;
+    let hideTimer: number;
     // 显示
     let show = function () {
-      clearTimeout(eventTimer);
+      clearTimeout(showTimer);
+      clearTimeout(hideTimer);
       if (props.disabled) {
         return;
       }
-      eventTimer = setTimeout(() => {
-        clearTimeout(eventTimer);
+      showTimer = setTimeout(() => {
+        clearTimeout(showTimer);
         if (!loaded.value) {
           loaded.value = true;
         }
@@ -161,11 +187,6 @@ export default defineComponent({
         }
 
         nextTick(() => {
-          /* let directionInfo = util.calcAbsoluteElementDisplayDirection(toggleEl, dropdownMenuRef.value, props.placement, true) as CalcDirection;
-          console.log('directionInfo', directionInfo);
-          dropdownMenuStyle.left = directionInfo.left;
-          dropdownMenuStyle.top = directionInfo.top;
-          displayDirection.value = directionInfo.direction; */
           calcDirection();
 
           ctx.emit('show');
@@ -174,12 +195,11 @@ export default defineComponent({
     };
     // 隐藏
     let hide = function (delayTime = 0) {
-      if (delayTime != 0) {
-        clearTimeout(eventTimer);
-      }
+      clearTimeout(hideTimer);
+      clearTimeout(showTimer);
       // 鼠标离开trigger el后不立即隐藏下拉菜单，因为有可能鼠标是移动到了下拉菜单本身中
-      eventTimer = setTimeout(() => {
-        clearTimeout(eventTimer);
+      hideTimer = setTimeout(() => {
+        clearTimeout(hideTimer);
         visible.value = false;
         ctx.emit('hide');
       }, delayTime || (props.trigger == 'click' ? 0 : 150));
@@ -196,41 +216,17 @@ export default defineComponent({
       visible.value ? hide() : show();
     };
 
-    let mouseLeaveTimer: number;
     let onMouseEnter = function () {
-      if (props.disabled) {
+      if (props.disabled || props.trigger !== 'hover') {
         return;
       }
-      clearTimeout(mouseLeaveTimer);
       show();
     };
-
-    // 鼠标离开事件
-    let mouseMoveEventTarget: EventTarget|null; // 这里必须把触发鼠标移动事件的目标元素放到外面，这样当鼠标从下拉菜单触发元素移动到下拉菜单的时候才能始终保持显示
-    let onMousemove = function (evt: MouseEvent) {
-      if (!visible.value) {
+    let onMouseLeave = function () {
+      if (props.disabled || props.trigger !== 'hover') {
         return;
       }
-      mouseMoveEventTarget = evt.target;
-      // clearTimeout(mouseLeaveTimer);
-      // 延迟一会才好计算鼠标是否在元素内
-      mouseLeaveTimer = setTimeout(function () {
-        clearTimeout(mouseLeaveTimer);
-
-        let mouseInDropdownEl = util.elementContains(dropdownRef.value, mouseMoveEventTarget);
-        let mouseInDropdownMenuEl = util.elementContains(dropdownMenuRef.value, mouseMoveEventTarget);
-        // console.log('mouseInDropdownEl', mouseMoveEventTarget, mouseInDropdownEl, mouseInDropdownMenuEl);
-        if (!mouseInDropdownEl) {
-          mouseInDropdownEl = dropdownRef.value === mouseMoveEventTarget;
-        }
-        if (!mouseInDropdownMenuEl) {
-          mouseInDropdownMenuEl = dropdownMenuRef.value === mouseMoveEventTarget;
-        }
-        // console.log('timeOut', !mouseInDropdownEl, !mouseInDropdownMenuEl);
-        if (!mouseInDropdownEl && !mouseInDropdownMenuEl) {
-          hide(0);
-        }
-      }, 210);
+      hide();
     };
 
     let resizeTimer = 0;
@@ -242,11 +238,6 @@ export default defineComponent({
         return;
       }
       if (resizeTimer == 0 || now - resizeTimer >= 200) {
-        /* let directionInfo = util.calcAbsoluteElementDisplayDirection(toggleEl, dropdownMenuRef.value, props.placement, true) as CalcDirection;
-        // console.log('resize event directionInfo', directionInfo);
-        dropdownMenuStyle.left = directionInfo.left;
-        dropdownMenuStyle.top = directionInfo.top;
-        displayDirection.value = directionInfo.direction; */
         calcDirection();
         resizeTimer = now;
       }
@@ -265,37 +256,17 @@ export default defineComponent({
       }
     };
 
-    // 绑定事件
-    let bindEvent = function () {
-      switch (props.trigger) {
-        case 'click':
-          toggleEl.addEventListener('click', clickEvent, false);
-          break;
-        case 'hover':
-          toggleEl.addEventListener('mouseenter', onMouseEnter, false);
-          // toggleEl.addEventListener('mouseleave', onMousemove, false);
-          // document.documentElement.addEventListener('mousemove', onMousemove, false);
-          useGlobalEvent.addEvent('document', 'mousemove', onMousemove);
-          break;
+    let onDropdownMouseenter = function () {
+      if (props.disabled || props.trigger !== 'hover') {
+        return;
       }
-      useGlobalEvent.addEvent('window', resizeEventName, resizeEvent);
-      useGlobalEvent.addEvent('window', 'scroll', scrollEvent);
+      show();
     };
-    // 解绑事件
-    let offEvent = function () {
-      switch (props.trigger) {
-        case 'click':
-          toggleEl.removeEventListener('click', clickEvent, false);
-          break;
-        case 'hover':
-          toggleEl.removeEventListener('mouseenter', onMouseEnter, false);
-          // toggleEl.removeEventListener('mouseleave', onMousemove, false);
-          // document.removeEventListener('mouseleave', onMousemove, false);
-          useGlobalEvent.removeEvent('document', 'mousemove', onMousemove);
-          break;
+    let onDropdownMouseleave = function () {
+      if (props.disabled || props.trigger !== 'hover') {
+        return;
       }
-      useGlobalEvent.removeEvent('window', resizeEventName, resizeEvent);
-      useGlobalEvent.removeEvent('window', 'scroll', scrollEvent);
+      hide();
     };
 
     let stopWatchClickOutside = watch(isClickOutside, (newVal: Ref) => {
@@ -305,20 +276,29 @@ export default defineComponent({
       }
     });
 
+    let stopWatchTriggerRef: () => void;
     onMounted(() => {
-      toggleEl = (dropdownRef.value as HTMLElement).firstElementChild as HTMLElement;
-      if (toggleEl) {
-        util.addClass(toggleEl, 'dropdown-toggle');
-      }
-      if (!toggleEl && props.trigger === 'click') {
-        return;
-      }
+      stopWatchTriggerRef = watch(() => triggerRef.value, (triggerEl) => {
+        toggleEl = triggerEl;
+        if (triggerEl) {
+          if (props.addDropdownToggleClass) {
+            util.addClass(triggerEl, 'dropdown-toggle');
+          }
+          triggerEl.addEventListener('click', clickEvent, false);
+          triggerEl.addEventListener('mouseenter', onMouseEnter, false);
+          triggerEl.addEventListener('mouseleave', onMouseLeave, false);
+        }
+      }, { immediate: true });
 
-      bindEvent();
+      useGlobalEvent.addEvent('window', resizeEventName, resizeEvent);
+      useGlobalEvent.addEvent('window', 'scroll', scrollEvent);
     });
     onBeforeUnmount(() => {
-      offEvent();
+      useGlobalEvent.removeEvent('window', resizeEventName, resizeEvent);
+      useGlobalEvent.removeEvent('window', 'scroll', scrollEvent);
       stopWatchClickOutside();
+      stopWatchTriggerRef();
+      toggleEl = null;
     });
 
     return {
@@ -333,7 +313,9 @@ export default defineComponent({
       transitionLeaveDone,
 
       hide,
-      show
+      show,
+      onDropdownMouseenter,
+      onDropdownMouseleave
     };
   }
 });
