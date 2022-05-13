@@ -932,6 +932,8 @@ var tool = {
     }
     if (styleDisplay) {
       targetEl.style.display = styleDisplay;
+    } else {
+      targetEl.style.display = '';
     }
     return calcedDirection;
   },
