@@ -3,7 +3,7 @@ import { PropType } from 'vue';
 
 export const bsSliderProps = {
   modelValue: {
-    type: [Number, Array],
+    type: [Number, String, Array],
     default: 0
   },
   min: { // 最小值

@@ -38,6 +38,7 @@
   width: .5rem;
   border-radius: 50%;
   border: .125rem solid #70A4F9;
+  transform: translateX(-50%);
   transition: border-color .3s;
   background-color: #fff;
   &.bs-slider-dot-active{
@@ -117,6 +118,7 @@
     .bs-slider-dot{
       top: auto;
       left: -.125rem;
+      transform: translate(0, -50%);
       &:last-child[data-percentage="100"]{
         transform: translate(0, -100%);
       }
@@ -141,6 +143,7 @@
       left: 50%;
       margin-top: 0;
       margin-left: -0.4375rem;
+      transform: translate(0, -50%);
     }
   }
   &:not(.bs-slider-disabled):hover{

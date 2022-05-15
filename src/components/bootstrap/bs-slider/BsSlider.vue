@@ -20,49 +20,27 @@
       <div class="bs-slider-dot" :style="`${vertical ? 'top' : 'left'}: 65%`" :data-percentage="65"></div>
       <div class="bs-slider-dot" :style="`${vertical ? 'top' : 'left'}: 100%`" :data-percentage="100"></div>
     </div>
-    <BsTooltip
-      :transition-name="tooltipTransitionName"
-      :popper-class="tooltipClass"
-      :placement="tooltipPlacement"
-      :disabled="disabled"
-      :visible="showToolTip"
-      content="123">
-      <div
-        class="bs-slider-handler bs-slider-handler-1"
-        :style="{
-          left: (percentage[0] * 100) + '%'
-        }"></div>
-    </BsTooltip>
+    <BsSliderHandler
+      v-bind="$props"
+      :slider-ref="sliderRef"
+      :model-value="value1"
+      :precision="precision"
+      @update:modelValue="onSliderHandler1Change"></BsSliderHandler>
 
-    <BsTooltip
+    <BsSliderHandler
       v-if="range"
-      :transition-name="tooltipTransitionName"
-      :popper-class="tooltipClass"
-      :placement="tooltipPlacement"
-      :disabled="disabled"
-      :visible="showToolTip"
-      content="123">
-      <div
-        class="bs-slider-handler bs-slider-handler-2"
-        :style="{
-          left: (percentage[1] * 100) + '%'
-        }"></div>
-    </BsTooltip>
+      v-bind="$props"
+      :slider-ref="sliderRef"
+      :model-value="value2"
+      :precision="precision"></BsSliderHandler>
   </div>
 
-  <div class="bs-slider-marks">
+  <!--<div class="bs-slider-marks">
     <div class="bs-slider-mark-text">0%</div>
     <div class="bs-slider-mark-text" :style="`${vertical ? 'top' : 'left'}: 25%`">25%</div>
     <div class="bs-slider-mark-text" :style="`${vertical ? 'top' : 'left'}: 65%`">65%</div>
     <div class="bs-slider-mark-text" :style="`${vertical ? 'top' : 'left'}: 100%`" :data-percentage="100">100%</div>
-  </div>
-
-  <!--<BsTooltip
-    transition-name="scale"
-    :popper-class="tooltipClass"
-    content="123">
-    aa
-  </BsTooltip>-->
+  </div>-->
 </div>
 </template>
 
@@ -71,16 +49,18 @@ import {
   defineComponent,
   computed,
   ref,
+  unref,
   watch
 } from 'vue';
 import { bsSliderProps } from './bs-slider-props';
-import BsTooltip from '../bs-tooltip/BsTooltip.vue';
+import BsSliderHandler from './widgets/BsSliderHandler.vue';
 import { BigNumber } from 'bignumber.js';
+import useEvents from './useEvents';
 
 export default defineComponent({
   name: 'BsSlider',
   components: {
-    BsTooltip
+    BsSliderHandler
   },
   props: bsSliderProps,
   emits: ['update:modelValue', 'change'],
@@ -91,6 +71,29 @@ export default defineComponent({
       return props.marks && Object.keys(props.marks).length > 0;
     });
     // let tooltipContent = computed(function ())
+
+    let value1 = ref(0);
+    let value2 = ref(0);
+    watch(() => props.modelValue, function (newModelValue) {
+      if (props.range) {
+        value1.value = newModelValue[0];
+        value2.value = newModelValue[1];
+      } else {
+        value1.value = newModelValue;
+      }
+    }, { immediate: true });
+
+    let onSliderHandler1Change = function (newValue: string|number) {
+      console.log('onSliderHandler1Change', newValue);
+      let changedValue:string|number|string[]|number[] = newValue;
+      if (props.range) {
+        let modelValue:string[]|number[] = props.modelValue;
+        modelValue[0] = newValue;
+        changedValue = modelValue;
+      }
+      ctx.emit('update:modelValue', changedValue);
+      ctx.emit('change', changedValue);
+    };
 
     let currentValue = ref<number|number[]>(0);
     let setValue = function (value1?: number, value2?: number) {
@@ -147,28 +150,29 @@ export default defineComponent({
         ctx.emit('change', value1);
       }
     };
-    watch(() => props.modelValue, function (newValue: number|number[]) {
+    /* watch(() => props.modelValue, function (newValue: number|number[]) {
       if (Array.isArray(newValue)) {
         setValue(...newValue);
       } else {
         setValue(newValue);
       }
-    }, { immediate: true });
+    }, { immediate: true }); */
     // 计算百分比
     let percentage = computed<number[]>(function () {
-      let max = new BigNumber(props.max);
-      let result: number[] = [];
-      result = (props.range ? (currentValue.value as number[]) : [currentValue.value as number]).map((valueItem: number) => {
-        return new BigNumber(valueItem).dividedBy(max).toNumber();
-      });
-      if (result[0] < 0) {
-        result[0] = 0;
+      let min = new BigNumber(props.min);
+      let dividend = new BigNumber(props.max).minus(min); // minus减法
+
+      // dividedBy 除法
+      let percent1 = (new BigNumber(unref(value1)).minus(min)).dividedBy(dividend).toNumber();
+      let percent2 = (new BigNumber(unref(value2)).minus(min)).dividedBy(dividend).toNumber();
+      if (percent1 < 0) {
+        percent1 = 0;
       }
-      if (result[1] > 1) {
-        result[1] = 1;
+      if (percent2 > 1) {
+        percent2 = 1;
       }
 
-      return result;
+      return [percent1, percent2];
     });
     // 计算高亮轨道的宽度
     let trackWidth = computed(function () {
@@ -179,12 +183,30 @@ export default defineComponent({
         return percentageVal[0] * 100;
       }
     });
+    // 精度值
+    let precision = computed(function () {
+      let arr = [props.min, props.max, props.step];
+      if (props.range) {
+        arr.push(props.rangeMin || 0);
+        arr.push(props.rangeMax || 0);
+      }
+      let decimalLengthArr = arr.map(valueItem => {
+        let decimal = (valueItem + '').split('.')[1];
+        return decimal ? decimal.length : 0;
+      });
+      return Math.max.apply(null, decimalLengthArr);
+    });
 
     return {
       sliderRef,
       hasMasks,
       percentage,
-      trackWidth
+      trackWidth,
+      value1,
+      value2,
+      precision,
+
+      onSliderHandler1Change
     };
   }
 });

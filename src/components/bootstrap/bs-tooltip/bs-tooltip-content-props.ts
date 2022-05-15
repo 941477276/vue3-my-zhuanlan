@@ -17,7 +17,7 @@ export const bsTooltipContentProps = {
     default: 'body'
   },
   content: { // tooltip内容
-    type: String,
+    type: [String, Number],
     default: ''
   },
   rawContent: { // content 中的内容是否作为 HTML 字符串处理
