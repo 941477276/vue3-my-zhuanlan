@@ -7,6 +7,7 @@
       @before-leave="onBeforeLeave"
       @after-leave="onAfterLeave">
       <BsPopperContent
+        ref="popperContentComRef"
         v-if="display"
         v-show="visible"
         v-bind="$attrs"
@@ -61,6 +62,7 @@ export default defineComponent({
   },
   setup (props: any) {
     let destroyed = ref(false);
+    let popperContentComRef = ref(null);
 
     // 是否渲染
     let display = ref(false);
@@ -132,6 +134,13 @@ export default defineComponent({
       }
     }, { immediate: true });
 
+    // 更新popper位置
+    let updatePopper = function (updateZIndex: boolean) {
+      if (popperContentComRef.value) {
+        (popperContentComRef.value as any).updatePopper?.(updateZIndex);
+      }
+    };
+
     onBeforeUnmount(function () {
       destroyed.value = true;
       stopWatch();
@@ -139,7 +148,9 @@ export default defineComponent({
     return {
       destroyed,
       display,
+      popperContentComRef,
 
+      updatePopper,
       onBeforeEnter,
       onAfterEnter,
       onBeforeLeave,

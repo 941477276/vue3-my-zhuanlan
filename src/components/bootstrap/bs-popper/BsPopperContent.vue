@@ -109,7 +109,8 @@ export default defineComponent({
 
     return {
       popperContentRef,
-      contentStyle
+      contentStyle,
+      updatePopper
     };
   }
 });

@@ -10,6 +10,7 @@
     </BsTooltipTrigger>
 
     <BsTooltipContent
+      ref="tooltipContentComRf"
       v-bind="$attrs"
       :id="tooltipId"
       :teleported="teleported"
@@ -119,6 +120,7 @@ export default defineComponent({
   },
   emits: ['before-show', 'before-hide', 'content-mouseenter', 'content-mouseleave', 'show', 'hide'],
   setup (props: any, ctx: any) {
+    let tooltipContentComRf = ref(null);
     let popperClassInner = computed(function () {
       if (!props.pure) {
         return props.popperClass;
@@ -166,6 +168,13 @@ export default defineComponent({
       }, props.hideDelay);
     };
 
+    // 更新popper位置
+    let updatePopper = function (updateZIndex: boolean) {
+      if (tooltipContentComRf.value) {
+        (tooltipContentComRf.value as any).updatePopper?.(updateZIndex);
+      }
+    };
+
     watch(() => props.visible, function (visibleVal: boolean) {
       if (isControlled.value) {
         isShow.value = visibleVal;
@@ -202,9 +211,11 @@ export default defineComponent({
       popperClassInner,
       isShow,
       tooltipId,
+      tooltipContentComRf,
 
       show,
-      hide
+      hide,
+      updatePopper
     };
   }
 });
