@@ -6,16 +6,19 @@
     :placement="tooltipPlacement"
     :disabled="disabled"
     :visible="tooltipShow"
-    :content="modelValue">
+    :content="tooltipContent"
+    :raw-content="tooltipRawContent">
     <div
       ref="sliderHandlerRef"
       class="bs-slider-handler bs-slider-handler-1"
+      tabindex="0"
       :style="{
         left: (percentage * 100) + '%'
       }"
-      @mousedown.prevent="onMousedown"
+      @mousedown="onMousedown"
       @mouseenter="onMouseenter"
-      @mouseleave="onMouseleave"></div>
+      @mouseleave="onMouseleave"
+      @keydown="onKeydown"></div>
   </BsTooltip>
 </template>
 
@@ -79,9 +82,8 @@ export default defineComponent({
       return (new BigNumber(value).minus(min)).dividedBy(diff).toNumber();
     });
 
-    // console.log(new BigNumber(3.1), new BigNumber(3.1).isEqualTo('3.100000'));
     let tooltipVisible = ref(false);
-    let { onMousedown, onMouseenter, onMouseleave } = useSliderHandler(props, ctx, tooltipComRef, tooltipVisible, sliderHandlerRef);
+    let { onMousedown, onMouseenter, onMouseleave, onKeydown } = useSliderHandler(props, ctx, tooltipComRef, tooltipVisible, sliderHandlerRef);
 
     let tooltipShow = computed(function () {
       if (typeof props.showToolTip === 'boolean') {
@@ -90,12 +92,17 @@ export default defineComponent({
       return tooltipVisible.value;
     });
 
-    useClickOutside(sliderHandlerRef, function () {
-      tooltipVisible.value = false;
+    let tooltipContent = computed(function () {
+      let modelVal = props.modelValue;
+      let tooltipFormatter = props.tooltipFormatter;
+      if (typeof tooltipFormatter === 'function') {
+        return tooltipFormatter(modelVal, percentage.value);
+      }
+      return modelVal;
     });
 
-    onMounted(function () {
-      console.log('tooltip instance', tooltipComRef);
+    useClickOutside(sliderHandlerRef, function () {
+      tooltipVisible.value = false;
     });
 
     return {
@@ -104,10 +111,12 @@ export default defineComponent({
       tooltipComRef,
       sliderHandlerRef,
       tooltipShow,
+      tooltipContent,
 
       onMousedown,
       onMouseenter,
-      onMouseleave
+      onMouseleave,
+      onKeydown
     };
   }
 });

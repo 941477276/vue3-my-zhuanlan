@@ -2,7 +2,7 @@
 <div class="component-usage">
   <div>
     <h3>基本使用</h3>
-    <BsSlider v-model="slider1" :min="3" :max="93"></BsSlider>
+    <BsSlider v-model="slider1" :min="3" :max="93" :tooltip-formatter="(val) => { return '当前值为：' + val;}"></BsSlider>
   </div>
  <!-- <div>
     <h3>禁用</h3>

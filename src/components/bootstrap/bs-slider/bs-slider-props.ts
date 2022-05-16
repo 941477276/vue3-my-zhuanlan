@@ -64,8 +64,12 @@ export const bsSliderProps = {
     type: String,
     default: ''
   },
-  tipFormatter: { // tooltip显示文本格式化函数，若返回null，则隐藏tooltip
+  tooltipFormatter: { // tooltip显示文本格式化函数，若返回null，则隐藏tooltip
     type: Function,
     default: undefined
+  },
+  tooltipRawContent: { // tooltip的内容是否为html文本
+    type: Boolean,
+    default: false
   }
 };
