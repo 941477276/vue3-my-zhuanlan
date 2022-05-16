@@ -23,16 +23,13 @@
           <slot name="prepend"></slot>
         </div>
       </div>
-      <button
+      <BsInputNumberOperateButton
         v-if="!controlInner"
-        type="button"
-        class="bs-input-number-decrease"
+        type="decrease"
         aria-label="Decrease Value"
         :disabled="disabled || readonly || (min && modelValue <= min)"
         @focus="focus"
-        @click="calculate(2)">
-        <svg viewBox="0 0 16 16" width="1em" height="1em" class="bs-input-number-operate-icon miplus-icon" focusable="false" role="img" aria-label="dash" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><g transform="translate(8 8) scale(1.25 1.25) translate(-8 -8)"><path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"></path></g></svg>
-      </button>
+        @click="onControlBtnClick(2)"></BsInputNumberOperateButton>
 
       <div class="bs-input-number-wrapper">
         <label
@@ -68,32 +65,27 @@
           v-if="controlInner"
           v-show="!disabled && !readonly"
           class="bs-input-number-operations">
-          <button
-            type="button"
-            class="bs-input-number-increase"
+          <BsInputNumberOperateButton
+            type="increase"
             aria-label="Increase Value"
             :disabled="disabled || readonly || (max && modelValue >= max)"
             @focus="focus"
-            @click="calculate(1)">+</button>
-          <button
-            type="button"
-            class="bs-input-number-decrease"
+            @click="onControlBtnClick(1)"></BsInputNumberOperateButton>
+          <BsInputNumberOperateButton
+            type="decrease"
             aria-label="Decrease Value"
             :disabled="disabled || readonly || (min && modelValue <= min)"
             @focus="focus"
-            @click="calculate(2)">-</button>
+            @click="onControlBtnClick(2)"></BsInputNumberOperateButton>
         </div>
       </div>
-      <button
+      <BsInputNumberOperateButton
         v-if="!controlInner"
-        type="button"
-        class="bs-input-number-increase"
+        type="increase"
         aria-label="Increase Value"
         :disabled="disabled || readonly || (max && modelValue >= max)"
         @focus="focus"
-        @click="calculate(1)">
-        <svg viewBox="0 0 16 16" width="1em" height="1em" class="bs-input-number-operate-icon plus-icon" focusable="false" role="img" aria-label="plus" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><g transform="translate(8 8) scale(1.25 1.25) translate(-8 -8)"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path></g></svg>
-      </button>
+        @click="onControlBtnClick(1)"></BsInputNumberOperateButton>
       <div class="input-group-append" v-if="$slots.append">
         <div class="input-group-text">
           <slot name="append"></slot>
@@ -119,10 +111,14 @@ import {
   FormItemContext,
   formItemContextKey
 } from '@/ts-tokens/bootstrap';
+import BsInputNumberOperateButton from './widgets/BsInputNumberOperateButton.vue';
 
 let bsInputNumberCount = 0;
 export default defineComponent({
   name: 'BsInputNumber',
+  components: {
+    BsInputNumberOperateButton
+  },
   props: bsInputNumberProps,
   emits: ['input', 'update:modelValue', 'change', 'blur', 'focus', 'clear'],
   setup (props: any, ctx: any) {
@@ -133,8 +129,11 @@ export default defineComponent({
       inputId.value = `bs_input_number-${++bsInputNumberCount}`;
     }
     let inputType = computed(function () {
-      if (props.type !== 'number') {
-        return 'text';
+      if (props.type !== 'number' && props.type !== 'text') {
+        if (props.formatter && props.parser) {
+          return 'text';
+        }
+        return 'number';
       }
       return props.type;
     });
@@ -186,7 +185,7 @@ export default defineComponent({
       if (props.disabled || props.readonly) {
         return;
       }
-      focus();
+      // focus();
       calculate(type);
     }
 

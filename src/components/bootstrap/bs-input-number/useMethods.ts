@@ -114,14 +114,10 @@ export function useInputNumberMethods (props: any, ctx: any, callFormItem: any, 
     }, 0);
     callFormItem('validate', 'blur');
   };
-  /* let on_change = function (evt: Event) {
-    // let val = (evt.target as HTMLInputElement).value;
-    ctx.emit('change', evt);
-    callFormItem('validate', 'change');
-  }; */
+
   let on_keydown = function (evt: KeyboardEvent) {
     let keyCode = evt.keyCode;
-    if (!props.keyboard) {
+    if (!props.keyboard || props.disabled) {
       return;
     }
     if (keyCode == 38) { // 上
@@ -135,7 +131,6 @@ export function useInputNumberMethods (props: any, ctx: any, callFormItem: any, 
     on_input,
     on_focus,
     on_blur,
-    // on_change,
     on_keydown,
     calculate
   };

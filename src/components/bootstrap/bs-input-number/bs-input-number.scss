@@ -45,26 +45,6 @@
   opacity: 0;
   transition: opacity .2s;
 }
-/*.bs-input-number-increase,
-.bs-input-number-decrease{
-  display: block;
-  outline: none;
-  border: none;
-  width: 100%;
-  height: 50%;
-  line-height: 1;
-  border-left: 1px solid #ced4da;
-  text-align: center;
-  color: #999;
-  background-color: #fff;
-  transition: color .2s;
-  &:not([disabled]):hover{
-    color: var(--primary);
-  }
-}
-.bs-input-number-decrease{
-  border-top: 1px solid #ced4da;
-}*/
 
 .bs-input-number{
   &.has-prepend{
@@ -104,25 +84,21 @@
   }
   .form-control{
     width: 6.25rem; // 100px
-    /*&:focus{
-      padding-right: 2.25rem;
-      &+.bs-input-number-operations{
-        opacity: 1;
-      }
-    }*/
+    transition: padding-left .3s, padding-right .3s;
   }
   &.control-inner{
-    .bs-input-number-increase,
-    .bs-input-number-decrease{
+    .bs-input-number-operate-button{
       display: block;
       outline: none;
       border: none;
       width: 100%;
       height: 50%;
-      line-height: 1;
+      padding: 0;
+      line-height: 0;
       border-left: 1px solid #ced4da;
       text-align: center;
       color: #999;
+      font-size: 0.875rem;
       background-color: #fff;
       transition: color .2s;
       &:not([disabled]):hover{
@@ -156,14 +132,14 @@
       border-radius: 0;
       text-align: center;
     }
-    .bs-input-number-increase,
-    .bs-input-number-decrease{
+    .bs-input-number-operate-button{
       display: flex;
       align-items: center;
       justify-content: center;
       width: 2.2rem;
       line-height: 1;
       outline: none;
+      padding: 0;
       border: 1px solid #ced4da;
       text-align: center;
       //font-size: 1.2rem;
@@ -185,6 +161,12 @@
       border-top-right-radius: .25rem;
       border-bottom-right-radius: .25rem;
     }
+    &.bs-input-number-lg{
+      .bs-input-number-operate-button {
+        width: 3rem;
+        font-size: 1.2rem;
+      }
+    }
   }
   &.out-of-range{
     .form-control{
@@ -193,11 +175,35 @@
   }
   &.bs-input-number-lg{
     .form-control{
-      width: 7.5rem;
+      width: 8rem;
+    }
+    &.control-inner {
+      .bs-input-number-operations{
+        width: 2rem;
+      }
+      .bs-input-number-operate-button {
+        font-size: 1.15rem;
+      }
+    }
+    &.control-out{
+      .bs-input-number-operate-button {
+        width: 3rem;
+        font-size: 1.2rem;
+      }
     }
     &.has-prefix{
       .form-control{
-        padding-left: 3rem;
+        padding-left: 2.8rem;
+        /*&:focus{
+          padding-right: 2.65rem;
+        }*/
+      }
+      &.control-inner {
+        .form-control{
+          &:focus{
+            padding-right: 2.65rem;
+          }
+        }
       }
       .bs-input-number-prefix{
         padding-left: 1rem;
@@ -210,15 +216,26 @@
       width: 5rem;
     }
     &.control-inner {
-      .bs-input-number-increase,
-      .bs-input-number-decrease {
-        line-height: 0;
-        font-size: 0.875rem;
+      .bs-input-number-operate-button {
+        font-size: 0.75rem;
+      }
+    }
+    &.control-out{
+      .bs-input-number-operate-button {
+        width: 1.65rem;
+        font-size: 0.75rem;
       }
     }
     &.has-prefix{
       .form-control{
         padding-left: 1.5rem;
+      }
+      &.control-inner {
+        .form-control{
+          &:focus{
+            padding-right: 1.9rem;
+          }
+        }
       }
       .bs-input-number-prefix{
         padding-left: 0.5rem;

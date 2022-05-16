@@ -27,6 +27,13 @@
       v-model="number2"
       :min="2"
       :max="5"></BsInputNumber>
+
+    <BsInputNumber
+      style="margin-left: 25px;"
+      v-model="number2"
+      :min="2"
+      :max="5"
+      :control-inner="false"></BsInputNumber>
     <hr>
   </div>
 
@@ -43,6 +50,12 @@
     <BsInputNumber
       v-model="number7"
       :precision="3"></BsInputNumber>
+
+    <BsInputNumber
+      v-model="number7"
+      :precision="3"
+      :control-inner="false"
+      style="margin-left: 25px;"></BsInputNumber>
     <hr>
   </div>
 
@@ -90,8 +103,18 @@
     <div style="margin-bottom: 20px;">
       默认：<BsInputNumber v-model="number6" prefix="￥"></BsInputNumber>
     </div>
-    <div>
+    <div style="margin-bottom: 20px;">
       小的：<BsInputNumber v-model="number6" size="sm" prefix="￥"></BsInputNumber>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+      大的：<BsInputNumber v-model="number6" :control-inner="false" size="lg" prefix="￥"></BsInputNumber>
+    </div>
+    <div style="margin-bottom: 20px;">
+      默认：<BsInputNumber v-model="number6" :control-inner="false" prefix="￥"></BsInputNumber>
+    </div>
+    <div>
+      小的：<BsInputNumber v-model="number6" :control-inner="false" size="sm" prefix="￥"></BsInputNumber>
     </div>
     <hr>
   </div>
@@ -169,6 +192,14 @@
         v-model="number9"
         prefix="￥"
         readonly></BsInputNumber>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+      <BsInputNumber
+        v-model="number9"
+        prefix="￥"
+        readonly=""
+        :control-inner="false"></BsInputNumber>
     </div>
     <hr>
   </div>

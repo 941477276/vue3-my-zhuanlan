@@ -69,9 +69,9 @@
   <!--<div class="box">
     <BsTooltipUsage></BsTooltipUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsSliderUsage></BsSliderUsage>
-  </div>
+  </div>-->
 </template>
 
 <script lang="ts">
