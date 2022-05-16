@@ -34,7 +34,7 @@ export const useForwardRefDirective = (setForwardRef: SetForwardRef) => {
       setForwardRef(el);
     },
     updated (el: HTMLElement) {
-      console.log('updated', el);
+      // console.log('updated', el);
       setForwardRef(el);
     },
     unmounted (el: HTMLElement) {

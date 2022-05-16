@@ -5,14 +5,17 @@
     :popper-class="tooltipClass"
     :placement="tooltipPlacement"
     :disabled="disabled"
-    :visible="showToolTip"
+    :visible="tooltipShow"
     :content="modelValue">
     <div
+      ref="sliderHandlerRef"
       class="bs-slider-handler bs-slider-handler-1"
       :style="{
         left: (percentage * 100) + '%'
       }"
-      @mousedown.prevent="onMousedown"></div>
+      @mousedown.prevent="onMousedown"
+      @mouseenter="onMouseenter"
+      @mouseleave="onMouseleave"></div>
   </BsTooltip>
 </template>
 
@@ -30,6 +33,7 @@ import { bsSliderProps } from '../bs-slider-props';
 import BsTooltip from '../../bs-tooltip/BsTooltip.vue';
 import { BigNumber } from 'bignumber.js';
 import { useSliderHandler } from './useSliderHandler';
+import { useClickOutside } from '@/hooks/useClickOutside';
 
 export default defineComponent({
   name: 'BsSliderHandler',
@@ -56,6 +60,7 @@ export default defineComponent({
   emits: ['update:modelValue', 'change'],
   setup (props: any, ctx: any) {
     let tooltipComRef = ref(null);
+    let sliderHandlerRef = ref<HTMLElement|null>(null);
     // 计算百分比
     let percentage = computed<number>(function () {
       let propsMin = props.min;
@@ -74,20 +79,20 @@ export default defineComponent({
       return (new BigNumber(value).minus(min)).dividedBy(diff).toNumber();
     });
 
-    // 计算滑块的left值
-    let sliderHandlerLeft = computed(function () {
-      let percentageVal = percentage.value;
-      let value = new BigNumber(props.modelValue).minus(props.min);
-      let sliderElWidth = (props.vertical ? unref(props.sliderRef)?.offsetHeight : unref(props.sliderRef)?.offsetWidth) || 0;
-      let diff = new BigNumber(props.max).minus(props.min); // minus减法
-      let result = new BigNumber(sliderElWidth).dividedBy(diff).multipliedBy(value);
-      let left = result.dividedBy(sliderElWidth).toNumber() * 100;
-      // console.log('handlerLeft', left, diff.toNumber(), sliderElWidth);
-      return left;
+    // console.log(new BigNumber(3.1), new BigNumber(3.1).isEqualTo('3.100000'));
+    let tooltipVisible = ref(false);
+    let { onMousedown, onMouseenter, onMouseleave } = useSliderHandler(props, ctx, tooltipComRef, tooltipVisible, sliderHandlerRef);
+
+    let tooltipShow = computed(function () {
+      if (typeof props.showToolTip === 'boolean') {
+        return props.showToolTip;
+      }
+      return tooltipVisible.value;
     });
 
-    // console.log(new BigNumber(3.1), new BigNumber(3.1).isEqualTo('3.100000'));
-    let { onMousedown } = useSliderHandler(props, ctx, tooltipComRef);
+    useClickOutside(sliderHandlerRef, function () {
+      tooltipVisible.value = false;
+    });
 
     onMounted(function () {
       console.log('tooltip instance', tooltipComRef);
@@ -95,10 +100,14 @@ export default defineComponent({
 
     return {
       percentage,
-      sliderHandlerLeft,
+      // tooltipVisible,
       tooltipComRef,
+      sliderHandlerRef,
+      tooltipShow,
 
-      onMousedown
+      onMousedown,
+      onMouseenter,
+      onMouseleave
     };
   }
 });

@@ -1,11 +1,13 @@
 import {
+  Ref,
   ref,
   unref,
   watch
 } from 'vue';
 import { BigNumber } from 'bignumber.js';
+import { util } from '@/common/util';
 
-export function useSliderHandler (props: any, ctx: any, tooltipComRef: any) {
+export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tooltipVisible: Ref<boolean>, sliderHandlerRef: Ref<HTMLElement|null>) {
   let oldValue = ref(props.modelValue);
 
   watch(() => props.modelValue, function (newValue) {
@@ -19,6 +21,7 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any) {
   let sliderRect = {} as DOMRect; // 获取滑块轨道的位置信息
   let sliderTotalWidth = 0; // 滑块轨道的长度
   let sliderStartPosition = 0; // 滑块起始位置
+  let isDragging = false;
   // let oneHundredthValueOfSlider = 0; // 100份之1的滑块轨道长度对应的值
   // let oneStepValue = 1; // 一步的值
   // let totalValue = 0;
@@ -44,6 +47,16 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any) {
     console.log(sliderRect, mousedownClientX, mousedownClientY);
   };
 
+  let onMouseenter = function () {
+    tooltipVisible.value = true;
+  };
+
+  let onMouseleave = function () {
+    if (!isDragging) {
+      tooltipVisible.value = false;
+    }
+  };
+
   let mousemoveTimer = 0;
   let documentMousemove = function (evt: MouseEvent) {
     evt = evt || window.event;
@@ -51,11 +64,14 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any) {
     if (mousemoveTimer != 0 && mousemoveTimer < 200) {
       return;
     }
+    evt.preventDefault();
     mousemoveTimer = now;
+    tooltipVisible.value = true;
+    isDragging = true;
     let mousePosition = props.vertical ? evt.clientY : evt.clientX;
     // 鼠标移动到的位置
     let positionInSlider = mousePosition - sliderStartPosition;
-    console.log('positionInSlider origin', positionInSlider, oldValue.value);
+    // console.log('positionInSlider origin', positionInSlider, oldValue.value);
     if (positionInSlider < 0) {
       positionInSlider = 0;
     }
@@ -64,7 +80,7 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any) {
     }
 
     let newValue = calcValue(positionInSlider, props);
-    console.log('positionInSlider after', positionInSlider, newValue);
+    // console.log('positionInSlider after', positionInSlider, newValue);
     if (newValue == oldValue.value) {
       return;
     }
@@ -77,9 +93,15 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any) {
       tooltipComRef.value?.updatePopper?.();
     }
   };
-  let documentMouseup = function () {
+  let documentMouseup = function (evt: MouseEvent) {
     document.removeEventListener('mousemove', documentMousemove, false);
     document.removeEventListener('mouseup', documentMouseup, false);
+    tooltipVisible.value = false;
+    isDragging = false;
+    let target = evt.target;
+    if (target != sliderHandlerRef.value && !util.elementContains(sliderHandlerRef.value, target)) {
+      tooltipVisible.value = false;
+    }
   };
 
   /**
@@ -122,6 +144,8 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any) {
   };
 
   return {
-    onMousedown
+    onMousedown,
+    onMouseenter,
+    onMouseleave
   };
 };

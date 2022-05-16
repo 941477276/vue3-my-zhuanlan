@@ -84,7 +84,7 @@ export default defineComponent({
     }, { immediate: true });
 
     let onSliderHandler1Change = function (newValue: string|number) {
-      console.log('onSliderHandler1Change', newValue);
+      // console.log('onSliderHandler1Change', newValue);
       let changedValue:string|number|string[]|number[] = newValue;
       if (props.range) {
         let modelValue:string[]|number[] = props.modelValue;
