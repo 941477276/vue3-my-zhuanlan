@@ -69,6 +69,9 @@
   <!--<div class="box">
     <BsTooltipUsage></BsTooltipUsage>
   </div>-->
+  <div class="box">
+    <BsSliderUsage></BsSliderUsage>
+  </div>
 </template>
 
 <script lang="ts">
@@ -98,6 +101,7 @@ import BsAlertUsage from '@/components/bootstrap/bs-alert/BsAlertUsage.vue';
 import BsInputNumberUsage from '@/components/bootstrap/bs-input-number/BsInputNumberUsage.vue';
 import BsPopperUsage from '@/components/bootstrap/bs-popper/BsPopperUsage.vue';
 import BsTooltipUsage from '@/components/bootstrap/bs-tooltip/BsTooltipUsage.vue';
+import BsSliderUsage from '@/components/bootstrap/bs-slider/BsSliderUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -127,7 +131,8 @@ export default defineComponent({
     BsAlertUsage,
     BsInputNumberUsage,
     BsPopperUsage,
-    BsTooltipUsage
+    BsTooltipUsage,
+    BsSliderUsage
   },
   setup () {
     return {
