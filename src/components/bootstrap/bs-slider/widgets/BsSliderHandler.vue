@@ -1,5 +1,6 @@
 <template>
   <BsTooltip
+    ref="tooltipComRef"
     :transition-name="tooltipTransitionName"
     :popper-class="tooltipClass"
     :placement="tooltipPlacement"
@@ -9,7 +10,7 @@
     <div
       class="bs-slider-handler bs-slider-handler-1"
       :style="{
-        left: sliderHandlerLeft + '%'
+        left: (percentage * 100) + '%'
       }"
       @mousedown.prevent="onMousedown"></div>
   </BsTooltip>
@@ -22,7 +23,8 @@ import {
   computed,
   ref,
   unref,
-  watch
+  watch,
+  onMounted
 } from 'vue';
 import { bsSliderProps } from '../bs-slider-props';
 import BsTooltip from '../../bs-tooltip/BsTooltip.vue';
@@ -53,6 +55,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue', 'change'],
   setup (props: any, ctx: any) {
+    let tooltipComRef = ref(null);
     // 计算百分比
     let percentage = computed<number>(function () {
       let propsMin = props.min;
@@ -79,16 +82,21 @@ export default defineComponent({
       let diff = new BigNumber(props.max).minus(props.min); // minus减法
       let result = new BigNumber(sliderElWidth).dividedBy(diff).multipliedBy(value);
       let left = result.dividedBy(sliderElWidth).toNumber() * 100;
-      console.log('handlerLeft', left, diff.toNumber(), sliderElWidth);
+      // console.log('handlerLeft', left, diff.toNumber(), sliderElWidth);
       return left;
     });
 
-    console.log(new BigNumber(3.1), new BigNumber(3.1).isEqualTo('3.100000'));
-    let { onMousedown } = useSliderHandler(props, ctx);
+    // console.log(new BigNumber(3.1), new BigNumber(3.1).isEqualTo('3.100000'));
+    let { onMousedown } = useSliderHandler(props, ctx, tooltipComRef);
+
+    onMounted(function () {
+      console.log('tooltip instance', tooltipComRef);
+    });
 
     return {
       percentage,
       sliderHandlerLeft,
+      tooltipComRef,
 
       onMousedown
     };

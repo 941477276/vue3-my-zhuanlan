@@ -5,7 +5,7 @@ import {
 } from 'vue';
 import { BigNumber } from 'bignumber.js';
 
-export function useSliderHandler (props: any, ctx: any) {
+export function useSliderHandler (props: any, ctx: any, tooltipComRef: any) {
   let oldValue = ref(props.modelValue);
 
   watch(() => props.modelValue, function (newValue) {
@@ -44,11 +44,18 @@ export function useSliderHandler (props: any, ctx: any) {
     console.log(sliderRect, mousedownClientX, mousedownClientY);
   };
 
+  let mousemoveTimer = 0;
   let documentMousemove = function (evt: MouseEvent) {
     evt = evt || window.event;
+    let now = new Date().getTime();
+    if (mousemoveTimer != 0 && mousemoveTimer < 200) {
+      return;
+    }
+    mousemoveTimer = now;
     let mousePosition = props.vertical ? evt.clientY : evt.clientX;
     // 鼠标移动到的位置
     let positionInSlider = mousePosition - sliderStartPosition;
+    console.log('positionInSlider origin', positionInSlider, oldValue.value);
     if (positionInSlider < 0) {
       positionInSlider = 0;
     }
@@ -57,12 +64,18 @@ export function useSliderHandler (props: any, ctx: any) {
     }
 
     let newValue = calcValue(positionInSlider, props);
+    console.log('positionInSlider after', positionInSlider, newValue);
     if (newValue == oldValue.value) {
       return;
     }
     oldValue.value = newValue;
     ctx.emit('update:modelValue', newValue);
     ctx.emit('change', newValue, positionInSlider);
+    // 更新tooltip的位置
+    let showToolTip = props.showToolTip;
+    if (typeof showToolTip !== 'boolean' || showToolTip === true) {
+      tooltipComRef.value?.updatePopper?.();
+    }
   };
   let documentMouseup = function () {
     document.removeEventListener('mousemove', documentMousemove, false);
@@ -82,11 +95,11 @@ export function useSliderHandler (props: any, ctx: any) {
     let totalValue = new BigNumber(propsMax).minus(new BigNumber(propsMin)); // minus 减法
     // 一步对应的值
     let oneStepValue = 100 / totalValue.dividedBy(new BigNumber(props.step)).toNumber();
-    // 总步长
-    let steps = new BigNumber(Math.round(mousePosition / sliderTotalWidth * 100));
+    // 总步长 = (当前移动的距离 / 滑块总长度 * 100) / 步长值
+    let steps = new BigNumber(mousePosition).dividedBy(sliderTotalWidth).multipliedBy(100).dividedBy(oneStepValue);
     // 步长值
     let valueOfSteps = steps.multipliedBy(oneStepValue); // multipliedBy 乘法
-    let value = valueOfSteps.multipliedBy(totalValue).dividedBy(100);
+    let value = valueOfSteps.multipliedBy(totalValue).dividedBy(100).plus(propsMin);
 
     if (value.lt(propsMin)) { // lt 判断数是否小于
       value = new BigNumber(propsMin);
@@ -104,7 +117,7 @@ export function useSliderHandler (props: any, ctx: any) {
     } else {
       resultValue = Number(resultValue);
     }
-    console.log('calcValue', resultValue, value);
+    // console.log('calcValue', resultValue, value);
     return resultValue;
   };
 
