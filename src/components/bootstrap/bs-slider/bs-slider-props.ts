@@ -54,7 +54,7 @@ export const bsSliderProps = {
   },
   tooltipPlacement: { // tooltip的显示位置
     type: String as PropType<Placement>,
-    default: 'top'
+    default: ''
   },
   showToolTip: { // 是否显示tooltip，如果为true则总是显示，否则总是不显示
     type: Boolean,

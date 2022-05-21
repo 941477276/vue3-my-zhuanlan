@@ -10,10 +10,7 @@
   <div class="bs-slider-rail">
     <div
       class="bs-slider-track"
-      :style="{
-        width: trackWidth + '%',
-        left: range ? (percentage[0] + '%') : 0
-      }"></div>
+      :style="trackStyle"></div>
     <div class="bs-slider-step">
       <div class="bs-slider-dot"></div>
       <div class="bs-slider-dot" :style="`${vertical ? 'top' : 'left'}: 25%`" :data-percentage="25"></div>
@@ -197,11 +194,26 @@ export default defineComponent({
       return Math.max.apply(null, decimalLengthArr);
     });
 
+    let trackStyle = computed(function () {
+      if (props.vertical) {
+        return {
+          height: trackWidth.value + '%',
+          top: props.range ? (percentage.value[0] + '%') : 0
+        };
+      } else {
+        return {
+          width: trackWidth.value + '%',
+          left: props.range ? (percentage.value[0] + '%') : 0
+        };
+      }
+    });
+
     return {
       sliderRef,
       hasMasks,
       percentage,
       trackWidth,
+      trackStyle,
       value1,
       value2,
       precision,

@@ -168,7 +168,7 @@
     }
     .bs-slider-handler{
       &:hover{
-        transform: scale(1);
+        transform: scale(1) translateX(-50%);
       }
     }
     .bs-slider-mark-text{

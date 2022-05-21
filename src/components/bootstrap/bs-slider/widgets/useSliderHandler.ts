@@ -6,60 +6,10 @@ import {
 } from 'vue';
 import { BigNumber } from 'bignumber.js';
 import { util } from '@/common/util';
-
-/**
- * 根据鼠标的位置计算最终值
- * @param mousePosition 鼠标位置
- * @param props props
- * @return {string|number}
- */
-let calcValueByPosition = function (mousePosition: number, sliderTotalWidth: number, props: any) {
-  let propsMin = props.min;
-  let propsMax = props.max;
-  // 滑块总值
-  let totalValue = new BigNumber(propsMax).minus(new BigNumber(propsMin)); // minus 减法
-  // 一步对应的值
-  let oneStepValue = 100 / totalValue.dividedBy(new BigNumber(props.step)).toNumber();
-  // 总步长 = (当前移动的距离 / 滑块总长度 * 100) / 步长值
-  let steps = new BigNumber(mousePosition).dividedBy(sliderTotalWidth).multipliedBy(100).dividedBy(oneStepValue);
-  // 步长值
-  let valueOfSteps = steps.multipliedBy(oneStepValue); // multipliedBy 乘法
-  let value = valueOfSteps.multipliedBy(totalValue).dividedBy(100).plus(propsMin);
-  let resultValue = convertValue(value.toNumber(), props);
-  // console.log('calcValue', resultValue, value);
-  return resultValue;
-};
-
-/**
- * 转换值
- * @param originValue
- */
-let convertValue = function (originValue: string|number, props: any) {
-  let value = new BigNumber(originValue);
-  let propsMin = props.min;
-  let propsMax = props.max;
-  // 滑块总值
-  // let totalValue = new BigNumber(propsMax).minus(new BigNumber(propsMin)); // minus 减法
-
-  if (value.lt(propsMin)) { // lt 判断数是否小于
-    value = new BigNumber(propsMin);
-  }
-  if (value.gt(propsMax)) { // gt判断数是否大于
-    value = new BigNumber(propsMax);
-  }
-
-  let resultValue: number|string = value.toFixed(props.precision);
-  if (props.precision > 0) {
-    // 如果有小数点，且小数点最后一位不是0，则将其转换成number类型。如果最后一位是0还将其转换成number类型的化，后面的0会消失
-    if (resultValue[resultValue.length - 1] !== '0') {
-      resultValue = Number(resultValue);
-    }
-  } else {
-    resultValue = Number(resultValue);
-  }
-  // console.log('calcValue', resultValue, value);
-  return resultValue;
-};
+import {
+  calcValueByPosition,
+  convertValue
+} from '../bsSliderUitl';
 
 export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tooltipVisible: Ref<boolean>, sliderHandlerRef: Ref<HTMLElement|null>) {
   let oldValue = ref(props.modelValue);
@@ -78,16 +28,34 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
   let isDragging = false;
   let isMouseentered = false;
 
-  let onMousedown = function (evt: MouseEvent) {
+  let onMousedown = function (evt: MouseEvent|TouchEvent) {
     if (props.dispatch) {
       return;
     }
     evt = evt || window.event;
+    evt.preventDefault();
     document.addEventListener('mousemove', documentMousemove, false);
     document.addEventListener('mouseup', documentMouseup, false);
+
+    // @ts-ignore
+    document.addEventListener('touchmove', documentMousemove, {
+      passive: false, // 解决touchmove无法处理e.prevetDefault（）问题
+      capture: false
+    });
+    // @ts-ignore
+    document.addEventListener('touchend', documentMouseup, false);
+    // @ts-ignore
+    document.addEventListener('touchcancel', documentMouseup, false);
     console.log('onSliderMousedown', evt);
-    mousedownClientX = evt.clientX;
-    mousedownClientY = evt.clientY;
+
+    if (evt.type === 'touchmove') {
+      let touch = (evt as TouchEvent).touches[0];
+      mousedownClientX = touch.clientX;
+      mousedownClientY = touch.clientY;
+    } else {
+      mousedownClientX = (evt as MouseEvent).clientX;
+      mousedownClientY = (evt as MouseEvent).clientY;
+    }
     sliderRect = unref(props.sliderRef).getBoundingClientRect();
     sliderTotalWidth = props.vertical ? sliderRect.height : sliderRect.width;
     sliderStartPosition = props.vertical ? sliderRect.top : sliderRect.left;
@@ -113,17 +81,29 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
   };
 
   let mousemoveTimer = 0;
-  let documentMousemove = function (evt: MouseEvent) {
+  let documentMousemove = function (evt: MouseEvent|TouchEvent) {
     evt = evt || window.event;
     let now = new Date().getTime();
     if (mousemoveTimer != 0 && mousemoveTimer < 200) {
       return;
     }
+    let clientX = 0;
+    let clientY = 0;
+    if (evt.type === 'touchmove') {
+      let touch = (evt as TouchEvent).touches[0];
+      clientX = touch.clientX;
+      clientY = touch.clientY;
+    } else {
+      clientX = (evt as MouseEvent).clientX;
+      clientY = (evt as MouseEvent).clientY;
+    }
+
+    console.log('mouse move', evt);
     evt.preventDefault();
     mousemoveTimer = now;
     tooltipVisible.value = true;
     isDragging = true;
-    let mousePosition = props.vertical ? evt.clientY : evt.clientX;
+    let mousePosition = props.vertical ? clientY : clientX;
     // 鼠标移动到的位置
     let positionInSlider = mousePosition - sliderStartPosition;
     // console.log('positionInSlider origin', positionInSlider, oldValue.value);
@@ -135,7 +115,7 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
     }
 
     let newValue = calcValueByPosition(positionInSlider, sliderTotalWidth, props);
-    // console.log('positionInSlider after', positionInSlider, newValue);
+    console.log('positionInSlider after', positionInSlider, newValue);
     if (newValue == oldValue.value) {
       return;
     }
@@ -145,6 +125,17 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
   let documentMouseup = function (evt: MouseEvent) {
     document.removeEventListener('mousemove', documentMousemove, false);
     document.removeEventListener('mouseup', documentMouseup, false);
+
+    // @ts-ignore
+    document.removeEventListener('touchmove', documentMousemove, {
+      passive: false, // 解决touchmove无法处理e.prevetDefault（）问题
+      capture: false
+    });
+    // @ts-ignore
+    document.removeEventListener('touchend', documentMouseup, false);
+    // @ts-ignore
+    document.removeEventListener('touchcancel', documentMouseup, false);
+    console.log('documentMouseup');
     tooltipVisible.value = false;
     isDragging = false;
     let target = evt.target;

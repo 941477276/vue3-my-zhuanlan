@@ -13,12 +13,14 @@
       class="bs-slider-handler bs-slider-handler-1"
       tabindex="0"
       :style="{
-        left: (percentage * 100) + '%'
+        left: vertical ? '' : (percentage * 100) + '%',
+        top: vertical ? ((percentage * 100) + '%') : ''
       }"
       @mousedown="onMousedown"
       @mouseenter="onMouseenter"
       @mouseleave="onMouseleave"
-      @keydown="onKeydown"></div>
+      @keydown="onKeydown"
+      @touchstart="onMousedown"></div>
   </BsTooltip>
 </template>
 
@@ -64,6 +66,7 @@ export default defineComponent({
   setup (props: any, ctx: any) {
     let tooltipComRef = ref(null);
     let sliderHandlerRef = ref<HTMLElement|null>(null);
+    let wh = window.innerWidth;
     // 计算百分比
     let percentage = computed<number>(function () {
       let propsMin = props.min;
@@ -101,13 +104,28 @@ export default defineComponent({
       return modelVal;
     });
 
+    let tooltipPlacement = computed(function () {
+      if (!props.tooltipPlacement) {
+        if (props.vertical) {
+          if (wh < 900) { // 在移动设备上如果tooltip在右边则会被手指挡住
+            return 'top';
+          } else {
+            return 'right';
+          }
+        } else {
+          return 'top';
+        }
+      }
+      return props.tooltipPlacement;
+    });
+
     useClickOutside(sliderHandlerRef, function () {
       tooltipVisible.value = false;
     });
 
     return {
       percentage,
-      // tooltipVisible,
+      tooltipPlacement,
       tooltipComRef,
       sliderHandlerRef,
       tooltipShow,
