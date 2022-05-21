@@ -86,7 +86,7 @@ export default defineComponent({
     });
 
     let tooltipVisible = ref(false);
-    let { onMousedown, onMouseenter, onMouseleave, onKeydown } = useSliderHandler(props, ctx, tooltipComRef, tooltipVisible, sliderHandlerRef);
+    let { onMousedown, onMouseenter, onMouseleave, onKeydown, setValue } = useSliderHandler(props, ctx, tooltipComRef, tooltipVisible, sliderHandlerRef);
 
     let tooltipShow = computed(function () {
       if (typeof props.showToolTip === 'boolean') {
@@ -131,6 +131,7 @@ export default defineComponent({
       tooltipShow,
       tooltipContent,
 
+      setValue,
       onMousedown,
       onMouseenter,
       onMouseleave,

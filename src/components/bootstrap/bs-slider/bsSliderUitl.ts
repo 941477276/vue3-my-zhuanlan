@@ -53,3 +53,59 @@ export function convertValue (originValue: string|number, props: any) {
   // console.log('calcValue', resultValue, value);
   return resultValue;
 };
+
+/**
+ * 根据区间值计算新的滑块值
+ * @param newValue1 滑块1的值
+ * @param newValue2 滑块2的值
+ * @param props
+ * @param value1IsMotionless 滑块1的值是否保持不动
+ */
+export function getNewValueWithRange (value1:string|number, value2:string|number, props:any, value1IsMotionless = true) {
+  let range = props.range;
+
+  if (range) {
+    let rangeMin = props.rangeMin;
+    let rangeMax = props.rangeMax;
+    let diff = new BigNumber(value2).minus(value1);
+    if (typeof rangeMin == 'number') { // 判断两个滑块之间的值是否小于区间最小值
+      if (diff.lt(rangeMin)) {
+        let newValue;
+        if (value1IsMotionless) {
+          newValue = new BigNumber(value2).plus(new BigNumber(rangeMin).minus(diff));
+          if (newValue.gt(props.max) || (typeof rangeMax === 'number' && newValue.minus(value1).gt(rangeMax))) {
+            return;
+          }
+          value2 = convertValue(newValue.toNumber(), props);
+        } else {
+          newValue = new BigNumber(value1).minus(new BigNumber(rangeMin).minus(diff));
+          if (newValue.lt(props.min) || new BigNumber(value2).minus(newValue).lt(rangeMin)) {
+            return;
+          }
+          value1 = convertValue(newValue.toNumber(), props);
+        }
+      }
+    }
+    if (typeof rangeMax == 'number') { // 判断两个滑块之间的值是否大于区间最大值
+      if (diff.gt(rangeMax)) {
+        let newValue;
+        if (value1IsMotionless) {
+          newValue = new BigNumber(value2).minus(new BigNumber(diff).minus(rangeMax));
+          if (newValue.lt(props.min) || (typeof rangeMin === 'number' && newValue.minus(value1).lt(rangeMin))) {
+            return;
+          }
+          value2 = convertValue(newValue.toNumber(), props);
+        } else {
+          newValue = new BigNumber(value1).plus(new BigNumber(diff).minus(rangeMax));
+          console.log('两个滑块区间值大于最大区间值，右侧滑块值不动，滑块1的新值为：', newValue.toNumber(), new BigNumber(diff).minus(rangeMax).toNumber());
+          if (newValue.gt(props.max) || new BigNumber(value2).minus(newValue).gt(rangeMax)) {
+            return;
+          }
+          value1 = convertValue(newValue.toNumber(), props);
+        }
+      }
+    }
+  }
+
+  return [value1, value2];
+};

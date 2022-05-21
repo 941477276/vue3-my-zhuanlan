@@ -29,11 +29,11 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
   let isMouseentered = false;
 
   let onMousedown = function (evt: MouseEvent|TouchEvent) {
-    if (props.dispatch) {
+    if (props.disabled) {
       return;
     }
     evt = evt || window.event;
-    evt.preventDefault();
+    // evt.preventDefault();
     document.addEventListener('mousemove', documentMousemove, false);
     document.addEventListener('mouseup', documentMouseup, false);
 
@@ -135,7 +135,7 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
     document.removeEventListener('touchend', documentMouseup, false);
     // @ts-ignore
     document.removeEventListener('touchcancel', documentMouseup, false);
-    console.log('documentMouseup');
+    // console.log('documentMouseup');
     tooltipVisible.value = false;
     isDragging = false;
     let target = evt.target;
@@ -209,6 +209,7 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
     onMousedown,
     onMouseenter,
     onMouseleave,
-    onKeydown
+    onKeydown,
+    setValue
   };
 };
