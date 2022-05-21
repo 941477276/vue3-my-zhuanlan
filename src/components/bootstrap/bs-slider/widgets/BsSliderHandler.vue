@@ -10,17 +10,18 @@
     :raw-content="tooltipRawContent">
     <div
       ref="sliderHandlerRef"
-      class="bs-slider-handler bs-slider-handler-1"
+      class="bs-slider-handler"
       tabindex="0"
+      v-bind="$attrs"
       :style="{
         left: vertical ? '' : (percentage * 100) + '%',
         top: vertical ? ((percentage * 100) + '%') : ''
       }"
-      @mousedown="onMousedown"
+      @mousedown.stop="onMousedown"
       @mouseenter="onMouseenter"
       @mouseleave="onMouseleave"
       @keydown="onKeydown"
-      @touchstart="onMousedown"></div>
+      @touchstart.stop="onMousedown"></div>
   </BsTooltip>
 </template>
 
@@ -62,6 +63,7 @@ export default defineComponent({
       default: 0
     }
   },
+  inheritAttrs: false,
   emits: ['update:modelValue', 'change'],
   setup (props: any, ctx: any) {
     let tooltipComRef = ref(null);
@@ -86,7 +88,7 @@ export default defineComponent({
     });
 
     let tooltipVisible = ref(false);
-    let { onMousedown, onMouseenter, onMouseleave, onKeydown, setValue } = useSliderHandler(props, ctx, tooltipComRef, tooltipVisible, sliderHandlerRef);
+    let { onMousedown, onMouseenter, onMouseleave, onKeydown, setValue, tooltipShortShow } = useSliderHandler(props, ctx, tooltipComRef, tooltipVisible, sliderHandlerRef);
 
     let tooltipShow = computed(function () {
       if (typeof props.showToolTip === 'boolean') {
@@ -119,8 +121,11 @@ export default defineComponent({
       return props.tooltipPlacement;
     });
 
-    useClickOutside(sliderHandlerRef, function () {
-      tooltipVisible.value = false;
+    useClickOutside(sliderHandlerRef, function (flag: boolean) {
+      if (flag) {
+        // console.log('sliderHandlerRef clickouside');
+        tooltipVisible.value = false;
+      }
     });
 
     return {
@@ -132,6 +137,7 @@ export default defineComponent({
       tooltipContent,
 
       setValue,
+      tooltipShortShow,
       onMousedown,
       onMouseenter,
       onMouseleave,

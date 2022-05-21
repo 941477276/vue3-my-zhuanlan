@@ -1,3 +1,4 @@
+import { unref } from 'vue';
 import { BigNumber } from 'bignumber.js';
 
 /**
@@ -6,7 +7,7 @@ import { BigNumber } from 'bignumber.js';
  * @param props props
  * @return {string|number}
  */
-export function calcValueByPosition (mousePosition: number, sliderTotalWidth: number, props: any) {
+export function calcValueByPosition (mousePosition: number, sliderTotalWidth: number, props: any, precision: number) {
   let propsMin = props.min;
   let propsMax = props.max;
   // 滑块总值
@@ -18,7 +19,7 @@ export function calcValueByPosition (mousePosition: number, sliderTotalWidth: nu
   // 步长值
   let valueOfSteps = steps.multipliedBy(oneStepValue); // multipliedBy 乘法
   let value = valueOfSteps.multipliedBy(totalValue).dividedBy(100).plus(propsMin);
-  let resultValue = convertValue(value.toNumber(), props);
+  let resultValue = convertValue(value.toNumber(), props, precision);
   // console.log('calcValue', resultValue, value);
   return resultValue;
 };
@@ -27,7 +28,7 @@ export function calcValueByPosition (mousePosition: number, sliderTotalWidth: nu
  * 转换值
  * @param originValue
  */
-export function convertValue (originValue: string|number, props: any) {
+export function convertValue (originValue: string|number, props: any, precision: number) {
   let value = new BigNumber(originValue);
   let propsMin = props.min;
   let propsMax = props.max;
@@ -41,8 +42,8 @@ export function convertValue (originValue: string|number, props: any) {
     value = new BigNumber(propsMax);
   }
 
-  let resultValue: number|string = value.toFixed(props.precision);
-  if (props.precision > 0) {
+  let resultValue: number|string = value.toFixed(precision);
+  if (precision > 0) {
     // 如果有小数点，且小数点最后一位不是0，则将其转换成number类型。如果最后一位是0还将其转换成number类型的化，后面的0会消失
     if (resultValue[resultValue.length - 1] !== '0') {
       resultValue = Number(resultValue);
@@ -61,7 +62,7 @@ export function convertValue (originValue: string|number, props: any) {
  * @param props
  * @param value1IsMotionless 滑块1的值是否保持不动
  */
-export function getNewValueWithRange (value1:string|number, value2:string|number, props:any, value1IsMotionless = true) {
+export function getNewValueWithRange (value1:string|number, value2:string|number, props:any, value1IsMotionless = true, precision: number) {
   let range = props.range;
 
   if (range) {
@@ -76,13 +77,13 @@ export function getNewValueWithRange (value1:string|number, value2:string|number
           if (newValue.gt(props.max) || (typeof rangeMax === 'number' && newValue.minus(value1).gt(rangeMax))) {
             return;
           }
-          value2 = convertValue(newValue.toNumber(), props);
+          value2 = convertValue(newValue.toNumber(), props, precision);
         } else {
           newValue = new BigNumber(value1).minus(new BigNumber(rangeMin).minus(diff));
           if (newValue.lt(props.min) || new BigNumber(value2).minus(newValue).lt(rangeMin)) {
             return;
           }
-          value1 = convertValue(newValue.toNumber(), props);
+          value1 = convertValue(newValue.toNumber(), props, precision);
         }
       }
     }
@@ -94,14 +95,14 @@ export function getNewValueWithRange (value1:string|number, value2:string|number
           if (newValue.lt(props.min) || (typeof rangeMin === 'number' && newValue.minus(value1).lt(rangeMin))) {
             return;
           }
-          value2 = convertValue(newValue.toNumber(), props);
+          value2 = convertValue(newValue.toNumber(), props, precision);
         } else {
           newValue = new BigNumber(value1).plus(new BigNumber(diff).minus(rangeMax));
           console.log('两个滑块区间值大于最大区间值，右侧滑块值不动，滑块1的新值为：', newValue.toNumber(), new BigNumber(diff).minus(rangeMax).toNumber());
           if (newValue.gt(props.max) || new BigNumber(value2).minus(newValue).gt(rangeMax)) {
             return;
           }
-          value1 = convertValue(newValue.toNumber(), props);
+          value1 = convertValue(newValue.toNumber(), props, precision);
         }
       }
     }
@@ -109,3 +110,25 @@ export function getNewValueWithRange (value1:string|number, value2:string|number
 
   return [value1, value2];
 };
+
+/**
+ * 根据当前值获取滑块按钮名称
+ * @param targetValue 当前值
+ * @param value1 滑块1的值
+ * @param value2 滑块2的值
+ * @param props
+ */
+export function getSliderHandlerNameByValue (targetValue: number, value1: string|number, value2: string|number, props: any) {
+  let sliderHandler1 = 'sliderHandler1';
+  let sliderHandler2 = 'sliderHandler2';
+  if (!props.range) {
+    return sliderHandler1;
+  }
+  let min = Math.min(value1 as number, value2 as number);
+  let max = Math.max(value1 as number, value2 as number);
+  if (Math.abs(min - targetValue) < Math.abs(max - targetValue)) {
+    return value1 < value2 ? sliderHandler1 : sliderHandler2;
+  } else {
+    return value1 > value2 ? sliderHandler1 : sliderHandler2;
+  }
+}

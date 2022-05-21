@@ -81,7 +81,7 @@ export function useSlider (props:any, ctx: any, value1: Ref<string|number>, valu
     if (range && !props.enableCross && newValue > modelValue[1]) {
       return;
     }
-    let newValues = getNewValueWithRange(newValue, modelValue[1], props) as (string|number)[];
+    let newValues = getNewValueWithRange(newValue, modelValue[1], props, true, precision.value) as (string|number)[];
 
     if (!newValues) {
       return;
@@ -98,7 +98,7 @@ export function useSlider (props:any, ctx: any, value1: Ref<string|number>, valu
       return;
     }
 
-    let newValues = getNewValueWithRange(modelValue[0], newValue, props, false) as (string|number)[];
+    let newValues = getNewValueWithRange(modelValue[0], newValue, props, false, precision.value) as (string|number)[];
     if (!newValues) {
       return;
     }

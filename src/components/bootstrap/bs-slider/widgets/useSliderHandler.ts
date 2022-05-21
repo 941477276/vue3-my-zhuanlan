@@ -114,8 +114,7 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
       positionInSlider = sliderTotalWidth;
     }
 
-    let newValue = calcValueByPosition(positionInSlider, sliderTotalWidth, props);
-    console.log('positionInSlider after', positionInSlider, newValue);
+    let newValue = calcValueByPosition(positionInSlider, sliderTotalWidth, props, props.precision);
     if (newValue == oldValue.value) {
       return;
     }
@@ -136,7 +135,7 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
     // @ts-ignore
     document.removeEventListener('touchcancel', documentMouseup, false);
     // console.log('documentMouseup');
-    tooltipVisible.value = false;
+    // tooltipVisible.value = false;
     isDragging = false;
     let target = evt.target;
     if (target != sliderHandlerRef.value && !util.elementContains(sliderHandlerRef.value, target)) {
@@ -144,7 +143,7 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
     }
   };
 
-  let keydownActiveTimer:number;
+  // let keydownActiveTimer:number;
   let keydownActiveTime = 0;
   let onKeydown = function (evt: KeyboardEvent) {
     evt = evt || window.event;
@@ -159,29 +158,22 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
     let resultValue:string|number = 0;
     let now = new Date().getTime();
     evt.preventDefault();
-    clearTimeout(keydownActiveTimer);
+    // clearTimeout(keydownActiveTimer);
     if (keyCode == 39 || keyCode == 40) { // 右、下
       if (modelValue >= max) {
         return;
       }
-      resultValue = convertValue(new BigNumber(modelValue).plus(props.step).toNumber(), props);
+      resultValue = convertValue(new BigNumber(modelValue).plus(props.step).toNumber(), props, props.precision);
     } else if (keyCode == 37 || keyCode == 38) { // 左、上
       if (modelValue <= min) {
         return;
       }
-      resultValue = convertValue(new BigNumber(modelValue).minus(props.step).toNumber(), props);
+      resultValue = convertValue(new BigNumber(modelValue).minus(props.step).toNumber(), props, props.precision);
     } else {
       return;
     }
     keydownActiveTime = now;
-    tooltipVisible.value = true;
-    // 如果1.5秒内未使用键盘更新滑块，则隐藏tooltip
-    keydownActiveTimer = setTimeout(function () {
-      clearTimeout(keydownActiveTimer);
-      if (!isDragging && !isMouseentered) {
-        tooltipVisible.value = false;
-      }
-    }, 1500);
+    tooltipShortShow();
     setValue(resultValue);
   };
 
@@ -197,6 +189,20 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
     updateTooltip();
   };
 
+  // tooltip短暂显示
+  let tooltipShowShowTimer: number;
+  let tooltipShortShow = function () {
+    tooltipVisible.value = true;
+    clearTimeout(tooltipShowShowTimer);
+    // 如果1.5秒内未使用键盘更新滑块，则隐藏tooltip
+    tooltipShowShowTimer = setTimeout(function () {
+      clearTimeout(tooltipShowShowTimer);
+      if (!isDragging && !isMouseentered) {
+        tooltipVisible.value = false;
+      }
+    }, 1500);
+  };
+
   // 更新tooltip的位置
   let updateTooltip = function () {
     let showToolTip = props.showToolTip;
@@ -210,6 +216,7 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
     onMouseenter,
     onMouseleave,
     onKeydown,
-    setValue
+    setValue,
+    tooltipShortShow
   };
 };

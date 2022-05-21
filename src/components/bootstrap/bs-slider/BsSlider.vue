@@ -7,7 +7,9 @@
     'bs-slider-vertical': vertical,
     'has-masks': hasMasks
   }">
-  <div class="bs-slider-rail">
+  <div
+    class="bs-slider-rail"
+    @click="handleSliderRailClick">
     <div
       class="bs-slider-track"
       :style="trackStyle"></div>
@@ -18,15 +20,19 @@
       <div class="bs-slider-dot" :style="`${vertical ? 'top' : 'left'}: 100%`" :data-percentage="100"></div>
     </div>
     <BsSliderHandler
+      ref="sliderHandler1Ref"
       v-bind="$props"
+      class="bs-slider-handler-1"
       :slider-ref="sliderRef"
       :model-value="value1"
       :precision="precision"
       @update:modelValue="setValue1"></BsSliderHandler>
 
     <BsSliderHandler
+      ref="sliderHandler2Ref"
       v-if="range"
       v-bind="$props"
+      class="bs-slider-handler-2"
       :slider-ref="sliderRef"
       :model-value="value2"
       :precision="precision"
@@ -53,6 +59,7 @@ import {
 import { bsSliderProps } from './bs-slider-props';
 import BsSliderHandler from './widgets/BsSliderHandler.vue';
 import { useSlider } from './useSlider';
+import { useSliderRail } from './useSliderRail';
 
 export default defineComponent({
   name: 'BsSlider',
@@ -63,6 +70,8 @@ export default defineComponent({
   emits: ['update:modelValue', 'change'],
   setup (props: any, ctx: any) {
     let sliderRef = ref<HTMLElement|null>(null);
+    let sliderHandler1Ref = ref<HTMLElement|null>(null);
+    let sliderHandler2Ref = ref<HTMLElement|null>(null);
     // 判断是否传递了masks
     let hasMasks = computed(function () {
       return props.marks && Object.keys(props.marks).length > 0;
@@ -82,9 +91,12 @@ export default defineComponent({
     }, { immediate: true });
 
     let { precision, percentage, trackStyle, setValue1, setValue2 } = useSlider(props, ctx, value1, value2);
+    let { handleSliderRailClick } = useSliderRail(value1, value2, setValue1, setValue2, props, sliderRef, precision, sliderHandler1Ref, sliderHandler2Ref);
 
     return {
       sliderRef,
+      sliderHandler1Ref,
+      sliderHandler2Ref,
       hasMasks,
       percentage,
       trackStyle,
@@ -93,7 +105,8 @@ export default defineComponent({
       precision,
 
       setValue1,
-      setValue2
+      setValue2,
+      handleSliderRailClick
     };
   }
 });
