@@ -1,4 +1,3 @@
-import { unref } from 'vue';
 import { BigNumber } from 'bignumber.js';
 
 /**
@@ -15,10 +14,11 @@ export function calcValueByPosition (mousePosition: number, sliderTotalWidth: nu
   // 一步对应的值
   let oneStepValue = 100 / totalValue.dividedBy(new BigNumber(props.step)).toNumber();
   // 总步长 = (当前移动的距离 / 滑块总长度 * 100) / 步长值
-  let steps = new BigNumber(mousePosition).dividedBy(sliderTotalWidth).multipliedBy(100).dividedBy(oneStepValue);
+  let steps = Math.round(new BigNumber(mousePosition).dividedBy(sliderTotalWidth).multipliedBy(100).dividedBy(oneStepValue).toNumber());
   // 步长值
-  let valueOfSteps = steps.multipliedBy(oneStepValue); // multipliedBy 乘法
+  let valueOfSteps = new BigNumber(steps).multipliedBy(oneStepValue); // multipliedBy 乘法
   let value = valueOfSteps.multipliedBy(totalValue).dividedBy(100).plus(propsMin);
+  // console.log('oneStepValue', oneStepValue, steps, valueOfSteps.toNumber(), valueOfSteps.multipliedBy(totalValue).dividedBy(100).toNumber());
   let resultValue = convertValue(value.toNumber(), props, precision);
   // console.log('calcValue', resultValue, value);
   return resultValue;
@@ -132,3 +132,24 @@ export function getSliderHandlerNameByValue (targetValue: number, value1: string
     return value1 > value2 ? sliderHandler1 : sliderHandler2;
   }
 }
+
+/**
+ * 计算百分比
+ * @param value 当前值
+ * @param min 最小值
+ * @param max 最大值
+ */
+export function calcPercentage (value: number|string, min: number, max: number) {
+  let dividend = new BigNumber(max).minus(min); // minus减法
+
+  // dividedBy 除法
+  let percent1 = (new BigNumber(value).minus(min)).dividedBy(dividend).toNumber();
+  if (percent1 < 0) {
+    percent1 = 0;
+  }
+  if (percent1 > 1) {
+    percent1 = 1;
+  }
+
+  return percent1 * 100;
+};

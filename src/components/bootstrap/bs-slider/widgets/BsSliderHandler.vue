@@ -17,6 +17,7 @@
         left: vertical ? '' : (percentage * 100) + '%',
         top: vertical ? ((percentage * 100) + '%') : ''
       }"
+      :data-percentage="percentage"
       @mousedown.stop="onMousedown"
       @mouseenter="onMouseenter"
       @mouseleave="onMouseleave"

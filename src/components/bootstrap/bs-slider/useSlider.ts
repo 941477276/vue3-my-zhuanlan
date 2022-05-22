@@ -51,6 +51,9 @@ export function useSlider (props:any, ctx: any, value1: Ref<string|number>, valu
     // 当props.range为true时，若第二个滑块的值小于第一个滑块，则trackWidth可能出现负数
     let width = Math.abs(trackWidth.value) + '%';
     let left = '0%';
+    if (!props.included) {
+      return left;
+    }
     if (props.range) {
       if (percentage.value[1] < percentage.value[0]) {
         left = percentage.value[1] * 100 + '%';

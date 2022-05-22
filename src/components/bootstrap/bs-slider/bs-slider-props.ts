@@ -38,6 +38,14 @@ export const bsSliderProps = {
     type: Number,
     default: 1
   },
+  showSteps: { // 是否显示间断点
+    type: Boolean,
+    default: false
+  },
+  included: { // 当有marks或showSteps时，值为 true 时表示值为包含关系，false 表示并列
+    type: Boolean,
+    default: true
+  },
   enableCross: { // 是否允许交叉，仅在range模式下有效
     type: Boolean,
     default: true

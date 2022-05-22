@@ -5,7 +5,7 @@
   :class="{
     'bs-slider-disabled': disabled,
     'bs-slider-vertical': vertical,
-    'has-masks': hasMasks
+    'has-marks': hasMasks
   }">
   <div
     class="bs-slider-rail"
@@ -13,12 +13,15 @@
     <div
       class="bs-slider-track"
       :style="trackStyle"></div>
-    <div class="bs-slider-step">
-      <div class="bs-slider-dot"></div>
-      <div class="bs-slider-dot" :style="`${vertical ? 'top' : 'left'}: 25%`" :data-percentage="25"></div>
-      <div class="bs-slider-dot" :style="`${vertical ? 'top' : 'left'}: 65%`" :data-percentage="65"></div>
-      <div class="bs-slider-dot" :style="`${vertical ? 'top' : 'left'}: 100%`" :data-percentage="100"></div>
-    </div>
+    <BsSliderStep
+      :value="modelValue"
+      :included="included"
+      :marks="marks"
+      :max="max"
+      :min="min"
+      :show-steps="showSteps"
+      :step="step"
+      :vertical="vertical"></BsSliderStep>
     <BsSliderHandler
       ref="sliderHandler1Ref"
       v-bind="$props"
@@ -39,12 +42,18 @@
       @update:modelValue="setValue2"></BsSliderHandler>
   </div>
 
-  <!--<div class="bs-slider-marks">
-    <div class="bs-slider-mark-text">0%</div>
-    <div class="bs-slider-mark-text" :style="`${vertical ? 'top' : 'left'}: 25%`">25%</div>
-    <div class="bs-slider-mark-text" :style="`${vertical ? 'top' : 'left'}: 65%`">65%</div>
-    <div class="bs-slider-mark-text" :style="`${vertical ? 'top' : 'left'}: 100%`" :data-percentage="100">100%</div>
-  </div>-->
+  <BsSliderMarks
+    v-if="Object.keys(marks).length > 0"
+    :value="modelValue"
+    :included="included"
+    :disabled="disabled"
+    :range="range"
+    :marks="marks"
+    :max="max"
+    :min="min"
+    :vertical="vertical"
+    :set-value1="setValue1"
+    :set-value2="setValue2"></BsSliderMarks>
 </div>
 </template>
 
@@ -58,13 +67,17 @@ import {
 } from 'vue';
 import { bsSliderProps } from './bs-slider-props';
 import BsSliderHandler from './widgets/BsSliderHandler.vue';
+import BsSliderStep from './widgets/BsSliderStep.vue';
+import BsSliderMarks from './widgets/BsSliderMarks.vue';
 import { useSlider } from './useSlider';
 import { useSliderRail } from './useSliderRail';
 
 export default defineComponent({
   name: 'BsSlider',
   components: {
-    BsSliderHandler
+    BsSliderHandler,
+    BsSliderStep,
+    BsSliderMarks
   },
   props: bsSliderProps,
   emits: ['update:modelValue', 'change'],
@@ -81,12 +94,12 @@ export default defineComponent({
     let value1 = ref(0);
     let value2 = ref(0);
     watch(() => props.modelValue, function (newModelValue) {
-      console.log('newModelValue', newModelValue);
+      // console.log('newModelValue', newModelValue);
       if (props.range) {
         value1.value = newModelValue[0];
         value2.value = newModelValue[1];
       } else {
-        value1.value = newModelValue;
+        value1.value = Array.isArray(newModelValue) ? newModelValue[0] : newModelValue;
       }
     }, { immediate: true });
 

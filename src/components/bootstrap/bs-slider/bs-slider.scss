@@ -37,15 +37,18 @@
   height: .5rem;
   width: .5rem;
   border-radius: 50%;
-  border: .125rem solid #70A4F9;
+  border: .125rem solid #eee;
   transform: translateX(-50%);
-  transition: border-color .3s;
+  transition: border-color .1s;
   background-color: #fff;
   &.bs-slider-dot-active{
-    border-color: var(--primary);
+    border-color: #70A4F9;
   }
+  /*&:first-child{
+    transform: translateX(0);
+  }*/
   &:last-child[data-percentage="100"]{
-    transform: translateX(-100%);
+    transform: translateX(-75%);
   }
 }
 .bs-slider-handler{
@@ -66,6 +69,22 @@
     border-color: var(--primary);
     transform: scale(1.2) translateX(-50%);
   }
+  /*&[data-percentage="0"]{
+    transform: translateX(0);
+    transform-origin: center center;
+    &:hover{
+      border-color: var(--primary);
+      transform: scale(1.2) translateX(0);
+    }
+  }
+  &[data-percentage="1"]{
+    transform: translateX(-100%);
+    transform-origin: -50% center;
+    &:hover{
+      border-color: var(--primary);
+      transform: scale(1.2) translateX(-100%);
+    }
+  }*/
 }
 .bs-slider-marks{
   position: relative;
@@ -77,6 +96,7 @@
   font-size: .75rem;
   word-break: keep-all;
   color: #808080;
+  cursor: pointer;
   &.bs-slider-mark-text-active{
     color: #000;
   }
@@ -120,7 +140,7 @@
       left: -.125rem;
       transform: translate(0, -50%);
       &:last-child[data-percentage="100"]{
-        transform: translate(0, -100%);
+        transform: translate(0, -75%);
       }
     }
     .bs-slider-marks{
@@ -133,9 +153,9 @@
       background-color: #f60;
     }
     .bs-slider-mark-text{
-      transform: translate(0, -25%);
+      transform: translate(0, -45%);
       &:last-child[data-percentage="100"]{
-        transform: translate(0, -75%);
+        transform: translate(0, -85%);
       }
     }
     .bs-slider-handler{
@@ -162,9 +182,11 @@
     .bs-slider-track{
       background-color: rgba(0,0,0,0.4);
     }
-    .bs-slider-handler,
-    .bs-slider-dot{
+    .bs-slider-handler{
       border-color: rgba(0,0,0,0.4);
+    }
+    .bs-slider-dot{
+      border-color: #f0f0f0;
     }
     .bs-slider-handler{
       &:hover{
@@ -173,6 +195,7 @@
     }
     .bs-slider-mark-text{
       color: #939393;
+      cursor: not-allowed;
     }
   }
 }

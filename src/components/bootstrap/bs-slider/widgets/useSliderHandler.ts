@@ -46,7 +46,7 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
     document.addEventListener('touchend', documentMouseup, false);
     // @ts-ignore
     document.addEventListener('touchcancel', documentMouseup, false);
-    console.log('onSliderMousedown', evt);
+    // console.log('onSliderMousedown', evt);
 
     if (evt.type === 'touchmove') {
       let touch = (evt as TouchEvent).touches[0];
@@ -98,7 +98,7 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
       clientY = (evt as MouseEvent).clientY;
     }
 
-    console.log('mouse move', evt);
+    // console.log('mouse move', evt);
     evt.preventDefault();
     mousemoveTimer = now;
     tooltipVisible.value = true;

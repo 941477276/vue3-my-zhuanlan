@@ -49,30 +49,114 @@
     </div>
   </div>
 
+  <div>
+    <hr>
+    <h3>显示间断点（step=10）</h3>
+    <div class="max-w-600">
+      <BsSlider
+        :show-steps="true"
+        :step="10"
+        v-model="slider6"></BsSlider>
+    </div>
+    <h3>垂直模式</h3>
+    <div class="max-w-600">
+      <BsSlider
+        :show-steps="true"
+        :step="10"
+        :vertical="true"
+        v-model="slider6"></BsSlider>
+    </div>
+  </div>
+
+  <div>
+    <hr>
+    <h3>显示标记</h3>
+    <div class="max-w-600">
+      <BsSlider
+        :marks="marks"
+        v-model="slider7"></BsSlider>
+    </div>
+    <h3>显示标记（included=false）</h3>
+    <div class="max-w-600">
+      <BsSlider
+        :marks="marks"
+        :included="false"
+        v-model="slider7"></BsSlider>
+    </div>
+    <h3>显示标记（区间）</h3>
+    <div class="max-w-600">
+      <BsSlider
+        :marks="marks"
+        range
+        v-model="slider8"></BsSlider>
+    </div>
+    <h3>显示标记（区间——垂直模式</h3>
+    <div class="max-w-600">
+      <BsSlider
+        style="height: 500px"
+        :marks="marks"
+        range
+        vertical
+        v-model="slider8"></BsSlider>
+    </div>
+  </div>
+
 </div>
 </template>
 
 <script lang="ts">
 import {
   defineComponent,
-  ref
+  ref,
+  h
 } from 'vue';
+import BsIcon from '@/components/bootstrap/bs-icon/BsIcon.vue';
 
 export default defineComponent({
   name: 'BsSliderUsage',
-  components: {},
+  components: {
+    // eslint-disable-next-line vue/no-unused-components
+    BsIcon
+  },
   setup (props: any) {
     let slider1 = ref(23);
     let slider2 = ref(10);
     let slider3 = ref([5, 20]);
     let slider4 = ref([15, 43]);
     let slider5 = ref([15, 40]);
+    let slider6 = ref(0);
+    let slider7 = ref(15);
+    let slider8 = ref([20, 35]);
+
+    let marks = ref({
+      0: '0°C',
+      24: '24°C',
+      30: {
+        label: '30°C',
+        style: {
+          color: '#ffe584'
+        }
+      },
+      50: '50°C',
+      100: {
+        // label: '100°C',
+        label: h('span', [h(BsIcon, { name: 'info-circle-fill' }), '100°C']),
+        style: {
+          color: '#f00',
+          fontWeight: 'bold'
+        }
+      }
+    });
     return {
       slider1,
       slider2,
       slider3,
       slider4,
-      slider5
+      slider5,
+      slider6,
+      slider7,
+      slider8,
+      marks
     };
   }
 });
