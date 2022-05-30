@@ -29,15 +29,24 @@ export function useForwardRef <T> (forwardRef: Ref<T|null>): void {
  * @param setForwardRef
  */
 export const useForwardRefDirective = (setForwardRef: SetForwardRef) => {
+  let oldEl:HTMLElement|null = null;
   return {
     mounted (el: HTMLElement) {
+      oldEl = el;
       setForwardRef(el);
     },
     updated (el: HTMLElement) {
-      // console.log('updated', el);
+      // 防止当dom的属性更新时执行setForwardRef
+      if (el === oldEl) {
+        console.log('updated 新旧dom元素一样，不执行更新');
+        return;
+      }
+      console.log('el updated', el);
+      oldEl = el;
       setForwardRef(el);
     },
     unmounted (el: HTMLElement) {
+      oldEl = null;
       setForwardRef(null);
     }
   };

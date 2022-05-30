@@ -62,6 +62,12 @@ function wrapTextContent (content: string | VNode) {
 export default defineComponent({
   name: 'BsOnlyChild',
   setup (props: any, ctx: any) {
+    let forwardRefInjection = inject<ForwardRefContext>(forwardRefKey, {
+      setForwardRef: NOOP
+    });
+    // 获取更新forward ref的指令，以更新父级的forwardRef变量
+    const forwardRefDirective = useForwardRefDirective(forwardRefInjection.setForwardRef);
+
     return () => {
       // 将默认插槽里的组件渲染成dom元素
       let defaultSlot = ctx.slots.default?.(ctx.attrs);
@@ -73,11 +79,6 @@ export default defineComponent({
       if (!firstChild) {
         return null;
       }
-      let forwardRefInjection = inject<ForwardRefContext>(forwardRefKey, {
-        setForwardRef: NOOP
-      });
-      // 获取更新forward ref的指令，以更新父级的forwardRef变量
-      const forwardRefDirective = useForwardRefDirective(forwardRefInjection.setForwardRef);
       return withDirectives(cloneVNode(firstChild), [
         [forwardRefDirective]
       ]);
