@@ -22,6 +22,7 @@
       :false-value="falseValue"
       v-model="checkboxVal"
       :disabled="disabled || disabledInner || isCountLimitDisable"
+      :indeterminate="indeterminate"
       :aria-label="ariaLabel || null"
       @focus="isFocus = true"
       @blur="isFocus = false"
@@ -40,6 +41,7 @@
       :name="name || null"
       :id="checkboxId"
       :value="value"
+      :indeterminate="indeterminate"
       :disabled="disabled || disabledInner || isCountLimitDisable"
       :aria-label="ariaLabel || null"
       @focus="isFocus = true"
@@ -89,6 +91,10 @@ export default defineComponent({
       default: false
     },
     checked: {
+      type: Boolean,
+      default: false
+    },
+    indeterminate: { // 是否为不确定状态
       type: Boolean,
       default: false
     },

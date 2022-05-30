@@ -16,11 +16,19 @@
   <bs-checkbox v-model="checkboxVal2" disabled value="tiyu">体育</bs-checkbox>
   <bs-checkbox v-model="checkboxVal2" value="wuli">物理</bs-checkbox>
   <bs-checkbox v-model="checkboxVal2"  readonly value="shengwu">生物</bs-checkbox>
+  <h3>不确定状态</h3>
+  <div>
+    <bs-checkbox :indeterminate="isIndeterminate" v-model="checkAll">全选</bs-checkbox>
+    <br>
+    <bs-checkbox v-model="language" value="Javascript">Javascript</bs-checkbox>
+    <bs-checkbox v-model="language" value="Html">Html</bs-checkbox>
+    <bs-checkbox v-model="language" value="Css">Css</bs-checkbox>
+  </div>
 </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed, watch } from 'vue';
 
 export default defineComponent({
   name: 'BsCheckboxUsage',
@@ -28,10 +36,22 @@ export default defineComponent({
     let checkboxVal = ref('');
     let checkboxVal2 = ref([]);
     let checkboxVal3 = ref(1);
+
+    let checkAll = ref(false);
+    let language = ref([]);
+    let isIndeterminate = computed(function () {
+      return language.value.length != 0 && language.value.length != 3;
+    });
+    watch(language, function () {
+      checkAll.value = language.value.length == 3;
+    });
     return {
       checkboxVal,
       checkboxVal2,
-      checkboxVal3
+      checkboxVal3,
+      checkAll,
+      language,
+      isIndeterminate
     };
   }
 });
