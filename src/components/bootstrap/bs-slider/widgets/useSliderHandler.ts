@@ -65,19 +65,32 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
   let mouseenterTimer: number;
   let onMouseenter = function () {
     isMouseentered = true;
-    tooltipVisible.value = true;
-    /* clearTimeout(mouseenterTimer);
-    mouseenterTimer = setTimeout(function () {
+
+    console.log('mouseenter');
+    clearTimeout(mouseenterTimer);
+    mouseenterTimer = setTimeout(function () { // 防止鼠标快速来回滑动时频繁显示/隐藏tooltip的问题
       clearTimeout(mouseenterTimer);
-      updateTooltip();
-    }, 250); */
+      tooltipVisible.value = true;
+      // updateTooltip();
+    }, 100);
   };
 
+  let mouseleaveTimer: number;
   let onMouseleave = function () {
     isMouseentered = false;
-    if (!isDragging) {
-      tooltipVisible.value = false;
-    }
+    clearTimeout(mouseleaveTimer);
+    clearTimeout(mouseenterTimer);
+    mouseleaveTimer = setTimeout(function () { // 解决windows上滑动按钮scale(1.2)后会导致鼠标触发mouseenter事件后又立即触发mouseleave事件问题
+      clearTimeout(mouseleaveTimer);
+      if (isMouseentered) {
+        console.log('mouseleave后又立即触发了mouseenter事件');
+        return;
+      }
+      if (!isDragging) {
+        console.log('onMouseleave hide tooltip');
+        tooltipVisible.value = false;
+      }
+    }, 50);
   };
 
   let mousemoveTimer = 0;
@@ -127,7 +140,7 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
 
     // @ts-ignore
     document.removeEventListener('touchmove', documentMousemove, {
-      passive: false, // 解决touchmove无法处理e.prevetDefault（）问题
+      passive: false, // 解决touchmove无法处理e.preventDefault（）问题
       capture: false
     });
     // @ts-ignore
