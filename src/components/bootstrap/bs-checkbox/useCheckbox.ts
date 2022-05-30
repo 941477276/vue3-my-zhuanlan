@@ -1,4 +1,5 @@
 import {
+  Ref,
   onUpdated,
   computed,
   ref,
@@ -10,7 +11,7 @@ import {
   CheckboxGroupContext
 } from '@/ts-tokens/bootstrap';
 
-export function useCheckbox (props: any, ctx: any) {
+export function useCheckbox (props: any, ctx: any, checkboxRef: Ref<HTMLInputElement|null>) {
   let selfModelVal = ref('');
   /* onUpdated(function () {
     console.log('useCheckbox updated');
@@ -52,12 +53,22 @@ export function useCheckbox (props: any, ctx: any) {
   let isChecked = computed(() => {
     let flag = false;
     let value = checkboxVal.value;
+    // let valueIsBoolean = typeof value === 'boolean';
+    let indeterminate = checkboxRef.value?.indeterminate;
+    // 如果是不确定状态，则未选中
+    if (indeterminate) {
+      return false;
+    }
     if (checkboxGroupCtx) {
       flag = (Array.isArray(value) ? value : []).includes(props.value);
     } else {
       if (util.varIsNone(props.modelValue)) {
         flag = value == props.trueValue || value == props.falseValue;
       } else {
+        console.log(111, typeof value, value);
+        if (!indeterminate && value === false) {
+          return false;
+        }
         flag = Array.isArray(value) ? value.includes(props.value) : value === props.modelValue;
       }
     }

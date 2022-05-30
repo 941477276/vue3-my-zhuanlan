@@ -1,10 +1,11 @@
 <template>
-  <div
+  <label
     class="form-check bs-checkbox"
     :class="{
       'is-disabled': disabled || disabledInner,
       'is-focus': isFocus,
-      'is-checked': isChecked
+      'is-checked': isChecked,
+      'is-indeterminate': isIndeterminate
     }">
     <input
       v-if="trueValue || falseValue"
@@ -47,12 +48,13 @@
       @focus="isFocus = true"
       @blur="isFocus = false"
       @change="on_change">
+    <span class="form-check-input-inner"></span>
     <label
       class="form-check-label"
       :for="checkboxId">
       <slot></slot>
     </label>
-  </div>
+  </label>
 </template>
 
 <script lang="ts">
@@ -61,7 +63,9 @@ import {
   ref,
   onMounted,
   onUnmounted,
-  nextTick, inject
+  nextTick,
+  inject,
+  watch
 } from 'vue';
 import { getCheckboxCount } from '@/common/globalData';
 import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
@@ -137,9 +141,10 @@ export default defineComponent({
     // 计算单选框的ID
     let checkboxId = ref(props.id || `bs-checkbox_${getCheckboxCount()}`);
     let isFocus = ref(false);
+    let isIndeterminate = ref(props.indeterminate); // 判断是否为不确定状态
 
     let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
-    let { checkboxVal, isChecked, isCountLimitDisable } = useCheckbox(props, ctx);
+    let { checkboxVal, isChecked, isCountLimitDisable } = useCheckbox(props, ctx, checkboxRef);
 
     let disabledInner = ref(false);
     let setDisabled = function (flag: boolean) {
@@ -163,6 +168,10 @@ export default defineComponent({
     let on_change = function (evt: Event) {
       let isChecked = (evt.target as HTMLInputElement).checked;
       // console.log('是否选中', isChecked);
+      if (typeof props.indeterminate === 'boolean') {
+        console.log('值改变了');
+        isIndeterminate.value = false;
+      }
 
       let value = '';
       if (isChecked) {
@@ -184,6 +193,10 @@ export default defineComponent({
       // 如果当前组件处在<bs-form-item>组件中，则将setValidateStatus方法存储到<bs-form-item>组件中
       useDeliverContextToParent<FormItemContext>(formItemContextKey, deliverToFormItemCtx);
     }
+
+    let stopWatchIndeterminate = watch(() => props.indeterminate, function (indeterminate) {
+      isIndeterminate.value = indeterminate;
+    });
 
     onMounted(() => {
       // 设置默认选择项
@@ -217,6 +230,7 @@ export default defineComponent({
           checkboxVal.value = false;
         }
       }
+      stopWatchIndeterminate();
     });
 
     return {
@@ -225,6 +239,7 @@ export default defineComponent({
       isFocus,
       isChecked,
       isCountLimitDisable,
+      isIndeterminate,
 
       checkboxVal,
       validateStatus,
@@ -239,19 +254,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.bs-checkbox{
-  display: inline-block;
-  vertical-align: middle;
-  line-height: 1.5;
-  & + .bs-checkbox{
-    margin-left: 20px;
-  }
-  .form-check-input{
-    margin-top: 0.35rem;
-  }
-  .form-check-label{
-    padding-left: 0.3rem;
-    margin-left: -0.3rem;
-  }
-}
+@import "bs-checkbox";
 </style>

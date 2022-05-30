@@ -16,6 +16,14 @@
   <bs-checkbox v-model="checkboxVal2" disabled value="tiyu">体育</bs-checkbox>
   <bs-checkbox v-model="checkboxVal2" value="wuli">物理</bs-checkbox>
   <bs-checkbox v-model="checkboxVal2"  readonly value="shengwu">生物</bs-checkbox>
+  <hr>
+  <h3>禁用</h3>
+  <div>
+    <bs-checkbox v-model="language" disabled value="Javascript">Javascript</bs-checkbox>
+    <bs-checkbox v-model="language" disabled value="Html">Html</bs-checkbox>
+    <bs-checkbox v-model="language" value="Css">Css</bs-checkbox>
+  </div>
+  <hr>
   <h3>不确定状态</h3>
   <div>
     <bs-checkbox :indeterminate="isIndeterminate" v-model="checkAll">全选</bs-checkbox>
@@ -40,6 +48,7 @@ export default defineComponent({
     let checkAll = ref(false);
     let language = ref([]);
     let isIndeterminate = computed(function () {
+      // return true;
       return language.value.length != 0 && language.value.length != 3;
     });
     watch(language, function () {
