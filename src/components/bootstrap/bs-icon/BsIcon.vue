@@ -16,7 +16,6 @@ export default defineComponent({
       required: true
     }
   },
-  inheritAttrs: false,
   setup (props: any) {
     let iconId = computed(() => {
       return `#bsicon-${props.name}`;

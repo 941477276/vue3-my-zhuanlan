@@ -39,7 +39,6 @@ export default defineComponent({
       default: undefined
     }
   },
-  inheritAttrs: false,
   emits: ['update:modelValue', 'change'],
   setup (props: any, ctx: any) {
     if (typeof props.modelValue === 'string') {

@@ -133,7 +133,6 @@ export default defineComponent({
       default: ''
     }
   },
-  inheritAttrs: false,
   emits: ['update:modelValue', 'change', 'blur', 'focus'],
   setup (props: any, ctx: any) {
     let checkboxRef = ref<HTMLInputElement|null>(null);

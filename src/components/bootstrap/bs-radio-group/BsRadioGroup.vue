@@ -39,7 +39,6 @@ export default defineComponent({
       default: false
     } */
   },
-  inheritAttrs: false,
   emits: ['update:modelValue', 'change'],
   setup (props: any, ctx: any) {
     let changeVal = function (val: string|number|boolean) {

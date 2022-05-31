@@ -5,12 +5,12 @@
   <!--<div class="box">
     <BsInputUsage></BsInputUsage>
   </div>-->
-  <div class="box">
-    <BsRadioUsage></BsRadioUsage>
-  </div>
   <!--<div class="box">
-    <BsRadioGroupUsage></BsRadioGroupUsage>
+    <BsRadioUsage></BsRadioUsage>
   </div>-->
+  <div class="box">
+    <BsRadioGroupUsage></BsRadioGroupUsage>
+  </div>
   <!--<div class="box">
     <BsCheckboxUsage></BsCheckboxUsage>
   </div>-->

@@ -36,7 +36,6 @@
           size ? `form-control-${size}` : ''
         ]"
         :type="inputType"
-        v-bind="$attrs"
         :id="inputId"
         :value="inputValue || value"
         :disabled="disabled"
@@ -58,7 +57,6 @@
           'is-valid': validateStatus === 'success',
           'is-invalid': validateStatus === 'error'
         }"
-        v-bind="$attrs"
         :id="inputId"
         :value="inputValue || value"
         :disabled="disabled"
@@ -207,7 +205,6 @@ export default defineComponent({
       default: ''
     }
   },
-  inheritAttrs: false,
   emits: ['input', 'update:modelValue', 'change', 'blur', 'focus', 'clear'],
   setup (props: any, ctx: any) {
     let showPasswordIconDisplay = ref(false); // 切换输入框类型为“密码/文本”按钮是否显示

@@ -141,7 +141,6 @@ export default defineComponent({
       default: true
     }
   },
-  inheritAttrs: false,
   emit: ['change'],
   setup (props: any, ctx: any) {
     let showPrevMore = ref(false);
