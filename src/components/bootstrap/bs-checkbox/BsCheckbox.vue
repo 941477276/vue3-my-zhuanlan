@@ -25,8 +25,8 @@
       :disabled="disabled || disabledInner || isCountLimitDisable"
       :indeterminate="indeterminate"
       :aria-label="ariaLabel || null"
-      @focus="isFocus = true"
-      @blur="isFocus = false"
+      @focus="onFocus"
+      @blur="onBlur"
       @change="on_change">
     <input
       v-else
@@ -45,8 +45,8 @@
       :indeterminate="indeterminate"
       :disabled="disabled || disabledInner || isCountLimitDisable"
       :aria-label="ariaLabel || null"
-      @focus="isFocus = true"
-      @blur="isFocus = false"
+      @focus="onFocus"
+      @blur="onBlur"
       @change="on_change">
     <span class="form-check-input-inner"></span>
     <label
@@ -67,7 +67,6 @@ import {
   inject,
   watch
 } from 'vue';
-import { getCheckboxCount } from '@/common/globalData';
 import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
 import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
 import { useCheckbox } from './useCheckbox';
@@ -77,10 +76,10 @@ import {
   formItemContextKey
 } from '@/ts-tokens/bootstrap';
 
+// 统计复选框数量
+let checkboxCount = 0;
 export default defineComponent({
   name: 'BsCheckbox',
-  components: {},
-
   props: {
     modelValue: {
       type: [String, Number, Boolean, Array],
@@ -135,11 +134,11 @@ export default defineComponent({
     }
   },
   inheritAttrs: false,
-  emits: ['update:modelValue', 'change'],
+  emits: ['update:modelValue', 'change', 'blur', 'focus'],
   setup (props: any, ctx: any) {
     let checkboxRef = ref<HTMLInputElement|null>(null);
     // 计算单选框的ID
-    let checkboxId = ref(props.id || `bs-checkbox_${getCheckboxCount()}`);
+    let checkboxId = ref(props.id || `bs-checkbox_${++checkboxCount}`);
     let isFocus = ref(false);
     let isIndeterminate = ref(props.indeterminate); // 判断是否为不确定状态
 
@@ -182,6 +181,16 @@ export default defineComponent({
       ctx.emit('change', value);
 
       callFormItem('validate', 'change');
+    };
+
+    let onBlur = function (evt: MouseEvent) {
+      isFocus.value = false;
+      ctx.emit('blur', evt);
+    };
+
+    let onFocus = function (evt: MouseEvent) {
+      isFocus.value = true;
+      ctx.emit('focus', evt);
     };
 
     if (props.deliveContextToFormItem) {
@@ -247,7 +256,9 @@ export default defineComponent({
       setDisabled,
       setValidateStatus,
 
-      on_change
+      on_change,
+      onBlur,
+      onFocus
     };
   }
 });
