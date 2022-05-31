@@ -1,9 +1,8 @@
 <template>
-  <div
+  <label
     class="form-check bs-radio"
     :class="{
       'is-disabled': disabled || disabledInner,
-      'is-readonly': readonly || readonlyInner,
       'is-focus': isFocus,
       'is-checked': isChecked
     }">
@@ -19,18 +18,18 @@
       :id="radioId"
       :value="value"
       :disabled="disabled || disabledInner"
-      :readonly="readonly || readonlyInner"
       :checked="isChecked"
       :aria-label="ariaLabel || null"
-      @focus="isFocus = true"
-      @blur="isFocus = false"
+      @focus="onFocus"
+      @blur="onBlur"
       @change="on_change">
+    <span class="form-check-input-inner"></span>
     <label
       class="form-check-label"
       :for="radioId">
       <slot></slot>
     </label>
-  </div>
+  </label>
 </template>
 
 <script lang="ts">
@@ -41,7 +40,6 @@ import {
   nextTick,
   inject
 } from 'vue';
-import { getRadioCount } from '@/common/globalData';
 import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
 import { FormItemContext, formItemContextKey } from '@/ts-tokens/bootstrap';
 import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
@@ -50,10 +48,10 @@ import {
   RadioGroupContext
 } from '@/ts-tokens/bootstrap/radio';
 
+// 统计单选框数量
+let radioCount = 0;
 export default defineComponent({
   name: 'BsRadio',
-  components: {},
-
   props: {
     modelValue: {
       type: [String, Number, Boolean],
@@ -65,10 +63,6 @@ export default defineComponent({
       required: true
     },
     disabled: {
-      type: Boolean,
-      default: false
-    },
-    readonly: {
       type: Boolean,
       default: false
     },
@@ -96,12 +90,10 @@ export default defineComponent({
       default: ''
     }
   },
-  inheritAttrs: false,
-  emits: ['update:modelValue', 'change'],
+  emits: ['update:modelValue', 'change', 'focus', 'blur'],
   setup (props: any, ctx: any) {
-    let radioCount = getRadioCount();
     // 计算单选框的ID
-    let radioId = ref(props.id || `bs-radio_${radioCount}`);
+    let radioId = ref(props.id || `bs-radio_${++radioCount}`);
     let isFocus = ref(false);
     let radioGroupCtx = inject<RadioGroupContext|null>(radioGroupContextKey, null);
     let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
@@ -152,6 +144,16 @@ export default defineComponent({
       callFormItem('validate', 'change');
     };
 
+    let onBlur = function (evt: MouseEvent) {
+      isFocus.value = false;
+      ctx.emit('blur', evt);
+    };
+
+    let onFocus = function (evt: MouseEvent) {
+      isFocus.value = true;
+      ctx.emit('focus', evt);
+    };
+
     if (props.deliveContextToFormItem) {
       // 传递给<bs-form-item>组件的参数
       let deliverToFormItemCtx = {
@@ -174,26 +176,14 @@ export default defineComponent({
       setReadonly,
       setValidateStatus,
 
-      on_change
+      on_change,
+      onBlur,
+      onFocus
     };
   }
 });
 </script>
 
 <style lang="scss">
-.bs-radio{
-  display: inline-block;
-  vertical-align: middle;
-  line-height: 1.5;
-  & + .bs-radio{
-    margin-left: 20px;
-  }
-  .form-check-input{
-    margin-top: 0.35rem;
-  }
-  .form-check-label{
-    padding-left: 0.3rem;
-    margin-left: -0.3rem;
-  }
-}
+@import "bs-radio";
 </style>
