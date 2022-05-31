@@ -53,21 +53,26 @@ export function useCheckbox (props: any, ctx: any, checkboxRef: Ref<HTMLInputEle
   let isChecked = computed(() => {
     let flag = false;
     let value = checkboxVal.value;
-    // let valueIsBoolean = typeof value === 'boolean';
-    let indeterminate = checkboxRef.value?.indeterminate;
-    // 如果是不确定状态，则未选中
-    if (indeterminate) {
-      return false;
-    }
+    let trueValue = props.trueValue;
+
     if (checkboxGroupCtx) {
       flag = (Array.isArray(value) ? value : []).includes(props.value);
     } else {
       if (util.varIsNone(props.modelValue)) {
-        flag = value == props.trueValue || value == props.falseValue;
+        // flag = value === props.trueValue || value === props.falseValue;
+        // 如果没有传递model值，但设置了trueValue则将当前值和trueValue进行比较
+        if (!util.varIsNone(trueValue)) {
+          flag = value === trueValue;
+        } else {
+          return value;
+        }
       } else {
-        console.log(111, typeof value, value);
-        if (!indeterminate && value === false) {
-          return false;
+        // console.log(111, typeof value, value);
+        if (typeof value === 'boolean') {
+          return value;
+        }
+        if (!util.varIsNone(trueValue)) {
+          return value === trueValue;
         }
         flag = Array.isArray(value) ? value.includes(props.value) : value === props.modelValue;
       }
