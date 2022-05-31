@@ -119,7 +119,6 @@ import {
   inject,
   nextTick
 } from 'vue';
-import { getInputCount, getTextAreaCount } from '@/common/globalData';
 import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
 import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
 import { useInput } from './useInput';
@@ -131,6 +130,8 @@ import {
 } from '@/ts-tokens/bootstrap';
 import BsIcon from '../bs-icon/BsIcon.vue';
 
+let inputCount = 0;
+let textareaCount = 0;
 export default defineComponent({
   name: 'BsInput',
   components: {
@@ -214,9 +215,9 @@ export default defineComponent({
       inputId.value = props.id;
     } else {
       if (props.type === 'textarea') {
-        inputId.value = `bs-textarea_${getTextAreaCount()}`;
+        inputId.value = `bs-textarea_${++textareaCount}`;
       } else {
-        inputId.value = `bs-input_${getInputCount()}`;
+        inputId.value = `bs-input_${++inputCount}`;
       }
     }
 

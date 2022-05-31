@@ -25,7 +25,6 @@ import {
   onMounted,
   onBeforeUnmount
 } from 'vue';
-import { getSelectOptionCount } from '@/common/globalData';
 import {
   SelectContext,
   SelectOptionGroupContext,
@@ -34,6 +33,7 @@ import {
 } from '@/ts-tokens/bootstrap/select';
 import BsIcon from '../../bs-icon/BsIcon.vue';
 
+let selectOptionCount = 0;
 export default defineComponent({
   name: 'BsOption',
   components: {
@@ -55,7 +55,7 @@ export default defineComponent({
   },
   setup (props: any) {
     let bsOptionRef = ref<HTMLElement|null>(null);
-    let optionId = `selectOption_${getSelectOptionCount()}`;
+    let optionId = `selectOption_${++selectOptionCount}`;
     let selectCtx = inject<SelectContext|null>(selectContextKey, null);
     let optionGroupCtx = inject<SelectOptionGroupContext|null>(selectOptionGroupContextKey, null);
 

@@ -84,7 +84,6 @@ import {
   ValidateStatus,
   formItemContextKey
 } from '@/ts-tokens/bootstrap';
-import { getSelectCount } from '@/common/globalData';
 import { util } from '@/common/util';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import {
@@ -95,6 +94,7 @@ import {
 import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
 import BsInput from '../bs-input/BsInput.vue';
 
+let selectCount = 0;
 export default defineComponent({
   name: 'BsSelect',
   components: {
@@ -176,7 +176,7 @@ export default defineComponent({
     let bsSelectDropdownRef = ref<HTMLElement|null>(null);
     let bsInputReadonly = ref(true);
     let isFocus = ref(false);
-    let selectId = ref(props.id || `bs-select_${getSelectCount()}`);
+    let selectId = ref(props.id || `bs-select_${++selectCount}`);
     let dropdownDisplayed = ref(false); // 下拉菜单是否已经渲染
     let dropdownVisible = ref(false); // 下拉菜单是否显示
     let dropdownDisplayDirection = ref('bottom'); // 下拉菜单展示方位

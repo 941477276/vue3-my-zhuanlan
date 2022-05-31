@@ -8,18 +8,18 @@
   <!--<div class="box">
     <BsRadioUsage></BsRadioUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsRadioGroupUsage></BsRadioGroupUsage>
-  </div>
+  </div>-->
   <!--<div class="box">
     <BsCheckboxUsage></BsCheckboxUsage>
   </div>-->
   <!--<div class="box">
     <BsCheckboxGroupUsage></BsCheckboxGroupUsage>
   </div>-->
-  <!--<div class="box">
+  <div class="box">
     <BsSelectUsage></BsSelectUsage>
-  </div>-->
+  </div>
   <!--<div class="box">
     <BsFormUsage></BsFormUsage>
   </div>-->
