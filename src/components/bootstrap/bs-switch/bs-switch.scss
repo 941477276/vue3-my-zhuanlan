@@ -11,18 +11,20 @@
     right: 0;
     bottom: 0;
     z-index: 10;
-    opacity: 0.45;
-    background-color: #fff;
+    //opacity: 0.45;
+    //background-color: rgba(255,255,255,0.45);
+  }
+  .switch-loading{
+    width: 100%;
+    height: 100%;
+    transform: scale(0.75);
   }
   .spinner-border{
-    position: absolute;
-    top: 50%;
-    left: .25rem;
-    width: 0.875rem;
-    height: 0.875rem;
+    display: block;
+    width: 100%;
+    height: 100%;
     border-width: 0.1rem;
-    margin-top: -0.45rem;
-    transition: left .3s, right .3s;
+    margin: 0;
   }
 }
 .bs-switch-hidden-input{
@@ -39,176 +41,176 @@
   line-height: 1.375rem;
   height: 1.375rem;
   padding: 0 .35rem 0 calc(1.125rem + .25rem + 2px);
+  border: 1px solid #C0CCDA;
   border-radius: 1.375rem;
   //overflow: hidden;
   font-size: 0.75rem;
-  background-color: var(--primary);
+  background-color: var(--inactive-color, #C0CCDA);
   &::before,
   &::after{
     position: absolute;
     content: ' ';
-    transition: transform .3s, left .3s, right .3s;
   }
   &::before{
     left: 0;
     top: 0;
-    z-index: 1;
+    z-index: 2;
     width:  100%;
     height: 100%;
     border-radius: 1.375rem;
     //transform-origin: 0 50%;
-    background-color: #C0CCDA;
-  }
-  &::after{
-    top: 50%;
-    //right: .1rem;
-    //left: 0;
-    left: .15rem;
-    z-index: 5;
-    width: 1.125rem;
-    height: 1.125rem;
-    border-radius: 50%;
-    transform: translateY(-50%);
-    box-shadow: 0 1px 3px rgb(0 0 0 / 40%);
-    background-color: #fff;
+    background-color: var(--inactive-color, #C0CCDA);
+    transform: scale(1);
+    transition: transform 0.35s cubic-bezier(0.45, 1, 0.4, 1), -webkit-transform 0.35s cubic-bezier(0.45, 1, 0.4, 1);
   }
   &.has-inactive-color{
     &::before{
       background-color: var(--inactive-color);
     }
   }
-}
-.bs-switch-hidden-input{
-  &:checked ~ .bs-switch-inner{
-    padding: 0 calc(1.125rem + .25rem + 2px) 0 .35rem;
-    &::before{
-      transform: scale(0);
-    }
-    &::after{
-      left: calc(100% - 1.125rem - .15rem);
-      //right: auto;
-      //transform: translate(.1rem, -50%);
-    }
-    .bs-switch-text{
-      text-align: left;
-    }
+  .switch-disabled-box,
+  .switch-loading-box{
+    border-radius: 1.375rem;
   }
+}
+.switch-circle{
+  position: absolute;
+  top: 50%;
+  //right: .1rem;
+  //left: 0;
+  left: 1px;
+  z-index: 5;
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 40%);
+  background-color: #fff;
+  transition: left 0.35s cubic-bezier(0.4, 0.4, 0.25, 1.35);
 }
 .bs-switch-text{
   display: block;
   position: relative;
+  line-height: calc(1.375rem - 2px);
   z-index: 2;
   color: #fff;
   text-align: right;
 }
 
 .bs-switch{
+  &.bs-switch-open{
+    .bs-switch-inner{
+      border-color: var(--primary);
+      background-color: var(--primary);
+    }
+    .bs-switch-inner{
+      padding: 0 calc(1.125rem + .25rem + 2px) 0 .35rem;
+      &::before{
+        transform: scale(0);
+      }
+      .switch-circle{
+        left: calc(100% - 1.125rem - 1px);
+      }
+      .bs-switch-text{
+        text-align: left;
+      }
+    }
+  }
   &.bs-switch-loading{
     cursor: default;
     .switch-loading-box{
       display: block;
     }
-    &.bs-switch-open{
-      .spinner-border{
-        right: .25rem;
-        left: auto;
-      }
-    }
   }
-  &.is-disabled{
-    opacity: 0.7;
+  &.bs-switch-disabled{
+    opacity: 0.6;
     cursor: not-allowed;
     .switch-disabled-box{
       display: block;
-      opacity: 0.5;
+      //opacity: 0.5;
     }
+  }
+  &.bs-switch-loading{
+    opacity: 0.6;
+    cursor: default;
   }
   &.bs-switch-sm{
     .bs-switch-inner{
       min-width: 2.375rem;
       line-height: 1.125rem;
       height: 1.125rem;
-      padding: 0 .35rem 0 calc(0.8725rem + .25rem + 1px);
+      padding: 0 .35rem 0 calc(0.8725rem + .25rem);
       border-radius: 1.125rem;
       &::before{
         border-radius: 1.125rem;
       }
-      &::after{
-        left: 1px;
-        width: 0.8725rem;
-        height: 0.8725rem;
+      .switch-circle{
+        left: 0;
+        width: 0.875rem;
+        height: 0.875rem;
       }
     }
-    .bs-switch-hidden-input{
-      &:checked ~ .bs-switch-inner{
-        padding: 0 calc(0.8725rem + .25rem + 1px) 0 .35rem;
+    &.bs-switch-open{
+      .bs-switch-inner{
+        padding: 0 calc(0.8725rem + .25rem) 0 .35rem;
         &::before{
           transform: scale(0);
         }
-        &::after{
-          left: calc(100% - 0.8725rem - 1px);
+        .switch-circle{
+          left: calc(100% - 0.8725rem);
         }
       }
+    }
+    .bs-switch-text{
+      line-height: calc(1.125rem - 2px);
     }
     .spinner-border{
-      left: .12rem;
-      width: 0.75rem;
-      height: 0.75rem;
       border-width: 1px;
-      margin-top: -0.375rem;
     }
-    &.bs-switch-loading{
-      &.bs-switch-open{
-        .spinner-border{
-          right: .1rem;
-          left: auto;
-        }
-      }
+    .switch-disabled-box,
+    .switch-loading-box{
+      border-radius: 0.8725rem;
     }
   }
 
   &.bs-switch-lg{
     .bs-switch-inner{
       min-width: 3.125rem;
-      line-height: 1.625rem;
-      height: 1.625rem;
-      padding: 0 .35rem 0 calc(1.375rem + .3rem + 0.15rem);
-      border-radius: 1.625rem;
+      line-height: 1.75rem;
+      height: 1.75rem;
+      padding: 0 .35rem 0 calc(1.375rem + .3rem);
+      border-width: 2px;
+      border-radius: 1.75rem;
       font-size: 0.875rem;
       &::before{
-        border-radius: 1.625rem;
+        border-radius: 1.75rem;
       }
-      &::after{
-        left: 0.22rem;
+      .switch-circle{
+        left: 1px;
         width: 1.375rem;
         height: 1.375rem;
       }
     }
-    .bs-switch-hidden-input{
-      &:checked ~ .bs-switch-inner{
-        padding: 0 calc(1.375rem + .3rem + 0.22rem) 0 .35rem;
+    &.bs-switch-open{
+      .bs-switch-inner{
+        padding: 0 calc(1.375rem + .3rem) 0 .35rem;
         &::before{
           transform: scale(0);
         }
-        &::after{
-          left: calc(100% - 1.375rem - 0.22rem);
+        .switch-circle{
+          left: calc(100% - 1.375rem - 1px);
         }
       }
     }
     .spinner-border{
-      left: .35rem;
-      width: 1.125rem;
-      height: 1.125rem;
       border-width: .15rem;
-      margin-top: -0.5625rem;
     }
-    &.bs-switch-loading{
-      &.bs-switch-open{
-        .spinner-border{
-          right: .3rem;
-          left: auto;
-        }
-      }
+    .bs-switch-text{
+      line-height: calc(1.75rem - 4px);
+    }
+    .switch-disabled-box,
+    .switch-loading-box{
+      border-radius: 1.75rem;
     }
   }
 }

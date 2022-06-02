@@ -4,7 +4,7 @@
   :class="[{
     'bs-switch-loading': loading,
     'bs-switch-open': isOpen,
-    'is-disabled': disabled
+    'bs-switch-disabled': disabled
   }, size ? `bs-switch-${size}` : '']">
   <input
     ref="switchInputRef"
@@ -22,9 +22,11 @@
     <span class="bs-switch-text">
       {{ isOpen ? activeText : inactiveText }}
     </span>
-    <div class="switch-loading-box" v-if="loading" @click.stop="switchLoadingBoxClick">
-      <div class="spinner-border" :class="`text-${loadingColorType}`" role="status">
-        <span class="sr-only">Switch Loading...</span>
+    <div class="switch-circle">
+      <div class="switch-loading" v-if="loading">
+        <div class="spinner-border" :class="`text-${loadingColorType}`" role="status">
+          <span class="sr-only">Switch Loading...</span>
+        </div>
       </div>
     </div>
     <div v-if="disabled" class="switch-disabled-box"></div>
@@ -131,8 +133,15 @@ export default defineComponent({
 
     // 计算 .bs-switch-inner 的样式
     let switchInnerStyle = computed(function () {
-      let colorType = props.colorType ? 'background-color: var(--' + props.colorType + ')' : '';
-      let activeColor = props.activeColor ? `background-color: ${props.activeColor}` : '';
+      let opened = isOpen.value;
+      let colorType = '';
+      if (props.colorType && opened) {
+        colorType = `background-color: var(--${props.colorType});border-color: var(--${props.colorType})`;
+      }
+      let activeColor = '';
+      if (props.activeColor && opened) {
+        activeColor = `background-color: ${props.activeColor};border-color: ${props.activeColor}`;
+      }
       let inActiveColor = props.inactiveColor ? `--inactive-color: ${props.inactiveColor}` : '';
       let result = activeColor;
       if (!activeColor) {
@@ -179,9 +188,6 @@ export default defineComponent({
       }
       changeVal();
     };
-    let switchLoadingBoxClick = function () {
-    // 这个函数只需阻止冒泡即可
-    };
 
     onUnmounted(function () {
       stopWatch();
@@ -192,8 +198,7 @@ export default defineComponent({
       isOpen,
       switchInnerStyle,
 
-      switchClick,
-      switchLoadingBoxClick
+      switchClick
     };
   }
 });

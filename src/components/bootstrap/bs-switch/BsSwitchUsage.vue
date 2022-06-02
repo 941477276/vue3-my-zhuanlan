@@ -40,8 +40,8 @@
     </div>
 
     <div>
-      加载中：<bs-switch v-model="switch2" loading></bs-switch>
-      <bs-switch style="margin-left: 10px;" :model-value="true" loading></bs-switch>
+      加载中：<bs-switch v-model="switch2" loading inactive-text="否"></bs-switch>
+      <bs-switch style="margin-left: 10px;" :model-value="true" loading active-text="是"></bs-switch>
     </div>
   </div>
 
