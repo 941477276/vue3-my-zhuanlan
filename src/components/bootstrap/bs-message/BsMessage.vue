@@ -74,6 +74,7 @@ export default defineComponent({
     BsIcon,
     BsBadge
   },
+  emits: ['destroy'],
   setup (props: any, ctx) {
     let visible = ref(false);
     let timer: number;
