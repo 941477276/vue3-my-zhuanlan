@@ -6,7 +6,14 @@
     :class="btnClass"
     :disabled="disabled || loading"
     :aria-disabled="disabled || loading"
-    @click="onBtnClick">
+    @click="onBtnClick"
+    @blur="$emit('blur', $event)"
+    @focus="$emit('focus', $event)"
+    @mouseenter="$emit('mouseenter', $event)"
+    @mouseleave="$emit('mouseleave', $event)"
+    @mousewheel="$emit('mousewheel', $event)"
+    @contextmenu="$emit('contextmenu', $event)"
+    @dblclick="$emit('dblclick', $event)">
     <slot name="loading" v-if="loading">
       <span class="spinner-border" role="status"></span>
     </slot>
@@ -69,7 +76,7 @@ export default defineComponent({
       default: false
     }
   },
-  emits: ['click'],
+  emits: ['click', 'focus', 'blur', 'mouseenter', 'mouseleave', 'mousewheel', 'contextmenu', 'dblclick'],
   setup (props: any, ctx) {
     let btnClass = computed<Array<string|unknown>>(() => {
       let classArr = [];
