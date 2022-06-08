@@ -48,9 +48,9 @@
   <!--<div class="box">
     <BsTabsUsage></BsTabsUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsSwitchUsage></BsSwitchUsage>
-  </div>
+  </div>-->
   <!--<div class="box">
     <BsMessageBoxUsage></BsMessageBoxUsage>
   </div>-->
@@ -72,6 +72,9 @@
   <!--<div class="box">
     <BsSliderUsage></BsSliderUsage>
   </div>-->
+  <div class="box">
+    <BsModalUsage></BsModalUsage>
+  </div>
 </template>
 
 <script lang="ts">
@@ -102,6 +105,7 @@ import BsInputNumberUsage from '@/components/bootstrap/bs-input-number/BsInputNu
 import BsPopperUsage from '@/components/bootstrap/bs-popper/BsPopperUsage.vue';
 import BsTooltipUsage from '@/components/bootstrap/bs-tooltip/BsTooltipUsage.vue';
 import BsSliderUsage from '@/components/bootstrap/bs-slider/BsSliderUsage.vue';
+import BsModalUsage from '@/components/bootstrap/bs-modal/BsModalUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -132,7 +136,8 @@ export default defineComponent({
     BsInputNumberUsage,
     BsPopperUsage,
     BsTooltipUsage,
-    BsSliderUsage
+    BsSliderUsage,
+    BsModalUsage
   },
   setup () {
     return {

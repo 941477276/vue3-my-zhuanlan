@@ -21,6 +21,7 @@ import BsAlert from '@/components/bootstrap/bs-alert';
 import BsInputNumber from '@/components/bootstrap/bs-input-number';
 import BsTooltip from '@/components/bootstrap/bs-tooltip';
 import BsSlider from '@/components/bootstrap/bs-slider';
+import BsModal from '@/components/bootstrap/bs-modal';
 
 export default function (vueApp: any) {
   vueApp.component(BsButton.name, BsButton);
@@ -47,4 +48,5 @@ export default function (vueApp: any) {
   vueApp.use(BsInputNumber);
   vueApp.use(BsTooltip);
   vueApp.use(BsSlider);
+  vueApp.use(BsModal);
 }
