@@ -9,7 +9,7 @@ import {
 import { useZIndex } from '@/hooks/useZIndex';
 
 let maskCount = 0;
-export function createMask (options: StringKeyObject = {}): { show: () => void; hide: (destroyed?: boolean) => void; } {
+export function createMask (options: StringKeyObject = {}): { show: (zIndex?: number) => void; hide: (destroyed?: boolean) => void; } {
   let destroyOnHide = !!options.destroyOnHide;
   let optionZIndex = options.zIndex;
   let id = `bs_mask-${++maskCount}`;
