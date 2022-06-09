@@ -8,6 +8,7 @@
         ref="rootRef"
         v-if="rendered"
         v-show="visibleInner"
+        v-drag="{dragBar: '.modal-header', target: '.modal-dialog', useDrag: draggable, useBoundary: boundary}"
         class="bs-modal modal"
         :class="{
           'modal-opened': visibleInner,
@@ -91,6 +92,7 @@ import { useZIndex } from '@/hooks/useZIndex';
 import { useLockScroll } from '@/hooks/useLockScroll';
 import { useGlobalEvent } from '@/hooks/useGlobalEvent';
 import { util } from '@/common/util';
+import drag from '@/hooks/useDrag';
 
 let modalCount = 0;
 let modalIdQueue: string[] = [];
@@ -100,6 +102,9 @@ export default defineComponent({
   components: {
     BsButton,
     BsMask
+  },
+  directives: {
+    drag
   },
   emits: ['update:visible', 'open', 'close'],
   setup (props: any, ctx: any) {

@@ -5,10 +5,19 @@
     </header>
     <h3>基本使用</h3>
     <bs-button type="primary" @click="visible = true">显示弹窗</bs-button>
+    <bs-button type="primary" @click="visible16 = true">可拖拽弹窗</bs-button>
     <bs-modal
       v-model:visible="visible"
       title="温馨提示">
       <p>这是一个Bootstrap弹窗！</p>
+    </bs-modal>
+    <bs-modal
+      v-model:visible="visible16"
+      :draggable="draggable"
+      title="温馨提示">
+      <p>这是一个可拖拽的弹窗！</p>
+      <bs-button type="primary" @click="draggable = true">启用拖拽</bs-button>
+      <bs-button type="primary" @click="draggable = false">禁用拖拽</bs-button>
     </bs-modal>
 
     <hr>
@@ -193,6 +202,8 @@ export default defineComponent({
     let visible13 = ref(false);
     let visible14 = ref(false);
     let visible15 = ref(false);
+    let visible16 = ref(false);
+    let draggable = ref(true);
 
     let canClose11 = ref(true);
     let deleteUser = function () {
@@ -227,6 +238,8 @@ export default defineComponent({
       visible13,
       visible14,
       visible15,
+      visible16,
+      draggable,
 
       canClose11,
 

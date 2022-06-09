@@ -66,6 +66,10 @@ export const bsModalProps = {
   },
   draggable: { // 是否可以拖拽移动
     type: Boolean,
+    default: false
+  },
+  boundary: { // 拖拽时是否不能超出边界
+    type: Boolean,
     default: true
   },
   scrollable: { // 弹窗内容部分是否可滚动
