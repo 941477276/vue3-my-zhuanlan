@@ -52,6 +52,9 @@ export const useGlobalEvent = {
   },
   removeEvent: function (target: EventTarget, eventName: string, eventCb: EventCallbackFn): void {
     let events = eventMap[target][eventName];
+    if (!events) {
+      return;
+    }
     let index = events.indexOf(eventCb);
     if (index > -1) {
       events.splice(index, 1);
