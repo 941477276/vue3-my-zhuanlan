@@ -35,8 +35,11 @@ export default defineComponent({
   props: {
     type: { // 按钮类型
       type: String as PropType<ButtonColorType>,
-      default: 'primary',
+      default: '',
       validator (typeVal: ButtonColorType) {
+        if (!typeVal) {
+          return true;
+        }
         return supportedTypes.includes(typeVal);
       }
     },
@@ -133,6 +136,11 @@ export default defineComponent({
     border-width: 0.15em;
     //vertical-align: -0.06em;
     margin-right: 0.4em;
+  }
+}
+.bs-button{
+  & + .bs-button{
+    margin-left: 1rem;
   }
 }
 </style>
