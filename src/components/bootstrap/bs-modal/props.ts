@@ -36,6 +36,14 @@ export const bsModalProps = {
     type: Boolean,
     default: false
   },
+  cancelText: { // 取消按钮文案
+    type: String,
+    default: '取消'
+  },
+  okText: { // 确定按钮文案
+    type: String,
+    default: '确定'
+  },
   mask: { // 是否显示遮罩
     type: Boolean,
     default: true
@@ -83,5 +91,9 @@ export const bsModalProps = {
   canClose: { // 是否允许关闭，若值为false，则任何方式都关闭不了，此功能可用于正在提交数据的场景
     type: Boolean,
     default: true
+  },
+  onOk: { // 确认按钮点击事件
+    type: Function,
+    default: null
   }
 };

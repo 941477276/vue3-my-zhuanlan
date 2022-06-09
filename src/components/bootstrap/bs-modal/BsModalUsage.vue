@@ -126,7 +126,7 @@
       title="温馨提示"
       :can-close="canClose11"
       v-model:visible="visible11"
-      @ok="deleteUser">
+      :on-ok="deleteUser">
       <h5>确定要删除此用户吗？删除后将不可恢复！</h5>
       <p>在“确定”按钮转圈圈期间点击任何位置都无法关闭弹窗！</p>
     </bs-modal>
@@ -137,21 +137,18 @@
     <bs-modal
       title="一级弹窗"
       v-model:visible="visible12"
-      size="sm"
-      @ok="deleteUser">
+      size="sm">
       <h5>一级弹窗</h5>
       <bs-button type="primary" @click="visible13 = true">显示二级弹窗</bs-button>
       <bs-modal
         title="二级弹窗"
-        v-model:visible="visible13"
-        @ok="deleteUser">
+        v-model:visible="visible13">
         <h5>二级弹窗</h5>
         <bs-button type="primary" @click="visible14 = true">显示三级弹窗</bs-button>
         <bs-modal
           title="三级弹窗"
           size="lg"
-          v-model:visible="visible14"
-          @ok="deleteUser">
+          v-model:visible="visible14">
           <h5>三级弹窗</h5>
         </bs-modal>
       </bs-modal>
@@ -203,10 +200,15 @@ export default defineComponent({
         return;
       }
       canClose11.value = false;
-      let timer = setTimeout(function () {
-        clearTimeout(timer);
-        canClose11.value = true;
-      }, 3000);
+      return new Promise(function (resolve) {
+        let timer = setTimeout(function () {
+          clearTimeout(timer);
+          canClose11.value = true;
+          // 如果这里resolve(false)则弹窗不会主动关闭
+          // resolve(true);
+          resolve(true);
+        }, 3000);
+      });
     };
     return {
       visible,

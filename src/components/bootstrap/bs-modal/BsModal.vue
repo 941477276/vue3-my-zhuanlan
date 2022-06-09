@@ -54,12 +54,12 @@
               v-if="showFooter"
               class="modal-footer">
               <slot name="footer">
-                <BsButton data-dismiss="modal" aria-label="Close" @click="close">取消</BsButton>
+                <BsButton data-dismiss="modal" aria-label="Close" @click="close">{{ cancelText }}</BsButton>
                 <BsButton
                   type="primary"
                   :loading="!canClose"
                   :disabled="!canClose"
-                  @click="$emit('ok')">确定</BsButton>
+                  @click="onOKBtnClick">{{ okText }}</BsButton>
               </slot>
             </div>
           </div>
@@ -90,6 +90,7 @@ import { bsModalProps } from './props';
 import { useZIndex } from '@/hooks/useZIndex';
 import { useLockScroll } from '@/hooks/useLockScroll';
 import { useGlobalEvent } from '@/hooks/useGlobalEvent';
+import { util } from '@/common/util';
 
 let modalCount = 0;
 let modalIdQueue: string[] = [];
@@ -100,7 +101,7 @@ export default defineComponent({
     BsButton,
     BsMask
   },
-  emits: ['update:visible', 'open', 'close', 'ok'],
+  emits: ['update:visible', 'open', 'close'],
   setup (props: any, ctx: any) {
     let modalId = `bs_modal-${++modalCount}`;
     let rootRef = ref<HTMLElement|null>(null);
@@ -218,6 +219,30 @@ export default defineComponent({
       }
     };
 
+    let onOKBtnClick = function () {
+      let onOk = props.onOk;
+      if (typeof onOk === 'function') {
+        let result = onOk();
+        if (result === false) {
+          return;
+        }
+        if (util.isPromise(result)) {
+          result.then(function (canClose?: boolean) {
+            if (canClose === false) {
+              return;
+            }
+            // 延迟300毫秒再关闭吗，以让用户看到loading取消效果
+            let timer = setTimeout(function () {
+              clearTimeout(timer);
+              close();
+            }, 300);
+          });
+          return;
+        }
+      }
+      close();
+    };
+
     onMounted(function () {
       useGlobalEvent.addEvent('window', 'keydown', onESCKeydown);
     });
@@ -235,7 +260,8 @@ export default defineComponent({
 
       close,
       onRootElClick,
-      onLeave
+      onLeave,
+      onOKBtnClick
     };
   }
 });
