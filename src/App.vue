@@ -72,8 +72,11 @@
   <!--<div class="box">
     <BsSliderUsage></BsSliderUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsModalUsage></BsModalUsage>
+  </div>-->
+  <div class="box">
+    <BsDrawerUsage></BsDrawerUsage>
   </div>
 </template>
 
@@ -106,6 +109,7 @@ import BsPopperUsage from '@/components/bootstrap/bs-popper/BsPopperUsage.vue';
 import BsTooltipUsage from '@/components/bootstrap/bs-tooltip/BsTooltipUsage.vue';
 import BsSliderUsage from '@/components/bootstrap/bs-slider/BsSliderUsage.vue';
 import BsModalUsage from '@/components/bootstrap/bs-modal/BsModalUsage.vue';
+import BsDrawerUsage from '@/components/bootstrap/bs-drawer/BsDrawerUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -137,7 +141,8 @@ export default defineComponent({
     BsPopperUsage,
     BsTooltipUsage,
     BsSliderUsage,
-    BsModalUsage
+    BsModalUsage,
+    BsDrawerUsage
   },
   setup () {
     return {
