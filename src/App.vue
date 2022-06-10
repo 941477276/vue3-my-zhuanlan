@@ -72,12 +72,12 @@
   <!--<div class="box">
     <BsSliderUsage></BsSliderUsage>
   </div>-->
-  <!--<div class="box">
-    <BsModalUsage></BsModalUsage>
-  </div>-->
   <div class="box">
-    <BsDrawerUsage></BsDrawerUsage>
+    <BsModalUsage></BsModalUsage>
   </div>
+  <!--<div class="box">
+    <BsDrawerUsage></BsDrawerUsage>
+  </div>-->
 </template>
 
 <script lang="ts">

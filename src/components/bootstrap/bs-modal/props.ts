@@ -92,9 +92,9 @@ export const bsModalProps = {
     type: Boolean,
     default: true
   },
-  canClose: { // 是否允许关闭，若值为false，则任何方式都关闭不了，此功能可用于正在提交数据的场景
+  closeDisabled: { // 是否禁用关闭，若值为true，则任何方式都关闭不了，此功能可用于正在提交数据的场景
     type: Boolean,
-    default: true
+    default: false
   },
   onOk: { // 确认按钮点击事件
     type: Function,

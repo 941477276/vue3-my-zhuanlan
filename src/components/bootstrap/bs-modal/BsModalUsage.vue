@@ -133,7 +133,7 @@
     <bs-button type="primary" @click="visible11 = true">删除用户</bs-button>
     <bs-modal
       title="温馨提示"
-      :can-close="canClose11"
+      :closeDisabled="closeDisabled11"
       v-model:visible="visible11"
       :on-ok="deleteUser">
       <h5>确定要删除此用户吗？删除后将不可恢复！</h5>
@@ -205,16 +205,16 @@ export default defineComponent({
     let visible16 = ref(false);
     let draggable = ref(true);
 
-    let canClose11 = ref(true);
+    let closeDisabled11 = ref(false);
     let deleteUser = function () {
-      if (!canClose11.value) {
+      if (closeDisabled11.value) {
         return;
       }
-      canClose11.value = false;
+      closeDisabled11.value = true;
       return new Promise(function (resolve) {
         let timer = setTimeout(function () {
           clearTimeout(timer);
-          canClose11.value = true;
+          closeDisabled11.value = false;
           // 如果这里resolve(false)则弹窗不会主动关闭
           // resolve(true);
           resolve(true);
@@ -241,7 +241,7 @@ export default defineComponent({
       visible16,
       draggable,
 
-      canClose11,
+      closeDisabled11,
 
       deleteUser
     };

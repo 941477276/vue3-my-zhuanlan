@@ -58,8 +58,8 @@
                 <BsButton data-dismiss="modal" aria-label="Close" @click="close">{{ cancelText }}</BsButton>
                 <BsButton
                   type="primary"
-                  :loading="!canClose"
-                  :disabled="!canClose"
+                  :loading="closeDisabled"
+                  :disabled="closeDisabled"
                   @click="onOKBtnClick">{{ okText }}</BsButton>
               </slot>
             </div>
@@ -119,7 +119,7 @@ export default defineComponent({
     let maskVisible = ref(false);
 
     watch(() => props.visible, function (visible) {
-      if (!props.canClose && !visible) { // 当前不允许关闭
+      if (props.closeDisabled && !visible) { // 当前不允许关闭
         return;
       }
       if (visible) {
@@ -183,7 +183,7 @@ export default defineComponent({
 
     // 关闭弹窗
     let close = function () {
-      if (!props.canClose) {
+      if (props.closeDisabled) {
         return;
       }
       visibleInner.value = false;
