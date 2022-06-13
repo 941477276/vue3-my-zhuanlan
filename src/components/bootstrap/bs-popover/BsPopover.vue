@@ -1,5 +1,6 @@
 <template>
   <BsTooltip
+    ref="tooltipRef"
     v-bind="$props"
     :popperClass="['bs-popover popover', popperClass]"
     :pure="false"
@@ -10,6 +11,7 @@
       },
       popperStyle
     ]"
+    :hide-condition="canHide"
     @before-show="$emit('before-show')"
     @before-hide="$emit('before-hide')"
     @content-mouseenter="$emit('content-mouseenter')"
@@ -34,6 +36,7 @@
 <script lang="ts">
 import BsTooltip from '../bs-tooltip/BsTooltip.vue';
 import {
+  ref,
   defineComponent
 } from 'vue';
 import { bsPopperContentProps } from '../bs-popper/bs-popper-content-props';
@@ -66,11 +69,39 @@ export default defineComponent({
       type: Number,
       default: 200
     },
+    hideDisabled: { // 是否禁用隐藏
+      type: Boolean,
+      default: false
+    },
     ...bsPopperContentProps,
     ...bsTooltipContentProps,
     ...bsTooltipTriggerProps
   },
-  emits: ['before-show', 'before-hide', 'content-mouseenter', 'content-mouseleave', 'show', 'hide']
+  emits: ['before-show', 'before-hide', 'content-mouseenter', 'content-mouseleave', 'show', 'hide'],
+  setup (props: any, ctx: any) {
+    let tooltipRef = ref(null);
+    // 显示
+    let show = function () {
+      (tooltipRef.value as any).show();
+    };
+
+    // 隐藏
+    let hide = function () {
+      (tooltipRef.value as any).hide();
+    };
+
+    let canHide = function () {
+      return !props.hideDisabled;
+    };
+
+    return {
+      tooltipRef,
+
+      canHide,
+      show,
+      hide
+    };
+  }
 });
 </script>
 
