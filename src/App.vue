@@ -78,8 +78,11 @@
   <!--<div class="box">
     <BsDrawerUsage></BsDrawerUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsPopoverUsage></BsPopoverUsage>
+  </div>-->
+  <div class="box">
+    <BsSpinnerUsage></BsSpinnerUsage>
   </div>
 </template>
 
@@ -114,6 +117,7 @@ import BsSliderUsage from '@/components/bootstrap/bs-slider/BsSliderUsage.vue';
 import BsModalUsage from '@/components/bootstrap/bs-modal/BsModalUsage.vue';
 import BsDrawerUsage from '@/components/bootstrap/bs-drawer/BsDrawerUsage.vue';
 import BsPopoverUsage from '@/components/bootstrap/bs-popover/BsPopoverUsage.vue';
+import BsSpinnerUsage from '@/components/bootstrap/bs-spinner/BsSpinnerUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -147,7 +151,8 @@ export default defineComponent({
     BsSliderUsage,
     BsModalUsage,
     BsDrawerUsage,
-    BsPopoverUsage
+    BsPopoverUsage,
+    BsSpinnerUsage
   },
   setup () {
     return {
