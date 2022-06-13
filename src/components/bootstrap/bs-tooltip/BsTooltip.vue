@@ -67,6 +67,7 @@ import BsPopperArrow from '../bs-popper/BsPopperArrow.vue';
 import { bsPopperContentProps } from '../bs-popper/bs-popper-content-props';
 import { bsTooltipContentProps } from './bs-tooltip-content-props';
 import { bsTooltipTriggerProps } from './bs-tooltip-trigger-props';
+import { bsTooltipProps } from './bs-tooltip-props';
 import BsTooltipContent from './BsTooltipContent.vue';
 import BsTooltipTrigger from './BsTooltipTrigger.vue';
 
@@ -85,30 +86,7 @@ export default defineComponent({
     ...bsPopperContentProps,
     ...bsTooltipContentProps,
     ...bsTooltipTriggerProps,
-    showArrow: { // 是否显示三角箭头
-      type: Boolean,
-      default: true
-    },
-    arrowClass: { // 三角箭头的class
-      type: String,
-      default: ''
-    },
-    virtualTriggering: { // 是否由虚拟元素触发
-      type: Boolean,
-      default: false
-    },
-    virtualRef: { // 触发元素的ref
-      type: [String, Function, Object],
-      default: null
-    },
-    showDelay: { // 延迟出现，单位毫秒
-      type: Number,
-      default: 100
-    },
-    hideDelay: { // 延迟关闭，单位毫秒
-      type: Number,
-      default: 200
-    },
+    ...bsTooltipProps,
     pure: { // 是否为纯净的tooltip，如果是纯净的则会添加 bs-tooltip class类名
       type: Boolean,
       default: true

@@ -11,6 +11,7 @@
       },
       popperStyle
     ]"
+    :id="popoverId"
     :hide-condition="canHide"
     @before-show="$emit('before-show')"
     @before-hide="$emit('before-hide')"
@@ -42,43 +43,27 @@ import {
 import { bsPopperContentProps } from '../bs-popper/bs-popper-content-props';
 import { bsTooltipContentProps } from '../bs-tooltip/bs-tooltip-content-props';
 import { bsTooltipTriggerProps } from '../bs-tooltip/bs-tooltip-trigger-props';
+import { bsTooltipProps } from '../bs-tooltip/bs-tooltip-props';
 
+let popoverCount = 0;
 export default defineComponent({
   name: 'BsPopover',
   components: {
     BsTooltip
   },
   props: {
-    arrowClass: { // 三角箭头的class
-      type: String,
-      default: ''
-    },
-    virtualTriggering: { // 是否由虚拟元素触发
-      type: Boolean,
-      default: false
-    },
-    virtualRef: { // 触发元素的ref
-      type: [String, Function, Object],
-      default: null
-    },
-    showDelay: { // 延迟出现，单位毫秒
-      type: Number,
-      default: 100
-    },
-    hideDelay: { // 延迟关闭，单位毫秒
-      type: Number,
-      default: 200
-    },
     hideDisabled: { // 是否禁用隐藏
       type: Boolean,
       default: false
     },
     ...bsPopperContentProps,
     ...bsTooltipContentProps,
-    ...bsTooltipTriggerProps
+    ...bsTooltipTriggerProps,
+    ...bsTooltipProps
   },
   emits: ['before-show', 'before-hide', 'content-mouseenter', 'content-mouseleave', 'show', 'hide'],
   setup (props: any, ctx: any) {
+    let popoverId = ref(props.id || `bs_popover-${++popoverCount}`);
     let tooltipRef = ref(null);
     // 显示
     let show = function () {
@@ -95,6 +80,7 @@ export default defineComponent({
     };
 
     return {
+      popoverId,
       tooltipRef,
 
       canHide,
