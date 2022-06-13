@@ -116,6 +116,14 @@ export default defineComponent({
     themeClass: { // 自定义主题class
       type: String,
       default: ''
+    },
+    showCondition: { // 显示时的条件
+      type: Function,
+      default: null
+    },
+    hideCondition: { // 隐藏时的条件
+      type: Function,
+      default: null
     }
   },
   emits: ['before-show', 'before-hide', 'content-mouseenter', 'content-mouseleave', 'show', 'hide'],
@@ -148,6 +156,13 @@ export default defineComponent({
       if (props.disabled || isControlled.value) {
         return;
       }
+      let showCondition = props.showCondition;
+      if (typeof showCondition === 'function') {
+        let flag = showCondition();
+        if (flag === false) {
+          return;
+        }
+      }
       // 每次显示或隐藏时都清除两个定时器，这样当trigger类型为hover时就可以实现鼠标可以移入popper的效果
       clearTimeout(showTimer);
       clearTimeout(hideTimer);
@@ -160,6 +175,13 @@ export default defineComponent({
     let hide = function () {
       if (props.disabled || isControlled.value) {
         return;
+      }
+      let hideCondition = props.hideCondition;
+      if (typeof hideCondition === 'function') {
+        let flag = hideCondition();
+        if (flag === false) {
+          return;
+        }
       }
       clearTimeout(hideTimer);
       clearTimeout(showTimer);
