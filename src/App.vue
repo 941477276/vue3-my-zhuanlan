@@ -81,8 +81,11 @@
   <!--<div class="box">
     <BsPopoverUsage></BsPopoverUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsSpinnerUsage></BsSpinnerUsage>
+  </div>-->
+  <div class="box">
+    <BsPopConfirmUsage></BsPopConfirmUsage>
   </div>
 </template>
 
@@ -118,6 +121,7 @@ import BsModalUsage from '@/components/bootstrap/bs-modal/BsModalUsage.vue';
 import BsDrawerUsage from '@/components/bootstrap/bs-drawer/BsDrawerUsage.vue';
 import BsPopoverUsage from '@/components/bootstrap/bs-popover/BsPopoverUsage.vue';
 import BsSpinnerUsage from '@/components/bootstrap/bs-spinner/BsSpinnerUsage.vue';
+import BsPopConfirmUsage from '@/components/bootstrap/bs-pop-confirm/BsPopConfirmUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -152,7 +156,8 @@ export default defineComponent({
     BsModalUsage,
     BsDrawerUsage,
     BsPopoverUsage,
-    BsSpinnerUsage
+    BsSpinnerUsage,
+    BsPopConfirmUsage
   },
   setup () {
     return {

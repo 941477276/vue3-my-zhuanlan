@@ -140,7 +140,7 @@ export default defineComponent({
 }
 .bs-button{
   & + .bs-button{
-    margin-left: 1rem;
+    margin-left: 0.625rem;
   }
 }
 </style>
