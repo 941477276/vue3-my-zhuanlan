@@ -23,6 +23,7 @@ import BsTooltip from '@/components/bootstrap/bs-tooltip';
 import BsSlider from '@/components/bootstrap/bs-slider';
 import BsModal from '@/components/bootstrap/bs-modal';
 import BsDrawer from '@/components/bootstrap/bs-drawer';
+import BsPopover from '@/components/bootstrap/bs-popover';
 
 export default function (vueApp: any) {
   vueApp.component(BsButton.name, BsButton);
@@ -51,4 +52,5 @@ export default function (vueApp: any) {
   vueApp.use(BsSlider);
   vueApp.use(BsModal);
   vueApp.use(BsDrawer);
+  vueApp.use(BsPopover);
 }

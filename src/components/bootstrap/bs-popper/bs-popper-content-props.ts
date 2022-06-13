@@ -52,5 +52,17 @@ export const bsPopperContentProps = {
     default () {
       return {};
     }
+  },
+  title: {
+    type: [String, Number, Boolean],
+    default: ''
+  },
+  width: { // 最大宽度
+    type: [String, Number],
+    default: ''
+  },
+  showTitle: { // 是否显示标题
+    type: Boolean,
+    default: true
   }
 };

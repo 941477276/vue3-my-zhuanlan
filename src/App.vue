@@ -72,12 +72,15 @@
   <!--<div class="box">
     <BsSliderUsage></BsSliderUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsModalUsage></BsModalUsage>
-  </div>
+  </div>-->
   <!--<div class="box">
     <BsDrawerUsage></BsDrawerUsage>
   </div>-->
+  <div class="box">
+    <BsPopoverUsage></BsPopoverUsage>
+  </div>
 </template>
 
 <script lang="ts">
@@ -110,6 +113,7 @@ import BsTooltipUsage from '@/components/bootstrap/bs-tooltip/BsTooltipUsage.vue
 import BsSliderUsage from '@/components/bootstrap/bs-slider/BsSliderUsage.vue';
 import BsModalUsage from '@/components/bootstrap/bs-modal/BsModalUsage.vue';
 import BsDrawerUsage from '@/components/bootstrap/bs-drawer/BsDrawerUsage.vue';
+import BsPopoverUsage from '@/components/bootstrap/bs-popover/BsPopoverUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -142,7 +146,8 @@ export default defineComponent({
     BsTooltipUsage,
     BsSliderUsage,
     BsModalUsage,
-    BsDrawerUsage
+    BsDrawerUsage,
+    BsPopoverUsage
   },
   setup () {
     return {
