@@ -26,6 +26,7 @@ import BsDrawer from '@/components/bootstrap/bs-drawer';
 import BsPopover from '@/components/bootstrap/bs-popover';
 import BsSpinner from '@/components/bootstrap/bs-spinner';
 import BsPopConfirm from '@/components/bootstrap/bs-pop-confirm';
+import BsCollapse from '@/components/bootstrap/bs-collapse';
 
 export default function (vueApp: any) {
   vueApp.component(BsButton.name, BsButton);
@@ -57,4 +58,5 @@ export default function (vueApp: any) {
   vueApp.use(BsPopover);
   vueApp.use(BsSpinner);
   vueApp.use(BsPopConfirm);
+  vueApp.use(BsCollapse);
 }
