@@ -10,7 +10,6 @@
         ref="popperContentComRef"
         v-if="display"
         v-show="visible"
-        v-bind="$attrs"
         :placement="placement"
         :visible="visible"
         :arrow-offset="arrowOffset"
@@ -60,6 +59,7 @@ export default defineComponent({
     ...bsPopperContentProps,
     ...bsTooltipContentProps
   },
+  inheritAttrs: false,
   setup (props: any) {
     let destroyed = ref(false);
     let popperContentComRef = ref(null);
