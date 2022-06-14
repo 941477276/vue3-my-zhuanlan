@@ -1,39 +1,73 @@
 <template>
-  <div class="bs-collapse-item">
+  <div
+    class="bs-collapse-item"
+    :class="{
+        'is-active': isExpanded2,
+        'is-disabled': disabled
+      }"
+    :data-id="collapseItemId">
     <div
+      ref="headerRef"
       class="bs-collapse-item-header"
       :class="{
-        'arrow-left': arrowLeft,
-        'is-active': true,
-        'is-disabled': disabled
+        'arrow-left': arrowLeft
       }"
       role="tab"
       tabindex="0"
-      aria-expanded="false">
+      :aria-expanded="isExpanded2"
+      @click="onHeaderClick">
       <span v-if="showArrow && arrowLeft" class="bs-collapse-header-arrow">
         <BsIcon name="chevron-right"></BsIcon>
       </span>
-      <div class="bs-collapse-item-header-text">Html</div>
+      <slot name="title">{{ title }}</slot>
       <span v-if="showArrow && !arrowLeft" class="bs-collapse-header-arrow">
         <BsIcon name="chevron-right"></BsIcon>
       </span>
     </div>
-    <div class="bs-collapse-item-body"></div>
+    <BsCollapseTransition v-if="rendered">
+      <div
+        v-show="isExpanded2"
+        class="bs-collapse-item-body">
+        <div class="bs-collapse-item-content">
+          <slot></slot>
+        </div>
+      </div>
+    </BsCollapseTransition>
   </div>
 </template>
 
 <script lang="ts">
 import {
-  defineComponent
+  ref,
+  defineComponent,
+  nextTick,
+  inject,
+  computed,
+  watch
 } from 'vue';
 import BsIcon from '../../bs-icon/BsIcon.vue';
+import BsCollapseTransition from '../../bs-collapse-transition/BsCollapseTransition.vue';
+import {
+  bsCollapseContextKey,
+  CollapseContext
+} from '@/ts-tokens/bootstrap/collapse';
 
+let collapseItemCount = 0;
 export default defineComponent({
   name: 'BsCollapseItem',
   components: {
-    BsIcon
+    BsIcon,
+    BsCollapseTransition
   },
   props: {
+    title: { // 标题
+      type: [String, Number],
+      default: ''
+    },
+    name: { // 唯一标志符
+      type: [String, Number],
+      default: ''
+    },
     disabled: {
       type: Boolean,
       default: false
@@ -46,40 +80,64 @@ export default defineComponent({
       type: Boolean,
       default: false
     }
+  },
+  setup (props: any, ctx: any) {
+    let countId = collapseItemCount++;
+    let collapseItemId = ref(`bs_collapse_item-${countId}`);
+    let headerRef = ref<HTMLElement|null>(null);
+    // let isExpanded = ref(false); // 是否为展开
+    let isExpanded2 = ref(false);
+    let rendered = ref(false); // 是否已经渲染body
+
+    // 折叠面板父级组件上下文
+    let collapseCtx: CollapseContext = inject<CollapseContext>(bsCollapseContextKey)!;
+
+    let nameOrCountId = computed(function () {
+      let propsName = props.name;
+      if ((typeof propsName !== 'string' && typeof propsName !== 'number') || (propsName + '').length == 0) {
+        return countId;
+      }
+      return propsName;
+    });
+
+    watch(collapseCtx?.activeNames, function (activeNames) {
+      let flag = (activeNames || []).includes(nameOrCountId.value);
+      // console.log('activeNames', activeNames, flag);
+      if (flag) {
+        if (!rendered.value) {
+          rendered.value = true;
+          nextTick(function () {
+            isExpanded2.value = true;
+          });
+          return;
+        }
+        // console.log('isExpanded2的值为true');
+        isExpanded2.value = true;
+        return;
+      }
+      isExpanded2.value = false;
+    }, { immediate: true, deep: true });
+
+    let onHeaderClick = function (evt: Event) {
+      if (props.disabled) {
+        return;
+      }
+      collapseCtx?.handleItemChange(!isExpanded2.value, nameOrCountId.value);
+    };
+
+    return {
+      headerRef,
+      collapseItemId,
+      // isExpanded,
+      isExpanded2,
+      rendered,
+
+      onHeaderClick
+    };
   }
 });
 </script>
 
 <style lang="scss">
-.bs-collapse-item-header{
-  display: flex;
-  padding: 0.625rem 0;
-  cursor: pointer;
-  color: #333;
-  transition: box-shadow .15s ease-in-out;
-  background-color: #f0f0f0;
-  &.arrow-left{
-    .bs-collapse-header-arrow{
-      margin-left: 0;
-      margin-right: 0.5rem;
-    }
-  }
-  &.is-disabled{
-    cursor: not-allowed;
-    color: rgba(0,0,0,0.5);
-  }
-  &.is-active{
-    .bs-collapse-header-arrow{
-      transform: rotate(90deg);
-    }
-  }
-  &:focus{
-    outline: transparent;
-    box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
-  }
-}
-.bs-collapse-header-arrow{
-  margin-left: auto;
-  transition: transform .3s;
-}
+@import "bs-collapse-item";
 </style>
