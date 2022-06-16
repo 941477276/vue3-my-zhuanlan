@@ -51,15 +51,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style lang="scss">
-.dropdown{
-  display: inline-block;
-  vertical-align: middle;
-  &.is-disabled{
-    opacity: 0.65;
-    cursor: default;
-    pointer-events: none;
-  }
-}
-</style>

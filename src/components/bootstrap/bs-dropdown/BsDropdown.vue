@@ -6,10 +6,11 @@
     <BsOnlyChild>
       <slot></slot>
     </BsOnlyChild>
-    <teleport to="body">
+    <teleport :disabled="!teleported" :to="appendTo">
       <transition
         name="slide"
         @before-enter="transitionLeaveDone = false"
+        @enter="onEnter"
         @after-leave="transitionLeaveDone = true">
         <div
           v-if="display"
@@ -26,8 +27,8 @@
             top: dropdownMenuStyle.top + 'px',
             zIndex: dropdownMenuStyle.zIndex
           }"
-          @mouseenter="onDropdownMouseenter"
-          @mouseleave="onDropdownMouseleave">
+          @mouseenter="onMouseEnter"
+          @mouseleave="onMouseLeave">
           <slot name="dropdown-content"></slot>
         </div>
       </transition>
@@ -52,8 +53,8 @@ import BsOnlyChild from '../bs-slot/BsOnlyChild.vue';
 import { util } from '@/common/util';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import {
-  BsPlacement
-} from '@/ts-tokens/bootstrap';
+  bsDropdownProps
+} from './props';
 import {
   useZIndex
 } from '@/hooks/useZIndex';
@@ -66,8 +67,7 @@ import {
 
 // 下来菜单显示方向
 type directions = 'bottom' | 'top' | 'left' | 'right';
-// 触发类型
-type triggers = 'click' | 'hover';
+
 interface CalcDirection {
   left: number,
   top: number,
@@ -82,42 +82,7 @@ export default defineComponent({
     BsOnlyChild
   },
   props: {
-    placement: { // 显示方向
-      type: String as PropType<BsPlacement>,
-      default: 'bottom'
-    },
-    tryReverseDirection: { // 当在props.direction方向不能完全显示时，是否尝试反方向显示
-      type: Boolean,
-      default: true
-    },
-    tryAllDirection: { // 当在props.direction方向不能完全显示时，是否尝试所有方向显示
-      type: Boolean,
-      default: false
-    },
-    trigger: { // 触发下拉菜单显示的事件
-      type: String as PropType<triggers>,
-      default: 'hover'
-    },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    lazy: { // 是否延迟渲染
-      type: Boolean,
-      default: true
-    },
-    addDropdownToggleClass: { // 是否给触发下拉菜单元素添加 dropdown-toggle 类名
-      type: Boolean,
-      default: true
-    },
-    destroyDropdownMenuOnHide: { // 隐藏时是否销毁 dropdown-menu
-      type: Boolean,
-      default: false
-    },
-    dropdownMenuClass: { // .dropdown-menu的额外class
-      type: String,
-      default: ''
-    }
+    ...bsDropdownProps
   },
   emits: ['show', 'hide'],
   setup (props: any, ctx: any) {
@@ -133,7 +98,7 @@ export default defineComponent({
       position: 'absolute',
       left: 0,
       top: 0,
-      zIndex: 1000
+      zIndex: ''
     });
     let toggleEl: HTMLElement|null; // 触发下拉菜单显示/隐藏的dom元素
 
@@ -177,20 +142,18 @@ export default defineComponent({
           loaded.value = true;
         }
         visible.value = true;
-        dropdownMenuStyle.zIndex = nextZIndex();
+        if (props.teleported && props.appendTo === 'body') {
+          dropdownMenuStyle.zIndex = nextZIndex() + '';
+        }
 
-        let toggleElIsInFixedContainer = util.isInFixedParents(toggleEl);
-        if (toggleElIsInFixedContainer) {
+        let toggleElIsInFixedContainer = util.eleIsInFixedParents(toggleEl);
+        if (toggleElIsInFixedContainer && props.teleported) {
           dropdownMenuStyle.position = 'fixed';
         } else {
           dropdownMenuStyle.position = 'absolute';
         }
 
-        nextTick(() => {
-          calcDirection();
-
-          ctx.emit('show');
-        });
+        ctx.emit('show');
       }, props.trigger == 'click' ? 0 : 150);
     };
     // 隐藏
@@ -229,6 +192,19 @@ export default defineComponent({
       hide();
     };
 
+    /* let onDropdownMouseenter = function () {
+      if (props.disabled || props.trigger !== 'hover') {
+        return;
+      }
+      show();
+    };
+    let onDropdownMouseleave = function () {
+      if (props.disabled || props.trigger !== 'hover') {
+        return;
+      }
+      hide();
+    }; */
+
     let resizeTimer = 0;
     let resizeEventName = 'orientationchange' in window ? 'orientationchange' : 'resize';
     // 浏览器窗口大小改变事件
@@ -238,7 +214,7 @@ export default defineComponent({
         return;
       }
       if (resizeTimer == 0 || now - resizeTimer >= 200) {
-        calcDirection();
+        // calcDirection();
         resizeTimer = now;
       }
     };
@@ -251,22 +227,9 @@ export default defineComponent({
       }
       let now = new Date().getTime();
       if (scrollTimer == 0 || now - scrollTimer >= 125) {
-        calcDirection();
+        // calcDirection();
         scrollTimer = now;
       }
-    };
-
-    let onDropdownMouseenter = function () {
-      if (props.disabled || props.trigger !== 'hover') {
-        return;
-      }
-      show();
-    };
-    let onDropdownMouseleave = function () {
-      if (props.disabled || props.trigger !== 'hover') {
-        return;
-      }
-      hide();
     };
 
     let stopWatchClickOutside = watch(isClickOutside, (newVal: Ref) => {
@@ -275,6 +238,20 @@ export default defineComponent({
         hide();
       }
     });
+
+    let onEnter = function (el:HTMLElement, done: () => void) {
+      console.log('onEnter执行了');
+      calcDirection();
+      let onTransitionDone = function () {
+        done();
+        // console.log('leave onTransitionDone');
+        el.removeEventListener('transitionend', onTransitionDone, false);
+        el.removeEventListener('transitioncancel', onTransitionDone, false);
+      };
+      // 绑定元素的transition完成事件，在transition完成后立即完成vue的过度动效
+      el.addEventListener('transitionend', onTransitionDone, false);
+      el.addEventListener('transitioncancel', onTransitionDone, false);
+    };
 
     let stopWatchTriggerRef: () => void;
     onMounted(() => {
@@ -314,8 +291,11 @@ export default defineComponent({
 
       hide,
       show,
-      onDropdownMouseenter,
-      onDropdownMouseleave
+      onMouseEnter,
+      onMouseLeave,
+      // onDropdownMouseenter,
+      // onDropdownMouseleave,
+      onEnter
     };
   }
 });

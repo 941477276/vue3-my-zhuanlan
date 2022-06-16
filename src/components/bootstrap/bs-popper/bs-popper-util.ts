@@ -3,7 +3,7 @@ import { util } from '@/common/util';
 
 export function buildPopperOptions (props: any, triggerEl: Element): PopperOptions {
   let popperOptions = props.popperOptions || {};
-  let triggerInFixedContainer = util.isInFixedParents(triggerEl);
+  let triggerInFixedContainer = util.eleIsInFixedParents(triggerEl);
   // let offset = props.offset || [];
   let options = {
     placement: props.placement,

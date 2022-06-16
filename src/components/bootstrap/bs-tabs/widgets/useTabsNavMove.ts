@@ -68,7 +68,7 @@ export function useTabsNavMove (props: any, navScrollerRef: Ref<HTMLElement|null
       return;
     }
     // 判断元素在父容器中是否完全可见
-    let elIsFullView = util.eleInParentFullView(tabEl, navScrollerRef.value as HTMLElement, -tabsNavTranslate.x, -tabsNavTranslate.y);
+    let elIsFullView = util.eleIsInParentView(tabEl, navScrollerRef.value as HTMLElement, -tabsNavTranslate.x, -tabsNavTranslate.y);
     let tabPositionIsHorizontal = props.tabPosition === 'top' || props.tabPosition === 'bottom';
     // console.log('tabEl', tabEl, elIsFullView, tabEl.offsetLeft, props.tabPosition);
 
