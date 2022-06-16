@@ -17,9 +17,9 @@
   <!--<div class="box">
     <BsCheckboxGroupUsage></BsCheckboxGroupUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsSelectUsage></BsSelectUsage>
-  </div>
+  </div>-->
   <!--<div class="box">
     <BsFormUsage></BsFormUsage>
   </div>-->
@@ -90,6 +90,9 @@
   <!--<div class="box">
     <BsCollapseUsage></BsCollapseUsage>
   </div>-->
+  <div class="box">
+    <BsTreeUsage></BsTreeUsage>
+  </div>
 </template>
 
 <script lang="ts">
@@ -126,6 +129,7 @@ import BsPopoverUsage from '@/components/bootstrap/bs-popover/BsPopoverUsage.vue
 import BsSpinnerUsage from '@/components/bootstrap/bs-spinner/BsSpinnerUsage.vue';
 import BsPopConfirmUsage from '@/components/bootstrap/bs-pop-confirm/BsPopConfirmUsage.vue';
 import BsCollapseUsage from '@/components/bootstrap/bs-collapse/BsCollapseUsage.vue';
+import BsTreeUsage from '@/components/bootstrap/bs-tree/BsTreeUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -162,7 +166,8 @@ export default defineComponent({
     BsPopoverUsage,
     BsSpinnerUsage,
     BsPopConfirmUsage,
-    BsCollapseUsage
+    BsCollapseUsage,
+    BsTreeUsage
   },
   setup () {
     return {
