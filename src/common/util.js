@@ -1168,7 +1168,7 @@ var tool = {
         let inScrollParentView = result.scrollParentVertical && result.scrollParentHorizontal;
 
         let flag = allInView ? (inView && inScrollParentView) : (inView || inScrollParentView);
-        // console.log('tryReverse', flag, inView, inScrollParentView, result);
+        console.log('tryReverse', flag, inView, inScrollParentView, result);
 
         if (flag) {
           calcedDirection = result;
@@ -1178,7 +1178,7 @@ var tool = {
       }
 
       if (inView) {
-        // console.log('inView111, inScrollParentView', inView, inScrollParentView, result);
+        console.log('inView111, inScrollParentView', inView, inScrollParentView, result);
         if (!inScrollParentView) {
           let flag = tryReverse(true);
           if (flag) {
@@ -1189,7 +1189,7 @@ var tool = {
         calcedDirection = result;
         return true;
       } else {
-        // console.log('inView222, inScrollParentView', inView, inScrollParentView, result);
+        console.log('inView222, inScrollParentView', inView, inScrollParentView, result);
 
         return tryReverse(true);
       }
@@ -1253,8 +1253,10 @@ var tool = {
       return tool.eleHasScroll(ele);
     }
     return {
-      vertical: document.body.offsetWidth < window.innerWidth,
-      horizontal: document.documentElement.clientHeight < window.innerHeight
+      // vertical: document.body.offsetWidth < window.innerWidth,
+      // horizontal: document.documentElement.clientHeight < window.innerHeight
+      vertical: document.body.scrollHeight > window.innerHeight,
+      horizontal: document.body.scrollWidth > window.innerWidth
     };
   }
 };
