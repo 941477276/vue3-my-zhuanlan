@@ -41,8 +41,10 @@
     </bs-input>
     <!-- 这里不能使用延迟渲染的方案，因为这会导致子组件也延迟渲染，从而导致上面的<select>标签不能在组件渲染时就生成
       <teleport to="body" v-if="dropdownDisplayed">-->
-    <teleport to="body">
-      <transition name="slide">
+    <teleport :disabled="!teleported" :to="appendTo">
+      <transition
+        name="slide"
+        @enter="onEnter">
         <ul
           v-show="dropdownVisible"
           ref="bsSelectDropdownRef"
@@ -93,6 +95,7 @@ import {
 } from '@/ts-tokens/bootstrap/select';
 import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
 import BsInput from '../bs-input/BsInput.vue';
+import { bsSelectProps } from './props';
 
 let selectCount = 0;
 export default defineComponent({
@@ -101,73 +104,7 @@ export default defineComponent({
     BsInput
   },
   props: {
-    modelValue: {
-      type: [String, Number, Array],
-      default: ''
-    },
-    value: {
-      type: [String, Number],
-      default: ''
-    },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    loading: { // 是否正在加载数据
-      type: Boolean,
-      default: false
-    },
-    loadingText: { // 正在加载数据时的提示文字
-      type: String,
-      default: '加载中...'
-    },
-    multiple: { // 是否支持多选
-      type: Boolean,
-      default: false
-    },
-    multipleLimit: { // 可被选择的最大数量
-      type: Number,
-      default: undefined
-    },
-    clearable: { // 是否可以清空内容
-      type: Boolean,
-      default: false
-    },
-    deliveContextToFormItem: { // 是否向form-item组件传递上下文信息
-      type: Boolean,
-      default: true
-    },
-    size: { // 输入框大小
-      type: String as PropType<BsSize>,
-      default: ''
-    },
-    id: {
-      type: String,
-      default: '',
-      validator (idVal: string) {
-        if (typeof idVal !== 'string' || /^\d+/.test(idVal)) {
-          console.warn('id必须为字符串类型，且不能以数字开头');
-          return false;
-        }
-        return true;
-      }
-    },
-    placeholder: {
-      type: String,
-      default: '请选择'
-    },
-    name: { // input原生的name属性
-      type: String,
-      default: null
-    },
-    ariaLabel: { // area-label属性值
-      type: String,
-      default: ''
-    },
-    noDataText: { // 下拉列表为空时显示的文字，也可以使用slot="empty"设置
-      type: String,
-      default: '无数据'
-    }
+    ...bsSelectProps
   },
   emits: ['update:modelValue', 'change', 'selectLimit'],
   setup (props: any, ctx: any) {
@@ -199,35 +136,10 @@ export default defineComponent({
      * 显示下拉菜单
      */
     let dropdownShow = function () {
-      let doShow = function () {
-        dropdownVisible.value = true;
-        nextTick(function () {
-          let bsSelectRect = (bsSelectRef.value as HTMLElement).getBoundingClientRect();
-          let bsSelectDropdownEl = bsSelectDropdownRef.value as HTMLElement;
-          bsSelectDropdownEl.style.width = bsSelectRect.width + 'px';
-
-          let displayDirection: any = util.calcAbsoluteElementDisplayDirection(bsSelectRef.value, bsSelectDropdownEl, 'bottom', false);
-          // console.log('displayDirection', displayDirection);
-          dropdownDisplayDirection.value = displayDirection.direction;
-          bsSelectDropdownEl.style.top = displayDirection.top + 'px';
-          bsSelectDropdownEl.style.left = displayDirection.left + 'px';
-        });
-      };
       if (props.disabled) {
         return;
       }
-      /* if (!dropdownDisplayed.value) {
-        console.log('dropdownShow 1');
-        dropdownDisplayed.value = true;
-        let timer = setTimeout(function () {
-          clearTimeout(timer);
-          doShow();
-        }, 0);
-      } else {
-        console.log('dropdownShow 2');
-        doShow();
-      } */
-      doShow();
+      dropdownVisible.value = true;
     };
     /**
      * 隐藏下拉菜单
@@ -325,6 +237,28 @@ export default defineComponent({
       }
     };
 
+    let onEnter = function (el:HTMLElement, done: () => void) {
+      console.log('onEnter执行了');
+      let bsSelectRect = (bsSelectRef.value as HTMLElement).getBoundingClientRect();
+      // let bsSelectDropdownEl = bsSelectDropdownRef.value as HTMLElement;
+
+      let displayDirection: any = util.calcAbsoluteElementDisplayDirection(bsSelectRef.value, el, 'bottom', false);
+      dropdownDisplayDirection.value = displayDirection.direction;
+      el.style.width = bsSelectRect.width + 'px';
+      el.style.top = displayDirection.top + 'px';
+      el.style.left = displayDirection.left + 'px';
+
+      let onTransitionDone = function () {
+        done();
+        // console.log('leave onTransitionDone');
+        el.removeEventListener('transitionend', onTransitionDone, false);
+        el.removeEventListener('transitioncancel', onTransitionDone, false);
+      };
+      // 绑定元素的transition完成事件，在transition完成后立即完成vue的过度动效
+      el.addEventListener('transitionend', onTransitionDone, false);
+      el.addEventListener('transitioncancel', onTransitionDone, false);
+    };
+
     let viewText = computed(function () {
       let modelValue = Array.isArray(props.modelValue) ? props.modelValue : [props.modelValue];
       let selectedOptionLabels = options.value.filter(function (option: SelectOptionItem) {
@@ -400,6 +334,7 @@ export default defineComponent({
 
       onSelectRootClick,
       onInputClear,
+      onEnter,
       dropdownShow,
       dropdownHide
     };

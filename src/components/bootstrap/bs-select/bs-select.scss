@@ -1,5 +1,6 @@
 @import "../../../scss/slide-transition.mixin";
 .bs-select{
+  position: relative;
   display: inline-block;
   vertical-align: middle;
   width: 100%;
@@ -35,7 +36,7 @@
 .bs-select-dropdown{
   position: absolute;
   //top: -100%;
-  display: none;
+  //display: none;
   z-index: 2222;
   max-height: 280px;
   border: 1px solid #e4e7eb;
