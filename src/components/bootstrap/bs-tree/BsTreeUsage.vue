@@ -3,7 +3,7 @@
     <div class="container">
       <div>
         <h3>基本使用</h3>
-        <bs-tree :tree-data="treeData1" node-key="id" :defaultExpandedKeys="['2', '2_1', '3']">
+        <bs-tree :tree-data="treeData1" node-key="id" :defaultExpandedKeys="['2_1', '3']">
           <template #default="{data}">
             <strong>
               {{ data.label }}
@@ -55,6 +55,26 @@ export default defineComponent({
           label: '三级 2-2-1',
           id: '2_2_1'
         }]
+      },
+      {
+        label: '二级 2-4',
+        id: '2_4'
+      },
+      {
+        label: '二级 2-5',
+        id: '2_5'
+      },
+      {
+        label: '二级 2-6',
+        id: '2_6'
+      },
+      {
+        label: '二级 2-7',
+        id: '2_7'
+      },
+      {
+        label: '二级 2-8',
+        id: '2_8'
       }]
     }, {
       label: '一级 3',

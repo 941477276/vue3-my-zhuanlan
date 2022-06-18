@@ -3,6 +3,14 @@ export const bsTreeNodeProps = {
     type: Number,
     default: 1
   },
+  nodeLeavePath: { // 节点层级路径
+    type: String,
+    default: ''
+  },
+  parentNodeLeavePath: { // 父级节点层级路径
+    type: String,
+    default: ''
+  },
   nodeData: { // 节点数据
     type: Object,
     default () {

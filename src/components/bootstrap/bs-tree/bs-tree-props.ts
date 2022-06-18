@@ -66,5 +66,17 @@ export const bsTreeProps = {
   loadData: { // 异步加载节点数据函数
     type: Function,
     default: null
+  },
+  pageSize: { // 子节点分页显示数量，值为0表示不使用分页
+    type: Number,
+    default: 2
+  },
+  loadMoreChildButtonText: {
+    type: String,
+    default: '...显示更多'
+  },
+  loadAllChildButtonText: {
+    type: String,
+    default: '显示全部'
   }
 };

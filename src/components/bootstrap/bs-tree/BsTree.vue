@@ -1,7 +1,7 @@
 <template>
   <div class="bs-tree" role="tree">
     <BsTreeNode
-      v-for="nodeItem in treeData"
+      v-for="(nodeItem, index) in treeData"
       v-bind="$props"
       :node-data="nodeItem"
       :key="nodeItem[nodeKey]"
@@ -9,7 +9,8 @@
       :label-key="props.label"
       :disabled-key="props.disabled"
       :children-key="props.children"
-      :is-leaf-key="props.isLeaf"></BsTreeNode>
+      :is-leaf-key="props.isLeaf"
+      :node-leave-path="`${index + 1}`"></BsTreeNode>
     <div class="bs-tree-empty" v-if="false">
       <slot name="empty">{{ emptyText }}</slot>
     </div>

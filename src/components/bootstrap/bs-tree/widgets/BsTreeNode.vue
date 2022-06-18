@@ -2,15 +2,13 @@
   <div
     class="bs-tree-node"
     :class="{
-      'is-expanded': isExpand
+      'is-expanded': isExpand,
+      'is-tree-branch': !isLeaf,
+      'is-tree-leaf': isLeaf
     }"
     :data-node-leave="nodeLeave">
     <div
       class="bs-tree-node-content"
-      :class="{
-        'is-tree-branch': !isLeaf,
-        'is-tree-leaf': isLeaf
-      }"
       @click="onNodeClick">
       <span class="bs-tree-node-indent" aria-hidden="true">
         <template v-if="(nodeLeave - 1) > 0">
@@ -27,7 +25,7 @@
           'bs-tree-node-switcher-noop': isLeaf,
           'bs-tree-node-switcher-open': isExpand
         }"
-        @click.stop="toggleExpand">
+        @click.stop="toggleExpand()">
         <!--<slot name="switcher-icon" :data="nodeData" :node="{}">
           <i class="bs-tree-node-switcher-arrow" role="img">
             <svg class="switcher-arrow-svg" viewBox="0 0 1024 1024" fill="currentColor" version="1.1" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"><path d="M511.999488 819.413462 72.8374 204.586538 951.1626 204.586538Z"></path></svg>
@@ -49,13 +47,43 @@
       <div
         v-show="isExpand"
         class="bs-tree-node-children">
-        <template v-if="nodeData[childrenKey] && nodeData[childrenKey]?.length > 0">
+        <template v-if="nodeChildren.length > 0">
           <BsTreeNode
-            v-for="childNode in nodeData[childrenKey]"
+            v-for="(childNode, index) in nodeChildren"
             v-bind="$props"
             :key="childNode[nodeKey]"
             :node-leave="nodeLeave + 1"
-            :node-data="childNode"></BsTreeNode>
+            :node-data="childNode"
+            :node-leave-path="`${nodeLeavePath}_${index + 1}`"
+            :parent-node-leave-path="nodeLeavePath"
+            @expand="onChildExpand"></BsTreeNode>
+          <div
+            v-if="pageSize > 0 && totalPage > 0"
+            class="bs-tree-node-children-operate"
+            :class="{
+              'is-disabled': pageCount >= totalPage
+            }">
+            <span class="bs-tree-node-indent" aria-hidden="true">
+              <template v-if="(nodeLeave) > 0">
+                <span
+                  class="bs-tree-node-indent-item"
+                  v-for="item in (nodeLeave)"
+                  :key="`indent_item2-${item}`"></span>
+              </template>
+            </span>
+            <span
+              role="button"
+              class="bs-tree-node-switcher bs-tree-node-switcher-noop">
+              <BsTreeNodeSwitcherIcon :node-data="nodeData" :node="{}"></BsTreeNodeSwitcherIcon>
+            </span>
+            <span
+              class="bs-tree-node-loadmore"
+              @click="showMoreChildNode">{{ loadMoreChildButtonText }}</span>
+            <i class="tree-node-split-line">/</i>
+            <span
+              class="bs-tree-node-loadmore"
+              @click="showAllChildNode">{{ loadAllChildButtonText }}</span>
+          </div>
         </template>
       </div>
     </BsCollapseTransition>
@@ -95,6 +123,7 @@ export default defineComponent({
     ...bsTreeNodeProps
   },
   inheritAttrs: false,
+  emit: ['node-expand'],
   setup (props: any, ctx:any) {
     // 判断当前节点是否为叶子节点
     let isLeaf = computed(function () {
@@ -112,41 +141,87 @@ export default defineComponent({
     });
 
     // 节点是否展开
-    let isExpand = ref(false);
+    let isExpand = ref(props.defaultExpandAll || false);
     let isManualExpanded = ref(false); // 是否为手动展开的
-    let isChildrenRendered = ref(false); // 子节点是否已经渲染
-    let toggleExpand = function () {
-      isManualExpanded.value = true;
-      if (isExpand.value) {
+    let isChildrenRendered = ref(!props.renderAfterExpand || props.defaultExpandAll); // 子节点是否已经渲染
+    let toggleExpand = function (expanded?: boolean|undefined, isManual = true) {
+      if (isLeaf.value) {
+        return;
+      }
+      isManualExpanded.value = !!isManual;
+      expanded = typeof expanded == 'boolean' ? expanded : !isExpand.value;
+      if (!expanded) {
         isExpand.value = false;
+        ctx.emit('node-expand', false);
       } else {
         if (!isChildrenRendered.value) {
           isChildrenRendered.value = true;
           nextTick(function () {
             isExpand.value = true;
+            ctx.emit('node-expand', true);
           });
         } else {
           isExpand.value = true;
+          ctx.emit('node-expand', true);
         }
       }
     };
     watch(() => props.defaultExpandedKeys, function (defaultExpandedKeys) {
       let nodeKey = nodeValue.value;
       if (defaultExpandedKeys?.includes(nodeKey)) {
-        if (!isChildrenRendered.value) {
+        /* if (!isChildrenRendered.value) {
           isChildrenRendered.value = true;
           nextTick(function () {
             isExpand.value = true;
           });
         } else {
           isExpand.value = true;
-        }
+        } */
+        toggleExpand(true, false);
       } else {
         if (isExpand.value && !isManualExpanded.value) {
-          isExpand.value = false;
+          // isExpand.value = false;
+          toggleExpand(false, false);
         }
       }
     }, { immediate: true, deep: true });
+
+    // 当前页码
+    let pageCount = ref(1);
+    // 子节点
+    let nodeChildren = computed(function () {
+      let children = props.nodeData[props.childrenKey] || [];
+      let pageSize = Math.ceil(props.pageSize);
+      if (!isNaN(pageSize) && pageSize > 0 && children.length > pageSize) {
+        return children.slice(0, pageCount.value * pageSize);
+      }
+
+      return children;
+    });
+    // 总页数
+    let totalPage = computed(function () {
+      let children = props.nodeData[props.childrenKey] || [];
+
+      let pageSize = Math.ceil(props.pageSize);
+      if (!isNaN(pageSize) && pageSize > 0 && children.length > pageSize) {
+        return Math.ceil(children.length / pageSize);
+      }
+      return 0;
+    });
+    // 显示更多子节点
+    let showMoreChildNode = function () {
+      if (props.pageSize <= 0 && pageCount.value >= totalPage.value) {
+        return;
+      }
+      pageCount.value++;
+    };
+    // 显示所有子节点
+    let showAllChildNode = function () {
+      if (props.pageSize <= 0) {
+        return;
+      }
+      pageCount.value = totalPage.value;
+    };
 
     // 节点点击事件
     let onNodeClick = function (evt: MouseEvent) {
@@ -161,19 +236,30 @@ export default defineComponent({
       toggleExpand();
     };
 
-    /* // 节点展开/收缩开关点击事件
-    let onNodeSwitcherClick = function () {
-      console.log(222);
-      toggleExpand();
-    }; */
+    // 子节点展开/收缩事件
+    let onChildExpand = function (flag: boolean) {
+      if (flag) {
+        if (props.autoExpandParent) {
+          toggleExpand(true, false);
+        } else {
+          isChildrenRendered.value = true;
+        }
+      }
+    };
 
     return {
       isLeaf,
       isExpand,
       isChildrenRendered,
+      nodeChildren,
+      pageCount,
+      totalPage,
 
       toggleExpand,
-      onNodeClick
+      onNodeClick,
+      showMoreChildNode,
+      showAllChildNode,
+      onChildExpand
       // onNodeSwitcherClick
     };
   }
