@@ -6,9 +6,11 @@
         <bs-tree
           :tree-data="treeData1"
           node-key="id"
+          :show-checkbox="true"
           :highlightCurrent="true"
           :autoExpandParent="true"
-          :expandedKeys="['2_1', '3', '4']">
+          :expandedKeys="['2_1', '3', '4']"
+          v-model:checkedKeys="checkedKeys1">
           <template #default="{data}">
             <strong>
               {{ data.label }}
@@ -92,7 +94,7 @@ export default defineComponent({
         id: '2_1',
         children: [{
           label: '三级 2-1-1',
-          id: '2_2_2'
+          id: '2_1_1'
         }]
       }, {
         label: '二级 2-2',
@@ -142,6 +144,7 @@ export default defineComponent({
         }]
       }]
     }]);
+    let checkedKeys1 = ref(['4', '2_1_1', '2_4', '2_2', '2_5']);
 
     const expandedKeys = ref<string[]>(['0-0-0', '0-0-1']);
     const selectedKeys = ref<string[]>(['0-0-0', '0-0-1']);
@@ -177,6 +180,7 @@ export default defineComponent({
 
     return {
       treeData1,
+      checkedKeys1,
 
       treeData,
       expandedKeys,

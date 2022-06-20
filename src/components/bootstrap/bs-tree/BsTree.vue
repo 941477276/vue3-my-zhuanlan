@@ -71,7 +71,7 @@ export default defineComponent({
       default: '暂无数据'
     }
   },
-  emits: ['node-expand'],
+  emits: ['node-expand', 'check-change', 'node-click', 'update:checkedKeys'],
   setup (props: any, ctx: any) {
     let timeStart = new Date().getTime();
     // 扁平的树对象
@@ -119,15 +119,38 @@ export default defineComponent({
 
     // 选中节点的key数组
     let checkedKeysRoot = ref([...props.checkedKeys]);
+    let addCheckedKey = function (nodeKey: string|number, nodeData: any) {
+      if (!checkedKeysRoot.value.includes(nodeKey)) {
+        checkedKeysRoot.value.push(nodeKey);
+        ctx.emit('check-change', nodeData, true);
+        ctx.emit('update:checkedKeys', checkedKeysRoot.value);
+      }
+    };
+    let removeCheckedKey = function (nodeKey: string|number, nodeData: any) {
+      let index = checkedKeysRoot.value.findIndex((item: any) => item === nodeKey);
+      if (index > -1) {
+        checkedKeysRoot.value.splice(index, 1);
+        ctx.emit('check-change', nodeData, false);
+        ctx.emit('update:checkedKeys', checkedKeysRoot.value);
+      }
+    };
     watch(() => props.checkedKeys, function (checkedKeys) {
-      if (checkedKeys?.length > 0 && checkedKeysRoot.value !== checkedKeys) {
+      console.log('watch props.checkedKeys111');
+      if (checkedKeysRoot.value !== checkedKeys) {
         if (!props.showCheckbox && props.showRadio) { // 单选
-          if (checkedKeys !== checkedKeysRoot.value) {
+          if (checkedKeys?.length > 1) {
+            checkedKeysRoot.value = checkedKeys[0];
+          } else {
             checkedKeysRoot.value = checkedKeys;
           }
           return;
         }
-        checkedKeysRoot.value = Array.from(new Set(checkedKeys));
+        /* if (checkedKeys?.length > 0) {
+          checkedKeysRoot.value = checkedKeys;
+        }
+        checkedKeysRoot.value = Array.from(new Set(checkedKeys)); */
+        console.log('watch props.checkedKeys222');
+        checkedKeysRoot.value = checkedKeys;
       }
     });
 
@@ -141,9 +164,14 @@ export default defineComponent({
       ctx,
       flatTreeMap,
       currentNode,
-      onNodeExpand (flag: boolean, nodeData: any) {
+      addCheckedKey,
+      removeCheckedKey,
+      onNodeExpand (flag: boolean, nodeData: any, nodeState: any) {
         // console.log('子节点展开事件执行了', nodeData, flag);
-        ctx.emit('node-expand', nodeData, flag);
+        ctx.emit('node-expand', nodeData, flag, nodeState);
+      },
+      onNodeClick (nodeData: any, nodeState: any) {
+        ctx.emit('node-click', nodeData, nodeState);
       }
     });
 

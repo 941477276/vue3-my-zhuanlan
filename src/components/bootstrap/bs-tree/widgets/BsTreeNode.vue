@@ -36,8 +36,8 @@
         <BsTreeNodeSwitcherIcon :node-data="nodeData" :node="{}"></BsTreeNodeSwitcherIcon>
         <BsSpinner v-if="false" class="bs-tree-node-spinner" color-type="primary"></BsSpinner>
       </span>
-      <BsCheckbox v-if="false"></BsCheckbox>
-      <BsRadio v-if="false"></BsRadio>
+      <BsCheckbox v-if="showCheckbox" :value="nodeValue" v-model="checkboxModel"></BsCheckbox>
+      <BsRadio v-if="!showCheckbox && showRadio"></BsRadio>
       <!--<div class="bs-tree-node-label">node label</div>-->
       <BsTreeNodeLabel
         :label-key="labelKey"
@@ -145,6 +145,7 @@ export default defineComponent({
     });
     // 是否选中
     let isChecked = computed(function () {
+      // console.log('props.checkedKeys', props.checkedKeys, nodeValue.value);
       return props.checkedKeys?.includes(nodeValue.value);
     });
     // 判断当前节点是否被点击
@@ -168,17 +169,17 @@ export default defineComponent({
       expanded = typeof expanded == 'boolean' ? expanded : !isExpand.value;
       if (!expanded) {
         isExpand.value = false;
-        treeCtx.onNodeExpand(false, props.nodeData);
+        treeCtx.onNodeExpand(false, props.nodeData, { ...nodeState.value });
       } else {
         if (!isChildrenRendered.value) {
           isChildrenRendered.value = true;
           nextTick(function () {
             isExpand.value = true;
-            treeCtx.onNodeExpand(true, props.nodeData);
+            treeCtx.onNodeExpand(true, props.nodeData, { ...nodeState.value });
           });
         } else {
           isExpand.value = true;
-          treeCtx.onNodeExpand(true, props.nodeData);
+          treeCtx.onNodeExpand(true, props.nodeData, { ...nodeState.value });
         }
       }
     };
@@ -224,6 +225,50 @@ export default defineComponent({
       }
       pageCount.value++;
     };
+
+    // 复选框的值
+    let checkboxModel = computed({
+      get () {
+        console.log('treeNode,判断复选框是否选中');
+        return isChecked.value;
+      },
+      set (newVal) {
+        console.log('treeNode,复选框新的值：', newVal);
+        if (newVal) {
+          treeCtx.addCheckedKey(nodeValue.value, props.nodeData);
+        } else {
+          treeCtx.removeCheckedKey(nodeValue.value, props.nodeData);
+        }
+      }
+    });
+
+    // 节点状态
+    let nodeState = computed(function () {
+      return {
+        // id: number
+        // text: string,
+        nodeKey: props.nodeKey,
+        checked: isChecked.value,
+        indeterminate: false,
+        data: props.nodeData,
+        expanded: isExpand.value,
+        // parent: Node,
+        // visible: boolean,
+        isCurrent: isCurrent.value,
+        pageCount: pageCount.value,
+        totalPage: totalPage.value,
+        // store: TreeStore,
+        isLeafByUser: false,
+        isLeaf: false,
+        // canFocus: boolean,
+        level: props.nodeLeave,
+        levelPath: props.nodeLeavePath,
+        loaded: false,
+        // childNodes: Node[],
+        loading: false
+      };
+    });
+
     // 显示所有子节点
     let showAllChildNode = function () {
       if (props.pageSize <= 0) {
@@ -235,7 +280,10 @@ export default defineComponent({
     // 节点点击事件
     let onNodeClick = function (evt: MouseEvent) {
       let target = evt.target as HTMLElement;
-      treeCtx.currentNode.value = props.nodeData;
+      let nodeData = props.nodeData;
+
+      treeCtx.currentNode.value = nodeData;
+      treeCtx.onNodeClick(nodeData, { ...nodeState.value });
       if (target?.nodeName === 'INPUT' || !props.expandOnClickNode) {
         return;
       }
@@ -253,8 +301,10 @@ export default defineComponent({
       isChecked,
       isCurrent,
       nodeChildren,
+      nodeValue,
       pageCount,
       totalPage,
+      checkboxModel,
 
       toggleExpand,
       onNodeClick,
