@@ -8,6 +8,15 @@
     background-color: #f5f7f7;
   }
 }
+.bs-tree-highlight-current{
+  .bs-tree-node{
+    &.is-current{
+      &>.bs-tree-node-content{
+        background-color: #f5f7f7;
+      }
+    }
+  }
+}
 .bs-tree-node-indent{
   align-self: stretch;
   white-space: nowrap;

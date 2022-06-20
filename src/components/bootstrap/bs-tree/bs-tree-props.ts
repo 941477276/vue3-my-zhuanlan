@@ -35,7 +35,7 @@ export const bsTreeProps = {
     type: Boolean,
     default: true
   },
-  defaultExpandedKeys: { // 默认展开的节点的 key 的数组
+  expandedKeys: { // 展开的节点的 key 的数组
     type: Array,
     default () {
       return [];
@@ -45,7 +45,7 @@ export const bsTreeProps = {
     type: Boolean,
     default: true
   },
-  checkedNodeKeys: { // 当前选中的节点（受控）
+  checkedKeys: { // 选中的节点的key数组（受控）
     type: Array,
     default () {
       return [];

@@ -1,16 +1,23 @@
 <template>
-  <div class="bs-tree" role="tree">
+  <div
+    class="bs-tree"
+    :class="{
+      'bs-tree-highlight-current': highlightCurrent
+    }"
+    role="tree">
     <BsTreeNode
       v-for="(nodeItem, index) in treeData"
       v-bind="$props"
       :node-data="nodeItem"
       :key="nodeItem[nodeKey]"
       :node-leave="1"
+      :node-leave-path="`1_${index + 1}`"
       :label-key="props.label"
       :disabled-key="props.disabled"
       :children-key="props.children"
       :is-leaf-key="props.isLeaf"
-      :node-leave-path="`${index + 1}`"></BsTreeNode>
+      :expanded-keys="expandedKeysRoot"
+      :checked-keys="checkedKeysRoot"></BsTreeNode>
     <div class="bs-tree-empty" v-if="false">
       <slot name="empty">{{ emptyText }}</slot>
     </div>
@@ -20,11 +27,20 @@
 <script lang="ts">
 import {
   defineComponent,
-  provide
+  provide,
+  ref,
+  reactive,
+  watch,
+  shallowRef
 } from 'vue';
 import BsTreeNode from './widgets/BsTreeNode.vue';
 import { bsTreeProps } from './bs-tree-props';
 import { bsTreeContextKey, TreeContext } from '@/ts-tokens/bootstrap/tree';
+import {
+  flatTreeDataToObject,
+  findNodeParentsByNodeLevelPath,
+  findNodeByValue
+} from './bs-tree-utils';
 
 export default defineComponent({
   name: 'BsTree',
@@ -55,13 +71,87 @@ export default defineComponent({
       default: '暂无数据'
     }
   },
+  emits: ['node-expand'],
   setup (props: any, ctx: any) {
-    // 向子孙组件提供根tree上下文
-    provide<TreeContext>(bsTreeContextKey, {
-      ctx
+    let timeStart = new Date().getTime();
+    // 扁平的树对象
+    let flatTreeMap = ref({});
+    watch([() => props.treeData, () => props.props], function ([treeData, nodeProps]) {
+      let startTimer = new Date().getTime();
+      flatTreeMap.value = flatTreeDataToObject(treeData, nodeProps.children, 1, '1', flatTreeMap.value);
+      console.log('扁平化树形对象耗时：', new Date().getTime() - startTimer);
+    }, { immediate: true, deep: true });
+
+    // 展开的节点的key数组
+    let expandedKeysRoot = ref(props.expandedKeys);
+    let addExpandedKey = function (nodeKey: string|number) {
+      if (!expandedKeysRoot.value.includes(nodeKey)) {
+        expandedKeysRoot.value.push(nodeKey);
+      }
+    };
+    let removeExpandedKey = function (nodeKey: string|number) {
+      let index = expandedKeysRoot.value.findIndex((item: any) => item === nodeKey);
+      if (index > -1) {
+        expandedKeysRoot.value.splice(index, 1);
+      }
+    };
+    watch(() => props.expandedKeys, function (expandedKeys: (string|number)[]) {
+      let timer2 = new Date().getTime();
+      if (expandedKeys?.length > 0 && expandedKeysRoot.value !== expandedKeys) {
+        let parentKeys: (string|number)[] = [];
+        if (props.autoExpandParent) { // 自动展开父节点
+          let flatTreeMapData = flatTreeMap.value;
+          let nodeKey = props.nodeKey;
+
+          expandedKeys.forEach((expandedKey: string|number) => {
+            let nodeInfo = findNodeByValue(expandedKey, nodeKey, flatTreeMapData);
+            let nodeParents = nodeInfo.nodeLevelPath ? findNodeParentsByNodeLevelPath(nodeInfo.nodeLevelPath, flatTreeMapData) : [];
+            // console.log('nodeParents', nodeParents);
+            nodeParents.forEach((nodeItem: any) => {
+              parentKeys.push(nodeItem[nodeKey]);
+            });
+          });
+        }
+        expandedKeysRoot.value = Array.from(new Set([...expandedKeys, ...parentKeys, ...expandedKeysRoot.value]));
+      }
+      console.log('自动展开节点计算耗时：', new Date().getTime() - timer2);
+    }, { immediate: true });
+
+    // 选中节点的key数组
+    let checkedKeysRoot = ref([...props.checkedKeys]);
+    watch(() => props.checkedKeys, function (checkedKeys) {
+      if (checkedKeys?.length > 0 && checkedKeysRoot.value !== checkedKeys) {
+        if (!props.showCheckbox && props.showRadio) { // 单选
+          if (checkedKeys !== checkedKeysRoot.value) {
+            checkedKeysRoot.value = checkedKeys;
+          }
+          return;
+        }
+        checkedKeysRoot.value = Array.from(new Set(checkedKeys));
+      }
     });
 
-    return {};
+    // 当前选中的节点
+    let currentNode = ref<unknown|null>(null);
+
+    console.log('flatTreeMap', flatTreeMap.value);
+
+    // 向子孙组件提供根tree上下文
+    provide<TreeContext>(bsTreeContextKey, {
+      ctx,
+      flatTreeMap,
+      currentNode,
+      onNodeExpand (flag: boolean, nodeData: any) {
+        // console.log('子节点展开事件执行了', nodeData, flag);
+        ctx.emit('node-expand', nodeData, flag);
+      }
+    });
+
+    console.log('Tree组件Script执行耗时：', new Date().getTime() - timeStart);
+    return {
+      expandedKeysRoot,
+      checkedKeysRoot
+    };
   }
 });
 </script>

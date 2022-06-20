@@ -4,7 +4,9 @@
     :class="{
       'is-expanded': isExpand,
       'is-tree-branch': !isLeaf,
-      'is-tree-leaf': isLeaf
+      'is-tree-leaf': isLeaf,
+      'is-checked': isChecked,
+      'is-current': isCurrent
     }"
     :data-node-leave="nodeLeave">
     <div
@@ -55,8 +57,7 @@
             :node-leave="nodeLeave + 1"
             :node-data="childNode"
             :node-leave-path="`${nodeLeavePath}_${index + 1}`"
-            :parent-node-leave-path="nodeLeavePath"
-            @expand="onChildExpand"></BsTreeNode>
+            :parent-node-leave-path="nodeLeavePath"></BsTreeNode>
           <div
             v-if="pageSize > 0 && totalPage > 0"
             class="bs-tree-node-children-operate"
@@ -96,7 +97,7 @@ import {
   computed,
   watch,
   nextTick,
-  defineComponent
+  defineComponent, inject
 } from 'vue';
 import BsCheckbox from '@/components/bootstrap/bs-checkbox/BsCheckbox.vue';
 import BsRadio from '@/components/bootstrap/bs-radio/BsRadio.vue';
@@ -104,6 +105,7 @@ import BsSpinner from '@/components/bootstrap/bs-spinner/BsSpinner.vue';
 import BsTreeNodeLabel from './BsTreeNodeLabel.vue';
 import BsTreeNodeSwitcherIcon from './BsTreeNodeSwitcherIcon.vue';
 import BsCollapseTransition from '../../bs-collapse-transition/BsCollapseTransition.vue';
+import { bsTreeContextKey, TreeContext } from '@/ts-tokens/bootstrap/tree';
 import { bsTreeProps } from '../bs-tree-props';
 import { bsTreeNodeProps } from './bs-tree-node-props';
 import { util } from '@/common/util';
@@ -125,6 +127,8 @@ export default defineComponent({
   inheritAttrs: false,
   emit: ['node-expand'],
   setup (props: any, ctx:any) {
+    const treeCtx = inject<TreeContext>(bsTreeContextKey)!;
+
     // 判断当前节点是否为叶子节点
     let isLeaf = computed(function () {
       let nodeData = props.nodeData;
@@ -139,6 +143,18 @@ export default defineComponent({
     let nodeValue = computed(function () {
       return props.nodeData[props.nodeKey];
     });
+    // 是否选中
+    let isChecked = computed(function () {
+      return props.checkedKeys?.includes(nodeValue.value);
+    });
+    // 判断当前节点是否被点击
+    let isCurrent = computed(function () {
+      let currentNode = treeCtx.currentNode.value;
+      if (!currentNode) {
+        return false;
+      }
+      return nodeValue.value === currentNode[props.nodeKey];
+    });
 
     // 节点是否展开
     let isExpand = ref(props.defaultExpandAll || false);
@@ -152,31 +168,24 @@ export default defineComponent({
       expanded = typeof expanded == 'boolean' ? expanded : !isExpand.value;
       if (!expanded) {
         isExpand.value = false;
-        ctx.emit('node-expand', false);
+        treeCtx.onNodeExpand(false, props.nodeData);
       } else {
         if (!isChildrenRendered.value) {
           isChildrenRendered.value = true;
           nextTick(function () {
             isExpand.value = true;
-            ctx.emit('node-expand', true);
+            treeCtx.onNodeExpand(true, props.nodeData);
           });
         } else {
           isExpand.value = true;
-          ctx.emit('node-expand', true);
+          treeCtx.onNodeExpand(true, props.nodeData);
         }
       }
     };
-    watch(() => props.defaultExpandedKeys, function (defaultExpandedKeys) {
+    watch(() => props.expandedKeys, function (expandedKeys) {
       let nodeKey = nodeValue.value;
-      if (defaultExpandedKeys?.includes(nodeKey)) {
-        /* if (!isChildrenRendered.value) {
-          isChildrenRendered.value = true;
-          nextTick(function () {
-            isExpand.value = true;
-          });
-        } else {
-          isExpand.value = true;
-        } */
+
+      if (expandedKeys?.includes(nodeKey)) {
         toggleExpand(true, false);
       } else {
         if (isExpand.value && !isManualExpanded.value) {
@@ -226,6 +235,7 @@ export default defineComponent({
     // 节点点击事件
     let onNodeClick = function (evt: MouseEvent) {
       let target = evt.target as HTMLElement;
+      treeCtx.currentNode.value = props.nodeData;
       if (target?.nodeName === 'INPUT' || !props.expandOnClickNode) {
         return;
       }
@@ -236,21 +246,12 @@ export default defineComponent({
       toggleExpand();
     };
 
-    // 子节点展开/收缩事件
-    let onChildExpand = function (flag: boolean) {
-      if (flag) {
-        if (props.autoExpandParent) {
-          toggleExpand(true, false);
-        } else {
-          isChildrenRendered.value = true;
-        }
-      }
-    };
-
     return {
       isLeaf,
       isExpand,
       isChildrenRendered,
+      isChecked,
+      isCurrent,
       nodeChildren,
       pageCount,
       totalPage,
@@ -258,8 +259,7 @@ export default defineComponent({
       toggleExpand,
       onNodeClick,
       showMoreChildNode,
-      showAllChildNode,
-      onChildExpand
+      showAllChildNode
       // onNodeSwitcherClick
     };
   }

@@ -3,7 +3,12 @@
     <div class="container">
       <div>
         <h3>基本使用</h3>
-        <bs-tree :tree-data="treeData1" node-key="id" :defaultExpandedKeys="['2_1', '3']">
+        <bs-tree
+          :tree-data="treeData1"
+          node-key="id"
+          :highlightCurrent="true"
+          :autoExpandParent="true"
+          :expandedKeys="['2_1', '3', '4']">
           <template #default="{data}">
             <strong>
               {{ data.label }}
@@ -13,17 +18,58 @@
             >
           </template>-->
         </bs-tree>
+        <bs-button type="primary" @click="addNode" style="margin-top: 1rem">添加一级</bs-button>
+        <!--<a-tree
+          v-model:expandedKeys="expandedKeys"
+          v-model:checkedKeys="checkedKeys"
+          checkable
+          :tree-data="treeData"
+        >
+          <template #title="{ title, key }">
+            <span v-if="key === '0-0-1-0'" style="color: #1890ff">{{ title }}</span>
+            <template v-else>{{ title }}</template>
+          </template>
+        </a-tree>-->
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import {
-  ref,
-  defineComponent
-} from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 
+const treeData = [
+  {
+    title: 'parent 1',
+    key: '0-0',
+    children: [
+      {
+        title: 'parent 1-0',
+        key: '0-0-0',
+        disabled: true,
+        children: [
+          {
+            title: 'leaf',
+            key: '0-0-0-0',
+            disableCheckbox: true
+          },
+          {
+            title: 'leaf',
+            key: '0-0-0-1'
+          }
+        ]
+      },
+      {
+        title: 'parent 1-1',
+        key: '0-0-1',
+        children: [{
+          key: '0-0-1-0',
+          title: 'sss'
+        }]
+      }
+    ]
+  }
+];
 export default defineComponent({
   name: 'BsTreeUsage',
   setup () {
@@ -75,7 +121,8 @@ export default defineComponent({
       {
         label: '二级 2-8',
         id: '2_8'
-      }]
+      }
+      ]
     }, {
       label: '一级 3',
       id: '3',
@@ -96,8 +143,47 @@ export default defineComponent({
       }]
     }]);
 
+    const expandedKeys = ref<string[]>(['0-0-0', '0-0-1']);
+    const selectedKeys = ref<string[]>(['0-0-0', '0-0-1']);
+    const checkedKeys = ref<string[]>(['0-0-0', '0-0-1']);
+    watch(expandedKeys, () => {
+      console.log('expandedKeys', expandedKeys);
+    });
+    watch(selectedKeys, () => {
+      console.log('selectedKeys', selectedKeys);
+    });
+    watch(checkedKeys, () => {
+      console.log('checkedKeys', checkedKeys);
+    });
+
+    /* setTimeout(function () {
+      console.log('checkedKeys', checkedKeys);
+    }, 1000); */
+
+    let addNode = function () {
+      let length = treeData1.value.length;
+      treeData1.value.push({
+        label: (length + 1) + '级',
+        id: '' + (length + 1),
+        children: [
+          {
+            label: (length + 1) + '_1级',
+            id: '' + (length + 1) + '_1',
+            children: []
+          }
+        ]
+      });
+    };
+
     return {
-      treeData1
+      treeData1,
+
+      treeData,
+      expandedKeys,
+      selectedKeys,
+      checkedKeys,
+
+      addNode
     };
   }
 });
