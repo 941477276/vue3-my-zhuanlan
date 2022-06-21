@@ -229,11 +229,11 @@ export default defineComponent({
     // 复选框的值
     let checkboxModel = computed({
       get () {
-        console.log('treeNode,判断复选框是否选中');
+        // console.log('treeNode,判断复选框是否选中');
         return isChecked.value;
       },
       set (newVal) {
-        console.log('treeNode,复选框新的值：', newVal);
+        // console.log('treeNode,复选框新的值：', newVal);
         if (newVal) {
           treeCtx.addCheckedKey(nodeValue.value, props.nodeData);
         } else {

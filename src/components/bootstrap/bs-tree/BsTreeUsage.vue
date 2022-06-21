@@ -9,7 +9,7 @@
           :show-checkbox="true"
           :highlightCurrent="true"
           :autoExpandParent="true"
-          :expandedKeys="['2_1', '3', '4']"
+          :expandedKeys="['2_1_1_2', '3', '4']"
           v-model:checkedKeys="checkedKeys1">
           <template #default="{data}">
             <strong>
@@ -94,7 +94,27 @@ export default defineComponent({
         id: '2_1',
         children: [{
           label: '三级 2-1-1',
-          id: '2_1_1'
+          id: '2_1_1',
+          children: [{
+            label: '四级 2-1-1-1',
+            id: '2_1_1_1'
+          }, {
+            label: '四级 2-1-1-2',
+            id: '2_1_1_2',
+            children: [
+              {
+                label: '五级 2-1-1-2-1',
+                id: '2_1_1_2_1'
+              },
+              {
+                label: '五级 2-1-1-2-2',
+                id: '2_1_1_2_2'
+              }
+            ]
+          }, {
+            label: '四级 2-1-1-3',
+            id: '2_1_1_3'
+          }]
         }]
       }, {
         label: '二级 2-2',

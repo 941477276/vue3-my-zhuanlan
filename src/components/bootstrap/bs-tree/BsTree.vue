@@ -11,7 +11,7 @@
       :node-data="nodeItem"
       :key="nodeItem[nodeKey]"
       :node-leave="1"
-      :node-leave-path="`1_${index + 1}`"
+      :node-leave-path="`${index + 1}`"
       :label-key="props.label"
       :disabled-key="props.disabled"
       :children-key="props.children"
@@ -37,9 +37,9 @@ import BsTreeNode from './widgets/BsTreeNode.vue';
 import { bsTreeProps } from './bs-tree-props';
 import { bsTreeContextKey, TreeContext } from '@/ts-tokens/bootstrap/tree';
 import {
-  flatTreeDataToObject,
-  findNodeParentsByNodeLevelPath,
-  findNodeByValue
+  flatTreeDataToObject2,
+  findNodeParentsByNodeLevelPath2,
+  findNodeByValue2
 } from './bs-tree-utils';
 
 export default defineComponent({
@@ -75,10 +75,11 @@ export default defineComponent({
   setup (props: any, ctx: any) {
     let timeStart = new Date().getTime();
     // 扁平的树对象
-    let flatTreeMap = ref({});
+    let flatTreeMap = ref([]);
     watch([() => props.treeData, () => props.props], function ([treeData, nodeProps]) {
       let startTimer = new Date().getTime();
-      flatTreeMap.value = flatTreeDataToObject(treeData, nodeProps.children, 1, '1', flatTreeMap.value);
+      // flatTreeMap.value = flatTreeDataToObject(treeData, nodeProps.children, 1, '', {});
+      flatTreeMap.value = flatTreeDataToObject2(treeData, nodeProps.children, 1, '', []);
       console.log('扁平化树形对象耗时：', new Date().getTime() - startTimer);
     }, { immediate: true, deep: true });
 
@@ -104,9 +105,10 @@ export default defineComponent({
           let nodeKey = props.nodeKey;
 
           expandedKeys.forEach((expandedKey: string|number) => {
-            let nodeInfo = findNodeByValue(expandedKey, nodeKey, flatTreeMapData);
-            let nodeParents = nodeInfo.nodeLevelPath ? findNodeParentsByNodeLevelPath(nodeInfo.nodeLevelPath, flatTreeMapData) : [];
-            // console.log('nodeParents', nodeParents);
+            /* let nodeInfo = findNodeByValue(expandedKey, nodeKey, flatTreeMapData);
+            let nodeParents = nodeInfo.nodeLevelPath ? findNodeParentsByNodeLevelPath(nodeInfo.nodeLevelPath, flatTreeMapData) : []; */
+            let nodeInfo = findNodeByValue2(expandedKey, nodeKey, flatTreeMapData);
+            let nodeParents = nodeInfo.nodeLevelPath ? findNodeParentsByNodeLevelPath2(nodeInfo.nodeLevelPath, flatTreeMapData) : [];
             nodeParents.forEach((nodeItem: any) => {
               parentKeys.push(nodeItem[nodeKey]);
             });
