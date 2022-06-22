@@ -67,7 +67,7 @@ export function flatTreeDataToObject2 (treeData: any[], childrenKey: string, nod
  * @param nodeLevelPath 节点层级路径
  * @param treeDataMap 扁平化的树对象
  */
-export function findNodeParentsByNodeLevelPath (nodeLevelPath: string, treeDataMap: any) {
+export function findParentsByNodeLevelPath (nodeLevelPath: string, treeDataMap: any) {
   let nodeParents: any[] = [];
   if (!nodeLevelPath) {
     return nodeParents;
@@ -95,7 +95,7 @@ export function findNodeParentsByNodeLevelPath (nodeLevelPath: string, treeDataM
  * @param nodeLevelPath 节点层级路径
  * @param treeDataArr 扁平化的树数组对象
  */
-export function findNodeParentsByNodeLevelPath2 (nodeLevelPath: string, treeDataArr: any[]) {
+export function findParentsByNodeLevelPath2 (nodeLevelPath: string, treeDataArr: any[]) {
   let nodeParents: any[] = [];
   if (!nodeLevelPath) {
     return nodeParents;
@@ -187,6 +187,7 @@ export function findNodeByValue2 (nodeValue: any, nodeKey: string, treeDataArr: 
   };
   for (let i = 0, len = treeDataArr.length; i < len; i++) {
     let nodeInfoItem = treeDataArr[i];
+    // console.log('nodeInfoItem', nodeInfoItem.node[nodeKey]);
     if (nodeInfoItem.node[nodeKey] === nodeValue) {
       resultNode.node = nodeInfoItem.node;
       resultNode.nodeLevelPath = nodeInfoItem.nodeLevelPath;
@@ -195,3 +196,59 @@ export function findNodeByValue2 (nodeValue: any, nodeKey: string, treeDataArr: 
   }
   return resultNode;
 };
+
+/**
+ * 根据节点的值查找节点的所有子节点
+ * @param nodeValue 节点的值
+ * @param nodeKey节点的值的属性名
+ * @param treeDataArr 扁平化的树数组
+ */
+export function findChildrenByNodeValue2 (nodeValue: any, nodeKey: string, treeDataArr: any[]) {
+  let nodeInfo = findNodeByValue2(nodeValue, nodeKey, treeDataArr);
+  let result: any[] = [];
+  if (!nodeInfo.node) {
+    return result;
+  }
+  let findChildren = function (node: any) {
+    let children = node.children;
+    if (children && children.length > 0) {
+      ([]).push.apply(result, children);
+      children.forEach((nodeItem: any) => {
+        findChildren(nodeItem);
+      });
+    }
+  };
+  findChildren(nodeInfo.node);
+  return result;
+}
+
+/**
+ * 根据节点的值查找节点的有children的子节点
+ * @param nodeValue 节点的值
+ * @param nodeKey节点的值的属性名
+ * @param treeDataArr 扁平化的树数组
+ */
+export function findChildrenWhichHasChildren2 (nodeValue: any, nodeKey: string, treeDataArr: any[]) {
+  let nodeInfo = findNodeByValue2(nodeValue, nodeKey, treeDataArr);
+  let result: any[] = [];
+  console.log('nodeInfo11', nodeInfo, nodeValue);
+  if (!nodeInfo.node) {
+    return result;
+  }
+  let findChildren = function (children: any[]) {
+    // let children = node.children;
+    // console.log('children111', children);
+    if (children && children.length > 0) {
+      // ([]).push.apply(result, children);
+      // result.push()
+      children.forEach((nodeItem: any) => {
+        if (nodeItem.children && nodeItem.children.length > 0) {
+          result.push(nodeItem);
+          findChildren(nodeItem.children);
+        }
+      });
+    }
+  };
+  findChildren((nodeInfo.node as any).children);
+  return result;
+}

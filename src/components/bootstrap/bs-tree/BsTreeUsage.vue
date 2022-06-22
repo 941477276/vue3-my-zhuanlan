@@ -21,6 +21,7 @@
           </template>-->
         </bs-tree>
         <bs-button type="primary" @click="addNode" style="margin-top: 1rem">添加一级</bs-button>
+        <bs-button type="primary" @click="removeNode" style="margin-top: 1rem">移除一级</bs-button>
         <!--<a-tree
           v-model:expandedKeys="expandedKeys"
           v-model:checkedKeys="checkedKeys"
@@ -164,7 +165,7 @@ export default defineComponent({
         }]
       }]
     }]);
-    let checkedKeys1 = ref(['4', '2_1_1', '2_4', '2_2', '2_5']);
+    let checkedKeys1 = ref(['4', '2_1', '2_4', '2_2', '2_5', '2_1_1_2_2']);
 
     const expandedKeys = ref<string[]>(['0-0-0', '0-0-1']);
     const selectedKeys = ref<string[]>(['0-0-0', '0-0-1']);
@@ -198,6 +199,12 @@ export default defineComponent({
       });
     };
 
+    let removeNode = function () {
+      if (treeData1.value.length >= 4) {
+        treeData1.value.pop();
+      }
+    };
+
     return {
       treeData1,
       checkedKeys1,
@@ -207,7 +214,8 @@ export default defineComponent({
       selectedKeys,
       checkedKeys,
 
-      addNode
+      addNode,
+      removeNode
     };
   }
 });

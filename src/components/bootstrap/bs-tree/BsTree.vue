@@ -26,6 +26,7 @@
 
 <script lang="ts">
 import {
+  Ref,
   defineComponent,
   provide,
   ref,
@@ -36,10 +37,12 @@ import {
 import BsTreeNode from './widgets/BsTreeNode.vue';
 import { bsTreeProps } from './bs-tree-props';
 import { bsTreeContextKey, TreeContext } from '@/ts-tokens/bootstrap/tree';
+import { StringKeyObject } from '@/ts-tokens/bootstrap';
 import {
   flatTreeDataToObject2,
-  findNodeParentsByNodeLevelPath2,
-  findNodeByValue2
+  findParentsByNodeLevelPath2,
+  findNodeByValue2,
+  findChildrenWhichHasChildren2
 } from './bs-tree-utils';
 
 export default defineComponent({
@@ -81,6 +84,7 @@ export default defineComponent({
       // flatTreeMap.value = flatTreeDataToObject(treeData, nodeProps.children, 1, '', {});
       flatTreeMap.value = flatTreeDataToObject2(treeData, nodeProps.children, 1, '', []);
       console.log('扁平化树形对象耗时：', new Date().getTime() - startTimer);
+      console.log('flatTreeMap', flatTreeMap.value);
     }, { immediate: true, deep: true });
 
     // 展开的节点的key数组
@@ -108,7 +112,7 @@ export default defineComponent({
             /* let nodeInfo = findNodeByValue(expandedKey, nodeKey, flatTreeMapData);
             let nodeParents = nodeInfo.nodeLevelPath ? findNodeParentsByNodeLevelPath(nodeInfo.nodeLevelPath, flatTreeMapData) : []; */
             let nodeInfo = findNodeByValue2(expandedKey, nodeKey, flatTreeMapData);
-            let nodeParents = nodeInfo.nodeLevelPath ? findNodeParentsByNodeLevelPath2(nodeInfo.nodeLevelPath, flatTreeMapData) : [];
+            let nodeParents = nodeInfo.nodeLevelPath ? findParentsByNodeLevelPath2(nodeInfo.nodeLevelPath, flatTreeMapData) : [];
             nodeParents.forEach((nodeItem: any) => {
               parentKeys.push(nodeItem[nodeKey]);
             });
@@ -120,7 +124,10 @@ export default defineComponent({
     }, { immediate: true });
 
     // 选中节点的key数组
-    let checkedKeysRoot = ref([...props.checkedKeys]);
+    // let checkedKeysRoot = ref([...props.checkedKeys]);
+    let checkedKeysRoot = ref<(string|number)[]>([]);
+    // 半选中状态节点的key数组
+    let halfCheckedKeys = ref<(string|number)[]>([]);
     let addCheckedKey = function (nodeKey: string|number, nodeData: any) {
       if (!checkedKeysRoot.value.includes(nodeKey)) {
         checkedKeysRoot.value.push(nodeKey);
@@ -135,6 +142,89 @@ export default defineComponent({
         ctx.emit('check-change', nodeData, false);
         ctx.emit('update:checkedKeys', checkedKeysRoot.value);
       }
+    };
+    let addHalfCheckedKey = function (nodeKey: string|number) {
+      if (!halfCheckedKeys.value.includes(nodeKey)) {
+        halfCheckedKeys.value.push(nodeKey);
+      }
+    };
+    let removeHalfCheckedKey = function (nodeKey: string|number) {
+      let index = halfCheckedKeys.value.findIndex((item: any) => item === nodeKey);
+      if (index > -1) {
+        halfCheckedKeys.value.splice(index, 1);
+      }
+    };
+    // 关联父级选择框
+    let linkParentCheckbox = function () {
+      if (props.checkStrictly) {
+        return;
+      }
+      // 选择的节点的父级节点的key对象
+      let checkedParentKeys: StringKeyObject = {};
+      // 已经处理过的节点的key
+      let processedKes: StringKeyObject = {};
+      let nodeKey = props.nodeKey;
+      let checkedKeys = checkedKeysRoot.value;
+
+      // 判断节点是否全部选中
+      let nodeIsAllChecked = function (nodes: any[]) {
+        let flag = true;
+        console.log('nodeIsAllChecked called');
+        nodes.forEach((childItem: any) => {
+          let nodeValue = childItem[nodeKey];
+          processedKes[nodeValue] = 1;
+          console.log('nodeIsAllChecked called 222, ', nodeValue);
+          let isChecked = checkedKeys.includes(nodeValue);
+          if (!isChecked) {
+            flag = false;
+          }
+        });
+        return false;
+      };
+
+      checkedKeys.forEach((checkedKey: string|number) => {
+        if (checkedKey in processedKes) {
+          return;
+        }
+        console.log('linkParentCheckbox1111', checkedKey);
+        // 根据节点的值查找有children的子节点
+        let hasChildrenChildNodes = findChildrenWhichHasChildren2(checkedKey, nodeKey, flatTreeMap.value);
+        console.log('hasChildrenNodes', hasChildrenChildNodes);
+        processedKes[checkedKey] = 1;
+        if (hasChildrenChildNodes.length === 0) {
+          return;
+        }
+        // 将hasChildrenChildNodes反转过来后判断节点的子节点是否全部选中
+        [...hasChildrenChildNodes].reverse().forEach((nodeItem: any) => {
+          let nodeValue = nodeItem[nodeKey];
+          if (nodeValue in processedKes) {
+            return;
+          }
+          console.log('linkParentCheckbox2222', nodeValue);
+          processedKes[nodeValue] = 1;
+          let nodeChildren = nodeItem.children;
+          if (nodeChildren && nodeChildren.length > 0) {
+            let childrenIsAllChecked = nodeIsAllChecked(nodeChildren);
+            // 如果子节点未全部选中，则该节点为半选中状态
+            if (childrenIsAllChecked) {
+              removeHalfCheckedKey(nodeValue);
+            } else {
+              addHalfCheckedKey(nodeValue);
+            }
+          }
+        });
+      });
+    };
+    // 设置节点半选中状态
+    let setHalfCheckedKeys = function () {
+      if (props.checkStrictly) {
+        return;
+      }
+      // 已经处理过的父级节点的key
+      let processedParentKes = {};
+      [...checkedKeysRoot.value].reverse().forEach(checkedKey => {
+      //
+      });
     };
     watch(() => props.checkedKeys, function (checkedKeys) {
       console.log('watch props.checkedKeys111');
@@ -153,13 +243,12 @@ export default defineComponent({
         checkedKeysRoot.value = Array.from(new Set(checkedKeys)); */
         console.log('watch props.checkedKeys222');
         checkedKeysRoot.value = checkedKeys;
+        linkParentCheckbox();
       }
-    });
+    }, { immediate: true });
 
     // 当前选中的节点
     let currentNode = ref<unknown|null>(null);
-
-    console.log('flatTreeMap', flatTreeMap.value);
 
     // 向子孙组件提供根tree上下文
     provide<TreeContext>(bsTreeContextKey, {

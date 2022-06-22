@@ -9,7 +9,7 @@ export const bsTreeProps = {
   },
   checkStrictly: { // 在显示复选框的情况下，是否严格的遵循父子不互相关联的做法，默认为 false
     type: Boolean,
-    default: true
+    default: false
   },
   showRadio: { // 节点是否可以单选
     type: Boolean,
