@@ -36,7 +36,11 @@
         <BsTreeNodeSwitcherIcon :node-data="nodeData" :node="{}"></BsTreeNodeSwitcherIcon>
         <BsSpinner v-if="false" class="bs-tree-node-spinner" color-type="primary"></BsSpinner>
       </span>
-      <BsCheckbox v-if="showCheckbox" :value="nodeValue" v-model="checkboxModel"></BsCheckbox>
+      <BsCheckbox
+        v-if="showCheckbox"
+        v-model="checkboxModel"
+        :value="nodeValue"
+        :indeterminate="isIndeterminate"></BsCheckbox>
       <BsRadio v-if="!showCheckbox && showRadio"></BsRadio>
       <!--<div class="bs-tree-node-label">node label</div>-->
       <BsTreeNodeLabel
@@ -155,6 +159,10 @@ export default defineComponent({
         return false;
       }
       return nodeValue.value === currentNode[props.nodeKey];
+    });
+    // 是否为半选中状态
+    let isIndeterminate = computed(function () {
+      return treeCtx.halfCheckedKeys.value.includes(nodeValue.value);
     });
 
     // 节点是否展开
@@ -300,6 +308,7 @@ export default defineComponent({
       isChildrenRendered,
       isChecked,
       isCurrent,
+      isIndeterminate,
       nodeChildren,
       nodeValue,
       pageCount,

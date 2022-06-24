@@ -1,10 +1,12 @@
 import {
+  Ref,
   InjectionKey
 } from 'vue';
 
 export type TreeContext = {
   ctx: any;
-  flatTreeMap: any;
+  flatTreeMap: Ref<(string|number)[]>;
+  halfCheckedKeys: Ref<(string|number)[]>;
   currentNode: any;
   onNodeExpand: (flag: boolean, nodeData: any, nodeState: any) => void;
   addCheckedKey: (nodeKey: string|number, nodeData: any) => void;

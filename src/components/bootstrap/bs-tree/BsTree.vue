@@ -128,19 +128,19 @@ export default defineComponent({
     let checkedKeysRoot = ref<(string|number)[]>([]);
     // 半选中状态节点的key数组
     let halfCheckedKeys = ref<(string|number)[]>([]);
-    let addCheckedKey = function (nodeKey: string|number, nodeData: any) {
+    let addCheckedKey = function (nodeKey: string|number) {
       if (!checkedKeysRoot.value.includes(nodeKey)) {
         checkedKeysRoot.value.push(nodeKey);
-        ctx.emit('check-change', nodeData, true);
-        ctx.emit('update:checkedKeys', checkedKeysRoot.value);
+        // ctx.emit('check-change', nodeData, true);
+        // ctx.emit('update:checkedKeys', checkedKeysRoot.value);
       }
     };
-    let removeCheckedKey = function (nodeKey: string|number, nodeData: any) {
+    let removeCheckedKey = function (nodeKey: string|number) {
       let index = checkedKeysRoot.value.findIndex((item: any) => item === nodeKey);
       if (index > -1) {
         checkedKeysRoot.value.splice(index, 1);
-        ctx.emit('check-change', nodeData, false);
-        ctx.emit('update:checkedKeys', checkedKeysRoot.value);
+        // ctx.emit('check-change', nodeData, false);
+        // ctx.emit('update:checkedKeys', checkedKeysRoot.value);
       }
     };
     let addHalfCheckedKey = function (nodeKey: string|number) {
@@ -182,15 +182,38 @@ export default defineComponent({
         return false;
       };
 
+      // 设置节点的子节点选中
+      /* let setChildrenChecked = function (node: any) {
+        let nodeChildren = node.children;
+        if (nodeChildren && nodeChildren.length > 0) {
+          nodeChildren.forEach(function (nodeItem: any) {
+            let nodeValue = nodeItem[nodeKey];
+            processedKes[nodeValue] = 1;
+            addCheckedKey(nodeValue);
+            setChildrenChecked(nodeItem);
+          });
+        }
+      }; */
+
       checkedKeys.forEach((checkedKey: string|number) => {
         if (checkedKey in processedKes) {
           return;
         }
         console.log('linkParentCheckbox1111', checkedKey);
+        /* let currentNode = findNodeByValue2(checkedKey, nodeKey, flatTreeMap.value);
+        processedKes[checkedKey] = 1;
+        if (!currentNode.node) {
+          return;
+        }
+        // 当前节点已经选中的情况下，如果当前节点有子节点则将当前节点的所有子孙节点都选中
+        if ((currentNode.node as any)?.children?.length > 0) {
+          setChildrenChecked(currentNode.node);
+          return;
+        } */
         // 根据节点的值查找有children的子节点
         let hasChildrenChildNodes = findChildrenWhichHasChildren2(checkedKey, nodeKey, flatTreeMap.value);
         console.log('hasChildrenNodes', hasChildrenChildNodes);
-        processedKes[checkedKey] = 1;
+
         if (hasChildrenChildNodes.length === 0) {
           return;
         }
@@ -207,13 +230,17 @@ export default defineComponent({
             let childrenIsAllChecked = nodeIsAllChecked(nodeChildren);
             // 如果子节点未全部选中，则该节点为半选中状态
             if (childrenIsAllChecked) {
+              // checkedKeysRoot.value
               removeHalfCheckedKey(nodeValue);
+              addCheckedKey(nodeValue);
             } else {
               addHalfCheckedKey(nodeValue);
+              removeCheckedKey(nodeValue);
             }
           }
         });
       });
+      console.log('halfCheckedKeys', halfCheckedKeys.value);
     };
     // 设置节点半选中状态
     let setHalfCheckedKeys = function () {
@@ -254,9 +281,23 @@ export default defineComponent({
     provide<TreeContext>(bsTreeContextKey, {
       ctx,
       flatTreeMap,
+      halfCheckedKeys,
       currentNode,
-      addCheckedKey,
-      removeCheckedKey,
+      addCheckedKey (nodeKey: string|number, nodeData: any) {
+        if (!checkedKeysRoot.value.includes(nodeKey)) {
+          checkedKeysRoot.value.push(nodeKey);
+          ctx.emit('check-change', nodeData, true);
+          ctx.emit('update:checkedKeys', checkedKeysRoot.value);
+        }
+      },
+      removeCheckedKey (nodeKey: string|number, nodeData: any) {
+        let index = checkedKeysRoot.value.findIndex((item: any) => item === nodeKey);
+        if (index > -1) {
+          checkedKeysRoot.value.splice(index, 1);
+          ctx.emit('check-change', nodeData, false);
+          ctx.emit('update:checkedKeys', checkedKeysRoot.value);
+        }
+      },
       onNodeExpand (flag: boolean, nodeData: any, nodeState: any) {
         // console.log('子节点展开事件执行了', nodeData, flag);
         ctx.emit('node-expand', nodeData, flag, nodeState);
