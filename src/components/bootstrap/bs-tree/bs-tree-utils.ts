@@ -252,3 +252,18 @@ export function findChildrenWhichHasChildren2 (nodeValue: any, nodeKey: string, 
   findChildren((nodeInfo.node as any).children);
   return result;
 }
+
+/**
+ * 根据节点值获取节点最顶层的父级节点
+ * @param nodeValue
+ * @param nodeKey
+ * @param treeDataArr
+ */
+export function findTopParentByNodeValue2 (nodeValue: any, nodeKey: string, treeDataArr: any[]) {
+  let nodeInfo = findNodeByValue2(nodeValue, nodeKey, treeDataArr);
+  if (!nodeInfo.node) {
+    return null;
+  }
+  let parents = findParentsByNodeLevelPath2(nodeInfo.nodeLevelPath, treeDataArr);
+  return parents.reverse()[0] || null;
+}

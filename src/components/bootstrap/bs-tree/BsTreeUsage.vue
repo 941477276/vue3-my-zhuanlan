@@ -165,7 +165,7 @@ export default defineComponent({
         }]
       }]
     }]);
-    let checkedKeys1 = ref(['4', '2_1', '2_4', '2_2', '2_5', '2_1_1_2_2']);
+    let checkedKeys1 = ref(['4', '2_1', '2_4', '2_2', '2_5', '2_2_1', '2_1_1_2_2', '3_2_1']);
 
     const expandedKeys = ref<string[]>(['0-0-0', '0-0-1']);
     const selectedKeys = ref<string[]>(['0-0-0', '0-0-1']);
