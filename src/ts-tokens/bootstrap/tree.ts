@@ -2,10 +2,19 @@ import {
   Ref,
   InjectionKey
 } from 'vue';
+import { StringKeyObject } from '@/ts-tokens/bootstrap/index';
+
+// 节点信息
+export interface BsNodeInfo {
+  node: StringKeyObject;
+  nodeLevelPath: string;
+};
+
+export type BsNodeData = StringKeyObject;
 
 export type TreeContext = {
   ctx: any;
-  flatTreeMap: Ref<(string|number)[]>;
+  flatTreeNodeInfoArr: Ref<BsNodeInfo[]>;
   halfCheckedKeys: Ref<(string|number)[]>;
   currentNode: any;
   onNodeExpand: (flag: boolean, nodeData: any, nodeState: any) => void;
