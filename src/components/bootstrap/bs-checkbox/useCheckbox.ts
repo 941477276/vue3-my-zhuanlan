@@ -42,7 +42,7 @@ export function useCheckbox (props: any, ctx: any, checkboxRef: Ref<HTMLInputEle
           checkboxGroupCtx.changeVal(newVal);
         }
       } else {
-        console.log('设置新的值了：', newVal);
+        // console.log('设置新的值了：', newVal);
         ctx.emit('update:modelValue', newVal);
         selfModelVal.value = newVal;
       }

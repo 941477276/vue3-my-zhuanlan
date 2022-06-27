@@ -243,9 +243,9 @@ export default defineComponent({
       set (newVal) {
         // console.log('treeNode,复选框新的值：', newVal);
         if (newVal) {
-          treeCtx.addCheckedKey(nodeValue.value, props.nodeData);
+          treeCtx.addCheckedKey(nodeValue.value, props.nodeData, nodeChildren.value.length > 0);
         } else {
-          treeCtx.removeCheckedKey(nodeValue.value, props.nodeData);
+          treeCtx.removeCheckedKey(nodeValue.value, props.nodeData, nodeChildren.value.length > 0);
         }
       }
     });
@@ -257,7 +257,7 @@ export default defineComponent({
         // text: string,
         nodeKey: props.nodeKey,
         checked: isChecked.value,
-        indeterminate: false,
+        indeterminate: isIndeterminate.value,
         data: props.nodeData,
         expanded: isExpand.value,
         // parent: Node,

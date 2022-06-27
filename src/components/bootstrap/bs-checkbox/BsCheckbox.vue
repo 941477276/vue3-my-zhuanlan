@@ -167,7 +167,7 @@ export default defineComponent({
       let isChecked = (evt.target as HTMLInputElement).checked;
       // console.log('是否选中', isChecked);
       if (typeof props.indeterminate === 'boolean') {
-        console.log('值改变了');
+        // console.log('值改变了');
         isIndeterminate.value = false;
       }
 

@@ -22,6 +22,8 @@
         </bs-tree>
         <bs-button type="primary" @click="addNode" style="margin-top: 1rem">添加一级</bs-button>
         <bs-button type="primary" @click="removeNode" style="margin-top: 1rem">移除一级</bs-button>
+        <br>
+        <bs-button type="primary" @click="addCheckedKeys" style="margin-top: 1rem">选中项</bs-button>
         <!--<a-tree
           v-model:expandedKeys="expandedKeys"
           v-model:checkedKeys="checkedKeys"
@@ -110,11 +112,26 @@ export default defineComponent({
               {
                 label: '五级 2-1-1-2-2',
                 id: '2_1_1_2_2'
+              },
+              {
+                label: '五级 2-1-1-2-3',
+                id: '2_1_1_2_3'
+              },
+              {
+                label: '五级 2-1-1-2-4',
+                id: '2_1_1_2_4'
+              },
+              {
+                label: '五级 2-1-1-2-5',
+                id: '2_1_1_2_5'
               }
             ]
           }, {
             label: '四级 2-1-1-3',
             id: '2_1_1_3'
+          }, {
+            label: '四级 2-1-1-4',
+            id: '2_1_1_4'
           }]
         }]
       }, {
@@ -162,10 +179,14 @@ export default defineComponent({
         children: [{
           label: '三级 3-2-1',
           id: '3_2_1'
+        }, {
+          label: '三级 3-2-2',
+          id: '3_2_2'
         }]
       }]
     }]);
-    let checkedKeys1 = ref(['4', '2_1', '2_4', '2_2', '2_5', '2_2_1', '2_1_1_2_2', '3_2_1']);
+    // let checkedKeys1 = ref<(string|number)[]>(['4', '2_1', '2_4', '2_2', '2_5', '2_2_1', '2_1_1_2_2', '3_2_1']);
+    let checkedKeys1 = ref<(string|number)[]>([]);
 
     const expandedKeys = ref<string[]>(['0-0-0', '0-0-1']);
     const selectedKeys = ref<string[]>(['0-0-0', '0-0-1']);
@@ -205,6 +226,19 @@ export default defineComponent({
       }
     };
 
+    let addCheckedKeys = function () {
+      if (checkedKeys1.value.length > 0) {
+        return;
+      }
+      let checkedKesArr = checkedKeys1.value;
+      ['4', '2_1', '2_4', '2_2', '2_5', '2_2_1', '2_1_1_2_2', '3_2_1', '2_1_1_2_3', '2_1_1_2_5'].forEach(item => {
+        checkedKesArr.push(item);
+      });
+      /* setTimeout(function () {
+        checkedKesArr.push('2_7');
+      }, 0); */
+    };
+
     return {
       treeData1,
       checkedKeys1,
@@ -215,7 +249,8 @@ export default defineComponent({
       checkedKeys,
 
       addNode,
-      removeNode
+      removeNode,
+      addCheckedKeys
     };
   }
 });
