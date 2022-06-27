@@ -62,7 +62,7 @@
             :node-data="childNode"
             :node-leave-path="`${nodeLeavePath}_${index + 1}`"
             :parent-node-leave-path="nodeLeavePath"></BsTreeNode>
-          <div
+          <!--<div
             v-if="pageSize > 0 && totalPage > 0"
             class="bs-tree-node-children-operate"
             :class="{
@@ -88,7 +88,16 @@
             <span
               class="bs-tree-node-loadmore"
               @click="showAllChildNode">{{ loadAllChildButtonText }}</span>
-          </div>
+          </div>-->
+          <BsTreeNodeOperate
+            v-if="pageSize > 0 && totalPage > 0"
+            :disabled="pageCount >= totalPage"
+            :node-data="nodeData"
+            :node-level="nodeLeave"
+            :load-more-child-button-text="loadMoreChildButtonText"
+            :load-all-child-button-text="loadAllChildButtonText"
+            @show-more="showMoreChildNode"
+            @show-all="showAllChildNode"></BsTreeNodeOperate>
         </template>
       </div>
     </BsCollapseTransition>
@@ -108,8 +117,10 @@ import BsRadio from '@/components/bootstrap/bs-radio/BsRadio.vue';
 import BsSpinner from '@/components/bootstrap/bs-spinner/BsSpinner.vue';
 import BsTreeNodeLabel from './BsTreeNodeLabel.vue';
 import BsTreeNodeSwitcherIcon from './BsTreeNodeSwitcherIcon.vue';
+import BsTreeNodeOperate from './BsTreeNodeOperate.vue';
 import BsCollapseTransition from '../../bs-collapse-transition/BsCollapseTransition.vue';
 import { bsTreeContextKey, TreeContext } from '@/ts-tokens/bootstrap/tree';
+import { useTreePagination } from '../useTreePagination';
 import { bsTreeProps } from '../bs-tree-props';
 import { bsTreeNodeProps } from './bs-tree-node-props';
 import { util } from '@/common/util';
@@ -122,6 +133,7 @@ export default defineComponent({
     BsSpinner,
     BsTreeNodeLabel,
     BsTreeNodeSwitcherIcon,
+    BsTreeNodeOperate,
     BsCollapseTransition
   },
   props: {
@@ -204,7 +216,9 @@ export default defineComponent({
       }
     }, { immediate: true, deep: true });
 
-    // 当前页码
+    // 分页相关数据
+    let { pageCount, nodeChildren, totalPage, showMoreChildNode, showAllChildNode } = useTreePagination(props);
+    /* // 当前页码
     let pageCount = ref(1);
     // 子节点
     let nodeChildren = computed(function () {
@@ -233,7 +247,7 @@ export default defineComponent({
       }
       pageCount.value++;
     };
-
+ */
     // 复选框的值
     let checkboxModel = computed({
       get () {
@@ -277,13 +291,13 @@ export default defineComponent({
       };
     });
 
-    // 显示所有子节点
+    /* // 显示所有子节点
     let showAllChildNode = function () {
       if (props.pageSize <= 0) {
         return;
       }
       pageCount.value = totalPage.value;
-    };
+    }; */
 
     // 节点点击事件
     let onNodeClick = function (evt: MouseEvent) {

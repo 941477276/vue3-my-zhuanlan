@@ -6,7 +6,7 @@
     }"
     role="tree">
     <BsTreeNode
-      v-for="(nodeItem, index) in treeData"
+      v-for="(nodeItem, index) in nodeChildren"
       v-bind="$props"
       :node-data="nodeItem"
       :key="nodeItem[nodeKey]"
@@ -18,6 +18,19 @@
       :is-leaf-key="props.isLeaf"
       :expanded-keys="expandedKeysRoot"
       :checked-keys="checkedKeysRoot"></BsTreeNode>
+    <BsTreeNodeOperate
+      v-if="pageSize > 0 && totalPage > 0"
+      :node-level="1"
+      :node-data="{
+        rootTree: true,
+        [props.children]: treeData
+      }"
+      :disabled="pageCount >= totalPage"
+      :load-more-child-button-text="loadMoreChildButtonText"
+      :load-all-child-button-text="loadAllChildButtonText"
+      :show-switcher="false"
+      @show-more="showMoreChildNode"
+      @show-all="showAllChildNode"></BsTreeNodeOperate>
     <div class="bs-tree-empty" v-if="false">
       <slot name="empty">{{ emptyText }}</slot>
     </div>
@@ -25,8 +38,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, provide, ref, watch } from 'vue';
+import { defineComponent, provide, ref, watch, toRef } from 'vue';
 import BsTreeNode from './widgets/BsTreeNode.vue';
+import BsTreeNodeOperate from './widgets/BsTreeNodeOperate.vue';
 import { bsTreeProps } from './bs-tree-props';
 import { BsNodeData, BsNodeInfo, bsTreeContextKey, TreeContext } from '@/ts-tokens/bootstrap/tree';
 import { StringKeyObject } from '@/ts-tokens/bootstrap';
@@ -38,11 +52,13 @@ import {
   treeDataToFlattarnArr2,
   findChildrenFlattarnByNodeValue2
 } from './bs-tree-utils';
+import { useTreePagination } from './useTreePagination';
 
 export default defineComponent({
   name: 'BsTree',
   components: {
-    BsTreeNode
+    BsTreeNode,
+    BsTreeNodeOperate
   },
   props: {
     ...bsTreeProps,
@@ -344,6 +360,9 @@ export default defineComponent({
     // 当前选中的节点
     let currentNode = ref<unknown | null>(null);
 
+    // 分页相关数据
+    let { pageCount, nodeChildren, totalPage, showMoreChildNode, showAllChildNode } = useTreePagination(props, toRef(props, 'treeData'));
+
     // 向子孙组件提供根tree上下文
     provide<TreeContext>(bsTreeContextKey, {
       ctx,
@@ -410,7 +429,13 @@ export default defineComponent({
     return {
       expandedKeysRoot,
       checkedKeysRoot,
-      halfCheckedKeys
+      halfCheckedKeys,
+      pageCount,
+      nodeChildren,
+      totalPage,
+
+      showMoreChildNode,
+      showAllChildNode
     };
   }
 });
