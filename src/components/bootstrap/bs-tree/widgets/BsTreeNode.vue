@@ -62,33 +62,6 @@
             :node-data="childNode"
             :node-leave-path="`${nodeLeavePath}_${index + 1}`"
             :parent-node-leave-path="nodeLeavePath"></BsTreeNode>
-          <!--<div
-            v-if="pageSize > 0 && totalPage > 0"
-            class="bs-tree-node-children-operate"
-            :class="{
-              'is-disabled': pageCount >= totalPage
-            }">
-            <span class="bs-tree-node-indent" aria-hidden="true">
-              <template v-if="(nodeLeave) > 0">
-                <span
-                  class="bs-tree-node-indent-item"
-                  v-for="item in (nodeLeave)"
-                  :key="`indent_item2-${item}`"></span>
-              </template>
-            </span>
-            <span
-              role="button"
-              class="bs-tree-node-switcher bs-tree-node-switcher-noop">
-              <BsTreeNodeSwitcherIcon :node-data="nodeData" :node="{}"></BsTreeNodeSwitcherIcon>
-            </span>
-            <span
-              class="bs-tree-node-loadmore"
-              @click="showMoreChildNode">{{ loadMoreChildButtonText }}</span>
-            <i class="tree-node-split-line">/</i>
-            <span
-              class="bs-tree-node-loadmore"
-              @click="showAllChildNode">{{ loadAllChildButtonText }}</span>
-          </div>-->
           <BsTreeNodeOperate
             v-if="pageSize > 0 && totalPage > 0"
             :disabled="pageCount >= totalPage"
@@ -218,36 +191,7 @@ export default defineComponent({
 
     // 分页相关数据
     let { pageCount, nodeChildren, totalPage, showMoreChildNode, showAllChildNode } = useTreePagination(props);
-    /* // 当前页码
-    let pageCount = ref(1);
-    // 子节点
-    let nodeChildren = computed(function () {
-      let children = props.nodeData[props.childrenKey] || [];
-      let pageSize = Math.ceil(props.pageSize);
-      if (!isNaN(pageSize) && pageSize > 0 && children.length > pageSize) {
-        return children.slice(0, pageCount.value * pageSize);
-      }
 
-      return children;
-    });
-    // 总页数
-    let totalPage = computed(function () {
-      let children = props.nodeData[props.childrenKey] || [];
-
-      let pageSize = Math.ceil(props.pageSize);
-      if (!isNaN(pageSize) && pageSize > 0 && children.length > pageSize) {
-        return Math.ceil(children.length / pageSize);
-      }
-      return 0;
-    });
-    // 显示更多子节点
-    let showMoreChildNode = function () {
-      if (props.pageSize <= 0 && pageCount.value >= totalPage.value) {
-        return;
-      }
-      pageCount.value++;
-    };
- */
     // 复选框的值
     let checkboxModel = computed({
       get () {
@@ -290,14 +234,6 @@ export default defineComponent({
         loading: false
       };
     });
-
-    /* // 显示所有子节点
-    let showAllChildNode = function () {
-      if (props.pageSize <= 0) {
-        return;
-      }
-      pageCount.value = totalPage.value;
-    }; */
 
     // 节点点击事件
     let onNodeClick = function (evt: MouseEvent) {
