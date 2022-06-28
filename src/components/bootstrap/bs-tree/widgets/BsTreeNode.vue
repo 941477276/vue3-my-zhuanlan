@@ -38,10 +38,15 @@
       </span>
       <BsCheckbox
         v-if="showCheckbox"
-        v-model="checkboxModel"
+        v-model="inputModel"
         :value="nodeValue"
-        :indeterminate="isIndeterminate"></BsCheckbox>
-      <BsRadio v-if="!showCheckbox && showRadio"></BsRadio>
+        :indeterminate="isIndeterminate"
+        :name="checkboxName"></BsCheckbox>
+      <BsRadio
+        v-if="!showCheckbox && showRadio"
+        v-model="inputModel"
+        :value="nodeValue"
+        :name="radioName"></BsRadio>
       <!--<div class="bs-tree-node-label">node label</div>-->
       <BsTreeNodeLabel
         :label-key="labelKey"
@@ -83,7 +88,9 @@ import {
   computed,
   watch,
   nextTick,
-  defineComponent, inject
+  defineComponent,
+  inject,
+  onUnmounted
 } from 'vue';
 import BsCheckbox from '@/components/bootstrap/bs-checkbox/BsCheckbox.vue';
 import BsRadio from '@/components/bootstrap/bs-radio/BsRadio.vue';
@@ -195,16 +202,20 @@ export default defineComponent({
     let { pageCount, nodeChildren, totalPage, showMoreChildNode, showAllChildNode } = useTreePagination(props);
 
     // 复选框的值
-    let checkboxModel = computed({
+    let inputModel = computed({
       get () {
         // console.log('treeNode,判断复选框是否选中');
-        return isChecked.value;
+        if (props.showCheckbox) {
+          return isChecked.value;
+        }
+        return isChecked.value ? nodeValue.value : '';
       },
       set (newVal) {
-        // console.log('treeNode,复选框新的值：', newVal);
+        console.log('treeNode,复选框新的值：', newVal);
         if (newVal) {
           treeCtx.addCheckedKey(nodeValue.value, props.nodeData, nodeChildren.value.length > 0);
         } else {
+          // radio组件的值改变时不会进入这里，因此不用担心
           treeCtx.removeCheckedKey(nodeValue.value, props.nodeData, nodeChildren.value.length > 0);
         }
       }
@@ -254,6 +265,10 @@ export default defineComponent({
       toggleExpand();
     };
 
+    onUnmounted(function () {
+      treeCtx.onNodeDestroy(props.nodeData);
+    });
+
     return {
       isLeaf,
       isExpand,
@@ -265,7 +280,7 @@ export default defineComponent({
       nodeValue,
       pageCount,
       totalPage,
-      checkboxModel,
+      inputModel,
 
       toggleExpand,
       onNodeClick,

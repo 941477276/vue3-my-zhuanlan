@@ -4,6 +4,7 @@
       <div>
         <h3>基本使用</h3>
         <bs-tree
+          v-if="show"
           :tree-data="treeData1"
           node-key="id"
           :show-checkbox="true"
@@ -24,6 +25,7 @@
         <bs-button type="primary" @click="removeNode" style="margin-top: 1rem">移除一级</bs-button>
         <br>
         <bs-button type="primary" @click="addCheckedKeys" style="margin-top: 1rem">选中项</bs-button>
+        <bs-button type="primary" @click="show = !show" style="margin-top: 1rem">显示/销毁树</bs-button>
         <!--<a-tree
           v-model:expandedKeys="expandedKeys"
           v-model:checkedKeys="checkedKeys"
@@ -187,6 +189,7 @@ export default defineComponent({
     }]);
     // let checkedKeys1 = ref<(string|number)[]>(['4', '2_1', '2_4', '2_2', '2_5', '2_2_1', '2_1_1_2_2', '3_2_1']);
     let checkedKeys1 = ref<(string|number)[]>([]);
+    let show = ref(true);
 
     const expandedKeys = ref<string[]>(['0-0-0', '0-0-1']);
     const selectedKeys = ref<string[]>(['0-0-0', '0-0-1']);
@@ -242,6 +245,7 @@ export default defineComponent({
     return {
       treeData1,
       checkedKeys1,
+      show,
 
       treeData,
       expandedKeys,

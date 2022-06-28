@@ -19,6 +19,7 @@ export type TreeContext = {
   currentNode: any;
   onNodeExpand: (flag: boolean, nodeData: BsNodeData, nodeState: any) => void;
   addCheckedKey: (nodeKey: string|number, nodeData: BsNodeData, hasChildren: boolean) => void;
+  onNodeDestroy: (nodeData: BsNodeData) => void;
   removeCheckedKey: (nodeKey: string|number, nodeData: BsNodeData, hasChildren: boolean) => void;
   onNodeClick: (nodeData: BsNodeData, nodeState: any) => void;
 };

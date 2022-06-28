@@ -7,6 +7,10 @@ export const bsTreeProps = {
     type: Boolean,
     default: false
   },
+  checkboxName: { // 复选框的name
+    type: String,
+    default: null
+  },
   checkStrictly: { // 在显示复选框的情况下，是否严格的遵循父子不互相关联的做法，默认为 false
     type: Boolean,
     default: false
@@ -14,6 +18,10 @@ export const bsTreeProps = {
   showRadio: { // 节点是否可以单选
     type: Boolean,
     default: false
+  },
+  radioName: { // 单选框框的name
+    type: String,
+    default: '--'
   },
   renderAfterExpand: { // 是否在第一次展开某个树节点后才渲染其子节点
     type: Boolean,
