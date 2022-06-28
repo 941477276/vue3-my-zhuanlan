@@ -179,12 +179,14 @@ export default defineComponent({
     watch(() => props.expandedKeys, function (expandedKeys) {
       let nodeKey = nodeValue.value;
 
-      if (expandedKeys?.includes(nodeKey)) {
-        toggleExpand(true, false);
-      } else {
-        if (isExpand.value && !isManualExpanded.value) {
-          // isExpand.value = false;
-          toggleExpand(false, false);
+      if (!isManualExpanded.value) { // 在没有手动操作过的情况下才可以展开/收起
+        if (expandedKeys?.includes(nodeKey)) {
+          toggleExpand(true, false);
+        } else {
+          if (isExpand.value) {
+            // isExpand.value = false;
+            toggleExpand(false, false);
+          }
         }
       }
     }, { immediate: true, deep: true });

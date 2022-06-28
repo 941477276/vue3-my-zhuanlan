@@ -241,44 +241,18 @@ export default defineComponent({
         if (topParent) {
           processedKes[topParentValue] = 1;
         }
-        // 根据节点的值查找有children的子节点
+        // 根据节点的值（如果有顶层父节点则从顶层父节点开始）查找有children的子节点
         let hasChildrenChildNodes = findChildrenWhichHasChildren2(topParentValue ? topParentValue : checkedKey, nodeKey, childKey, flatTree);
         // console.log('hasChildrenNodes', hasChildrenChildNodes);
 
         if (hasChildrenChildNodes.length === 0) {
           let currentNode = findNodeByValue2(checkedKey, nodeKey, flatTree);
+          console.log('aaaaa', currentNode);
           if (!currentNode.node) {
             return;
           }
-          let currentChildren = currentNode.node[childKey];
-          // 判断当前节点的直接子节点是否全部选中，因为在上一步已经查找过了当前节点的孙级节点，但未找到孙级节点
-          if (currentChildren && currentChildren.length > 0) {
-            console.log('aaaaaa');
-            let childrenIsAllChecked = nodesIsAllChecked(currentChildren, function (node, nodeValue) {
-              processedKes[nodeValue] = 1;
-            });
-            // console.log('childrenIsAllChecked111', childrenIsAllChecked);
-            // 如果子节点未全部选中，则该节点为半选中状态
-            if (childrenIsAllChecked.allChecked && !childrenIsAllChecked.hasHalfChecked) {
-              // console.log('111');
-              removeHalfCheckedKey(checkedKey);
-              addCheckedKey(checkedKey);
-              setTopParentsIndeterminate(topParent, false);
-            } else {
-              if (childrenIsAllChecked.hasChecked) { // 子节点必须有一个选中了的才能设置父节点的半选中状态
-                addHalfCheckedKey(checkedKey);
-                removeCheckedKey(checkedKey);
-                setTopParentsIndeterminate(topParent, true);
-                // console.log('222');
-              } else {
-                console.log('removeCheckedKey333');
-                removeCheckedKey(checkedKey);
-                setTopParentsIndeterminate(topParent, false);
-              }
-              console.log('removeCheckedKey444');
-            }
-          }
-          return;
+          // 如果节点没有有children的子节点，那么hasChildrenChildNodes就是它自己，此时节点可能为最后一层，或倒数第二层
+          hasChildrenChildNodes = [currentNode];
         } else if (!topParent && hasChildrenChildNodes.length > 0) { // 如果节点已经没有了父级节点，并且还有子节点，那么它自己就是顶级节点
           topParent = findNodeByValue2(checkedKey, nodeKey, flatTree).node;
           topParentValue = topParent ? topParent[nodeKey] : '';
@@ -303,7 +277,7 @@ export default defineComponent({
             });
             // console.log('childrenIsAllChecked', childrenIsAllChecked);
 
-            // 如果子节点未全部选中，则该节点为半选中状态
+            // 如果子节点未全部选中，则该节点为选中状态
             if (childrenIsAllChecked.allChecked && !childrenIsAllChecked.hasHalfChecked) {
               removeHalfCheckedKey(nodeValue);
               addCheckedKey(nodeValue);
@@ -314,7 +288,7 @@ export default defineComponent({
               if (childrenIsAllChecked.hasChecked || childrenIsAllChecked.hasHalfChecked) {
                 addHalfCheckedKey(nodeValue);
                 removeCheckedKey(nodeValue);
-                setTopParentsIndeterminate(topParent, true);
+                // setTopParentsIndeterminate(topParent, true);
                 console.log('removeCheckedKey555');
                 // hasHalfCheckedChild = true;
                 hasCheckedChild = true;
@@ -331,13 +305,24 @@ export default defineComponent({
             }
           }
         });
+        // 顶层父级节点的直接子节点选中信息
+        let topParentChildCheckedInfo = {
+          allChecked: false,
+          hasChecked: false,
+          hasHalfChecked: false
+        };
+        if (topParent) {
+          let topParentChildren = topParent[childKey];
+          if (topParentChildren && topParentChildren.length > 0) {
+            topParentChildCheckedInfo = nodesIsAllChecked(topParentChildren);
+          }
+        }
         // 子孙节点必须有一个选中的，那么顶层父级节点才能设置为半选中状态
-        setTopParentsIndeterminate(topParent, !isChildrenAllChecked && hasCheckedChild);
-        console.log('!isChildrenAllChecked && !hasCheckedChild && topParentValue', !isChildrenAllChecked, !hasCheckedChild, topParentValue, topParent);
-        // 如果所有子节点都选中了，则将顶层父节点也设置为选中状态
-        if (isChildrenAllChecked && topParentValue) {
+        setTopParentsIndeterminate(topParent, (!isChildrenAllChecked && hasCheckedChild) || !topParentChildCheckedInfo.allChecked);
+        // 如果所有子孙节点都选中了，则将顶层父节点也设置为选中状态
+        if (isChildrenAllChecked && topParentChildCheckedInfo.allChecked) {
           addCheckedKey(topParentValue);
-        } else if (!isChildrenAllChecked && !hasCheckedChild && topParentValue) { // 如果所有子节点都未选中，则需将顶层父节点取消选中
+        } else if (!isChildrenAllChecked && !hasCheckedChild && !topParentChildCheckedInfo.hasChecked) { // 如果所有子孙节点都未选中，则需将顶层父节点取消选中
           removeCheckedKey(topParentValue);
         }
       });
