@@ -67,17 +67,17 @@ export const bsTreeProps = {
     type: Boolean,
     default: false
   },
-  lazy: { // 是否懒加载子节点，需与 loadData 方法结合使用
+  lazy: { // 是否懒加载子节点，需与 loadDataFn 方法结合使用
     type: Boolean,
     default: false
   },
-  loadData: { // 异步加载节点数据函数
+  loadDataFn: { // 异步加载节点数据函数
     type: Function,
     default: null
   },
   pageSize: { // 子节点分页显示数量，值为0表示不使用分页
     type: Number,
-    default: 2
+    default: 50
   },
   loadMoreChildButtonText: {
     type: String,
