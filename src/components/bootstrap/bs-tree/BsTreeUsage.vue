@@ -346,7 +346,7 @@ export default defineComponent({
         }
       ]
     }]);
-    let checkedKeys3 = ref(['1_1', '1_2', '1_3', '1_3_1', '1_3_2', '1_3_3', '1_3_2_2']);
+    let checkedKeys3 = ref(['1_1', '1_2', '1_3_1', '1_3_2', '1_3_3', '1_3_2_2']);
 
     return {
       treeData1,

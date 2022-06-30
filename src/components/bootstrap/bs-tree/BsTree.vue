@@ -94,16 +94,6 @@ export default defineComponent({
     // let flatTreeMap = ref<BsNodeInfo[]>([]);
     // 扁平化的树信息
     let flatTreeNodeInfoArr = ref<BsNodeInfo[]>([]);
-    watch([() => props.treeData, () => props.props], function ([treeData, nodeProps]) {
-      let startTimer = new Date().getTime();
-      // flatTreeNodeInfoArr.value = flatTreeDataToObject(treeData, nodeProps.children, 1, '', {});
-      flatTreeNodeInfoArr.value = treeDataToFlattarnArr2(treeData, nodeProps.children, 1, '', []);
-      console.log('扁平化树形对象耗时：', new Date().getTime() - startTimer);
-      console.log('flatTreeNodeInfoArr', flatTreeNodeInfoArr.value);
-    }, {
-      immediate: true,
-      deep: true
-    });
 
     // 展开的节点的key数组
     let expandedKeysRoot = ref(props.expandedKeys);
@@ -118,28 +108,6 @@ export default defineComponent({
         expandedKeysRoot.value.splice(index, 1);
       }
     };
-    watch(() => props.expandedKeys, function (expandedKeys: (string | number)[]) {
-      let timer2 = new Date().getTime();
-      if (expandedKeys?.length > 0 && expandedKeysRoot.value !== expandedKeys) {
-        let parentKeys: (string | number)[] = [];
-        if (props.autoExpandParent) { // 自动展开父节点
-          let flatTreeMapData = flatTreeNodeInfoArr.value;
-          let nodeKey = props.nodeKey;
-
-          expandedKeys.forEach((expandedKey: string | number) => {
-            /* let nodeInfo = findNodeByValue(expandedKey, nodeKey, flatTreeMapData);
-            let nodeParents = nodeInfo.nodeLevelPath ? findNodeParentsByNodeLevelPath(nodeInfo.nodeLevelPath, flatTreeMapData) : []; */
-            let nodeInfo = findNodeByValue2(expandedKey, nodeKey, flatTreeMapData);
-            let nodeParents = nodeInfo.nodeLevelPath ? findParentsByNodeLevelPath2(nodeInfo.nodeLevelPath, flatTreeMapData) : [];
-            nodeParents.forEach((nodeItem: any) => {
-              parentKeys.push(nodeItem[nodeKey]);
-            });
-          });
-        }
-        expandedKeysRoot.value = Array.from(new Set([...expandedKeys, ...parentKeys, ...expandedKeysRoot.value]));
-      }
-      console.log('自动展开节点计算耗时：', new Date().getTime() - timer2);
-    }, { immediate: true });
 
     // 选中节点的key数组
     // let checkedKeysRoot = ref([...props.checkedKeys]);
@@ -295,7 +263,9 @@ export default defineComponent({
               // 子节点必须有一个选中的或者有半选中状态的才能设置父节点的半选中状态
               if (childrenIsAllChecked.hasChecked || childrenIsAllChecked.hasHalfChecked) {
                 addHalfCheckedKey(nodeValue);
-                removeCheckedKey(nodeValue);
+                if (addNodeToCheckedKeys) {
+                  removeCheckedKey(nodeValue);
+                }
                 // setTopParentsIndeterminate(topParent, true);
                 console.log('removeCheckedKey555', nodeValue);
                 // hasHalfCheckedChild = true;
@@ -333,14 +303,32 @@ export default defineComponent({
         // 如果所有子孙节点都选中了，则将顶层父节点也设置为选中状态
         if (isChildrenAllChecked && topParentChildCheckedInfo.allChecked) {
           addCheckedKey(topParentValue);
+          console.log('99999');
         } else if (!isChildrenAllChecked && !hasCheckedChild && !topParentChildCheckedInfo.hasChecked) { // 如果所有子孙节点都未选中，则需将顶层父节点取消选中
           removeCheckedKey(topParentValue);
+          console.log('10101010');
         }
       });
       console.log('halfCheckedKeys', halfCheckedKeys.value);
       console.log('processedKeys', processedKes);
       console.timeEnd('linkParentCheckbox执行耗时：');
     };
+
+    let isInited = false;
+    watch([() => props.treeData, () => props.props], function ([treeData, nodeProps]) {
+      console.time('监听treeData变化，执行耗时');
+      // flatTreeNodeInfoArr.value = flatTreeDataToObject(treeData, nodeProps.children, 1, '', {});
+      flatTreeNodeInfoArr.value = treeDataToFlattarnArr2(treeData, nodeProps.children, 1, '', []);
+      console.log('flatTreeNodeInfoArr', flatTreeNodeInfoArr.value);
+      if (isInited) { // 还未进行初始化的时候不执行linkParentCheckbox函数，因为下面的watch props.checkedKeys会执行
+        linkParentCheckbox();
+      }
+      isInited = true;
+      console.timeEnd('监听treeData变化，执行耗时');
+    }, {
+      immediate: true,
+      deep: true
+    });
 
     watch(() => [...props.checkedKeys], function (checkedKeys) {
       console.log('watch props.checkedKeys111', checkedKeys);
@@ -366,6 +354,29 @@ export default defineComponent({
         }
         linkParentCheckbox(false);
       }
+    }, { immediate: true });
+
+    watch(() => props.expandedKeys, function (expandedKeys: (string | number)[]) {
+      let timer2 = new Date().getTime();
+      if (expandedKeys?.length > 0 && expandedKeysRoot.value !== expandedKeys) {
+        let parentKeys: (string | number)[] = [];
+        if (props.autoExpandParent) { // 自动展开父节点
+          let flatTreeMapData = flatTreeNodeInfoArr.value;
+          let nodeKey = props.nodeKey;
+
+          expandedKeys.forEach((expandedKey: string | number) => {
+            /* let nodeInfo = findNodeByValue(expandedKey, nodeKey, flatTreeMapData);
+            let nodeParents = nodeInfo.nodeLevelPath ? findNodeParentsByNodeLevelPath(nodeInfo.nodeLevelPath, flatTreeMapData) : []; */
+            let nodeInfo = findNodeByValue2(expandedKey, nodeKey, flatTreeMapData);
+            let nodeParents = nodeInfo.nodeLevelPath ? findParentsByNodeLevelPath2(nodeInfo.nodeLevelPath, flatTreeMapData) : [];
+            nodeParents.forEach((nodeItem: any) => {
+              parentKeys.push(nodeItem[nodeKey]);
+            });
+          });
+        }
+        expandedKeysRoot.value = Array.from(new Set([...expandedKeys, ...parentKeys, ...expandedKeysRoot.value]));
+      }
+      console.log('自动展开节点计算耗时：', new Date().getTime() - timer2);
     }, { immediate: true });
 
     // 当前选中的节点

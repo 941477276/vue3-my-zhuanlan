@@ -327,6 +327,7 @@ export default defineComponent({
       isCurrent,
       isIndeterminate,
       isDisabled,
+      dataLoaded,
       nodeChildren,
       nodeValue,
       pageCount,
