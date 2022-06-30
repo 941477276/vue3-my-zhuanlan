@@ -42,6 +42,10 @@ export function useTreeNode (props: any, treeCtx: TreeContext) {
   let isIndeterminate = computed(function () {
     return treeCtx.halfCheckedKeys.value.includes(nodeValue.value);
   });
+  // 是否禁用
+  let isDisabled = computed(function () {
+    return !!props.nodeData[props.disabledKey];
+  });
 
   return {
     loadingData,
@@ -50,6 +54,7 @@ export function useTreeNode (props: any, treeCtx: TreeContext) {
     nodeValue,
     isChecked,
     isCurrent,
-    isIndeterminate
+    isIndeterminate,
+    isDisabled
   };
 };

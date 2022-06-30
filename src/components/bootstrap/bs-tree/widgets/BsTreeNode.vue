@@ -41,12 +41,14 @@
         v-model="inputModel"
         :value="nodeValue"
         :indeterminate="isIndeterminate"
-        :name="checkboxName"></BsCheckbox>
+        :name="checkboxName"
+        :disabled="isDisabled"></BsCheckbox>
       <BsRadio
         v-if="!showCheckbox && showRadio"
         v-model="inputModel"
         :value="nodeValue"
-        :name="radioName"></BsRadio>
+        :name="radioName"
+        :disabled="isDisabled"></BsRadio>
       <!--<div class="bs-tree-node-label">node label</div>-->
       <BsTreeNodeLabel
         :label-key="labelKey"
@@ -132,11 +134,12 @@ export default defineComponent({
       nodeValue,
       isChecked,
       isCurrent,
-      isIndeterminate
+      isIndeterminate,
+      isDisabled
     } = useTreeNode(props, treeCtx);
 
     // 节点是否展开
-    let isExpand = ref(props.defaultExpandAll || false);
+    let isExpand = ref(false);
     let isManualExpanded = ref(false); // 是否为手动展开的
     let isChildrenRendered = ref(!props.renderAfterExpand || props.defaultExpandAll); // 子节点是否已经渲染
     /**
@@ -294,8 +297,7 @@ export default defineComponent({
       let nodeKey = nodeValue.value;
 
       if (!isManualExpanded.value) { // 在没有手动操作过的情况下才可以展开/收起
-        if (expandedKeys?.includes(nodeKey)) {
-          // toggleExpand(true, false);
+        if (expandedKeys?.includes(nodeKey) || props.defaultExpandAll) {
           if (props.lazy) {
             lazyLoadChildren()
               .then(function () {
@@ -324,6 +326,7 @@ export default defineComponent({
       isChecked,
       isCurrent,
       isIndeterminate,
+      isDisabled,
       nodeChildren,
       nodeValue,
       pageCount,

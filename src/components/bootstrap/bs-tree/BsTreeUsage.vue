@@ -25,7 +25,7 @@
         <bs-button type="primary" @click="addCheckedKeys" style="margin-top: 1rem">选中项</bs-button>
         <bs-button type="primary" @click="show = !show" style="margin-top: 1rem">显示/销毁树</bs-button>
       </div>-->
-      <div>
+      <!--<div>
         <h3>动态加载</h3>
         <bs-tree
           :tree-data="treeData2"
@@ -33,6 +33,16 @@
           :load-data-fn="loadNode"
           :show-checkbox="true"
           :expanded-keys="['1', '1_1', '1_1_1', '1_3', '1_3_2']"
+          v-model:checkedKeys="checkedKeys2"
+          node-key="id">
+        </bs-tree>
+      </div>-->
+      <div>
+        <h3>禁用</h3>
+        <bs-tree
+          :tree-data="treeData3"
+          :show-checkbox="true"
+          :defaultExpandAll="true"
           v-model:checkedKeys="checkedKeys2"
           node-key="id">
         </bs-tree>
@@ -290,6 +300,54 @@ export default defineComponent({
       });
     };
 
+    let treeData3 = ref([{
+      label: '一级 1',
+      id: '1',
+      children: [
+        {
+          label: '二级 1-1',
+          id: '1_1',
+          disabled: true,
+          children: [
+            {
+              label: '三级 1-1-1',
+              id: '1_1_1',
+              disabled: true
+            },
+            {
+              label: '三级 1-1-2',
+              id: '1_1_2'
+            }
+          ]
+        },
+        {
+          label: '二级(叶子节点) 1-2',
+          id: '1_2',
+          isLeaf: true
+        },
+        {
+          label: '二级 1-3',
+          id: '1_3',
+          disabled: true,
+          children: [
+            {
+              label: '三级 1-3-1',
+              id: '1_3_1'
+            },
+            {
+              label: '三级 1-3-2',
+              id: '1_3_2'
+            }
+          ]
+        },
+        {
+          label: '二级 1-4',
+          id: '1_4'
+        }
+      ]
+    }]);
+    let checkedKeys3 = ref(['1_1', '1_2', '1_3', '1_3_1', '1_3_2', '1_3_3', '1_3_2_2']);
+
     return {
       treeData1,
       checkedKeys1,
@@ -298,6 +356,9 @@ export default defineComponent({
       treeData2,
       checkedKeys2,
       loadNode,
+
+      treeData3,
+      checkedKeys3,
 
       addNode,
       removeNode,
