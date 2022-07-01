@@ -25,7 +25,7 @@
         <bs-button type="primary" @click="addCheckedKeys" style="margin-top: 1rem">选中项</bs-button>
         <bs-button type="primary" @click="show = !show" style="margin-top: 1rem">显示/销毁树</bs-button>
       </div>-->
-      <!--<div>
+      <div>
         <h3>动态加载</h3>
         <bs-tree
           :tree-data="treeData2"
@@ -36,17 +36,30 @@
           v-model:checkedKeys="checkedKeys2"
           node-key="id">
         </bs-tree>
-      </div>-->
-      <div>
+      </div>
+      <!--<div>
         <h3>禁用</h3>
         <bs-tree
           :tree-data="treeData3"
           :show-checkbox="true"
           :defaultExpandAll="true"
-          v-model:checkedKeys="checkedKeys2"
+          v-model:checkedKeys="checkedKeys3"
           node-key="id">
         </bs-tree>
-      </div>
+      </div>-->
+
+      <!--<a-tree
+        v-model:expandedKeys="expandedKeys"
+        v-model:selectedKeys="selectedKeys"
+        v-model:checkedKeys="checkedKeys"
+        checkable
+        :tree-data="treeData"
+      >
+        <template #title="{ title, key }">
+          <span v-if="key === '0-0-1-0'" style="color: #1890ff">{{ title }}</span>
+          <template v-else>{{ title }}</template>
+        </template>
+      </a-tree>-->
     </div>
   </div>
 </template>
@@ -307,7 +320,7 @@ export default defineComponent({
         {
           label: '二级 1-1',
           id: '1_1',
-          disabled: true,
+          // disabled: true,
           children: [
             {
               label: '三级 1-1-1',
@@ -346,7 +359,51 @@ export default defineComponent({
         }
       ]
     }]);
-    let checkedKeys3 = ref(['1_1', '1_2', '1_3_1', '1_3_2', '1_3_3', '1_3_2_2']);
+    let checkedKeys3 = ref(['1_1', '1_1_1', '1_2', '1_3_1', '1_3_2', '1_3_3', '1_3_2_2']);
+
+    /* setTimeout(function () {
+      console.log('改变禁用状态了');
+      (treeData3.value[0].children[0] as any).children[0].disabled = false;
+    }, 5000); */
+
+    const treeData = ref([
+      {
+        title: 'parent 1',
+        key: '0-0',
+        children: [
+          {
+            title: 'parent 1-0',
+            key: '0-0-0',
+            // disabled: true,
+            children: [
+              { title: 'leaf', key: '0-0-0-0', disableCheckbox: true },
+              { title: 'leaf', key: '0-0-0-1' }
+            ]
+          },
+          {
+            title: 'parent 1-1',
+            key: '0-0-1',
+            children: [{ key: '0-0-1-0', title: 'sss' }]
+          }
+        ]
+      }
+    ]);
+    const expandedKeys = ref<string[]>(['0-0-0', '0-0-1']);
+    const selectedKeys = ref<string[]>(['0-0-0', '0-0-1']);
+    const checkedKeys = ref<string[]>(['0-0-0', '0-0-1']);
+    /* watch(expandedKeys, () => {
+      console.log('expandedKeys', expandedKeys);
+    });
+    watch(selectedKeys, () => {
+      console.log('selectedKeys', selectedKeys);
+    });
+    watch(checkedKeys, () => {
+      console.log('checkedKeys', checkedKeys);
+    }); */
+
+    setTimeout(function () {
+      console.log('checkedKeys', checkedKeys.value);
+    }, 1500);
 
     return {
       treeData1,
@@ -359,6 +416,11 @@ export default defineComponent({
 
       treeData3,
       checkedKeys3,
+
+      treeData,
+      expandedKeys,
+      selectedKeys,
+      checkedKeys,
 
       addNode,
       removeNode,

@@ -8,6 +8,7 @@ import { StringKeyObject } from '@/ts-tokens/bootstrap/index';
 export interface BsNodeInfo {
   node: StringKeyObject;
   nodeLevelPath: string;
+  isDisabled: boolean;
 };
 
 export type BsNodeData = StringKeyObject;

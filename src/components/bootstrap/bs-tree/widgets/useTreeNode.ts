@@ -28,7 +28,7 @@ export function useTreeNode (props: any, treeCtx: TreeContext) {
   // 是否选中
   let isChecked = computed(function () {
     // console.log('props.checkedKeys', props.checkedKeys, nodeValue.value);
-    return props.checkedKeys?.includes(nodeValue.value);
+    return props.checkedKeys.includes(nodeValue.value);
   });
   // 判断当前节点是否被点击
   let isCurrent = computed(function () {

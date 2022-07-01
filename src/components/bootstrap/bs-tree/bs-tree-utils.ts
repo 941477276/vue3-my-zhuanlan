@@ -41,11 +41,12 @@ export function flatTreeDataToObject (treeData: BsNodeData[], childrenKey: strin
  * 将树形结构扁平化转成普通对象
  * @param treeNodeInfoArr 树数据
  * @param childrenKey 节点的子节点属性名
+ * @param disabledKey 节点是否禁用的属性名
  * @param nodeLevel 节点的层级
  * @package parentNodeLevelPath 父级节点层级路径
  * @param target 目标对象
  */
-export function treeDataToFlattarnArr2 (treeNodeInfoArr: BsNodeInfo[], childrenKey: string, nodeLevel = 1, parentNodeLevelPath = '', target: BsNodeInfo[] = []) {
+export function treeDataToFlattarnArr2 (treeNodeInfoArr: BsNodeInfo[], childrenKey: string, disabledKey: string, nodeLevel = 1, parentNodeLevelPath = '', target: BsNodeInfo[] = []) {
   if (!Array.isArray(treeNodeInfoArr)) {
     treeNodeInfoArr = [treeNodeInfoArr];
   }
@@ -56,13 +57,14 @@ export function treeDataToFlattarnArr2 (treeNodeInfoArr: BsNodeInfo[], childrenK
     let nodeLevelPath = parentNodeLevelPath ? (parentNodeLevelPath + '_' + (index + 1)) : '' + (index + 1);
     target.push({
       nodeLevelPath,
-      node: treeNode
+      node: treeNode,
+      isDisabled: !!treeNode[disabledKey]
     });
 
     let children = treeNode[childrenKey];
     // console.log('children', children, childrenKey);
     if (children && (children?.length || 0) > 0) {
-      treeDataToFlattarnArr2(children, childrenKey, nodeLevel + 1, nodeLevelPath, target);
+      treeDataToFlattarnArr2(children, childrenKey, disabledKey, nodeLevel + 1, nodeLevelPath, target);
     }
   });
   return target;
