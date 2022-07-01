@@ -167,7 +167,7 @@ export default defineComponent({
       let isChecked = (evt.target as HTMLInputElement).checked;
       // console.log('是否选中', isChecked);
       if (typeof props.indeterminate === 'boolean') {
-        // console.log('值改变了');
+        console.log('on_change，改变 isIndeterminate');
         isIndeterminate.value = false;
       }
 
@@ -202,8 +202,14 @@ export default defineComponent({
       useDeliverContextToParent<FormItemContext>(formItemContextKey, deliverToFormItemCtx);
     }
 
+    let watchIndeterminateTimer:number;
     let stopWatchIndeterminate = watch(() => props.indeterminate, function (indeterminate) {
-      isIndeterminate.value = indeterminate;
+      clearTimeout(watchIndeterminateTimer);
+      // 这里加setTimeout的原因是：当 on_change 与 props.indeterminate 同时改变isIndeterminate时，on_change事件比这里的watch要慢，而isIndeterminate的值需要以props.indeterminate为主
+      watchIndeterminateTimer = setTimeout(function () {
+        console.log('watch props.indeterminate-------------');
+        isIndeterminate.value = indeterminate;
+      }, 0);
     });
 
     onMounted(() => {
