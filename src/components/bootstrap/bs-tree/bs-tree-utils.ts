@@ -168,7 +168,7 @@ export function findParentsByNodeLevelPath2 (nodeLevelPath: string, treeNodeInfo
  * @return {{node: object; nodeLevelPath: string}}
  */
 export function findParentsByNodeValue2 (nodeValue: any, nodeKey: string, treeNodeInfoArr: BsNodeInfo[]) {
-  let nodeInfo = findNodeByValue2(nodeValue, nodeKey, treeNodeInfoArr);
+  let nodeInfo = findNodeInfoByValue2(nodeValue, nodeKey, treeNodeInfoArr);
   if (!nodeInfo.node) {
     return [];
   }
@@ -205,7 +205,7 @@ export function findNodeByValue (nodeValue: any, nodeKey: string, treeDataMap: a
  * @param treeNodeInfoArr 扁平化的树数组
  * @return {{node: object; nodeLevelPath: string}}
  */
-export function findNodeByValue2 (nodeValue: any, nodeKey: string, treeNodeInfoArr: BsNodeInfo[]) {
+export function findNodeInfoByValue2 (nodeValue: any, nodeKey: string, treeNodeInfoArr: BsNodeInfo[]) {
   let resultNode: StringKeyObject = {
     node: null,
     nodeLevelPath: '',
@@ -232,7 +232,7 @@ export function findNodeByValue2 (nodeValue: any, nodeKey: string, treeNodeInfoA
  * @param treeNodeInfoArr 扁平化的树数组
  */
 export function findChildrenByNodeValue2 (nodeValue: any, nodeKey: string, childKey: string, treeNodeInfoArr: BsNodeInfo[]) {
-  let nodeInfo = findNodeByValue2(nodeValue, nodeKey, treeNodeInfoArr);
+  let nodeInfo = findNodeInfoByValue2(nodeValue, nodeKey, treeNodeInfoArr);
   let result: any[] = [];
   if (!nodeInfo.node) {
     return result;
@@ -258,7 +258,7 @@ export function findChildrenByNodeValue2 (nodeValue: any, nodeKey: string, child
  * @param treeNodeInfoArr 扁平化的树数组
  */
 export function findChildrenWhichHasChildren2 (nodeValue: any, nodeKey: string, childKey: string, treeNodeInfoArr: BsNodeInfo[]) {
-  let nodeInfo = findNodeByValue2(nodeValue, nodeKey, treeNodeInfoArr);
+  let nodeInfo = findNodeInfoByValue2(nodeValue, nodeKey, treeNodeInfoArr);
   let result: any[] = [];
   // console.log('nodeInfo11', nodeInfo, nodeValue);
   if (!nodeInfo.node) {
@@ -289,7 +289,7 @@ export function findChildrenWhichHasChildren2 (nodeValue: any, nodeKey: string, 
  * @param treeNodeInfoArr 扁平化的树数组
  */
 export function findTopParentByNodeValue2 (nodeValue: any, nodeKey: string, treeNodeInfoArr: BsNodeInfo[]) {
-  let nodeInfo = findNodeByValue2(nodeValue, nodeKey, treeNodeInfoArr);
+  let nodeInfo = findNodeInfoByValue2(nodeValue, nodeKey, treeNodeInfoArr);
   if (!nodeInfo.node) {
     return null;
   }
@@ -304,7 +304,7 @@ export function findTopParentByNodeValue2 (nodeValue: any, nodeKey: string, tree
  * @param treeNodeInfoArr
  */
 export function findChildrenFlattarnByNodeValue2 (nodeValue: any, nodeKey: string, treeNodeInfoArr: BsNodeInfo[]) {
-  let currentNodeInfo = findNodeByValue2(nodeValue, nodeKey, treeNodeInfoArr);
+  let currentNodeInfo = findNodeInfoByValue2(nodeValue, nodeKey, treeNodeInfoArr);
   if (!currentNodeInfo.node) {
     return [];
   }

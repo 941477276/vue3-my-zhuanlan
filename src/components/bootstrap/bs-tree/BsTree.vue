@@ -47,7 +47,7 @@ import { BsNodeData, BsNodeInfo, bsTreeContextKey, TreeContext } from '@/ts-toke
 import { StringKeyObject } from '@/ts-tokens/bootstrap';
 import {
   findChildrenWhichHasChildren2,
-  findNodeByValue2,
+  findNodeInfoByValue2,
   findParentsByNodeLevelPath2,
   findParentsByNodeValue2,
   findTopParentByNodeValue2,
@@ -120,7 +120,7 @@ export default defineComponent({
     let addCheckedKey = function (nodeKey: string | number, isDisabled: boolean) {
       if (isDisabled) {
         console.log('addCheckedKey，节点为禁用的，', nodeKey);
-        let nodeInfo = findNodeByValue2(nodeKey, props.nodeKey, flatTreeNodeInfoArr.value);
+        let nodeInfo = findNodeInfoByValue2(nodeKey, props.nodeKey, flatTreeNodeInfoArr.value);
         // 如果被禁用的节点没有子节点，则不添加进去
         if (nodeInfo.node && !nodeInfo.node[props.props.children]) {
           return false;
@@ -134,7 +134,7 @@ export default defineComponent({
     let removeCheckedKey = function (nodeKey: string | number, isDisabled: boolean) {
       if (isDisabled) {
         console.log('removeCheckedKey，节点为禁用的，', nodeKey);
-        let nodeInfo = findNodeByValue2(nodeKey, props.nodeKey, flatTreeNodeInfoArr.value);
+        let nodeInfo = findNodeInfoByValue2(nodeKey, props.nodeKey, flatTreeNodeInfoArr.value);
         // 如果被禁用的节点没有子节点，则不移除
         if (nodeInfo.node && !nodeInfo.node[props.props.children]) {
           console.log('removeCheckedKey，节点为禁用的且没有子节点', nodeKey);
@@ -242,7 +242,7 @@ export default defineComponent({
         // console.log('hasChildrenNodes', hasChildrenChildNodes);
 
         if (hasChildrenChildNodes.length === 0) {
-          let currentNodeInfo = findNodeByValue2(checkedKey, nodeKey, flatTree);
+          let currentNodeInfo = findNodeInfoByValue2(checkedKey, nodeKey, flatTree);
           console.log('aaaaa', currentNodeInfo);
           if (!currentNodeInfo.node) {
             console.log('未找到节点，', checkedKey);
@@ -251,7 +251,7 @@ export default defineComponent({
           // 如果节点没有有children的子节点，那么hasChildrenChildNodes就是它自己，此时节点可能为最后一层，或倒数第二层
           hasChildrenChildNodes = [currentNodeInfo.node];
         } else if (!topParent && hasChildrenChildNodes.length > 0) { // 如果节点已经没有了父级节点，并且还有子节点，那么它自己就是顶级节点
-          topParent = findNodeByValue2(checkedKey, nodeKey, flatTree).node;
+          topParent = findNodeInfoByValue2(checkedKey, nodeKey, flatTree).node;
           topParentValue = topParent ? topParent[nodeKey] : '';
           console.log('topParent2222', topParent, topParentValue);
         }
@@ -399,7 +399,7 @@ export default defineComponent({
       let nodeKey = props.nodeKey;
       let childrenKey = props.props.children;
       let disabledKey = props.props.disabled;
-      let nodeInfo = findNodeByValue2(nodeValue, nodeKey, flatTreeNodeInfoArr.value);
+      let nodeInfo = findNodeInfoByValue2(nodeValue, nodeKey, flatTreeNodeInfoArr.value);
       if (!nodeInfo.node) {
         return;
       }
@@ -494,7 +494,7 @@ export default defineComponent({
           expandedKeys.forEach((expandedKey: string | number) => {
             /* let nodeInfo = findNodeByValue(expandedKey, nodeKey, flatTreeMapData);
             let nodeParents = nodeInfo.nodeLevelPath ? findNodeParentsByNodeLevelPath(nodeInfo.nodeLevelPath, flatTreeMapData) : []; */
-            let nodeInfo = findNodeByValue2(expandedKey, nodeKey, flatTreeMapData);
+            let nodeInfo = findNodeInfoByValue2(expandedKey, nodeKey, flatTreeMapData);
             let nodeParents = nodeInfo.nodeLevelPath ? findParentsByNodeLevelPath2(nodeInfo.nodeLevelPath, flatTreeMapData) : [];
             nodeParents.forEach((nodeItem: any) => {
               parentKeys.push(nodeItem.node[nodeKey]);
