@@ -118,7 +118,7 @@ export function findParentsByNodeLevelPath2 (nodeLevelPath: string, treeNodeInfo
   if (recentedParentIndex == -1) {
     return nodeParents;
   }
-  nodeParents.push(treeNodeInfoArr[recentedParentIndex].node);
+  nodeParents.push(treeNodeInfoArr[recentedParentIndex]);
 
   while (nodeLevelPath.length > 0) {
     // 从末尾开始查找“_”下划线的位置
@@ -136,7 +136,7 @@ export function findParentsByNodeLevelPath2 (nodeLevelPath: string, treeNodeInfo
       let item = treeNodeInfoArr[i];
       console.log('往前查找父级！');
       if (item.nodeLevelPath === nodeLevelPath) {
-        nodeParents.push(item.node);
+        nodeParents.push(item);
         recentedParentIndex = i;
         searchResultFlag = true;
         break;
@@ -149,7 +149,7 @@ export function findParentsByNodeLevelPath2 (nodeLevelPath: string, treeNodeInfo
         let item = treeNodeInfoArr[i];
         console.log('往后查找父级！');
         if (item.nodeLevelPath === nodeLevelPath) {
-          nodeParents.push(item.node);
+          nodeParents.push(item);
           recentedParentIndex = i;
           searchResultFlag = true;
           break;
@@ -158,6 +158,22 @@ export function findParentsByNodeLevelPath2 (nodeLevelPath: string, treeNodeInfo
     }
   }
   return nodeParents;
+};
+
+/**
+ * 根据节点的值查找所有父级节点
+ * @param nodeValue 节点的值
+ * @param nodeKey 节点的值的属性名
+ * @param treeNodeInfoArr 扁平化的树数组
+ * @return {{node: object; nodeLevelPath: string}}
+ */
+export function findParentsByNodeValue2 (nodeValue: any, nodeKey: string, treeNodeInfoArr: BsNodeInfo[]) {
+  let nodeInfo = findNodeByValue2(nodeValue, nodeKey, treeNodeInfoArr);
+  if (!nodeInfo.node) {
+    return [];
+  }
+  let parents = findParentsByNodeLevelPath2(nodeInfo.nodeLevelPath, treeNodeInfoArr);
+  return parents;
 };
 
 /**
@@ -192,7 +208,8 @@ export function findNodeByValue (nodeValue: any, nodeKey: string, treeDataMap: a
 export function findNodeByValue2 (nodeValue: any, nodeKey: string, treeNodeInfoArr: BsNodeInfo[]) {
   let resultNode: StringKeyObject = {
     node: null,
-    nodeLevelPath: ''
+    nodeLevelPath: '',
+    isDisabled: false
   };
   for (let i = 0, len = treeNodeInfoArr.length; i < len; i++) {
     let nodeInfoItem = treeNodeInfoArr[i];
@@ -200,6 +217,7 @@ export function findNodeByValue2 (nodeValue: any, nodeKey: string, treeNodeInfoA
     if (nodeInfoItem.node[nodeKey] === nodeValue) {
       resultNode.node = nodeInfoItem.node;
       resultNode.nodeLevelPath = nodeInfoItem.nodeLevelPath;
+      resultNode.isDisabled = nodeInfoItem.isDisabled;
       break;
     }
   }
@@ -276,7 +294,7 @@ export function findTopParentByNodeValue2 (nodeValue: any, nodeKey: string, tree
     return null;
   }
   let parents = findParentsByNodeLevelPath2(nodeInfo.nodeLevelPath, treeNodeInfoArr);
-  return parents.reverse()[0] || null;
+  return parents.reverse()[0]?.node || null;
 }
 
 /**

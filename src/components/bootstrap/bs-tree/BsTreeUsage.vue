@@ -241,13 +241,14 @@ export default defineComponent({
     };
 
     let addCheckedKeys = function () {
-      if (checkedKeys1.value.length > 0) {
+      /* if (checkedKeys1.value.length > 0) {
         return;
       }
       let checkedKesArr = checkedKeys1.value;
       ['4', '2_1', '2_4', '2_2', '2_5', '2_2_1', '2_1_1_2_2', '3_2_1', '2_1_1_2_3', '2_1_1_2_5'].forEach(item => {
         checkedKesArr.push(item);
-      });
+      }); */
+      checkedKeys1.value = ['4', '2_1', '2_4', '2_2', '2_5', '2_2_1', '2_1_1_2_2', '3_2_1', '2_1_1_2_3', '2_1_1_2_5'];
     };
 
     let treeData2 = ref([{

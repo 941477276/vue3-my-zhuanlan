@@ -49,6 +49,7 @@ import {
   findChildrenWhichHasChildren2,
   findNodeByValue2,
   findParentsByNodeLevelPath2,
+  findParentsByNodeValue2,
   findTopParentByNodeValue2,
   treeDataToFlattarnArr2,
   findChildrenFlattarnByNodeValue2
@@ -120,17 +121,10 @@ export default defineComponent({
       if (isDisabled) {
         console.log('addCheckedKey，节点为禁用的，', nodeKey);
         let nodeInfo = findNodeByValue2(nodeKey, props.nodeKey, flatTreeNodeInfoArr.value);
-        /* if (nodeInfo.node && nodeInfo.node[props.props.children]) {
-          console.log('addCheckedKey，节点为禁用的且有子节点', nodeKey);
-          if (!checkedKeysDisabledWhichIsParent.value.includes(nodeKey)) {
-            checkedKeysDisabledWhichIsParent.value.push(nodeKey);
-          }
-        } */
         // 如果被禁用的节点没有子节点，则不添加进去
         if (nodeInfo.node && !nodeInfo.node[props.props.children]) {
           return false;
         }
-        // return;
       }
       if (!checkedKeysRoot.value.includes(nodeKey)) {
         checkedKeysRoot.value.push(nodeKey);
@@ -141,21 +135,9 @@ export default defineComponent({
       if (isDisabled) {
         console.log('removeCheckedKey，节点为禁用的，', nodeKey);
         let nodeInfo = findNodeByValue2(nodeKey, props.nodeKey, flatTreeNodeInfoArr.value);
-        /* if (nodeInfo.node && nodeInfo.node[props.props.children]) {
-          console.log('removeCheckedKey，节点为禁用的且有子节点', nodeKey);
-          let index = checkedKeysDisabledWhichIsParent.value.findIndex(item => item === nodeKey);
-          if (index > -1) {
-            checkedKeysDisabledWhichIsParent.value.splice(index, 1);
-          }
-        }
-        return; */
         // 如果被禁用的节点没有子节点，则不移除
         if (nodeInfo.node && !nodeInfo.node[props.props.children]) {
           console.log('removeCheckedKey，节点为禁用的且没有子节点', nodeKey);
-          /* let index = checkedKeysDisabledWhichIsParent.value.findIndex(item => item === nodeKey);
-          if (index > -1) {
-            checkedKeysDisabledWhichIsParent.value.splice(index, 1);
-          } */
           return false;
         }
       }
@@ -226,7 +208,7 @@ export default defineComponent({
     };
 
     // 关联父级选择框
-    let linkParentCheckbox = function (addNodeToCheckedKeys = false, removedCheckedKey: string|number) {
+    let linkParentCheckbox = function (addNodeToCheckedKeys = false) {
       if (props.checkStrictly) {
         return;
       }
@@ -244,24 +226,6 @@ export default defineComponent({
           console.log('linkParentCheckbox checkedKey in ProcessedKeys', checkedKey);
           return;
         }
-        let currentNodeInfo = findNodeByValue2(checkedKey, nodeKey, flatTree);
-        /* if (!currentNodeInfo.node) {
-          console.log('未找到节点，', checkedKey);
-          return;
-        }
-        let currentNodeChildren = currentNodeInfo.node[childKey];
-        if (currentNodeChildren && currentNodeChildren.length > 0) { // 如果当前节点有子节点，则先全选子孙节点
-          console.log('全选子孙节点', checkedKey);
-          let flattarnChildren = findChildrenFlattarnByNodeValue2(checkedKey, nodeKey, flatTreeNodeInfoArr.value);
-          flattarnChildren.forEach(nodeInfoItem => {
-            let nodeValue = nodeInfoItem.node[nodeKey];
-            addCheckedKey(nodeValue, nodeInfoItem.isDisabled);
-            /!* if (nodeInfoItem.node[childKey]) {
-              // 取消子节点的半选中状态
-              removeHalfCheckedKey(nodeValue);
-            } *!/
-          });
-        } */
 
         // console.log('linkParentCheckbox1111', checkedKey);
         let topParent = findTopParentByNodeValue2(checkedKey, nodeKey, flatTree);
@@ -278,6 +242,7 @@ export default defineComponent({
         // console.log('hasChildrenNodes', hasChildrenChildNodes);
 
         if (hasChildrenChildNodes.length === 0) {
+          let currentNodeInfo = findNodeByValue2(checkedKey, nodeKey, flatTree);
           console.log('aaaaa', currentNodeInfo);
           if (!currentNodeInfo.node) {
             console.log('未找到节点，', checkedKey);
@@ -299,6 +264,7 @@ export default defineComponent({
           let nodeValue = nodeItem[nodeKey];
           console.log('linkParentCheckbox111', nodeItem, nodeValue);
           if (nodeValue in processedKes) {
+            console.log('linkParentCheckbox---', nodeValue, '在已处理的节点中');
             return;
           }
           console.log('linkParentCheckbox2222', nodeValue);
@@ -306,57 +272,57 @@ export default defineComponent({
           processedKes[nodeValue] = 1;
           let nodeChildren = nodeItem[childKey];
           if (nodeChildren && nodeChildren.length > 0) {
-            // 如果节点有子节点，且节点被选中了，则全选它的子节点
+            console.log('checkedKeys.includes(nodeValue)', checkedKeys.includes(nodeValue), nodeValue);
+            // 如果节点有子节点，且节点被选中了，则全选它的子孙节点
             if (checkedKeys.includes(nodeValue)) {
-              console.log('linkParentCheckbox全选子孙节点=============');
-              nodeChildren.forEach(function (childNodeItem: BsNodeData) {
+              console.log('linkParentCheckbox全选子孙节点=============', nodeValue);
+              // 全选子孙节点
+              addChildrenChecked(nodeValue);
+              let childCheckedInfo = nodesIsAllChecked(nodeChildren, function (node, nodeValue) {
                 processedKes[nodeValue] = 1;
-                let flag = addCheckedKey(childNodeItem[nodeKey], childNodeItem[disabledKey]);
-                if (!flag) {
-                  isChildrenAllChecked = false;
-                }
               });
-              hasCheckedChild = true;
-              return;
-            }
-            let childrenIsAllChecked = nodesIsAllChecked(nodeChildren, function (node, nodeValue) {
-              processedKes[nodeValue] = 1;
-            });
-            console.log('linkParentCheckbox333', nodeValue);
-            // console.log('childrenIsAllChecked', childrenIsAllChecked);
-
-            // 如果子孙节点全部选中，则该节点为选中状态
-            if (childrenIsAllChecked.allChecked && !childrenIsAllChecked.hasHalfChecked) {
-              removeHalfCheckedKey(nodeValue);
-              if (addNodeToCheckedKeys) {
-                addCheckedKey(nodeValue, disabled);
-              }
-              hasCheckedChild = true;
-              console.log('removeCheckedKey444', nodeValue);
+              hasCheckedChild = childCheckedInfo.hasChecked;
+              isChildrenAllChecked = childCheckedInfo.allChecked;
+              // return;
             } else {
-              // 子节点必须有一个选中的或者有半选中状态的才能设置父节点的半选中状态
-              if (childrenIsAllChecked.hasChecked || childrenIsAllChecked.hasHalfChecked) {
-                addHalfCheckedKey(nodeValue);
+              let childrenIsAllChecked = nodesIsAllChecked(nodeChildren, function (node, nodeValue) {
+                processedKes[nodeValue] = 1;
+              });
+              console.log('linkParentCheckbox333', nodeValue);
+              // console.log('childrenIsAllChecked', childrenIsAllChecked);
+
+              // 如果子孙节点全部选中，则该节点为选中状态
+              if (childrenIsAllChecked.allChecked && !childrenIsAllChecked.hasHalfChecked) {
+                removeHalfCheckedKey(nodeValue);
                 if (addNodeToCheckedKeys) {
-                  removeCheckedKey(nodeValue, disabled);
+                  addCheckedKey(nodeValue, disabled);
                 }
-                // setTopParentsIndeterminate(topParent, true);
-                console.log('removeCheckedKey555', nodeValue);
-                // hasHalfCheckedChild = true;
                 hasCheckedChild = true;
-              } else if (!childrenIsAllChecked.hasChecked && !childrenIsAllChecked.hasHalfChecked) {
-                console.log('removeCheckedKey666', nodeValue);
-                if (addNodeToCheckedKeys) {
-                  removeCheckedKey(nodeValue, disabled);
-                  removeHalfCheckedKey(nodeValue);
-                  console.log('removeCheckedKey666--2', nodeValue);
-                }
+                console.log('removeCheckedKey444', nodeValue);
               } else {
-                removeCheckedKey(nodeValue, disabled);
-                console.log('removeCheckedKey777', nodeValue);
+                // 子节点必须有一个选中的或者有半选中状态的才能设置父节点的半选中状态
+                if (childrenIsAllChecked.hasChecked || childrenIsAllChecked.hasHalfChecked) {
+                  addHalfCheckedKey(nodeValue);
+                  if (addNodeToCheckedKeys) {
+                    removeCheckedKey(nodeValue, disabled);
+                  }
+                  console.log('removeCheckedKey555', nodeValue);
+                  // hasHalfCheckedChild = true;
+                  hasCheckedChild = true;
+                } else if (!childrenIsAllChecked.hasChecked && !childrenIsAllChecked.hasHalfChecked) {
+                  console.log('removeCheckedKey666', nodeValue);
+                  if (addNodeToCheckedKeys) {
+                    removeCheckedKey(nodeValue, disabled);
+                    removeHalfCheckedKey(nodeValue);
+                    console.log('removeCheckedKey666--2', nodeValue);
+                  }
+                } else {
+                  removeCheckedKey(nodeValue, disabled);
+                  console.log('removeCheckedKey777', nodeValue);
+                }
+                isChildrenAllChecked = false;
+                console.log('removeCheckedKey888', nodeValue);
               }
-              isChildrenAllChecked = false;
-              console.log('removeCheckedKey888', nodeValue);
             }
           }
         });
@@ -388,6 +354,93 @@ export default defineComponent({
       console.timeEnd('linkParentCheckbox执行耗时：');
     };
 
+    // 移除父级节点的选中状态
+    let removeParentsChecked = function (nodeValue: string|number) {
+      let nodeKey = props.nodeKey;
+      let childrenKey = props.props.children;
+      let parents = findParentsByNodeValue2(nodeValue, nodeKey, flatTreeNodeInfoArr.value);
+      parents.forEach(function (parentNodeInfo) {
+        console.log('移除父节点的选中状态');
+        let parentNodeValue = parentNodeInfo.node[nodeKey];
+        let childrenCheckedInfo = nodesIsAllChecked(parentNodeInfo.node[childrenKey]);
+        removeCheckedKey(parentNodeValue, parentNodeInfo.isDisabled);
+        if (!childrenCheckedInfo.hasChecked && !childrenCheckedInfo.hasHalfChecked) {
+          removeHalfCheckedKey(parentNodeValue);
+        } else {
+          addHalfCheckedKey(parentNodeValue);
+        }
+      });
+    };
+
+    // 添加父级节点的选中状态
+    let addParentsChecked = function (nodeValue: string|number) {
+      let nodeKey = props.nodeKey;
+      let childrenKey = props.props.children;
+      let parents = findParentsByNodeValue2(nodeValue, nodeKey, flatTreeNodeInfoArr.value);
+      parents.forEach(function (parentNodeInfo) {
+        console.log('添加父节点的选中状态, addParentsChecked');
+        let parentNodeValue = parentNodeInfo.node[nodeKey];
+        let childrenCheckedInfo = nodesIsAllChecked(parentNodeInfo.node[childrenKey]);
+
+        if (childrenCheckedInfo.allChecked) {
+          console.log('添加父节点的选中状态, addParentsChecked 1111', parentNodeValue);
+          addCheckedKey(parentNodeValue, parentNodeInfo.isDisabled);
+          removeHalfCheckedKey(parentNodeValue);
+        } else {
+          console.log('添加父节点的选中状态, addParentsChecked 2222', parentNodeValue);
+          removeCheckedKey(parentNodeValue, parentNodeInfo.isDisabled);
+          addHalfCheckedKey(parentNodeValue);
+        }
+      });
+    };
+
+    // 移除子孙节点的选中状态
+    let removeChildrenChecked = function (nodeValue: string|number) {
+      let nodeKey = props.nodeKey;
+      let childrenKey = props.props.children;
+      let disabledKey = props.props.disabled;
+      let nodeInfo = findNodeByValue2(nodeValue, nodeKey, flatTreeNodeInfoArr.value);
+      if (!nodeInfo.node) {
+        return;
+      }
+      let children = nodeInfo.node[childrenKey];
+      if (children && children.length > 0) {
+        let allNotChecked = true;
+        children.forEach((childNodeData: BsNodeData) => {
+          let flag = removeCheckedKey(childNodeData[nodeKey], childNodeData[disabledKey]);
+          if (!flag) {
+            allNotChecked = false;
+          }
+        });
+        console.log('removeChildrenChecked allNotChecked', allNotChecked);
+        // 如果所有子节点都为未选中状态，则节点的半选中状态
+        if (allNotChecked) {
+          removeHalfCheckedKey(nodeValue);
+        } else {
+          addHalfCheckedKey(nodeValue);
+        }
+        children.forEach((childNodeData: BsNodeData) => {
+          removeChildrenChecked(childNodeData[nodeKey]);
+        });
+      }
+    };
+
+    // 全选子孙节点
+    let addChildrenChecked = function (nodeValue: string|number) {
+      console.log('addChildrenChecked 全选子孙节点', nodeValue);
+      let nodeKey = props.nodeKey;
+      let childrenKey = props.props.children;
+      let flattarnChildren = findChildrenFlattarnByNodeValue2(nodeValue, nodeKey, flatTreeNodeInfoArr.value);
+      flattarnChildren.forEach(nodeInfoItem => {
+        let nodeValue = nodeInfoItem.node[nodeKey];
+        addCheckedKey(nodeValue, nodeInfoItem.isDisabled);
+        if (nodeInfoItem.node[childrenKey]) {
+          // 取消子节点的半选中状态
+          removeHalfCheckedKey(nodeValue);
+        }
+      });
+    };
+
     let isInited = false;
     watch([() => props.treeData, () => props.props], function ([treeData, nodeProps]) {
       console.time('监听treeData变化，执行耗时');
@@ -395,7 +448,7 @@ export default defineComponent({
       flatTreeNodeInfoArr.value = treeDataToFlattarnArr2(treeData, nodeProps.children, nodeProps.disabled, 1, '', []);
       console.log('flatTreeNodeInfoArr', flatTreeNodeInfoArr.value);
       if (isInited) { // 还未进行初始化的时候不执行linkParentCheckbox函数，因为下面的watch props.checkedKeys会执行
-        linkParentCheckbox();
+        linkParentCheckbox(true);
       }
       isInited = true;
       console.timeEnd('监听treeData变化，执行耗时');
@@ -444,7 +497,7 @@ export default defineComponent({
             let nodeInfo = findNodeByValue2(expandedKey, nodeKey, flatTreeMapData);
             let nodeParents = nodeInfo.nodeLevelPath ? findParentsByNodeLevelPath2(nodeInfo.nodeLevelPath, flatTreeMapData) : [];
             nodeParents.forEach((nodeItem: any) => {
-              parentKeys.push(nodeItem[nodeKey]);
+              parentKeys.push(nodeItem.node[nodeKey]);
             });
           });
         }
@@ -469,23 +522,32 @@ export default defineComponent({
       addCheckedKey (nodeValue: string | number, nodeData: BsNodeData, hasChildren: boolean) {
         if (!checkedKeysRoot.value.includes(nodeValue)) {
           if (props.showCheckbox) {
-            checkedKeysRoot.value.push(nodeValue);
+            let disabledKey = props.props.disabled;
+            // let nodeKey = props.nodeKey;
+            let childrenKey = props.props.children;
+
             // 如果节点有子孙节点，则全选它的子孙节点
-            if (hasChildren && !props.checkStrictly) {
-              console.log('addCheckedKey 全选子孙节点', nodeValue);
-              let nodeKey = props.nodeKey;
-              let childrenKey = props.props.children;
-              let flattarnChildren = findChildrenFlattarnByNodeValue2(nodeValue, nodeKey, flatTreeNodeInfoArr.value);
-              flattarnChildren.forEach(nodeInfoItem => {
-                let nodeValue = nodeInfoItem.node[nodeKey];
-                addCheckedKey(nodeValue, nodeInfoItem.isDisabled);
-                if (nodeInfoItem.node[childrenKey]) {
-                  // 取消子节点的半选中状态
+            if (!props.checkStrictly) {
+              if (hasChildren) {
+                addChildrenChecked(nodeValue);
+                let childrenCheckedInfo = nodesIsAllChecked(nodeData[childrenKey]);
+                // 必须要子孙节点全部选中，当前节点才能为选中状态，否则为半选中状态
+                if (childrenCheckedInfo.allChecked) {
+                  addCheckedKey(nodeValue, nodeData[disabledKey]);
                   removeHalfCheckedKey(nodeValue);
+                } else {
+                  removeCheckedKey(nodeValue, nodeData[disabledKey]);
+                  addHalfCheckedKey(nodeValue);
                 }
-              });
+              } else {
+                addCheckedKey(nodeValue, nodeData[disabledKey]);
+              }
+              // 添加父级节点的选中状态
+              addParentsChecked(nodeValue);
+            } else {
+              addCheckedKey(nodeValue, nodeData[disabledKey]);
             }
-            linkParentCheckbox(true);
+            // linkParentCheckbox(true);
           } else if (props.showRadio) {
             checkedKeysRoot.value = [nodeValue];
           }
@@ -496,68 +558,24 @@ export default defineComponent({
       removeCheckedKey (nodeValue: string | number, nodeData: BsNodeData, hasChildren: boolean) {
         let index = checkedKeysRoot.value.findIndex((item) => item === nodeValue);
         if (index > -1) {
-          checkedKeysRoot.value.splice(index, 1);
+          // let nodeKey = props.nodeKey;
+          // let childrenKey = props.props.children;
+          let disabledKey = props.props.disabled;
+          removeCheckedKey(nodeValue, nodeData[disabledKey]);
+          console.log('手动 removeCheckedKey 111');
           if (props.showCheckbox) {
             // 如果节点有子孙节点，则取消全选它的子孙节点
-            if (hasChildren && !props.checkStrictly) {
-              console.log('addCheckedKey 取消全选子孙节点', nodeValue);
-              let nodeKey = props.nodeKey;
-              let childrenKey = props.props.children;
-              let disabledKey = props.props.disabled;
-              /* // 移除子孙节点的选中状态
-              let removeChildrenChecked = function (currentNodeData: BsNodeData) {
-                let children = currentNodeData[childrenKey];
-                if (children && children.length > 0) {
-                  let allNotChecked = true;
-                  children.forEach((childNodeData: BsNodeData) => {
-                    let flag = removeCheckedKey(childNodeData[nodeKey], childNodeData[disabledKey]);
-                    if (!flag) {
-                      allNotChecked = false;
-                    }
-                  });
-                  console.log('removeChildrenChecked allNotChecked', allNotChecked);
-                  // 如果所有子节点都为未选中状态，则节点的半选中状态
-                  if (allNotChecked) {
-                    removeHalfCheckedKey(currentNodeData[nodeKey]);
-                  } else {
-                    addHalfCheckedKey(currentNodeData[nodeKey]);
-                  }
-                  children.forEach((childNodeData: BsNodeData) => {
-                    removeChildrenChecked(childNodeData);
-                  });
-                }
-              };
-              removeChildrenChecked(nodeData); */
-              /* let currentNodeData = nodeData;
-              let children = currentNodeData[childrenKey];
-              while (children) {
-                let allNotChecked = true;
-                children.forEach((childNodeData: BsNodeData) => {
-                  let flag = removeCheckedKey(childNodeData[nodeKey], childNodeData[disabledKey]);
-                  if (!flag) {
-                    allNotChecked = false;
-                  }
-                });
-                // 如果所有子节点都为未选中状态，则节点的半选中状态
-                if (allNotChecked) {
-                  removeHalfCheckedKey(currentNodeData[nodeKey]);
-                }
-                children.forEach((childNodeData: BsNodeData) => {
-
-                });
-              } */
-              /* let flattarnChildren = findChildrenFlattarnByNodeValue2(nodeValue, nodeKey, flatTreeNodeInfoArr.value);
-              flattarnChildren.forEach(nodeInfoItem => {
-                let nodeValue = nodeInfoItem.node[nodeKey];
-                removeCheckedKey(nodeValue, nodeInfoItem.isDisabled);
-                if (nodeInfoItem.node[childrenKey]) {
-                  // 取消子节点的半选中状态
-                  removeHalfCheckedKey(nodeValue);
-                }
-              }); */
+            if (!props.checkStrictly) {
+              console.log('removeCheckedKey 取消全选子孙节点', nodeValue);
+              if (hasChildren) {
+                // 移除子孙节点的选中状态
+                removeChildrenChecked(nodeValue);
+              }
+              // 移除父级节点的选中状态
+              removeParentsChecked(nodeValue);
             }
-            linkParentCheckbox(true, nodeValue);
-            console.log('addCheckedKey 取消全选子孙节点----------checkedKeysRoot', checkedKeysRoot);
+            // linkParentCheckbox(true, nodeValue);
+            console.log('removeCheckedKey 取消全选子孙节点----------checkedKeysRoot', checkedKeysRoot);
           }
           ctx.emit('check-change', nodeData, false);
           ctx.emit('update:checkedKeys', [...checkedKeysRoot.value]);
