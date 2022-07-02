@@ -512,6 +512,51 @@ export default defineComponent({
     // 分页相关数据
     let { pageCount, nodeChildren, totalPage, showMoreChildNode, showAllChildNode } = useTreePagination(props, toRef(props, 'treeData'));
 
+    // 根据节点值查找节点
+    let getNodeByNodeValue = function (nodeValue: string|number) {
+      let flatTreeInfo = flatTreeNodeInfoArr.value;
+      let nodeInfo = findNodeInfoByValue2(nodeValue, props.nodeKey, flatTreeInfo);
+      if (!nodeInfo.node) {
+        return null;
+      }
+      return nodeInfo.node;
+    };
+
+    // 根据节点值查找父级节点
+    let getNodeByNodeLevelPath = function (nodeLevelPath: string) {
+      let nodeInfo = flatTreeNodeInfoArr.value.find(nodeInfoItem => nodeInfoItem.nodeLevelPath === nodeLevelPath);
+      if (nodeInfo) {
+        return nodeInfo.node;
+      }
+      return null;
+    };
+
+    // 根据节点值查找父级节点
+    let getParentNodeByNodeValue = function (nodeValue: string|number) {
+      let flatTreeInfo = flatTreeNodeInfoArr.value;
+      let nodeInfo = findNodeInfoByValue2(nodeValue, props.nodeKey, flatTreeInfo);
+      if (!nodeInfo.node) {
+        return null;
+      }
+      let nodeLevelPath = nodeInfo.nodeLevelPath;
+      return getParentNodeByNodeLevelPath(nodeLevelPath);
+    };
+
+    // 根据节点值查找父级节点
+    let getParentNodeByNodeLevelPath = function (nodeLevelPath: string) {
+      // 获取最后一个"_"下划线的位置
+      let lastUnderlineIndex = nodeLevelPath.lastIndexOf('_');
+      if (lastUnderlineIndex == -1) {
+        return null;
+      }
+      nodeLevelPath = nodeLevelPath.substring(0, lastUnderlineIndex);
+      let parentNodeInfo = flatTreeNodeInfoArr.value.find(nodeInfoItem => nodeInfoItem.nodeLevelPath === nodeLevelPath);
+      if (parentNodeInfo) {
+        return parentNodeInfo.node;
+      }
+      return null;
+    };
+
     // 向子孙组件提供根tree上下文
     provide<TreeContext>(bsTreeContextKey, {
       ctx,
@@ -617,7 +662,11 @@ export default defineComponent({
       radioNameRoot,
 
       showMoreChildNode,
-      showAllChildNode
+      showAllChildNode,
+      getParentNodeByNodeLevelPath,
+      getParentNodeByNodeValue,
+      getNodeByNodeValue,
+      getNodeByNodeLevelPath
     };
   }
 });
