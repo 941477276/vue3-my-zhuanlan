@@ -54,7 +54,7 @@
         :label-key="labelKey"
         :node-data="nodeData"
         :render-content="renderContent"
-        :node="{}"></BsTreeNodeLabel>
+        :node-state="nodeState"></BsTreeNodeLabel>
     </div>
     <BsCollapseTransition v-if="isChildrenRendered">
       <div
@@ -213,10 +213,10 @@ export default defineComponent({
         isLeaf: false,
         // canFocus: boolean,
         level: props.nodeLeave,
-        levelPath: props.nodeLeavePath,
-        loaded: false,
+        levelPath: props.nodeLeavePath
+        // loaded: false,
         // childNodes: Node[],
-        loading: loadingData.value
+        // loading: loadingData.value
       };
     });
 
@@ -334,6 +334,7 @@ export default defineComponent({
       totalPage,
       inputModel,
       loadingData,
+      nodeState,
 
       onNodeClick,
       onSwitcherClick,

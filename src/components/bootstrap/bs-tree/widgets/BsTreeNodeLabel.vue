@@ -26,7 +26,7 @@ export default defineComponent({
       type: Function,
       default: null
     },
-    node: {
+    nodeState: {
       type: Object,
       default () {
         return {};
@@ -38,14 +38,14 @@ export default defineComponent({
     return function () {
       if (!treeCtx.ctx.slots.default) {
         if (typeof props.renderContent === 'function') {
-          return props.renderContent(props.nodeData, props.node);
+          return props.renderContent(props.nodeData, props.nodeState);
         } else {
           let labelKey = props.labelKey;
           let labelKeyType = typeof labelKey;
           if (labelKeyType === 'function') {
             return h('div', {
               className: 'bs-tree-node-label'
-            }, labelKey(props.nodeData, props.node));
+            }, labelKey(props.nodeData, props.nodeState));
           } else if (labelKeyType !== 'undefined' && labelKey !== null) {
             return h('div', {
               className: 'bs-tree-node-label'
@@ -58,7 +58,7 @@ export default defineComponent({
         // console.log('有默认插槽', treeCtx.ctx.slots);
         return treeCtx.ctx.slots.default({
           data: props.nodeData,
-          node: props.node
+          nodeState: props.nodeState
         });
       }
     };
