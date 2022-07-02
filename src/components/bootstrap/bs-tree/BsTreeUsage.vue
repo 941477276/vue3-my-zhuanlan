@@ -25,7 +25,7 @@
         <bs-button type="primary" @click="addCheckedKeys" style="margin-top: 1rem">选中项</bs-button>
         <bs-button type="primary" @click="show = !show" style="margin-top: 1rem">显示/销毁树</bs-button>
       </div>-->
-      <div>
+      <!--<div>
         <h3>动态加载</h3>
         <bs-tree
           :tree-data="treeData2"
@@ -36,7 +36,7 @@
           v-model:checkedKeys="checkedKeys2"
           node-key="id">
         </bs-tree>
-      </div>
+      </div>-->
       <!--<div>
         <h3>禁用</h3>
         <bs-tree
@@ -47,6 +47,21 @@
           node-key="id">
         </bs-tree>
       </div>-->
+
+      <div>
+        <h3>自定义内容</h3>
+        <bs-tree
+          ref="customContentTree"
+          :tree-data="treeData4"
+          :defaultExpandAll="true"
+          node-key="id">
+          <template #default="{data, nodeState}">
+            {{ data.label }}
+            <bs-button type="link" style="margin-left: 1rem;" @click.stop="addChildNode2(data, nodeState)">添加子节点</bs-button>
+            <bs-button type="link" style="margin-left: 0;" @click.stop="removeChildNode2(data, nodeState)">移除</bs-button>
+          </template>
+        </bs-tree>
+      </div>
 
       <!--<a-tree
         v-model:expandedKeys="expandedKeys"
@@ -367,6 +382,71 @@ export default defineComponent({
       (treeData3.value[0].children[0] as any).children[0].disabled = false;
     }, 5000); */
 
+    let customContentTree = ref(null);
+    let treeData4 = ref([{
+      label: '一级 1',
+      id: '1',
+      children: [
+        {
+          label: '二级 1-1',
+          id: '1_1',
+          children: [
+            {
+              label: '三级 1-1-1',
+              id: '1_1_1'
+            },
+            {
+              label: '三级 1-1-2',
+              id: '1_1_2'
+            }
+          ]
+        },
+        {
+          label: '二级(1-2',
+          id: '1_2'
+        },
+        {
+          label: '二级 1-3',
+          id: '1_3',
+          children: [
+            {
+              label: '三级 1-3-1',
+              id: '1_3_1'
+            },
+            {
+              label: '三级 1-3-2',
+              id: '1_3_2'
+            }
+          ]
+        },
+        {
+          label: '二级 1-4',
+          id: '1_4'
+        }
+      ]
+    }]);
+
+    let addChildNode2 = function (nodeData: BsNodeData, nodeState: StringKeyObject) {
+      let children = nodeData.children || [];
+      let childNode = {
+        label: `${nodeState.level + 1}级 ${children.length + 1}`,
+        id: `${nodeState.nodeLevelPath}_${children.length + 1}`
+      };
+      children.push(childNode);
+      if (!nodeData.children) {
+        nodeData.children = children;
+      }
+    };
+    let removeChildNode2 = function (nodeData: BsNodeData, nodeState: StringKeyObject) {
+      console.log('customContentTree', customContentTree.value);
+      let parentNode = (customContentTree.value as any).getParentNodeByNodeValue(nodeData.id);
+      let parentChildren = parentNode?.children || [];
+      let index = parentChildren.findIndex((nodeDataItem: BsNodeData) => nodeDataItem === nodeData);
+      if (index > -1) {
+        parentChildren.splice(index, 1);
+      }
+    };
+
     const treeData = ref([
       {
         title: 'parent 1',
@@ -422,6 +502,11 @@ export default defineComponent({
       expandedKeys,
       selectedKeys,
       checkedKeys,
+
+      customContentTree,
+      treeData4,
+      addChildNode2,
+      removeChildNode2,
 
       addNode,
       removeNode,
