@@ -64,6 +64,7 @@
           <BsTreeNode
             v-for="(childNode, index) in nodeChildren"
             v-bind="$props"
+            v-show="typeof childNode._nodeShow == 'boolean' ? childNode._nodeShow : true"
             :key="childNode[nodeKey]"
             :node-leave="nodeLeave + 1"
             :node-data="childNode"
@@ -171,7 +172,7 @@ export default defineComponent({
     };
 
     // 分页相关数据
-    let { pageCount, nodeChildren, totalPage, showMoreChildNode, showAllChildNode } = useTreePagination(props);
+    let { pageCount, nodeChildren, totalPage, showMoreChildNode, showAllChildNode } = useTreePagination(props, treeCtx.flatTreeNodeInfoArr);
 
     // 复选框的值
     let inputModel = computed({

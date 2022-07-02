@@ -8,6 +8,7 @@
     <BsTreeNode
       v-for="(nodeItem, index) in nodeChildren"
       v-bind="$props"
+      v-show="typeof nodeItem._nodeShow == 'boolean' ? nodeItem._nodeShow : true"
       :node-data="nodeItem"
       :key="nodeItem[nodeKey]"
       :node-leave="1"
@@ -52,7 +53,7 @@ import {
   findParentsByNodeValue2,
   findTopParentByNodeValue2,
   treeDataToFlattarnArr2,
-  findChildrenFlattarnByNodeValue2
+  findChildrenInfoFlattarnByNodeValue2
 } from './bs-tree-utils';
 import { useTreePagination } from './useTreePagination';
 
@@ -430,7 +431,7 @@ export default defineComponent({
       console.log('addChildrenChecked 全选子孙节点', nodeValue);
       let nodeKey = props.nodeKey;
       let childrenKey = props.props.children;
-      let flattarnChildren = findChildrenFlattarnByNodeValue2(nodeValue, nodeKey, flatTreeNodeInfoArr.value);
+      let flattarnChildren = findChildrenInfoFlattarnByNodeValue2(nodeValue, nodeKey, flatTreeNodeInfoArr.value);
       flattarnChildren.forEach(nodeInfoItem => {
         let nodeValue = nodeInfoItem.node[nodeKey];
         addCheckedKey(nodeValue, nodeInfoItem.isDisabled);
@@ -510,7 +511,7 @@ export default defineComponent({
     let currentNode = ref<unknown | null>(null);
 
     // 分页相关数据
-    let { pageCount, nodeChildren, totalPage, showMoreChildNode, showAllChildNode } = useTreePagination(props, toRef(props, 'treeData'));
+    let { pageCount, nodeChildren, totalPage, showMoreChildNode, showAllChildNode } = useTreePagination(props, flatTreeNodeInfoArr, toRef(props, 'treeData'));
 
     // 根据节点值查找节点
     let getNodeByNodeValue = function (nodeValue: string|number) {

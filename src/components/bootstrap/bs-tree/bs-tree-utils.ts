@@ -303,7 +303,7 @@ export function findTopParentByNodeValue2 (nodeValue: any, nodeKey: string, tree
  * @param nodeKey
  * @param treeNodeInfoArr
  */
-export function findChildrenFlattarnByNodeValue2 (nodeValue: any, nodeKey: string, treeNodeInfoArr: BsNodeInfo[]) {
+export function findChildrenInfoFlattarnByNodeValue2 (nodeValue: any, nodeKey: string, treeNodeInfoArr: BsNodeInfo[]) {
   let currentNodeInfo = findNodeInfoByValue2(nodeValue, nodeKey, treeNodeInfoArr);
   if (!currentNodeInfo.node) {
     return [];

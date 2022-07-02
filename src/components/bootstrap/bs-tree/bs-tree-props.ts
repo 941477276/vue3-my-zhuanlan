@@ -79,6 +79,14 @@ export const bsTreeProps = {
     type: Number,
     default: 50
   },
+  filterText: { // 节点过滤文本
+    type: [String, Number],
+    default: ''
+  },
+  filterMethod: { // 节点过滤函数
+    type: Function,
+    default: null
+  },
   loadMoreChildButtonText: {
     type: String,
     default: '...显示更多'

@@ -48,7 +48,7 @@
         </bs-tree>
       </div>-->
 
-      <div>
+      <!--<div>
         <h3>自定义内容</h3>
         <bs-tree
           ref="customContentTree"
@@ -57,9 +57,21 @@
           node-key="id">
           <template #default="{data, nodeState}">
             {{ data.label }}
-            <bs-button type="link" style="margin-left: 1rem;" @click.stop="addChildNode2(data, nodeState)">添加子节点</bs-button>
+            <bs-button type="link" style="margin-left: 1rem;" @click="addChildNode2(data, nodeState)">添加子节点</bs-button>
             <bs-button type="link" style="margin-left: 0;" @click.stop="removeChildNode2(data, nodeState)">移除</bs-button>
           </template>
+        </bs-tree>
+      </div>-->
+
+      <div>
+        <h3>节点过滤</h3>
+        <bs-input v-model="filterText" placeholder="请输入关键字进行过滤" style="margin-bottom: 1rem;"></bs-input>
+        <bs-tree
+          :tree-data="treeData5"
+          :defaultExpandAll="true"
+          :filter-text="filterText"
+          :filter-method="filterMethod"
+          node-key="id">
         </bs-tree>
       </div>
 
@@ -447,6 +459,76 @@ export default defineComponent({
       }
     };
 
+    let treeData5 = ref([
+      {
+        id: 'top',
+        label: '心向晚霞',
+        children: [
+          {
+            id: 'jiangxi',
+            label: '江西',
+            children: [
+              {
+                id: 'jian',
+                label: '吉安',
+                children: [
+                  {
+                    id: 'suichuan',
+                    label: '遂川',
+                    children: [
+                      {
+                        id: 'bizhou',
+                        label: '碧洲'
+                      },
+                      {
+                        id: 'gaoping',
+                        label: '高坪'
+                      },
+                      {
+                        id: 'quanjaing',
+                        label: '泉江'
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                id: 'nanchang',
+                label: '南昌'
+              },
+              {
+                id: 'ganzhou',
+                label: '赣州'
+              }
+            ]
+          },
+          {
+            id: 'guangdong',
+            label: '广东',
+            children: [
+              {
+                id: 'guangzhou',
+                label: '广州'
+              },
+              {
+                id: 'shenzhen',
+                label: '深圳'
+              },
+              {
+                id: 'dongguan',
+                label: '东莞'
+              }
+            ]
+          }
+        ]
+      }
+    ]);
+    let filterText = ref('');
+    let filterMethod = function (nodeData: BsNodeData, filterText: string) {
+      console.log(' nodeData.label.includes(filterText);', nodeData.label, filterText, nodeData.label.includes(filterText));
+      return nodeData.label.includes(filterText);
+    };
+
     const treeData = ref([
       {
         title: 'parent 1',
@@ -507,6 +589,10 @@ export default defineComponent({
       treeData4,
       addChildNode2,
       removeChildNode2,
+
+      treeData5,
+      filterText,
+      filterMethod,
 
       addNode,
       removeNode,
