@@ -186,6 +186,10 @@ export default defineComponent({
       set (newVal) {
         console.log('treeNode,复选框新的值：', newVal);
         if (newVal) {
+          /* if (props.showCheckbox) {
+            treeCtx.addCheckedKey(nodeValue.value, props.nodeData, nodeChildren.value.length > 0);
+            return;
+          } */
           treeCtx.addCheckedKey(nodeValue.value, props.nodeData, nodeChildren.value.length > 0);
         } else {
           // radio组件的值改变时不会进入这里，因此不用担心

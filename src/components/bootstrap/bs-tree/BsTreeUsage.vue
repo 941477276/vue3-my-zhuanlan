@@ -25,7 +25,7 @@
         <bs-button type="primary" @click="addCheckedKeys" style="margin-top: 1rem">选中项</bs-button>
         <bs-button type="primary" @click="show = !show" style="margin-top: 1rem">显示/销毁树</bs-button>
       </div>-->
-      <!--<div>
+      <div>
         <h3>动态加载</h3>
         <bs-tree
           :tree-data="treeData2"
@@ -36,7 +36,7 @@
           v-model:checkedKeys="checkedKeys2"
           node-key="id">
         </bs-tree>
-      </div>-->
+      </div>
       <!--<div>
         <h3>禁用</h3>
         <bs-tree
@@ -63,7 +63,7 @@
         </bs-tree>
       </div>-->
 
-      <div>
+      <!--<div>
         <h3>节点过滤</h3>
         <bs-input v-model="filterText" placeholder="请输入关键字进行过滤" style="margin-bottom: 1rem;"></bs-input>
         <bs-tree
@@ -73,7 +73,7 @@
           :filter-method="filterMethod"
           node-key="id">
         </bs-tree>
-      </div>
+      </div>-->
 
       <!--<a-tree
         v-model:expandedKeys="expandedKeys"
@@ -337,7 +337,7 @@ export default defineComponent({
           }
           nodeData.children = nodes;
           resolve(true);
-        }, randoms(1000, 3000));
+        }, randoms(500, 1500));
       });
     };
 
@@ -384,10 +384,50 @@ export default defineComponent({
         {
           label: '二级 1-4',
           id: '1_4'
+        },
+        {
+          label: '二级 1-5',
+          id: '1_5',
+          children: [
+            {
+              label: '二级 1-5-1',
+              id: '1_5_1',
+              disabled: true
+            },
+            {
+              label: '二级 1-5-2',
+              id: '1_5_2',
+              disabled: true
+            },
+            {
+              label: '二级 1-5-3',
+              id: '1_5_3',
+              disabled: true
+            }
+          ]
+        },
+        {
+          label: '二级 1-6',
+          id: '1_6',
+          disabled: true,
+          children: [
+            {
+              label: '二级 1-6-1',
+              id: '1_6_1'
+            },
+            {
+              label: '二级 1-6-2',
+              id: '1_6_2'
+            },
+            {
+              label: '二级 1-6-3',
+              id: '1_6_3'
+            }
+          ]
         }
       ]
     }]);
-    let checkedKeys3 = ref(['1_1', '1_1_1', '1_2', '1_3_1', '1_3_2', '1_3_3', '1_3_2_2']);
+    let checkedKeys3 = ref(['1_1', '1_2', '1_3_1', '1_3_2', '1_3_3', '1_3_2_2', '1_5_1', '1_6', '1_5_2', '1_5_3']);
 
     /* setTimeout(function () {
       console.log('改变禁用状态了');
@@ -516,7 +556,13 @@ export default defineComponent({
               },
               {
                 id: 'dongguan',
-                label: '东莞'
+                label: '东莞',
+                children: [
+                  {
+                    id: 'gaopo',
+                    label: '高坡'
+                  }
+                ]
               }
             ]
           }
@@ -547,13 +593,21 @@ export default defineComponent({
             title: 'parent 1-1',
             key: '0-0-1',
             children: [{ key: '0-0-1-0', title: 'sss' }]
+          },
+          {
+            title: 'parent 1-2',
+            key: '0-0-2',
+            children: [
+              { key: '0-0-2-0', title: 'aaaaa', disableCheckbox: true },
+              { key: '0-0-2-1', title: 'aaaaa', disableCheckbox: true }
+            ]
           }
         ]
       }
     ]);
-    const expandedKeys = ref<string[]>(['0-0-0', '0-0-1']);
-    const selectedKeys = ref<string[]>(['0-0-0', '0-0-1']);
-    const checkedKeys = ref<string[]>(['0-0-0', '0-0-1']);
+    const expandedKeys = ref<string[]>(['0-0-0', '0-0-1', '0-0-2-0', '0-0-2-1']);
+    const selectedKeys = ref<string[]>(['0-0-0', '0-0-1', '0-0-2-0', '0-0-2-1']);
+    const checkedKeys = ref<string[]>(['0-0-0', '0-0-1', '0-0-2-0', '0-0-2-1']);
     /* watch(expandedKeys, () => {
       console.log('expandedKeys', expandedKeys);
     });
