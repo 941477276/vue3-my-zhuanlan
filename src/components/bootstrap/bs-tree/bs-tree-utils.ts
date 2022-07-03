@@ -12,7 +12,7 @@ import { StringKeyObject } from '@/ts-tokens/bootstrap';
  * @package parentNodeLevelPath 父级节点层级路径
  * @param target 目标对象
  */
-export function flatTreeDataToObject (treeData: BsNodeData[], childrenKey: string, nodeLevel = 1, parentNodeLevelPath = '', target: StringKeyObject = {}) {
+/* export function flatTreeDataToObject (treeData: BsNodeData[], childrenKey: string, nodeLevel = 1, parentNodeLevelPath = '', target: StringKeyObject = {}) {
   if (!Array.isArray(treeData)) {
     treeData = [treeData];
   }
@@ -35,7 +35,7 @@ export function flatTreeDataToObject (treeData: BsNodeData[], childrenKey: strin
     }
   });
   return target;
-};
+}; */
 
 /**
  * 将树形结构扁平化转成普通对象
@@ -75,7 +75,7 @@ export function treeDataToFlattarnArr2 (treeNodeInfoArr: BsNodeInfo[], childrenK
  * @param nodeLevelPath 节点层级路径
  * @param treeDataMap 扁平化的树对象
  */
-export function findParentsByNodeLevelPath (nodeLevelPath: string, treeDataMap: StringKeyObject) {
+/* export function findParentsByNodeLevelPath (nodeLevelPath: string, treeDataMap: StringKeyObject) {
   let nodeParents: any[] = [];
   if (!nodeLevelPath) {
     return nodeParents;
@@ -96,7 +96,7 @@ export function findParentsByNodeLevelPath (nodeLevelPath: string, treeDataMap: 
     }
   }
   return nodeParents;
-};
+}; */
 
 /**
  * 根据节点的层级路径查找它的所有父级节点
@@ -182,7 +182,7 @@ export function findParentsByNodeValue2 (nodeValue: any, nodeKey: string, treeNo
  * @param nodeKey 节点的值的属性名
  * @param treeDataMap 扁平化的树对象
  */
-export function findNodeByValue (nodeValue: any, nodeKey: string, treeDataMap: any) {
+/* export function findNodeByValue (nodeValue: any, nodeKey: string, treeDataMap: any) {
   let resultNode = {
     node: null,
     nodeLevelPath: ''
@@ -196,7 +196,7 @@ export function findNodeByValue (nodeValue: any, nodeKey: string, treeDataMap: a
     }
   }
   return resultNode;
-};
+}; */
 
 /**
  * 根据节点的值查找节点
