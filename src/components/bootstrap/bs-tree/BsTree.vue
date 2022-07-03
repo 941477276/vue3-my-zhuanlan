@@ -209,7 +209,7 @@ export default defineComponent({
     };
 
     // 关联父级选择框
-    let linkParentCheckbox = function (addNodeToCheckedKeys = false) {
+    let linkParentCheckbox = function () {
       if (props.checkStrictly) {
         return;
       }
@@ -294,28 +294,23 @@ export default defineComponent({
               // 如果子孙节点全部选中，则该节点为选中状态
               if (childrenIsAllChecked.allChecked && !childrenIsAllChecked.hasHalfChecked) {
                 removeHalfCheckedKey(nodeValue);
-                if (addNodeToCheckedKeys) {
-                  addCheckedKey(nodeValue, disabled);
-                }
+                addCheckedKey(nodeValue, disabled);
                 hasCheckedChild = true;
                 console.log('removeCheckedKey444', nodeValue);
               } else {
                 // 子节点必须有一个选中的或者有半选中状态的才能设置父节点的半选中状态
                 if (childrenIsAllChecked.hasChecked || childrenIsAllChecked.hasHalfChecked) {
                   addHalfCheckedKey(nodeValue);
-                  if (addNodeToCheckedKeys) {
-                    removeCheckedKey(nodeValue, disabled);
-                  }
+                  removeCheckedKey(nodeValue, disabled);
+
                   console.log('removeCheckedKey555', nodeValue);
                   // hasHalfCheckedChild = true;
                   hasCheckedChild = true;
                 } else if (!childrenIsAllChecked.hasChecked && !childrenIsAllChecked.hasHalfChecked) {
                   console.log('removeCheckedKey666', nodeValue);
-                  if (addNodeToCheckedKeys) {
-                    removeCheckedKey(nodeValue, disabled);
-                    removeHalfCheckedKey(nodeValue);
-                    console.log('removeCheckedKey666--2', nodeValue);
-                  }
+
+                  removeCheckedKey(nodeValue, disabled);
+                  removeHalfCheckedKey(nodeValue);
                 } else {
                   removeCheckedKey(nodeValue, disabled);
                   console.log('removeCheckedKey777', nodeValue);
@@ -491,7 +486,7 @@ export default defineComponent({
       flatTreeNodeInfoArr.value = treeDataToFlattarnArr2(treeData, nodeProps.children, nodeProps.disabled, 1, '', []);
       console.log('flatTreeNodeInfoArr', flatTreeNodeInfoArr.value);
       if (isInited) { // 还未进行初始化的时候不执行linkParentCheckbox函数，因为下面的watch props.checkedKeys会执行
-        linkParentCheckbox(true);
+        linkParentCheckbox();
       }
       isInited = true;
       console.timeEnd('监听treeData变化，执行耗时');
@@ -522,7 +517,7 @@ export default defineComponent({
           halfCheckedKeys.value = [];
           return;
         }
-        linkParentCheckbox(true);
+        linkParentCheckbox();
       }
     }, { immediate: true });
 
