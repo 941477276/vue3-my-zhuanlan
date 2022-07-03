@@ -59,6 +59,8 @@ export function useTreeMethods (props: any, flatTreeNodeInfoArr: Ref<BsNodeInfo[
       let nodeInfo = flatTreeInfo.find(nodeInfoItem => nodeInfoItem.node[nodeKey] === checkedKey);
       return nodeInfo?.node;
     });
+    nodes = nodes.filter(key => typeof key !== 'undefined');
+
     return nodes;
   };
 
@@ -71,6 +73,8 @@ export function useTreeMethods (props: any, flatTreeNodeInfoArr: Ref<BsNodeInfo[
       let nodeInfo = flatTreeInfo.find(nodeInfoItem => nodeInfoItem.node[nodeKey] === checkedKey);
       return nodeInfo?.node;
     });
+    nodes = nodes.filter(key => typeof key !== 'undefined');
+
     return nodes;
   };
 
