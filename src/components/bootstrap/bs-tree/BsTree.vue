@@ -52,10 +52,10 @@ import {
   findParentsByNodeLevelPath2,
   findParentsByNodeValue2,
   findTopParentByNodeValue2,
-  treeDataToFlattarnArr2,
-  findChildrenInfoFlattarnByNodeValue2
+  treeDataToFlattarnArr2
 } from './bs-tree-utils';
 import { useTreePagination } from './useTreePagination';
+import { useTreeMethods } from './useTreeMethods';
 
 let treeCount = 0;
 export default defineComponent({
@@ -99,7 +99,7 @@ export default defineComponent({
 
     // 展开的节点的key数组
     let expandedKeysRoot = ref(props.expandedKeys);
-    let addExpandedKey = function (nodeKey: string | number) {
+    /* let addExpandedKey = function (nodeKey: string | number) {
       if (!expandedKeysRoot.value.includes(nodeKey)) {
         expandedKeysRoot.value.push(nodeKey);
       }
@@ -109,7 +109,7 @@ export default defineComponent({
       if (index > -1) {
         expandedKeysRoot.value.splice(index, 1);
       }
-    };
+    }; */
 
     // 选中节点的key数组
     // let checkedKeysRoot = ref([...props.checkedKeys]);
@@ -553,52 +553,24 @@ export default defineComponent({
     let currentNode = ref<unknown | null>(null);
 
     // 分页相关数据
-    let { pageCount, nodeChildren, totalPage, showMoreChildNode, showAllChildNode } = useTreePagination(props, flatTreeNodeInfoArr, toRef(props, 'treeData'));
+    let {
+      pageCount,
+      nodeChildren,
+      totalPage,
+      showMoreChildNode,
+      showAllChildNode
+    } = useTreePagination(props, flatTreeNodeInfoArr, toRef(props, 'treeData'));
 
-    // 根据节点值查找节点
-    let getNodeByNodeValue = function (nodeValue: string|number) {
-      let flatTreeInfo = flatTreeNodeInfoArr.value;
-      let nodeInfo = findNodeInfoByValue2(nodeValue, props.nodeKey, flatTreeInfo);
-      if (!nodeInfo.node) {
-        return null;
-      }
-      return nodeInfo.node;
-    };
-
-    // 根据节点值查找父级节点
-    let getNodeByNodeLevelPath = function (nodeLevelPath: string) {
-      let nodeInfo = flatTreeNodeInfoArr.value.find(nodeInfoItem => nodeInfoItem.nodeLevelPath === nodeLevelPath);
-      if (nodeInfo) {
-        return nodeInfo.node;
-      }
-      return null;
-    };
-
-    // 根据节点值查找父级节点
-    let getParentNodeByNodeValue = function (nodeValue: string|number) {
-      let flatTreeInfo = flatTreeNodeInfoArr.value;
-      let nodeInfo = findNodeInfoByValue2(nodeValue, props.nodeKey, flatTreeInfo);
-      if (!nodeInfo.node) {
-        return null;
-      }
-      let nodeLevelPath = nodeInfo.nodeLevelPath;
-      return getParentNodeByNodeLevelPath(nodeLevelPath);
-    };
-
-    // 根据节点值查找父级节点
-    let getParentNodeByNodeLevelPath = function (nodeLevelPath: string) {
-      // 获取最后一个"_"下划线的位置
-      let lastUnderlineIndex = nodeLevelPath.lastIndexOf('_');
-      if (lastUnderlineIndex == -1) {
-        return null;
-      }
-      nodeLevelPath = nodeLevelPath.substring(0, lastUnderlineIndex);
-      let parentNodeInfo = flatTreeNodeInfoArr.value.find(nodeInfoItem => nodeInfoItem.nodeLevelPath === nodeLevelPath);
-      if (parentNodeInfo) {
-        return parentNodeInfo.node;
-      }
-      return null;
-    };
+    // 对外提供的函数
+    let {
+      getParentNodeByNodeLevelPath,
+      getParentNodeByNodeValue,
+      getNodeByNodeValue,
+      getNodeByNodeLevelPath,
+      getCheckedNodes,
+      getHalfCheckedNodes,
+      getHalfCheckedKeys
+    } = useTreeMethods(props, flatTreeNodeInfoArr, checkedKeysRoot, halfCheckedKeys);
 
     // 向子孙组件提供根tree上下文
     provide<TreeContext>(bsTreeContextKey, {
@@ -709,7 +681,10 @@ export default defineComponent({
       getParentNodeByNodeLevelPath,
       getParentNodeByNodeValue,
       getNodeByNodeValue,
-      getNodeByNodeLevelPath
+      getNodeByNodeLevelPath,
+      getCheckedNodes,
+      getHalfCheckedNodes,
+      getHalfCheckedKeys
     };
   }
 });
