@@ -1,7 +1,7 @@
 <template>
   <div class="component-usage">
     <div class="container">
-      <!--<div>
+      <div>
         <h3>基本使用</h3>
         <bs-tree
           v-if="show"
@@ -10,7 +10,7 @@
           :show-checkbox="true"
           :highlightCurrent="true"
           :autoExpandParent="true"
-          :page-size="2"
+          :page-size="0"
           :expandedKeys="['2_1_1_2', '3', '4']"
           v-model:checkedKeys="checkedKeys1">
           <template #default="{data}">
@@ -24,7 +24,7 @@
         <br>
         <bs-button type="primary" @click="addCheckedKeys" style="margin-top: 1rem">选中项</bs-button>
         <bs-button type="primary" @click="show = !show" style="margin-top: 1rem">显示/销毁树</bs-button>
-      </div>-->
+      </div>
       <!--<div>
         <h3>动态加载</h3>
         <bs-tree
@@ -75,7 +75,7 @@
         </bs-tree>
       </div>-->
 
-      <div>
+      <!--<div>
         <h3>获取节点实用函数</h3>
         <bs-tree
           ref="treeMethods"
@@ -90,7 +90,7 @@
           <bs-button type="primary" @click="getHalfCheckedNodes6">获取半选中节点</bs-button>
           <bs-button type="primary" @click="getHalfCheckedKeys6">获取选中节点的值</bs-button>
         </div>
-      </div>
+      </div>-->
 
       <!--<a-tree
         v-model:expandedKeys="expandedKeys"

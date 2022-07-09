@@ -134,7 +134,7 @@ export function findParentsByNodeLevelPath2 (nodeLevelPath: string, treeNodeInfo
     // 从已查找到的父元素最近的位置开始往前查找
     for (let i = recentedParentIndex; i >= 0; i--) {
       let item = treeNodeInfoArr[i];
-      console.log('往前查找父级！');
+      // console.log('往前查找父级！');
       if (item.nodeLevelPath === nodeLevelPath) {
         nodeParents.push(item);
         recentedParentIndex = i;
@@ -142,12 +142,12 @@ export function findParentsByNodeLevelPath2 (nodeLevelPath: string, treeNodeInfo
         break;
       }
     }
-    console.log('往前查找完毕！！！');
+    // console.log('往前查找完毕！！！');
     // 如果往前查找未查找到，则从已查找到的父元素最近的位置开始往后查找
     if (!searchResultFlag) {
       for (let i = recentedParentIndex, len = treeNodeInfoArr.length; i < len; i++) {
         let item = treeNodeInfoArr[i];
-        console.log('往后查找父级！');
+        // console.log('往后查找父级！');
         if (item.nodeLevelPath === nodeLevelPath) {
           nodeParents.push(item);
           recentedParentIndex = i;
