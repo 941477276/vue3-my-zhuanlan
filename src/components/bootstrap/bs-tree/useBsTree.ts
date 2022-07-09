@@ -13,7 +13,7 @@ export function useBsTree (props: any, flatTreeNodeInfoArr: Ref<BsNodeInfo[]>) {
   let halfCheckedKeys = ref<(string | number)[]>([]);
   let addCheckedKey = function (nodeKey: string | number, isDisabled: boolean) {
     if (isDisabled) {
-      console.log('addCheckedKey，节点为禁用的，', nodeKey);
+      // console.log('addCheckedKey，节点为禁用的，', nodeKey);
       let nodeInfo = findNodeInfoByValue2(nodeKey, props.nodeKey, flatTreeNodeInfoArr.value);
       // 如果被禁用的节点没有子节点，则不添加进去
       if (nodeInfo.node && !nodeInfo.node[props.props.children]) {
@@ -27,11 +27,11 @@ export function useBsTree (props: any, flatTreeNodeInfoArr: Ref<BsNodeInfo[]>) {
   };
   let removeCheckedKey = function (nodeKey: string | number, isDisabled: boolean) {
     if (isDisabled) {
-      console.log('removeCheckedKey，节点为禁用的，', nodeKey);
+      // console.log('removeCheckedKey，节点为禁用的，', nodeKey);
       let nodeInfo = findNodeInfoByValue2(nodeKey, props.nodeKey, flatTreeNodeInfoArr.value);
       // 如果被禁用的节点没有子节点，则不移除
       if (nodeInfo.node && !nodeInfo.node[props.props.children]) {
-        console.log('removeCheckedKey，节点为禁用的且没有子节点', nodeKey);
+        // console.log('removeCheckedKey，节点为禁用的且没有子节点', nodeKey);
         return false;
       }
     }
@@ -70,7 +70,6 @@ export function useBsTree (props: any, flatTreeNodeInfoArr: Ref<BsNodeInfo[]>) {
       if (typeof callback === 'function') {
         callback(nodeItem, nodeValue);
       }
-      // console.log('nodesIsAllChecked called 222, ', nodeValue);
       let isChecked = checkedKeys.includes(nodeValue);
       if (halfCheckedKeysVal.includes(nodeValue)) {
         hasHalfChecked = true;
@@ -95,7 +94,6 @@ export function useBsTree (props: any, flatTreeNodeInfoArr: Ref<BsNodeInfo[]>) {
     let childrenKey = props.props.children;
     let parents = findParentsByNodeValue2(nodeValue, nodeKey, flatTreeNodeInfoArr.value);
     parents.forEach(function (parentNodeInfo) {
-      console.log('移除父节点的选中状态');
       let parentNodeValue = parentNodeInfo.node[nodeKey];
       let childrenCheckedInfo = nodesIsAllChecked(parentNodeInfo.node[childrenKey]);
       if (childrenCheckedInfo.allChecked) {
@@ -117,20 +115,20 @@ export function useBsTree (props: any, flatTreeNodeInfoArr: Ref<BsNodeInfo[]>) {
     let childrenKey = props.props.children;
     let parents = findParentsByNodeValue2(nodeValue, nodeKey, flatTreeNodeInfoArr.value);
     parents.forEach(function (parentNodeInfo) {
-      console.log('添加父节点的选中状态, addParentsChecked');
+      // console.log('添加父节点的选中状态, addParentsChecked');
       let parentNodeValue = parentNodeInfo.node[nodeKey];
       let childrenCheckedInfo = nodesIsAllChecked(parentNodeInfo.node[childrenKey]);
 
       if (childrenCheckedInfo.allChecked) {
-        console.log('添加父节点的选中状态, addParentsChecked 1111', parentNodeValue);
+        // console.log('添加父节点的选中状态, addParentsChecked 1111', parentNodeValue);
         addCheckedKey(parentNodeValue, parentNodeInfo.isDisabled);
         removeHalfCheckedKey(parentNodeValue);
       } else if (childrenCheckedInfo.hasHalfChecked || childrenCheckedInfo.hasChecked) {
-        console.log('添加父节点的选中状态, addParentsChecked 2222', parentNodeValue);
+        // console.log('添加父节点的选中状态, addParentsChecked 2222', parentNodeValue);
         removeCheckedKey(parentNodeValue, parentNodeInfo.isDisabled);
         addHalfCheckedKey(parentNodeValue);
       } else {
-        console.log('添加父节点的选中状态, addParentsChecked 333', parentNodeValue);
+        // console.log('添加父节点的选中状态, addParentsChecked 333', parentNodeValue);
         removeCheckedKey(parentNodeValue, parentNodeInfo.isDisabled);
         removeHalfCheckedKey(parentNodeValue);
       }
@@ -153,7 +151,6 @@ export function useBsTree (props: any, flatTreeNodeInfoArr: Ref<BsNodeInfo[]>) {
       hasChildrenChildNodes.unshift(nodeInfo.node);
       // 将有子节点的节点反转过来后再进行处理，这样就达到了从下往上处理的效果
       hasChildrenChildNodes.reverse().forEach((nodeDataItem: BsNodeData) => {
-        console.log('----------nodeDataItem', nodeDataItem);
         let children = nodeDataItem[childrenKey];
         let nodeDataItemValue = nodeDataItem[nodeKey];
         nodeDataItem[childrenKey].forEach((childNodeData: BsNodeData) => {
@@ -161,7 +158,6 @@ export function useBsTree (props: any, flatTreeNodeInfoArr: Ref<BsNodeInfo[]>) {
         });
         let childrenCheckedInfo = nodesIsAllChecked(children);
         if (childrenCheckedInfo.allChecked) {
-          console.log('removeChildrenChecked allChecked');
           addCheckedKey(nodeDataItemValue, nodeDataItem[disabledKey]);
           removeHalfCheckedKey(nodeDataItemValue);
           return;
@@ -179,7 +175,6 @@ export function useBsTree (props: any, flatTreeNodeInfoArr: Ref<BsNodeInfo[]>) {
 
   // 全选子孙节点
   let addChildrenChecked = function (nodeValue: string|number) {
-    console.log('addChildrenChecked 全选子孙节点', nodeValue);
     let nodeKey = props.nodeKey;
     let childrenKey = props.props.children;
     let disabledKey = props.props.disabled;
@@ -188,14 +183,11 @@ export function useBsTree (props: any, flatTreeNodeInfoArr: Ref<BsNodeInfo[]>) {
     if (!nodeInfo.node) {
       return;
     }
-    // let children = nodeInfo.node[childrenKey];
     // 根据节点的值查找有children的子节点
     let hasChildrenChildNodes = findChildrenWhichHasChildren2(nodeValue, nodeKey, childrenKey, flatTreeNodeInfoArr.value);
     hasChildrenChildNodes.unshift(nodeInfo.node);
-    console.log('addChildrenChecked hasChildrenChildNodes[]', hasChildrenChildNodes);
     // 将有子节点的节点反转过来后再进行处理，这样就达到了从下往上处理的效果
     hasChildrenChildNodes.reverse().forEach((nodeDataItem: BsNodeData) => {
-      console.log('----------nodeDataItem222', nodeDataItem);
       let children = nodeDataItem[childrenKey];
       let nodeDataItemValue = nodeDataItem[nodeKey];
       nodeDataItem[childrenKey].forEach((childNodeData: BsNodeData) => {
@@ -203,7 +195,6 @@ export function useBsTree (props: any, flatTreeNodeInfoArr: Ref<BsNodeInfo[]>) {
       });
       let childrenCheckedInfo = nodesIsAllChecked(children);
       if (childrenCheckedInfo.allChecked) {
-        console.log('addChildrenChecked 111', childrenCheckedInfo.hasHalfChecked);
         addCheckedKey(nodeDataItemValue, nodeDataItem[disabledKey]);
         removeHalfCheckedKey(nodeDataItemValue);
         return;
@@ -211,9 +202,7 @@ export function useBsTree (props: any, flatTreeNodeInfoArr: Ref<BsNodeInfo[]>) {
       if (childrenCheckedInfo.hasChecked || childrenCheckedInfo.hasHalfChecked) {
         removeCheckedKey(nodeDataItemValue, nodeDataItem[disabledKey]);
         addHalfCheckedKey(nodeDataItemValue);
-        console.log('addChildrenChecked 222');
       } else {
-        console.log('addChildrenChecked 333');
         removeCheckedKey(nodeDataItemValue, nodeDataItem[disabledKey]);
         removeHalfCheckedKey(nodeDataItemValue);
       }
