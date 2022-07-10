@@ -10,6 +10,7 @@
           :show-checkbox="true"
           :highlightCurrent="true"
           :autoExpandParent="true"
+          :check-on-click-node="true"
           :page-size="0"
           :expandedKeys="['2_1_1_2', '3', '4']"
           v-model:checkedKeys="checkedKeys1">
@@ -25,6 +26,27 @@
         <bs-button type="primary" @click="addCheckedKeys" style="margin-top: 1rem">选中项</bs-button>
         <bs-button type="primary" @click="show = !show" style="margin-top: 1rem">显示/销毁树</bs-button>
       </div>
+      <!--<div>
+        <h3>单选</h3>
+        <bs-tree
+          v-if="show"
+          :tree-data="treeData7"
+          node-key="id"
+          :show-radio="true"
+          :highlightCurrent="true"
+          :autoExpandParent="true"
+          :check-on-click-node="true"
+          :check-strictly="true"
+          :page-size="0"
+          :expandedKeys="['2_1_1_2', '3', '4']"
+          v-model:checkedKeys="checkedKeys7">
+          <template #default="{data}">
+            <strong>
+              {{ data.label }}
+            </strong>
+          </template>
+        </bs-tree>
+      </div>-->
       <!--<div>
         <h3>动态加载</h3>
         <bs-tree
@@ -258,6 +280,96 @@ export default defineComponent({
         ]
       }
     ]);
+
+    let treeData7 = ref([
+      {
+        label: '一级 1',
+        id: '1',
+        children: [
+          {
+            label: '二级 1-1',
+            id: '1_1',
+            children: [
+              {
+                label: '三级 1-1-1',
+                id: '1_1_1'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        label: '一级 2',
+        id: '2',
+        children: [
+          {
+            label: '二级 2-1',
+            id: '2_1',
+            children: [
+              {
+                label: '三级 2-1-1',
+                id: '2_1_1',
+                children: [
+                  {
+                    label: '四级 2-1-1-1',
+                    id: '2_1_1_1'
+                  },
+                  {
+                    label: '四级 2-1-1-2',
+                    id: '2_1_1_2',
+                    children: [
+                      {
+                        label: '五级 2-1-1-2-1',
+                        id: '2_1_1_2_1'
+                      },
+                      {
+                        label: '五级 2-1-1-2-2',
+                        id: '2_1_1_2_2'
+                      },
+                      {
+                        label: '五级 2-1-1-2-3',
+                        id: '2_1_1_2_3'
+                      }
+                    ]
+                  },
+                  {
+                    label: '四级 2-1-1-3',
+                    id: '2_1_1_3'
+                  },
+                  {
+                    label: '四级 2-1-1-4',
+                    id: '2_1_1_4'
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            label: '二级 2-2',
+            id: '2_2',
+            children: [
+              {
+                label: '三级 2-2-1',
+                id: '2_2_1'
+              }
+            ]
+          },
+          {
+            label: '二级 2-4',
+            id: '2_4'
+          },
+          {
+            label: '二级 2-5',
+            id: '2_5'
+          },
+          {
+            label: '二级 2-6',
+            id: '2_6'
+          }
+        ]
+      }
+    ]);
+    let checkedKeys7 = ref<(string | number)[]>([]);
 
     // let checkedKeys1 = ref<(string|number)[]>(['4', '2_1', '2_4', '2_2', '2_5', '2_2_1', '2_1_1_2_2', '3_2_1']);
     let checkedKeys1 = ref<(string | number)[]>([]);
@@ -749,6 +861,9 @@ export default defineComponent({
 
       treeData3,
       checkedKeys3,
+
+      treeData7,
+      checkedKeys7,
 
       treeData,
       expandedKeys,

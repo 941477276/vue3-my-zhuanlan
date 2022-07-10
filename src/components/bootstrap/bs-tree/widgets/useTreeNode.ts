@@ -46,6 +46,10 @@ export function useTreeNode (props: any, treeCtx: TreeContext) {
   let isDisabled = computed(function () {
     return !!props.nodeData[props.disabledKey];
   });
+  // 单选框是否只能选择叶子节点
+  let isRadioDisabled = computed(function () {
+    return props.checkStrictly && !isLeaf.value;
+  });
 
   return {
     loadingData,
@@ -55,6 +59,7 @@ export function useTreeNode (props: any, treeCtx: TreeContext) {
     isChecked,
     isCurrent,
     isIndeterminate,
-    isDisabled
+    isDisabled,
+    isRadioDisabled
   };
 };

@@ -10,6 +10,7 @@
     }"
     :data-node-leave="nodeLeave">
     <div
+      ref="bsTreeNodeContentRef"
       class="bs-tree-node-content"
       @click="onNodeClick">
       <span class="bs-tree-node-indent" aria-hidden="true">
@@ -48,7 +49,7 @@
         v-model="inputModel"
         :value="nodeValue"
         :name="radioName"
-        :disabled="isDisabled"></BsRadio>
+        :disabled="isDisabled || isRadioDisabled"></BsRadio>
       <!--<div class="bs-tree-node-label">node label</div>-->
       <BsTreeNodeLabel
         :label-key="labelKey"
@@ -136,7 +137,8 @@ export default defineComponent({
       isChecked,
       isCurrent,
       isIndeterminate,
-      isDisabled
+      isDisabled,
+      isRadioDisabled
     } = useTreeNode(props, treeCtx);
 
     // 节点是否展开
@@ -231,31 +233,31 @@ export default defineComponent({
         let loadDataFn = props.loadDataFn;
         let children = (props.nodeData[props.childrenKey] || []);
         if (!props.lazy || loadingData.value || dataLoaded.value || isLeaf.value || children.length > 0) {
-          console.log('lazyLoadChildren 111');
+          // console.log('lazyLoadChildren 111');
           resolve(true);
           return;
         }
         if (typeof loadDataFn !== 'function') {
-          console.error('loadDataFn is not a function!');
+          // console.error('loadDataFn is not a function!');
           resolve(true);
           return;
         }
-        console.log('lazyLoadChildren 222');
+        // console.log('lazyLoadChildren 222');
         loadingData.value = true;
         let result = props.loadDataFn(props.nodeData, nodeState.value);
         if (util.isPromise(result)) {
-          console.log('lazyLoadChildren 333');
+          // console.log('lazyLoadChildren 333');
           result.then(function (isLoaded: boolean) {
-            console.log('lazyLoadChildren 444');
+            // console.log('lazyLoadChildren 444');
             loadingData.value = false;
             dataLoaded.value = !!isLoaded;
             resolve(isLoaded);
           }).catch(function () {
             loadingData.value = false;
-            console.log('lazyLoadChildren 555');
+            // console.log('lazyLoadChildren 555');
           });
         } else {
-          console.log('lazyLoadChildren 666');
+          // console.log('lazyLoadChildren 666');
           loadingData.value = false;
           resolve(true);
         }
@@ -274,6 +276,7 @@ export default defineComponent({
       }
     };
 
+    let bsTreeNodeContentRef = ref<HTMLElement|null>(null);
     // 节点点击事件
     let onNodeClick = function (evt: MouseEvent) {
       let target = evt.target as HTMLElement;
@@ -281,13 +284,23 @@ export default defineComponent({
 
       treeCtx.currentNode.value = nodeData;
       treeCtx.onNodeClick(nodeData, { ...nodeState.value });
-      if (target?.nodeName === 'INPUT' || !props.expandOnClickNode) {
+      if (target?.nodeName === 'INPUT') {
         return;
       }
       if (util.hasClass(target, 'bs-checkbox') || util.parents(target, 'bs-checkbox') || util.hasClass(target, 'bs-radio') || util.parents(target, 'bs-radio')) {
         return;
       }
-      console.log(111, target);
+      // 点击节点可以选中
+      if (props.checkOnClickNode) {
+        if (!props.showRadio || !isRadioDisabled.value) {
+          // console.log(1111);
+          inputModel.value = isChecked.value ? '' : nodeValue.value;
+        }
+      }
+      if (!props.expandOnClickNode) {
+        return;
+      }
+      // console.log(111, target);
       if (props.lazy) {
         lazyLoadChildren()
           .then(function () {
@@ -332,6 +345,7 @@ export default defineComponent({
       isCurrent,
       isIndeterminate,
       isDisabled,
+      isRadioDisabled,
       dataLoaded,
       nodeChildren,
       nodeValue,
@@ -340,6 +354,7 @@ export default defineComponent({
       inputModel,
       loadingData,
       nodeState,
+      bsTreeNodeContentRef,
 
       onNodeClick,
       onSwitcherClick,

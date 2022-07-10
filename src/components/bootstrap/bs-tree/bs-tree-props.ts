@@ -15,6 +15,10 @@ export const bsTreeProps = {
     type: Boolean,
     default: false
   },
+  checkOnClickNode: { // 是否在点击节点的时候选中节点，默认值为 false，即只有在点击复选框时才会选中节点
+    type: Boolean,
+    default: false
+  },
   showRadio: { // 节点是否可以单选
     type: Boolean,
     default: false
