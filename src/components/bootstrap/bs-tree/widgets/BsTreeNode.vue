@@ -291,10 +291,14 @@ export default defineComponent({
         return;
       }
       // 点击节点可以选中
-      if (props.checkOnClickNode) {
+      if (props.checkOnClickNode && !isDisabled.value) {
         if (!props.showRadio || !isRadioDisabled.value) {
           // console.log(1111);
-          inputModel.value = isChecked.value ? '' : nodeValue.value;
+          if (props.showRadio) {
+            inputModel.value = nodeValue.value;
+          } else {
+            inputModel.value = isChecked.value ? '' : nodeValue.value;
+          }
         }
       }
       if (!props.expandOnClickNode) {

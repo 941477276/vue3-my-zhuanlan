@@ -33,8 +33,11 @@
       :show-switcher="false"
       @show-more="showMoreChildNode"
       @show-all="showAllChildNode"></BsTreeNodeOperate>
-    <div class="bs-tree-empty" v-if="false">
+    <div class="bs-tree-empty" v-if="nodeChildren.length == 0 && !loading">
       <slot name="empty">{{ emptyText }}</slot>
+    </div>
+    <div class="bs-tree-loading" v-if="loading">
+      <slot name="loading">{{ loadingText }}</slot>
     </div>
   </div>
 </template>
@@ -87,6 +90,14 @@ export default defineComponent({
     emptyText: {
       type: String,
       default: '暂无数据'
+    },
+    loadingText: {
+      type: String,
+      default: '加载中...'
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['node-expand', 'check-change', 'node-click', 'update:checkedKeys', 'node-destroy'],
@@ -467,7 +478,8 @@ export default defineComponent({
   background-color: #fff;
 }
 
-.bs-tree-empty {
+.bs-tree-empty,
+.bs-tree-loading{
   padding: 2rem 1rem;
   text-align: center;
   color: #999;
