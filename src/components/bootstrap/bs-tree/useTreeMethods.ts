@@ -64,6 +64,15 @@ export function useTreeMethods (props: any, flatTreeNodeInfoArr: Ref<BsNodeInfo[
     return nodes;
   };
 
+  // 获取选中节点的label
+  let getCheckedNodesLabel = function () {
+    let checkedNodes = getCheckedNodes();
+    let labelKey = props.props.label;
+    return checkedNodes.map(checkedNode => {
+      return checkedNode?.[labelKey];
+    });
+  };
+
   // 获取半选中的节点
   let getHalfCheckedNodes = function () {
     let flatTreeInfo = flatTreeNodeInfoArr.value;
@@ -96,6 +105,7 @@ export function useTreeMethods (props: any, flatTreeNodeInfoArr: Ref<BsNodeInfo[
     getNodeByNodeLevelPath,
     getCheckedNodes,
     getHalfCheckedNodes,
-    getHalfCheckedKeys
+    getHalfCheckedKeys,
+    getCheckedNodesLabel
   };
 };

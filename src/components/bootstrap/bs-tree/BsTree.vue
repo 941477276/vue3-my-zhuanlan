@@ -108,8 +108,41 @@ export default defineComponent({
     // let flatTreeMap = ref<BsNodeInfo[]>([]);
     // 扁平化的树信息
     let flatTreeNodeInfoArr = ref<BsNodeInfo[]>([]);
+
     // 展开的节点的key数组
     let expandedKeysRoot = ref(props.expandedKeys);
+    let addExpandKey = function (expandKey: string|number) {
+      if (expandedKeysRoot.value.includes(expandKey)) {
+        return;
+      }
+      expandedKeysRoot.value.push(expandKey);
+    };
+    // 展开选中节点的父级节点
+    let expandCheckedNodesParent = function () {
+      let expandKeys = expandedKeysRoot.value;
+      let flatTreeNodeInfos = flatTreeNodeInfoArr.value;
+      let nodeKey = props.nodeKey;
+      let processedKeys = {}; // 存储已经处理过的节点
+      console.log('展开选中节点的父级节点');
+      checkedKeysRoot.value.forEach(checkedKey => {
+        if (checkedKey in processedKeys) {
+          return;
+        }
+        if (expandKeys?.includes(checkedKey)) {
+          console.log(`${checkedKey} 节点已经展开，无需再次展开！`);
+          return;
+        }
+        let parents = findParentsByNodeValue2(checkedKey, nodeKey, flatTreeNodeInfos);
+        parents.forEach(parentNodeInfo => {
+          let node = parentNodeInfo.node;
+          let parentNodeValue = node[nodeKey];
+          if (parentNodeValue in processedKeys) {
+            return;
+          }
+          addExpandKey(parentNodeValue);
+        });
+      });
+    };
 
     let {
       checkedKeysRoot,
@@ -355,7 +388,8 @@ export default defineComponent({
       getNodeByNodeLevelPath,
       getCheckedNodes,
       getHalfCheckedNodes,
-      getHalfCheckedKeys
+      getHalfCheckedKeys,
+      getCheckedNodesLabel
     } = useTreeMethods(props, flatTreeNodeInfoArr, checkedKeysRoot, halfCheckedKeys);
 
     // 向子孙组件提供根tree上下文
@@ -467,7 +501,9 @@ export default defineComponent({
       getNodeByNodeLevelPath,
       getCheckedNodes,
       getHalfCheckedNodes,
-      getHalfCheckedKeys
+      getHalfCheckedKeys,
+      getCheckedNodesLabel,
+      expandCheckedNodesParent
     };
   }
 });
