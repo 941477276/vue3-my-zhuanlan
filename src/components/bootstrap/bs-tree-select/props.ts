@@ -91,6 +91,10 @@ export const bsTreeSelectProps = {
       return {};
     }
   },
+  defaultExpandCheckedNodesParent: { // 默认是否展开选中节点的父级
+    type: Boolean,
+    default: true
+  },
   nodeKey: { // 每个树节点用来作为唯一标识的属性，整棵树应该是唯一的
     type: String,
     default: ''

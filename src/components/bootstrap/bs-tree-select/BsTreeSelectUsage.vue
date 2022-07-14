@@ -1,15 +1,74 @@
 <template>
   <div class="component-usage">
-    <h3 style="margin-top: 200px;">单选</h3>
-    <bs-tree-select
-      v-model="checkedKeys1"
-      :tree-data="treeData1"
-      :check-strictly="true"
-      :radio-visible="true"
-      node-key="id"
-      style="margin-bottom: 500px;"
-      clearable></bs-tree-select>
+    <div>
+      <h3 style="margin-top: 100px;">基本使用</h3>
+      <bs-tree-select
+        v-model="checkedKeys1"
+        :tree-data="treeData1"
+        node-key="id"
+        clearable></bs-tree-select>
 
+      <div>
+        <p style="margin: 1rem 0 0 0">显示单选框</p>
+        <bs-tree-select
+          v-model="checkedKeys1"
+          :tree-data="treeData1"
+          :radio-visible="true"
+          node-key="id"
+          clearable></bs-tree-select>
+      </div>
+
+    </div>
+    <div>
+      <figure>
+        <h3 style="margin-top: 50px;">单选-只能选择叶子节点</h3>
+        <figcaption>当<code>multiple=false</code>，且<code>check-strictly=true</code>时，只能选择叶子节点（即没有子节点的节点），否则可以选择任意节点</figcaption>
+      </figure>
+      <bs-tree-select
+        v-model="checkedKeys2"
+        :tree-data="treeData1"
+        :check-strictly="true"
+        node-key="id"
+        clearable></bs-tree-select>
+    </div>
+
+    <div>
+      <figure>
+        <h3 style="margin-top: 50px;">多选</h3>
+        <figcaption>当<code>multiple=true</code>时，可以多选</figcaption>
+      </figure>
+      <bs-tree-select
+        v-model="checkedKeys3"
+        :tree-data="treeData1"
+        multiple
+        node-key="id"
+        clearable></bs-tree-select>
+      <div>
+        <p style="margin: 1rem 0 0 0">显示复选框</p>
+        <bs-tree-select
+          v-model="checkedKeys3"
+          :tree-data="treeData1"
+          :checkbox-visible="true"
+          multiple
+          node-key="id"
+          clearable></bs-tree-select>
+      </div>
+    </div>
+
+    <div>
+      <figure>
+        <h3 style="margin-top: 50px;">多选-选择任意节点（父子节点不关联）</h3>
+        <figcaption>当<code>checkbox-visible=true</code>时，父子节点不再强行关联</figcaption>
+      </figure>
+      <bs-tree-select
+        v-model="checkedKeys4"
+        :tree-data="treeData1"
+        :checkbox-visible="true"
+        :check-strictly="true"
+        multiple
+        node-key="id"
+        clearable></bs-tree-select>
+    </div>
   </div>
 </template>
 
@@ -109,17 +168,27 @@ export default defineComponent({
         ]
       }
     ]);
-    let checkedKeys1 = ref(['1_1', '1_2', '1_3_1', '1_3_2', '1_5_1', '1_6', '1_5_2', '1_5_3']);
+    // let checkedKeys1 = ref(['1_1', '1_2', '1_3_1', '1_3_2', '1_5_1', '1_6', '1_5_2', '1_5_3']);
+    let checkedKeys1 = ref('1_2');
+    let checkedKeys2 = ref('');
+    let checkedKeys3 = ref(['1_1', '1_2', '1_3_1', '1_5_1', '1_6', '1_5_2', '1_5_3']);
+    let checkedKeys4 = ref(['1_1', '1_2', '1_3_1', '1_5_1', '1_6', '1_5_2', '1_5_3']);
 
     return {
       treeData1,
-      checkedKeys1
+      checkedKeys1,
+      checkedKeys2,
+      checkedKeys3,
+      checkedKeys4
     };
   }
 });
 </script>
 
 <style lang="scss" scoped>
+.component-usage{
+  padding: 100px 0;
+}
 .bs-tree-select {
   width: auto;
 }

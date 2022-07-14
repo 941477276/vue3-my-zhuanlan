@@ -44,6 +44,7 @@
             'radio-hidden': !multiple && !radioVisible
           }">
           <BsTree
+            ref="treeRef"
             v-bind="treeProps"
             v-model:checked-keys="treeModelValue"
             :tree-data="treeData"
@@ -52,7 +53,8 @@
             :show-checkbox="multiple"
             :show-radio="!multiple"
             :check-strictly="checkStrictly"
-            :check-on-click-node="checkOnClickNode"></BsTree>
+            :check-on-click-node="checkOnClickNode"
+            :expand-on-click-node="checkStrictly"></BsTree>
         </div>
       </transition>
     </teleport>
@@ -95,7 +97,7 @@ export default defineComponent({
   props: {
     ...bsTreeSelectProps
   },
-  emits: ['update:modelValue', 'change', 'selectLimit'],
+  emits: ['update:modelValue', 'change'],
   setup (props: any, ctx: any) {
     let bsTreeSelectRef = ref<HTMLElement|null>(null);
     let bsInputRef = ref<ComponentInternalInstance|null>(null);
@@ -104,9 +106,10 @@ export default defineComponent({
     let isFocus = ref(false);
     let selectId = ref(props.id || `bs-tree-select_${++treeSelectCount}`);
     let dropdownDisplayed = ref(false); // 下拉菜单是否已经渲染
-    let dropdownVisible = ref(true); // 下拉菜单是否显示
+    let dropdownVisible = ref(false); // 下拉菜单是否显示
     let dropdownDisplayDirection = ref('bottom'); // 下拉菜单展示方位
     let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
+    let treeRef = ref(null);
 
     /**
      * 显示下拉菜单
@@ -116,17 +119,23 @@ export default defineComponent({
         return;
       }
       dropdownVisible.value = true;
+      nextTick(function () {
+        if (props.defaultExpandCheckedNodesParent) {
+          // 展开选中节点的父级节点
+          (treeRef.value as any).expandCheckedNodesParent();
+        }
+      });
     };
     /**
      * 隐藏下拉菜单
      */
     let dropdownHide = function () {
       // 延迟一会隐藏下拉菜单是因为为了等待背景色改变后再隐藏
-      let timer = setTimeout(function () {
-        clearTimeout(timer);
-        dropdownVisible.value = false;
-        isFocus.value = false;
-      }, 120);
+      // let timer = setTimeout(function () {
+      //   clearTimeout(timer);
+      dropdownVisible.value = false;
+      isFocus.value = false;
+      // }, 120);
     };
 
     /**
@@ -147,7 +156,7 @@ export default defineComponent({
      * @param val 值
      * @param isDelete 是否移除
      */
-    let changeVal = function (val: any, isDelete?: boolean) {
+    /* let changeVal = function (val: any, isDelete?: boolean) {
       if (props.multiple) {
         let selectModelValue: unknown[] = (props.modelValue || []).slice();
         if (isDelete === true) {
@@ -187,7 +196,7 @@ export default defineComponent({
         dropdownHide();
         callFormItem('validate', 'change');
       }
-    };
+    }; */
 
     // 树组件的modelValue
     let treeModelValue = computed({
@@ -205,11 +214,16 @@ export default defineComponent({
         console.log('设置新的tree-select值：', treeModelNewVal);
         if (props.multiple) {
           // let modelValue: (string|number)[] = newVal;
-          ctx.emit('update:modelValue', [...treeModelNewVal]);
+          let result = [...treeModelNewVal];
+          ctx.emit('update:modelValue', result);
+          ctx.emit('change', result);
+          callFormItem('validate', 'change');
         } else {
           let newVal = Array.isArray(treeModelNewVal) ? treeModelNewVal[0] : treeModelNewVal;
           console.log('newVal', newVal);
           ctx.emit('update:modelValue', newVal);
+          ctx.emit('change', newVal);
+          callFormItem('validate', 'change');
         }
       }
     });
@@ -236,9 +250,15 @@ export default defineComponent({
       el.addEventListener('transitioncancel', onTransitionDone, false);
     };
 
-    let viewText = computed(function () {
-      return '234';
-    });
+    let viewText = ref('');
+    watch(() => props.modelValue, function () {
+      nextTick(function () {
+        if (treeRef.value) {
+          let labels = (treeRef.value as any).getCheckedNodesLabel();
+          viewText.value = labels.join(',');
+        }
+      });
+    }, { immediate: true });
     watch([() => props.clearable, viewText], function (newVals: any[]) {
       (bsInputRef.value as any).setClearIconDisplay(newVals[0] && newVals[1].length > 0);
     });
@@ -264,6 +284,7 @@ export default defineComponent({
       let val = props.multiple ? [] : '';
       ctx.emit('update:modelValue', val);
       ctx.emit('change', val);
+      callFormItem('validate', 'change');
     };
 
     if (props.deliveContextToFormItem) {
@@ -284,6 +305,7 @@ export default defineComponent({
     return {
       bsTreeSelectRef,
       bsInputRef,
+      treeRef,
       bsSelectDropdownRef,
       bsInputReadonly,
       isFocus,

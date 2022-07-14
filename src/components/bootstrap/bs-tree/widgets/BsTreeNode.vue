@@ -186,7 +186,7 @@ export default defineComponent({
         return isChecked.value ? nodeValue.value : '';
       },
       set (newVal) {
-        console.log('treeNode,复选框新的值：', newVal);
+        // console.log('treeNode,复选框新的值：', newVal);
         if (newVal) {
           /* if (props.showCheckbox) {
             treeCtx.addCheckedKey(nodeValue.value, props.nodeData, nodeChildren.value.length > 0);
