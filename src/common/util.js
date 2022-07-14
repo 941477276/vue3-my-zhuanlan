@@ -1153,6 +1153,7 @@ var tool = {
         break;
     }
 
+    let defaultDirectionResult = {};
     // 寻找元素在水平、垂直方向都完全出现在视口中的方向
     directionCalcFlow.some(function (flow) {
       let result = flow.handler(flow.isTail);
@@ -1161,6 +1162,9 @@ var tool = {
       // 判断在有滚动条的父级容器中是否完可视
       let inScrollParentView = result.scrollParentVertical && result.scrollParentHorizontal;
 
+      if (result.direction === defaultDirection) {
+        defaultDirectionResult = result;
+      }
       // 尝试一遍当前方向的尾方向
       let tryReverse = function (allInView = false) {
         let result = flow.handler(!flow.isTail);
@@ -1168,7 +1172,7 @@ var tool = {
         let inScrollParentView = result.scrollParentVertical && result.scrollParentHorizontal;
 
         let flag = allInView ? (inView && inScrollParentView) : (inView || inScrollParentView);
-        console.log('tryReverse', flag, inView, inScrollParentView, result);
+        // console.log('tryReverse', flag, inView, inScrollParentView, result);
 
         if (flag) {
           calcedDirection = result;
@@ -1177,8 +1181,11 @@ var tool = {
         return false;
       }
 
+      if (result.direction === defaultDirection) {
+        defaultDirectionResult = result;
+      }
       if (inView) {
-        console.log('inView111, inScrollParentView', inView, inScrollParentView, result);
+        // console.log('inView111, inScrollParentView', inView, inScrollParentView, result);
         if (!inScrollParentView) {
           let flag = tryReverse(true);
           if (flag) {
@@ -1189,7 +1196,7 @@ var tool = {
         calcedDirection = result;
         return true;
       } else {
-        console.log('inView222, inScrollParentView', inView, inScrollParentView, result);
+        // console.log('inView222, inScrollParentView', inView, inScrollParentView, result);
 
         return tryReverse(true);
       }
@@ -1207,7 +1214,7 @@ var tool = {
     console.log('calcedDirection', calcedDirection);
     // 如果尝试了所有方位后都无法显示，则显示默认方位
     if (!calcedDirection) {
-      switch (defaultDirection) {
+      /* switch (defaultDirection) {
         case 'bottom':
           calcedDirection = handleBottom();
           break;
@@ -1220,9 +1227,11 @@ var tool = {
         case 'right':
           calcedDirection = handleRight();
           break;
-      }
+      } */
+      calcedDirection = defaultDirectionResult;
+      calcedDirection.isRollback = true;
     }
-    // console.log('使用默认的方位：', calcedDirection);
+    console.log('最终使用的方位：', calcedDirection);
     // 恢复目标元素的display、opacity属性
     if (styleOpacity) {
       targetEl.style.opacity = styleOpacity;
