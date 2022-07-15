@@ -45,12 +45,16 @@
   overflow-y: auto;
   box-shadow: 0 1px 0.5rem rgba(0,0,0,0.15);
   background-color: #fff;
-  &.placement-on-bottom{
+  &.bs-placement-on-bottom{
     margin-top: 0.3rem;
     @include slide-down;
   }
-  &.placement-on-top{
+  &.bs-placement-on-top{
     margin-top: -0.3rem;
+    &.use-bottom{
+      margin-top: auto;
+      margin-bottom: .35rem;
+    }
     @include slide-top;
   }
   .bs-tree-node{
