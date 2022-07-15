@@ -19,12 +19,17 @@
           class="bs-dropdown-menu dropdown-menu"
           :class="[
             dropdownMenuClass,
-            `bs-dropdown-menu-direction-${displayDirection}`
+            `bs-dropdown-menu-direction-${displayDirection}`,
+            {
+              'use-bottom': dropdownMenuStyle.bottom != null
+            }
           ]"
           :style="{
             position: dropdownMenuStyle.position,
             left: dropdownMenuStyle.left + 'px',
-            top: dropdownMenuStyle.top + 'px',
+            // top: dropdownMenuStyle.top + 'px',
+            top: dropdownMenuStyle.bottom == null ? (dropdownMenuStyle.top + 'px') : 'auto',
+            bottom: dropdownMenuStyle.bottom != null ? (dropdownMenuStyle.bottom + 'px') : '',
             zIndex: dropdownMenuStyle.zIndex
           }"
           @mouseenter="onMouseEnter"
@@ -71,6 +76,7 @@ type directions = 'bottom' | 'top' | 'left' | 'right';
 interface CalcDirection {
   left: number,
   top: number,
+  bottom: number,
   vertical: boolean,
   horizontal: boolean,
   direction: directions
@@ -97,7 +103,8 @@ export default defineComponent({
     let dropdownMenuStyle = reactive({
       position: 'absolute',
       left: 0,
-      top: 0,
+      top: -1,
+      bottom: null,
       zIndex: ''
     });
     let toggleEl: HTMLElement|null; // 触发下拉菜单显示/隐藏的dom元素
@@ -124,6 +131,7 @@ export default defineComponent({
       console.log('directionInfo', directionInfo);
       dropdownMenuStyle.left = directionInfo.left;
       dropdownMenuStyle.top = directionInfo.top;
+      dropdownMenuStyle.bottom = (typeof directionInfo.bottom == 'undefined' ? null : directionInfo.bottom) as any;
       displayDirection.value = directionInfo.direction;
     };
 

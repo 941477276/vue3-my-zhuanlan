@@ -23,6 +23,10 @@
   &.bs-dropdown-menu-direction-top,
   &.bs-dropdown-menu-direction-topRight{
     margin-top: -.35rem;
+    &.use-bottom{
+      margin-top: auto;
+      margin-bottom: .35rem;
+    }
    /* &.slide-enter-from,
     &.slide-leave-to{
       transform: scaleY(0.8);
