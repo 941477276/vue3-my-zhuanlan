@@ -50,10 +50,18 @@
           ref="bsSelectDropdownRef"
           class="bs-select-dropdown"
           :class="{
-          'is-multiple': multiple,
-          'display-on-top': dropdownDisplayDirection === 'top',
-          'display-on-bottom': dropdownDisplayDirection === 'bottom',
-        }"
+            'is-multiple': multiple,
+            'bs-placement-on-top': dropdownStyle.direction === 'top',
+            'bs-placement-on-bottom': dropdownStyle.direction === 'bottom',
+            'use-bottom': dropdownStyle.bottom != null
+          }"
+          :style="{
+            position: dropdownStyle.position,
+            width: dropdownStyle.width + 'px',
+            left: dropdownStyle.left + 'px',
+            top: dropdownStyle.bottom == null ? (dropdownStyle.top + 'px') : 'auto',
+            bottom: dropdownStyle.bottom != null ? (dropdownStyle.bottom + 'px') : ''
+          }"
           :data-for-bs-select="selectId">
           <slot></slot>
           <li
@@ -116,7 +124,15 @@ export default defineComponent({
     let selectId = ref(props.id || `bs-select_${++selectCount}`);
     let dropdownDisplayed = ref(false); // 下拉菜单是否已经渲染
     let dropdownVisible = ref(false); // 下拉菜单是否显示
-    let dropdownDisplayDirection = ref('bottom'); // 下拉菜单展示方位
+    // 下拉菜单样式
+    let dropdownStyle = reactive({
+      position: 'absolute',
+      direction: 'bottom',
+      width: 0,
+      left: 0,
+      top: -1,
+      bottom: null
+    });
     let options = ref<SelectOptionItem[]>([]); // 存储option的label及value
     let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
 
@@ -243,10 +259,11 @@ export default defineComponent({
       // let bsSelectDropdownEl = bsSelectDropdownRef.value as HTMLElement;
 
       let displayDirection: any = util.calcAbsoluteElementDisplayDirection(bsSelectRef.value, el, 'bottom', false);
-      dropdownDisplayDirection.value = displayDirection.direction;
-      el.style.width = bsSelectRect.width + 'px';
-      el.style.top = displayDirection.top + 'px';
-      el.style.left = displayDirection.left + 'px';
+      dropdownStyle.direction = displayDirection.direction;
+      dropdownStyle.width = bsSelectRect.width;
+      dropdownStyle.top = displayDirection.top;
+      dropdownStyle.left = displayDirection.left;
+      dropdownStyle.bottom = typeof displayDirection.bottom == 'undefined' ? null : displayDirection.bottom;
 
       let onTransitionDone = function () {
         done();
@@ -327,7 +344,7 @@ export default defineComponent({
       selectId,
       dropdownDisplayed,
       dropdownVisible,
-      dropdownDisplayDirection,
+      dropdownStyle,
       options,
       nativeSelectModel,
       viewText,
