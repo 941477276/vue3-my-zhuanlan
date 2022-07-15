@@ -19,7 +19,7 @@
           class="bs-dropdown-menu dropdown-menu"
           :class="[
             dropdownMenuClass,
-            `bs-dropdown-menu-direction-${displayDirection}`,
+            `bs-placement-on-${displayDirection}`,
             {
               'use-bottom': dropdownMenuStyle.bottom != null
             }
