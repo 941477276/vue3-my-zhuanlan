@@ -69,7 +69,7 @@
       </div>
     </transition>
     <BsMask
-      v-if="mask"
+      v-if="mask && rendered"
       v-model:visible="maskVisible"
       :z-index="zIndex - 1"></BsMask>
   </teleport>

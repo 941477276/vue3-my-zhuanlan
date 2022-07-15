@@ -72,9 +72,9 @@
   <!--<div class="box">
     <BsSliderUsage></BsSliderUsage>
   </div>-->
-  <!--<div class="box">
+  <div class="box">
     <BsModalUsage></BsModalUsage>
-  </div>-->
+  </div>
   <!--<div class="box">
     <BsDrawerUsage></BsDrawerUsage>
   </div>-->
