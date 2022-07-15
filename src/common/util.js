@@ -1029,13 +1029,24 @@ var tool = {
       };
     };
     let handleTop = function (isTopRight) {
+      console.log('referenceElWrapperScrollTop', referenceOffset.top, tool.scrollTop(), referenceElWrapperScrollTop);
       var top = referenceOffset.top - targetElRect.height - (targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0);
       var left = isTopRight ? Math.floor(referenceOffset.left - (targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0) - (targetElRect.width - referenceRect.width - (targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0))) : referenceOffset.left;
       var isInView = tool.eleIsInView(targetEl, top, left, needSubtractScrollOffset);
+      // var bottom = referenceOffset.top - targetElOffsetParentOffset.top - (targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0) + referenceRect.height;
+      var bottom = 0;
+      if (targetElOffsetParentIsDocument) {
+        // 如果目标元素插入在body中，则bottom的值为浏览器可见高度减去参照元素至浏览器最顶端的距离，再加上参照元素滚动容器滚动滚动的距离即可
+        // 实际为：浏览器可见高度-参照元素在可见高度内的位置-浏览器滚动条滚动的距离+参照元素滚动容器滚动滚动的距离
+        bottom = window.innerHeight - referenceOffset.top + referenceElWrapperScrollTop;
+      } else {
+        bottom = targetElOffsetParent.offsetHeight - (referenceOffset.top - targetElOffsetParentOffset.top);// + referenceElWrapperScrollTop;
+      }
       // console.log('handleTop isInView', isInView, top, left);
       return {
         ...isInView,
         direction: isTopRight ? 'topRight' : 'top',
+        bottom,
         // 计算top值时需减去目标元素position不为static的父级元素的top值
         top: top - targetElOffsetParentOffset.top,
         left: left - targetElOffsetParentOffset.left
