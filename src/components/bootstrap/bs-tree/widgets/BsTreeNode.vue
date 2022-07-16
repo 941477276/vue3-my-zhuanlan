@@ -35,7 +35,9 @@
           </i>
         </slot>-->
         <BsTreeNodeSwitcherIcon v-if="!loadingData" :node-data="nodeData" :node="{}"></BsTreeNodeSwitcherIcon>
-        <BsSpinner v-else class="bs-tree-node-spinner" color-type="primary"></BsSpinner>
+        <span v-else class="bs-tree-node-spinner">
+          <BsSpinner class="bs-tree-node-spinner2" color-type="primary"></BsSpinner>
+        </span>
       </span>
       <BsCheckbox
         v-if="showCheckbox"

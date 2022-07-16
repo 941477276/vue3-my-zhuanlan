@@ -54,9 +54,13 @@
   }
 }
 .bs-tree-node-spinner{
-  width: 0.8rem;
-  height: 0.8rem;
-  border-width: 1px;
+  display: inline-block;
+  transform: translateY(-0.0625rem);
+  .bs-spinner{
+    width: 0.8rem;
+    height: 0.8rem;
+    border-width: 1px;
+  }
 }
 /*
 .bs-tree-node-switcher-arrow{

@@ -176,7 +176,7 @@ export default defineComponent({
       if (props.checkStrictly) {
         return;
       }
-      console.time('linkParentCheckbox执行耗时：');
+      // console.time('linkParentCheckbox执行耗时：');
       // 已经处理过的节点的key
       let processedKes: StringKeyObject = {};
       let nodeKey = props.nodeKey;
@@ -225,7 +225,7 @@ export default defineComponent({
         [...hasChildrenChildNodes].reverse().forEach((nodeItem: BsNodeData) => {
           let nodeValue = nodeItem[nodeKey];
           if (nodeValue in processedKes) {
-            console.log('linkParentCheckbox---', nodeValue, '在已处理的节点中');
+            // console.log('linkParentCheckbox---', nodeValue, '在已处理的节点中');
             return;
           }
           // console.log('linkParentCheckbox2222', nodeValue);
@@ -302,12 +302,12 @@ export default defineComponent({
       });
       // console.log('halfCheckedKeys', halfCheckedKeys.value);
       // console.log('processedKeys', processedKes);
-      console.timeEnd('linkParentCheckbox执行耗时：');
+      // console.timeEnd('linkParentCheckbox执行耗时：');
     };
 
     let isInited = false;
     watch([() => props.treeData, () => props.props], function ([treeData, nodeProps]) {
-      console.time('监听treeData变化，执行耗时');
+      // console.time('监听treeData变化，执行耗时');
       // flatTreeNodeInfoArr.value = flatTreeDataToObject(treeData, nodeProps.children, 1, '', {});
       flatTreeNodeInfoArr.value = treeDataToFlattarnArr2(treeData, nodeProps.children, nodeProps.disabled, 1, '', []);
       console.log('flatTreeNodeInfoArr', flatTreeNodeInfoArr.value);
@@ -315,14 +315,14 @@ export default defineComponent({
         linkParentCheckbox();
       }
       isInited = true;
-      console.timeEnd('监听treeData变化，执行耗时');
+      // console.timeEnd('监听treeData变化，执行耗时');
     }, {
       immediate: true,
       deep: true
     });
 
     watch(() => [...props.checkedKeys], function (checkedKeys) {
-      console.log('watch props.checkedKeys111', checkedKeys);
+      // console.log('watch props.checkedKeys111', checkedKeys);
       if (checkedKeysRoot.value !== checkedKeys) {
         if (!props.showCheckbox && props.showRadio) { // 单选
           if (checkedKeys?.length >= 1) {
@@ -334,7 +334,7 @@ export default defineComponent({
         let checkedKeysRootSorted = checkedKeysRoot.value.slice(0).sort();
         // 当用户手动改变了复选框的值，那么 checkedKeys 会等于 checkedKeysRoot.value
         if (checkedKeysSorted.join(',') === checkedKeysRootSorted.join(',')) {
-          console.log('watch props.checkedKeys222。 两者值一样，不进行后续处理');
+          // console.log('watch props.checkedKeys222。 两者值一样，不进行后续处理');
           return;
         }
         // console.log('watch props.checkedKeys333');
