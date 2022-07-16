@@ -107,6 +107,29 @@ export const bsTreeSelectProps = {
     type: Boolean,
     default: true
   },
+  lazy: { // 是否懒加载子节点，需与 loadDataFn 方法结合使用
+    type: Boolean,
+    default: false
+  },
+  labels: { // 输入框中选中项的显示名称，当lazy=true时必填
+    type: Array,
+    default () {
+      return [];
+    },
+    validate (labels: any[]) {
+      if (!labels || labels.length == 0) {
+        return true;
+      }
+      let flag = labels.some((labelItem: any) => {
+        // eslint-disable-next-line no-prototype-builtins
+        return !labelItem.hasOwnProperty('label') || !labelItem.hasOwnProperty('value');
+      });
+      if (!flag) {
+        console.warn('label item must contains "label" and "value" property!');
+      }
+      return flag;
+    }
+  },
   emptyText: {
     type: String,
     default: '暂无数据'

@@ -62,7 +62,8 @@
             :show-radio="!multiple"
             :check-strictly="checkStrictly"
             :check-on-click-node="checkOnClickNode"
-            :expand-on-click-node="checkStrictly"></BsTree>
+            :expand-on-click-node="checkStrictly"
+            :lazy="lazy"></BsTree>
         </div>
       </transition>
     </teleport>
@@ -86,7 +87,8 @@ import {
   BsSize,
   FormItemContext,
   ValidateStatus,
-  formItemContextKey
+  formItemContextKey,
+  StringKeyObject
 } from '@/ts-tokens/bootstrap';
 import { util } from '@/common/util';
 import { useClickOutside } from '@/hooks/useClickOutside';
@@ -142,16 +144,24 @@ export default defineComponent({
         }
       });
     };
+
+    let hideTimer: number;
     /**
      * 隐藏下拉菜单
      */
-    let dropdownHide = function () {
-      // 延迟一会隐藏下拉菜单是因为为了等待背景色改变后再隐藏
-      // let timer = setTimeout(function () {
-      //   clearTimeout(timer);
-      dropdownVisible.value = false;
-      isFocus.value = false;
-      // }, 120);
+    let dropdownHide = function (useTimeout = false) {
+      if (useTimeout) {
+        clearTimeout(hideTimer);
+        // 这里延迟180毫秒是为了能让用户看到选中项到变化
+        hideTimer = setTimeout(function () {
+          dropdownVisible.value = false;
+          isFocus.value = false;
+        }, 180);
+      } else {
+        dropdownVisible.value = false;
+        isFocus.value = false;
+      }
+      console.log('调用隐藏函数了');
     };
 
     /**
@@ -166,53 +176,6 @@ export default defineComponent({
         }
       });
     };
-
-    /**
-     * 修改值
-     * @param val 值
-     * @param isDelete 是否移除
-     */
-    /* let changeVal = function (val: any, isDelete?: boolean) {
-      if (props.multiple) {
-        let selectModelValue: unknown[] = (props.modelValue || []).slice();
-        if (isDelete === true) {
-          let index = selectModelValue.indexOf(val);
-          if (index > -1) {
-            // console.log('changeVal 2, isDelete=true', props.modelValue, val, index);
-            selectModelValue.splice(index, 1);
-            ctx.emit('update:modelValue', selectModelValue);
-            ctx.emit('change', selectModelValue);
-            callFormItem('validate', 'change');
-          }
-        } else {
-          let multipleLimit = props.multipleLimit;
-          if (typeof multipleLimit === 'number' && multipleLimit > 0 && selectModelValue.length >= multipleLimit) {
-            ctx.emit('selectLimit', multipleLimit);
-            return;
-          }
-          selectModelValue.push(val);
-          ctx.emit('update:modelValue', selectModelValue);
-          ctx.emit('change', selectModelValue);
-          callFormItem('validate', 'change');
-        }
-      } else {
-        if (isDelete === true) {
-          if (props.modelValue === val) {
-            // console.log('changeVal 2, isDelete=true', props.modelValue, val);
-            ctx.emit('update:modelValue', '');
-            ctx.emit('change', '');
-            dropdownHide();
-            callFormItem('validate', 'change');
-            return;
-          }
-          return;
-        }
-        ctx.emit('update:modelValue', val);
-        ctx.emit('change', val);
-        dropdownHide();
-        callFormItem('validate', 'change');
-      }
-    }; */
 
     // 树组件的modelValue
     let treeModelValue = computed({
@@ -240,6 +203,7 @@ export default defineComponent({
           ctx.emit('update:modelValue', newVal);
           ctx.emit('change', newVal);
           callFormItem('validate', 'change');
+          dropdownHide(true);
         }
       }
     });
@@ -270,9 +234,21 @@ export default defineComponent({
     let viewText = ref('');
     watch(() => props.modelValue, function () {
       nextTick(function () {
+        let labels = props.labels;
+        if (props.lazy && !labels) {
+          console.warn('labels is required when lazy=true!');
+        }
         if (treeRef.value) {
-          let labels = (treeRef.value as any).getCheckedNodesLabel();
-          viewText.value = labels.join(',');
+          labels = labels || [];
+          let labelsFromTree = (treeRef.value as any).getCheckedNodesLabel();
+          labelsFromTree.forEach((labelItem: StringKeyObject) => {
+            let index = labels.findIndex((label: StringKeyObject) => labelItem.value === label.value);
+            // 优先使用从props中传递过来的label
+            if (index > -1) {
+              labelItem.label = labels[index].label;
+            }
+          });
+          viewText.value = labelsFromTree.map((labelItem: StringKeyObject) => labelItem.label).join(',');
         }
       });
     }, { immediate: true });
@@ -288,8 +264,12 @@ export default defineComponent({
       }
     });
 
-    let onSelectRootClick = function () {
+    let onSelectRootClick = function (evt: MouseEvent) {
       if (props.disabled || props.loading) {
+        return;
+      }
+      let target = evt.target;
+      if (treeRef.value && (util.elementContains((treeRef.value as any).$el, target) || (treeRef.value as any).$el === target)) {
         return;
       }
       isFocus.value = true;
