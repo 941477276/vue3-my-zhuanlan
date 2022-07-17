@@ -127,10 +127,9 @@ import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
 import { useInput } from './useInput';
 import {
   FormItemContext,
-  BsSize,
-  BsInputType,
   formItemContextKey
 } from '@/ts-tokens/bootstrap';
+import { bsInputProps } from './bs-input-props';
 import BsIcon from '../bs-icon/BsIcon.vue';
 
 let inputCount = 0;
@@ -141,73 +140,7 @@ export default defineComponent({
     BsIcon
   },
   props: {
-    modelValue: {
-      type: [String, Number],
-      default: ''
-    },
-    value: {
-      type: [String, Number],
-      default: ''
-    },
-    type: { // 输入框类型
-      type: String as PropType<BsInputType>,
-      default: 'text'
-    },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    readonly: {
-      type: Boolean,
-      default: false
-    },
-    showPassword: { // 是否显示切换密码图标
-      type: Boolean,
-      default: false
-    },
-    clearable: { // 是否可以清空内容
-      type: Boolean,
-      default: false
-    },
-    deliveContextToFormItem: { // 是否向form-item组件传递上下文信息
-      type: Boolean,
-      default: true
-    },
-    size: { // 输入框大小
-      type: String as PropType<BsSize>,
-      default: ''
-    },
-    id: {
-      type: String,
-      default: '',
-      validator (idVal: string) {
-        if (typeof idVal !== 'string' || /^\d+/.test(idVal)) {
-          console.warn('id必须为字符串类型，且不能以数字开头');
-          return false;
-        }
-        return true;
-      }
-    },
-    placeholder: {
-      type: String,
-      default: ''
-    },
-    suffixIcon: { // 尾部图标名称
-      type: String,
-      default: ''
-    },
-    prefixIcon: { // 首部图标名称
-      type: String,
-      default: ''
-    },
-    name: { // input原生的name属性
-      type: String,
-      default: ''
-    },
-    ariaLabel: { // area-label属性值
-      type: String,
-      default: ''
-    }
+    ...bsInputProps
   },
   emits: ['input', 'update:modelValue', 'change', 'blur', 'focus', 'clear'],
   setup (props: any, ctx: any) {
