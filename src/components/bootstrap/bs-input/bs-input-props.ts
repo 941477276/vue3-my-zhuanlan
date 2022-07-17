@@ -49,6 +49,10 @@ export const bsInputProps = {
       return true;
     }
   },
+  inputmode: { // 输入框到inputmode属性
+    type: String,
+    default: null
+  },
   placeholder: {
     type: String,
     default: ''

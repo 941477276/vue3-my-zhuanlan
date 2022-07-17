@@ -12,20 +12,20 @@
   <div>
     <hr>
     <h3>可清空</h3>
-    <bs-input v-model="inputValue" size="sm" clearable>
+    <bs-input v-model="inputValue" clearable>
     </bs-input>
   </div>
 
   <div>
     <hr>
     <h3>密码输入框</h3>
-    <bs-input type="password" size="sm" :show-password="true"></bs-input>
+    <bs-input type="password" :show-password="true"></bs-input>
   </div>
 
   <div>
     <hr>
     <h3>前缀和后缀</h3>
-    <bs-input type="number" size="sm">
+    <bs-input type="number">
       <template #prefix>
         <span style="padding-left: 0.7rem">¥</span>
       </template>
@@ -38,7 +38,7 @@
   <div>
     <hr>
     <h3>slot</h3>
-    <bs-input style="margin-bottom: 1rem;" size="sm">
+    <bs-input style="margin-bottom: 1rem;">
       <template #prepend>
         一个前置slot
       </template>
