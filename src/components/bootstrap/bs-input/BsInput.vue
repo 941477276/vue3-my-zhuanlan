@@ -81,19 +81,22 @@
         v-if="(suffixIcon || $slots.suffix) || showPassword || clearable"
         class="bs-input-suffix">
         <span
-          v-show="suffixIcon || $slots.suffix"
+          v-if="suffixIcon || $slots.suffix"
           class="bs-input-suffix-icon custom-suffix-icon">
           <slot name="suffix">
             <bs-icon :name="suffixIcon"></bs-icon>
           </slot>
         </span>
         <span
+          v-if="clearable"
           v-show="clearContentIconDisplay"
+          :data-only-child="!suffixIcon && !$slots.suffix && !showPassword"
           class="bs-input-suffix-icon clear-content_icon"
           @click.stop="clearContent">
           <bs-icon name="x-circle"></bs-icon>
         </span>
         <span
+          v-if="showPassword"
           v-show="showPasswordIconDisplay"
           class="bs-input-suffix-icon show-password_icon"
           @click.stop="togglePasswordText">

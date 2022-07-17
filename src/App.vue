@@ -2,9 +2,9 @@
   <!--<div class="box">
     <BsButtonUsage></BsButtonUsage>
   </div>-->
-  <!--<div class="box">
+  <div class="box">
     <BsInputUsage></BsInputUsage>
-  </div>-->
+  </div>
   <!--<div class="box">
     <BsRadioUsage></BsRadioUsage>
   </div>-->
@@ -45,9 +45,9 @@
   <!--<div class="box">
     <BsProgressUsage></BsProgressUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsTabsUsage></BsTabsUsage>
-  </div>
+  </div>-->
   <!--<div class="box">
     <BsSwitchUsage></BsSwitchUsage>
   </div>-->
@@ -93,9 +93,9 @@
   <!--<div class="box">
     <BsTreeUsage></BsTreeUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsTreeSelectUsage></BsTreeSelectUsage>
-  </div>
+  </div>-->
 </template>
 
 <script lang="ts">

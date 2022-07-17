@@ -1,58 +1,102 @@
 <template>
 <div class="component-usage">
-  <bs-input v-model="inputValue" clearable></bs-input>
-  <h2>inputValue的值为：{{inputValue}}</h2>
+  <div>
+    <h3>基本使用</h3>
+    <bs-input v-model="inputValue">
+    </bs-input>
+    <p style="margin-top: 5px;font-size: 1rem;">
+      输入的内容为：<strong>{{inputValue}}</strong>
+    </p>
+  </div>
+
+  <div>
+    <hr>
+    <h3>可清空</h3>
+    <bs-input v-model="inputValue" size="sm" clearable>
+    </bs-input>
+  </div>
+
+  <div>
+    <hr>
+    <h3>密码输入框</h3>
+    <bs-input type="password" size="sm" :show-password="true"></bs-input>
+  </div>
+
+  <div>
+    <hr>
+    <h3>前缀和后缀</h3>
+    <bs-input type="number" size="sm">
+      <template #prefix>
+        <span style="padding-left: 0.7rem">¥</span>
+      </template>
+      <template #suffix>
+        <span>RMB</span>
+      </template>
+    </bs-input>
+  </div>
+
+  <div>
+    <hr>
+    <h3>slot</h3>
+    <bs-input style="margin-bottom: 1rem;" size="sm">
+      <template #prepend>
+        一个前置slot
+      </template>
+    </bs-input>
+    <bs-input style="margin-bottom: 1rem;">
+      <template #append>
+        后置slot
+      </template>
+    </bs-input>
+    <bs-input style="margin-bottom: 1rem;">
+      <template #prepend>
+        一个前置slot
+      </template>
+      <template #append>
+        后置slot
+      </template>
+    </bs-input>
+    <bs-input style="margin-bottom: 1rem;">
+      <template #prepend>
+        <bs-button type="primary">一个按钮</bs-button>
+      </template>
+    </bs-input>
+  </div>
+
+  <div>
+    <hr>
+    <h3>文本域</h3>
+    <bs-input style="margin-bottom: 25px;" type="textarea" v-model="textareaVal"></bs-input>
+    <bs-input type="textarea" v-model="textareaVal">
+      <template #append>
+        后置slot
+      </template>
+    </bs-input>
+  </div>
+
+  <div>
+    <hr>
+    <h3>前后自定义图标</h3>
+    <p>当使用前后自定义图标时，图标当样式及输入框当padding需自行调整</p>
+    <h5>带前置图标的输入框</h5>
+    <bs-input placeholder="请输入名称进行查找" prefix-icon="search" style="margin-bottom: 1rem;"></bs-input>
+    <h5>带后置图标的输入框</h5>
+    <bs-input suffix-icon="search"></bs-input>
+  </div>
+
+ <div>
+   <h3>不同大小</h3>
+   <h5>默认大小</h5>
+   <bs-input style="margin-bottom: 1rem;"></bs-input>
+
+   <h5>大的输入框( <code>size="lg"</code> )</h5>
+   <bs-input size="lg" style="margin-bottom: 1rem;"></bs-input>
+
+   <h5>小的输入框( <code>size="sm"</code> )</h5>
+   <bs-input size="sm"></bs-input>
+ </div>
   <hr>
-  <bs-input>
-    <template #prepend>
-      一个前置slot
-    </template>
-  </bs-input>
-  <hr>
-  <bs-input>
-    <template #prepend>
-      <bs-button type="primary">一个按钮</bs-button>
-    </template>
-  </bs-input>
-  <hr>
-  <bs-input>
-    <template #append>
-      后置slot
-    </template>
-  </bs-input>
-  <hr>
-  <bs-input>
-    <template #prepend>
-      一个前置slot
-    </template>
-    <template #append>
-      后置slot
-    </template>
-  </bs-input>
-  <hr>
-  <h3>密码输入框</h3>
-  <bs-icon name="eye"></bs-icon>
-  <bs-input type="password" :show-password="true"></bs-input>
-  <hr>
-  <h3>文本域</h3>
-  <bs-input style="margin-bottom: 25px;" type="textarea" v-model="textareaVal"></bs-input>
-  <bs-input type="textarea" v-model="textareaVal">
-    <template #append>
-      后置slot
-    </template>
-  </bs-input>
-  <hr>
-  <h3>带前置图标的输入框</h3>
-  <bs-input placeholder="请输入名称进行查找" prefix-icon="search"></bs-input>
-  <hr>
-  <h3>带后置图标的输入框</h3>
-  <bs-input suffix-icon="search"></bs-input>
-  <hr>
-  <h3>大的输入框</h3>
-  <bs-input size="lg"></bs-input>
-  <hr>
-  <h3>小的输入框</h3>
-  <bs-input size="sm"></bs-input>
+
   <hr>
   <h3>禁用的输入框</h3>
   <bs-input disabled></bs-input>
@@ -71,6 +115,7 @@ export default defineComponent({
 
   setup (props: any) {
     let inputValue = ref('哈哈');
+    let inputValue2 = ref('');
     let textareaVal = ref('文本框');
     return {
       inputValue,
@@ -80,6 +125,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.bs-input{
+  width: 300px;
+}
 </style>
