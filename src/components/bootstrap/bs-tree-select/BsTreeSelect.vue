@@ -30,26 +30,17 @@
       </template>
     </bs-input>
     <teleport :disabled="!teleported" :to="appendTo">
-      <transition
-        name="slide"
-        @enter="onEnter">
+      <BsDropdownTransition
+        placement="bottom"
+        :reference-ref="bsTreeSelectRef"
+        :try-all-placement="false">
         <div
           v-show="dropdownVisible"
-          ref="=bsSelectDropdownRef"
+          ref="bsSelectDropdownRef"
           class="bs-tree-select-dropdown"
           :class="{
-            'bs-placement-on-top': dropdownStyle.direction === 'top',
-            'bs-placement-on-bottom': dropdownStyle.direction === 'bottom',
             'checkbox-hidden': multiple && !checkboxVisible,
-            'radio-hidden': !multiple && !radioVisible,
-            'use-bottom': dropdownStyle.bottom != null
-          }"
-          :style="{
-            position: dropdownStyle.position,
-            width: dropdownStyle.width + 'px',
-            left: dropdownStyle.left + 'px',
-            top: dropdownStyle.bottom == null ? (dropdownStyle.top + 'px') : 'auto',
-            bottom: dropdownStyle.bottom != null ? (dropdownStyle.bottom + 'px') : ''
+            'radio-hidden': !multiple && !radioVisible
           }">
           <BsTree
             ref="treeRef"
@@ -65,7 +56,7 @@
             :expand-on-click-node="checkStrictly"
             :lazy="lazy"></BsTree>
         </div>
-      </transition>
+      </BsDropdownTransition>
     </teleport>
   </div>
 </template>
@@ -95,6 +86,7 @@ import { useClickOutside } from '@/hooks/useClickOutside';
 import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
 import BsInput from '../bs-input/BsInput.vue';
 import BsTree from '../bs-tree/BsTree.vue';
+import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
 import { bsTreeSelectProps } from './props';
 
 let treeSelectCount = 0;
@@ -102,7 +94,8 @@ export default defineComponent({
   name: 'BsTreeSelect',
   components: {
     BsInput,
-    BsTree
+    BsTree,
+    BsDropdownTransition
   },
   props: {
     ...bsTreeSelectProps
@@ -117,15 +110,6 @@ export default defineComponent({
     let selectId = ref(props.id || `bs-tree-select_${++treeSelectCount}`);
     let dropdownDisplayed = ref(false); // 下拉菜单是否已经渲染
     let dropdownVisible = ref(false); // 下拉菜单是否显示
-    // 下拉菜单样式
-    let dropdownStyle = reactive({
-      position: 'absolute',
-      direction: 'bottom',
-      width: 0,
-      left: 0,
-      top: -1,
-      bottom: null
-    });
     let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
     let treeRef = ref(null);
 
@@ -208,29 +192,6 @@ export default defineComponent({
       }
     });
 
-    let onEnter = function (el:HTMLElement, done: () => void) {
-      console.log('onEnter执行了');
-      let bsSelectRect = (bsTreeSelectRef.value as HTMLElement).getBoundingClientRect();
-      // let bsSelectDropdownEl = bsSelectDropdownRef.value as HTMLElement;
-
-      let displayDirection: any = util.calcAbsoluteElementDisplayDirection(bsTreeSelectRef.value, el, 'bottom', false);
-      dropdownStyle.direction = displayDirection.direction;
-      dropdownStyle.width = bsSelectRect.width;
-      dropdownStyle.top = displayDirection.top;
-      dropdownStyle.left = displayDirection.left;
-      dropdownStyle.bottom = typeof displayDirection.bottom == 'undefined' ? null : displayDirection.bottom;
-
-      let onTransitionDone = function () {
-        done();
-        // console.log('leave onTransitionDone');
-        el.removeEventListener('transitionend', onTransitionDone, false);
-        el.removeEventListener('transitioncancel', onTransitionDone, false);
-      };
-      // 绑定元素的transition完成事件，在transition完成后立即完成vue的过度动效
-      el.addEventListener('transitionend', onTransitionDone, false);
-      el.addEventListener('transitioncancel', onTransitionDone, false);
-    };
-
     let viewText = ref('');
     watch(() => props.modelValue, function () {
       nextTick(function () {
@@ -272,8 +233,12 @@ export default defineComponent({
       if (treeRef.value && (util.elementContains((treeRef.value as any).$el, target) || (treeRef.value as any).$el === target)) {
         return;
       }
-      isFocus.value = true;
-      dropdownShow();
+      if (dropdownVisible.value) {
+        dropdownHide();
+      } else {
+        isFocus.value = true;
+        dropdownShow();
+      }
     };
 
     // 清空内容
@@ -309,13 +274,11 @@ export default defineComponent({
       selectId,
       dropdownDisplayed,
       dropdownVisible,
-      dropdownStyle,
       viewText,
       treeModelValue,
 
       onSelectRootClick,
       onInputClear,
-      onEnter,
       dropdownShow,
       dropdownHide
     };
