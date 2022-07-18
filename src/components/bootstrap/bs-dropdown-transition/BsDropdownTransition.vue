@@ -68,30 +68,39 @@ export default defineComponent({
     });
 
     let onEnter = function (el:HTMLElement, done: () => void) {
-      let referenceEl = props.referenceRef as HTMLElement;
-      console.log('onEnter执行了', referenceEl.nodeName, el);
-      if (!referenceEl) {
-        return;
-      }
-      let referenceElRect = referenceEl.getBoundingClientRect();
-      // console.log('referenceElRect', referenceElRect);
+      // 延迟20毫秒是为了解决目标元素使用v-if控制后导致元素位置计算不准确问题
+      let timer = setTimeout(function () {
+        clearTimeout(timer);
+        let referenceEl = props.referenceRef as HTMLElement;
+        console.log('onEnter执行了', referenceEl.nodeName, el);
+        if (!referenceEl) {
+          console.log('参照元素不存在!-----------------------');
+          return;
+        }
+        if (!el) {
+          console.log('目标元素不存在!========================');
+          return;
+        }
+        let referenceElRect = referenceEl.getBoundingClientRect();
+        // console.log('referenceElRect', referenceElRect);
 
-      let displayDirection: any = util.calcAbsoluteElementDisplayDirection(referenceEl, el, props.placement, props.tryAllPlacement);
-      dropdownStyle.direction = displayDirection.direction;
-      dropdownStyle.width = referenceElRect.width;
-      dropdownStyle.top = displayDirection.top;
-      dropdownStyle.left = displayDirection.left;
-      dropdownStyle.bottom = typeof displayDirection.bottom == 'undefined' ? null : displayDirection.bottom;
+        let displayDirection: any = util.calcAbsoluteElementDisplayDirection(referenceEl, el, props.placement, props.tryAllPlacement);
+        dropdownStyle.direction = displayDirection.direction;
+        dropdownStyle.width = referenceElRect.width;
+        dropdownStyle.top = displayDirection.top;
+        dropdownStyle.left = displayDirection.left;
+        dropdownStyle.bottom = typeof displayDirection.bottom == 'undefined' ? null : displayDirection.bottom;
 
-      let onTransitionDone = function () {
-        done();
-        el.removeEventListener('transitionend', onTransitionDone, false);
-        el.removeEventListener('transitioncancel', onTransitionDone, false);
-      };
-      // 绑定元素的transition完成事件，在transition完成后立即完成vue的过度动效
-      el.addEventListener('transitionend', onTransitionDone, false);
-      el.addEventListener('transitioncancel', onTransitionDone, false);
-      ctx.emit('enter', el, NOOP);
+        let onTransitionDone = function () {
+          done();
+          el.removeEventListener('transitionend', onTransitionDone, false);
+          el.removeEventListener('transitioncancel', onTransitionDone, false);
+        };
+        // 绑定元素的transition完成事件，在transition完成后立即完成vue的过度动效
+        el.addEventListener('transitionend', onTransitionDone, false);
+        el.addEventListener('transitioncancel', onTransitionDone, false);
+        ctx.emit('enter', el, NOOP);
+      }, 20);
     };
     return {
       dropdownStyle,
