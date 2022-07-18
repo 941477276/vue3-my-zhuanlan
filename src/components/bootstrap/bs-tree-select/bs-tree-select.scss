@@ -12,7 +12,9 @@
       }
     }
     .custom-suffix-icon{
+      padding-right: 0.375rem;
       color: #a0a6ad;
+      cursor: pointer;
     }
     .bsicon-chevron-down{
       transition: transform .3s;
@@ -29,6 +31,13 @@
       }
       .bsicon-chevron-down{
         transform: rotate(-180deg);
+      }
+    }
+  }
+  &.is-disabled{
+    .bs-input-wrap{
+      .custom-suffix-icon{
+        cursor: default;
       }
     }
   }

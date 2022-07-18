@@ -5,8 +5,7 @@
       <bs-tree-select
         v-model="checkedKeys1"
         :tree-data="treeData1"
-        node-key="id"
-        clearable></bs-tree-select>
+        node-key="id"></bs-tree-select>
 
       <div>
         <p style="margin: 1rem 0 0 0">显示单选框</p>
@@ -14,8 +13,17 @@
           v-model="checkedKeys1"
           :tree-data="treeData1"
           :radio-visible="true"
-          node-key="id"
-          clearable></bs-tree-select>
+          node-key="id"></bs-tree-select>
+      </div>
+
+      <div>
+        <p style="margin: 1rem 0 0 0">禁用</p>
+        <bs-tree-select
+          v-model="checkedKeys1"
+          :tree-data="treeData1"
+          :radio-visible="true"
+          disabled
+          node-key="id"></bs-tree-select>
       </div>
 
     </div>
@@ -41,8 +49,7 @@
         v-model="checkedKeys3"
         :tree-data="treeData1"
         multiple
-        node-key="id"
-        clearable></bs-tree-select>
+        node-key="id"></bs-tree-select>
       <div>
         <p style="margin: 1rem 0 0 0">显示复选框</p>
         <bs-tree-select
@@ -50,8 +57,7 @@
           :tree-data="treeData1"
           :checkbox-visible="true"
           multiple
-          node-key="id"
-          clearable></bs-tree-select>
+          node-key="id"></bs-tree-select>
       </div>
     </div>
 
