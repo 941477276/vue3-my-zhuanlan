@@ -189,7 +189,7 @@ export default defineComponent({
         clearContentIconDisplay.value = false;
       }
       ctx.emit('update:modelValue', val);
-      ctx.emit('input', val);
+      ctx.emit('input', val, evt);
 
       callFormItem('validate', 'input');
     };
@@ -290,9 +290,6 @@ export default defineComponent({
       setValidateStatus,
       setClearIconDisplay
     };
-  },
-  methods: {
-
   }
 });
 </script>
