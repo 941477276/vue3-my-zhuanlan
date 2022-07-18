@@ -42,25 +42,16 @@
     <!-- 这里不能使用延迟渲染的方案，因为这会导致子组件也延迟渲染，从而导致上面的<select>标签不能在组件渲染时就生成
       <teleport to="body" v-if="dropdownDisplayed">-->
     <teleport :disabled="!teleported" :to="appendTo">
-      <transition
-        name="slide"
-        @enter="onEnter">
+      <BsDropdownTransition
+        placement="bottom"
+        :reference-ref="bsSelectRef"
+        :try-all-placement="false">
         <ul
           v-show="dropdownVisible"
           ref="bsSelectDropdownRef"
           class="bs-select-dropdown"
           :class="{
-            'is-multiple': multiple,
-            'bs-placement-on-top': dropdownStyle.direction === 'top',
-            'bs-placement-on-bottom': dropdownStyle.direction === 'bottom',
-            'use-bottom': dropdownStyle.bottom != null
-          }"
-          :style="{
-            position: dropdownStyle.position,
-            width: dropdownStyle.width + 'px',
-            left: dropdownStyle.left + 'px',
-            top: dropdownStyle.bottom == null ? (dropdownStyle.top + 'px') : 'auto',
-            bottom: dropdownStyle.bottom != null ? (dropdownStyle.bottom + 'px') : ''
+            'is-multiple': multiple
           }"
           :data-for-bs-select="selectId">
           <slot></slot>
@@ -70,7 +61,7 @@
             <slot name="empty">{{ noDataText }}</slot>
           </li>
         </ul>
-      </transition>
+      </BsDropdownTransition>
     </teleport>
   </div>
 </template>
@@ -94,7 +85,6 @@ import {
   ValidateStatus,
   formItemContextKey
 } from '@/ts-tokens/bootstrap';
-import { util } from '@/common/util';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import {
   SelectContext,
@@ -103,13 +93,15 @@ import {
 } from '@/ts-tokens/bootstrap/select';
 import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
 import BsInput from '../bs-input/BsInput.vue';
+import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
 import { bsSelectProps } from './props';
 
 let selectCount = 0;
 export default defineComponent({
   name: 'BsSelect',
   components: {
-    BsInput
+    BsInput,
+    BsDropdownTransition
   },
   props: {
     ...bsSelectProps
@@ -124,15 +116,6 @@ export default defineComponent({
     let selectId = ref(props.id || `bs-select_${++selectCount}`);
     let dropdownDisplayed = ref(false); // 下拉菜单是否已经渲染
     let dropdownVisible = ref(false); // 下拉菜单是否显示
-    // 下拉菜单样式
-    let dropdownStyle = reactive({
-      position: 'absolute',
-      direction: 'bottom',
-      width: 0,
-      left: 0,
-      top: -1,
-      bottom: null
-    });
     let options = ref<SelectOptionItem[]>([]); // 存储option的label及value
     let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
 
@@ -253,29 +236,6 @@ export default defineComponent({
       }
     };
 
-    let onEnter = function (el:HTMLElement, done: () => void) {
-      console.log('onEnter执行了');
-      let bsSelectRect = (bsSelectRef.value as HTMLElement).getBoundingClientRect();
-      // let bsSelectDropdownEl = bsSelectDropdownRef.value as HTMLElement;
-
-      let displayDirection: any = util.calcAbsoluteElementDisplayDirection(bsSelectRef.value, el, 'bottom', false);
-      dropdownStyle.direction = displayDirection.direction;
-      dropdownStyle.width = bsSelectRect.width;
-      dropdownStyle.top = displayDirection.top;
-      dropdownStyle.left = displayDirection.left;
-      dropdownStyle.bottom = typeof displayDirection.bottom == 'undefined' ? null : displayDirection.bottom;
-
-      let onTransitionDone = function () {
-        done();
-        // console.log('leave onTransitionDone');
-        el.removeEventListener('transitionend', onTransitionDone, false);
-        el.removeEventListener('transitioncancel', onTransitionDone, false);
-      };
-      // 绑定元素的transition完成事件，在transition完成后立即完成vue的过度动效
-      el.addEventListener('transitionend', onTransitionDone, false);
-      el.addEventListener('transitioncancel', onTransitionDone, false);
-    };
-
     let viewText = computed(function () {
       let modelValue = Array.isArray(props.modelValue) ? props.modelValue : [props.modelValue];
       let selectedOptionLabels = options.value.filter(function (option: SelectOptionItem) {
@@ -303,8 +263,12 @@ export default defineComponent({
       if (props.disabled || props.loading) {
         return;
       }
-      isFocus.value = true;
-      dropdownShow();
+      if (dropdownVisible.value) {
+        dropdownHide();
+      } else {
+        isFocus.value = true;
+        dropdownShow();
+      }
     };
 
     // 清空内容
@@ -344,14 +308,12 @@ export default defineComponent({
       selectId,
       dropdownDisplayed,
       dropdownVisible,
-      dropdownStyle,
       options,
       nativeSelectModel,
       viewText,
 
       onSelectRootClick,
       onInputClear,
-      onEnter,
       dropdownShow,
       dropdownHide
     };
