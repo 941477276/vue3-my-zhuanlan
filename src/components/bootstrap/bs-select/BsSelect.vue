@@ -45,7 +45,8 @@
       <BsDropdownTransition
         placement="bottom"
         :reference-ref="bsSelectRef"
-        :try-all-placement="false">
+        :try-all-placement="false"
+        :set-width="true">
         <ul
           v-show="dropdownVisible"
           ref="bsSelectDropdownRef"

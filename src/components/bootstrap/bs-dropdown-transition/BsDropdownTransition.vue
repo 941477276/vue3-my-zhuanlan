@@ -16,7 +16,7 @@
     ]"
     :style="{
       position: position,
-      width: dropdownStyle.width + 'px',
+      ...(setWidth ? { width: dropdownStyle.width + 'px' } : {}),
       left: dropdownStyle.left + 'px',
       top: dropdownStyle.bottom == null ? (dropdownStyle.top + 'px') : 'auto',
       bottom: dropdownStyle.bottom != null ? (dropdownStyle.bottom + 'px') : ''
@@ -53,6 +53,10 @@ export default defineComponent({
     position: { // 定位方式
       type: String,
       default: 'absolute'
+    },
+    setWidth: { // 是否设置下拉菜单到宽度等于参照元素
+      type: Boolean,
+      default: false
     }
   },
   emits: ['before-enter', 'enter', 'after-enter', 'before-leave', 'leave', 'after-leave'],
