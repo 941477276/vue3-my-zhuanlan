@@ -7,36 +7,28 @@
       <slot></slot>
     </BsOnlyChild>
     <teleport :disabled="!teleported" :to="appendTo">
-      <transition
-        name="slide"
+      <BsDropdownTransition
         @before-enter="transitionLeaveDone = false"
-        @enter="onEnter"
-        @after-leave="transitionLeaveDone = true">
+        @after-leave="transitionLeaveDone = true"
+        :placement="placement"
+        :reference-ref="triggerRef">
         <div
           v-if="display"
           v-show="visible"
           ref="dropdownMenuRef"
           class="bs-dropdown-menu dropdown-menu"
           :class="[
-            dropdownMenuClass,
-            `bs-placement-on-${displayDirection}`,
-            {
-              'use-bottom': dropdownMenuStyle.bottom != null
-            }
+            dropdownMenuClass
           ]"
           :style="{
             position: dropdownMenuStyle.position,
-            left: dropdownMenuStyle.left + 'px',
-            // top: dropdownMenuStyle.top + 'px',
-            top: dropdownMenuStyle.bottom == null ? (dropdownMenuStyle.top + 'px') : 'auto',
-            bottom: dropdownMenuStyle.bottom != null ? (dropdownMenuStyle.bottom + 'px') : '',
             zIndex: dropdownMenuStyle.zIndex
           }"
           @mouseenter="onMouseEnter"
           @mouseleave="onMouseLeave">
           <slot name="dropdown-content"></slot>
         </div>
-      </transition>
+      </BsDropdownTransition>
     </teleport>
   </div>
 </template>
@@ -55,6 +47,7 @@ import {
   computed
 } from 'vue';
 import BsOnlyChild from '../bs-slot/BsOnlyChild.vue';
+import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
 import { util } from '@/common/util';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import {
@@ -73,19 +66,11 @@ import {
 // 下来菜单显示方向
 type directions = 'bottom' | 'top' | 'left' | 'right';
 
-interface CalcDirection {
-  left: number,
-  top: number,
-  bottom: number,
-  vertical: boolean,
-  horizontal: boolean,
-  direction: directions
-}
-
 export default defineComponent({
   name: 'BsDropdown',
   components: {
-    BsOnlyChild
+    BsOnlyChild,
+    BsDropdownTransition
   },
   props: {
     ...bsDropdownProps
@@ -102,9 +87,6 @@ export default defineComponent({
     let dropdownMenuRef = ref<HTMLElement|null>(null);
     let dropdownMenuStyle = reactive({
       position: 'absolute',
-      left: 0,
-      top: -1,
-      bottom: null,
       zIndex: ''
     });
     let toggleEl: HTMLElement|null; // 触发下拉菜单显示/隐藏的dom元素
@@ -121,19 +103,6 @@ export default defineComponent({
 
     let isClickOutside = useClickOutside([dropdownRef, dropdownMenuRef]); // 是否点击了下拉菜单的外面
     let { nextZIndex } = useZIndex();
-
-    // 计算下拉菜单的显示位置
-    let calcDirection = function () {
-      if (!toggleEl) {
-        return;
-      }
-      let directionInfo = util.calcAbsoluteElementDisplayDirection(toggleEl, dropdownMenuRef.value, props.placement, true) as CalcDirection;
-      console.log('directionInfo', directionInfo);
-      dropdownMenuStyle.left = directionInfo.left;
-      dropdownMenuStyle.top = directionInfo.top;
-      dropdownMenuStyle.bottom = (typeof directionInfo.bottom == 'undefined' ? null : directionInfo.bottom) as any;
-      displayDirection.value = directionInfo.direction;
-    };
 
     let showTimer: number;
     let hideTimer: number;
@@ -247,20 +216,6 @@ export default defineComponent({
       }
     });
 
-    let onEnter = function (el:HTMLElement, done: () => void) {
-      console.log('onEnter执行了');
-      calcDirection();
-      let onTransitionDone = function () {
-        done();
-        // console.log('leave onTransitionDone');
-        el.removeEventListener('transitionend', onTransitionDone, false);
-        el.removeEventListener('transitioncancel', onTransitionDone, false);
-      };
-      // 绑定元素的transition完成事件，在transition完成后立即完成vue的过度动效
-      el.addEventListener('transitionend', onTransitionDone, false);
-      el.addEventListener('transitioncancel', onTransitionDone, false);
-    };
-
     let stopWatchTriggerRef: () => void;
     onMounted(() => {
       stopWatchTriggerRef = watch(() => triggerRef.value, (triggerEl) => {
@@ -296,14 +251,14 @@ export default defineComponent({
       dropdownMenuStyle,
       displayDirection,
       transitionLeaveDone,
+      triggerRef,
 
       hide,
       show,
       onMouseEnter,
-      onMouseLeave,
+      onMouseLeave
       // onDropdownMouseenter,
       // onDropdownMouseleave,
-      onEnter
     };
   }
 });
