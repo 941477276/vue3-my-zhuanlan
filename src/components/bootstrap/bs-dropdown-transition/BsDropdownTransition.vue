@@ -5,7 +5,7 @@
     @enter="onEnter"
     @after-enter="$emit('after-enter', $event)"
     @before-leave="$emit('before-leave', $event)"
-    @leave="$emit('before', $event)"
+    @leave="$emit('leave', $event)"
     @after-leave="$emit('after-leave', $event)"
     class="bs-slide-transition"
     :class="[
