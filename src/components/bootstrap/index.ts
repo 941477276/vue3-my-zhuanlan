@@ -29,6 +29,7 @@ import BsPopConfirm from '@/components/bootstrap/bs-pop-confirm';
 import BsCollapse from '@/components/bootstrap/bs-collapse';
 import BsTree from '@/components/bootstrap/bs-tree';
 import BsTreeSelect from '@/components/bootstrap/bs-tree-select';
+import BsSelectInput from '@/components/bootstrap/bs-select-input';
 
 export default function (vueApp: any) {
   vueApp.component(BsButton.name, BsButton);
@@ -63,4 +64,5 @@ export default function (vueApp: any) {
   vueApp.use(BsCollapse);
   vueApp.use(BsTree);
   vueApp.use(BsTreeSelect);
+  vueApp.use(BsSelectInput);
 }
