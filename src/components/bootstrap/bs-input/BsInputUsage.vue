@@ -2,7 +2,7 @@
 <div class="component-usage">
   <div>
     <h3>基本使用</h3>
-    <bs-input v-model="inputValue">
+    <bs-input v-model="inputValue" size="">
     </bs-input>
     <p style="margin-top: 5px;font-size: 1rem;">
       输入的内容为：<strong>{{inputValue}}</strong>
@@ -12,25 +12,25 @@
   <div>
     <hr>
     <h3>可清空</h3>
-    <bs-input v-model="inputValue" clearable>
+    <bs-input v-model="inputValue" size="" clearable>
     </bs-input>
   </div>
 
   <div>
     <hr>
     <h3>密码输入框</h3>
-    <bs-input type="password" :show-password="true"></bs-input>
+    <bs-input type="password" size="" :show-password="true"></bs-input>
   </div>
 
   <div>
     <hr>
     <h3>前缀和后缀</h3>
-    <bs-input type="number">
+    <bs-input type="number" size="">
       <template #prefix>
-        <span style="padding-left: 0.7rem">¥</span>
+        <span style="font-size: 14px">¥</span>
       </template>
       <template #suffix>
-        <span>RMB</span>
+        <span style="font-size: 14px;">RMB</span>
       </template>
     </bs-input>
   </div>

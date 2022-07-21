@@ -12,53 +12,39 @@
     -webkit-appearance: none;
   }
 }
-.bs-input-prefix{
-  display: flex;
-  align-items: center;
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  bottom: 1px;
-  padding-left: 0.35rem;
-  .bs-svg-icon{
-    width: 1em;
-    height: 1em;
-  }
-}
+.bs-input-prefix,
 .bs-input-suffix{
   display: flex;
   align-items: center;
+  justify-content: center;
   position: absolute;
   top: 1px;
-  right: 1px;
   bottom: 1px;
-  //padding-left: 0.35rem;
-  padding-right: 0.35rem;
-  .bs-svg-icon{
-    width: 1em;
-    height: 1em;
-  }
+  min-width: 2rem;
 }
-.bs-input-prefix-icon,
-.bs-input-suffix-icon{
-  text-align: center;
+.bs-input-prefix{
+  left: 1px;
+}
+.bs-input-suffix{
+  right: 1px;
 }
 
 .bs-input-suffix-icon{
-  color: rgba(0,0,0,0.73);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  align-self: stretch;
+  font-size: 1rem;
+  color: rgba(0,0,0,0.7);
+  &:hover{
+    color: #000;
+  }
   &.show-password_icon{
-    width: 1.5rem;
     cursor: pointer;
-    line-height: 0;
-    .bs-svg-icon{
-      width: 1.1em;
-      height: 1.1em;
-    }
   }
   &.clear-content_icon {
-    width: 1.5rem;
-    line-height: 0;
-    &:not([data-only-child="true"]){
+    /*&:not([data-only-child="true"]){
       display: flex;
       align-items: center;
       justify-content: center;
@@ -70,12 +56,10 @@
       width: 100%;
       text-align: center;
       background-color: #fff;
-    }
-
+    }*/
     cursor: pointer;
     .bs-svg-icon{
-      width: 0.9em;
-      height: 0.9em;
+      transform: scale(0.85);
     }
   }
 }
@@ -98,124 +82,72 @@
   &.has-clear-content_icon,
   &.has-custom-suffix_icon{
     .form-control{
-      padding-right: calc(0.7rem + 1.5rem);
+      padding-right: 2rem;
     }
   }
+  /*&.has-suffix-icon{
+    .form-control{
+      padding-right: 2rem;
+    }
+  }*/
   &.has-prefix-icon{
     .form-control{
-      padding-left: calc(0.7rem + 1.5rem);
-    }
-  }
-  &.has-show-password_icon.has-custom-suffix_icon {
-    .form-control{
-      padding-right: calc(0.75rem + 1.5rem + 1.5rem);
+      padding-left: 2rem;
     }
   }
 
   &.input-group-lg{
+    .bs-input-prefix,
+    .bs-input-suffix{
+      min-width: 2.75rem;
+    }
+    .bs-input-prefix-icon,
+    .bs-input-suffix-icon{
+      font-size: 1.25rem;
+    }
+    /*&.has-suffix-icon{
+      .form-control{
+        padding-right: 2.75rem;
+      }
+    }*/
     &.has-show-password_icon,
     &.has-clear-content_icon,
     &.has-custom-suffix_icon{
       .form-control{
-        padding-right: calc(1.2rem + 1.5rem);
+        padding-right: 2.75rem;
       }
     }
     &.has-prefix-icon{
       .form-control{
-        padding-left: calc(1.2rem + 1.5rem);
-      }
-    }
-    &.has-show-password_icon.has-custom-suffix_icon {
-      .form-control{
-        padding-right: calc(1.2rem + 1.5rem + 1.5rem);
-      }
-    }
-
-    .bs-input-prefix{
-      padding-left: 0.6rem;
-      .bs-svg-icon{
-        width: 1.2em;
-        height: 1.2em;
-      }
-    }
-    .bs-input-suffix{
-      padding-right: 0.6rem;
-      .bs-svg-icon{
-        width: 1.2em;
-        height: 1.2em;
-      }
-    }
-
-    .bs-input-suffix-icon{
-      &.show-password_icon{
-        width: 1.75rem;
-        cursor: pointer;
-        line-height: 0;
-        .bs-svg-icon{
-          width: 1.3em;
-          height: 1.3em;
-        }
-      }
-      &.clear-content_icon {
-        width: 1.75rem;
-        .bs-svg-icon{
-          width: 1.1em;
-          height: 1.1em;
-        }
+        padding-left: 2.75rem
       }
     }
   }
 
   &.input-group-sm{
+    .bs-input-prefix,
+    .bs-input-suffix{
+      min-width: 1.6rem;
+    }
+    .bs-input-prefix-icon,
+    .bs-input-suffix-icon{
+      font-size: 0.875rem;
+    }
     &.has-show-password_icon,
     &.has-clear-content_icon,
     &.has-custom-suffix_icon{
       .form-control{
-        padding-right: calc(0.15rem + 1.5rem);
+        padding-right: 1.6rem;
       }
     }
+    /*&.has-suffix-icon{
+      .form-control{
+        padding-right: 1.6rem;
+      }
+    }*/
     &.has-prefix-icon{
       .form-control{
-        padding-left: calc(0.15rem + 1.5rem);
-      }
-    }
-    &.has-show-password_icon.has-custom-suffix_icon {
-      .form-control{
-        padding-right: calc(0.15rem + 1.5rem + 1.5rem);
-      }
-    }
-
-    .bs-input-prefix{
-      padding-left: 0.15rem;
-      .bs-svg-icon{
-        width: 0.9em;
-        height: 0.9em;
-      }
-    }
-    .bs-input-suffix{
-      padding-right: 0.15rem;
-      .bs-svg-icon{
-        width: 0.9em;
-        height: 0.9em;
-      }
-    }
-
-    .bs-input-suffix-icon{
-      &.show-password_icon{
-        width: 1.25rem;
-        cursor: pointer;
-        line-height: 0;
-        .bs-svg-icon{
-          width: 0.9em;
-          height: 0.9em;
-        }
-      }
-      &.clear-content_icon {
-        width: 1.25rem;
-        .bs-svg-icon{
-          width: 0.8em;
-          height: 0.8em;
-        }
+        padding-left: 1.6rem
       }
     }
   }

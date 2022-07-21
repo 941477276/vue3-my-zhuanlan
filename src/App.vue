@@ -2,9 +2,9 @@
   <!--<div class="box">
     <BsButtonUsage></BsButtonUsage>
   </div>-->
-  <!--<div class="box">
+  <div class="box">
     <BsInputUsage></BsInputUsage>
-  </div>-->
+  </div>
   <!--<div class="box">
     <BsRadioUsage></BsRadioUsage>
   </div>-->
@@ -96,6 +96,9 @@
   <!--<div class="box">
     <BsTreeSelectUsage></BsTreeSelectUsage>
   </div>-->
+  <div class="box">
+    <BsSelectInputUsage></BsSelectInputUsage>
+  </div>
 </template>
 
 <script lang="ts">
@@ -134,6 +137,7 @@ import BsPopConfirmUsage from '@/components/bootstrap/bs-pop-confirm/BsPopConfir
 import BsCollapseUsage from '@/components/bootstrap/bs-collapse/BsCollapseUsage.vue';
 import BsTreeUsage from '@/components/bootstrap/bs-tree/BsTreeUsage.vue';
 import BsTreeSelectUsage from '@/components/bootstrap/bs-tree-select/BsTreeSelectUsage.vue';
+import BsSelectInputUsage from '@/components/bootstrap/bs-select-input/BsSelectInputUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -172,7 +176,8 @@ export default defineComponent({
     BsPopConfirmUsage,
     BsCollapseUsage,
     BsTreeUsage,
-    BsTreeSelectUsage
+    BsTreeSelectUsage,
+    BsSelectInputUsage
   },
   setup () {
     return {
