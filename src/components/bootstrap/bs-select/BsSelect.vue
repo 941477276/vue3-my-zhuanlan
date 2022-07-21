@@ -265,7 +265,9 @@ export default defineComponent({
         return;
       }
       if (dropdownVisible.value) {
-        dropdownHide();
+        if (!props.multiple) {
+          dropdownHide();
+        }
       } else {
         isFocus.value = true;
         dropdownShow();
