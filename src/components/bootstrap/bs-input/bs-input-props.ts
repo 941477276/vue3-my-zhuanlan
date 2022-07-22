@@ -53,6 +53,12 @@ export const bsInputProps = {
     type: String,
     default: null
   },
+  inputStyle: { // input输入框的样式
+    type: Object,
+    default () {
+      return {};
+    }
+  },
   placeholder: {
     type: String,
     default: ''

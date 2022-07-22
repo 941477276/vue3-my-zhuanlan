@@ -44,6 +44,7 @@
         :aria-label="ariaLabel || placeholder || null"
         :name="name || null"
         :inputmode="inputmode"
+        :style="inputStyle"
         @input="on_input"
         @change="on_change"
         @focus="on_focus"
@@ -66,6 +67,7 @@
         :aria-label="ariaLabel || placeholder || null"
         :name="name || null"
         :inputmode="inputmode"
+        :style="inputStyle"
         @input="on_input"
         @change="on_change"
         @focus="on_focus"
@@ -144,7 +146,7 @@ export default defineComponent({
   props: {
     ...bsInputProps
   },
-  emits: ['input', 'update:modelValue', 'change', 'blur', 'focus', 'clear'],
+  emits: ['input', 'update:modelValue', 'change', 'blur', 'focus', 'clear', 'mouseenter', 'mouseleave'],
   setup (props: any, ctx: any) {
     let showPasswordIconDisplay = ref(false); // 切换输入框类型为“密码/文本”按钮是否显示
     let clearContentIconDisplay = ref(false); // 清空内容按钮是否显示
@@ -222,11 +224,13 @@ export default defineComponent({
       callFormItem('validate', 'change');
     };
     let on_mouseenter = function (evt: MouseEvent) {
+      ctx.emit('mouseenter', evt);
       if (props.clearable && (inputValue.value + '').length > 0) {
         clearContentIconDisplay.value = true;
       }
     };
     let on_mouseleave = function (evt: MouseEvent) {
+      ctx.emit('mouseleave', evt);
       if (props.clearable && (inputValue.value + '').length > 0 && clearContentIconDisplay.value) {
         clearContentIconDisplay.value = false;
       }
