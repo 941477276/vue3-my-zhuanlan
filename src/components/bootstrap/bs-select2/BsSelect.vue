@@ -23,12 +23,22 @@
         :value="item.value"
         :disabled="item.disabled">{{ item.label || item.labelSlot }}</option>
     </select>
-    <BsSelectInput
+    <bs-input
+      ref="bsInputRef"
       :disabled="disabled || loading"
+      :readonly="bsInputReadonly"
       :clearable="clearable"
       :id="selectId"
-      :values="modelValue"
-      :size="size"></BsSelectInput>
+      :value="viewText"
+      :size="size"
+      :delive-context-to-form-item="false"
+      :placeholder="loading ? loadingText : placeholder"
+      :ariaLabel="ariaLabel"
+      @clear="onInputClear">
+      <template #suffix>
+        <bs-icon name="chevron-down"></bs-icon>
+      </template>
+    </bs-input>
     <!-- 这里不能使用延迟渲染的方案，因为这会导致子组件也延迟渲染，从而导致上面的<select>标签不能在组件渲染时就生成
       <teleport to="body" v-if="dropdownDisplayed">-->
     <teleport :disabled="!teleported" :to="appendTo">
@@ -83,7 +93,7 @@ import {
   selectContextKey
 } from '@/ts-tokens/bootstrap/select';
 import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
-import BsSelectInput from '../bs-select-input/BsSelectInput.vue';
+import BsInput from '../bs-input/BsInput.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
 import { bsSelectProps } from './props';
 
@@ -91,7 +101,7 @@ let selectCount = 0;
 export default defineComponent({
   name: 'BsSelect',
   components: {
-    BsSelectInput,
+    BsInput,
     BsDropdownTransition
   },
   props: {
@@ -238,9 +248,9 @@ export default defineComponent({
       // console.log('selectedOptionLabels', selectedOptionLabels);
       return selectedOptionLabels.join(',');
     });
-    /* watch([() => props.clearable, viewText], function (newVals: any[]) {
+    watch([() => props.clearable, viewText], function (newVals: any[]) {
       (bsInputRef.value as any).setClearIconDisplay(newVals[0] && newVals[1].length > 0);
-    }); */
+    });
 
     let isClickOutside = useClickOutside([bsSelectRef, bsSelectDropdownRef]);
     watch(isClickOutside, (newVal: boolean) => {

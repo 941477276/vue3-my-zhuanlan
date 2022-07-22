@@ -1,42 +1,20 @@
 import { PropType } from 'vue';
-import { BsSize, BsColorType } from '@/ts-tokens/bootstrap';
+import { BsSize } from '@/ts-tokens/bootstrap';
 
-type ValueItem = {
-  label: string;
-  value: string|number|boolean;
-  tagType?: BsColorType;
-};
-
-export const bsSelectInputProps = {
-  values: {
-    type: Array,
-    default () {
-      return [];
-    },
-    validate (values: ValueItem[]) {
-      let flag = !values.some((valueItem: any) => {
-        // eslint-disable-next-line no-prototype-builtins
-        return !valueItem.hasOwnProperty('label');
-      });
-      if (flag) {
-        console.warn('value item need "label" property!');
-      }
-      return flag;
-    }
+export const bsSelectProps = {
+  modelValue: {
+    type: [String, Number, Array],
+    default: ''
   },
-  multiple: { // 是否允许多选
+  teleported: { // 是否使用 teleport。设置成 true则会被追加到 append-to 的位置
     type: Boolean,
     default: false
+  },
+  appendTo: { // 下拉菜单即将插入到的父级元素
+    type: String,
+    default: 'body'
   },
   disabled: {
-    type: Boolean,
-    default: false
-  },
-  isFocus: { // 是否处于聚焦状态
-    type: Boolean,
-    default: false
-  },
-  filterable: { // 是否可搜索
     type: Boolean,
     default: false
   },
@@ -47,6 +25,14 @@ export const bsSelectInputProps = {
   loadingText: { // 正在加载数据时的提示文字
     type: String,
     default: '加载中...'
+  },
+  multiple: { // 是否支持多选
+    type: Boolean,
+    default: false
+  },
+  multipleLimit: { // 可被选择的最大数量
+    type: Number,
+    default: undefined
   },
   clearable: { // 是否可以清空内容
     type: Boolean,
@@ -71,10 +57,6 @@ export const bsSelectInputProps = {
       return true;
     }
   },
-  tagType: { // 标签组件的type
-    type: String as PropType<BsColorType>,
-    default: 'secondary'
-  },
   placeholder: {
     type: String,
     default: '请选择'
@@ -86,5 +68,9 @@ export const bsSelectInputProps = {
   ariaLabel: { // area-label属性值
     type: String,
     default: ''
+  },
+  noDataText: { // 下拉列表为空时显示的文字，也可以使用slot="empty"设置
+    type: String,
+    default: '无数据'
   }
 };

@@ -1,5 +1,8 @@
-.bs-select-input{
+.bs-select{
   position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  width: 100%;
   .bs-input-wrap{
     .form-control{
       &:not(:disabled){
@@ -12,11 +15,6 @@
     }
     .bsicon-chevron-down{
       transition: transform .3s;
-    }
-  }
-  .bs-input.has-clear-content_icon{
-    .custom-suffix-icon{
-      display: none;
     }
   }
   &.is-focus{
@@ -34,18 +32,19 @@
     }
   }
 }
-.bs-select-input-tags{
+.bs-select-dropdown{
   position: absolute;
-  top: 0;
-  left: 0;
-  //bottom: 0;
-  right: 2rem;
-  //background-color: rgba(0,0,0,0.25);
-  padding-top: 0.3125rem;
-  //padding: 0.25rem 0;
-  /*display: flex;
-  flex-wrap: wrap;*/
-  .bs-tag{
-    margin: 0 0 0.3125rem 0.3125rem;
-  }
+  //top: -100%;
+  //display: none;
+  z-index: 2222;
+  max-height: 280px;
+  border: 1px solid #e4e7eb;
+  border-radius: 0.28rem;
+  overflow-y: auto;
+  box-shadow: 0 1px 0.5rem rgba(0,0,0,0.15);
+  background-color: #fff;
+}
+.bs-select-empty{
+  padding: 0.8rem 1.2rem;
+  color: #888;
 }

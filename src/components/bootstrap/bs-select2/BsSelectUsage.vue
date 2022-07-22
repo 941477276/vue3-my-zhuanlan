@@ -34,7 +34,7 @@
     </bs-option-group>
   </bs-select>
 
-  <!--<h3 style="margin-top: 50px;margin-bottom: 15px;">加载中</h3>
+  <h3 style="margin-top: 50px;margin-bottom: 15px;">加载中</h3>
   <bs-select v-model="selectVal" loading>
     <bs-option value="a" v-if="show">第1个选项</bs-option>
     <bs-option value="b" label="第2个选项"></bs-option>
@@ -45,8 +45,8 @@
 
   <h3 style="margin-top: 50px;margin-bottom: 15px;">无下拉项</h3>
   <bs-select v-model="selectVal">
-    &lt;!&ndash;<bs-option value="b" label="第2个选项"></bs-option>&ndash;&gt;
-  </bs-select>-->
+    <!--<bs-option value="b" label="第2个选项"></bs-option>-->
+  </bs-select>
 </div>
 </template>
 
@@ -84,7 +84,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .bs-select{
-  //width: auto;
-  max-width: 260px;
+  width: auto;
 }
 </style>
