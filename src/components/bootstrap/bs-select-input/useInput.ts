@@ -19,6 +19,22 @@ export function useInput (props: any, ctx: any) {
     }
     return values?.label;
   });
+  let bsInputPlaceholder = computed(function () {
+    if (!props.multiple) {
+      if (props.loading) {
+        return props.loadingText;
+      }
+      return bsInputFocus.value ? bsInputValue.value : props.placeholder;
+    }
+    if (props.values.length > 0) {
+      return ' ';
+    } else if (props.loading) {
+      if (props.loading) {
+        return props.loadingText;
+      }
+    }
+    return props.placeholder;
+  });
   let bsInputModelValue = computed({
     get () {
       // 如果是单选且输入框聚焦了，则将输入框的内容清空
@@ -48,6 +64,7 @@ export function useInput (props: any, ctx: any) {
     bsInputModelValue,
     bsInputValue,
     bsInputFocus,
+    bsInputPlaceholder,
 
     onBsInputFocus,
     onBsInputBlur

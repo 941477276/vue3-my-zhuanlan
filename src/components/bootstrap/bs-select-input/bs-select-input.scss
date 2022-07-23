@@ -9,9 +9,15 @@
     }
     .custom-suffix-icon{
       color: #a0a6ad;
+      cursor: pointer;
     }
     .bsicon-chevron-down{
       transition: transform .3s;
+    }
+    .bs-spinner{
+      width: 1em;
+      height: 1em;
+      border-width: 1px;
     }
   }
   .bs-input.has-clear-content_icon{
@@ -45,7 +51,40 @@
   //padding: 0.25rem 0;
   /*display: flex;
   flex-wrap: wrap;*/
+  cursor: text;
+  //background-color: #fff;
   .bs-tag{
     margin: 0 0 0.3125rem 0.3125rem;
   }
+}
+.bs-select-input-search{
+  display: inline-block;
+  vertical-align: middle;
+  width: 1rem;
+  min-width: 1rem;
+  max-width: calc(100% - 0.3125rem);
+  height: 1.75rem;
+  line-height: 1.75rem;
+  border: none;
+  outline: none;
+  border-radius: 0;
+  margin: 0 0 0.3125rem 0.3125rem;
+  font-size: 0.875rem;
+  background-color: transparent;
+}
+.auxiliary-calc-text-width-box{
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+  width: auto;
+  white-space: nowrap;
+  top: -100%;
+}
+.bs-select-input-loading-shadow{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  //background-color: rgba(0,0,0,0.05);
 }

@@ -13,7 +13,7 @@
     <span
       class="bs-tag-operate"
       v-if="closeable"
-      @click="doClose">
+      @click.stop="doClose">
       <BsIcon class="bs-tag-close" name="x"></BsIcon>
       <BsIcon class="bs-tag-close" name="x-circle-fill"></BsIcon>
     </span>

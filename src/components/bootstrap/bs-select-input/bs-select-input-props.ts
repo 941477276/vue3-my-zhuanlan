@@ -1,10 +1,11 @@
 import { PropType } from 'vue';
 import { BsSize, BsColorType } from '@/ts-tokens/bootstrap';
 
-type ValueItem = {
+export type ValueItem = {
   label: string;
   value: string|number|boolean;
   tagType?: BsColorType;
+  disabled?: boolean;
 };
 
 export const bsSelectInputProps = {
@@ -32,17 +33,25 @@ export const bsSelectInputProps = {
     type: Boolean,
     default: false
   },
-  isFocus: { // 是否处于聚焦状态
+  /* isFocus: { // 是否处于聚焦状态
     type: Boolean,
     default: false
-  },
+  }, */
   filterable: { // 是否可搜索
     type: Boolean,
     default: false
   },
+  maxTagCount: { // 最多显示几个tag
+    type: Number,
+    default: 0
+  },
   loading: { // 是否正在加载数据
     type: Boolean,
     default: false
+  },
+  loadingColorType: { // 加载图标的颜色的类型
+    type: String as PropType<BsColorType>,
+    default: ''
   },
   loadingText: { // 正在加载数据时的提示文字
     type: String,

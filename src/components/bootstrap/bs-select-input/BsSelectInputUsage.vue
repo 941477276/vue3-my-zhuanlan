@@ -6,7 +6,10 @@
         :is-focus="false"
         :clearable="true"
         :multiple="true"
-        :filterable="true"></BsSelectInput>
+        :filterable="true"
+        :loading="false"
+        :max-tag-count="3"
+        @tag-close="onTagClose"></BsSelectInput>
     </div>
   </div>
 </template>
@@ -25,9 +28,24 @@ export default defineComponent({
     BsSelectInput
   },
   setup () {
-    let values1 = ref([{ label: 'Vue.js', value: 'vue' }]);
+    let values1 = ref([
+      { label: 'HTML', value: 'html' },
+      { label: 'Css', value: 'css' },
+      { label: 'Javascript', value: 'javascript' },
+      { label: 'Vue.js', value: 'vue' },
+      { label: 'React.js', value: 'react' }
+    ]);
+    let onTagClose = function (tag: any) {
+      console.log('tag标签关闭事件');
+      let index = values1.value.findIndex(item => item.value === tag.value);
+      if (index > -1) {
+        values1.value.splice(index, 1);
+      }
+    };
     return {
-      values1
+      values1,
+
+      onTagClose
     };
   }
 });
