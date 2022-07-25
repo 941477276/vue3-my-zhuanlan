@@ -5,6 +5,7 @@ export type ValueItem = {
   label: string;
   value: string|number|boolean;
   tagType?: BsColorType;
+  tagClass?: string;
   disabled?: boolean;
 };
 

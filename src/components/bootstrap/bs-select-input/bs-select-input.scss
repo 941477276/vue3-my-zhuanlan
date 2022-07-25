@@ -39,6 +39,19 @@
       }
     }
   }
+  &.bs-select-input-lg{
+    .bs-select-input-search{
+      height: 2rem;
+      line-height: 2rem;
+      font-size: 0.875rem;
+    }
+  }
+  &.bs-select-input-sm{
+    .bs-select-input-search{
+      height: 1.5rem;
+      line-height: 1.5rem;
+    }
+  }
 }
 .bs-select-input-tags{
   position: absolute;

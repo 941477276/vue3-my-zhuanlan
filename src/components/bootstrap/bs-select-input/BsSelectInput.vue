@@ -40,18 +40,19 @@
         v-for="tag in viewTagList"
         :key="tag.value"
         :type="tag.tagType || tagType"
-        size="medium"
+        :class="tag.tagClass"
+        :size="tagSize"
         :closeable="!tag.disabled"
         @close="onTagClose(tag)">
-        <slot name="tag" :data="tag">{{ tag.label }}</slot>
+        <slot name="tag" v-bind="tag">{{ tag.label }}</slot>
       </bs-tag>
       <bs-tag
         v-if="maxTagCount > 0 && (values.length - viewTagList.length > 0)"
         class="tag-ommitted"
         key="ommitted_tag"
         :type="tagType"
-        size="medium">
-        <slot name="maxTagPlaceholder" :data="{ omittedCount: values.length - viewTagList.length }">+ {{ values.length - viewTagList.length }}...</slot>
+        :size="tagSize">
+        <slot name="maxTagPlaceholder" v-bind="{ omittedCount: values.length - viewTagList.length }">+ {{ values.length - viewTagList.length }}...</slot>
       </bs-tag>
       <input
         ref="searchInputRef"
@@ -98,7 +99,7 @@ export default defineComponent({
   props: {
     ...bsSelectInputProps
   },
-  emits: ['click', 'tag-close'],
+  emits: ['click', 'tag-close', 'filter-text-change'],
   setup (props: any, ctx: any) {
     let bsSelectInputId = ref(props.id || `bs_select_input-${++bsSelectInputCount}`);
     let inputTagsRef = ref<HTMLElement|null>(null);
@@ -176,11 +177,23 @@ export default defineComponent({
       searchText.value = '';
     };
 
-    watch(searchText, function () {
+    watch(searchText, function (newSearchText) {
       setTimeout(function () {
         searchInputWidth.value = auxiliaryCalcTextWidthBoxRef.value?.offsetWidth || 0;
         calcInputTagsHeight();
       }, 0);
+      ctx.emit('filter-text-change', newSearchText);
+    });
+
+    let tagSize = computed(function () {
+      let size = props.size;
+      if (!size) {
+        return 'md';
+      }
+      if (size == 'lg') {
+        return '';
+      }
+      return size;
     });
 
     let onRootClick = function (evt: MouseEvent) {
@@ -208,6 +221,7 @@ export default defineComponent({
 
       inputTagsHeight,
       viewTagList,
+      tagSize,
 
       searchText,
       searchInputWidth,
