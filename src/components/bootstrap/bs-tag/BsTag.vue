@@ -33,7 +33,8 @@ import {
 import BsIcon from '../bs-icon/BsIcon.vue';
 
 type Effect = 'dark' | 'light' | 'plain';
-type BsTagSize = 'medium' | 'small' | 'mini';
+// type BsTagSize = 'medium' | 'small' | 'mini';
+type BsTagSize = 'md' | 'sm' | 'mini';
 
 export default defineComponent({
   name: 'BsTag',
