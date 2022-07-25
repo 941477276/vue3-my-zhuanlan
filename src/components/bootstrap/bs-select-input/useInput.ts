@@ -1,6 +1,6 @@
-import { computed, ref } from 'vue';
+import { computed, ref, Ref } from 'vue';
 
-export function useInput (props: any, ctx: any) {
+export function useInput (props: any, ctx: any, bsInputRef: Ref<any>) {
   let bsInputReadonly = computed(function () {
     if (props.filterable) {
       return false;
@@ -24,7 +24,14 @@ export function useInput (props: any, ctx: any) {
       if (props.loading) {
         return props.loadingText;
       }
-      return bsInputFocus.value ? bsInputValue.value : props.placeholder;
+      let text = bsInputValue.value;
+      if (text !== null && typeof text !== 'undefined') {
+        text = text + '';
+      }
+      if (bsInputFocus.value && text) {
+        return bsInputValue.value;
+      }
+      return props.placeholder;
     }
     if (props.values.length > 0) {
       return ' ';
@@ -56,6 +63,13 @@ export function useInput (props: any, ctx: any) {
   let onBsInputBlur = function () {
     if (props.filterable) {
       bsInputFocus.value = false;
+      // 解决用户点击不了下拉选项问题，因为搜索文本清空后被隐藏的下拉菜单会立即显示出来
+      let timer = setTimeout(function () {
+        clearTimeout(timer);
+        if (!bsInputValue.value) {
+          bsInputRef.value?.clear();
+        }
+      }, 320);
     }
   };
 

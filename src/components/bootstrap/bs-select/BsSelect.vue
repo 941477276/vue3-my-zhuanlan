@@ -11,7 +11,7 @@
       size ? `bs-select-${size}` :''
     ]"
     :data-bs-id="selectId"
-    @click="onSelectRootClick">
+    data-click="onSelectRootClick">
     <select
       v-model="nativeSelectModel"
       :name="name"
@@ -24,11 +24,20 @@
         :disabled="item.disabled">{{ item.label || item.labelSlot }}</option>
     </select>
     <BsSelectInput
-      :disabled="disabled || loading"
+      ref="bsSelectInputRef"
+      :disabled="disabled"
+      :loading="loading"
       :clearable="clearable"
       :id="selectId"
-      :values="modelValue"
-      :size="size"></BsSelectInput>
+      :values="viewText"
+      :size="size"
+      :multiple="multiple"
+      :filterable="filterable"
+      :placeholder="placeholder"
+      @click="onSelectInputClick"
+      @tag-close="onTagClose"
+      @filter-text-change="onFilterTextChange"
+      @clear="onSelectInputClear"></BsSelectInput>
     <!-- 这里不能使用延迟渲染的方案，因为这会导致子组件也延迟渲染，从而导致上面的<select>标签不能在组件渲染时就生成
       <teleport to="body" v-if="dropdownDisplayed">-->
     <teleport :disabled="!teleported" :to="appendTo">
@@ -44,10 +53,10 @@
           :class="{
             'is-multiple': multiple
           }"
-          :data-for-bs-select="selectId">
+          :data-for-select="selectId">
           <slot></slot>
           <li
-            v-if="options.length == 0"
+            v-if="!loading && options.length == 0"
             class="bs-select-empty">
             <slot name="empty">{{ noDataText }}</slot>
           </li>
@@ -101,6 +110,7 @@ export default defineComponent({
   setup (props: any, ctx: any) {
     let bsSelectRef = ref<HTMLElement|null>(null);
     let bsInputRef = ref<ComponentInternalInstance|null>(null);
+    let bsSelectInputRef = ref<ComponentInternalInstance|null>(null);
     let bsSelectDropdownRef = ref<HTMLElement|null>(null);
     let bsInputReadonly = ref(true);
     let isFocus = ref(false);
@@ -130,6 +140,8 @@ export default defineComponent({
         return;
       }
       dropdownVisible.value = true;
+      isFocus.value = true;
+      (bsSelectInputRef.value as any)?.focus();
     };
     /**
      * 隐藏下拉菜单
@@ -140,6 +152,7 @@ export default defineComponent({
         clearTimeout(timer);
         dropdownVisible.value = false;
         isFocus.value = false;
+        (bsSelectInputRef.value as any)?.blur();
       }, 120);
     };
 
@@ -227,7 +240,7 @@ export default defineComponent({
       }
     };
 
-    let viewText = computed(function () {
+    /* let viewText = computed(function () {
       let modelValue = Array.isArray(props.modelValue) ? props.modelValue : [props.modelValue];
       let selectedOptionLabels = options.value.filter(function (option: SelectOptionItem) {
         // console.log('option.value', option.value);
@@ -237,10 +250,22 @@ export default defineComponent({
       });
       // console.log('selectedOptionLabels', selectedOptionLabels);
       return selectedOptionLabels.join(',');
-    });
-    /* watch([() => props.clearable, viewText], function (newVals: any[]) {
-      (bsInputRef.value as any).setClearIconDisplay(newVals[0] && newVals[1].length > 0);
     }); */
+    let viewText = computed(function () {
+      let modelValue = Array.isArray(props.modelValue) ? props.modelValue : [props.modelValue];
+      let selectedOptionLabels = options.value.filter(function (option: SelectOptionItem) {
+        // console.log('option.value', option.value);
+        return modelValue.includes(option.value);
+      }).map(function (option: SelectOptionItem) {
+        let newOption = {
+          ...option,
+          label: option.label || option.labelSlot
+        };
+        return newOption;
+      });
+      // console.log('selectedOptionLabels', selectedOptionLabels);
+      return selectedOptionLabels;
+    });
 
     let isClickOutside = useClickOutside([bsSelectRef, bsSelectDropdownRef]);
     watch(isClickOutside, (newVal: boolean) => {
@@ -264,8 +289,48 @@ export default defineComponent({
       }
     };
 
+    // 输入框点击事件
+    let onSelectInputClick = function () {
+      if (props.disabled || props.loading) {
+        return;
+      }
+      if (dropdownVisible.value) {
+        if (!props.multiple) {
+          dropdownHide();
+        } else {
+          (bsSelectInputRef.value as any)?.focus();
+        }
+      } else {
+        dropdownShow();
+      }
+    };
+
+    // 标签关闭事件
+    let onTagClose = function (option: SelectOptionItem) {
+      changeVal(option.value, true);
+    };
+
+    let filterText = ref('');
+    // 搜索文本change事件
+    let onFilterTextChange = function (searchText: string) {
+      console.log('搜索文本：', searchText);
+      filterText.value = searchText;
+    };
+    // 默认的搜索函数
+    let filterMethodInner = function (option: SelectOptionItem) {
+      let text = filterText.value;
+      if (!text) {
+        return true;
+      }
+      let label = option.label;
+      if (label == null || typeof label === 'undefined') {
+        return false;
+      }
+      return (label + '').toLowerCase().includes(text.toLowerCase());
+    };
+
     // 清空内容
-    let onInputClear = function () {
+    let onSelectInputClear = function () {
       let val = props.multiple ? [] : '';
       ctx.emit('update:modelValue', val);
       ctx.emit('change', val);
@@ -288,6 +353,15 @@ export default defineComponent({
 
     provide<SelectContext>(selectContextKey, reactive({
       props,
+      filterText,
+      // 给 option 子组件调用
+      filterMethod: computed(function () {
+        let filterMethod = props.filterMethod;
+        if (typeof filterMethod === 'function') {
+          return filterMethod;
+        };
+        return filterMethodInner;
+      }),
       changeVal,
       addOption,
       removeOption
@@ -295,6 +369,7 @@ export default defineComponent({
     return {
       bsSelectRef,
       bsInputRef,
+      bsSelectInputRef,
       bsSelectDropdownRef,
       bsInputReadonly,
       isFocus,
@@ -305,10 +380,14 @@ export default defineComponent({
       nativeSelectModel,
       viewText,
 
-      onSelectRootClick,
-      onInputClear,
+      // onSelectRootClick,
+      onSelectInputClear,
       dropdownShow,
-      dropdownHide
+      dropdownHide,
+
+      onSelectInputClick,
+      onTagClose,
+      onFilterTextChange
     };
   }
 });

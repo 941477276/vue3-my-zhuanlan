@@ -1,5 +1,6 @@
 <template>
   <li
+    v-show="visible"
     ref="bsOptionRef"
     class="bs-option"
     :class="{
@@ -23,15 +24,18 @@ import {
   inject,
   computed,
   onMounted,
-  onBeforeUnmount
+  onBeforeUnmount,
+  PropType
 } from 'vue';
 import {
   SelectContext,
   SelectOptionGroupContext,
   selectContextKey,
-  selectOptionGroupContextKey
+  selectOptionGroupContextKey,
+  SelectOptionItem
 } from '@/ts-tokens/bootstrap/select';
 import BsIcon from '../../bs-icon/BsIcon.vue';
+import { BsColorType } from '@/ts-tokens/bootstrap';
 
 let selectOptionCount = 0;
 export default defineComponent({
@@ -51,13 +55,33 @@ export default defineComponent({
     disabled: {
       type: Boolean,
       default: false
+    },
+    tagType: { // 标签组件的type
+      type: String as PropType<BsColorType>,
+      default: 'secondary'
+    },
+    tagClass: {
+      type: String,
+      default: ''
     }
   },
   setup (props: any) {
     let bsOptionRef = ref<HTMLElement|null>(null);
     let optionId = `selectOption_${++selectOptionCount}`;
-    let selectCtx = inject<SelectContext|null>(selectContextKey, null);
+    let selectCtx = inject<SelectContext|null>(selectContextKey, {} as SelectContext);
     let optionGroupCtx = inject<SelectOptionGroupContext|null>(selectOptionGroupContextKey, null);
+
+    let visible = computed(function () {
+      let filterMethod = selectCtx?.filterMethod;
+      if (!filterMethod) {
+        return true;
+      }
+      let label = props.label || (bsOptionRef.value as HTMLElement)?.innerText;
+      if (label == null || typeof label === 'undefined') {
+        return false;
+      }
+      return filterMethod({ label } as SelectOptionItem);
+    });
 
     let isSelected = computed<boolean>(function () {
       if (selectCtx) {
@@ -92,7 +116,9 @@ export default defineComponent({
           value: toRef(props, 'value'),
           label: toRef(props, 'label'),
           labelSlot: (bsOptionRef.value as HTMLElement).innerText,
-          disabled: isDisabled
+          disabled: isDisabled,
+          tagType: toRef(props, 'tagType'),
+          tagClass: toRef(props, 'tagClass')
         }));
       }
     });
@@ -104,6 +130,7 @@ export default defineComponent({
     });
 
     return {
+      visible,
       isSelected,
       isDisabled,
       bsOptionRef,

@@ -26,7 +26,8 @@
         height: inputTagsHeight + 'px'
       }"
       @focus="onBsInputFocus"
-      @blur="onBsInputBlur">
+      @blur="onBsInputBlur"
+      @clear="$emit('clear')">
       <template #suffix>
         <bs-spinner v-if="loading" :color-type="loadingColorType" :text="loadingText"></bs-spinner>
         <bs-icon v-else name="chevron-down"></bs-icon>
@@ -42,7 +43,7 @@
         :type="tag.tagType || tagType"
         :class="tag.tagClass"
         :size="tagSize"
-        :closeable="!tag.disabled"
+        :closeable="!disabled && !tag.disabled"
         @close="onTagClose(tag)">
         <slot name="tag" v-bind="tag">{{ tag.label }}</slot>
       </bs-tag>
@@ -55,6 +56,7 @@
         <slot name="maxTagPlaceholder" v-bind="{ omittedCount: values.length - viewTagList.length }">+ {{ values.length - viewTagList.length }}...</slot>
       </bs-tag>
       <input
+        v-if="!disabled && filterable"
         ref="searchInputRef"
         v-model="searchText"
         type="search"
@@ -87,6 +89,7 @@ import BsTag from '../bs-tag/BsTag.vue';
 import BsSpinner from '@/components/bootstrap/bs-spinner/BsSpinner.vue';
 import { bsSelectInputProps, ValueItem } from './bs-select-input-props';
 import { useInput } from './useInput';
+import { ValidateStatus } from '@/ts-tokens/bootstrap';
 
 let bsSelectInputCount = 0;
 export default defineComponent({
@@ -99,10 +102,11 @@ export default defineComponent({
   props: {
     ...bsSelectInputProps
   },
-  emits: ['click', 'tag-close', 'filter-text-change'],
+  emits: ['click', 'tag-close', 'filter-text-change', 'clear'],
   setup (props: any, ctx: any) {
     let bsSelectInputId = ref(props.id || `bs_select_input-${++bsSelectInputCount}`);
     let inputTagsRef = ref<HTMLElement|null>(null);
+    let bsInputRef = ref(null);
 
     let {
       bsInputReadonly,
@@ -113,7 +117,7 @@ export default defineComponent({
 
       onBsInputFocus,
       onBsInputBlur
-    } = useInput(props, ctx);
+    } = useInput(props, ctx, bsInputRef);
     let isFocus = ref(false);
 
     // 计算 .bs-select-input-tags 容器高度
@@ -127,8 +131,9 @@ export default defineComponent({
     let inputTagsHeight = ref(0);
     let calcInputTagsHeight = function () {
       let inputTagsEl = inputTagsRef.value as HTMLElement;
-      if (!inputTagsEl) {
+      if (!inputTagsEl || props.values?.length == 0) {
         inputTagsHeight.value = 0;
+        return;
       }
       nextTick(function () {
         inputTagsHeight.value = inputTagsEl.offsetHeight;
@@ -136,7 +141,7 @@ export default defineComponent({
     };
     watch(() => [...props.values], function () {
       if (props.multiple) {
-        console.log('do calcInputTagsHeight');
+        // console.log('do calcInputTagsHeight');
         // 这里使用 nextTick 无效，会导致高度计算不准确
         setTimeout(function () {
           calcInputTagsHeight();
@@ -174,7 +179,11 @@ export default defineComponent({
     };
     // 搜索框失去焦点事件
     let onSearchInputBlur = function () {
-      searchText.value = '';
+      // 解决用户点击不了下拉选项问题，因为搜索文本清空后被隐藏的下拉菜单会立即显示出来
+      let timer = setTimeout(function () {
+        clearTimeout(timer);
+        searchText.value = '';
+      }, 320);
     };
 
     watch(searchText, function (newSearchText) {
@@ -197,7 +206,6 @@ export default defineComponent({
     });
 
     let onRootClick = function (evt: MouseEvent) {
-      console.log(1111);
       if (props.disabled || props.loading) {
         return;
       }
@@ -211,6 +219,7 @@ export default defineComponent({
     return {
       bsSelectInputId,
       inputTagsRef,
+      bsInputRef,
 
       bsInputReadonly,
       bsInputModelValue,
@@ -230,6 +239,37 @@ export default defineComponent({
 
       searchInputFocus,
       searchInputBlur,
+
+      focus: function () {
+        if (props.disabled) {
+          return;
+        }
+        console.log('focus dsdssss');
+        isFocus.value = true;
+        if (props.multiple) {
+          searchInputFocus();
+          return;
+        }
+        (bsInputRef.value as any)?.focus();
+      },
+      blur: function () {
+        if (props.disabled) {
+          return;
+        }
+        isFocus.value = false;
+        if (props.multiple) {
+          /* setTimeout(function () {
+            searchInputBlur();
+          }, 300); */
+          searchInputBlur();
+
+          return;
+        }
+        (bsInputRef.value as any)?.blur();
+      },
+      setValidateStatus: function (status: ValidateStatus) {
+        (bsInputRef.value as any).setValidateStatus(status);
+      },
 
       onBsInputFocus,
       onBsInputBlur,

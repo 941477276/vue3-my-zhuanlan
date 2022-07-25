@@ -96,7 +96,7 @@
           v-show="clearContentIconDisplay"
           :data-only-child="!suffixIcon && !$slots.suffix && !showPassword"
           class="bs-input-suffix-icon clear-content_icon"
-          @click.stop="clearContent">
+          @click.stop="handleClear">
           <bs-icon name="x-circle"></bs-icon>
         </span>
         <span
@@ -235,13 +235,16 @@ export default defineComponent({
         clearContentIconDisplay.value = false;
       }
     };
-    // 清空内容
-    let clearContent = function () {
+    let clear = function () {
       inputValue.value = '';
       clearContentIconDisplay.value = false;
       ctx.emit('update:modelValue', '');
       ctx.emit('clear');
       callFormItem('validate', 'change');
+    }
+    // 清空内容
+    let handleClear = function () {
+      clear();
       focus();
     }
     // 让元素获得焦点
@@ -288,7 +291,8 @@ export default defineComponent({
       on_mouseenter,
       on_mouseleave,
       togglePasswordText,
-      clearContent,
+      handleClear,
+      clear,
       focus,
       blur,
       setValidateStatus,
