@@ -45,7 +45,8 @@
         :size="tagSize"
         :closeable="!disabled && !tag.disabled"
         @close="onTagClose(tag)">
-        <slot name="tag" v-bind="tag">{{ tag.label }}</slot>
+        <!--<slot name="tag" v-bind="tag">{{ tag.label }}</slot>-->
+        <SelectInputTagSlot name="tag" :bind-data="tag">{{ tag.label }}</SelectInputTagSlot>
       </bs-tag>
       <bs-tag
         v-if="maxTagCount > 0 && (values.length - viewTagList.length > 0)"
@@ -53,7 +54,10 @@
         key="ommitted_tag"
         :type="tagType"
         :size="tagSize">
-        <slot name="maxTagPlaceholder" v-bind="{ omittedCount: values.length - viewTagList.length }">+ {{ values.length - viewTagList.length }}...</slot>
+        <!--<slot name="maxTagPlaceholder" v-bind="{ omittedCount: values.length - viewTagList.length }">+ {{ values.length - viewTagList.length }}...</slot>-->
+        <SelectInputTagSlot name="maxTagPlaceholder" :bind-data="{ omittedCount: values.length - viewTagList.length }">
+          + {{ values.length - viewTagList.length }}...
+        </SelectInputTagSlot>
       </bs-tag>
       <input
         v-if="!disabled && filterable"
@@ -80,14 +84,16 @@ import {
   computed,
   watch,
   defineComponent,
-  onUpdated,
-  onMounted,
+  provide,
+  inject,
   nextTick
 } from 'vue';
 import BsInput from '../bs-input/BsInput.vue';
 import BsTag from '../bs-tag/BsTag.vue';
-import BsSpinner from '@/components/bootstrap/bs-spinner/BsSpinner.vue';
+import BsSpinner from '../bs-spinner/BsSpinner.vue';
+import SelectInputTagSlot from './widgets/SelectInputTagSlot.vue';
 import { bsSelectInputProps, ValueItem } from './bs-select-input-props';
+import { selectContextKey } from '@/ts-tokens/bootstrap/select';
 import { useInput } from './useInput';
 import { ValidateStatus } from '@/ts-tokens/bootstrap';
 
@@ -97,7 +103,8 @@ export default defineComponent({
   components: {
     BsInput,
     BsTag,
-    BsSpinner
+    BsSpinner,
+    SelectInputTagSlot
   },
   props: {
     ...bsSelectInputProps
@@ -215,6 +222,10 @@ export default defineComponent({
       } */
       ctx.emit('click', evt);
     };
+
+    let selectCtx = inject(selectContextKey);
+    console.log('parentCtx', selectCtx);
+    provide('parentCtx', { ctx: selectCtx?.ctx || ctx });
 
     return {
       bsSelectInputId,

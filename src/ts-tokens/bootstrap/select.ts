@@ -9,6 +9,7 @@ export type SelectOptionItem = {
 };
 
 export type SelectContext = {
+  ctx?: any;
   props: any;
   filterText: string;
   filterMethod: (option: SelectOptionItem) => boolean;
