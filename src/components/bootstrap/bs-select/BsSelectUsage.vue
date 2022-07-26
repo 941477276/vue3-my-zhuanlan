@@ -137,6 +137,42 @@
       <bs-option value="react" tag-class="react-tag">React</bs-option>
     </bs-select>
   </div>
+
+  <div>
+    <hr>
+    <h3>自定义Tag内容</h3>
+    <bs-select
+      v-model="selectVal8"
+      multiple
+      filterable>
+      <template #tag="tag">
+        {{ tag.label }}
+        <span style="color: #F95504;font-weight: bold;" v-if="tag.value === 'html'">(超文本传输语言)</span>
+        <span style="color: #0EA001;font-weight: bold;" v-if="tag.value === 'css'">(层叠样式表)</span>
+        <span style="color: #0E45E8;font-weight: bold;" v-if="tag.value === 'javascript'">(弱类型脚本语言)</span>
+      </template>
+      <bs-option value="html">Html</bs-option>
+      <bs-option value="css">Css</bs-option>
+      <bs-option value="javascript">Javascript</bs-option>
+      <bs-option value="vue">Vue</bs-option>
+      <bs-option value="react">React</bs-option>
+    </bs-select>
+    <h6 style="margin: 0.5rem 0 1rem 0;">溢出Tag</h6>
+    <bs-select
+      v-model="selectVal8"
+      multiple
+      filterable
+      :max-tag-count="2">
+      <template #maxTagPlaceholder="{ omittedCount }">
+        隐藏了 <strong style="color: #f30;">{{omittedCount}}</strong> 个Tag
+      </template>
+      <bs-option value="html">Html</bs-option>
+      <bs-option value="css">Css</bs-option>
+      <bs-option value="javascript">Javascript</bs-option>
+      <bs-option value="vue">Vue</bs-option>
+      <bs-option value="react">React</bs-option>
+    </bs-select>
+  </div>
 </div>
 </template>
 
@@ -179,7 +215,8 @@ export default defineComponent({
     let selectVal5 = ref('html');
     let selectVal6 = ref(['html', 'javascript']);
     let selectVal7 = ref(['html', 'javascript', 'css', 'vue', 'react']);
-    // let options
+
+    let selectVal8 = ref(['html', 'javascript', 'css', 'vue', 'react']);
 
     return {
       show,
@@ -197,7 +234,8 @@ export default defineComponent({
 
       selectVal5,
       selectVal6,
-      selectVal7
+      selectVal7,
+      selectVal8
     };
   }
 });

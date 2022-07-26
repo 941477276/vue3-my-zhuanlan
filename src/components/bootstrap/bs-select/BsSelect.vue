@@ -27,6 +27,8 @@
       ref="bsSelectInputRef"
       :disabled="disabled"
       :loading="loading"
+      :loading-text="loadingText"
+      :loading-color-type="loadingColorType"
       :clearable="clearable"
       :id="selectId"
       :values="viewText"
@@ -34,6 +36,8 @@
       :multiple="multiple"
       :filterable="filterable"
       :placeholder="placeholder"
+      :max-tag-count="maxTagCount"
+      :tag-type="tagType"
       @click="onSelectInputClick"
       @tag-close="onTagClose"
       @filter-text-change="onFilterTextChange"
@@ -360,6 +364,7 @@ export default defineComponent({
 
     provide<SelectContext>(selectContextKey, reactive({
       props,
+      ctx,
       filterText,
       // 给 option 子组件调用
       filterMethod: computed(function () {
@@ -373,6 +378,7 @@ export default defineComponent({
       addOption,
       removeOption
     }));
+    // provide('parentCtx', { ctx });
     return {
       bsSelectRef,
       bsInputRef,

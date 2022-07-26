@@ -1,5 +1,5 @@
 import { PropType } from 'vue';
-import { BsSize } from '@/ts-tokens/bootstrap';
+import { BsColorType, BsSize } from '@/ts-tokens/bootstrap';
 
 export const bsSelectProps = {
   modelValue: {
@@ -80,5 +80,17 @@ export const bsSelectProps = {
   filterMethod: { // 自定义搜索函数
     type: Function,
     default: null
+  },
+  maxTagCount: { // 最多显示几个tag
+    type: Number,
+    default: 0
+  },
+  loadingColorType: { // 加载图标的颜色的类型
+    type: String as PropType<BsColorType>,
+    default: ''
+  },
+  tagType: { // 标签组件的type
+    type: String as PropType<BsColorType>,
+    default: 'secondary'
   }
 };
