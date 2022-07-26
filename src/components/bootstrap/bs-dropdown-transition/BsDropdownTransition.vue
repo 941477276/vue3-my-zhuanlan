@@ -70,6 +70,23 @@ export default defineComponent({
       top: -1,
       bottom: null
     });
+    let targetEl: HTMLElement|null = null;
+
+    let refresh = function () {
+      let referenceEl = props.referenceRef as HTMLElement;
+      if (!targetEl || !referenceEl) {
+        return;
+      }
+      let referenceElRect = referenceEl.getBoundingClientRect();
+      // console.log('referenceElRect', referenceElRect);
+
+      let displayDirection: any = util.calcAbsoluteElementDisplayDirection(referenceEl, targetEl, props.placement, props.tryAllPlacement);
+      dropdownStyle.direction = displayDirection.direction;
+      dropdownStyle.width = referenceElRect.width;
+      dropdownStyle.top = displayDirection.top;
+      dropdownStyle.left = displayDirection.left;
+      dropdownStyle.bottom = typeof displayDirection.bottom == 'undefined' ? null : displayDirection.bottom;
+    };
 
     let onEnter = function (el:HTMLElement, done: () => void) {
       // 延迟20毫秒是为了解决目标元素使用v-if控制后导致元素位置计算不准确问题
@@ -85,15 +102,17 @@ export default defineComponent({
           console.log('目标元素不存在!========================');
           return;
         }
-        let referenceElRect = referenceEl.getBoundingClientRect();
+        // let referenceElRect = referenceEl.getBoundingClientRect();
         // console.log('referenceElRect', referenceElRect);
 
-        let displayDirection: any = util.calcAbsoluteElementDisplayDirection(referenceEl, el, props.placement, props.tryAllPlacement);
+        /* let displayDirection: any = util.calcAbsoluteElementDisplayDirection(referenceEl, el, props.placement, props.tryAllPlacement);
         dropdownStyle.direction = displayDirection.direction;
         dropdownStyle.width = referenceElRect.width;
         dropdownStyle.top = displayDirection.top;
         dropdownStyle.left = displayDirection.left;
-        dropdownStyle.bottom = typeof displayDirection.bottom == 'undefined' ? null : displayDirection.bottom;
+        dropdownStyle.bottom = typeof displayDirection.bottom == 'undefined' ? null : displayDirection.bottom; */
+        targetEl = el;
+        refresh();
 
         let onTransitionDone = function () {
           done();
@@ -109,7 +128,8 @@ export default defineComponent({
     return {
       dropdownStyle,
 
-      onEnter
+      onEnter,
+      refresh
     };
   }
 });

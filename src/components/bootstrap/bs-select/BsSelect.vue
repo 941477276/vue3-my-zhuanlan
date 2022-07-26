@@ -42,6 +42,7 @@
       <teleport to="body" v-if="dropdownDisplayed">-->
     <teleport :disabled="!teleported" :to="appendTo">
       <BsDropdownTransition
+        ref="dropdownTransitionRef"
         placement="bottom"
         :reference-ref="bsSelectRef"
         :try-all-placement="false"
@@ -112,6 +113,7 @@ export default defineComponent({
     let bsInputRef = ref<ComponentInternalInstance|null>(null);
     let bsSelectInputRef = ref<ComponentInternalInstance|null>(null);
     let bsSelectDropdownRef = ref<HTMLElement|null>(null);
+    let dropdownTransitionRef = ref(null);
     let bsInputReadonly = ref(true);
     let isFocus = ref(false);
     let selectId = ref(props.id || `bs-select_${++selectCount}`);
@@ -197,6 +199,11 @@ export default defineComponent({
           ctx.emit('change', selectModelValue);
           callFormItem('validate', 'change');
         }
+        // 多选时值改变后需要刷新下拉内容
+        let timer = setTimeout(function () {
+          clearTimeout(timer);
+          (dropdownTransitionRef.value as any)?.refresh();
+        }, 60);
       } else {
         if (isDelete === true) {
           if (props.modelValue === val) {
@@ -371,6 +378,7 @@ export default defineComponent({
       bsInputRef,
       bsSelectInputRef,
       bsSelectDropdownRef,
+      dropdownTransitionRef,
       bsInputReadonly,
       isFocus,
       selectId,
