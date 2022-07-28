@@ -78,9 +78,21 @@
     <hr>
     <h3>异步加载</h3>
     <bs-select
+      style="margin-bottom: 1rem;"
       v-model="selectVal4"
       clearable
       filterable
+      :loading="loading4">
+      <bs-option
+        v-for="item in options4"
+        :key="item.value"
+        :value="item.value">{{ item.label }}</bs-option>
+    </bs-select>
+    <bs-select
+      v-model="selectVal9"
+      clearable
+      filterable
+      multiple
       :loading="loading4">
       <bs-option
         v-for="item in options4"
@@ -197,6 +209,7 @@ export default defineComponent({
     let selectVal3 = ref(['javascript']);
 
     let selectVal4 = ref('');
+    let selectVal9 = ref(['html', 'javascript']);
     let options4 = ref<SelectOptionItem[]>([]);
     let loading4 = ref(true);
     let loadData4 = function () {
@@ -207,7 +220,8 @@ export default defineComponent({
         options4.value = [
           { id: '1', label: 'Html', value: 'html' },
           { id: '2', label: 'Css', value: 'css' },
-          { id: '3', label: 'Javascript', value: 'javascript' }
+          { id: '3', label: 'Javascript', value: 'javascript' },
+          { id: '4', label: 'Vue', value: 'vue' }
         ];
       }, 1500);
     };
@@ -228,6 +242,7 @@ export default defineComponent({
       selectVal3,
 
       selectVal4,
+      selectVal9,
       options4,
       loading4,
       loadData4,

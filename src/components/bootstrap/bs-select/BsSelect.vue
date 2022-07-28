@@ -65,6 +65,12 @@
             class="bs-select-empty">
             <slot name="empty">{{ noDataText }}</slot>
           </li>
+          <li class="bs-select-loading" v-if="loading">
+            <slot name="loading">
+              <BsSpinner></BsSpinner>
+              <span class="bs-select-loading-text">{{loadingText}}</span>
+            </slot>
+          </li>
         </ul>
       </BsDropdownTransition>
     </teleport>
@@ -99,6 +105,7 @@ import {
 import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
 import BsSelectInput from '../bs-select-input/BsSelectInput.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
+import BsSpinner from '../bs-spinner/BsSpinner.vue';
 import { bsSelectProps } from './props';
 
 let selectCount = 0;
@@ -106,7 +113,8 @@ export default defineComponent({
   name: 'BsSelect',
   components: {
     BsSelectInput,
-    BsDropdownTransition
+    BsDropdownTransition,
+    BsSpinner
   },
   props: {
     ...bsSelectProps
@@ -146,8 +154,10 @@ export default defineComponent({
         return;
       }
       dropdownVisible.value = true;
-      isFocus.value = true;
-      (bsSelectInputRef.value as any)?.focus();
+      if (!props.loading) {
+        isFocus.value = true;
+        (bsSelectInputRef.value as any)?.focus();
+      }
     };
     /**
      * 隐藏下拉菜单
@@ -286,23 +296,9 @@ export default defineComponent({
       }
     });
 
-    let onSelectRootClick = function () {
-      if (props.disabled || props.loading) {
-        return;
-      }
-      if (dropdownVisible.value) {
-        if (!props.multiple) {
-          dropdownHide();
-        }
-      } else {
-        isFocus.value = true;
-        dropdownShow();
-      }
-    };
-
     // 输入框点击事件
     let onSelectInputClick = function () {
-      if (props.disabled || props.loading) {
+      if (props.disabled) {
         return;
       }
       if (dropdownVisible.value) {

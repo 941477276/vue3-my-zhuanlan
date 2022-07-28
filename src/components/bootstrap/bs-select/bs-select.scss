@@ -14,3 +14,19 @@
   padding: 0.8rem 1.2rem;
   color: #888;
 }
+.bs-select-loading{
+  padding: 1.5rem 1.2rem;
+  text-align: center;
+  color: var(--primary);
+  .bs-spinner{
+    width: 1.5rem;
+    height: 1.5rem;
+    vertical-align: middle;
+    border-width: 0.125rem;
+  }
+}
+.bs-select-loading-text{
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0.8rem;
+}

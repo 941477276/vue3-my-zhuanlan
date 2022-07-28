@@ -213,7 +213,7 @@ export default defineComponent({
     });
 
     let onRootClick = function (evt: MouseEvent) {
-      if (props.disabled || props.loading) {
+      if (props.disabled) {
         return;
       }
       /* isFocus.value = true;
