@@ -51,7 +51,7 @@
         :reference-ref="bsSelectRef"
         :try-all-placement="false"
         :set-width="true">
-        <ul
+        <div
           v-show="dropdownVisible"
           ref="bsSelectDropdownRef"
           class="bs-select-dropdown"
@@ -59,19 +59,23 @@
             'is-multiple': multiple
           }"
           :data-for-select="selectId">
-          <slot></slot>
-          <li
-            v-if="!loading && options.length == 0"
-            class="bs-select-empty">
-            <slot name="empty">{{ noDataText }}</slot>
-          </li>
-          <li class="bs-select-loading" v-if="loading">
-            <slot name="loading">
-              <BsSpinner></BsSpinner>
-              <span class="bs-select-loading-text">{{loadingText}}</span>
-            </slot>
-          </li>
-        </ul>
+          <ul class="bs-select-option-list">
+            <slot></slot>
+            <li
+              v-if="!loading && options.length == 0"
+              class="bs-select-empty">
+              <slot name="empty">{{ noDataText }}</slot>
+            </li>
+            <li class="bs-select-loading" v-if="loading">
+              <slot name="loading">
+                <BsSpinner></BsSpinner>
+                <span class="bs-select-loading-text">{{loadingText}}</span>
+              </slot>
+            </li>
+          </ul>
+          <!--扩展内容-->
+          <slot name="extra"></slot>
+        </div>
       </BsDropdownTransition>
     </teleport>
   </div>

@@ -185,6 +185,21 @@
       <bs-option value="react">React</bs-option>
     </bs-select>
   </div>
+
+  <div>
+    <hr>
+    <h3>扩展菜单</h3>
+    <bs-select>
+      <bs-option
+        v-for="item in options10"
+        :key="item.value"
+        :value="item.value">{{ item.label }}</bs-option>
+      <template #extra>
+        <hr>
+        <bs-button type="primary" style="margin: 0 1rem 1rem;" @click="addOption10">添加选择项</bs-button>
+      </template>
+    </bs-select>
+  </div>
 </div>
 </template>
 
@@ -232,6 +247,20 @@ export default defineComponent({
 
     let selectVal8 = ref(['html', 'javascript', 'css', 'vue', 'react']);
 
+    let options10 = ref([
+      { id: '1', label: 'Html', value: 'html' },
+      { id: '2', label: 'Css', value: 'css' },
+      { id: '3', label: 'Javascript', value: 'javascript' }
+    ]);
+    let addOption10 = function () {
+      let optionLen = options10.value.length + 1;
+      options10.value.push({
+        id: optionLen + '',
+        label: 'Item_' + optionLen,
+        value: 'Value_' + optionLen
+      });
+    };
+
     return {
       show,
       selectVal,
@@ -250,7 +279,10 @@ export default defineComponent({
       selectVal5,
       selectVal6,
       selectVal7,
-      selectVal8
+      selectVal8,
+
+      options10,
+      addOption10
     };
   }
 });
