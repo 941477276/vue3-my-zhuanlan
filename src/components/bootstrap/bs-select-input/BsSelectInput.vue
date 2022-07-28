@@ -128,13 +128,6 @@ export default defineComponent({
     let isFocus = ref(false);
 
     // 计算 .bs-select-input-tags 容器高度
-    /* let inputTagsHeight = computed(function () {
-      let inputTagsEl = inputTagsRef.value as HTMLElement;
-      if (!inputTagsEl) {
-        return 0;
-      }
-      return inputTagsEl.offsetHeight;
-    }); */
     let inputTagsHeight = ref(0);
     let calcInputTagsHeight = function () {
       let inputTagsEl = inputTagsRef.value as HTMLElement;
@@ -224,7 +217,7 @@ export default defineComponent({
     };
 
     let selectCtx = inject(selectContextKey);
-    console.log('parentCtx', selectCtx);
+    // console.log('parentCtx', selectCtx);
     provide('parentCtx', { ctx: selectCtx?.ctx || ctx });
 
     return {
@@ -255,7 +248,7 @@ export default defineComponent({
         if (props.disabled) {
           return;
         }
-        console.log('focus dsdssss');
+        // console.log('focus dsdssss');
         isFocus.value = true;
         if (props.multiple) {
           searchInputFocus();

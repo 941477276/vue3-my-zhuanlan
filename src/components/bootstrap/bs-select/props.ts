@@ -18,6 +18,20 @@ export const bsSelectProps = {
     type: Boolean,
     default: false
   },
+  options: { // 下拉选项
+    type: Array,
+    default: null,
+    validate (options: any[]) {
+      if (!options) {
+        return true;
+      }
+      let flag = options.some(item => {
+        // eslint-disable-next-line no-prototype-builtins
+        return !item.hasOwnProperty('value') || !item.hasOwnProperty('label');
+      });
+      return !flag;
+    }
+  },
   loading: { // 是否正在加载数据
     type: Boolean,
     default: false

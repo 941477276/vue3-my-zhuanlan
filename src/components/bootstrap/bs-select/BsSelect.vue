@@ -18,7 +18,7 @@
       :multiple="multiple"
       style="display: none;">
       <option
-        v-for="item in options"
+        v-for="item in optionItems"
         :key="item.id"
         :value="item.value"
         :disabled="item.disabled">{{ item.label || item.labelSlot }}</option>
@@ -60,9 +60,39 @@
           }"
           :data-for-select="selectId">
           <ul class="bs-select-option-list">
+            <template v-if="options">
+              <template
+                v-for="(option, index) in options">
+                <BsOptionGroup
+                  v-if="option.options"
+                  :key="`option_group-${index}`"
+                  :disabled="option.disabled"
+                  :label="option.label">
+                  <BsOption
+                    v-for="(groupOption, index2) in option.options"
+                    :key="groupOption.value"
+                    :value="groupOption.value"
+                    :disabled="groupOption.disabled"
+                    :tag-type="groupOption.tagType"
+                    :tag-class="groupOption.tagClass">
+                    <slot name="option" v-bind="{ option: groupOption, index2 }">{{ groupOption.label }}</slot>
+                  </BsOption>
+                </BsOptionGroup>
+                <BsOption
+                  v-else
+                  :key="option.value"
+                  :value="option.value"
+                  :disabled="option.disabled"
+                  :tag-type="option.tagType"
+                  :tag-class="option.tagClass">
+                  <slot name="option" v-bind="{ option, index }">{{ option.label }}</slot>
+                </BsOption>
+              </template>
+
+            </template>
             <slot></slot>
             <li
-              v-if="!loading && options.length == 0"
+              v-if="!loading && optionItems.length == 0"
               class="bs-select-empty">
               <slot name="empty">{{ noDataText }}</slot>
             </li>
@@ -110,6 +140,8 @@ import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
 import BsSelectInput from '../bs-select-input/BsSelectInput.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
 import BsSpinner from '../bs-spinner/BsSpinner.vue';
+import BsOption from './widgets/BsOption.vue';
+import BsOptionGroup from './widgets/BsOptionGroup.vue';
 import { bsSelectProps } from './props';
 
 let selectCount = 0;
@@ -118,7 +150,9 @@ export default defineComponent({
   components: {
     BsSelectInput,
     BsDropdownTransition,
-    BsSpinner
+    BsSpinner,
+    BsOptionGroup,
+    BsOption
   },
   props: {
     ...bsSelectProps
@@ -135,7 +169,7 @@ export default defineComponent({
     let selectId = ref(props.id || `bs-select_${++selectCount}`);
     let dropdownDisplayed = ref(false); // 下拉菜单是否已经渲染
     let dropdownVisible = ref(false); // 下拉菜单是否显示
-    let options = ref<SelectOptionItem[]>([]); // 存储option的label及value
+    let optionItems = ref<SelectOptionItem[]>([]); // 存储option的label及value
     let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
 
     let nativeSelectModel = computed({
@@ -246,10 +280,10 @@ export default defineComponent({
      * @param option
      */
     let addOption = function (option: SelectOptionItem) {
-      let optionExists = options.value.some((optionItem: SelectOptionItem) => optionItem.id === option.id);
+      let optionExists = optionItems.value.some((optionItem: SelectOptionItem) => optionItem.id === option.id);
       // console.log('optionExists', optionExists);
       if (!optionExists) {
-        options.value.push(option);
+        optionItems.value.push(option);
       }
     };
     /**
@@ -257,9 +291,9 @@ export default defineComponent({
      * @param option
      */
     let removeOption = function (optionId: string, optionValue: any) {
-      let index = options.value.findIndex((optionItem: SelectOptionItem) => optionItem.id === optionId);
+      let index = optionItems.value.findIndex((optionItem: SelectOptionItem) => optionItem.id === optionId);
       if (index > -1) {
-        options.value.splice(index, 1);
+        optionItems.value.splice(index, 1);
         // console.log('removeOption changeVal', optionValue);
         changeVal(optionValue, true);
       }
@@ -267,7 +301,7 @@ export default defineComponent({
 
     /* let viewText = computed(function () {
       let modelValue = Array.isArray(props.modelValue) ? props.modelValue : [props.modelValue];
-      let selectedOptionLabels = options.value.filter(function (option: SelectOptionItem) {
+      let selectedOptionLabels = optionItems.value.filter(function (option: SelectOptionItem) {
         // console.log('option.value', option.value);
         return modelValue.includes(option.value);
       }).map(function (option: SelectOptionItem) {
@@ -278,7 +312,7 @@ export default defineComponent({
     }); */
     let viewText = computed(function () {
       let modelValue = Array.isArray(props.modelValue) ? props.modelValue : [props.modelValue];
-      let selectedOptionLabels = options.value.filter(function (option: SelectOptionItem) {
+      let selectedOptionLabels = optionItems.value.filter(function (option: SelectOptionItem) {
         // console.log('option.value', option.value);
         return modelValue.includes(option.value);
       }).map(function (option: SelectOptionItem) {
@@ -390,7 +424,7 @@ export default defineComponent({
       selectId,
       dropdownDisplayed,
       dropdownVisible,
-      options,
+      optionItems,
       nativeSelectModel,
       viewText,
 

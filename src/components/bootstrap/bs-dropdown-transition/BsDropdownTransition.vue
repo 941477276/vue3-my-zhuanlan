@@ -7,7 +7,7 @@
     @before-leave="$emit('before-leave', $event)"
     @leave="$emit('leave', $event)"
     @after-leave="$emit('after-leave', $event)"
-    class="bs-slide-transition"
+    class="bs-dropdown-transition"
     :class="[
       `bs-placement-${dropdownStyle.direction}`,
       {
@@ -137,7 +137,7 @@ export default defineComponent({
 
 <style lang="scss">
 @import "../../../scss/slide-transition.mixin";
-.bs-slide-transition{
+.bs-dropdown-transition{
   &.bs-placement-top,
   &.bs-placement-topRight{
     margin-top: -.35rem;

@@ -1,14 +1,25 @@
 <template>
 <div class="component-usage">
   <div>
-    <h3 style="margin-top: 200px;margin-bottom: 15px;">单选</h3>
+    <h3 style="margin-top: 200px;margin-bottom: 15px;">基本使用</h3>
+    <h6 style="margin: 0.5rem 0 1rem 0;">使用 <code>&lt;bs-option&gt;</code> 组件渲染</h6>
     <bs-select v-model="selectVal" clearable>
       <bs-option value="a" v-if="show">第1个选项</bs-option>
+      <bs-option-group label="组1">
+        <bs-option value="group-value1">组1第1个选项</bs-option>
+        <bs-option value="group-value2" label="组1第2个选项"></bs-option>
+      </bs-option-group>
       <bs-option value="b" label="第2个选项"></bs-option>
       <bs-option :value="3">第3个选项，值为number类型</bs-option>
       <bs-option :value="4">第4个选项，值为number类型</bs-option>
-      <bs-option value="5" :disabled="true">禁用项</bs-option>
+      <bs-option value="5" :disabled="true">禁用的</bs-option>
+      <bs-option value="6">未被禁用的</bs-option>
     </bs-select>
+    <h6 style="margin: 0.5rem 0 1rem 0;">使用 <code>options</code> 选项渲染</h6>
+    <bs-select
+      v-model="selectVal"
+      :options="options1"
+      clearable></bs-select>
   </div>
 
   <div>
@@ -36,6 +47,49 @@
         <bs-option value="group-value9">第9个选项</bs-option>
         <bs-option value="group-value10">第10个选项</bs-option>
       </bs-option-group>
+    </bs-select>
+  </div>
+
+  <div>
+    <hr>
+    <h3>自定义模板</h3>
+    <h6 style="margin: 0.5rem 0 1rem 0;">使用 <code>&lt;bs-option&gt;</code> 组件渲染</h6>
+    <bs-select v-model="selectVal" clearable>
+      <bs-option value="a" v-if="show">
+        <div class="custom-option-content">第1个选项 <small>(值: a)</small></div>
+      </bs-option>
+      <bs-option-group label="组1">
+        <bs-option value="group-value1">
+          <div class="custom-option-content">组1第1个选项 <small>(值: group-value1)</small></div>
+        </bs-option>
+        <bs-option value="group-value2" label="组1第2个选项">
+          <div class="custom-option-content">组1第2个选项 <small>(值: group-value2)</small></div>
+        </bs-option>
+      </bs-option-group>
+      <bs-option value="b" label="第2个选项">
+        <div class="custom-option-content">第2个选项 <small>(值: b)</small></div>
+      </bs-option>
+      <bs-option :value="3">
+        <div class="custom-option-content">第3个选项，值为number类型 <small>(值: 3)</small></div>
+      </bs-option>
+      <bs-option :value="4">
+        <div class="custom-option-content">第4个选项，值为number类型 <small>(值: 4)</small></div>
+      </bs-option>
+      <bs-option value="5" :disabled="true">
+        <div class="custom-option-content">禁用的 <small>(值: 5)</small></div>
+      </bs-option>
+      <bs-option value="6">
+        <div class="custom-option-content">未被禁用的 <small>(值: 6)</small></div>
+      </bs-option>
+    </bs-select>
+    <h6 style="margin: 0.5rem 0 1rem 0;">使用 <code>options</code> 选项渲染</h6>
+    <bs-select
+      v-model="selectVal"
+      :options="options1"
+      clearable>
+      <template #option="data">
+        <div class="custom-option-content">{{ data.option.label }} <small>(值: {{ data.option.value }})</small></div>
+      </template>
     </bs-select>
   </div>
 
@@ -216,6 +270,22 @@ export default defineComponent({
     let selectVal = ref('');
     let selectVals = ref([]);
 
+    let options1 = ref([
+      { value: 'a', label: '第1个选项' },
+      {
+        label: '组1',
+        options: [
+          { value: 'group-value1', label: '组1第1个选项' },
+          { value: 'group-value2', label: '组1第2个选项' }
+        ]
+      },
+      { value: 'b', label: '第2个选项' },
+      { value: 3, label: '第3个选项，值为number类型' },
+      { value: 4, label: '第4个选项，值为number类型' },
+      { value: '5', label: '禁用的', disabled: true },
+      { value: '6', label: '未被禁用的' }
+    ]);
+
     let onMultipleLimit = function (limitCount: number) {
       alert(`最多只能选择${limitCount}项！`);
     };
@@ -265,6 +335,7 @@ export default defineComponent({
       show,
       selectVal,
       selectVals,
+      options1,
       onMultipleLimit,
 
       selectVal2,
@@ -297,5 +368,12 @@ export default defineComponent({
   border-color: #61DAFB!important;
   background-color: #61DAFB!important;
   color: #fff!important;
+}
+.custom-option-content{
+  overflow: hidden;
+  small{
+    float: right;
+    color: #999;
+  }
 }
 </style>
