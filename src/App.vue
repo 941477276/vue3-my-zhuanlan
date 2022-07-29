@@ -23,9 +23,9 @@
   <!--<div class="box">
     <BsFormUsage></BsFormUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsDropdownUsage></BsDropdownUsage>
-  </div>
+  </div>-->
   <!--<router-view></router-view>-->
   <!--<div class="box">
     <BsPaginationUsage></BsPaginationUsage>
@@ -99,6 +99,9 @@
   <!--<div class="box">
     <BsSelectInputUsage></BsSelectInputUsage>
   </div>-->
+  <div class="box">
+    <BsCommonPickerUsage></BsCommonPickerUsage>
+  </div>
 </template>
 
 <script lang="ts">
@@ -138,6 +141,7 @@ import BsCollapseUsage from '@/components/bootstrap/bs-collapse/BsCollapseUsage.
 import BsTreeUsage from '@/components/bootstrap/bs-tree/BsTreeUsage.vue';
 import BsTreeSelectUsage from '@/components/bootstrap/bs-tree-select/BsTreeSelectUsage.vue';
 import BsSelectInputUsage from '@/components/bootstrap/bs-select-input/BsSelectInputUsage.vue';
+import BsCommonPickerUsage from '@/components/bootstrap/bs-common-picker/BsCommonPickerUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -177,7 +181,8 @@ export default defineComponent({
     BsCollapseUsage,
     BsTreeUsage,
     BsTreeSelectUsage,
-    BsSelectInputUsage
+    BsSelectInputUsage,
+    BsCommonPickerUsage
   },
   setup () {
     return {
