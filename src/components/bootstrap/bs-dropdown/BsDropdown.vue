@@ -37,7 +37,6 @@
 import {
   ref,
   reactive,
-  PropType,
   defineComponent,
   onMounted,
   nextTick,
@@ -56,9 +55,6 @@ import {
 import {
   useZIndex
 } from '@/hooks/useZIndex';
-import {
-  useGlobalEvent
-} from '@/hooks/useGlobalEvent';
 import {
   useForwardRef
 } from '@/hooks/useForwardRef';
@@ -169,46 +165,6 @@ export default defineComponent({
       hide();
     };
 
-    /* let onDropdownMouseenter = function () {
-      if (props.disabled || props.trigger !== 'hover') {
-        return;
-      }
-      show();
-    };
-    let onDropdownMouseleave = function () {
-      if (props.disabled || props.trigger !== 'hover') {
-        return;
-      }
-      hide();
-    }; */
-
-    let resizeTimer = 0;
-    let resizeEventName = 'orientationchange' in window ? 'orientationchange' : 'resize';
-    // 浏览器窗口大小改变事件
-    let resizeEvent = function () {
-      let now = new Date().getTime();
-      if (!visible.value) {
-        return;
-      }
-      if (resizeTimer == 0 || now - resizeTimer >= 200) {
-        // calcDirection();
-        resizeTimer = now;
-      }
-    };
-
-    // 滚动条滚动事件
-    let scrollTimer = 0;
-    let scrollEvent = function () {
-      if (!visible.value || dropdownMenuStyle.position == 'fixed') {
-        return;
-      }
-      let now = new Date().getTime();
-      if (scrollTimer == 0 || now - scrollTimer >= 125) {
-        // calcDirection();
-        scrollTimer = now;
-      }
-    };
-
     let stopWatchClickOutside = watch(isClickOutside, (newVal: Ref) => {
       // console.log('watch isClickOutside', newVal);
       if (newVal) {
@@ -229,13 +185,8 @@ export default defineComponent({
           triggerEl.addEventListener('mouseleave', onMouseLeave, false);
         }
       }, { immediate: true });
-
-      useGlobalEvent.addEvent('window', resizeEventName, resizeEvent);
-      useGlobalEvent.addEvent('window', 'scroll', scrollEvent);
     });
     onBeforeUnmount(() => {
-      useGlobalEvent.removeEvent('window', resizeEventName, resizeEvent);
-      useGlobalEvent.removeEvent('window', 'scroll', scrollEvent);
       stopWatchClickOutside();
       stopWatchTriggerRef();
       toggleEl = null;
