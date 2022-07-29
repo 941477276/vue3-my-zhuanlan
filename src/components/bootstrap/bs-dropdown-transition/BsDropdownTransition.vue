@@ -6,7 +6,7 @@
     @after-enter="$emit('after-enter', $event)"
     @before-leave="$emit('before-leave', $event)"
     @leave="$emit('leave', $event)"
-    @after-leave="$emit('after-leave', $event)"
+    @after-leave="onLeave"
     class="bs-dropdown-transition"
     :class="[
       `bs-placement-${dropdownStyle.direction}`,
@@ -28,10 +28,13 @@
 <script lang="ts">
 import {
   defineComponent,
-  reactive
+  reactive,
+  onMounted,
+  onUnmounted, ref
 } from 'vue';
 import { NOOP } from '@vue/shared';
 import { util } from '@/common/util';
+import { useGlobalEvent } from '@/hooks/useGlobalEvent';
 
 export default defineComponent({
   name: 'BsDropdownTransition',
@@ -71,7 +74,9 @@ export default defineComponent({
       bottom: null
     });
     let targetEl: HTMLElement|null = null;
+    let isVisible = ref(false);
 
+    // 刷新定位
     let refresh = function () {
       let referenceEl = props.referenceRef as HTMLElement;
       if (!targetEl || !referenceEl) {
@@ -102,15 +107,7 @@ export default defineComponent({
           console.log('目标元素不存在!========================');
           return;
         }
-        // let referenceElRect = referenceEl.getBoundingClientRect();
-        // console.log('referenceElRect', referenceElRect);
-
-        /* let displayDirection: any = util.calcAbsoluteElementDisplayDirection(referenceEl, el, props.placement, props.tryAllPlacement);
-        dropdownStyle.direction = displayDirection.direction;
-        dropdownStyle.width = referenceElRect.width;
-        dropdownStyle.top = displayDirection.top;
-        dropdownStyle.left = displayDirection.left;
-        dropdownStyle.bottom = typeof displayDirection.bottom == 'undefined' ? null : displayDirection.bottom; */
+        isVisible.value = true;
         targetEl = el;
         refresh();
 
@@ -125,10 +122,59 @@ export default defineComponent({
         ctx.emit('enter', el, NOOP);
       }, 20);
     };
+
+    let onLeave = function (el: HTMLElement) {
+      isVisible.value = false;
+      ctx.emit('after-leave', el);
+    };
+
+    let resizeTimer = 0;
+    let resizeEventName = 'orientationchange' in window ? 'orientationchange' : 'resize';
+    // 浏览器窗口大小改变事件
+    let resizeEvent = function () {
+      let now = new Date().getTime();
+      if (!isVisible.value) {
+        return;
+      }
+      if (resizeTimer == 0 || now - resizeTimer >= 125) {
+        refresh();
+        resizeTimer = now;
+      }
+    };
+
+    // 滚动条滚动事件
+    let scrollTimer = 0;
+    let scrollEvent = function () {
+      if (!isVisible.value || !targetEl) {
+        return;
+      }
+      let targetElPosition = util.getStyle(targetEl, 'position');
+      if (targetElPosition == 'fixed') {
+        return;
+      }
+      let now = new Date().getTime();
+      if (scrollTimer == 0 || now - scrollTimer >= 125) {
+        refresh();
+        scrollTimer = now;
+      }
+    };
+
+    onMounted(function () {
+      useGlobalEvent.addEvent('window', resizeEventName, resizeEvent);
+      useGlobalEvent.addEvent('window', 'scroll', scrollEvent);
+    });
+
+    onUnmounted(function () {
+      useGlobalEvent.removeEvent('window', resizeEventName, resizeEvent);
+      useGlobalEvent.removeEvent('window', 'scroll', scrollEvent);
+      targetEl = null;
+    });
+
     return {
       dropdownStyle,
 
       onEnter,
+      onLeave,
       refresh
     };
   }
