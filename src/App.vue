@@ -100,7 +100,7 @@
     <BsSelectInputUsage></BsSelectInputUsage>
   </div>-->
   <div class="box">
-    <BsCommonPickerUsage></BsCommonPickerUsage>
+    <BsTimePickerUsage></BsTimePickerUsage>
   </div>
 </template>
 
@@ -141,7 +141,7 @@ import BsCollapseUsage from '@/components/bootstrap/bs-collapse/BsCollapseUsage.
 import BsTreeUsage from '@/components/bootstrap/bs-tree/BsTreeUsage.vue';
 import BsTreeSelectUsage from '@/components/bootstrap/bs-tree-select/BsTreeSelectUsage.vue';
 import BsSelectInputUsage from '@/components/bootstrap/bs-select-input/BsSelectInputUsage.vue';
-import BsCommonPickerUsage from '@/components/bootstrap/bs-common-picker/BsCommonPickerUsage.vue';
+import BsTimePickerUsage from '@/components/bootstrap/bs-time-picker/BsTimePickerUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -182,7 +182,7 @@ export default defineComponent({
     BsTreeUsage,
     BsTreeSelectUsage,
     BsSelectInputUsage,
-    BsCommonPickerUsage
+    BsTimePickerUsage
   },
   setup () {
     return {
