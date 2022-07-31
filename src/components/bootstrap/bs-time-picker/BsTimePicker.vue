@@ -1,12 +1,15 @@
 <template>
   <div class="bs-date-editor">
     <BsInput
+      :model-value="viewDateText"
       suffix-icon="clock"
       clearable></BsInput>
     <div class="bs-picker-dropdown">
       <div class="bs-picker-panel-container">
         <div class="bs-picker-panel">
-          <BsPickerTimePanel></BsPickerTimePanel>
+          <BsPickerTimePanel
+            :model-value="viewDate"
+            @update:modelValue="onUpdateTimePanelModelValue"></BsPickerTimePanel>
           <div class="bs-picker-footer"></div>
         </div>
       </div>
@@ -17,10 +20,14 @@
 <script lang="ts">
 import {
   defineComponent,
-  ref
+  ref,
+  computed,
+  watch
 } from 'vue';
+import dayjs, { Dayjs } from 'dayjs';
 import BsInput from '../bs-input/BsInput.vue';
 import BsPickerTimePanel from './widgets/BsPickerTimePanel.vue';
+import { bsPickerTimePanelProps } from './widgets/bs-picker-time-panel-props';
 
 export default defineComponent({
   name: 'BsTimePicker',
@@ -28,9 +35,40 @@ export default defineComponent({
     BsInput,
     BsPickerTimePanel
   },
+  props: {
+    ...bsPickerTimePanelProps
+  },
   setup (props: any, ctx: any) {
-    return {
+    let viewDate = ref(props.modelValue);
+    let onUpdateTimePanelModelValue = function (newValue: string|Dayjs) {
+      console.log('onUpdateTimePanelModelValue', newValue);
+      viewDate.value = newValue;
+    };
+    let viewDateText = computed(function () {
+      let date = viewDate.value;
+      let format = props.format;
+      let dayIns: Dayjs;
+      if (!date) {
+        return '';
+      }
 
+      if (typeof date === 'string') {
+        dayIns = dayjs(date, format);
+      } else {
+        dayIns = dayjs(date);
+      }
+      return dayIns.format(format);
+    });
+
+    watch(() => props.modelValue, function (modelValue) {
+      viewDate.value = modelValue;
+    });
+
+    return {
+      viewDate,
+      viewDateText,
+
+      onUpdateTimePanelModelValue
     };
   }
 });

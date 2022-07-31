@@ -59,7 +59,7 @@ export default defineComponent({
           return;
         }
         // 将选中到元素滚动置顶
-        util.scrollTo(ulEl, 'y', activeLi.offsetTop, 0);
+        util.scrollTo(ulEl, 'y', activeLi.offsetTop, 150);
       });
     }, { immediate: true });
 

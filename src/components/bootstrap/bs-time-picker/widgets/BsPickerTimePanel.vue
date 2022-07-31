@@ -4,15 +4,21 @@
     <div class="bs-picker-body">
       <div class="bs-picker-content">
         <BsTimeUnitColumn
+          v-if="columnsShow.hour"
           :units="hours"
+          :value="timeUnitValues.hour"
           @select="onSelect('hour', $event)"
           key="hour"></BsTimeUnitColumn>
         <BsTimeUnitColumn
+          v-if="columnsShow.minute"
           :units="minutes"
+          :value="timeUnitValues.minute"
           @select="onSelect('minute', $event)"
           key="minute"></BsTimeUnitColumn>
         <BsTimeUnitColumn
+          v-if="columnsShow.second"
           :units="seconds"
+          :value="timeUnitValues.second"
           @select="onSelect('second', $event)"
           key="second"></BsTimeUnitColumn>
       </div>
@@ -27,8 +33,12 @@ import {
   computed,
   defineComponent
 } from 'vue';
+import dayjs, { Dayjs } from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { TimeDataUnit } from '@/ts-tokens/bootstrap/time-picker';
+import { bsPickerTimePanelProps } from './bs-picker-time-panel-props';
 
+dayjs.extend(customParseFormat);
 const calcTimeUnit = function (count = 60, step = 1) {
   let arr: TimeDataUnit[] = [];
   step = Math.floor(step);
@@ -54,23 +64,9 @@ export default defineComponent({
     BsTimeUnitColumn
   },
   props: {
-    hourStep: { // 小时选项间隔
-      type: Number,
-      default: 1
-    },
-    minuteStep: { // 分钟选项间隔
-      type: Number,
-      default: 1
-    },
-    secondStep: { // 秒选项间隔
-      type: Number,
-      default: 1
-    },
-    use12Hour: { // 是否使用12小时制
-      type: Boolean,
-      default: false
-    }
+    ...bsPickerTimePanelProps
   },
+  emits: ['update:modelValue'],
   setup (props: any, ctx: any) {
     let hours = computed(function () {
       let arr: TimeDataUnit[] = [];
@@ -105,14 +101,79 @@ export default defineComponent({
     let seconds = computed(function () {
       return calcTimeUnit(60, props.secondStep);
     });
+    // 计算时分秒的显示与隐藏
+    let columnsShow = computed(function () {
+      let format = props.format || 'HH:mm:ss';
+      let result = {
+        hour: format.includes('H:') || format.includes(':H'),
+        minute: format.includes(':m') || format.includes('m:'),
+        second: format.includes(':s') || format.includes('s:')
+      };
+      return result;
+    });
+    let timeUnitValues = computed(function () {
+      let modelValue = props.modelValue;
+      let format = props.format;
+      let dayIns: Dayjs;
+      let result = {
+        hour: '',
+        minute: '',
+        second: ''
+      };
+      if (!modelValue) {
+        return result;
+      }
+
+      if (typeof modelValue === 'string') {
+        dayIns = dayjs(modelValue, format);
+      } else {
+        dayIns = dayjs(modelValue);
+      }
+
+      return {
+        hour: dayIns.hour(),
+        minute: dayIns.minute(),
+        second: dayIns.second()
+      };
+    });
+
+    /* let getDayObj = function () {
+      let valueFormat = props.valueFormat;
+      let { hour, minute, second } = timeUnitValues.value;
+      let dayIns: Dayjs;
+      if (!valueFormat) {
+        dayIns = dayjs(`${hour}:${minute}:${second}`);
+      } else {
+        dayIns = dayjs(`${hour}:${minute}:${second}`, valueFormat);
+      }
+      return dayIns;
+    }; */
 
     let onSelect = function (type: string, timeData: TimeDataUnit) {
-      console.log(`${type}选择了：`, timeData);
+      let valueFormat = props.valueFormat;
+      let value = {
+        ...timeUnitValues.value
+      };
+      (value as any)[type] = timeData.value;
+      let dayIns: Dayjs;
+      console.log(`${type}选择了：`, timeData, `${value.hour}:${value.minute}:${value.second}`);
+      if (!valueFormat) {
+        let date = new Date();
+        dayIns = dayjs(`${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${value.hour}:${value.minute}:${value.second}`);
+        ctx.emit('update:modelValue', dayIns);
+      } else {
+        dayIns = dayjs(`${value.hour}:${value.minute}:${value.second}`);
+        ctx.emit('update:modelValue', dayIns.format(valueFormat));
+      }
     };
+    let day = dayjs(new Date());
+    console.log('day', day, day.hour());
     return {
       hours,
       minutes,
       seconds,
+      columnsShow,
+      timeUnitValues,
 
       onSelect
     };

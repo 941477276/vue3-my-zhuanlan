@@ -409,6 +409,16 @@ var tool = {
     if (!ele || ele.nodeType !== 1) {
       return false;
     }
+    if (!window.requestAnimationFrame) {
+      window.requestAnimationFrame = (
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function (callback) {
+          return window.setTimeout(callback, 1000/60);
+        }
+      );
+    }
     if (!direction) {
       direction = 'y';
     }
@@ -419,12 +429,14 @@ var tool = {
       return true;
     }
 
-    var diff = ele[attr] - to;
+    var diff = to - ele[attr];
     var perTick = (diff / duration) * 10;
-    ele[attr] += perTick;
-    if (ele[attr] !== to) {
-      tool.scrollTo(ele, direction, to, duration - 10);
-    }
+    window.requestAnimationFrame(function () { // 实现缓动效果
+      ele[attr] += perTick;
+      if (ele[attr] !== to) {
+        tool.scrollTo(ele, direction, to, duration - 10);
+      }
+    });
     return true;
   },
   /**
