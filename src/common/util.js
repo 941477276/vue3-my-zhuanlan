@@ -398,6 +398,36 @@ var tool = {
     return result;
   },
   /**
+   * 设置元素滚动条滚动距离
+   * @param ele dom元素
+   * @param direction 滚动条方向，默认为y，可选值有：x、y
+   * @param to 滚动条即将滚动到到位置
+   * @param duration 时长
+   * @returns {boolean}
+   */
+  scrollTo (ele, direction, to, duration) {
+    if (!ele || ele.nodeType !== 1) {
+      return false;
+    }
+    if (!direction) {
+      direction = 'y';
+    }
+    direction = direction == 'x' ? 'x' : 'y';
+    var attr = direction == 'x' ? 'scrollLeft' : 'scrollTop';
+    if (!duration || duration <= 0) {
+      ele[attr] = to;
+      return true;
+    }
+
+    var diff = ele[attr] - to;
+    var perTick = (diff / duration) * 10;
+    ele[attr] += perTick;
+    if (ele[attr] !== to) {
+      tool.scrollTo(ele, direction, to, duration - 10);
+    }
+    return true;
+  },
+  /**
    * 给指定元素添加class
    * @param ele
    * @param classname
