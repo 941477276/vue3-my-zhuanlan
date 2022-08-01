@@ -3,8 +3,18 @@
   vertical-align: middle;
 }
 .bs-picker-dropdown{
-  //position: absolute;
+  position: absolute;
 }
 .bs-picker-panel{
   border: 1px solid #efefef;
+}
+.bs-picker-btns{
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0.875rem;
+  border-top: 1px solid #efefef;
+}
+.bs-picker-now{
+  padding-left: 0;
+  padding-right: 0;
 }

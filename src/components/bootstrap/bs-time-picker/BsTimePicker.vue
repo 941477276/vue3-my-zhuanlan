@@ -10,7 +10,12 @@
           <BsPickerTimePanel
             :model-value="viewDate"
             @update:modelValue="onUpdateTimePanelModelValue"></BsPickerTimePanel>
-          <div class="bs-picker-footer"></div>
+          <div class="bs-picker-footer">
+            <div class="bs-picker-btns">
+              <BsButton class="bs-picker-now" size="sm">此刻</BsButton>
+              <BsButton class="bs-picker-ok" type="primary" size="sm">确定</BsButton>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -27,13 +32,15 @@ import {
 import dayjs, { Dayjs } from 'dayjs';
 import BsInput from '../bs-input/BsInput.vue';
 import BsPickerTimePanel from './widgets/BsPickerTimePanel.vue';
+import BsButton from '../bs-button/BsButton.vue';
 import { bsPickerTimePanelProps } from './widgets/bs-picker-time-panel-props';
 
 export default defineComponent({
   name: 'BsTimePicker',
   components: {
     BsInput,
-    BsPickerTimePanel
+    BsPickerTimePanel,
+    BsButton
   },
   props: {
     ...bsPickerTimePanelProps
@@ -52,6 +59,13 @@ export default defineComponent({
         return '';
       }
 
+      if (!format) {
+        if (props.use12Hour) {
+          format = 'h:mm:ss a';
+        } else {
+          format = 'HH:mm:ss';
+        }
+      }
       if (typeof date === 'string') {
         dayIns = dayjs(date, format);
       } else {

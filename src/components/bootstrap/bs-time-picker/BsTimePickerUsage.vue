@@ -3,6 +3,10 @@
     <div>
       <h3>AntDesign Time Picker</h3>
       <a-time-picker v-model:value="strValue" />
+
+      <a-time-picker v-model:value="value" use12-hours value-format="h:mm:ss p" />
+      <a-time-picker v-model:value="value" use12-hours value-format="h:mm:ss p" format="h:mm:ss A" style="width: 140px" />
+      <!--<a-time-picker v-model:value="value" use12-hours value-format="h:mm:ss A" format="h:mm a" />-->
     </div>
     <div style="margin-top: 1rem;">
       <hr>
@@ -36,10 +40,12 @@ export default defineComponent({
     });
 
     let time1 = ref(new Date());
+    let value = ref(dayjs(new Date()));
     return {
       strValue,
 
-      time1
+      time1,
+      value
     };
   }
 });

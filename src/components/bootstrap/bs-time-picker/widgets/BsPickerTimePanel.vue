@@ -76,6 +76,17 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup (props: any, ctx: any) {
+    let viewFormat = computed(function () {
+      let format = props.format;
+      if (!format) {
+        if (props.use12Hour) {
+          format = 'h:mm:ss a';
+        } else {
+          format = 'HH:mm:ss';
+        }
+      }
+      return format;
+    });
     let hours = computed(function () {
       let arr: TimeDataUnit[] = [];
       let count = 24;
@@ -111,9 +122,10 @@ export default defineComponent({
     });
     // 计算时分秒的显示与隐藏
     let columnsShow = computed(function () {
-      let format = props.format || 'HH:mm:ss';
+      let format = viewFormat.value;
+      format = format.toLowerCase();
       let result = {
-        hour: format.includes('H:') || format.includes(':H'),
+        hour: format.includes('h:') || format.includes(':h'),
         minute: format.includes(':m') || format.includes('m:'),
         second: format.includes(':s') || format.includes('s:')
       };
@@ -121,7 +133,7 @@ export default defineComponent({
     });
     let timeUnitValues = computed(function () {
       let modelValue = props.modelValue;
-      let format = props.format;
+      let format = viewFormat.value;
       let dayIns: Dayjs;
       let result = {
         hour: '',
@@ -137,9 +149,12 @@ export default defineComponent({
       } else {
         dayIns = dayjs(modelValue);
       }
-
+      let hour = dayIns.hour();
+      if (props.use12Hour && hour > 12) {
+        hour = hour - 12;
+      }
       return {
-        hour: dayIns.hour(),
+        hour,
         minute: dayIns.minute(),
         second: dayIns.second()
       };
@@ -155,11 +170,14 @@ export default defineComponent({
       if (!props.use12Hour) {
         return;
       }
-      if (!modelValue || typeof modelValue !== 'string') {
+      if (!modelValue) {
         if (!periodValue.value) {
           periodValue.value = 'am';
         }
         return;
+      }
+      if (typeof modelValue !== 'string') {
+        modelValue = dayjs(modelValue).format(viewFormat.value);
       }
       let periodFlag = modelValue.split(' ')[1];
       if (!periodFlag) {
@@ -188,17 +206,22 @@ export default defineComponent({
 
       let dayIns: Dayjs;
       console.log(`${type}选择了：`, timeData, `${value.hour}:${value.minute}:${value.second}`);
+      let hour = Number(value.hour);
+      if (props.use12Hour) { // 如果是12小时制，则hour需加上12小时
+        if (periodValue.value == 'pm') {
+          hour += 12;
+        }
+      }
       if (!valueFormat) {
         let date = new Date();
-        dayIns = dayjs(`${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${value.hour}:${value.minute}:${value.second}`);
+        dayIns = dayjs(`${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${hour}:${value.minute}:${value.second}`);
         ctx.emit('update:modelValue', dayIns);
       } else {
         dayIns = dayjs(`${value.hour}:${value.minute}:${value.second}`);
         if (props.use12Hour) {
           let valueFormatArr = valueFormat.split(' ');
           let date = new Date();
-          dayIns = dayjs(`${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${value.hour}:${value.minute}:${value.second}`);
-          console.log(dayIns.format(valueFormat));
+          dayIns = dayjs(`${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${hour}:${value.minute}:${value.second}`);
           // 如果为12小时制，且格式后面有带时间段（如h:mm:ss a），则使用dayjs自身的格式化函数进行格式
           if (valueFormatArr.length === 2) {
             ctx.emit('update:modelValue', dayIns.format(valueFormat));
@@ -213,7 +236,7 @@ export default defineComponent({
       }
     };
     let day = dayjs(new Date());
-    console.log('day', day, day.hour());
+    console.log('day', day, day.hour(), dayjs('2:41:31 pm', viewFormat.value).format(viewFormat.value));
     return {
       hours,
       minutes,
