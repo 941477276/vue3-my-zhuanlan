@@ -8,13 +8,16 @@
       <div class="bs-picker-panel-container">
         <div class="bs-picker-panel">
           <BsPickerTimePanel
+            ref="bsPickerTimePanelRef"
             :model-value="viewDate"
             @update:modelValue="onUpdateTimePanelModelValue"></BsPickerTimePanel>
           <div class="bs-picker-footer">
-            <div class="bs-picker-btns">
-              <BsButton class="bs-picker-now" size="sm">此刻</BsButton>
-              <BsButton class="bs-picker-ok" type="primary" size="sm">确定</BsButton>
-            </div>
+            <slot name="footer">
+              <div class="bs-picker-btns">
+                <BsButton class="bs-picker-clear" size="sm" @click="clear">清空</BsButton>
+                <BsButton class="bs-picker-now" type="primary" size="sm" @click="setNow">此刻</BsButton>
+              </div>
+            </slot>
           </div>
         </div>
       </div>
@@ -43,13 +46,20 @@ export default defineComponent({
     BsButton
   },
   props: {
-    ...bsPickerTimePanelProps
+    ...bsPickerTimePanelProps,
+    showFooter: { // 是否显示底部
+      type: Boolean,
+      default: false
+    }
   },
+  emits: ['update:modelValue'],
   setup (props: any, ctx: any) {
+    let bsPickerTimePanelRef = ref(null);
     let viewDate = ref(props.modelValue);
     let onUpdateTimePanelModelValue = function (newValue: string|Dayjs) {
       console.log('onUpdateTimePanelModelValue', newValue);
       viewDate.value = newValue;
+      ctx.emit('update:modelValue', newValue);
     };
     let viewDateText = computed(function () {
       let date = viewDate.value;
@@ -78,11 +88,22 @@ export default defineComponent({
       viewDate.value = modelValue;
     });
 
+    let clear = function () {
+      ctx.emit('update:modelValue', '');
+    };
+    let setNow = function () {
+      // console.log('BsTimePicker setNow');
+      (bsPickerTimePanelRef.value as any)?.setNow();
+    };
+
     return {
+      bsPickerTimePanelRef,
       viewDate,
       viewDateText,
 
-      onUpdateTimePanelModelValue
+      onUpdateTimePanelModelValue,
+      clear,
+      setNow
     };
   }
 });

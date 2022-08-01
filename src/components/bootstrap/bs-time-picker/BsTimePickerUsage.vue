@@ -52,6 +52,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.component-usage{
+  height: 1200px;
+}
 .bs-date-editor{
   max-width: 200px;
 }

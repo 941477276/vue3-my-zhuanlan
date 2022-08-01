@@ -17,7 +17,7 @@ export const bsPickerTimePanelProps = {
   },
   use12Hour: { // 是否使用12小时制
     type: Boolean,
-    default: true
+    default: false
   },
   format: { // 展示的时间格式
     type: String,

@@ -45,6 +45,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { TimeDataUnit } from '@/ts-tokens/bootstrap/time-picker';
 import { bsPickerTimePanelProps } from './bs-picker-time-panel-props';
+import { getUpdateModelValue } from '../bsTimePickerUtil';
 
 dayjs.extend(customParseFormat);
 const calcTimeUnit = function (count = 60, step = 1) {
@@ -125,9 +126,9 @@ export default defineComponent({
       let format = viewFormat.value;
       format = format.toLowerCase();
       let result = {
-        hour: format.includes('h:') || format.includes(':h'),
-        minute: format.includes(':m') || format.includes('m:'),
-        second: format.includes(':s') || format.includes('s:')
+        hour: format.includes('h'),
+        minute: format.includes('m'),
+        second: format.includes('s')
       };
       return result;
     });
@@ -173,6 +174,8 @@ export default defineComponent({
       if (!modelValue) {
         if (!periodValue.value) {
           periodValue.value = 'am';
+        } else {
+          periodValue.value = '';
         }
         return;
       }
@@ -194,7 +197,6 @@ export default defineComponent({
     }, { immediate: true });
 
     let onSelect = function (type: string, timeData: TimeDataUnit) {
-      let valueFormat = props.valueFormat;
       let value = {
         ...timeUnitValues.value
       };
@@ -204,39 +206,17 @@ export default defineComponent({
         periodValue.value = timeData.value + '';
       }
 
-      let dayIns: Dayjs;
-      console.log(`${type}选择了：`, timeData, `${value.hour}:${value.minute}:${value.second}`);
-      let hour = Number(value.hour);
-      if (props.use12Hour) { // 如果是12小时制，则hour需加上12小时
-        if (periodValue.value == 'pm') {
-          hour += 12;
-        }
-      }
-      if (!valueFormat) {
-        let date = new Date();
-        dayIns = dayjs(`${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${hour}:${value.minute}:${value.second}`);
-        ctx.emit('update:modelValue', dayIns);
-      } else {
-        dayIns = dayjs(`${value.hour}:${value.minute}:${value.second}`);
-        if (props.use12Hour) {
-          let valueFormatArr = valueFormat.split(' ');
-          let date = new Date();
-          dayIns = dayjs(`${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${hour}:${value.minute}:${value.second}`);
-          // 如果为12小时制，且格式后面有带时间段（如h:mm:ss a），则使用dayjs自身的格式化函数进行格式
-          if (valueFormatArr.length === 2) {
-            ctx.emit('update:modelValue', dayIns.format(valueFormat));
-          } else {
-            let resultValue = dayIns.format(valueFormat);
-            resultValue += ' ' + periodValue.value;
-            ctx.emit('update:modelValue', resultValue);
-          }
-        } else {
-          ctx.emit('update:modelValue', dayIns.format(valueFormat));
-        }
-      }
+      let newModelValue = getUpdateModelValue(props, null, periodValue.value, value);
+      ctx.emit('update:modelValue', newModelValue);
     };
-    let day = dayjs(new Date());
-    console.log('day', day, day.hour(), dayjs('2:41:31 pm', viewFormat.value).format(viewFormat.value));
+    // 将值设为此刻
+    let setNow = function () {
+      // console.log('BsPickerTimePanel setNow');
+      let nowDate = new Date();
+      let period = nowDate.getHours() > 12 ? 'pm' : 'am';
+      let newModelValue = getUpdateModelValue(props, nowDate, period, null);
+      ctx.emit('update:modelValue', newModelValue);
+    };
     return {
       hours,
       minutes,
@@ -246,7 +226,8 @@ export default defineComponent({
       timeUnitValues,
       periodValue,
 
-      onSelect
+      onSelect,
+      setNow
     };
   }
 });
