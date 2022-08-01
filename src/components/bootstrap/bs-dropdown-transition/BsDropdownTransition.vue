@@ -17,6 +17,7 @@
     :style="{
       position: position,
       ...(setWidth ? { width: dropdownStyle.width + 'px' } : {}),
+      ...(setMinWidth ? { minWidth: dropdownStyle.width + 'px' } : {}),
       left: dropdownStyle.left + 'px',
       top: dropdownStyle.bottom == null ? (dropdownStyle.top + 'px') : 'auto',
       bottom: dropdownStyle.bottom != null ? (dropdownStyle.bottom + 'px') : ''
@@ -57,7 +58,11 @@ export default defineComponent({
       type: String,
       default: 'absolute'
     },
-    setWidth: { // 是否设置下拉菜单到宽度等于参照元素
+    setWidth: { // 是否设置下拉菜单的宽度等于参照元素的宽度
+      type: Boolean,
+      default: false
+    },
+    setMinWidth: { // 是否设置下拉菜单的最小宽度等于参照元素的宽度
       type: Boolean,
       default: false
     }
