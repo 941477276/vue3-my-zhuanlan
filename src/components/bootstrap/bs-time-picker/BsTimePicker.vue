@@ -9,9 +9,11 @@
         <BsInput
           ref="bsInputRef"
           :model-value="viewDateText"
+          :disabled="disabled"
           suffix-icon="clock"
           clearable
-          @click="onInputClick"></BsInput>
+          @click="onInputClick"
+          @clear="clear"></BsInput>
       </slot>
     </BsOnlyChild>
     <BsDropdownTransition
@@ -28,6 +30,12 @@
             <BsPickerTimePanel
               ref="bsPickerTimePanelRef"
               :model-value="viewDate"
+              :format="format"
+              :value-format="valueFormat"
+              :hour-step="hourStep"
+              :minute-step="minuteStep"
+              :second-step="secondStep"
+              :use12-hour="use12Hour"
               @update:modelValue="onUpdateTimePanelModelValue"></BsPickerTimePanel>
             <div class="bs-picker-footer" v-if="showFooter">
               <slot name="footer">

@@ -222,6 +222,9 @@ export default defineComponent({
       let newModelValue = getUpdateModelValue(props, nowDate, period, null);
       ctx.emit('update:modelValue', newModelValue);
     };
+
+    console.log('valid', dayjs('18:36:33', 'HH:mm:ss'));
+
     return {
       hours,
       minutes,

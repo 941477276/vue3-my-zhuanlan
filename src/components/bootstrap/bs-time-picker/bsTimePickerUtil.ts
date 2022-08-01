@@ -31,7 +31,6 @@ export function getUpdateModelValue (props: any, dateObj: Date|null, period: str
     dayIns = dayjs(`${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${hour}:${minute}:${second}`);
     return dayIns;
   } else {
-    dayIns = dayjs(`${hour}:${minute}:${second}`);
     if (props.use12Hour) {
       let valueFormatArr = valueFormat.split(' ');
       // let date = new Date();
@@ -45,6 +44,8 @@ export function getUpdateModelValue (props: any, dateObj: Date|null, period: str
         return resultValue;
       }
     } else {
+      console.log('getUpdateModelValue', 5555, valueFormat);
+      dayIns = dayjs(`${hour}:${minute}:${second}`, valueFormat);
       return dayIns.format(valueFormat);
     }
   }

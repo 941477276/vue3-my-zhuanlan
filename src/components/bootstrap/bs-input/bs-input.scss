@@ -108,6 +108,16 @@
       padding-left: 2rem;
     }
   }
+  &.disabled {
+    .clear-content_icon{
+      display: none;
+    }
+    .bs-input-suffix-icon{
+      &:hover{
+        color: #aaa;
+      }
+    }
+  }
 
   &.input-group-lg{
     .bs-input-prefix,
