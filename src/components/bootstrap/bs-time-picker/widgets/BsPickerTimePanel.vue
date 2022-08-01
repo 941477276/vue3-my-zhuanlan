@@ -21,6 +21,13 @@
           :value="timeUnitValues.second"
           @select="onSelect('second', $event)"
           key="second"></BsTimeUnitColumn>
+        <BsTimeUnitColumn
+          class="bs-picker-time-panel-column-periods"
+          v-if="use12Hour"
+          :units="periods"
+          :value="periodValue"
+          @select="onSelect('period', $event)"
+          key="second"></BsTimeUnitColumn>
       </div>
     </div>
   </div>
@@ -31,6 +38,7 @@ import BsTimeUnitColumn from './BsTimeUnitColumn.vue';
 import {
   ref,
   computed,
+  watch,
   defineComponent
 } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
@@ -137,24 +145,47 @@ export default defineComponent({
       };
     });
 
-    /* let getDayObj = function () {
-      let valueFormat = props.valueFormat;
-      let { hour, minute, second } = timeUnitValues.value;
-      let dayIns: Dayjs;
-      if (!valueFormat) {
-        dayIns = dayjs(`${hour}:${minute}:${second}`);
-      } else {
-        dayIns = dayjs(`${hour}:${minute}:${second}`, valueFormat);
+    // 时段
+    let periods = ref([
+      { label: 'AM', value: 'am' },
+      { label: 'PM', value: 'pm' }
+    ]);
+    let periodValue = ref('');
+    watch(() => props.modelValue, function (modelValue) {
+      if (!props.use12Hour) {
+        return;
       }
-      return dayIns;
-    }; */
+      if (!modelValue || typeof modelValue !== 'string') {
+        if (!periodValue.value) {
+          periodValue.value = 'am';
+        }
+        return;
+      }
+      let periodFlag = modelValue.split(' ')[1];
+      if (!periodFlag) {
+        return;
+      }
+      periodFlag = periodFlag.toLowerCase();
+      if (periodFlag == 'a') {
+        periodFlag = 'am';
+      }
+      if (periodFlag == 'p') {
+        periodFlag = 'pm';
+      }
+      periodValue.value = periodFlag;
+    }, { immediate: true });
 
     let onSelect = function (type: string, timeData: TimeDataUnit) {
       let valueFormat = props.valueFormat;
       let value = {
         ...timeUnitValues.value
       };
-      (value as any)[type] = timeData.value;
+      if (type !== 'period') {
+        (value as any)[type] = timeData.value;
+      } else {
+        periodValue.value = timeData.value + '';
+      }
+
       let dayIns: Dayjs;
       console.log(`${type}选择了：`, timeData, `${value.hour}:${value.minute}:${value.second}`);
       if (!valueFormat) {
@@ -163,7 +194,22 @@ export default defineComponent({
         ctx.emit('update:modelValue', dayIns);
       } else {
         dayIns = dayjs(`${value.hour}:${value.minute}:${value.second}`);
-        ctx.emit('update:modelValue', dayIns.format(valueFormat));
+        if (props.use12Hour) {
+          let valueFormatArr = valueFormat.split(' ');
+          let date = new Date();
+          dayIns = dayjs(`${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${value.hour}:${value.minute}:${value.second}`);
+          console.log(dayIns.format(valueFormat));
+          // 如果为12小时制，且格式后面有带时间段（如h:mm:ss a），则使用dayjs自身的格式化函数进行格式
+          if (valueFormatArr.length === 2) {
+            ctx.emit('update:modelValue', dayIns.format(valueFormat));
+          } else {
+            let resultValue = dayIns.format(valueFormat);
+            resultValue += ' ' + periodValue.value;
+            ctx.emit('update:modelValue', resultValue);
+          }
+        } else {
+          ctx.emit('update:modelValue', dayIns.format(valueFormat));
+        }
       }
     };
     let day = dayjs(new Date());
@@ -172,8 +218,10 @@ export default defineComponent({
       hours,
       minutes,
       seconds,
+      periods,
       columnsShow,
       timeUnitValues,
+      periodValue,
 
       onSelect
     };
