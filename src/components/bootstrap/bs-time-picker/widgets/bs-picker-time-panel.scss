@@ -1,12 +1,19 @@
+.bs-picker-time-panel{
+  padding-top: 0.25rem;
+}
 .bs-picker-content{
   display: flex;
   height: 14rem; //224px
+  &.has-periods-column{
+    width: 25%;
+  }
 }
+
 .bs-picker-time-panel-column{
   position: relative;
   flex: 1 0 auto;
   //width: 3.375rem; // 54px
-  //width: 33.33%;
+  width: 33.33%;
   min-width: 3.375rem; // 54px
   padding: 0;
   margin: 0;

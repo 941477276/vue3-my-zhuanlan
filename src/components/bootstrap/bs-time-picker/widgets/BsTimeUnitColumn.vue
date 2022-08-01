@@ -20,6 +20,7 @@ import {
   ref,
   watch,
   nextTick,
+  onMounted,
   defineComponent
 } from 'vue';
 import { TimeDataUnit } from '@/ts-tokens/bootstrap/time-picker';
@@ -48,7 +49,8 @@ export default defineComponent({
       ctx.attrs.onSelect?.(item);
     };
 
-    watch(() => props.value, function () {
+    // 将选中到元素滚动置顶
+    let scroll2Top = function (duration = 0) {
       nextTick(function () {
         let ulEl = ulRef.value;
         if (!ulEl) {
@@ -58,10 +60,21 @@ export default defineComponent({
         if (!activeLi) {
           return;
         }
-        // 将选中到元素滚动置顶
-        util.scrollTo(ulEl, 'y', activeLi.offsetTop, 150);
+        util.scrollTo(ulEl, 'y', activeLi.offsetTop, duration);
       });
+    };
+
+    watch(() => props.value, function () {
+      scroll2Top(150);
     }, { immediate: true });
+
+    onMounted(function () {
+      // 需要等dom元素准备完成后再进行滚动
+      let timer = setTimeout(function () {
+        clearTimeout(timer);
+        scroll2Top(0);
+      }, 0);
+    });
 
     return {
       ulRef,

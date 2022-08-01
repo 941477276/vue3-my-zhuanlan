@@ -1,8 +1,13 @@
 <template>
   <div class="bs-picker-time-panel">
     <div class="bs-picker-header"></div>
-    <div class="bs-picker-body">
-      <div class="bs-picker-content">
+    <div
+      class="bs-picker-body">
+      <div
+        class="bs-picker-content"
+        :class="{
+          'has-periods-column': use12Hour
+        }">
         <BsTimeUnitColumn
           v-if="columnsShow.hour"
           :units="hours"

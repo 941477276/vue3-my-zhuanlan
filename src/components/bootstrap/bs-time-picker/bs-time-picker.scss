@@ -1,11 +1,18 @@
 .bs-date-editor{
   display: inline-block;
   vertical-align: middle;
+  &.is-focus{
+    .form-control{
+      border-color: #80bdff;
+      box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+    }
+  }
 }
 .bs-picker-dropdown{
   position: absolute;
 }
 .bs-picker-panel{
+  border-radius: 0 0 0.24rem 0.25rem;
   border: 1px solid #efefef;
 }
 .bs-picker-btns{

@@ -99,7 +99,7 @@ export default defineComponent({
     };
 
     let onEnter = function (el:HTMLElement, done: () => void) {
-      // 延迟20毫秒是为了解决目标元素使用v-if控制后导致元素位置计算不准确问题
+      // 延迟50毫秒是为了解决目标元素使用v-if控制后导致元素位置计算不准确问题
       let timer = setTimeout(function () {
         clearTimeout(timer);
         let referenceEl = props.referenceRef as HTMLElement;
@@ -125,7 +125,7 @@ export default defineComponent({
         el.addEventListener('transitionend', onTransitionDone, false);
         el.addEventListener('transitioncancel', onTransitionDone, false);
         ctx.emit('enter', el, NOOP);
-      }, 20);
+      }, !targetEl ? 50 : 0);
     };
 
     let onLeave = function (el: HTMLElement) {
