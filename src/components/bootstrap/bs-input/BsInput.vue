@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="inputRootRef"
     class="input-group bs-input"
     :class="[
       {
@@ -13,7 +14,8 @@
         'has-append': $slots.append
       },
       inputClass
-    ]">
+    ]"
+    @click="on_click">
     <div class="input-group-prepend" v-if="$slots.prepend">
       <div class="input-group-text">
         <slot name="prepend"></slot>
@@ -145,7 +147,7 @@ export default defineComponent({
   props: {
     ...bsInputProps
   },
-  emits: ['input', 'update:modelValue', 'change', 'blur', 'focus', 'clear', 'mouseenter', 'mouseleave'],
+  emits: ['click', 'input', 'update:modelValue', 'change', 'blur', 'focus', 'clear', 'mouseenter', 'mouseleave'],
   setup (props: any, ctx: any) {
     let showPasswordIconDisplay = ref(false); // 切换输入框类型为“密码/文本”按钮是否显示
     let clearContentIconDisplay = ref(false); // 清空内容按钮是否显示
@@ -234,6 +236,12 @@ export default defineComponent({
         clearContentIconDisplay.value = false;
       }
     };
+    let on_click = function (evt: MouseEvent) {
+      if (props.disabled || props.readonly) {
+        return;
+      }
+      ctx.emit('click', evt);
+    };
     let clear = function () {
       inputValue.value = '';
       clearContentIconDisplay.value = false;
@@ -289,6 +297,7 @@ export default defineComponent({
       on_focus,
       on_mouseenter,
       on_mouseleave,
+      on_click,
       togglePasswordText,
       handleClear,
       clear,
