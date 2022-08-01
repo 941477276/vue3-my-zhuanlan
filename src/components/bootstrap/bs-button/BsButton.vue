@@ -85,11 +85,14 @@ export default defineComponent({
       let classArr = [];
       let bntType = props.type;
 
-      if (props.plain) {
-        classArr.push(`btn-outline-${bntType}`);
-      } else {
-        classArr.push(`btn-${bntType}`); // 按钮类型的class
+      if (bntType) {
+        if (props.plain) {
+          classArr.push(`btn-outline-${bntType}`);
+        } else {
+          classArr.push(`btn-${bntType}`); // 按钮类型的class
+        }
       }
+
       if (props.size) {
         classArr.push(`btn-${props.size}`);
       }
