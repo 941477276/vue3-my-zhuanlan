@@ -23,18 +23,18 @@
   &+.bs-picker-time-panel-column{
     border-left: 1px solid #efefef;
   }
-  &.bs-picker-time-panel-column-periods{
-    &::after{
-      display: none;
-    }
-  }
   &:hover{
     overflow-y: auto;
   }
   &::after{ // 为了能置顶最后一个时间点
     display: block;
     content: ' ';
-    height: 12.25rem; // 196px
+    height: 8.75rem; // 140px
+  }
+  &.bs-picker-time-panel-column-periods{
+    &::after{
+      display: none;
+    }
   }
 }
 .bs-picker-time-panel-cell{

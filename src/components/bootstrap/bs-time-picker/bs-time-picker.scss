@@ -8,6 +8,15 @@
     }
   }
 }
+.bs-time-editor{
+ max-width: 10.25rem; // 164px
+  &.bs-date-editor-lg{
+    max-width: 12.5rem; // 200px
+  }
+  &.bs-date-editor-sm{
+    max-width: 7.5rem; // 120px
+  }
+}
 .bs-picker-dropdown{
   position: absolute;
   z-index: 1000;

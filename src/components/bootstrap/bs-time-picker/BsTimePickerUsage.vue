@@ -6,6 +6,8 @@
 
       <a-time-picker v-model:value="value" use12-hours value-format="h:mm:ss p" />
       <a-time-picker v-model:value="value" use12-hours value-format="h:mm:ss p" format="h:mm:ss A" style="width: 140px" />
+      <br>
+      <a-time-range-picker />
       <!--<a-time-picker v-model:value="value" use12-hours value-format="h:mm:ss A" format="h:mm a" />-->
     </div>
     <div style="margin-top: 1rem;">
@@ -48,13 +50,29 @@
     <div style="margin-top: 1rem;">
       <hr>
       <h3>禁用</h3>
-      <BsTimePicker v-model="time7" disabled>
-      </BsTimePicker>
+      <h6 style="margin: 0.5rem 0;">整体禁用</h6>
+      <BsTimePicker v-model="time7" disabled></BsTimePicker>
+      <h6 style="margin: 0.5rem 0;">部分选项禁用</h6>
+      <BsTimePicker
+        v-model="time9"
+        :disabled-hours="disabledHours"
+        :disabled-minutes="disabledMinutes"
+        :disabled-seconds="disabledSeconds"></BsTimePicker>
     </div>
     <div style="margin-top: 1rem;">
       <hr>
       <h3>显示底部按钮</h3>
       <BsTimePicker v-model="time7" show-footer></BsTimePicker>
+    </div>
+    <div style="margin-top: 1rem;">
+      <hr>
+      <h3>不同大小</h3>
+      <h6 style="margin: 0.5rem 0;">大的</h6>
+      <BsTimePicker v-model="time8" size="lg"></BsTimePicker>
+      <h6 style="margin: 0.5rem 0;">中等的（默认）</h6>
+      <BsTimePicker v-model="time8"></BsTimePicker>
+      <h6 style="margin: 0.5rem 0;">小的</h6>
+      <BsTimePicker v-model="time8" size="sm"></BsTimePicker>
     </div>
   </div>
 </template>
@@ -89,7 +107,22 @@ export default defineComponent({
     let time5 = ref(new Date());
     let time6 = ref(new Date());
     let time7 = ref(new Date());
+    let time8 = ref(new Date());
+    let time9 = ref(new Date());
     let value = ref(dayjs(new Date()));
+
+    let disabledHours = function (hour: number, use12Hours: boolean) {
+      console.log('disabledHours', hour);
+      return hour > 20;
+    };
+    let disabledMinutes = function (hour: number, minute: number, use12Hours: boolean) {
+      console.log('disabledHours', hour, minute);
+      return minute < 30;
+    };
+    let disabledSeconds = function (hour: number, minute: number, second: number, use12Hours: boolean) {
+      return second > 20 && second < 35;
+    };
+
     return {
       strValue,
 
@@ -100,7 +133,13 @@ export default defineComponent({
       time5,
       time6,
       time7,
-      value
+      time8,
+      time9,
+      value,
+
+      disabledHours,
+      disabledMinutes,
+      disabledSeconds
     };
   }
 });
@@ -111,6 +150,6 @@ export default defineComponent({
   padding: 1rem 0;
 }
 .bs-date-editor{
-  max-width: 200px;
+  //max-width: 200px;
 }
 </style>

@@ -12,18 +12,24 @@
           v-if="columnsShow.hour"
           :units="hours"
           :value="timeUnitValues.hour"
+          :parent-visible="parentVisible"
+          :hide-disabled-options="hideDisabledOptions"
           @select="onSelect('hour', $event)"
           key="hour"></BsTimeUnitColumn>
         <BsTimeUnitColumn
           v-if="columnsShow.minute"
           :units="minutes"
           :value="timeUnitValues.minute"
+          :parent-visible="parentVisible"
+          :hide-disabled-options="hideDisabledOptions"
           @select="onSelect('minute', $event)"
           key="minute"></BsTimeUnitColumn>
         <BsTimeUnitColumn
           v-if="columnsShow.second"
           :units="seconds"
           :value="timeUnitValues.second"
+          :parent-visible="parentVisible"
+          :hide-disabled-options="hideDisabledOptions"
           @select="onSelect('second', $event)"
           key="second"></BsTimeUnitColumn>
         <BsTimeUnitColumn
@@ -31,6 +37,7 @@
           v-if="use12Hour"
           :units="periods"
           :value="periodValue"
+          :parent-visible="parentVisible"
           @select="onSelect('period', $event)"
           key="second"></BsTimeUnitColumn>
       </div>
@@ -46,14 +53,12 @@ import {
   watch,
   defineComponent
 } from 'vue';
-import dayjs, { Dayjs } from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
+import dayjs from 'dayjs';
 import { TimeDataUnit } from '@/ts-tokens/bootstrap/time-picker';
 import { bsPickerTimePanelProps } from './bs-picker-time-panel-props';
-import { getUpdateModelValue } from '../bsTimePickerUtil';
+import { useTimePicker, getUpdateModelValue } from '../useTimePicker';
 
-dayjs.extend(customParseFormat);
-const calcTimeUnit = function (count = 60, step = 1) {
+const calcTimeUnit = function (count = 60, step = 1, use12Hours: boolean, disabledFn: any, disabledFnData: any[]) {
   let arr: TimeDataUnit[] = [];
   step = Math.floor(step);
   step = step < 1 ? 1 : step;
@@ -62,9 +67,17 @@ const calcTimeUnit = function (count = 60, step = 1) {
   while (index < count) {
     let label = index < 10 ? ('0' + index) : index + '';
     let value = index;
+    let disabled = false;
+    if (typeof disabledFn === 'function') {
+      let flag = disabledFn(...disabledFnData, value, use12Hours);
+      if (typeof flag === 'boolean') {
+        disabled = flag;
+      }
+    }
     arr.push({
       label,
-      value
+      value,
+      disabled
     });
     index++;
   }
@@ -78,21 +91,21 @@ export default defineComponent({
     BsTimeUnitColumn
   },
   props: {
-    ...bsPickerTimePanelProps
+    ...bsPickerTimePanelProps,
+    parentVisible: { // 父组件是否可见
+      type: Boolean,
+      default: false
+    }
   },
   emits: ['update:modelValue'],
   setup (props: any, ctx: any) {
-    let viewFormat = computed(function () {
-      let format = props.format;
-      if (!format) {
-        if (props.use12Hour) {
-          format = 'h:mm:ss a';
-        } else {
-          format = 'HH:mm:ss';
-        }
-      }
-      return format;
-    });
+    let {
+      formatInner,
+      timeUnitValues,
+      periods,
+      periodValue
+    } = useTimePicker(props);
+
     let hours = computed(function () {
       let arr: TimeDataUnit[] = [];
       let count = 24;
@@ -104,16 +117,25 @@ export default defineComponent({
       }
       count = Math.floor(count / hourStep);
       let index = 0;
+      let disabledHoursFn = props.disabledHours;
       while (index < count) {
         let label = index < 10 ? ('0' + index) : index + '';
         let value = index;
+        let disabled = false;
         if (use12Hour && index === 0) {
           label = '12';
           value = 12;
         }
+        if (typeof disabledHoursFn === 'function') {
+          let flag = disabledHoursFn(value, use12Hour);
+          if (typeof flag === 'boolean') {
+            disabled = flag;
+          }
+        }
         arr.push({
           label,
-          value
+          value,
+          disabled
         });
         index++;
       }
@@ -121,14 +143,17 @@ export default defineComponent({
       return arr;
     });
     let minutes = computed(function () {
-      return calcTimeUnit(60, props.minuteStep);
+      let hour = timeUnitValues.value.hour;
+      return calcTimeUnit(60, props.minuteStep, props.use12Hour, props.disabledMinutes, [hour]);
     });
     let seconds = computed(function () {
-      return calcTimeUnit(60, props.secondStep);
+      let hour = timeUnitValues.value.hour;
+      let minute = timeUnitValues.value.minute;
+      return calcTimeUnit(60, props.secondStep, props.use12Hour, props.disabledSeconds, [hour, minute]);
     });
     // 计算时分秒的显示与隐藏
     let columnsShow = computed(function () {
-      let format = viewFormat.value;
+      let format = formatInner.value;
       format = format.toLowerCase();
       let result = {
         hour: format.includes('h'),
@@ -137,70 +162,6 @@ export default defineComponent({
       };
       return result;
     });
-    let timeUnitValues = computed(function () {
-      let modelValue = props.modelValue;
-      let format = viewFormat.value;
-      let dayIns: Dayjs;
-      let result = {
-        hour: '',
-        minute: '',
-        second: ''
-      };
-      if (!modelValue) {
-        return result;
-      }
-
-      if (typeof modelValue === 'string') {
-        dayIns = dayjs(modelValue, format);
-      } else {
-        dayIns = dayjs(modelValue);
-      }
-      let hour = dayIns.hour();
-      if (props.use12Hour && hour > 12) {
-        hour = hour - 12;
-      }
-      return {
-        hour,
-        minute: dayIns.minute(),
-        second: dayIns.second()
-      };
-    });
-
-    // 时段
-    let periods = ref([
-      { label: 'AM', value: 'am' },
-      { label: 'PM', value: 'pm' }
-    ]);
-    let periodValue = ref('');
-    watch(() => props.modelValue, function (modelValue) {
-      if (!props.use12Hour) {
-        return;
-      }
-      if (!modelValue) {
-        if (!periodValue.value) {
-          periodValue.value = 'am';
-        } else {
-          periodValue.value = '';
-        }
-        return;
-      }
-      if (typeof modelValue !== 'string') {
-        modelValue = dayjs(modelValue).format(viewFormat.value);
-      }
-      let periodFlag = modelValue.split(' ')[1];
-      if (!periodFlag) {
-        return;
-      }
-      periodFlag = periodFlag.toLowerCase();
-      if (periodFlag == 'a') {
-        periodFlag = 'am';
-      }
-      if (periodFlag == 'p') {
-        periodFlag = 'pm';
-      }
-      periodValue.value = periodFlag;
-    }, { immediate: true });
-
     let onSelect = function (type: string, timeData: TimeDataUnit) {
       let value = {
         ...timeUnitValues.value

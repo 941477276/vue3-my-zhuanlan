@@ -4,6 +4,7 @@
     class="bs-picker-time-panel-column">
     <li
       v-for="item in units"
+      v-show="!(item.disabled && hideDisabledOptions)"
       :key="item.value"
       class="bs-picker-time-panel-cell"
       :class="{
@@ -38,6 +39,14 @@ export default defineComponent({
       default () {
         return [];
       }
+    },
+    parentVisible: { // 父组件是否可见
+      type: Boolean,
+      default: true
+    },
+    hideDisabledOptions: { // 是否隐藏禁用的选项
+      type: Boolean,
+      default: false
     }
   },
   setup (props: any, ctx: any) {
@@ -65,16 +74,20 @@ export default defineComponent({
     };
 
     watch(() => props.value, function () {
+      if (!props.parentVisible) {
+        return;
+      }
       scroll2Top(150);
     }, { immediate: true });
-
-    onMounted(function () {
-      // 需要等dom元素准备完成后再进行滚动
-      let timer = setTimeout(function () {
-        clearTimeout(timer);
-        scroll2Top(0);
-      }, 0);
-    });
+    watch(() => props.parentVisible, function (isVisible: boolean) {
+      if (isVisible) {
+        // 需要等dom元素可见后再进行滚动
+        let timer = setTimeout(function () {
+          clearTimeout(timer);
+          scroll2Top(0);
+        }, 60);
+      }
+    }, { immediate: true });
 
     return {
       ulRef,

@@ -15,6 +15,22 @@ export const bsPickerTimePanelProps = {
     type: Number,
     default: 1
   },
+  disabledHours: { // 需禁用的小时项
+    type: Function,
+    default: null
+  },
+  disabledMinutes: { // 需禁用的分钟项
+    type: Function,
+    default: null
+  },
+  disabledSeconds: { // 需禁用的秒项
+    type: Function,
+    default: null
+  },
+  hideDisabledOptions: { // 是否隐藏禁用的选项
+    type: Boolean,
+    default: false
+  },
   use12Hour: { // 是否使用12小时制
     type: Boolean,
     default: false

@@ -103,7 +103,7 @@ export default defineComponent({
       let timer = setTimeout(function () {
         clearTimeout(timer);
         let referenceEl = props.referenceRef as HTMLElement;
-        console.log('onEnter执行了', referenceEl.nodeName, el);
+        // console.log('onEnter执行了', referenceEl.nodeName, el);
         if (!referenceEl) {
           console.log('参照元素不存在!-----------------------');
           return;
