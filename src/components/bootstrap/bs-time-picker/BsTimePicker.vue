@@ -42,7 +42,7 @@
               :hour-step="hourStep"
               :minute-step="minuteStep"
               :second-step="secondStep"
-              :use12-hour="use12Hours"
+              :use12-hours="use12Hours"
               :parent-visible="visible"
               :disabled-hours="disabledHours"
               :disabled-minutes="disabledMinutes"
