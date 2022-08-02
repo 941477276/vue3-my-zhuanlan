@@ -42,7 +42,7 @@
               :hour-step="hourStep"
               :minute-step="minuteStep"
               :second-step="secondStep"
-              :use12-hour="use12Hour"
+              :use12-hour="use12Hours"
               :parent-visible="visible"
               :disabled-hours="disabledHours"
               :disabled-minutes="disabledMinutes"
@@ -146,7 +146,7 @@ export default defineComponent({
       }
 
       if (!format) {
-        if (props.use12Hour) {
+        if (props.use12Hours) {
           format = 'h:mm:ss a';
         } else {
           format = 'HH:mm:ss';
@@ -212,7 +212,7 @@ export default defineComponent({
       // console.log('onInput', value, dayjsIns.isValid(), dayjsIns);
       if (dayjsIns.isValid()) {
         let period = '';
-        if (props.use12Hour) {
+        if (props.use12Hours) {
           period = dayjsIns.hour() > 12 ? 'pm' : 'am';
         }
         let result = getUpdateModelValue(props, null, period, {

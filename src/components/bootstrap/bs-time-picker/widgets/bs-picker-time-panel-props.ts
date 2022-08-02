@@ -31,7 +31,7 @@ export const bsPickerTimePanelProps = {
     type: Boolean,
     default: false
   },
-  use12Hour: { // 是否使用12小时制
+  use12Hours: { // 是否使用12小时制
     type: Boolean,
     default: false
   },

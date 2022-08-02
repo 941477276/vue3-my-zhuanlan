@@ -6,7 +6,7 @@
       <div
         class="bs-picker-content"
         :class="{
-          'has-periods-column': use12Hour
+          'has-periods-column': use12Hours
         }">
         <BsTimeUnitColumn
           v-if="columnsShow.hour"
@@ -34,7 +34,7 @@
           key="second"></BsTimeUnitColumn>
         <BsTimeUnitColumn
           class="bs-picker-time-panel-column-periods"
-          v-if="use12Hour"
+          v-if="use12Hours"
           :units="periods"
           :value="periodValue"
           :parent-visible="parentVisible"
@@ -58,7 +58,7 @@ import { TimeDataUnit } from '@/ts-tokens/bootstrap/time-picker';
 import { bsPickerTimePanelProps } from './bs-picker-time-panel-props';
 import { useTimePicker, getUpdateModelValue } from '../useTimePicker';
 
-const calcTimeUnit = function (count = 60, step = 1, use12Hours: boolean, disabledFn: any, disabledFnData: any[]) {
+const calcTimeUnit = function (count = 60, step = 1, use12Hourss: boolean, disabledFn: any, disabledFnData: any[]) {
   let arr: TimeDataUnit[] = [];
   step = Math.floor(step);
   step = step < 1 ? 1 : step;
@@ -69,7 +69,7 @@ const calcTimeUnit = function (count = 60, step = 1, use12Hours: boolean, disabl
     let value = index;
     let disabled = false;
     if (typeof disabledFn === 'function') {
-      let flag = disabledFn(...disabledFnData, value, use12Hours);
+      let flag = disabledFn(...disabledFnData, value, use12Hourss);
       if (typeof flag === 'boolean') {
         disabled = flag;
       }
@@ -109,10 +109,10 @@ export default defineComponent({
     let hours = computed(function () {
       let arr: TimeDataUnit[] = [];
       let count = 24;
-      let use12Hour = props.use12Hour;
+      let use12Hours = props.use12Hours;
       let hourStep = Math.floor(props.hourStep);
       hourStep = hourStep < 1 ? 1 : hourStep;
-      if (use12Hour) {
+      if (use12Hours) {
         count = 12;
       }
       count = Math.floor(count / hourStep);
@@ -122,12 +122,12 @@ export default defineComponent({
         let label = index < 10 ? ('0' + index) : index + '';
         let value = index;
         let disabled = false;
-        if (use12Hour && index === 0) {
+        if (use12Hours && index === 0) {
           label = '12';
           value = 12;
         }
         if (typeof disabledHoursFn === 'function') {
-          let flag = disabledHoursFn(value, use12Hour);
+          let flag = disabledHoursFn(value, use12Hours);
           if (typeof flag === 'boolean') {
             disabled = flag;
           }
@@ -144,12 +144,12 @@ export default defineComponent({
     });
     let minutes = computed(function () {
       let hour = timeUnitValues.value.hour;
-      return calcTimeUnit(60, props.minuteStep, props.use12Hour, props.disabledMinutes, [hour]);
+      return calcTimeUnit(60, props.minuteStep, props.use12Hours, props.disabledMinutes, [hour]);
     });
     let seconds = computed(function () {
       let hour = timeUnitValues.value.hour;
       let minute = timeUnitValues.value.minute;
-      return calcTimeUnit(60, props.secondStep, props.use12Hour, props.disabledSeconds, [hour, minute]);
+      return calcTimeUnit(60, props.secondStep, props.use12Hours, props.disabledSeconds, [hour, minute]);
     });
     // 计算时分秒的显示与隐藏
     let columnsShow = computed(function () {

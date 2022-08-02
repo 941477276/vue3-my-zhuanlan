@@ -7,7 +7,7 @@ export function useTimePicker (props: any) {
   let formatInner = computed(function () {
     let format = props.format;
     if (!format) {
-      if (props.use12Hour) {
+      if (props.use12Hours) {
         format = 'h:mm:ss a';
       } else {
         format = 'HH:mm:ss';
@@ -36,7 +36,7 @@ export function useTimePicker (props: any) {
       dayIns = dayjs(modelValue);
     }
     let hour = dayIns.hour();
-    if (props.use12Hour && hour > 12) {
+    if (props.use12Hours && hour > 12) {
       hour = hour - 12;
     }
     return {
@@ -54,7 +54,7 @@ export function useTimePicker (props: any) {
   // 时段值
   let periodValue = ref('');
   watch(() => props.modelValue, function (modelValue) {
-    if (!props.use12Hour) {
+    if (!props.use12Hours) {
       return;
     }
     if (!modelValue) {
@@ -114,7 +114,7 @@ export function getUpdateModelValue (props: any, dateObj: Date|null, period: str
     minute = date.getMinutes();
     second = date.getSeconds();
   }
-  if (props.use12Hour) { // 如果是12小时制，则hour需加上12小时
+  if (props.use12Hours) { // 如果是12小时制，则hour需加上12小时
     if (period == 'pm' && hour <= 12) {
       hour += 12;
     } else if (period == 'am' && hour > 12) {
@@ -125,7 +125,7 @@ export function getUpdateModelValue (props: any, dateObj: Date|null, period: str
     dayIns = dayjs(`${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${hour}:${minute}:${second}`);
     return dayIns;
   } else {
-    if (props.use12Hour) {
+    if (props.use12Hours) {
       let valueFormatArr = valueFormat.split(' ');
       dayIns = dayjs(`${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${hour}:${minute}:${second}`);
       // 如果为12小时制，且格式后面有带时间段（如h:mm:ss a），则使用dayjs自身的格式化函数进行格式
