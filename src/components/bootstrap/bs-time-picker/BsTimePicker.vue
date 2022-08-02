@@ -1,88 +1,65 @@
 <template>
-  <div
-    class="bs-date-editor bs-time-editor"
-    :class="[
-      {
-        'is-focus': visible
-      },
-      size ? `bs-date-editor-${size}` : ''
-    ]">
-    <BsOnlyChild>
-      <slot>
-        <BsInput
-          ref="bsInputRef"
-          v-model="viewDateText"
-          :disabled="disabled"
-          :id="bsTimePickerId"
-          :size="size"
-          suffix-icon="clock"
-          clearable
-          @input="onInput"
-          @blur="onInputBlur"
-          @click="onInputClick"
-          @clear="clear"></BsInput>
-      </slot>
-    </BsOnlyChild>
-    <BsDropdownTransition
-      :reference-ref="triggerRef"
-      :try-all-placement="false"
-      :set-min-width="true">
-      <div
-        ref="bsPickerDropdownRef"
-        v-if="display"
-        v-show="visible"
-        class="bs-picker-dropdown">
-        <div class="bs-picker-panel-container">
-          <div class="bs-picker-panel">
-            <BsPickerTimePanel
-              ref="bsPickerTimePanelRef"
-              :model-value="viewDate"
-              :format="format"
-              :value-format="valueFormat"
-              :hour-step="hourStep"
-              :minute-step="minuteStep"
-              :second-step="secondStep"
-              :use12-hours="use12Hours"
-              :parent-visible="visible"
-              :disabled-hours="disabledHours"
-              :disabled-minutes="disabledMinutes"
-              :disabled-seconds="disabledSeconds"
-              :hide-disabled-options="hideDisabledOptions"
-              @update:modelValue="onUpdateTimePanelModelValue"></BsPickerTimePanel>
-            <div class="bs-picker-footer" v-if="showFooter">
-              <slot name="footer">
-                <div class="bs-picker-btns">
-                  <BsButton class="bs-picker-clear" size="sm" @click="clear">清空</BsButton>
-                  <BsButton class="bs-picker-now" type="primary" size="sm" @click="setNow">此刻</BsButton>
-                </div>
-              </slot>
-            </div>
-          </div>
+  <BsCommonPicker
+    class="bs-time-editor"
+    ref="bsCommonPicker"
+    suffix-icon="clock"
+    :size="size"
+    :show-footer="true"
+    :input-model-value="viewDateText"
+    :delive-context-to-form-item="deliveContextToFormItem"
+    :disabled="disabled"
+    :id="bsTimePickerId"
+    :set-min-width="true"
+    @update:inputModelValue="viewDateText = $event"
+    @input="onInput"
+    @blur="onInputBlur"
+    @clear="clear"
+    @show="visible = true"
+    @hidden="visible = false">
+    <div class="bs-picker-panel">
+      <BsPickerTimePanel
+        ref="bsPickerTimePanelRef"
+        :model-value="viewDate"
+        :format="format"
+        :value-format="valueFormat"
+        :hour-step="hourStep"
+        :minute-step="minuteStep"
+        :second-step="secondStep"
+        :use12-hours="use12Hours"
+        :parent-visible="visible"
+        :disabled-hours="disabledHours"
+        :disabled-minutes="disabledMinutes"
+        :disabled-seconds="disabledSeconds"
+        :hide-disabled-options="hideDisabledOptions"
+        @update:modelValue="onUpdateTimePanelModelValue"></BsPickerTimePanel>
+    </div>
+    <template #footer v-if="showFooter">
+      <slot name="footer">
+        <div class="bs-picker-btns">
+          <BsButton class="bs-picker-clear" size="sm" @click="clear">清空</BsButton>
+          <BsButton class="bs-picker-now" type="primary" size="sm" @click="setNow">此刻</BsButton>
         </div>
-      </div>
-    </BsDropdownTransition>
-  </div>
+      </slot>
+    </template>
+    <template #trigger>
+      <slot></slot>
+    </template>
+  </BsCommonPicker>
 </template>
 
 <script lang="ts">
 import {
   defineComponent,
   ref,
-  computed,
   watch,
-  nextTick,
   PropType
 } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import BsInput from '../bs-input/BsInput.vue';
 import BsPickerTimePanel from './widgets/BsPickerTimePanel.vue';
 import BsButton from '../bs-button/BsButton.vue';
-import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
-import BsOnlyChild from '../bs-slot/BsOnlyChild.vue';
+import BsCommonPicker from '../bs-common-picker/BsCommonPicker.vue';
 import { bsPickerTimePanelProps } from './widgets/bs-picker-time-panel-props';
-import { useForwardRef } from '@/hooks/useForwardRef';
-import { useClickOutside } from '@/hooks/useClickOutside';
 import { useTimePicker, getUpdateModelValue } from './useTimePicker';
 import { BsSize, FormItemContext, formItemContextKey } from '@/ts-tokens/bootstrap';
 import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
@@ -92,11 +69,9 @@ let bsTimePickerCount = 0;
 export default defineComponent({
   name: 'BsTimePicker',
   components: {
-    BsInput,
     BsPickerTimePanel,
     BsButton,
-    BsDropdownTransition,
-    BsOnlyChild
+    BsCommonPicker
   },
   props: {
     ...bsPickerTimePanelProps,
@@ -131,12 +106,15 @@ export default defineComponent({
   emits: ['update:modelValue'],
   setup (props: any, ctx: any) {
     let bsPickerTimePanelRef = ref(null);
-    let bsInputRef = ref(null);
+    let bsCommonPicker = ref(null);
+    let visible = ref(false);
     let bsTimePickerId = ref(props.id || `bs-time-picker_${++bsTimePickerCount}`);
 
     let { formatInner } = useTimePicker(props);
 
     let viewDate = ref(props.modelValue);
+    // 用于显示的文本
+    let viewDateText = ref('');
     let getViewDateText = function () {
       let date = viewDate.value;
       let format = props.format;
@@ -159,45 +137,10 @@ export default defineComponent({
       }
       return dayIns.format(format);
     };
-    // 用于显示的文本
-    let viewDateText = ref('');
-
     watch(() => props.modelValue, function (modelValue) {
       viewDate.value = modelValue;
       viewDateText.value = getViewDateText();
     }, { immediate: true });
-
-    // 触发元素
-    let triggerRef = ref<HTMLElement|null>(null);
-    useForwardRef(triggerRef);
-
-    // 下拉元素
-    let bsPickerDropdownRef = ref<HTMLElement|null>(null);
-    let display = ref(false);
-    let visible = ref(false);
-    let onInputClick = function () {
-      if (props.disabled) {
-        return;
-      }
-      if (!display.value) {
-        display.value = true;
-        nextTick(function () {
-          visible.value = true;
-        });
-      } else {
-        visible.value = true;
-      }
-    };
-    // 给触发元素绑定点击事件
-    watch(() => triggerRef.value, function (el) {
-      el?.addEventListener('click', onInputClick, false);
-    });
-    // 点击区域外面隐藏下拉
-    useClickOutside([triggerRef, bsPickerDropdownRef], function (flag: boolean) {
-      if (flag) {
-        visible.value = false;
-      }
-    });
 
     // 开启输入与操作同步功能
     let isInputTextInvalid = false;
@@ -241,7 +184,7 @@ export default defineComponent({
       // 300毫秒后再隐藏下拉内容，为的是让用户看到选中的内容
       let timer = setTimeout(function () {
         clearTimeout(timer);
-        visible.value = false;
+        (bsCommonPicker.value as any).showDropdown(false);
       }, 300);
     };
 
@@ -250,12 +193,12 @@ export default defineComponent({
       // console.log('onUpdateTimePanelModelValue', newValue);
       viewDate.value = newValue;
       ctx.emit('update:modelValue', newValue);
-      (bsInputRef.value as any)?.focus();
+      (bsCommonPicker.value as any).focus();
     };
 
     // 设置输入框校验状态
     let setValidateStatus = function (status: string) {
-      (bsInputRef.value as any)?.setValidateStatus(status);
+      (bsCommonPicker.value as any)?.setValidateStatus(status);
     };
 
     if (props.deliveContextToFormItem) {
@@ -270,17 +213,13 @@ export default defineComponent({
 
     return {
       bsPickerTimePanelRef,
-      bsPickerDropdownRef,
-      bsInputRef,
+      bsCommonPicker,
       viewDate,
       viewDateText,
-      display,
       visible,
-      triggerRef,
       bsTimePickerId,
 
       onUpdateTimePanelModelValue,
-      onInputClick,
       onInput,
       onInputBlur,
 

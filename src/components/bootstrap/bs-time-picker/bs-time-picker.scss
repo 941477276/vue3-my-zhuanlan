@@ -1,49 +1,9 @@
-.bs-date-editor{
-  display: inline-block;
-  vertical-align: middle;
-  &.is-focus{
-    .form-control{
-      border-color: #80bdff;
-      box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
-    }
-  }
-}
 .bs-time-editor{
  max-width: 10.25rem; // 164px
-  &.bs-date-editor-lg{
+  &.bs-date-time-editor-lg{
     max-width: 12.5rem; // 200px
   }
-  &.bs-date-editor-sm{
+  &.bs-date-time-editor-sm{
     max-width: 7.5rem; // 120px
   }
-}
-.bs-picker-dropdown{
-  position: absolute;
-  z-index: 1000;
-  border-radius: 0.24rem 0.25rem;
-  box-shadow: 0 1px 0.5rem rgba(0,0,0,0.15);
-  /*&.bs-placement-top{
-    .bs-picker-panel{
-      border-radius: 0.24rem 0.25rem 0 0;
-    }
-  }
-  &.bs-placement-bottom{
-    .bs-picker-panel{
-      border-radius: 0.24rem 0.25rem 0 0;
-    }
-  }*/
-}
-.bs-picker-panel{
-  border-radius: 0.24rem 0.25rem;
-  border: 1px solid #efefef;
-  background-color: #fff;
-}
-.bs-picker-btns{
-  display: flex;
-  //justify-content: space-between;
-  padding: 0.5rem 0.875rem;
-  border-top: 1px solid #efefef;
-}
-.bs-picker-clear{
-  margin-left: auto;
 }
