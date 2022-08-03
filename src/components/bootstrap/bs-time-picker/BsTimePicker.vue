@@ -4,7 +4,7 @@
     ref="bsCommonPicker"
     suffix-icon="clock"
     :size="size"
-    :show-footer="true"
+    :show-footer="showFooter"
     :input-model-value="viewDateText"
     :delive-context-to-form-item="deliveContextToFormItem"
     :disabled="disabled"

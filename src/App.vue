@@ -99,8 +99,11 @@
   <!--<div class="box">
     <BsSelectInputUsage></BsSelectInputUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsTimePickerUsage></BsTimePickerUsage>
+  </div>-->
+  <div class="box">
+    <BsDatePickerUsage></BsDatePickerUsage>
   </div>
 </template>
 
@@ -142,6 +145,7 @@ import BsTreeUsage from '@/components/bootstrap/bs-tree/BsTreeUsage.vue';
 import BsTreeSelectUsage from '@/components/bootstrap/bs-tree-select/BsTreeSelectUsage.vue';
 import BsSelectInputUsage from '@/components/bootstrap/bs-select-input/BsSelectInputUsage.vue';
 import BsTimePickerUsage from '@/components/bootstrap/bs-time-picker/BsTimePickerUsage.vue';
+import BsDatePickerUsage from '@/components/bootstrap/bs-date-picker/BsDatePickerUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -182,7 +186,8 @@ export default defineComponent({
     BsTreeUsage,
     BsTreeSelectUsage,
     BsSelectInputUsage,
-    BsTimePickerUsage
+    BsTimePickerUsage,
+    BsDatePickerUsage
   },
   setup () {
     return {
