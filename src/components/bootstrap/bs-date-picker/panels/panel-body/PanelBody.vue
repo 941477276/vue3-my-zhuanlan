@@ -61,7 +61,7 @@ import {
 } from 'vue';
 
 export default defineComponent({
-  name: 'PanelBody',
+  name: 'BsPanelBody',
   props: {
     showHeader: { // 是否显示表头
       type: Boolean,

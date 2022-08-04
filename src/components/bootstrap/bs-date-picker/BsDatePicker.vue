@@ -15,8 +15,12 @@
     dadta-clear="clear"
     @show="visible = true"
     @hidden="visible = false">
-    <div class="bs-picker-panel has-panel-sidebar">
-      <PanelSidebar></PanelSidebar>
+    <div
+      class="bs-picker-panel"
+      :class="{
+        'has-panel-sidebar': showSidebar
+      }">
+      <PanelSidebar v-if="showSidebar"></PanelSidebar>
       <BsDatePanel></BsDatePanel>
     </div>
     <template #footer v-if="showFooter">
@@ -78,6 +82,20 @@ export default defineComponent({
           return false;
         }
         return true;
+      }
+    },
+    showSidebar: { // 是否显示侧边栏
+      type: Boolean,
+      default: false
+    },
+    sidebarAlign: { // 侧边栏显示位置
+      type: String,
+      default: 'left'
+    },
+    shortcuts: { // 侧边栏快捷按钮
+      type: Array,
+      default () {
+        return [];
       }
     }
   },

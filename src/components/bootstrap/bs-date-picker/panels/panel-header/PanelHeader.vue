@@ -28,7 +28,7 @@ import {
 import BsIcon from '@/components/bootstrap/bs-icon/BsIcon.vue';
 
 export default defineComponent({
-  name: 'PanelHeader',
+  name: 'BsPanelHeader',
   components: {
     BsIcon
   }

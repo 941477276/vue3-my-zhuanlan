@@ -1,11 +1,15 @@
 <template>
   <div
-    class="panel-sidebar"
+    class="bs-panel-sidebar"
     :class="{
       'in-right': align == 'right'
     }">
-    <button type="button">今天</button>
-    <button type="button">本周第一天</button>
+    <button
+      v-for="item in shortcuts"
+      :key="item.text"
+      :disabled="item.disabled"
+      type="button"
+      @click="onBtnClick(item)">{{ item.text }}</button>
   </div>
 </template>
 
@@ -15,18 +19,32 @@ import {
 } from 'vue';
 
 export default defineComponent({
-  name: 'PanelSidebar',
+  name: 'BsPanelSidebar',
   props: {
     align: {
       type: String,
       default: 'left'
+    },
+    shortcuts: { // 侧边栏快捷按钮
+      type: Array,
+      default () {
+        return [];
+      }
     }
+  },
+  setup () {
+    let onBtnClick = function (shortcut: any) {
+      console.log('shortcut click', shortcut);
+    };
+    return {
+      onBtnClick
+    };
   }
 });
 </script>
 
 <style lang="scss">
-.panel-sidebar{
+.bs-panel-sidebar{
   //padding: 0.5rem;
   font-size: 0.875rem;
   border-right: 1px solid #eee;
