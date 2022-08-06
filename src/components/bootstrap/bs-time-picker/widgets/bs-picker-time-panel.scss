@@ -1,5 +1,9 @@
 .bs-picker-time-panel{
   padding-top: 0.25rem;
+  .bs-picker-body{
+    padding: 0;
+    border-top: none;
+  }
 }
 .bs-picker-content{
   display: flex;
