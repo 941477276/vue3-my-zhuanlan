@@ -30,7 +30,7 @@ export default defineComponent({
   setup () {
     let disabledDate = function (currentDate: Dayjs) {
       let day = currentDate.date();
-      console.log('day', day);
+      // console.log('day', day);
       return day >= 1 && day <= 10;
     };
 
@@ -48,5 +48,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-
+.component-usage{
+  padding: 2rem 0;
+}
 </style>
