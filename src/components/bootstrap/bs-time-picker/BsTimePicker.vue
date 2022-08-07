@@ -32,15 +32,13 @@
         :disabled-seconds="disabledSeconds"
         :hide-disabled-options="hideDisabledOptions"
         @update:modelValue="onUpdateTimePanelModelValue"></BsPickerTimePanel>
-    </div>
-    <template #footer v-if="showFooter">
-      <slot name="footer">
-        <div class="bs-picker-btns">
+      <div class="bs-picker-footer">
+        <div class="bs-picker-btns" v-if="showFooter">
           <BsButton class="bs-picker-clear" size="sm" @click="clear">清空</BsButton>
           <BsButton class="bs-picker-now" type="primary" size="sm" @click="setNow">此刻</BsButton>
         </div>
-      </slot>
-    </template>
+      </div>
+    </div>
     <template #trigger>
       <slot></slot>
     </template>

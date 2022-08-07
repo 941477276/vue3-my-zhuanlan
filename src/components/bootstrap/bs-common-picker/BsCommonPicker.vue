@@ -41,9 +41,6 @@
         class="bs-picker-dropdown">
         <div class="bs-picker-panel-container">
           <slot></slot>
-          <div class="bs-picker-footer" v-if="showFooter">
-            <slot name="footer"></slot>
-          </div>
         </div>
       </div>
     </BsDropdownTransition>
