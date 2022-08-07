@@ -1,7 +1,7 @@
 <template>
   <div class="bs-picker-body">
     <table class="bs-picker-table">
-      <thead>
+      <thead v-if="showHeader">
       <tr>
         <th
           v-for="th in headerCells"
@@ -16,7 +16,11 @@
           <td
             class="bs-picker-cell"
             v-for="(cellItem, cellIndex) in cells"
-            :key="cellItem.id">
+            :key="cellItem.id"
+            :title="getCellTitle(cellItem, cellIndex)"
+            :class="[
+              ...getCellClassname(cellItem, cellIndex)
+            ]">
             <div class="bs-picker-cell-inner">{{ getCellText(cellItem, cellIndex) }}</div>
           </td>
         </tr>
@@ -67,7 +71,7 @@ export default defineComponent({
     getRowClassname: { // 自定义表格行classname
       type: Function,
       default () {
-        return () => '';
+        return () => [];
       }
     },
     getCellText: { // 自定义单元格内容
@@ -77,7 +81,7 @@ export default defineComponent({
     getCellClassname: { // 自定义单元格classname
       type: Function,
       default () {
-        return () => '';
+        return () => [];
       }
     },
     getCellTitle: { // 自定义单元格的title内容

@@ -5,6 +5,7 @@ import weekday from 'dayjs/plugin/weekday';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import weekYear from 'dayjs/plugin/weekYear';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
+import isToday from 'dayjs/plugin/isToday';
 
 dayjs.extend(weekday);
 // 设置国际化
@@ -14,6 +15,8 @@ dayjs.extend(weekOfYear);
 dayjs.extend(weekYear);
 // 让dayjs().format API 以支持更多模版
 dayjs.extend(advancedFormat);
+// 判断当前日期是否为今天
+dayjs.extend(isToday);
 
 const localeMap: StringKeyObject = {
   // ar_EG:
@@ -91,6 +94,32 @@ const getLocale = (locale?: string) => {
   return mapLocale || locale.split('_')[0];
 };
 
+/**
+ * 是否为闰年
+ * @param year 年份
+ */
+export function isLeapYear (year: number): boolean {
+  let res = false;
+  if (year % 100 == 0) {
+    res = year % 400 == 0;
+  } else {
+    res = year % 4 == 0;
+  }
+  return res;
+};
+
+/**
+ * 获取月份对应的天数
+ * @param year 年份
+ * @param month 月份（需加1）
+ */
+export function getMonthDays (year: number, month: number): number {
+  // 2月份如果是闰年则需要多加1天
+  let month2 = 28 + (isLeapYear(year) ? 1 : 0);
+  const monthDays = [31, month2, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  return monthDays[month];
+};
+
 export const dayjsUtil = {
   addYear: (dayIns: Dayjs, diff: number) => dayIns.add(diff, 'year'),
   addMonth: (dayIns: Dayjs, diff: number) => dayIns.add(diff, 'month'),
@@ -98,31 +127,11 @@ export const dayjsUtil = {
   setYear: (dayIns: Dayjs, year: number) => dayIns.year(year),
   setMonth: (dayIns: Dayjs, month: number) => dayIns.month(month),
   setDate: (dayIns: Dayjs, date: number) => dayIns.date(date),
-  /**
-   * 是否为闰年
-   * @param year 年份
-   */
-  isLeapYear (year: number): boolean {
-    let res = false;
-    if (year % 100 == 0) {
-      res = year % 400 == 0;
-    } else {
-      res = year % 4 == 0;
-    }
-    return res;
-  },
-  /**
-   * 获取月份对应的天数
-   * @param year 年份
-   * @param month 月份（需加1）
-   */
-  getMonthDays (year: number, month: number): number {
-    // 2月份如果是闰年则需要多加1天
-    let month2 = 28 + (dayjsUtil.isLeapYear(year) ? 1 : 0);
-    const monthDays = [31, month2, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    return monthDays[month];
-  },
-  // get
+
+  getYear: (dayIns: Dayjs) => dayIns.year(),
+  getMonth: (dayIns: Dayjs) => dayIns.month(),
+  getDate: (dayIns: Dayjs) => dayIns.date(),
+
   locale: {
     /**
      * 根据国籍语言获取该国星期的第一天，如中国：1，美国：0
@@ -152,6 +161,22 @@ export const dayjsUtil = {
      */
     months (lang: string): string[] {
       return dayjs().locale(getLocale(lang)).localeData().months();
+    },
+    /**
+     * 根据国籍语言获取该国的月份名称，如中国：['1月', '2月', '3月', ...]
+     * @param lang
+     */
+    monthsShort (lang: string): string[] {
+      return dayjs().locale(getLocale(lang)).localeData().monthsShort();
+    },
+    /**
+     * 根据国籍语言格式化日期
+     * @param dayjsIns dayjs实例
+     * @param lang 语言
+     * @param format 格式模板
+     */
+    format (dayjsIns: Dayjs, lang:string, format: string) {
+      return dayjsIns.locale(getLocale(lang)).format(format);
     }
   }
 };
