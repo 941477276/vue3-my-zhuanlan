@@ -1,6 +1,8 @@
 <template>
   <div class="bs-picker-body">
-    <table class="bs-picker-table">
+    <table
+      class="bs-picker-table"
+      @click="onCellClick">
       <thead v-if="showHeader">
       <tr>
         <th
@@ -18,6 +20,8 @@
             v-for="(cellItem, cellIndex) in cells"
             :key="cellItem.id"
             :title="getCellTitle(cellItem, cellIndex)"
+            :data-row-index="rowIndex"
+            :data-cell-index="cellIndex"
             :class="[
               ...getCellClassname(cellItem, cellIndex)
             ]">
@@ -48,6 +52,18 @@
 import {
   defineComponent
 } from 'vue';
+import { util } from '@/common/util';
+/**
+ * 查找单元格数据
+ * @param tableData 表格数据
+ * @param rowIndex 行单索引
+ * @param cellIndex 列的索引
+ */
+let findCellData = function (tableData: any[], rowIndex: number, cellIndex: number) {
+  let row = tableData[rowIndex];
+  let cell = row?.[cellIndex];
+  return cell;
+};
 
 export default defineComponent({
   name: 'BsPanelBody',
@@ -90,6 +106,27 @@ export default defineComponent({
         return () => '';
       }
     }
+  },
+  emits: ['cell-click'],
+  setup (props: any, ctx: any) {
+    // 单元格点击事件
+    let onCellClick = function (evt: MouseEvent) {
+      let target = evt.target as HTMLElement;
+
+      let tdEl = target.nodeName === 'TD' ? target : util.parents(target, 'bs-picker-cell');
+      // console.log('target', target, tdEl);
+      if (!tdEl) {
+        return;
+      }
+      let rowIndex = tdEl.dataset.rowIndex * 1;
+      let cellIndex = tdEl.dataset.cellIndex * 1;
+      let cellData = findCellData(props.bodyCells, rowIndex, cellIndex);
+      console.log('cell-data', cellData, rowIndex, cellData);
+      ctx.emit('cell-click', cellData, rowIndex, cellData);
+    };
+    return {
+      onCellClick
+    };
   }
 });
 </script>

@@ -21,16 +21,17 @@
         'has-panel-sidebar': showSidebar
       }">
       <PanelSidebar v-if="showSidebar"></PanelSidebar>
-      <BsDatePanel></BsDatePanel>
-    </div>
-    <template #footer v-if="showFooter">
-      <slot name="footer">
+      <BsDatePanel
+        :model-value="date"
+        @update:modelValue="onDatePanelModelValueChange"></BsDatePanel>
+      <div class="bs-picker-footer" v-if="showFooter">
         <div class="bs-picker-btns">
           <!--<BsButton class="bs-picker-clear" size="sm" @click="clear">清空</BsButton>
           <BsButton class="bs-picker-now" type="primary" size="sm" @click="setNow">此刻</BsButton>-->
+          <BsButton class="bs-picker-today" size="sm" @click="onNowBtnClick">今天</BsButton>
         </div>
-      </slot>
-    </template>
+      </div>
+    </div>
     <template #trigger>
       <slot></slot>
     </template>
@@ -40,13 +41,18 @@
 <script lang="ts">
 import {
   defineComponent,
-  PropType, ref
+  PropType,
+  ref,
+  Ref,
+  watch
 } from 'vue';
 import { BsSize } from '@/ts-tokens/bootstrap';
+import { PickerType } from '@/ts-tokens/bootstrap/date-picker';
 import BsCommonPicker from '../bs-common-picker/BsCommonPicker.vue';
 import BsDatePanel from './panels/bs-date-panel/BsDatePanel.vue';
 import PanelSidebar from './panels/panel-sidebar/PanelSidebar.vue';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
+import { dayjsUtil } from '@/common/dayjsUtil';
 
 // js编写日历思路：https://www.cnblogs.com/zaijin-yang/p/12009727.html
 export default defineComponent({
@@ -57,9 +63,25 @@ export default defineComponent({
     PanelSidebar
   },
   props: {
+    modelValue: {
+      type: [String, Object],
+      default: ''
+    },
+    pickerType: {
+      type: String as PropType<PickerType>,
+      default: 'date'
+    },
+    format: { // 日期显示的格式
+      type: String,
+      default: 'YYYY-MM-DD'
+    },
+    valueFormat: { // 绑定值的格式
+      type: String,
+      default: ''
+    },
     showFooter: { // 是否显示底部
       type: Boolean,
-      default: false
+      default: true
     },
     disabled: { // 是否禁用
       type: Boolean,
@@ -100,17 +122,73 @@ export default defineComponent({
     }
   },
   setup (props: any, ctx: any) {
+    let bsCommonPicker = ref();
     let visible = ref(false);
+
+    let date = ref<Dayjs|null>();
     let viewDateText = ref('');
-    console.log('今天是周几：', dayjs(new Date('2022/07/01')).day());
+    watch(() => props.modelValue, function (modelValue: Dayjs|string) {
+      if (!modelValue) {
+        date.value = null;
+        viewDateText.value = '';
+        return;
+      }
+      let dayjsIns = dayjsUtil.parseToDayjs(modelValue, props.format);
+      date.value = dayjsIns;
+      viewDateText.value = dayjsIns.format(props.format);
+    }, { immediate: true });
+
+    // 隐藏下拉面板
+    let hide = function (delay = 0) {
+      if (delay > 0) {
+        let timer = setTimeout(function () {
+          clearTimeout(timer);
+          (bsCommonPicker.value as any)?.showDropdown(false);
+        }, delay);
+        return;
+      }
+      (bsCommonPicker.value as any)?.showDropdown(false);
+    };
+    let setNow = function () {
+      let now = dayjs();
+      let valueFormat = props.valueFormat;
+      ctx.emit('update:modelValue', !valueFormat ? now : now.format(valueFormat));
+    };
+
+    //  日期控件model-value值改变事件
+    let onDatePanelModelValueChange = function (newDate: Dayjs) {
+      let valueFormat = props.valueFormat;
+      ctx.emit('update:modelValue', !valueFormat ? newDate : newDate.format(valueFormat));
+      // 隐藏下拉面板
+      hide(300);
+    };
+
     return {
+      bsCommonPicker,
+
       visible,
-      viewDateText
+      viewDateText,
+      date,
+
+      hide,
+      setNow,
+
+      onDatePanelModelValueChange,
+      onNowBtnClick () {
+        setNow();
+        hide(300);
+      }
     };
   }
 });
 </script>
 
 <style lang="scss">
-
+.bs-picker-today{
+  margin: 0 auto;
+  transition: color .3s;
+  &:hover{
+    color: var(--primary);
+  }
+}
 </style>

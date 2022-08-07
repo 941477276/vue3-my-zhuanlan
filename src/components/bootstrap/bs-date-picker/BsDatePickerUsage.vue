@@ -1,6 +1,6 @@
 <template>
   <div class="component-usage">
-    <a-space direction="vertical" :size="12">
+    <a-space direction="vertical" :size="12" style="margin-top: 2rem;">
       <a-date-picker v-model:value="value1" :disabledDate="disabledDate" />
       <a-date-picker v-model:value="value2" picker="week" />
       <a-date-picker v-model:value="value3" picker="month" />
@@ -9,7 +9,7 @@
     </a-space>
     <div>
       <h3>基本使用</h3>
-      <BsDatePicker></BsDatePicker>
+      <BsDatePicker v-model="date1"></BsDatePicker>
     </div>
   </div>
 </template>
@@ -33,6 +33,7 @@ export default defineComponent({
       // console.log('day', day);
       return day >= 1 && day <= 10;
     };
+    let date1 = ref('2022-08-10');
 
     return {
       value1: ref<Dayjs>(),
@@ -40,6 +41,8 @@ export default defineComponent({
       value3: ref<Dayjs>(),
       value4: ref<Dayjs>(),
       value5: ref<Dayjs>(),
+
+      date1,
 
       disabledDate
     };

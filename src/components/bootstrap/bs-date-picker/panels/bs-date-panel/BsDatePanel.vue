@@ -18,9 +18,10 @@
     <PanelBody
       :header-cells="tableHeader"
       :body-cells="tableBody"
-      :get-cell-text="getCellText"
-      :get-cell-classname="getCellClassname"
-      :get-cell-title="getCellTitle"></PanelBody>
+      :get-cell-text="setCellText"
+      :get-cell-classname="setCellClassname"
+      :get-cell-title="setCellTitle"
+      @cell-click="onCellClick"></PanelBody>
   </div>
 </template>
 
@@ -28,6 +29,7 @@
 import {
   ref,
   computed,
+  watch,
   defineComponent,
   PropType
 } from 'vue';
@@ -99,11 +101,15 @@ export default defineComponent({
   props: {
     modelValue: {
       type: Object as PropType<Dayjs>,
-      default: dayjs('2022-05-05')
+      default: null
     }
   },
+  emits: ['update:modelValue'],
   setup (props: any, ctx: any) {
     let date = ref(dayjs(props.modelValue ? props.modelValue : undefined));
+    watch(() => props.modelValue, function (modelValue) {
+      date.value = modelValue;
+    });
     // date.value = dayjs('2022-02-01');
     // 周的第一天
     let weekFirstDay = computed(function () {
@@ -152,24 +158,6 @@ export default defineComponent({
       let firstDayOfWeekInMonth = monthFirstDay.day();
       // 当前月天数
       let currentMonthDaysCount = getMonthDays(year, month);
-      /*
-         一周的起点为星期1：
-           1号星期1，上一个月天数0 1-1=0
-           1号星期2，上一个月天数1 1-2=-1
-           1号星期3，上一个月天数2 1-3=-2
-           1号星期4，上一个月天数3 1-4=-3
-           1号星期5，上一个月天数4 1-5=-4
-           1号星期6，上一个月天数5 1-6=-5
-           1号星期7，上一个月天数6 1-7=-6
-         一周的起点为星期天：
-           1号星期1，上一个月天数1 0-1=-1
-           1号星期2，上一个月天数2 0-2=-2
-           1号星期3，上一个月天数3 0-3=-3
-           1号星期4，上一个月天数4 0-4=-4
-           1号星期5，上一个月天数5 0-5=-5
-           1号星期6，上一个月天数6 0-6=-6
-           1号星期7，上一个月天数0 0-7=-7
-       */
       // 上一个月天数
       // let prevMonthDaysCount = firstDayOfWeekInMonth - firstDayOfWeek;
       let prevMonthDaysCount = getPrevMonthDayCount(currentDate, 'zh-cn');
@@ -198,35 +186,44 @@ export default defineComponent({
       return dateArr;
     });
     console.log('tableBody', tableBody.value);
-    // 设置单元格单classname
-    let getCellClassname = function (cellData: any, cellIndex: number) {
-      let currentDate = date.value;
+    // 单元格点击事件
+    let onCellClick = function (cellData: any) {
       let modelValue = props.modelValue;
-      let dayjsIns = cellData.dayjsIns;
-      let classnames: string[] = [];
-      // console.log('getCellClassname', currentDate.format(defaultFormat), dayjsIns.format(defaultFormat));
-      if (currentDate.format('YYYY-MM') === dayjsIns.format('YYYY-MM')) {
-        classnames.push('active-cell');
+      // 选择的是已经选中的日期则不进行后续操作
+      if (modelValue && (modelValue.format(defaultFormat) === cellData.dayjsIns.format(defaultFormat))) {
+        return;
       }
-      if (modelValue && (modelValue.format(defaultFormat) === dayjsIns.format(defaultFormat))) {
-        classnames.push('is-selected');
-      }
-      if (dayjsIns.isToday()) {
-        classnames.push('is-today');
-      }
-      return classnames;
+      ctx.emit('update:modelValue', cellData.dayjsIns);
     };
     return {
       currentDateInfo,
 
       tableHeader,
       tableBody,
-      getCellClassname,
-      getCellText (cellData: any) {
+      // 设置单元格的classname
+      setCellClassname (cellData: any, cellIndex: number) {
+        let currentDate = date.value;
+        let modelValue = props.modelValue;
+        let dayjsIns = cellData.dayjsIns;
+        let classnames: string[] = [];
+        // console.log('getCellClassname', currentDate.format(defaultFormat), dayjsIns.format(defaultFormat));
+        if (currentDate.format('YYYY-MM') === dayjsIns.format('YYYY-MM')) {
+          classnames.push('active-cell');
+        }
+        if (modelValue && (modelValue.format(defaultFormat) === dayjsIns.format(defaultFormat))) {
+          classnames.push('is-selected');
+        }
+        if (dayjsIns.isToday()) {
+          classnames.push('is-today');
+        }
+        return classnames;
+      },
+      setCellText (cellData: any) {
         return cellData.dayjsIns.date();
       },
-      getCellTitle (cellData: any) {
-        return cellData.dayjsIns.format(defaultFormat);
+      setCellTitle (cellData: any) {
+        let isToday = cellData.dayjsIns.isToday();
+        return cellData.dayjsIns.format(defaultFormat) + (isToday ? '(今天)' : '');
       },
 
       onSuperPrev () {
@@ -240,7 +237,8 @@ export default defineComponent({
       },
       onSuperNext () {
         date.value = dayjsUtil.addYear(date.value, 1);
-      }
+      },
+      onCellClick
     };
   }
 });

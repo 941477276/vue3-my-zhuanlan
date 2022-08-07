@@ -131,6 +131,13 @@ export const dayjsUtil = {
   getYear: (dayIns: Dayjs) => dayIns.year(),
   getMonth: (dayIns: Dayjs) => dayIns.month(),
   getDate: (dayIns: Dayjs) => dayIns.date(),
+  parseToDayjs: (value: Dayjs|string, format: string) => {
+    if (typeof value === 'string') {
+      return dayjs(value, format);
+    } else {
+      return dayjs(value);
+    }
+  },
 
   locale: {
     /**
