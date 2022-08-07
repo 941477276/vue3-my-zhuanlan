@@ -204,7 +204,7 @@ export default defineComponent({
       let modelValue = props.modelValue;
       let dayjsIns = cellData.dayjsIns;
       let classnames: string[] = [];
-      console.log('getCellClassname', currentDate.format(defaultFormat), dayjsIns.format(defaultFormat));
+      // console.log('getCellClassname', currentDate.format(defaultFormat), dayjsIns.format(defaultFormat));
       if (currentDate.format('YYYY-MM') === dayjsIns.format('YYYY-MM')) {
         classnames.push('active-cell');
       }
@@ -230,18 +230,16 @@ export default defineComponent({
       },
 
       onSuperPrev () {
-        console.log('onSuperPrev');
+        date.value = dayjsUtil.addYear(date.value, -1);
       },
       onPrev () {
-        console.log('onPrev');
         date.value = dayjsUtil.addMonth(date.value, -1);
       },
       onNext () {
-        console.log('onNext');
         date.value = dayjsUtil.addMonth(date.value, 1);
       },
       onSuperNext () {
-        console.log('onSuperNext');
+        date.value = dayjsUtil.addYear(date.value, 1);
       }
     };
   }
