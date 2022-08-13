@@ -19,11 +19,19 @@ export const bsDatePickerProps = {
     type: String,
     default: ''
   },
+  showHeader: { // 是否显头部
+    type: Boolean,
+    default: true
+  },
   showFooter: { // 是否显示底部
     type: Boolean,
     default: true
   },
   disabled: { // 是否禁用
+    type: Boolean,
+    default: false
+  },
+  inputReadOnly: { // 设置输入框为只读（避免在移动设备上打开虚拟键盘）
     type: Boolean,
     default: false
   },

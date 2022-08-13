@@ -19,6 +19,7 @@
           :clearable="clearable"
           :name="name"
           :placeholder="placeholder"
+          :readonly="inputReadOnly"
           @input="onInput"
           @focus="onInputFocus"
           @blur="onInputBlur"
@@ -124,6 +125,10 @@ export default defineComponent({
     placeholder: { // 输入框提示文字
       type: String,
       default: ''
+    },
+    inputReadOnly: { // 设置输入框为只读（避免在移动设备上打开虚拟键盘）
+      type: Boolean,
+      default: false
     }
   },
   emits: ['update:inputModelValue', 'input', 'focus', 'blur', 'show', 'shown', 'hidden'],

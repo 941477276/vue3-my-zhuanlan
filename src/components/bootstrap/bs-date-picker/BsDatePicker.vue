@@ -11,6 +11,7 @@
     :id="pickerId"
     :name="name"
     :placeholder="inputPlaceholder"
+    :input-readonly="inputReadOnly"
     @update:inputModelValue="viewDateText = $event"
     dadta-input="onInput"
     dadta-blur="onInputBlur"

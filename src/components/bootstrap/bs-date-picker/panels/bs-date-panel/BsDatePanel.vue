@@ -1,6 +1,7 @@
 <template>
   <div class="bs-picker-date-panel">
     <PanelHeader
+      v-if="showHeader"
       :onSuperPrev="onSuperPrev"
       :onPrev="onPrev"
       :onNext="onNext"
@@ -112,6 +113,10 @@ export default defineComponent({
     disabledDate: { // 禁用的日期
       type: Function,
       default: null
+    },
+    showHeader: { // 是否显头部
+      type: Boolean,
+      default: true
     }
   },
   emits: ['update:modelValue'],
