@@ -32,6 +32,12 @@
         </template>
       </BsDatePicker>
     </div>
+
+    <div>
+      <hr>
+      <h3>禁用</h3>
+      <BsDatePicker v-model="date2" :disabled-date="disabledDate2"></BsDatePicker>
+    </div>
   </div>
 </template>
 
@@ -42,7 +48,7 @@ import {
   defineComponent
 } from 'vue';
 import BsDatePicker from './BsDatePicker.vue';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 export default defineComponent({
   name: 'BsDatePickerUsage',
@@ -56,7 +62,9 @@ export default defineComponent({
       return day >= 1 && day <= 10;
     };
     let date1 = ref('2022-08-10');
+    let date2 = ref();
 
+    console.log('dayjs().endOf(\'month\')', dayjs().endOf('month'));
     return {
       value1: ref<Dayjs>(),
       value2: ref<Dayjs>(),
@@ -65,6 +73,7 @@ export default defineComponent({
       value5: ref<Dayjs>(),
 
       date1,
+      date2,
 
       disabledDate,
       dateRender (data: any) {
@@ -83,6 +92,11 @@ export default defineComponent({
             }
           }, 'cn')
         ]);
+      },
+      disabledDate2 (current: Dayjs) {
+        let now = dayjs();
+        console.log('disabledDate2', current);
+        return (current.valueOf() < now.valueOf()) || (current.endOf('month').valueOf() > now.endOf('month').valueOf());
       }
     };
   }

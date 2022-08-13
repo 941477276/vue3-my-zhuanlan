@@ -18,6 +18,7 @@
           :suffix-icon="suffixIcon"
           :clearable="clearable"
           :name="name"
+          :placeholder="placeholder"
           @input="onInput"
           @focus="onInputFocus"
           @blur="onInputBlur"
@@ -119,6 +120,10 @@ export default defineComponent({
     setMinWidth: {
       type: Boolean,
       default: false
+    },
+    placeholder: { // 输入框提示文字
+      type: String,
+      default: ''
     }
   },
   emits: ['update:inputModelValue', 'input', 'focus', 'blur', 'show', 'shown', 'hidden'],

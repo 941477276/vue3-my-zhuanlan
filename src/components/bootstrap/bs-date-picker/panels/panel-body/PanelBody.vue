@@ -134,6 +134,9 @@ export default defineComponent({
       let cellIndex = tdEl.dataset.cellIndex * 1;
       let cellData = findCellData(props.bodyCells, rowIndex, cellIndex);
       console.log('cell-data', cellData, rowIndex, cellData);
+      if (cellData.disabled) {
+        return;
+      }
       ctx.emit('cell-click', cellData, rowIndex, cellData);
     };
     return {
