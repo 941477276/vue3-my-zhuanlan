@@ -1,7 +1,10 @@
 <template>
   <div class="component-usage">
     <a-space direction="vertical" :size="12" style="margin-top: 2rem;">
-      <a-date-picker v-model:value="value1" :disabledDate="disabledDate" />
+      <a-date-picker
+        v-model:value="value1"
+        :disabledDate="disabledDate"
+        :date-render="dateRender"/>
       <a-date-picker v-model:value="value2" picker="week" />
       <a-date-picker v-model:value="value3" picker="month" />
       <a-date-picker v-model:value="value4" picker="quarter" />
@@ -9,7 +12,25 @@
     </a-space>
     <div>
       <h3>基本使用</h3>
-      <BsDatePicker v-model="date1"></BsDatePicker>
+      <BsDatePicker name="startDate" v-model="date1"></BsDatePicker>
+    </div>
+
+    <div>
+      <hr>
+      <h3>自定义渲染</h3>
+      <h6 style="margin: 0.5rem 0;">使用 <code>dateRender</code> 函数</h6>
+      <BsDatePicker
+        name="startDate"
+        v-model="date1"
+        :date-render="dateRender2"></BsDatePicker>
+      <h6 style="margin: 0.5rem 0;">使用 <code>#dateRender</code> 插槽</h6>
+      <BsDatePicker
+        name="startDate"
+        v-model="date1">
+        <template #dateRender="cell">
+          {{ cell.current.date() }}<small style="color: #f60;margin-left: 2px; opacity: 0.6;">cn</small>
+        </template>
+      </BsDatePicker>
     </div>
   </div>
 </template>
@@ -17,6 +38,7 @@
 <script lang="ts">
 import {
   ref,
+  h,
   defineComponent
 } from 'vue';
 import BsDatePicker from './BsDatePicker.vue';
@@ -44,7 +66,24 @@ export default defineComponent({
 
       date1,
 
-      disabledDate
+      disabledDate,
+      dateRender (data: any) {
+        // console.log(current, today);
+        return data.current.date();
+      },
+      dateRender2 (current: Dayjs) {
+        console.log('current', current);
+        return h('div', [
+          current.date(),
+          h('small', {
+            style: {
+              color: '#f60',
+              marginLeft: '2px',
+              opacity: 0.6
+            }
+          }, 'cn')
+        ]);
+      }
     };
   }
 });

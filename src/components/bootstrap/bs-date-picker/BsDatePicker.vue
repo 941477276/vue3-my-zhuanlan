@@ -8,7 +8,8 @@
     :input-model-value="viewDateText"
     :delive-context-to-form-item="deliveContextToFormItem"
     :disabled="disabled"
-    data-id="bsTimePickerId"
+    :id="pickerId"
+    :name="name"
     @update:inputModelValue="viewDateText = $event"
     dadta-input="onInput"
     dadta-blur="onInputBlur"
@@ -23,11 +24,13 @@
       <PanelSidebar v-if="showSidebar"></PanelSidebar>
       <BsDatePanel
         :model-value="date"
+        :date-render="dateRender"
         @update:modelValue="onDatePanelModelValueChange"></BsDatePanel>
       <div class="bs-picker-footer" v-if="showFooter">
         <div class="bs-picker-btns">
           <!--<BsButton class="bs-picker-clear" size="sm" @click="clear">清空</BsButton>
           <BsButton class="bs-picker-now" type="primary" size="sm" @click="setNow">此刻</BsButton>-->
+          <!--TODO 按钮的禁用问题-->
           <BsButton class="bs-picker-today" size="sm" @click="onNowBtnClick">今天</BsButton>
         </div>
       </div>
@@ -44,16 +47,24 @@ import {
   PropType,
   ref,
   Ref,
-  watch
+  watch,
+  provide
 } from 'vue';
 import { BsSize } from '@/ts-tokens/bootstrap';
-import { PickerType } from '@/ts-tokens/bootstrap/date-picker';
+import { PickerType, datePickerCtx } from '@/ts-tokens/bootstrap/date-picker';
 import BsCommonPicker from '../bs-common-picker/BsCommonPicker.vue';
 import BsDatePanel from './panels/bs-date-panel/BsDatePanel.vue';
 import PanelSidebar from './panels/panel-sidebar/PanelSidebar.vue';
 import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil } from '@/common/dayjsUtil';
 
+let pickerCounts: any = {
+  date: 0,
+  week: 0,
+  month: 0,
+  quarter: 0,
+  year: 0
+};
 // js编写日历思路：https://www.cnblogs.com/zaijin-yang/p/12009727.html
 export default defineComponent({
   name: 'BsDatePicker',
@@ -106,6 +117,10 @@ export default defineComponent({
         return true;
       }
     },
+    name: { // input输入框的name属性
+      type: String,
+      default: null
+    },
     showSidebar: { // 是否显示侧边栏
       type: Boolean,
       default: false
@@ -119,10 +134,15 @@ export default defineComponent({
       default () {
         return [];
       }
+    },
+    dateRender: { // 自定义日期单元格的内容
+      type: Function,
+      default: null
     }
   },
   setup (props: any, ctx: any) {
     let bsCommonPicker = ref();
+    let pickerId = ref(props.id || `bs-${props.pickerType}-picker_${++pickerCounts[props.pickerType]}`);
     let visible = ref(false);
 
     let date = ref<Dayjs|null>();
@@ -149,6 +169,11 @@ export default defineComponent({
       }
       (bsCommonPicker.value as any)?.showDropdown(false);
     };
+    // 显示下拉面板
+    let show = function () {
+      (bsCommonPicker.value as any)?.showDropdown(true);
+    };
+    // 设置今天
     let setNow = function () {
       let now = dayjs();
       let valueFormat = props.valueFormat;
@@ -163,14 +188,19 @@ export default defineComponent({
       hide(300);
     };
 
+    // 向子孙组件提供当前组件的上下问
+    provide(datePickerCtx, { ctx });
+
     return {
       bsCommonPicker,
+      pickerId,
 
       visible,
       viewDateText,
       date,
 
       hide,
+      show,
       setNow,
 
       onDatePanelModelValueChange,

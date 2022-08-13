@@ -21,6 +21,7 @@
       :get-cell-text="setCellText"
       :get-cell-classname="setCellClassname"
       :get-cell-title="setCellTitle"
+      :get-cell-node="setCellNode"
       @cell-click="onCellClick"></PanelBody>
   </div>
 </template>
@@ -102,10 +103,16 @@ export default defineComponent({
     modelValue: {
       type: Object as PropType<Dayjs>,
       default: null
+    },
+    dateRender: { // 自定义日期单元格的内容
+      type: Function,
+      default: null
     }
   },
   emits: ['update:modelValue'],
   setup (props: any, ctx: any) {
+    let now = dayjs(); // 今天
+
     let date = ref(dayjs(props.modelValue ? props.modelValue : undefined));
     watch(() => props.modelValue, function (modelValue) {
       date.value = modelValue;
@@ -195,6 +202,8 @@ export default defineComponent({
       }
       ctx.emit('update:modelValue', cellData.dayjsIns);
     };
+
+    let dateRender = props.dateRender;
     return {
       currentDateInfo,
 
@@ -218,6 +227,9 @@ export default defineComponent({
         }
         return classnames;
       },
+      setCellNode: props.dateRender ? (cellData: any) => {
+        return dateRender(cellData.current, now, cellData.cellIndex);
+      } : undefined,
       setCellText (cellData: any) {
         return cellData.dayjsIns.date();
       },

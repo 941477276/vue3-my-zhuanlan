@@ -20,6 +20,7 @@
   min-width: 1.625rem;
   min-height: 1.625rem;
   line-height: 1.625rem;
+  border-radius: 0.125rem;
   transition: background-color .3s, color .3s;
   /*&:hover{
     background-color: #f3f3f3;
@@ -46,7 +47,6 @@
   }
   &.is-selected{
     .bs-picker-cell-inner{
-      border-radius: 0.125rem;
       color: #fff;
       background-color: var(--primary);
     }

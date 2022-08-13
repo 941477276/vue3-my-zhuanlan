@@ -17,6 +17,7 @@
           :size="size"
           :suffix-icon="suffixIcon"
           :clearable="clearable"
+          :name="name"
           @input="onInput"
           @focus="onInputFocus"
           @blur="onInputBlur"
@@ -98,6 +99,10 @@ export default defineComponent({
         }
         return true;
       }
+    },
+    name: { // input输入框的name属性
+      type: String,
+      default: null
     },
     inputModelValue: { // 输入框的值
       type: [String, Number],

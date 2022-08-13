@@ -18,14 +18,18 @@
           <td
             class="bs-picker-cell"
             v-for="(cellItem, cellIndex) in cells"
-            :key="cellItem.id"
+            :key="cellIndex"
             :title="getCellTitle(cellItem, cellIndex)"
             :data-row-index="rowIndex"
             :data-cell-index="cellIndex"
             :class="[
               ...getCellClassname(cellItem, cellIndex)
             ]">
-            <div class="bs-picker-cell-inner">{{ getCellText(cellItem, cellIndex) }}</div>
+            <!--<div class="bs-picker-cell-inner">{{ getCellText(cellItem, cellIndex) }}</div>-->
+            <PickerCellInner
+              :get-cell-node="getCellNode"
+              :cell-data="cellItem"
+              :cell-index="cellIndex">{{ getCellText(cellItem, cellIndex) }}</PickerCellInner>
           </td>
         </tr>
         <!--<tr class="bs-picker-row">
@@ -53,6 +57,7 @@ import {
   defineComponent
 } from 'vue';
 import { util } from '@/common/util';
+import PickerCellInner from './PickerCellInner.vue';
 /**
  * 查找单元格数据
  * @param tableData 表格数据
@@ -67,6 +72,9 @@ let findCellData = function (tableData: any[], rowIndex: number, cellIndex: numb
 
 export default defineComponent({
   name: 'BsPanelBody',
+  components: {
+    PickerCellInner
+  },
   props: {
     showHeader: { // 是否显示表头
       type: Boolean,
@@ -105,6 +113,10 @@ export default defineComponent({
       default () {
         return () => '';
       }
+    },
+    getCellNode: { // 自定义单元格的渲染内容
+      type: Function,
+      default: null
     }
   },
   emits: ['cell-click'],
