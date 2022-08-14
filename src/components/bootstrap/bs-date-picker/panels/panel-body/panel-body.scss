@@ -51,7 +51,11 @@
       background-color: var(--primary);
     }
   }
-  &.is-today{
+  &.is-today,
+  &.is-this-week,
+  &.is-this-quarter,
+  &.is-this-month,
+  &.is-this-year{
     font-weight: bold;
     .bs-picker-cell-inner{
       &::after{

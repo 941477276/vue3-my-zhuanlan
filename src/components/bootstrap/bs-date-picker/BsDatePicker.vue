@@ -25,11 +25,16 @@
       }">
       <PanelSidebar v-if="showSidebar"></PanelSidebar>
       <BsDatePanel
+        v-if="pickerType == 'date'"
         :model-value="date"
         :date-render="dateRender"
         :disabled-date="disabledDate"
         @update:modelValue="onDatePanelModelValueChange"></BsDatePanel>
-      <div class="bs-picker-footer" v-if="showFooter">
+      <BsMonthPanel
+        v-if="pickerType == 'month'"
+        :date-render="dateRender"
+        :disabled-date="disabledDate"></BsMonthPanel>
+      <div class="bs-picker-footer" v-if="showFooter && pickerType == 'date'">
         <div class="bs-picker-btns">
           <!--<BsButton class="bs-picker-clear" size="sm" @click="clear">清空</BsButton>
           <BsButton class="bs-picker-now" type="primary" size="sm" @click="setNow">此刻</BsButton>-->
@@ -58,10 +63,10 @@ import { PickerType, datePickerCtx } from '@/ts-tokens/bootstrap/date-picker';
 import BsCommonPicker from '../bs-common-picker/BsCommonPicker.vue';
 import { bsDatePickerProps } from './bsDatePickerProps';
 import BsDatePanel from './panels/bs-date-panel/BsDatePanel.vue';
+import BsMonthPanel from './panels/bs-month-panel/BsMonthPanel.vue';
 import PanelSidebar from './panels/panel-sidebar/PanelSidebar.vue';
 import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil } from '@/common/dayjsUtil';
-import { getUpdateModelValue } from '@/components/bootstrap/bs-time-picker/useTimePicker';
 
 let pickerCounts: any = {
   date: 0,
@@ -76,6 +81,7 @@ export default defineComponent({
   components: {
     BsCommonPicker,
     BsDatePanel,
+    BsMonthPanel,
     PanelSidebar
   },
   props: {
