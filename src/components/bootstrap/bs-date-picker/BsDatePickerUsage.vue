@@ -3,6 +3,7 @@
     <a-space direction="vertical" :size="12" style="margin-top: 2rem;">
       <a-date-picker
         v-model:value="value1"
+        value-format="YYYY-MM-DD"
         :disabledDate="disabledDate"
         :date-render="dateRender"/>
       <a-date-picker v-model:value="value2" picker="week" />

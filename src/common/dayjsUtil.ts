@@ -6,6 +6,7 @@ import weekOfYear from 'dayjs/plugin/weekOfYear';
 import weekYear from 'dayjs/plugin/weekYear';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import isToday from 'dayjs/plugin/isToday';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 
 dayjs.extend(weekday);
 // 设置国际化
@@ -17,6 +18,8 @@ dayjs.extend(weekYear);
 dayjs.extend(advancedFormat);
 // 判断当前日期是否为今天
 dayjs.extend(isToday);
+// 开启强校验
+dayjs.extend(customParseFormat);
 
 const localeMap: StringKeyObject = {
   // ar_EG:
@@ -137,6 +140,15 @@ export const dayjsUtil = {
     } else {
       return dayjs(value);
     }
+  },
+  /**
+   *  强校的验日期/时间
+   * @param {string} value 日期/时间
+   * @param {string} format 格式模板
+   * @return {boolean}
+   */
+  strictDayjs (value: string, format: string) {
+    return dayjs(value, format, true);
   },
 
   locale: {

@@ -13,7 +13,7 @@ export const bsDatePickerProps = {
   },
   format: { // 日期显示的格式
     type: String,
-    default: 'YYYY-MM-DD'
+    default: ''
   },
   valueFormat: { // 绑定值的格式
     type: String,

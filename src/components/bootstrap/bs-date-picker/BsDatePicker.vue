@@ -13,9 +13,9 @@
     :placeholder="inputPlaceholder"
     :input-readonly="inputReadOnly"
     @update:inputModelValue="viewDateText = $event"
-    dadta-input="onInput"
-    dadta-blur="onInputBlur"
-    dadta-clear="clear"
+    @input="onInput"
+    @blur="onInputBlur"
+    @clear="clear"
     @show="visible = true"
     @hidden="visible = false">
     <div
@@ -61,6 +61,7 @@ import BsDatePanel from './panels/bs-date-panel/BsDatePanel.vue';
 import PanelSidebar from './panels/panel-sidebar/PanelSidebar.vue';
 import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil } from '@/common/dayjsUtil';
+import { getUpdateModelValue } from '@/components/bootstrap/bs-time-picker/useTimePicker';
 
 let pickerCounts: any = {
   date: 0,
@@ -86,17 +87,48 @@ export default defineComponent({
     let visible = ref(false);
     let now = dayjs();
 
+    // 格式模板
+    let formatInner = computed(function () {
+      let format = props.format;
+      if (format) {
+        return format;
+      }
+      let pickerType = props.pickerType;
+      let formatMap: any = {
+        date: 'YYYY-MM-DD',
+        week: 'YYYY-wo',
+        month: 'YYYY-MM',
+        quarter: 'YYYY-\QQ',
+        year: 'YYYY'
+      };
+      let formatValue = formatMap[pickerType];
+      if (props.showTime) {
+        formatValue += 'hh:mm:ss';
+      }
+      return formatValue;
+    });
+
     let date = ref<Dayjs|null>();
     let viewDateText = ref('');
-    watch(() => props.modelValue, function (modelValue: Dayjs|string) {
+    let setViewDateTxt = function (modelValue: Dayjs|string) {
       if (!modelValue) {
-        date.value = null;
         viewDateText.value = '';
         return;
       }
-      let dayjsIns = dayjsUtil.parseToDayjs(modelValue, props.format);
-      date.value = dayjsIns;
-      viewDateText.value = dayjsIns.format(props.format);
+      let format = formatInner.value;
+      let dayjsIns = dayjsUtil.parseToDayjs(modelValue, format);
+      console.log('setViewDateTxt dayjsIns', dayjsIns, format);
+      viewDateText.value = dayjsIns.format(format);
+    };
+    watch(() => props.modelValue, function (modelValue: Dayjs|string) {
+      if (!modelValue) {
+        date.value = null;
+      } else {
+        let dayjsIns = dayjsUtil.parseToDayjs(modelValue, formatInner.value);
+        date.value = dayjsIns;
+      }
+
+      setViewDateTxt(modelValue);
     }, { immediate: true });
 
     // 输入框提示文字
@@ -140,6 +172,19 @@ export default defineComponent({
       return !!disabledDate(now.clone());
     });
 
+    // 设置值
+    let setDate = function (date?: Dayjs) {
+      if (!date) {
+        ctx.emit('update:modelValue', '');
+        return;
+      }
+      let valueFormat = props.valueFormat;
+      ctx.emit('update:modelValue', !valueFormat ? date.clone() : date.format(valueFormat));
+    };
+    // 清空内容
+    let clear = function () {
+      setDate();
+    };
     // 隐藏下拉面板
     let hide = function (delay = 0) {
       if (delay > 0) {
@@ -157,16 +202,49 @@ export default defineComponent({
     };
     // 设置今天
     let setNow = function () {
-      let valueFormat = props.valueFormat;
-      ctx.emit('update:modelValue', !valueFormat ? now.clone() : now.format(valueFormat));
+      setDate(now.clone());
     };
 
     //  日期控件model-value值改变事件
     let onDatePanelModelValueChange = function (newDate: Dayjs) {
-      let valueFormat = props.valueFormat;
-      ctx.emit('update:modelValue', !valueFormat ? newDate : newDate.format(valueFormat));
+      setDate(newDate);
       // 隐藏下拉面板
       hide(300);
+    };
+
+    // 开启输入与操作同步功能
+    let isInputTextInvalid = false;
+    // 输入框输入事件
+    let onInput = function (value: string) {
+      if (!value) {
+        isInputTextInvalid = false;
+        return;
+      }
+      // 开启严格校验，如不开启严格校验，当遇到格式如HH:mm:ss，输入框初始值为11:03:20，用户想改成11:30:20，当用户选中“03”然后再输入“3”时值就改变了
+      let dayjsIns = dayjsUtil.strictDayjs(value, formatInner.value);
+      console.log('onInput', value, dayjsIns.isValid(), dayjsIns);
+      if (dayjsIns.isValid()) {
+        /* let period = '';
+        if (props.use12Hours) {
+          period = dayjsIns.hour() > 12 ? 'pm' : 'am';
+        }
+        let result = getUpdateModelValue(props, null, period, {
+          hour: dayjsIns.hour(),
+          minute: dayjsIns.minute(),
+          second: dayjsIns.second()
+        });
+        // console.log('即将更新的modelValue：', result);
+        ctx.emit('update:modelValue', result); */
+        setDate(dayjsIns);
+        isInputTextInvalid = true;
+      } else {
+        isInputTextInvalid = false;
+      }
+    };
+    let onInputBlur = function () {
+      if (!isInputTextInvalid) {
+        setViewDateTxt(props.modelValue);
+      }
     };
 
     // 向子孙组件提供当前组件的上下问
@@ -182,6 +260,7 @@ export default defineComponent({
       inputPlaceholder,
       todayIsDisabled,
 
+      clear,
       hide,
       show,
       setNow,
@@ -190,7 +269,9 @@ export default defineComponent({
       onNowBtnClick () {
         setNow();
         hide(300);
-      }
+      },
+      onInput,
+      onInputBlur
     };
   }
 });

@@ -123,9 +123,15 @@ export default defineComponent({
   setup (props: any, ctx: any) {
     let now = dayjs(); // 今天
 
-    let date = ref(dayjs(props.modelValue ? props.modelValue : undefined));
+    let panelViewDate = ref(dayjs(props.modelValue ? props.modelValue : undefined));
+    let setPanelViewDate = (date: Dayjs) => {
+      if (!date) {
+        return;
+      }
+      panelViewDate.value = date;
+    };
     watch(() => props.modelValue, function (modelValue) {
-      date.value = modelValue;
+      setPanelViewDate(modelValue || dayjs());
     });
     // date.value = dayjs('2022-02-01');
     // 周的第一天
@@ -135,7 +141,7 @@ export default defineComponent({
     });
     // 当前日期信息
     let currentDateInfo = computed(function () {
-      let currentDate = date.value;
+      let currentDate = panelViewDate.value;
       let year = dayjsUtil.getYear(currentDate);
       let month = dayjsUtil.getMonth(currentDate);
       let day = dayjsUtil.getDate(currentDate);
@@ -165,7 +171,7 @@ export default defineComponent({
     let tableBody = computed(function () {
       let firstDayOfWeek = weekFirstDay.value;
       let dateArr: any[] = [];
-      let currentDate = date.value.clone();
+      let currentDate = panelViewDate.value.clone();
       let year = dayjsUtil.getYear(currentDate);
       let month = dayjsUtil.getMonth(currentDate);
       // let day = dayjsUtil.getDate(currentDate);
@@ -228,7 +234,7 @@ export default defineComponent({
       tableBody,
       // 设置单元格的classname
       setCellClassname (cellData: any, cellIndex: number) {
-        let currentDate = date.value;
+        let currentDate = panelViewDate.value;
         let modelValue = props.modelValue;
         let dayjsIns = cellData.dayjsIns;
         let classnames: string[] = [];
@@ -259,16 +265,16 @@ export default defineComponent({
       },
 
       onSuperPrev () {
-        date.value = dayjsUtil.addYear(date.value, -1);
+        setPanelViewDate(dayjsUtil.addYear(panelViewDate.value, -1));
       },
       onPrev () {
-        date.value = dayjsUtil.addMonth(date.value, -1);
+        setPanelViewDate(dayjsUtil.addMonth(panelViewDate.value, -1));
       },
       onNext () {
-        date.value = dayjsUtil.addMonth(date.value, 1);
+        setPanelViewDate(dayjsUtil.addMonth(panelViewDate.value, 1));
       },
       onSuperNext () {
-        date.value = dayjsUtil.addYear(date.value, 1);
+        setPanelViewDate(dayjsUtil.addYear(panelViewDate.value, 1));
       },
       onCellClick
     };
