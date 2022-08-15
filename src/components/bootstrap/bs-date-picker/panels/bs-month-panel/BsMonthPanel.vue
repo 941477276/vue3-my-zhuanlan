@@ -104,13 +104,14 @@ export default defineComponent({
         return;
       }
       // 选择的是已经选中的日期则不进行后续操作
-      if (modelValue && (modelValue.format(defaultFormat) === cellData.dayjsIns.format(defaultFormat))) {
+      if (modelValue && (modelValue.format(defaultFormat) === cellData.date.format(defaultFormat))) {
         return;
       }
-      ctx.emit('update:modelValue', cellData.dayjsIns);
+      ctx.emit('update:modelValue', cellData.date);
     };
 
     console.log('2022-08', dayjs('2022-08', 'YYYY-MM'));
+    let dateRender = props.dateRender;
     return {
       yearName,
       tableBody,
@@ -133,7 +134,7 @@ export default defineComponent({
         return classnames;
       },
       setCellNode: props.dateRender ? (cellData: any) => {
-        // return dateRender(cellData.current, now, cellData.cellIndex);
+        return dateRender(cellData.current, now, cellData.cellIndex);
       } : undefined,
       setCellText (cellData: any) {
         return cellData.monthName;
@@ -160,7 +161,7 @@ export default defineComponent({
   width: 17.5rem;
   .bs-picker-table{
     width: 100%;
-    height: 16.5rem;
+    height: 16rem;
   }
   .bs-picker-cell{
     &::before{

@@ -32,8 +32,10 @@
         @update:modelValue="onDatePanelModelValueChange"></BsDatePanel>
       <BsMonthPanel
         v-if="pickerType == 'month'"
+        :model-value="date"
         :date-render="dateRender"
-        :disabled-date="disabledDate"></BsMonthPanel>
+        :disabled-date="disabledDate"
+        @update:modelValue="onDatePanelModelValueChange"></BsMonthPanel>
       <div class="bs-picker-footer" v-if="showFooter && pickerType == 'date'">
         <div class="bs-picker-btns">
           <!--<BsButton class="bs-picker-clear" size="sm" @click="clear">清空</BsButton>
