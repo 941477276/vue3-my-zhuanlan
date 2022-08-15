@@ -7,6 +7,7 @@ import weekYear from 'dayjs/plugin/weekYear';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import isToday from 'dayjs/plugin/isToday';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import quarterOfYear from 'dayjs/plugin/quarterOfYear';
 
 dayjs.extend(weekday);
 // 设置国际化
@@ -20,6 +21,8 @@ dayjs.extend(advancedFormat);
 dayjs.extend(isToday);
 // 开启强校验
 dayjs.extend(customParseFormat);
+// 季度插件
+dayjs.extend(quarterOfYear);
 
 const localeMap: StringKeyObject = {
   // ar_EG:

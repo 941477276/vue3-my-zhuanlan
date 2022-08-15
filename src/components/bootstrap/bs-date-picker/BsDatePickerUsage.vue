@@ -48,6 +48,14 @@
         picker-type="month"
         :disabled-date="(date) => {return date.month() < 7}"></BsDatePicker>
     </div>
+
+    <div>
+      <hr>
+      <h3>选择季度</h3>
+      <BsDatePicker
+        v-model="date4"
+        picker-type="quarter"></BsDatePicker>
+    </div>
   </div>
 </template>
 
@@ -74,6 +82,7 @@ export default defineComponent({
     let date1 = ref('2022-08-10');
     let date2 = ref();
     let date3 = ref();
+    let date4 = ref();
 
     console.log('dayjs().endOf(\'month\')', dayjs().endOf('month'));
     return {
@@ -86,6 +95,7 @@ export default defineComponent({
       date1,
       date2,
       date3,
+      date4,
 
       disabledDate,
       dateRender (data: any) {

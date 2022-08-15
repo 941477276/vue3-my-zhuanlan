@@ -36,6 +36,12 @@
         :date-render="dateRender"
         :disabled-date="disabledDate"
         @update:modelValue="onDatePanelModelValueChange"></BsMonthPanel>
+      <BsQuarterPanel
+        v-if="pickerType == 'quarter'"
+        :model-value="date"
+        :date-render="dateRender"
+        :disabled-date="disabledDate"
+        @update:modelValue="onDatePanelModelValueChange"></BsQuarterPanel>
       <div class="bs-picker-footer" v-if="showFooter && pickerType == 'date'">
         <div class="bs-picker-btns">
           <!--<BsButton class="bs-picker-clear" size="sm" @click="clear">清空</BsButton>
@@ -66,6 +72,7 @@ import BsCommonPicker from '../bs-common-picker/BsCommonPicker.vue';
 import { bsDatePickerProps } from './bsDatePickerProps';
 import BsDatePanel from './panels/bs-date-panel/BsDatePanel.vue';
 import BsMonthPanel from './panels/bs-month-panel/BsMonthPanel.vue';
+import BsQuarterPanel from './panels/bs-quarter-panel/BsQuarterPanel.vue';
 import PanelSidebar from './panels/panel-sidebar/PanelSidebar.vue';
 import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil } from '@/common/dayjsUtil';
@@ -84,6 +91,7 @@ export default defineComponent({
     BsCommonPicker,
     BsDatePanel,
     BsMonthPanel,
+    BsQuarterPanel,
     PanelSidebar
   },
   props: {
@@ -106,7 +114,7 @@ export default defineComponent({
         date: 'YYYY-MM-DD',
         week: 'YYYY-wo',
         month: 'YYYY-MM',
-        quarter: 'YYYY-\QQ',
+        quarter: 'YYYY-[Q]Q',
         year: 'YYYY'
       };
       let formatValue = formatMap[pickerType];

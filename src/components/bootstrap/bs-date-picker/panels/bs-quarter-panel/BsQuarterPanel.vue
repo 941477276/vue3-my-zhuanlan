@@ -1,23 +1,23 @@
 <template>
-<div class="bs-picker-month-panel">
-  <PanelHeader
-    v-if="showHeader"
-    :onSuperPrev="onSuperPrev"
-    :onSuperNext="onSuperNext">
-    <button
-      type="button"
-      tabindex="-1"
-      class="bs-picker-header-year-btn">{{ yearName }}</button>
-  </PanelHeader>
-  <PanelBody
-    :show-header="false"
-    :body-cells="tableBody"
-    :get-cell-text="setCellText"
-    :get-cell-classname="setCellClassname"
-    :get-cell-title="setCellTitle"
-    :get-cell-node="setCellNode"
-    @cell-click="onCellClick"></PanelBody>
-</div>
+  <div class="bs-picker-quarter-panel">
+    <PanelHeader
+      v-if="showHeader"
+      :onSuperPrev="onSuperPrev"
+      :onSuperNext="onSuperNext">
+      <button
+        type="button"
+        tabindex="-1"
+        class="bs-picker-header-year-btn">{{ yearName }}</button>
+    </PanelHeader>
+    <PanelBody
+      :show-header="false"
+      :body-cells="tableBody"
+      :get-cell-text="setCellText"
+      :get-cell-classname="setCellClassname"
+      :get-cell-title="setCellTitle"
+      :get-cell-node="setCellNode"
+      @cell-click="onCellClick"></PanelBody>
+  </div>
 </template>
 
 <script lang="ts">
@@ -30,9 +30,9 @@ import PanelBody from '../panel-body/PanelBody.vue';
 import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil, getMonthDays } from '@/common/dayjsUtil';
 
-let defaultFormat = 'YYYY-MM';
+let defaultFormat = 'YYYY-[Q]Q';
 export default defineComponent({
-  name: 'BsMonthPanel',
+  name: 'BsQuarterPanel',
   components: {
     PanelHeader,
     PanelBody
@@ -58,7 +58,8 @@ export default defineComponent({
   emits: ['update:modelValue'],
   setup (props: any, ctx: any) {
     let now = dayjs();
-    let monthValueNow = dayjs().format(defaultFormat);
+    let quarterValueNow = dayjs().format(defaultFormat);
+    console.log('quarterValueNow', quarterValueNow);
     let panelViewDate = ref(dayjs(props.modelValue ? props.modelValue : undefined));
     let setPanelViewDate = (date: Dayjs) => {
       if (!date) {
@@ -76,26 +77,24 @@ export default defineComponent({
     });
 
     let tableBody = computed(function () {
-      let monthArr: any = [];
-      let currentMonth = dayjsUtil.setDate(panelViewDate.value, 1);
-      console.log('currentMonth', currentMonth);
-      let monthsShort = dayjsUtil.locale.monthsShort('zh-cn');
+      let dateStart = panelViewDate.value.date(1);
+      let quarterArr: any = [];
       let disabledDate = props.disabledDate;
-      let tempMonthArr = monthsShort.map((monthName: string, index: number) => {
-        let date = dayjsUtil.setMonth(currentMonth, index);
-        return {
-          monthName,
-          date,
-          dayjsIns: date,
-          disabled: typeof disabledDate === 'function' ? !!disabledDate(date, monthName) : false
-        };
-      });
+      while (quarterArr.length < 4) {
+        let len = quarterArr.length;
+        let quarter = dateStart.quarter(len + 1);
 
-      while (tempMonthArr.length > 0) {
-        monthArr.push(tempMonthArr.splice(0, 3));
+        // console.log('quarter', quarter);
+        let quarterName = `Q${len + 1}`;
+        quarterArr.push({
+          quarter,
+          dayjsIns: quarter,
+          quarterName,
+          disabled: typeof disabledDate === 'function' ? !!disabledDate(quarter, quarterName) : false
+        });
       }
 
-      return monthArr;
+      return [quarterArr];
     });
 
     // 单元格点击事件
@@ -105,10 +104,10 @@ export default defineComponent({
         return;
       }
       // 选择的是已经选中的日期则不进行后续操作
-      if (modelValue && (modelValue.format(defaultFormat) === cellData.date.format(defaultFormat))) {
+      if (modelValue && (modelValue.quarter() === cellData.quarter.quarter())) {
         return;
       }
-      ctx.emit('update:modelValue', cellData.date);
+      ctx.emit('update:modelValue', cellData.quarter);
     };
 
     console.log('2022-08', dayjs('2022-08', 'YYYY-MM'));
@@ -118,16 +117,17 @@ export default defineComponent({
       tableBody,
       // 设置单元格的classname
       setCellClassname (cellData: any, cellIndex: number) {
-        let currentDate = panelViewDate.value;
+        console.log('getCellClassname', cellData);
+        // let currentDate = panelViewDate.value;
         let modelValue = props.modelValue;
-        let dayjsIns = cellData.date;
+        let dayjsIns = cellData.quarter;
         let classnames: string[] = ['active-cell'];
-        // console.log('getCellClassname', cellData.disabled);
-        if (modelValue && (modelValue.format(defaultFormat) === dayjsIns.format(defaultFormat))) {
+
+        if (modelValue && (modelValue.quarter() === dayjsIns.quarter())) {
           classnames.push('is-selected');
         }
-        if (dayjsIns.format(defaultFormat) === monthValueNow) {
-          classnames.push('is-this-month');
+        if (dayjsIns.format(defaultFormat) === quarterValueNow) {
+          classnames.push('is-this-quarter');
         }
         if (cellData.disabled) {
           classnames.push('is-disabled');
@@ -138,10 +138,10 @@ export default defineComponent({
         return dateRender(cellData.current, now, cellData.cellIndex);
       } : undefined,
       setCellText (cellData: any) {
-        return cellData.monthName;
+        return cellData.quarterName;
       },
       setCellTitle (cellData: any) {
-        return cellData.monthName;
+        return cellData.quarter.format(defaultFormat);
       },
       onSuperPrev () {
         console.log('onSuperPrev');
@@ -158,11 +158,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.bs-picker-month-panel{
+.bs-picker-quarter-panel{
   width: 17.5rem;
   .bs-picker-table{
     width: 100%;
-    height: 16rem;
+    height: 3.5rem;
   }
   .bs-picker-cell{
     &::before{
