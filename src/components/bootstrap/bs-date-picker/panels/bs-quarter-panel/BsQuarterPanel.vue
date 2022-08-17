@@ -86,6 +86,7 @@ export default defineComponent({
 
         // console.log('quarter', quarter);
         let quarterName = `Q${len + 1}`;
+        console.log('quarterName2', dayjsUtil.locale.format(quarter, 'zh-cn', '[Q]Q'));
         quarterArr.push({
           quarter,
           dayjsIns: quarter,
@@ -110,7 +111,7 @@ export default defineComponent({
       ctx.emit('update:modelValue', cellData.quarter);
     };
 
-    console.log('2022-08', dayjs('2022-08', 'YYYY-MM'));
+    console.log('2022-08', dayjs('2022-Q3', 'YYYY-[Q]Q'));
     let dateRender = props.dateRender;
     return {
       yearName,
@@ -123,7 +124,7 @@ export default defineComponent({
         let dayjsIns = cellData.quarter;
         let classnames: string[] = ['active-cell'];
 
-        if (modelValue && (modelValue.quarter() === dayjsIns.quarter())) {
+        if (modelValue && (modelValue.format(defaultFormat) === dayjsIns.format(defaultFormat))) {
           classnames.push('is-selected');
         }
         if (dayjsIns.format(defaultFormat) === quarterValueNow) {
@@ -144,11 +145,9 @@ export default defineComponent({
         return cellData.quarter.format(defaultFormat);
       },
       onSuperPrev () {
-        console.log('onSuperPrev');
         setPanelViewDate(dayjsUtil.addYear(panelViewDate.value, -1));
       },
       onSuperNext () {
-        console.log('onSuperPrev');
         setPanelViewDate(dayjsUtil.addYear(panelViewDate.value, 1));
       },
       onCellClick

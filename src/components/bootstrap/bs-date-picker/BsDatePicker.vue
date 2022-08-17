@@ -236,6 +236,10 @@ export default defineComponent({
         isInputTextInvalid = false;
         return;
       }
+      let format = formatInner.value;
+      if (format == 'quarter') {
+
+      }
       // 开启严格校验，如不开启严格校验，当遇到格式如HH:mm:ss，输入框初始值为11:03:20，用户想改成11:30:20，当用户选中“03”然后再输入“3”时值就改变了
       let dayjsIns = dayjsUtil.strictDayjs(value, formatInner.value);
       console.log('onInput', value, dayjsIns.isValid(), dayjsIns);
