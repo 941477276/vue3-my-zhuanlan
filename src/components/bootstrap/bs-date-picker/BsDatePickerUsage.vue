@@ -83,6 +83,14 @@
         picker-type="year"
         :disabled-date="disabledYear"></BsDatePicker>
     </div>
+
+    <div>
+      <hr>
+      <h3>选择年份区间</h3>
+      <BsDatePicker
+        v-model="decade"
+        picker-type="decade"></BsDatePicker>
+    </div>
   </div>
 </template>
 
@@ -115,6 +123,8 @@ export default defineComponent({
     let year = ref();
     let year2 = ref(dayjs('2024', 'YYYY'));
 
+    let decade = ref();
+
     console.log('quarter date', dayjs('2022-Q3', 'YYYY-[Q]Q').quarter(2));
     console.log('quarter date', dayjs().month(0).quarter(2));
     console.log('year date', dayjs('2022', 'YYYY'));
@@ -133,6 +143,8 @@ export default defineComponent({
 
       year,
       year2,
+
+      decade,
 
       disabledDate,
       dateRender (data: any) {

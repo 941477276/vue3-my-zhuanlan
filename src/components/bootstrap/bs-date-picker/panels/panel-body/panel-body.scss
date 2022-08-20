@@ -55,7 +55,8 @@
   &.is-this-week,
   &.is-this-quarter,
   &.is-this-month,
-  &.is-this-year{
+  &.is-this-year,
+  &.is-this-decade-year{
     font-weight: bold;
     .bs-picker-cell-inner{
       &::after{
