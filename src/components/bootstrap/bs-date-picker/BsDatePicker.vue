@@ -42,6 +42,12 @@
         :date-render="dateRender"
         :disabled-date="disabledDate"
         @update:modelValue="onDatePanelModelValueChange"></BsQuarterPanel>
+      <BsYearPanel
+        v-if="pickerType == 'year'"
+        :model-value="date"
+        :date-render="dateRender"
+        :disabled-date="disabledDate"
+        @update:modelValue="onDatePanelModelValueChange"></BsYearPanel>
       <div class="bs-picker-footer" v-if="showFooter && pickerType == 'date'">
         <div class="bs-picker-btns">
           <!--<BsButton class="bs-picker-clear" size="sm" @click="clear">清空</BsButton>
@@ -73,6 +79,7 @@ import { bsDatePickerProps } from './bsDatePickerProps';
 import BsDatePanel from './panels/bs-date-panel/BsDatePanel.vue';
 import BsMonthPanel from './panels/bs-month-panel/BsMonthPanel.vue';
 import BsQuarterPanel from './panels/bs-quarter-panel/BsQuarterPanel.vue';
+import BsYearPanel from './panels/bs-year-panel/BsYearPanel.vue';
 import PanelSidebar from './panels/panel-sidebar/PanelSidebar.vue';
 import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil } from '@/common/dayjsUtil';
@@ -92,6 +99,7 @@ export default defineComponent({
     BsDatePanel,
     BsMonthPanel,
     BsQuarterPanel,
+    BsYearPanel,
     PanelSidebar
   },
   props: {

@@ -65,6 +65,24 @@
         picker-type="quarter"
         value-format="YYYY-[Q]Q"></BsDatePicker>
     </div>
+
+    <div>
+      <hr>
+      <h3>选择年份</h3>
+      <BsDatePicker
+        v-model="year"
+        picker-type="year"></BsDatePicker>
+    </div>
+
+    <div>
+      <hr>
+      <h3>选择年份(默认有值)</h3>
+      <BsDatePicker
+        v-model="year2"
+        format="YYYY年"
+        picker-type="year"
+        :disabled-date="disabledYear"></BsDatePicker>
+    </div>
   </div>
 </template>
 
@@ -94,8 +112,12 @@ export default defineComponent({
     let quarterDate = ref();
     let quarterDate2 = ref('2022-Q3');
 
+    let year = ref();
+    let year2 = ref(dayjs('2024', 'YYYY'));
+
     console.log('quarter date', dayjs('2022-Q3', 'YYYY-[Q]Q').quarter(2));
     console.log('quarter date', dayjs().month(0).quarter(2));
+    console.log('year date', dayjs('2022', 'YYYY'));
     return {
       value1: ref<Dayjs>(),
       value2: ref<Dayjs>(),
@@ -108,6 +130,9 @@ export default defineComponent({
       date3,
       quarterDate,
       quarterDate2,
+
+      year,
+      year2,
 
       disabledDate,
       dateRender (data: any) {
@@ -131,6 +156,10 @@ export default defineComponent({
         let now = dayjs();
         console.log('disabledDate2', current);
         return (current.valueOf() < now.valueOf()) || (current.endOf('month').valueOf() > now.endOf('month').valueOf());
+      },
+      disabledYear (current: Dayjs) {
+        let now = new Date().getFullYear();
+        return current.year() < now;
       }
     };
   }
