@@ -131,8 +131,21 @@ export default defineComponent({
         viewDateText.value = '';
         return;
       }
+      if (typeof modelValue === 'string') {
+        viewDateText.value = modelValue;
+        return;
+      }
       let format = formatInner.value;
-      let dayjsIns = dayjsUtil.parseToDayjs(modelValue, format);
+      let dayjsIns;
+      if (props.pickerType == 'quarter') {
+        dayjsIns = dayjsUtil.parseQuarter(modelValue, formatInner.value);
+      } else {
+        dayjsIns = dayjsUtil.parseToDayjs(modelValue, formatInner.value);
+      }
+      if (!dayjsIns) {
+        viewDateText.value = '';
+        return;
+      }
       console.log('setViewDateTxt dayjsIns', dayjsIns, format);
       viewDateText.value = dayjsIns.format(format);
     };
@@ -140,7 +153,13 @@ export default defineComponent({
       if (!modelValue) {
         date.value = null;
       } else {
-        let dayjsIns = dayjsUtil.parseToDayjs(modelValue, formatInner.value);
+        let dayjsIns;
+        if (props.pickerType == 'quarter') {
+          dayjsIns = dayjsUtil.parseQuarter(modelValue, formatInner.value);
+        } else {
+          dayjsIns = dayjsUtil.parseToDayjs(modelValue, formatInner.value);
+        }
+
         date.value = dayjsIns;
       }
 
@@ -237,11 +256,17 @@ export default defineComponent({
         return;
       }
       let format = formatInner.value;
-      if (format == 'quarter') {
-
+      if (props.pickerType == 'quarter') {
+        let dayjsIns = dayjsUtil.parseQuarter(value, format);
+        if (!dayjsIns) {
+          return;
+        }
+        setDate(dayjsIns);
+        isInputTextInvalid = true;
+        return;
       }
       // 开启严格校验，如不开启严格校验，当遇到格式如HH:mm:ss，输入框初始值为11:03:20，用户想改成11:30:20，当用户选中“03”然后再输入“3”时值就改变了
-      let dayjsIns = dayjsUtil.strictDayjs(value, formatInner.value);
+      let dayjsIns = dayjsUtil.strictDayjs(value, format);
       console.log('onInput', value, dayjsIns.isValid(), dayjsIns);
       if (dayjsIns.isValid()) {
         /* let period = '';

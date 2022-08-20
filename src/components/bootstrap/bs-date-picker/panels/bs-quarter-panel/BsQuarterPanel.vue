@@ -83,10 +83,8 @@ export default defineComponent({
       while (quarterArr.length < 4) {
         let len = quarterArr.length;
         let quarter = dateStart.quarter(len + 1);
+        let quarterName = dayjsUtil.locale.format(quarter, 'zh-cn', '[Q]Q');
 
-        // console.log('quarter', quarter);
-        let quarterName = `Q${len + 1}`;
-        console.log('quarterName2', dayjsUtil.locale.format(quarter, 'zh-cn', '[Q]Q'));
         quarterArr.push({
           quarter,
           dayjsIns: quarter,

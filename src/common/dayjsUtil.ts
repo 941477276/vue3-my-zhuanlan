@@ -153,6 +153,35 @@ export const dayjsUtil = {
   strictDayjs (value: string, format: string) {
     return dayjs(value, format, true);
   },
+  /**
+   * 将格式化后的季度字符串转换为date对象
+   * @param quarterValue 季度值
+   * @param format 格式化模板
+   */
+  parseQuarter (quarterValue: Dayjs|string, format: string) {
+    if (typeof quarterValue == 'object') {
+      return quarterValue;
+    }
+    let date = dayjs(quarterValue, format);
+    let year = date.year();
+    if (!year || isNaN(year)) {
+      return null;
+    }
+    // 获取季度，先将年份从字符串中移除，然后再用正则匹配剩余字符串中的数字
+    let quarterNumberMatch = quarterValue.replace(year + '', '').match(/\d+/);
+    if (!quarterNumberMatch) {
+      return null;
+    }
+    let quarterNumber = Number(quarterNumberMatch[0]);
+    console.log('quarterNumber', quarterNumber);
+    if (quarterNumber < 1) {
+      quarterNumber = 1;
+    }
+    if (quarterNumber > 4) {
+      quarterNumber = 4;
+    }
+    return date.quarter(quarterNumber);
+  },
 
   locale: {
     /**

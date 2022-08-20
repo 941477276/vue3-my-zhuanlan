@@ -8,7 +8,7 @@
         :date-render="dateRender"/>
       <a-date-picker v-model:value="value2" picker="week" />
       <a-date-picker v-model:value="value3" picker="month" />
-      <a-date-picker v-model:value="value4" picker="quarter" value-format="YYYY-[Q]Q" />
+      <a-date-picker v-model:value="value4" picker="quarter" data-value-format="YYYY-[Q]Q" />
       <a-date-picker v-model:value="value5" picker="year" />
     </a-space>
     <div>
@@ -53,8 +53,17 @@
       <hr>
       <h3>选择季度</h3>
       <BsDatePicker
-        v-model="date4"
+        v-model="quarterDate"
         picker-type="quarter"></BsDatePicker>
+    </div>
+
+    <div>
+      <hr>
+      <h3>选择季度(默认有值)</h3>
+      <BsDatePicker
+        v-model="quarterDate2"
+        picker-type="quarter"
+        value-format="YYYY-[Q]Q"></BsDatePicker>
     </div>
   </div>
 </template>
@@ -82,20 +91,23 @@ export default defineComponent({
     let date1 = ref('2022-08-10');
     let date2 = ref();
     let date3 = ref();
-    let date4 = ref();
+    let quarterDate = ref();
+    let quarterDate2 = ref('2022-Q3');
 
-    console.log('dayjs().endOf(\'month\')', dayjs().endOf('month'));
+    console.log('quarter date', dayjs('2022-Q3', 'YYYY-[Q]Q').quarter(2));
+    console.log('quarter date', dayjs().month(0).quarter(2));
     return {
       value1: ref<Dayjs>(),
       value2: ref<Dayjs>(),
       value3: ref<Dayjs>(),
-      value4: ref<Dayjs>(),
+      value4: ref<Dayjs>(dayjs()),
       value5: ref<Dayjs>(),
 
       date1,
       date2,
       date3,
-      date4,
+      quarterDate,
+      quarterDate2,
 
       disabledDate,
       dateRender (data: any) {
