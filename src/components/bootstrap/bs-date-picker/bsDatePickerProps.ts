@@ -83,5 +83,9 @@ export const bsDatePickerProps = {
   disabledDate: { // 禁用的日期
     type: Function,
     default: null
+  },
+  dropdownClassName: { // 下拉弹窗的额外classname
+    type: String,
+    default: ''
   }
 };

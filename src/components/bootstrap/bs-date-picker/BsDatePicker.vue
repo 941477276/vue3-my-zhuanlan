@@ -12,12 +12,13 @@
     :name="name"
     :placeholder="inputPlaceholder"
     :input-readonly="inputReadOnly"
+    :dropdown-class-name="dropdownClassName"
     @update:inputModelValue="viewDateText = $event"
     @input="onInput"
     @blur="onInputBlur"
     @clear="clear"
-    @show="visible = true"
-    @hidden="visible = false">
+    @show="onShow"
+    @hidden="onHidden">
     <div
       class="bs-picker-panel"
       :class="{
@@ -49,6 +50,7 @@
         :disabled-date="disabledDate"
         @update:modelValue="onDatePanelModelValueChange"></BsYearPanel>
       <BsDecadePanel
+        v-if="false"
         :model-value="date"
         :date-render="dateRender"
         :disabled-date="disabledDate"
@@ -112,6 +114,7 @@ export default defineComponent({
   props: {
     ...bsDatePickerProps
   },
+  emits: ['update:modelValue', 'change'],
   setup (props: any, ctx: any) {
     let bsCommonPicker = ref();
     let pickerId = ref(props.id || `bs-${props.pickerType}-picker_${++pickerCounts[props.pickerType]}`);
@@ -226,10 +229,13 @@ export default defineComponent({
     let setDate = function (date?: Dayjs) {
       if (!date) {
         ctx.emit('update:modelValue', '');
+        ctx.emit('change', '', null);
         return;
       }
       let valueFormat = props.valueFormat;
-      ctx.emit('update:modelValue', !valueFormat ? date.clone() : date.format(valueFormat));
+      let value = !valueFormat ? date.clone() : date.format(valueFormat);
+      ctx.emit('update:modelValue', value);
+      ctx.emit('change', value, date.clone());
     };
     // 清空内容
     let clear = function () {
@@ -331,7 +337,15 @@ export default defineComponent({
         hide(300);
       },
       onInput,
-      onInputBlur
+      onInputBlur,
+      onShow () {
+        visible.value = true;
+        ctx.emit('open');
+      },
+      onHidden () {
+        visible.value = false;
+        ctx.emit('hidden');
+      }
     };
   }
 });

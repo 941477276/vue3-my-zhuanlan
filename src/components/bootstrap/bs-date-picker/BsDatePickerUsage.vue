@@ -171,6 +171,7 @@ export default defineComponent({
       },
       disabledYear (current: Dayjs) {
         let now = new Date().getFullYear();
+        console.log('current111', current);
         return current.year() < now;
       }
     };

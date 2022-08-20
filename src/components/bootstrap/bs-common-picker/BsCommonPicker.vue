@@ -41,7 +41,8 @@
         ref="bsPickerDropdownRef"
         v-if="display"
         v-show="visible"
-        class="bs-picker-dropdown">
+        class="bs-picker-dropdown"
+        :class="dropdownClassName">
         <div class="bs-picker-panel-container">
           <slot></slot>
         </div>
@@ -129,6 +130,10 @@ export default defineComponent({
     inputReadOnly: { // 设置输入框为只读（避免在移动设备上打开虚拟键盘）
       type: Boolean,
       default: false
+    },
+    dropdownClassName: { // 下拉弹窗的额外classname
+      type: String,
+      default: ''
     }
   },
   emits: ['update:inputModelValue', 'input', 'focus', 'blur', 'show', 'shown', 'hidden'],
