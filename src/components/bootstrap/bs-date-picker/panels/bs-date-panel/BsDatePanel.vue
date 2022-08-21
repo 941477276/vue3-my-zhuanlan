@@ -19,10 +19,12 @@
     <PanelBody
       :header-cells="tableHeader"
       :body-cells="tableBody"
+      :get-row-classname="getRowClassname"
       :get-cell-text="setCellText"
       :get-cell-classname="setCellClassname"
       :get-cell-title="setCellTitle"
       :get-cell-node="setCellNode"
+      :has-prefix-column="hasPrefixColumn"
       @cell-click="onCellClick"></PanelBody>
   </div>
 </template>
@@ -33,12 +35,14 @@ import {
   computed,
   watch,
   defineComponent,
+  provide,
   PropType
 } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil, isLeapYear, getMonthDays } from '@/common/dayjsUtil';
 import PanelHeader from '../panel-header/PanelHeader.vue';
 import PanelBody from '../panel-body/PanelBody.vue';
+import { datePickerPrefixColumnSlotCtx } from '@/ts-tokens/bootstrap/date-picker';
 
 const totalCell = 42; // 单元格总数, 6行 * 7天（一周）
 const weekDayCount = 7;
@@ -117,6 +121,16 @@ export default defineComponent({
     showHeader: { // 是否显头部
       type: Boolean,
       default: true
+    },
+    hasPrefixColumn: { // 是否有前置列
+      type: Boolean,
+      default: false
+    },
+    getRowClassname: { // 自定义表格行classname
+      type: Function,
+      default () {
+        return () => [];
+      }
     }
   },
   emits: ['update:modelValue'],
@@ -160,6 +174,11 @@ export default defineComponent({
       let weeksName = dayjsUtil.locale.weekdaysMin('zh-cn');
       let firstDayOfWeek = weekFirstDay.value;
       let headers = [];
+      if (props.hasPrefixColumn) {
+        headers.push({
+          text: ' '
+        });
+      }
       for (let i = 0; i < weeksName.length; i++) {
         headers.push({
           // 根据不同国家星期的第一天进行排序
@@ -225,6 +244,8 @@ export default defineComponent({
       }
       ctx.emit('update:modelValue', cellData.dayjsIns);
     };
+
+    provide(datePickerPrefixColumnSlotCtx, ctx);
 
     let dateRender = props.dateRender;
     return {

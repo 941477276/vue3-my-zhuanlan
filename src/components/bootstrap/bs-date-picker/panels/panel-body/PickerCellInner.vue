@@ -27,7 +27,7 @@ export default defineComponent({
   setup (props: any, ctx: any) {
     let datePicker = inject<DatePickerCtx>(datePickerCtx)!;
     let now = dayjs();
-    console.log('datePicker', datePicker);
+    // console.log('datePicker', datePicker);
     return function () {
       let cellData = props.cellData;
       let getCellNode = props.getCellNode;

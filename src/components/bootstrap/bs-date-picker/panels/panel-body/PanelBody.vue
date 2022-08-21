@@ -14,23 +14,27 @@
         <tr
           class="bs-picker-row"
           v-for="(cells, rowIndex) in bodyCells"
-          :key="rowIndex">
-          <td
-            class="bs-picker-cell"
-            v-for="(cellItem, cellIndex) in cells"
-            :key="cellIndex"
-            :title="getCellTitle(cellItem, cellIndex)"
-            :data-row-index="rowIndex"
-            :data-cell-index="cellIndex"
-            :class="[
+          :key="rowIndex"
+          :class="getRowClassname(cells, rowIndex)">
+          <template v-for="(cellItem, cellIndex) in cells" :key="cellIndex">
+            <PrefixColumn
+              v-if="hasPrefixColumn && cellIndex == 0"
+              :cell-data="cellItem"></PrefixColumn>
+            <td
+              class="bs-picker-cell"
+              :title="getCellTitle(cellItem, cellIndex)"
+              :data-row-index="rowIndex"
+              :data-cell-index="cellIndex"
+              :class="[
               ...getCellClassname(cellItem, cellIndex)
             ]">
-            <!--<div class="bs-picker-cell-inner">{{ getCellText(cellItem, cellIndex) }}</div>-->
-            <PickerCellInner
-              :get-cell-node="getCellNode"
-              :cell-data="cellItem"
-              :cell-index="cellIndex">{{ getCellText(cellItem, cellIndex) }}</PickerCellInner>
-          </td>
+              <!--<div class="bs-picker-cell-inner">{{ getCellText(cellItem, cellIndex) }}</div>-->
+              <PickerCellInner
+                :get-cell-node="getCellNode"
+                :cell-data="cellItem"
+                :cell-index="cellIndex">{{ getCellText(cellItem, cellIndex) }}</PickerCellInner>
+            </td>
+          </template>
         </tr>
         <!--<tr class="bs-picker-row">
           <td class="bs-picker-cell cell-range-hover">
@@ -58,6 +62,7 @@ import {
 } from 'vue';
 import { util } from '@/common/util';
 import PickerCellInner from './PickerCellInner.vue';
+import { PrefixColumn } from './PrefixColumn';
 /**
  * 查找单元格数据
  * @param tableData 表格数据
@@ -73,7 +78,8 @@ let findCellData = function (tableData: any[], rowIndex: number, cellIndex: numb
 export default defineComponent({
   name: 'BsPanelBody',
   components: {
-    PickerCellInner
+    PickerCellInner,
+    PrefixColumn
   },
   props: {
     showHeader: { // 是否显示表头
@@ -117,6 +123,10 @@ export default defineComponent({
     getCellNode: { // 自定义单元格的渲染内容
       type: Function,
       default: null
+    },
+    hasPrefixColumn: { // 是否有前置列
+      type: Boolean,
+      default: false
     }
   },
   emits: ['cell-click'],

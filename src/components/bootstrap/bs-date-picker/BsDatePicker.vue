@@ -31,6 +31,12 @@
         :date-render="dateRender"
         :disabled-date="disabledDate"
         @update:modelValue="onDatePanelModelValueChange"></BsDatePanel>
+      <BsWeekPanel
+        v-if="pickerType == 'week'"
+        :model-value="date"
+        :date-render="dateRender"
+        :disabled-date="disabledDate"
+        @update:modelValue="onDatePanelModelValueChange"></BsWeekPanel>
       <BsMonthPanel
         v-if="pickerType == 'month'"
         :model-value="date"
@@ -88,6 +94,7 @@ import BsMonthPanel from './panels/bs-month-panel/BsMonthPanel.vue';
 import BsQuarterPanel from './panels/bs-quarter-panel/BsQuarterPanel.vue';
 import BsYearPanel from './panels/bs-year-panel/BsYearPanel.vue';
 import BsDecadePanel from './panels/bs-decade-panel/BsDecadePanel.vue';
+import BsWeekPanel from './panels/bs-week-panel/BsWeekPanel.vue';
 import PanelSidebar from './panels/panel-sidebar/PanelSidebar.vue';
 import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil } from '@/common/dayjsUtil';
@@ -109,6 +116,7 @@ export default defineComponent({
     BsQuarterPanel,
     BsYearPanel,
     BsDecadePanel,
+    BsWeekPanel,
     PanelSidebar
   },
   props: {
@@ -155,10 +163,13 @@ export default defineComponent({
       }
       let format = formatInner.value;
       let dayjsIns;
-      if (props.pickerType == 'quarter') {
-        dayjsIns = dayjsUtil.parseQuarter(modelValue, formatInner.value);
+      let pickerType = props.pickerType;
+      if (pickerType == 'quarter') {
+        dayjsIns = dayjsUtil.parseQuarter(modelValue, format);
+      } else if (pickerType) {
+        dayjsIns = dayjsUtil.parseWeek(modelValue, format, 'zh-cn');
       } else {
-        dayjsIns = dayjsUtil.parseToDayjs(modelValue, formatInner.value);
+        dayjsIns = dayjsUtil.parseToDayjs(modelValue, format);
       }
       if (!dayjsIns) {
         viewDateText.value = '';
@@ -172,10 +183,14 @@ export default defineComponent({
         date.value = null;
       } else {
         let dayjsIns;
+        let pickerType = props.pickerType;
+        let format = formatInner.value;
         if (props.pickerType == 'quarter') {
-          dayjsIns = dayjsUtil.parseQuarter(modelValue, formatInner.value);
+          dayjsIns = dayjsUtil.parseQuarter(modelValue, format);
+        } else if (pickerType) {
+          dayjsIns = dayjsUtil.parseWeek(modelValue, format, 'zh-cn');
         } else {
-          dayjsIns = dayjsUtil.parseToDayjs(modelValue, formatInner.value);
+          dayjsIns = dayjsUtil.parseToDayjs(modelValue, format);
         }
 
         date.value = dayjsIns;
@@ -277,8 +292,10 @@ export default defineComponent({
         return;
       }
       let format = formatInner.value;
-      if (props.pickerType == 'quarter') {
-        let dayjsIns = dayjsUtil.parseQuarter(value, format);
+      let pickerType = props.pickerType;
+      if (pickerType == 'quarter' || pickerType == 'week') {
+        let dayjsIns = pickerType == 'quarter' ? dayjsUtil.parseQuarter(value, format) : dayjsUtil.parseWeek(value, format, 'zh-cn');
+        console.log('onInput', value, format, dayjsIns);
         if (!dayjsIns) {
           return;
         }

@@ -183,6 +183,32 @@ export const dayjsUtil = {
     return date.quarter(quarterNumber);
   },
 
+  /**
+   * 将周字符串转成date对象
+   * @param weekValue 周字符串
+   * @param format 格式化模板
+   */
+  parseWeek (weekValue: Dayjs|string, format: string, lang: string) {
+    if (typeof weekValue == 'object') {
+      return weekValue;
+    }
+    let date = dayjs(weekValue, format);
+    let year = date.year();
+    if (!year || isNaN(year)) {
+      return null;
+    }
+    date = date.month(0).date(1);
+    // 获取周，先将年份从字符串中移除，然后再用正则匹配剩余字符串中的数字
+    let weekNumberMatch = weekValue.replace(year + '', '').match(/\d+/);
+    if (!weekNumberMatch) {
+      return null;
+    }
+    let weekNumber = Number(weekNumberMatch[0]);
+    // console.log('weekNumber', weekNumber, year, date.locale(getLocale(lang)).week(weekNumber));
+    // 本来return date.locale(getLocale(lang)).week(weekNumber)就可以了，但不知道为什么这条语句会导致年份减1
+    return date.locale(getLocale(lang)).week(weekNumber).year(year);
+  },
+
   locale: {
     /**
      * 根据国籍语言获取该国星期的第一天，如中国：1，美国：0
@@ -228,6 +254,14 @@ export const dayjsUtil = {
      */
     format (dayjsIns: Dayjs, lang:string, format: string) {
       return dayjsIns.locale(getLocale(lang)).format(format);
+    },
+    /**
+     * 获取日期所属的周数
+     * @param dayjsIns
+     * @param lang
+     */
+    getWeek (dayjsIns: Dayjs, lang: string) {
+      return dayjsIns.locale(getLocale(lang)).week();
     }
   }
 };
