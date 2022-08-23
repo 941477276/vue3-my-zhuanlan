@@ -31,6 +31,7 @@
       </slot>
     </BsOnlyChild>
     <BsDropdownTransition
+      v-if="display"
       :reference-ref="triggerRef"
       :try-all-placement="false"
       :set-min-width="setMinWidth"
@@ -39,7 +40,6 @@
       @after-leave="$emit('hidden')">
       <div
         ref="bsPickerDropdownRef"
-        v-if="display"
         v-show="visible"
         class="bs-picker-dropdown"
         :class="dropdownClassName">
