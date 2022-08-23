@@ -1,5 +1,5 @@
 .bs-picker-body{
-  padding: 0.5rem 1rem 0.75rem 1rem;
+  padding: 0.5rem 1rem 0.5rem 1rem;
   border-top: 1px solid #eee;
 }
 .bs-picker-table{
@@ -9,8 +9,8 @@
   border-spacing: 0;
   text-align: center;
   th{
-    width: 2.25rem; // 36px
-    height: 2.125rem; // 34px
+    width: 2.125rem; // 34px
+    height: 1.875rem; // 30px
   }
 }
 .bs-picker-cell-inner{
@@ -30,7 +30,7 @@
 .bs-picker-cell{
   position: relative;
   min-width: 1.625rem; // 26px
-  padding: 0.25rem 0;
+  padding: 0.125rem 0;
   cursor: pointer;
   color: #ccc;
   &::before{
@@ -107,3 +107,103 @@
     }
   }
 }
+
+.bs-picker-month-panel,
+.bs-picker-quarter-panel,
+.bs-picker-decade-panel,
+.bs-picker-year-panel{
+  width: 17.5rem;
+  .bs-picker-table{
+    width: 100%;
+  }
+  .bs-picker-cell{
+    &::before{
+      top: calc(0.125rem + 10%);
+      bottom: calc(0.125rem + 10%);
+    }
+  }
+  .bs-picker-cell-inner{
+    width: 100%;
+    height: 80%;
+    &::before{
+      display: inline-block;
+      content: ' ';
+      width: 0;
+      height: 100%;
+      vertical-align: middle;
+    }
+  }
+}
+
+.bs-picker-month-panel{
+  .bs-picker-table {
+    height: 14rem;
+  }
+}
+
+.bs-picker-quarter-panel{
+  .bs-picker-table{
+    height: 3.5rem;
+  }
+}
+
+.bs-picker-year-panel{
+  .bs-picker-table{
+    height: 14rem;
+  }
+}
+
+.bs-picker-decade-panel {
+  .bs-picker-body {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  .bs-picker-table {
+    height: 14rem;
+  }
+}
+
+/*周面板弹窗样式 start*/
+.bs-picker-week-panel{
+  .bs-picker-cell{
+    &:hover{
+      .bs-picker-cell-inner{
+        background-color: transparent!important;
+      }
+    }
+  }
+}
+.bs-picker-week-panel-row{
+  transition: background-color .3s, color .3s;
+  &:not(.is-row-disabled):not(.is-row-selected):hover{
+    .bs-picker-cell{
+      background-color: #f3f3f3;
+    }
+  }
+  &.is-row-selected{
+    .bs-picker-cell{
+      color: #fff;
+      background-color: var(--primary);
+    }
+  }
+  &.is-row-disabled{
+    .bs-picker-week-cell{
+      cursor: default;
+      pointer-events: none;
+    }
+  }
+}
+.bs-picker-week-cell{
+  font-weight: bold;
+  color: #aaa;
+}
+/*周面板弹窗样式 end*/
+
+.bs-picker-today{
+  margin: 0 auto;
+  transition: color .3s;
+  &:hover{
+    color: var(--primary);
+  }
+}
+

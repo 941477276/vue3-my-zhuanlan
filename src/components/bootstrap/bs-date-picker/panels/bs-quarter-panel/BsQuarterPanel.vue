@@ -153,30 +153,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style lang="scss">
-.bs-picker-quarter-panel{
-  width: 17.5rem;
-  .bs-picker-table{
-    width: 100%;
-    height: 3.5rem;
-  }
-  .bs-picker-cell{
-    &::before{
-      top: calc(0.25rem + 10%);
-      bottom: calc(0.25rem + 10%);
-    }
-  }
-  .bs-picker-cell-inner{
-    width: 100%;
-    height: 80%;
-    &::before{
-      display: inline-block;
-      content: ' ';
-      width: 0;
-      height: 100%;
-      vertical-align: middle;
-    }
-  }
-}
-</style>

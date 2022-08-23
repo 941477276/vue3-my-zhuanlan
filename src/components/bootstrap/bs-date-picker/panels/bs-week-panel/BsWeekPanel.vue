@@ -85,39 +85,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style lang="scss">
-.bs-picker-week-panel{
-  .bs-picker-cell{
-    &:hover{
-      .bs-picker-cell-inner{
-        background-color: transparent!important;
-      }
-    }
-  }
-}
-.bs-picker-week-panel-row{
-  transition: background-color .3s, color .3s;
-  &:not(.is-row-disabled):not(.is-row-selected):hover{
-    .bs-picker-cell{
-      background-color: #f3f3f3;
-    }
-  }
-  &.is-row-selected{
-    .bs-picker-cell{
-      color: #fff;
-      background-color: var(--primary);
-    }
-  }
-  &.is-row-disabled{
-    .bs-picker-week-cell{
-      cursor: default;
-      pointer-events: none;
-    }
-  }
-}
-.bs-picker-week-cell{
-  font-weight: bold;
-  color: #aaa;
-}
-</style>

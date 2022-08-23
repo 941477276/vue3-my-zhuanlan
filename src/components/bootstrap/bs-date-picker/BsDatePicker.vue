@@ -369,11 +369,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.bs-picker-today{
-  margin: 0 auto;
-  transition: color .3s;
-  &:hover{
-    color: var(--primary);
-  }
-}
+@import "bs-date-picker";
 </style>
