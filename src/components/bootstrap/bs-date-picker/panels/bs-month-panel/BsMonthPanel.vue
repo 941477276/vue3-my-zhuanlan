@@ -78,7 +78,7 @@ export default defineComponent({
     let tableBody = computed(function () {
       let monthArr: any = [];
       let currentMonth = dayjsUtil.setDate(panelViewDate.value, 1);
-      console.log('currentMonth', currentMonth);
+      // console.log('currentMonth', currentMonth);
       let monthsShort = dayjsUtil.locale.monthsShort('zh-cn');
       let disabledDate = props.disabledDate;
       let tempMonthArr = monthsShort.map((monthName: string, index: number) => {

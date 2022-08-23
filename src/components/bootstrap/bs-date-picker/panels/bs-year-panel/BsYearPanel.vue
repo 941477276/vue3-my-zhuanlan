@@ -89,7 +89,7 @@ export default defineComponent({
       let yearArr: any = [];
       let { currentYear, startYear, endYear } = yearNumberInfo.value;
       let baseYearDate = dayjs((startYear - 1) + '', 'YYYY');
-      console.log('year', currentYear, startYear, endYear, baseYearDate);
+      // console.log('year', currentYear, startYear, endYear, baseYearDate);
       let tempYearArr = [];
       let disabledDate = props.disabledDate;
       while (tempYearArr.length < panelYearCount) {

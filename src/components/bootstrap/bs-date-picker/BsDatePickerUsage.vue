@@ -138,11 +138,11 @@ export default defineComponent({
     let week1 = ref();
     let week2 = ref('2022-29周');
 
-    console.log('quarter date', dayjs('2022-Q3', 'YYYY-[Q]Q').quarter(2));
-    console.log('quarter date', dayjs().month(0).quarter(2));
-    console.log('year date', dayjs('2022', 'YYYY'));
-    console.log('week date', dayjs('2022-32周', 'YYYY-wo'));
-    console.log('week date2', dayjs('2022-01-01').week(33));
+    // console.log('quarter date', dayjs('2022-Q3', 'YYYY-[Q]Q').quarter(2));
+    // console.log('quarter date', dayjs().month(0).quarter(2));
+    // console.log('year date', dayjs('2022', 'YYYY'));
+    // console.log('week date', dayjs('2022-32周', 'YYYY-wo'));
+    // console.log('week date2', dayjs('2022-01-01').week(33));
     return {
       value1: ref<Dayjs>(),
       value2: ref<Dayjs>(),
@@ -184,17 +184,17 @@ export default defineComponent({
       },
       disabledDate2 (current: Dayjs) {
         let now = dayjs();
-        console.log('disabledDate2', current);
+        // console.log('disabledDate2', current);
         return (current.valueOf() < now.valueOf()) || (current.endOf('month').valueOf() > now.endOf('month').valueOf());
       },
       disabledYear (current: Dayjs) {
         let now = new Date().getFullYear();
-        console.log('current111', current);
+        // console.log('current111', current);
         return current.year() < now;
       },
       disabledWeek (current: Dayjs) {
         let now = new Date().getTime();
-        console.log('disabledWeek', current);
+        // console.log('disabledWeek', current);
         return current.valueOf() < now;
       }
     };

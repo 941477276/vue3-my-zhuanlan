@@ -175,7 +175,7 @@ export default defineComponent({
         viewDateText.value = '';
         return;
       }
-      console.log('setViewDateTxt dayjsIns', dayjsIns, format);
+      // console.log('setViewDateTxt dayjsIns', dayjsIns, format);
       viewDateText.value = dayjsIns.format(format);
     };
     watch(() => props.modelValue, function (modelValue: Dayjs|string) {

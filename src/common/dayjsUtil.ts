@@ -229,7 +229,7 @@ export const dayjsUtil = {
      * @param lang
      */
     weekdaysMin (lang?: string): string[] {
-      console.log('wekkdaysMin', dayjs().locale(getLocale(lang)).locale(), getLocale(lang), lang);
+      // console.log('wekkdaysMin', dayjs().locale(getLocale(lang)).locale(), getLocale(lang), lang);
       return dayjs().locale(getLocale(lang)).localeData().weekdaysMin();
     },
     /**

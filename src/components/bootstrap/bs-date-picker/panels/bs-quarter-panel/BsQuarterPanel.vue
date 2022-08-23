@@ -116,7 +116,7 @@ export default defineComponent({
       tableBody,
       // 设置单元格的classname
       setCellClassname (cellData: any, cellIndex: number) {
-        console.log('getCellClassname', cellData);
+        // console.log('getCellClassname', cellData);
         // let currentDate = panelViewDate.value;
         let modelValue = props.modelValue;
         let dayjsIns = cellData.quarter;

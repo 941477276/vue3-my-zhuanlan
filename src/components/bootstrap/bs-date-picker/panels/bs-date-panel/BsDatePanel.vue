@@ -231,7 +231,7 @@ export default defineComponent({
       }
       return dateArr;
     });
-    console.log('tableBody', tableBody.value);
+    // console.log('tableBody', tableBody.value);
     // 单元格点击事件
     let onCellClick = function (cellData: any) {
       let modelValue = props.modelValue;
@@ -259,7 +259,7 @@ export default defineComponent({
         let modelValue = props.modelValue;
         let dayjsIns = cellData.dayjsIns;
         let classnames: string[] = [];
-        console.log('getCellClassname', cellData.disabled);
+        // console.log('getCellClassname', cellData.disabled);
         if (currentDate.format('YYYY-MM') === dayjsIns.format('YYYY-MM')) {
           classnames.push('active-cell');
         }
