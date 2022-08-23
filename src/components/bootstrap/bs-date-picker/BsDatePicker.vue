@@ -122,7 +122,7 @@ export default defineComponent({
   props: {
     ...bsDatePickerProps
   },
-  emits: ['update:modelValue', 'change'],
+  emits: ['update:modelValue', 'change', 'open', 'hidden'],
   setup (props: any, ctx: any) {
     let bsCommonPicker = ref();
     let pickerId = ref(props.id || `bs-${props.pickerType}-picker_${++pickerCounts[props.pickerType]}`);
@@ -187,7 +187,7 @@ export default defineComponent({
         let format = formatInner.value;
         if (props.pickerType == 'quarter') {
           dayjsIns = dayjsUtil.parseQuarter(modelValue, format);
-        } else if (pickerType) {
+        } else if (pickerType == 'week') {
           dayjsIns = dayjsUtil.parseWeek(modelValue, format, 'zh-cn');
         } else {
           dayjsIns = dayjsUtil.parseToDayjs(modelValue, format);
