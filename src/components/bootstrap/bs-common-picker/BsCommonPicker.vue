@@ -17,6 +17,9 @@
           :size="size"
           :suffix-icon="suffixIcon"
           :clearable="clearable"
+          :name="name"
+          :placeholder="placeholder"
+          :readonly="inputReadOnly"
           @input="onInput"
           @focus="onInputFocus"
           @blur="onInputBlur"
@@ -28,6 +31,7 @@
       </slot>
     </BsOnlyChild>
     <BsDropdownTransition
+      v-if="display"
       :reference-ref="triggerRef"
       :try-all-placement="false"
       :set-min-width="setMinWidth"
@@ -36,14 +40,11 @@
       @after-leave="$emit('hidden')">
       <div
         ref="bsPickerDropdownRef"
-        v-if="display"
         v-show="visible"
-        class="bs-picker-dropdown">
+        class="bs-picker-dropdown"
+        :class="dropdownClassName">
         <div class="bs-picker-panel-container">
           <slot></slot>
-          <div class="bs-picker-footer" v-if="showFooter">
-            <slot name="footer"></slot>
-          </div>
         </div>
       </div>
     </BsDropdownTransition>
@@ -102,6 +103,10 @@ export default defineComponent({
         return true;
       }
     },
+    name: { // input输入框的name属性
+      type: String,
+      default: null
+    },
     inputModelValue: { // 输入框的值
       type: [String, Number],
       default: ''
@@ -117,6 +122,18 @@ export default defineComponent({
     setMinWidth: {
       type: Boolean,
       default: false
+    },
+    placeholder: { // 输入框提示文字
+      type: String,
+      default: ''
+    },
+    inputReadOnly: { // 设置输入框为只读（避免在移动设备上打开虚拟键盘）
+      type: Boolean,
+      default: false
+    },
+    dropdownClassName: { // 下拉弹窗的额外classname
+      type: String,
+      default: ''
     }
   },
   emits: ['update:inputModelValue', 'input', 'focus', 'blur', 'show', 'shown', 'hidden'],

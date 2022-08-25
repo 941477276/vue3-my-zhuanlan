@@ -10,12 +10,13 @@
     :disabled="disabled"
     :id="bsTimePickerId"
     :set-min-width="true"
+    :dropdown-class-name="dropdownClassName"
     @update:inputModelValue="viewDateText = $event"
     @input="onInput"
     @blur="onInputBlur"
     @clear="clear"
-    @show="visible = true"
-    @hidden="visible = false">
+    @show="onShow"
+    @hidden="onHidden">
     <div class="bs-picker-panel">
       <BsPickerTimePanel
         ref="bsPickerTimePanelRef"
@@ -32,15 +33,13 @@
         :disabled-seconds="disabledSeconds"
         :hide-disabled-options="hideDisabledOptions"
         @update:modelValue="onUpdateTimePanelModelValue"></BsPickerTimePanel>
-    </div>
-    <template #footer v-if="showFooter">
-      <slot name="footer">
-        <div class="bs-picker-btns">
+      <div class="bs-picker-footer">
+        <div class="bs-picker-btns" v-if="showFooter">
           <BsButton class="bs-picker-clear" size="sm" @click="clear">清空</BsButton>
           <BsButton class="bs-picker-now" type="primary" size="sm" @click="setNow">此刻</BsButton>
         </div>
-      </slot>
-    </template>
+      </div>
+    </div>
     <template #trigger>
       <slot></slot>
     </template>
@@ -101,9 +100,13 @@ export default defineComponent({
         }
         return true;
       }
+    },
+    dropdownClassName: { // 下拉弹窗的额外classname
+      type: String,
+      default: ''
     }
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'change'],
   setup (props: any, ctx: any) {
     let bsPickerTimePanelRef = ref(null);
     let bsCommonPicker = ref(null);
@@ -165,6 +168,7 @@ export default defineComponent({
         });
         // console.log('即将更新的modelValue：', result);
         ctx.emit('update:modelValue', result);
+        ctx.emit('change', result);
         isInputTextInvalid = true;
       } else {
         isInputTextInvalid = false;
@@ -178,6 +182,7 @@ export default defineComponent({
 
     let clear = function () {
       ctx.emit('update:modelValue', '');
+      ctx.emit('change', '');
     };
     let setNow = function () {
       (bsPickerTimePanelRef.value as any)?.setNow();
@@ -193,6 +198,7 @@ export default defineComponent({
       // console.log('onUpdateTimePanelModelValue', newValue);
       viewDate.value = newValue;
       ctx.emit('update:modelValue', newValue);
+      ctx.emit('change', newValue);
       (bsCommonPicker.value as any).focus();
     };
 
@@ -222,6 +228,14 @@ export default defineComponent({
       onUpdateTimePanelModelValue,
       onInput,
       onInputBlur,
+      onShow () {
+        visible.value = true;
+        ctx.emit('open');
+      },
+      onHidden () {
+        visible.value = false;
+        ctx.emit('hidden');
+      },
 
       clear,
       setNow,

@@ -8,12 +8,12 @@
     </BsOnlyChild>
     <teleport :disabled="!teleported" :to="appendTo">
       <BsDropdownTransition
+        v-if="display"
         @before-enter="transitionLeaveDone = false"
         @after-leave="transitionLeaveDone = true"
         :placement="placement"
         :reference-ref="triggerRef">
         <div
-          v-if="display"
           v-show="visible"
           ref="dropdownMenuRef"
           class="bs-dropdown-menu dropdown-menu"
@@ -111,22 +111,27 @@ export default defineComponent({
       }
       showTimer = setTimeout(() => {
         clearTimeout(showTimer);
+        let doShow = function () {
+          visible.value = true;
+          if (props.teleported && props.appendTo === 'body') {
+            dropdownMenuStyle.zIndex = nextZIndex() + '';
+          }
+
+          let toggleElIsInFixedContainer = util.eleIsInFixedParents(toggleEl);
+          if (toggleElIsInFixedContainer && props.teleported) {
+            dropdownMenuStyle.position = 'fixed';
+          } else {
+            dropdownMenuStyle.position = 'absolute';
+          }
+
+          ctx.emit('show');
+        };
         if (!loaded.value) {
           loaded.value = true;
-        }
-        visible.value = true;
-        if (props.teleported && props.appendTo === 'body') {
-          dropdownMenuStyle.zIndex = nextZIndex() + '';
-        }
-
-        let toggleElIsInFixedContainer = util.eleIsInFixedParents(toggleEl);
-        if (toggleElIsInFixedContainer && props.teleported) {
-          dropdownMenuStyle.position = 'fixed';
+          nextTick(doShow);
         } else {
-          dropdownMenuStyle.position = 'absolute';
+          doShow();
         }
-
-        ctx.emit('show');
       }, props.trigger == 'click' ? 0 : 150);
     };
     // 隐藏
@@ -137,6 +142,9 @@ export default defineComponent({
       hideTimer = setTimeout(() => {
         clearTimeout(hideTimer);
         visible.value = false;
+        if (props.destroyDropdownMenuOnHide) {
+          loaded.value = false;
+        }
         ctx.emit('hide');
       }, delayTime || (props.trigger == 'click' ? 0 : 150));
     };

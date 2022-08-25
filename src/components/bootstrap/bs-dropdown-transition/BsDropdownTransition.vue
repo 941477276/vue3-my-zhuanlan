@@ -100,32 +100,32 @@ export default defineComponent({
 
     let onEnter = function (el:HTMLElement, done: () => void) {
       // 延迟50毫秒是为了解决目标元素使用v-if控制后导致元素位置计算不准确问题
-      let timer = setTimeout(function () {
-        clearTimeout(timer);
-        let referenceEl = props.referenceRef as HTMLElement;
-        // console.log('onEnter执行了', referenceEl.nodeName, el);
-        if (!referenceEl) {
-          console.log('参照元素不存在!-----------------------');
-          return;
-        }
-        if (!el) {
-          console.log('目标元素不存在!========================');
-          return;
-        }
-        isVisible.value = true;
-        targetEl = el;
-        refresh();
+      // let timer = setTimeout(function () {
+      //   clearTimeout(timer);
+      let referenceEl = props.referenceRef as HTMLElement;
+      // console.log('onEnter执行了', referenceEl.nodeName, el);
+      if (!referenceEl) {
+        console.log('参照元素不存在!-----------------------');
+        return;
+      }
+      if (!el) {
+        console.log('目标元素不存在!========================');
+        return;
+      }
+      isVisible.value = true;
+      targetEl = el;
+      refresh();
 
-        let onTransitionDone = function () {
-          done();
-          el.removeEventListener('transitionend', onTransitionDone, false);
-          el.removeEventListener('transitioncancel', onTransitionDone, false);
-        };
-        // 绑定元素的transition完成事件，在transition完成后立即完成vue的过度动效
-        el.addEventListener('transitionend', onTransitionDone, false);
-        el.addEventListener('transitioncancel', onTransitionDone, false);
-        ctx.emit('enter', el, NOOP);
-      }, !targetEl ? 50 : 0);
+      let onTransitionDone = function () {
+        done();
+        el.removeEventListener('transitionend', onTransitionDone, false);
+        el.removeEventListener('transitioncancel', onTransitionDone, false);
+      };
+      // 绑定元素的transition完成事件，在transition完成后立即完成vue的过度动效
+      el.addEventListener('transitionend', onTransitionDone, false);
+      el.addEventListener('transitioncancel', onTransitionDone, false);
+      ctx.emit('enter', el, NOOP);
+      // }, !targetEl ? 50 : 0);
     };
 
     let onLeave = function (el: HTMLElement) {

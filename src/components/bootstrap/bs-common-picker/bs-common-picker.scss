@@ -1,4 +1,5 @@
 .bs-date-time-editor{
+  position: relative;
   display: inline-block;
   vertical-align: middle;
   &.is-focus{
@@ -25,6 +26,9 @@
   &.has-panel-sidebar{
     display: flex;
   }
+}
+.bs-picker-footer{
+  border-top: 1px solid #efefef;
 }
 .bs-picker-btns{
   display: flex;
