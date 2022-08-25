@@ -3,7 +3,7 @@
   border-top: 1px solid #eee;
 }
 .bs-picker-table{
-  width: 100%;
+  //width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;
@@ -107,7 +107,11 @@
     }
   }
 }
-
+.bs-picker-date-panel{
+  .bs-picker-table{
+    width: auto;
+  }
+}
 .bs-picker-month-panel,
 .bs-picker-quarter-panel,
 .bs-picker-decade-panel,
@@ -199,6 +203,16 @@
 }
 /*周面板弹窗样式 end*/
 
+.bs-panel-sidebar {
+  //padding: 0.5rem;
+  font-size: 0.875rem;
+  border-right: 1px solid #eee;
+
+  &.sidebar-in-right {
+    border-right: none;
+    border-left: 1px solid #eee;
+  }
+}
 .bs-picker-today{
   margin: 0 auto;
   transition: color .3s;

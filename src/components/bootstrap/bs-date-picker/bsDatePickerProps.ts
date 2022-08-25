@@ -25,7 +25,7 @@ export const bsDatePickerProps = {
   },
   showFooter: { // 是否显示底部
     type: Boolean,
-    default: true
+    default: null
   },
   disabled: { // 是否禁用
     type: Boolean,

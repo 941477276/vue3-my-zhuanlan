@@ -1,5 +1,5 @@
 .bs-date-time-editor{
-  position: relative;
+  //position: relative;
   display: inline-block;
   vertical-align: middle;
   &.is-focus{
@@ -10,6 +10,9 @@
   }
 }
 .bs-picker-panel-container{
+  border-radius: 0.24rem 0.25rem;
+  border: 1px solid #efefef;
+  overflow: hidden;
   background-color: #fff;
 }
 .bs-picker-dropdown{
@@ -20,8 +23,6 @@
   font-size: 0.875rem;
 }
 .bs-picker-panel{
-  border-radius: 0.24rem 0.25rem;
-  border: 1px solid #efefef;
   background-color: #fff;
   &.has-panel-sidebar{
     display: flex;

@@ -24,7 +24,10 @@
       :class="{
         'has-panel-sidebar': showSidebar
       }">
-      <PanelSidebar v-if="showSidebar"></PanelSidebar>
+      <!--<PanelSidebar v-if="showSidebar"></PanelSidebar>-->
+      <div class="bs-panel-sidebar">
+        <slot name="sidebar" :date="date"></slot>
+      </div>
       <BsDatePanel
         v-if="pickerType == 'date'"
         :model-value="date"
@@ -61,13 +64,14 @@
         :date-render="dateRender"
         :disabled-date="disabledDate"
         @update:modelValue="onDatePanelModelValueChange"></BsDecadePanel>
-      <div class="bs-picker-footer" v-if="showFooter && pickerType == 'date'">
-        <div class="bs-picker-btns">
-          <!--<BsButton class="bs-picker-clear" size="sm" @click="clear">清空</BsButton>
-          <BsButton class="bs-picker-now" type="primary" size="sm" @click="setNow">此刻</BsButton>-->
-          <!--TODO 按钮的禁用问题-->
-          <BsButton class="bs-picker-today" size="sm" :disabled="todayIsDisabled" @click="onNowBtnClick">今天</BsButton>
-        </div>
+    </div>
+    <div class="bs-picker-footer" v-if="footerVisible">
+      <div class="bs-picker-btns">
+        <!--<BsButton class="bs-picker-clear" size="sm" @click="clear">清空</BsButton>
+        <BsButton class="bs-picker-now" type="primary" size="sm" @click="setNow">此刻</BsButton>-->
+        <!--TODO 按钮的禁用问题-->
+        <BsButton v-if="pickerType == 'date'" class="bs-picker-today" size="sm" :disabled="todayIsDisabled" @click="onNowBtnClick">今天</BsButton>
+        <slot name="footer"></slot>
       </div>
     </div>
     <template #trigger>
@@ -116,8 +120,8 @@ export default defineComponent({
     BsQuarterPanel,
     BsYearPanel,
     BsDecadePanel,
-    BsWeekPanel,
-    PanelSidebar
+    BsWeekPanel
+    // PanelSidebar
   },
   props: {
     ...bsDatePickerProps
@@ -240,6 +244,18 @@ export default defineComponent({
       return !!disabledDate(now.clone());
     });
 
+    // 是否显示footer
+    let footerVisible = computed(function () {
+      let pickerType = props.pickerType;
+      let showFooter = props.showFooter;
+      if (typeof showFooter !== 'boolean') {
+        if (pickerType == 'date') {
+          return true;
+        }
+      }
+      return !!showFooter;
+    });
+
     // 设置值
     let setDate = function (date?: Dayjs) {
       if (!date) {
@@ -342,6 +358,7 @@ export default defineComponent({
       date,
       inputPlaceholder,
       todayIsDisabled,
+      footerVisible,
 
       clear,
       hide,

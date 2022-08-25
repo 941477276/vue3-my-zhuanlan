@@ -41,6 +41,18 @@
     </div>
 
     <div>
+      <hr>
+      <h3>带快捷按钮</h3>
+      <BsDatePicker v-model="date4" show-sidebar>
+        <template #sidebar="{date}">
+          <div>
+            <bs-button type="">今天{{ date && date.format('YYYY-MM-DD') }}</bs-button>
+          </div>
+        </template>
+      </BsDatePicker>
+    </div>
+
+    <div>
       <h3>选择周</h3>
       <BsDatePicker picker-type="week" v-model="week1"></BsDatePicker>
     </div>
@@ -127,6 +139,7 @@ export default defineComponent({
     let date1 = ref('2022-08-10');
     let date2 = ref();
     let date3 = ref();
+    let date4 = ref();
     let quarterDate = ref();
     let quarterDate2 = ref('2022-Q3');
 
@@ -153,6 +166,7 @@ export default defineComponent({
       date1,
       date2,
       date3,
+      date4,
       quarterDate,
       quarterDate2,
 
