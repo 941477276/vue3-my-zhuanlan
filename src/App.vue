@@ -102,8 +102,11 @@
   <!--<div class="box">
     <BsTimePickerUsage></BsTimePickerUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsDatePickerUsage></BsDatePickerUsage>
+  </div>-->
+  <div class="box">
+    <BsBackTopUsage></BsBackTopUsage>
   </div>
 </template>
 
@@ -146,6 +149,7 @@ import BsTreeSelectUsage from '@/components/bootstrap/bs-tree-select/BsTreeSelec
 import BsSelectInputUsage from '@/components/bootstrap/bs-select-input/BsSelectInputUsage.vue';
 import BsTimePickerUsage from '@/components/bootstrap/bs-time-picker/BsTimePickerUsage.vue';
 import BsDatePickerUsage from '@/components/bootstrap/bs-date-picker/BsDatePickerUsage.vue';
+import BsBackTopUsage from '@/components/bootstrap/bs-backtop/BsBackTopUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -187,7 +191,8 @@ export default defineComponent({
     BsTreeSelectUsage,
     BsSelectInputUsage,
     BsTimePickerUsage,
-    BsDatePickerUsage
+    BsDatePickerUsage,
+    BsBackTopUsage
   },
   setup () {
     return {
