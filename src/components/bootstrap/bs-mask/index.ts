@@ -44,6 +44,7 @@ export function createMask (options: StringKeyObject = {}): { show: (zIndex?: nu
       status = 'hidden';
       if (destroyOnHide) {
         render(null, container);
+        console.log(2222);
         status = 'destroyed';
         setTimeout(() => {
           document.body.removeChild(container);
@@ -78,9 +79,12 @@ export function createMask (options: StringKeyObject = {}): { show: (zIndex?: nu
         return;
       }
       let component = vm.component as any;
+      if (destroy) {
+        destroyOnHide = !!destroy;
+      }
       component.proxy.hide();
 
-      if (destroy) {
+      /* if (destroy) {
         render(null, container);
         status = 'destroyed';
         setTimeout(() => {
@@ -88,7 +92,7 @@ export function createMask (options: StringKeyObject = {}): { show: (zIndex?: nu
           // @ts-ignore
           vm = container = null;
         }, 0);
-      }
+      } */
     }
   };
 };
