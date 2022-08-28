@@ -34,7 +34,8 @@
 .bs-picker-btns{
   display: flex;
   padding: 0.5rem 0.875rem;
-}
-.bs-picker-clear{
-  margin-left: auto;
+  .bs-picker-ok,
+  .bs-picker-clear{
+    margin-left: auto;
+  }
 }

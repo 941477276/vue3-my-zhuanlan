@@ -139,6 +139,23 @@
   }
 }
 
+.bs-picker-date-time-panel{
+  display: flex;
+  .bs-picker-time-panel{
+    padding-top: 0;
+    .bs-picker-header{
+      border-bottom: 1px solid #eee;
+      border-left: 1px solid #eee;
+    }
+    .bs-picker-body{
+      border-left: 1px solid #eee;
+    }
+    .bs-picker-content{
+      height: 14.18rem;
+    }
+  }
+}
+
 .bs-picker-month-panel{
   .bs-picker-table {
     height: 14rem;
@@ -220,4 +237,3 @@
     color: var(--primary);
   }
 }
-

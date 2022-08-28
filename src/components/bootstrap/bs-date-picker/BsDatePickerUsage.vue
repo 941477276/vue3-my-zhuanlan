@@ -4,6 +4,7 @@
       <a-date-picker
         v-model:value="value1"
         value-format="YYYY-MM-DD"
+        show-time
         :disabledDate="disabledDate"
         :date-render="dateRender"/>
       <a-date-picker v-model:value="value2" picker="week" />
@@ -14,6 +15,18 @@
     <div>
       <h3>基本使用</h3>
       <BsDatePicker name="startDate" v-model="date1"></BsDatePicker>
+    </div>
+
+    <div>
+      <hr>
+      <h3>选择时间</h3>
+      <BsDatePicker v-model="date5" picker-type="dateTime"></BsDatePicker>
+    </div>
+
+    <div>
+      <hr>
+      <h3>选择时间（12小时值）</h3>
+      <BsDatePicker v-model="date6" picker-type="dateTime" value-format="YYYY-MM-DD hh:mm:ss a" :time-panel-props="{ use12Hours: true, }"></BsDatePicker>
     </div>
 
     <div>
@@ -53,11 +66,13 @@
     </div>
 
     <div>
+      <hr>
       <h3>选择周</h3>
       <BsDatePicker picker-type="week" v-model="week1"></BsDatePicker>
     </div>
 
     <div>
+      <hr>
       <h3>选择周（默认有值）</h3>
       <BsDatePicker picker-type="week" v-model="week2" :disabled-date="disabledWeek"></BsDatePicker>
     </div>
@@ -140,6 +155,8 @@ export default defineComponent({
     let date2 = ref();
     let date3 = ref();
     let date4 = ref();
+    let date5 = ref();
+    let date6 = ref('2022-08-20 19:37:50');
     let quarterDate = ref();
     let quarterDate2 = ref('2022-Q3');
 
@@ -156,6 +173,7 @@ export default defineComponent({
     // console.log('year date', dayjs('2022', 'YYYY'));
     // console.log('week date', dayjs('2022-32周', 'YYYY-wo'));
     // console.log('week date2', dayjs('2022-01-01').week(33));
+    console.log('aaAaaaaaa', dayjs('2022-08-20 19:37:50 AM', 'YYYY-MM-DD hh:mm:ss am', true).isValid());
     return {
       value1: ref<Dayjs>(),
       value2: ref<Dayjs>(),
@@ -167,6 +185,8 @@ export default defineComponent({
       date2,
       date3,
       date4,
+      date5,
+      date6,
       quarterDate,
       quarterDate2,
 

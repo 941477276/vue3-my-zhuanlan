@@ -1337,6 +1337,9 @@ var tool = {
       vertical: document.body.scrollHeight > window.innerHeight,
       horizontal: document.body.scrollWidth > window.innerWidth
     };
+  },
+  isFunction (func) {
+    return typeof func === 'function';
   }
 };
 export default tool;

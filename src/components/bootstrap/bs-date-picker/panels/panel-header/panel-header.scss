@@ -27,5 +27,11 @@
     &:hover{
       color: var(--primary);
     }
+    &.readonly-btn{
+      cursor: default;
+      &:hover{
+        color: #222;
+      }
+    }
   }
 }

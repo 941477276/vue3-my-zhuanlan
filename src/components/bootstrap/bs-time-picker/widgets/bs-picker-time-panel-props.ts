@@ -41,5 +41,9 @@ export const bsPickerTimePanelProps = {
   },
   valueFormat: { // 可选，绑定值的格式，对 modelValue 起作用。不指定则绑定值为 dayjs 对象
     type: String
+  },
+  showHeader: { // 是否显示头部
+    type: Boolean,
+    default: false
   }
 };

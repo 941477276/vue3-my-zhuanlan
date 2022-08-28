@@ -1,6 +1,6 @@
 import { InjectionKey } from 'vue';
 
-export type PickerType = 'date' | 'week' | 'month' |'quarter' | 'year';
+export type PickerType = 'date' | 'dateTime' | 'week' | 'month' |'quarter' | 'year';
 
 export type DatePickerCtx = {
   ctx: any;

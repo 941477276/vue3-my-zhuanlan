@@ -1,6 +1,8 @@
 import { computed, ref, watch } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { dayjsUtil } from '@/common/dayjsUtil';
+import { util } from '@/common/util';
 
 dayjs.extend(customParseFormat);
 export function useTimePicker (props: any) {
@@ -8,7 +10,7 @@ export function useTimePicker (props: any) {
     let format = props.format;
     if (!format) {
       if (props.use12Hours) {
-        format = 'h:mm:ss a';
+        format = 'hh:mm:ss a';
       } else {
         format = 'HH:mm:ss';
       }
@@ -65,9 +67,12 @@ export function useTimePicker (props: any) {
       }
       return;
     }
+    console.log('useTimePicker modelValue1', modelValue, typeof modelValue);
+
     if (typeof modelValue !== 'string') {
-      modelValue = dayjs(modelValue).format(formatInner.value);
+      modelValue = dayjsUtil.locale.format(modelValue, 'en', formatInner.value);
     }
+    console.log('useTimePicker modelValue2', modelValue);
     let periodFlag = modelValue.split(' ')[1];
     if (!periodFlag) {
       return;
@@ -90,56 +95,97 @@ export function useTimePicker (props: any) {
   };
 };
 
+type GetUpdateModelValueParams = {
+  valueFormat: string|null;
+  use12Hours: boolean;
+  date?: Dayjs|null;
+  period: string;
+  timeInfo?: any;
+  originDate: Dayjs;
+  disabledFns: {
+    disabledHours: (hour: number, use12Hours: boolean) => boolean;
+    disabledMinutes: (hour: number, minute: number, use12Hours: boolean) => boolean;
+    disabledSeconds: (hour: number, minute: number, second: number, use12Hours: boolean) => boolean
+  };
+}
 /**
  * 获取提交给父组件的值
- * @param props props
+ * @param valueFormat 格式化模板
+ * @param use12Hours 是否为12小时制
  * @param dateObj Date对象
  * @param period 时段
  * @param timeUnitValues 时分秒的值
+ * @param originDate 原来的时间对象
+ * @param disabledFns
  */
-export function getUpdateModelValue (props: any, dateObj: Date|null, period: string, timeUnitValues: any) {
-  let valueFormat = props.valueFormat;
+export function getUpdateModelValue (options = {} as GetUpdateModelValueParams) {
+  // let valueFormat = props.valueFormat;
   let dayIns: Dayjs;
+  let { disabledHours, disabledMinutes, disabledSeconds } = options.disabledFns;
 
-  let date = dateObj || new Date();
+  let date = options.date || dayjs();
+  let timeInfo = options.timeInfo;
+  let use12Hours = options.use12Hours;
+  let period = (options.period || '').toLowerCase();
+  let originDate = options.originDate;
+  if (originDate instanceof Date) {
+    originDate = dayjs(originDate);
+  }
+  let valueFormat = options.valueFormat;
+  console.log('getUpdateModelValue originDate', originDate, originDate instanceof Date);
   let hour: number; //  = Number(timeUnitValues.hour);
   let minute: number;
   let second: number;
-  if (timeUnitValues) {
-    hour = timeUnitValues.hour;
-    minute = timeUnitValues.minute;
-    second = timeUnitValues.second;
+  if (timeInfo) {
+    hour = timeInfo.hour;
+    minute = timeInfo.minute;
+    second = timeInfo.second;
   } else {
-    hour = date.getHours();
-    minute = date.getMinutes();
-    second = date.getSeconds();
+    hour = date.hour();
+    minute = date.minute();
+    second = date.second();
   }
-  if (props.use12Hours) { // 如果是12小时制，则hour需加上12小时
+  if (use12Hours) { // 如果是12小时制，则hour需加上12小时
     if (period == 'pm' && hour <= 12) {
       hour += 12;
     } else if (period == 'am' && hour > 12) {
       hour -= 12;
     }
   }
+  // 如果时分秒被禁用，则用来的时分秒
+  if (util.isFunction(disabledHours) && !!disabledHours(hour, use12Hours)) {
+    hour = originDate.hour();
+  }
+  if (util.isFunction(disabledMinutes) && !!disabledMinutes(hour, minute, use12Hours)) {
+    minute = originDate.minute();
+  }
+  if (util.isFunction(disabledSeconds) && !!disabledSeconds(hour, minute, second, use12Hours)) {
+    second = originDate.second();
+  }
   if (!valueFormat) {
-    dayIns = dayjs(`${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${hour}:${minute}:${second}`);
+    dayIns = dayjs(`${date.year()}/${date.month() + 1}/${date.date()} ${hour}:${minute}:${second}`);
     return dayIns;
   } else {
-    if (props.use12Hours) {
+    if (use12Hours) {
       let valueFormatArr = valueFormat.split(' ');
-      dayIns = dayjs(`${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${hour}:${minute}:${second}`);
+      dayIns = dayjs(`${date.year()}/${date.month() + 1}/${date.date()} ${hour}:${minute}:${second}`);
       // 如果为12小时制，且格式后面有带时间段（如h:mm:ss a），则使用dayjs自身的格式化函数进行格式
       if (valueFormatArr.length === 2) {
         return dayIns.format(valueFormat);
       } else {
-        let resultValue = dayIns.format(valueFormat);
-        resultValue += ' ' + period;
+        // let resultValue = dayIns.format(valueFormat);
+        // 保持"时段"一直为"AM"/"PM"
+        let resultValue = dayjsUtil.locale.format(dayIns, 'en', valueFormat);
+        let upperCaseResultValue = resultValue.toUpperCase();
+        if (!upperCaseResultValue.endsWith('AM') && !upperCaseResultValue.endsWith('PM')) {
+          resultValue += ' ' + period;
+        }
         return resultValue;
       }
     } else {
       console.log('getUpdateModelValue', 5555, valueFormat);
       dayIns = dayjs(`${hour}:${minute}:${second}`, valueFormat);
-      return dayIns.format(valueFormat);
+      return dayjsUtil.locale.format(dayIns, 'en', valueFormat);
     }
   }
 };
