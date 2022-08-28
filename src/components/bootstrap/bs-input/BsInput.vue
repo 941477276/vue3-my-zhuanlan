@@ -207,7 +207,8 @@ export default defineComponent({
       callFormItem('validate', 'focus');
     };
     let on_blur = function (evt: Event) {
-      if ((inputValue.value + '').length > 0) {
+      let innerValue = inputValue.value;
+      if ((innerValue + '').length > 0) {
         if (props.showPassword) {
           showPasswordIconDisplay.value = true; // 当类型为密码框，并且输入框中有值，则显示切换类型按钮
         }
@@ -215,6 +216,10 @@ export default defineComponent({
         if (props.showPassword) {
           showPasswordIconDisplay.value = false;
         }
+      }
+      // 解决显示的值与modelValue不一致问题
+      if (innerValue !== props.modelValue) {
+        inputValue.value = props.modelValue;
       }
       ctx.emit('blur', evt);
       callFormItem('validate', 'blur');
