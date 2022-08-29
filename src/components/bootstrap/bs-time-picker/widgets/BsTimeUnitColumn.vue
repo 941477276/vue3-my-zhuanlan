@@ -69,6 +69,7 @@ export default defineComponent({
         if (!activeLi) {
           return;
         }
+        // @ts-ignore
         util.scrollTo(ulEl, 'y', activeLi.offsetTop, duration);
       });
     };

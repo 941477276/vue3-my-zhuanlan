@@ -403,9 +403,10 @@ var tool = {
    * @param direction 滚动条方向，默认为y，可选值有：x、y
    * @param to 滚动条即将滚动到到位置
    * @param duration 时长
+   * @param onDone 完成后的回调
    * @returns {boolean}
    */
-  scrollTo (ele, direction, to, duration) {
+  scrollTo (ele, direction, to, duration, onDone) {
     if (!ele) {
       return false;
     }
@@ -423,6 +424,11 @@ var tool = {
       direction = 'y';
     }
     direction = direction == 'x' ? 'x' : 'y';
+    var doDone = function () {
+      if (typeof onDone == 'function') {
+        onDone();
+      }
+    }
     var attr = direction == 'x' ? 'scrollLeft' : 'scrollTop';
     if (!duration || duration <= 0) {
       if (ele === window) {
@@ -430,6 +436,7 @@ var tool = {
       } else {
         ele[attr] = to;
       }
+      doDone();
       return true;
     }
 
@@ -439,19 +446,22 @@ var tool = {
     }
     var perTick = (diff / duration) * 10;
     window.requestAnimationFrame(function () { // 实现缓动效果
-
       if (ele === window) {
         let x = tool.scrollLeft();
         let y = tool.scrollTop();
         window.scrollTo(direction === 'x' ? (x + perTick) : x, direction === 'y' ? (y + perTick) : y);
         if (direction == 'x' ? tool.scrollLeft() : tool.scrollTop() !== to) {
-          tool.scrollTo(ele, direction, to, duration - 10);
+          tool.scrollTo(ele, direction, to, duration - 10, onDone);
+        } else {
+          doDone();
         }
         return;
       }
       ele[attr] += perTick;
       if (ele[attr] !== to) {
-        tool.scrollTo(ele, direction, to, duration - 10);
+        tool.scrollTo(ele, direction, to, duration - 10, onDone);
+      } else {
+        doDone();
       }
     });
     return true;
