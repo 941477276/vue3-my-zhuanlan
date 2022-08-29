@@ -1,6 +1,8 @@
 <template>
   <div class="bs-picker-time-panel">
-    <div class="bs-picker-header"></div>
+    <PanelHeader v-if="showHeader">
+      <slot name="header" :date="modelValue" :format="formatInner" :timeUnitValues="timeUnitValues"></slot>
+    </PanelHeader>
     <div
       class="bs-picker-body">
       <div
@@ -53,10 +55,11 @@ import {
   watch,
   defineComponent
 } from 'vue';
-import dayjs from 'dayjs';
+import PanelHeader from '../../bs-date-picker/panels/panel-header/PanelHeader.vue';
 import { TimeDataUnit } from '@/ts-tokens/bootstrap/time-picker';
 import { bsPickerTimePanelProps } from './bs-picker-time-panel-props';
 import { useTimePicker, getUpdateModelValue } from '../useTimePicker';
+import dayjs from 'dayjs';
 
 const calcTimeUnit = function (count = 60, step = 1, use12Hourss: boolean, disabledFn: any, disabledFnData: any[]) {
   let arr: TimeDataUnit[] = [];
@@ -88,7 +91,8 @@ const calcTimeUnit = function (count = 60, step = 1, use12Hourss: boolean, disab
 export default defineComponent({
   name: 'BsPickerTimePanel',
   components: {
-    BsTimeUnitColumn
+    BsTimeUnitColumn,
+    PanelHeader
   },
   props: {
     ...bsPickerTimePanelProps,
@@ -171,20 +175,44 @@ export default defineComponent({
       } else {
         periodValue.value = timeData.value + '';
       }
+      let { disabledHours, disabledMinutes, disabledSeconds } = props;
 
-      let newModelValue = getUpdateModelValue(props, null, periodValue.value, value);
+      let newModelValue = getUpdateModelValue({
+        valueFormat: props.valueFormat,
+        use12Hours: props.use12Hours,
+        period: periodValue.value,
+        timeInfo: value,
+        originDate: props.modelValue,
+        disabledFns: {
+          disabledHours,
+          disabledMinutes,
+          disabledSeconds
+        }
+      });
+      console.log('newModelValue', newModelValue);
       ctx.emit('update:modelValue', newModelValue);
     };
     // 将值设为此刻
     let setNow = function () {
       // console.log('BsPickerTimePanel setNow');
-      let nowDate = new Date();
-      let period = nowDate.getHours() > 12 ? 'pm' : 'am';
-      let newModelValue = getUpdateModelValue(props, nowDate, period, null);
+      let nowDate = dayjs();
+      let period = nowDate.hour() > 12 ? 'pm' : 'am';
+      let { disabledHours, disabledMinutes, disabledSeconds } = props;
+
+      let newModelValue = getUpdateModelValue({
+        valueFormat: props.valueFormat,
+        use12Hours: props.use12Hours,
+        date: nowDate,
+        period,
+        originDate: props.modelValue,
+        disabledFns: {
+          disabledHours,
+          disabledMinutes,
+          disabledSeconds
+        }
+      });
       ctx.emit('update:modelValue', newModelValue);
     };
-
-    console.log('valid', dayjs('18:36:33', 'HH:mm:ss'));
 
     return {
       hours,
@@ -194,6 +222,7 @@ export default defineComponent({
       columnsShow,
       timeUnitValues,
       periodValue,
+      formatInner,
 
       onSelect,
       setNow

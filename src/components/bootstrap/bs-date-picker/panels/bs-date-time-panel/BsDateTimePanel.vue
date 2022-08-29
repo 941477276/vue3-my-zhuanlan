@@ -1,0 +1,101 @@
+<template>
+  <div class="bs-picker-date-time-panel">
+    <BsDatePanel
+      v-bind="datePanelProps"
+      value-format=""
+      :model-value="modelValue"
+      @update:modelValue="onDateChange"></BsDatePanel>
+    <BsPickerTimePanel
+      v-bind="timePanelProps"
+      value-format=""
+      :model-value="modelValue"
+      :parent-visible="visible"
+      :show-header="true"
+      @update:modelValue="onTimeChange">
+      <template #header="{ date, format}">
+        <button type="button" class="readonly-btn">
+          {{ date ? date.format(format) : '&nbsp;' }}
+        </button>
+      </template>
+    </BsPickerTimePanel>
+  </div>
+</template>
+
+<script lang="ts">
+import {
+  ref,
+  computed,
+  watch,
+  defineComponent,
+  provide,
+  PropType
+} from 'vue';
+import dayjs, { Dayjs } from 'dayjs';
+import { dayjsUtil, isLeapYear, getMonthDays } from '@/common/dayjsUtil';
+import BsDatePanel from '../bs-date-panel/BsDatePanel.vue';
+import BsPickerTimePanel from '../../../bs-time-picker/widgets/BsPickerTimePanel.vue';
+
+export default defineComponent({
+  name: 'BsDateTimePanel',
+  components: {
+    BsDatePanel,
+    BsPickerTimePanel
+  },
+  props: {
+    modelValue: {
+      type: Object as PropType<Dayjs>,
+      default: null
+    },
+    datePanelProps: { // 日期选择器props
+      type: Object,
+      default () {
+        return {};
+      }
+    },
+    timePanelProps: { // 时间选择器props
+      type: Object,
+      default () {
+        return {};
+      }
+    },
+    visible: { // 组件是否可见
+      type: Boolean,
+      default: false
+    }
+  },
+  emits: ['update:modelValue'],
+  setup (props: any, ctx: any) {
+    let now = dayjs(); // 今天
+
+    let onInternalDateChange = function (newDate: Dayjs, type: 'date' | 'time') {
+      let originDate = props.modelValue;
+      let resultDate = newDate;
+      if (originDate) {
+        if (type == 'date') {
+          resultDate = newDate.hour(originDate.hour()).minute(originDate.minute()).second(originDate.second()).millisecond(originDate.millisecond());
+        } else {
+          resultDate = newDate.year(originDate.year()).month(originDate.month()).date(originDate.date());
+        }
+      }
+      ctx.emit('update:modelValue', resultDate, false);
+    };
+    // 日期change事件
+    let onDateChange = function (newDate: Dayjs) {
+      console.log('日期改变了：', newDate);
+      onInternalDateChange(newDate, 'date');
+    };
+    // 时间change事件
+    let onTimeChange = function (newTime: Dayjs) {
+      console.log('时间改变了：', newTime);
+      onInternalDateChange(newTime, 'time');
+    };
+    return {
+      onDateChange,
+      onTimeChange,
+      calcViewTime (times: any) {
+        let { hour, minute, second } = times;
+      }
+    };
+  }
+});
+</script>

@@ -253,6 +253,7 @@ export const dayjsUtil = {
      * @param format 格式模板
      */
     format (dayjsIns: Dayjs, lang:string, format: string) {
+      dayjsIns = dayjsIns instanceof Date ? dayjs(dayjsIns) : dayjsIns;
       return dayjsIns.locale(getLocale(lang)).format(format);
     },
     /**
@@ -261,6 +262,7 @@ export const dayjsUtil = {
      * @param lang
      */
     getWeek (dayjsIns: Dayjs, lang: string) {
+      dayjsIns = dayjsIns instanceof Date ? dayjs(dayjsIns) : dayjsIns;
       return dayjsIns.locale(getLocale(lang)).week();
     }
   }

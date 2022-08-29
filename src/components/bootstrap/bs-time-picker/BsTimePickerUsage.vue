@@ -36,7 +36,7 @@
     <div style="margin-top: 1rem;">
       <hr>
       <h3 style="margin-bottom: 0.25rem;">12小时制</h3>
-      <p>12 小时制的时间选择器，默认的 format 为 h:mm:ss a。</p>
+      <p>12 小时制的时间选择器，默认的 format 为 hh:mm:ss a。</p>
       <BsTimePicker v-model="time6" use12-hours value-format="h:mm:ss"></BsTimePicker>
       <p>值：{{ time6 }}</p>
     </div>

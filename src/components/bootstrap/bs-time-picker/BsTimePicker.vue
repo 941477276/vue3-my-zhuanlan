@@ -32,9 +32,10 @@
         :disabled-minutes="disabledMinutes"
         :disabled-seconds="disabledSeconds"
         :hide-disabled-options="hideDisabledOptions"
+        :show-header="showHeader"
         @update:modelValue="onUpdateTimePanelModelValue"></BsPickerTimePanel>
-      <div class="bs-picker-footer">
-        <div class="bs-picker-btns" v-if="showFooter">
+      <div class="bs-picker-footer" v-if="showFooter">
+        <div class="bs-picker-btns">
           <BsButton class="bs-picker-clear" size="sm" @click="clear">清空</BsButton>
           <BsButton class="bs-picker-now" type="primary" size="sm" @click="setNow">此刻</BsButton>
         </div>
@@ -62,6 +63,8 @@ import { bsPickerTimePanelProps } from './widgets/bs-picker-time-panel-props';
 import { useTimePicker, getUpdateModelValue } from './useTimePicker';
 import { BsSize, FormItemContext, formItemContextKey } from '@/ts-tokens/bootstrap';
 import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
+import { dayjsUtil } from '@/common/dayjsUtil';
+import { util } from '@/common/util';
 
 dayjs.extend(customParseFormat);
 let bsTimePickerCount = 0;
@@ -125,20 +128,31 @@ export default defineComponent({
       if (!date) {
         return '';
       }
+      console.log('getViewDateText', date);
 
       if (!format) {
         if (props.use12Hours) {
-          format = 'h:mm:ss a';
+          format = 'hh:mm:ss a';
         } else {
           format = 'HH:mm:ss';
         }
       }
       if (typeof date === 'string') {
+        let upperCaseDate = date.toUpperCase();
         dayIns = dayjs(date, format);
+        let hour = dayIns.hour();
+        if (upperCaseDate.endsWith('PM') && hour < 12) {
+          dayIns = dayIns.hour(hour + 12);
+        }
+        if (upperCaseDate.endsWith('AM') && hour > 12) {
+          dayIns = dayIns.hour(hour - 12);
+        }
       } else {
         dayIns = dayjs(date);
       }
-      return dayIns.format(format);
+      console.log('getViewDateText2', dayIns, dayjsUtil.locale.format(dayIns, 'en', format));
+
+      return dayjsUtil.locale.format(dayIns, 'en', format);
     };
     watch(() => props.modelValue, function (modelValue) {
       viewDate.value = modelValue;
@@ -146,38 +160,77 @@ export default defineComponent({
     }, { immediate: true });
 
     // 开启输入与操作同步功能
-    let isInputTextInvalid = false;
+    let isInputTextValid = true;
     // 输入框输入事件
     let onInput = function (value: string) {
       if (!value) {
-        isInputTextInvalid = false;
+        isInputTextValid = false;
         return;
       }
+      let format = formatInner.value;
+      let periods = '';
+      let use12Hours = props.use12Hours;
+      if (use12Hours) {
+        let upperCaseValue = value.toUpperCase();
+        if (upperCaseValue.endsWith('AM')) {
+          value = value.replace(/AM/i, '').trim();
+          periods = 'AM';
+        }
+        if (upperCaseValue.endsWith('PM')) {
+          value = value.replace(/PM/i, '').trim();
+          periods = 'PM';
+        }
+        if (periods) {
+          format = format.replace(/[a|p]/ig, '').trim();
+        }
+      }
       // 开启严格校验，如不开启严格校验，当遇到格式如HH:mm:ss，输入框初始值为11:03:20，用户想改成11:30:20，当用户选中“03”然后再输入“3”时值就改变了
-      let dayjsIns = dayjs(value, formatInner.value, true);
+      // let dayjsIns = dayjs(value, format, true);
+      console.log('format', format, value);
+      let dayjsIns = dayjsUtil.strictDayjs(value, format);
       // console.log('onInput', value, dayjsIns.isValid(), dayjsIns);
       if (dayjsIns.isValid()) {
-        let period = '';
+        /* let period = '';
         if (props.use12Hours) {
           period = dayjsIns.hour() > 12 ? 'pm' : 'am';
-        }
-        let result = getUpdateModelValue(props, null, period, {
+        } */
+        let timeInfo = {
           hour: dayjsIns.hour(),
           minute: dayjsIns.minute(),
           second: dayjsIns.second()
+        };
+        let { disabledHours, disabledMinutes, disabledSeconds } = props;
+        let result = getUpdateModelValue({
+          valueFormat: props.valueFormat,
+          use12Hours: props.use12Hours,
+          period: periods,
+          timeInfo,
+          originDate: viewDate.value,
+          disabledFns: {
+            disabledHours,
+            disabledMinutes,
+            disabledSeconds
+          }
         });
-        // console.log('即将更新的modelValue：', result);
+
+        /* if (util.isFunction(disabledHours)) {
+          if (disabledHours(timeInfo.hour, use12Hours)) {
+            result = result.hour
+          }
+        } */
+        console.log('即将更新的modelValue：', result);
         ctx.emit('update:modelValue', result);
         ctx.emit('change', result);
-        isInputTextInvalid = true;
+        // viewDateText.value = getViewDateText();
+        isInputTextValid = true;
       } else {
-        isInputTextInvalid = false;
+        isInputTextValid = false;
       }
     };
     let onInputBlur = function () {
-      if (!isInputTextInvalid) {
-        viewDateText.value = getViewDateText();
-      }
+      // if (!isInputTextValid) {
+      viewDateText.value = getViewDateText();
+      // }
     };
 
     let clear = function () {

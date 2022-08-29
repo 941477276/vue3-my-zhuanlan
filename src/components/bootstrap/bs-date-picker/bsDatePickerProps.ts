@@ -25,7 +25,7 @@ export const bsDatePickerProps = {
   },
   showFooter: { // 是否显示底部
     type: Boolean,
-    default: true
+    default: null
   },
   disabled: { // 是否禁用
     type: Boolean,
@@ -62,6 +62,10 @@ export const bsDatePickerProps = {
     type: Boolean,
     default: false
   },
+  /* showTime: { // 是否开启选择时间功能
+    type: [Boolean, Object],
+    default: false
+  }, */
   sidebarAlign: { // 侧边栏显示位置
     type: String,
     default: 'left'
@@ -87,5 +91,17 @@ export const bsDatePickerProps = {
   dropdownClassName: { // 下拉弹窗的额外classname
     type: String,
     default: ''
+  },
+  datePanelProps: { // 日期选择器props
+    type: Object,
+    default () {
+      return {};
+    }
+  },
+  timePanelProps: { // 时间选择器props
+    type: Object,
+    default () {
+      return {};
+    }
   }
 };
