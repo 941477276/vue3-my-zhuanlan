@@ -88,20 +88,23 @@ export default defineComponent({
 
     let lastTime = 0;
     let onScroll = function () {
-      console.log('onScroll');
+      // console.log('onScroll');
       let triggerEl = triggerRef.value;
       let target = currentTarget.value;
+      let scrollTop = util.scrollTop(target);
       let now = new Date().getTime();
       if (now > 0 && (now - lastTime < 100)) {
+        if (scrollTop == 0) {
+          visible.value = false;
+        }
         return;
       }
       if (!triggerEl || !target || isScrolling) {
         return;
       }
       lastTime = now;
-      let isTriggerFixed = util.getStyle(triggerEl, 'position') === 'fixed';
+      // let isTriggerFixed = util.getStyle(triggerEl, 'position') === 'fixed';
       let visibleHeight = props.visibilityHeight;
-      let scrollTop = util.scrollTop(target);
       let targetClientHeight = target === window ? window.innerHeight : (target as HTMLElement).clientHeight;
       let targetHeight = target === window ? document.documentElement.offsetHeight : (target as HTMLElement).clientHeight;
       console.log('visibleHeight, scrollTop, targetHeight, targetClientHeight', visibleHeight, scrollTop, targetHeight, targetClientHeight);
@@ -115,18 +118,11 @@ export default defineComponent({
       }
       console.log('new visibleHeight', visibleHeight);
       let flag = scrollTop >= visibleHeight;
-      /* if (flag) {
-        calcTriggerStyle(target as HTMLElement);
-      } */
       visible.value = flag;
     };
-    /* watch(visible, function (isVisible:boolean) {
-      if (isVisible) {
-        calcTriggerStyle(currentTarget.value as HTMLElement);
-      }
-    }); */
+
     let onElementScroll = function () {
-      if (visible.value || isScrolling) {
+      if (!isScrolling) {
         // @ts-ignore
         let target = this as HTMLElement;
         console.log('onElementScroll 执行了', util.scrollTop(target));
@@ -217,10 +213,6 @@ export default defineComponent({
       // let scrollHeight = targetEl.scrollHeight;
       let scrollTop = util.scrollTop(targetEl);
       let scrollLeft = util.scrollLeft(targetEl);
-      // 防止滚动条滚动到0的时候还去计算了一下定位
-      if (scrollTop == 0 && scrollLeft == 0) {
-        return;
-      }
       if (!top && top !== 0) {
         top = defaultTop;
       }
@@ -267,7 +259,14 @@ export default defineComponent({
     });
 
     onUpdated(initTarget);
-    onMounted(initTarget);
+    onMounted(function () {
+      initTarget();
+      let timer = setTimeout(function () {
+        clearTimeout(timer);
+        onScroll();
+        calcTriggerStyle(currentTarget.value as HTMLElement);
+      }, 20);
+    });
 
     let doBackTop = function () {
       console.log('返回顶部');
@@ -280,6 +279,10 @@ export default defineComponent({
         console.log('滚动至顶完毕');
         isScrolling = false;
         visible.value = false;
+      }, function () {
+        if (target !== window) {
+          calcTriggerStyle(target as HTMLElement);
+        }
       });
     };
     return {

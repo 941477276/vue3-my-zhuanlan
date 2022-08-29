@@ -404,9 +404,10 @@ var tool = {
    * @param to 滚动条即将滚动到到位置
    * @param duration 时长
    * @param onDone 完成后的回调
+   * @param onScroll 正在滚动中的回调
    * @returns {boolean}
    */
-  scrollTo (ele, direction, to, duration, onDone) {
+  scrollTo (ele, direction, to, duration, onDone, onScroll) {
     if (!ele) {
       return false;
     }
@@ -429,6 +430,11 @@ var tool = {
         onDone();
       }
     }
+    var callOnScroll = function () {
+      if (typeof onScroll == 'function') {
+        onScroll();
+      }
+    }
     var attr = direction == 'x' ? 'scrollLeft' : 'scrollTop';
     if (!duration || duration <= 0) {
       if (ele === window) {
@@ -436,6 +442,7 @@ var tool = {
       } else {
         ele[attr] = to;
       }
+      callOnScroll();
       doDone();
       return true;
     }
@@ -450,17 +457,21 @@ var tool = {
         let x = tool.scrollLeft();
         let y = tool.scrollTop();
         window.scrollTo(direction === 'x' ? (x + perTick) : x, direction === 'y' ? (y + perTick) : y);
+        callOnScroll();
         if (direction == 'x' ? tool.scrollLeft() : tool.scrollTop() !== to) {
-          tool.scrollTo(ele, direction, to, duration - 10, onDone);
+          tool.scrollTo(ele, direction, to, duration - 10, onDone, onScroll);
         } else {
+          callOnScroll();
           doDone();
         }
         return;
       }
       ele[attr] += perTick;
       if (ele[attr] !== to) {
-        tool.scrollTo(ele, direction, to, duration - 10, onDone);
+        callOnScroll();
+        tool.scrollTo(ele, direction, to, duration - 10, onDone, onScroll);
       } else {
+        callOnScroll();
         doDone();
       }
     });
