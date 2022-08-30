@@ -31,8 +31,8 @@ import {
   defineComponent,
   onUpdated,
   onMounted,
-  computed,
-  watch
+  onBeforeUnmount,
+  computed
 } from 'vue';
 import {
   isFunction,
@@ -41,10 +41,26 @@ import {
 } from '@vue/shared';
 import { useGlobalEvent } from '@/hooks/useGlobalEvent';
 import { util } from '@/common/util';
-import { left } from '@popperjs/core';
 
 const defaultTop = '80%';
 const defaultRight = '30px';
+const parseNumber = function (num: number|string, baseNumber = 1) {
+  if (typeof num == 'number') {
+    return num;
+  }
+  let newNumber = 0;
+  if (isString(num)) {
+    if (num.charAt(num.length - 1) == '%') { // 百分比
+      let percent = Number(num.replace('%', '')) / 100;
+      newNumber = (baseNumber * percent) as number;
+    } else { // 固定值
+      newNumber = parseFloat(num);
+    }
+  } else {
+    newNumber = num as number;
+  }
+  return newNumber;
+};
 export default defineComponent({
   name: 'BsBackTop',
   props: {
@@ -75,6 +91,7 @@ export default defineComponent({
       default: ''
     }
   },
+  emit: ['complete'],
   setup (props:any, ctx: any) {
     let currentTarget = ref<Element|Window|null>(null);
     let triggerRef = ref<HTMLElement|null>(null);
@@ -88,47 +105,38 @@ export default defineComponent({
 
     let lastTime = 0;
     let onScroll = function () {
-      // console.log('onScroll');
       let triggerEl = triggerRef.value;
       let target = currentTarget.value;
       let scrollTop = util.scrollTop(target);
       let now = new Date().getTime();
-      if (now > 0 && (now - lastTime < 100)) {
+
+      // 如果isScrolling=true则是通过代码在滚动滚动条，在代码滚动过程中会调用calcTriggerStyle函数计算dom位置，因此这里就不再需要调了
+      if (!isScrolling) {
+        calcTriggerStyle(target !== window ? (target as HTMLElement) : null);
+      }
+
+      // 经测试，节流时间控制在35毫秒是最为恰当的，节流时间设置为大于35毫秒，当滚动滚动条的速度较快时会导致按钮不能及时显示或隐藏
+      if (now > 0 && (now - lastTime < 35)) {
         if (scrollTop == 0) {
           visible.value = false;
         }
+        console.log('最近更新时间少于35毫秒');
         return;
       }
+      console.log('onScroll');
       if (!triggerEl || !target || isScrolling) {
         return;
       }
       lastTime = now;
-      // let isTriggerFixed = util.getStyle(triggerEl, 'position') === 'fixed';
       let visibleHeight = props.visibilityHeight;
-      let targetClientHeight = target === window ? window.innerHeight : (target as HTMLElement).clientHeight;
+      // let targetClientHeight = target === window ? window.innerHeight : (target as HTMLElement).clientHeight;
       let targetHeight = target === window ? document.documentElement.offsetHeight : (target as HTMLElement).clientHeight;
-      console.log('visibleHeight, scrollTop, targetHeight, targetClientHeight', visibleHeight, scrollTop, targetHeight, targetClientHeight);
-      if (isString(visibleHeight)) {
-        if (visibleHeight.charAt(visibleHeight.length - 1) == '%') { // 百分比
-          let percent = Number(visibleHeight.replace('%', '')) / 100;
-          visibleHeight = targetHeight * percent;
-        } else { // 固定值
-          visibleHeight = parseFloat(visibleHeight);
-        }
-      }
-      console.log('new visibleHeight', visibleHeight);
+      visibleHeight = parseNumber(visibleHeight, targetHeight);
+      // console.log('new visibleHeight', visibleHeight);
       let flag = scrollTop >= visibleHeight;
       visible.value = flag;
     };
 
-    let onElementScroll = function () {
-      if (!isScrolling) {
-        // @ts-ignore
-        let target = this as HTMLElement;
-        console.log('onElementScroll 执行了', util.scrollTop(target));
-        calcTriggerStyle(target);
-      }
-    };
     // 添加事件
     let addEvent = function (newTarget: Element|Window|null, isUpdate = false) {
       console.log(`${isUpdate ? '更新' : '新增'}事件监听`);
@@ -139,7 +147,6 @@ export default defineComponent({
           useGlobalEvent.removeEvent('window', 'scroll', onScroll);
         } else {
           currentTargetVal?.removeEventListener('scroll', onScroll, false);
-          currentTargetVal?.removeEventListener('scroll', onElementScroll, false);
         }
       }
       currentTarget.value = newTarget;
@@ -149,7 +156,6 @@ export default defineComponent({
         useGlobalEvent.addEvent('window', 'scroll', onScroll);
       } else {
         currentTargetVal?.addEventListener('scroll', onScroll, false);
-        currentTargetVal?.addEventListener('scroll', onElementScroll, false);
       }
     };
     // 移除事件
@@ -160,7 +166,6 @@ export default defineComponent({
         useGlobalEvent.removeEvent('window', 'scroll', onScroll);
       } else {
         currentTargetVal?.removeEventListener('scroll', onScroll, false);
-        currentTargetVal?.removeEventListener('scroll', onElementScroll, false);
       }
       currentTarget.value = null;
     };
@@ -183,61 +188,50 @@ export default defineComponent({
       if (!targetTemp && currentTargetVal) {
         // 移除事件监听
         removeEvent();
+        return;
       }
       if (targetTemp && !currentTargetVal) {
         // 新增
         addEvent(targetTemp, false);
+        return;
       }
       if (targetTemp !== currentTargetVal) {
         // 更新
         addEvent(targetTemp, true);
+        return;
       }
     };
 
     // 计算元素的定位值
-    let calcTriggerStyle = function (targetEl:HTMLElement) {
+    let calcTriggerStyle = function (targetEl: HTMLElement | null) {
       let { top, right } = props;
-      let target = currentTarget.value;
+      // let target = currentTarget.value;
       let style = {
         top,
         right
       };
-      if (!target) {
+      if (!targetEl) {
         return;
       }
-      if (target === window) {
+
+      let isTriggerFixed = util.getStyle(targetEl, 'position') === 'fixed';
+      if ((targetEl as any) === window || isTriggerFixed) {
         return style;
       }
       let clientHeight = targetEl.clientHeight;
       let clientLeft = targetEl.clientLeft;
-      // let scrollHeight = targetEl.scrollHeight;
       let scrollTop = util.scrollTop(targetEl);
       let scrollLeft = util.scrollLeft(targetEl);
-      if (!top && top !== 0) {
+      if (!top && top !== 0) { // 未传递top属性则使用默认的top值
         top = defaultTop;
       }
-      console.log('top 111', top, scrollTop);
-      if (isString(top)) {
-        if (top.charAt(top.length - 1) == '%') { // 百分比
-          console.log(1111);
-          let percent = Number(top.replace('%', '')) / 100;
-          top = clientHeight * percent;
-        } else { // 固定值
-          top = parseFloat(top);
-        }
-      }
+      top = parseNumber(top, clientHeight);
       top += scrollTop;
+
       if (!right && right !== 0) {
         right = defaultRight;
       }
-      if (isString(right)) {
-        if (right.charAt(right.length - 1) == '%') { // 百分比
-          let percent = Number(right.replace('%', '')) / 100;
-          right = clientLeft * percent;
-        } else { // 固定值
-          right = parseFloat(right);
-        }
-      }
+      right = parseNumber(right, clientLeft);
       right += scrollLeft;
 
       console.log('top, right', top, right);
@@ -258,6 +252,25 @@ export default defineComponent({
       return false;
     });
 
+    let doBackTop = function () {
+      console.log('返回顶部');
+      let target = currentTarget.value;
+      if (!target || isScrolling) {
+        return;
+      }
+      isScrolling = true;
+      util.scrollTo(target, 'y', 0, props.duration || 150, function () {
+        // console.log('滚动至顶完毕');
+        isScrolling = false;
+        visible.value = false;
+        ctx.emit('complete');
+      }, function () {
+        if (target !== window) {
+          calcTriggerStyle(target as HTMLElement);
+        }
+      });
+    };
+
     onUpdated(initTarget);
     onMounted(function () {
       initTarget();
@@ -267,24 +280,10 @@ export default defineComponent({
         calcTriggerStyle(currentTarget.value as HTMLElement);
       }, 20);
     });
+    onBeforeUnmount(function () {
+      removeEvent();
+    });
 
-    let doBackTop = function () {
-      console.log('返回顶部');
-      let target = currentTarget.value;
-      if (!target || isScrolling) {
-        return;
-      }
-      isScrolling = true;
-      util.scrollTo(target, 'y', 0, props.duration || 150, function () {
-        console.log('滚动至顶完毕');
-        isScrolling = false;
-        visible.value = false;
-      }, function () {
-        if (target !== window) {
-          calcTriggerStyle(target as HTMLElement);
-        }
-      });
-    };
     return {
       triggerRef,
       visible,
