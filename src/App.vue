@@ -105,8 +105,11 @@
   <!--<div class="box">
     <BsDatePickerUsage></BsDatePickerUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsBackTopUsage></BsBackTopUsage>
+  </div>-->
+  <div class="box">
+    <BsRelativeTimeUsage></BsRelativeTimeUsage>
   </div>
 </template>
 
@@ -150,6 +153,7 @@ import BsSelectInputUsage from '@/components/bootstrap/bs-select-input/BsSelectI
 import BsTimePickerUsage from '@/components/bootstrap/bs-time-picker/BsTimePickerUsage.vue';
 import BsDatePickerUsage from '@/components/bootstrap/bs-date-picker/BsDatePickerUsage.vue';
 import BsBackTopUsage from '@/components/bootstrap/bs-backtop/BsBackTopUsage.vue';
+import BsRelativeTimeUsage from '@/components/bootstrap/bs-relative-time/BsRelativeTimeUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -192,7 +196,8 @@ export default defineComponent({
     BsSelectInputUsage,
     BsTimePickerUsage,
     BsDatePickerUsage,
-    BsBackTopUsage
+    BsBackTopUsage,
+    BsRelativeTimeUsage
   },
   setup () {
     return {

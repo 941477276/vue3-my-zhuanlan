@@ -101,6 +101,14 @@ const getLocale = (locale?: string) => {
 };
 
 /**
+ * 判断传入的参数是否为日期对象
+ * @param date 日期对象
+ */
+export function isDate (date: any) {
+  return date instanceof Date;
+}
+
+/**
  * 是否为闰年
  * @param year 年份
  */
@@ -253,7 +261,7 @@ export const dayjsUtil = {
      * @param format 格式模板
      */
     format (dayjsIns: Dayjs, lang:string, format: string) {
-      dayjsIns = dayjsIns instanceof Date ? dayjs(dayjsIns) : dayjsIns;
+      dayjsIns = isDate(dayjsIns) ? dayjs(dayjsIns) : dayjsIns;
       return dayjsIns.locale(getLocale(lang)).format(format);
     },
     /**
@@ -262,8 +270,17 @@ export const dayjsUtil = {
      * @param lang
      */
     getWeek (dayjsIns: Dayjs, lang: string) {
-      dayjsIns = dayjsIns instanceof Date ? dayjs(dayjsIns) : dayjsIns;
+      dayjsIns = isDate(dayjsIns) ? dayjs(dayjsIns) : dayjsIns;
       return dayjsIns.locale(getLocale(lang)).week();
+    },
+    /**
+     * 获取相对时间
+     * @param dayjsIns
+     * @param lang
+     */
+    fromNow (dayjsIns: Dayjs, lang: string) {
+      dayjsIns = isDate(dayjsIns) ? dayjs(dayjsIns) : dayjsIns;
+      return dayjsIns.locale(getLocale(lang)).fromNow();
     }
   }
 };
