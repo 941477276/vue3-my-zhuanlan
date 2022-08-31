@@ -12,26 +12,14 @@
 
 <script lang="ts">
 import {
-  defineComponent,
-  PropType
+  defineComponent
 } from 'vue';
-import { BsColorType } from '@/ts-tokens/bootstrap';
+import { bsSpinnerProps } from './bs-spinner-props';
 
 export default defineComponent({
   name: 'BsSpinner',
   props: {
-    text: {
-      type: String,
-      default: 'Loading...'
-    },
-    colorType: {
-      type: String as PropType<BsColorType>,
-      default: ''
-    },
-    grow: { // 是否为增长式旋转器
-      type: Boolean,
-      default: false
-    }
+    ...bsSpinnerProps
   }
 });
 </script>
