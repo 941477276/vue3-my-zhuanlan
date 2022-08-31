@@ -30,9 +30,9 @@
   <!--<div class="box">
     <BsPaginationUsage></BsPaginationUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsBadgeUsage></BsBadgeUsage>
-  </div>
+  </div>-->
   <!--<div class="box">
     <BsMessageUsage></BsMessageUsage>
   </div>-->
@@ -111,6 +111,9 @@
   <!--<div class="box">
     <BsRelativeTimeUsage></BsRelativeTimeUsage>
   </div>-->
+  <div class="box">
+    <BsLoadingUsage></BsLoadingUsage>
+  </div>
 </template>
 
 <script lang="ts">
@@ -154,6 +157,7 @@ import BsTimePickerUsage from '@/components/bootstrap/bs-time-picker/BsTimePicke
 import BsDatePickerUsage from '@/components/bootstrap/bs-date-picker/BsDatePickerUsage.vue';
 import BsBackTopUsage from '@/components/bootstrap/bs-backtop/BsBackTopUsage.vue';
 import BsRelativeTimeUsage from '@/components/bootstrap/bs-relative-time/BsRelativeTimeUsage.vue';
+import BsLoadingUsage from '@/components/bootstrap/bs-loading/BsLoadingUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -197,7 +201,8 @@ export default defineComponent({
     BsTimePickerUsage,
     BsDatePickerUsage,
     BsBackTopUsage,
-    BsRelativeTimeUsage
+    BsRelativeTimeUsage,
+    BsLoadingUsage
   },
   setup () {
     return {
