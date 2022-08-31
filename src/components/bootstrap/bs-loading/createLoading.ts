@@ -5,34 +5,19 @@ import {
   createVNode,
   render
 } from 'vue';
-import {
-  isString,
-  isObject
-} from '@vue/shared';
 import BsLoading from './BsLoading.vue';
 import { useGetContentInfo } from '@/hooks/useGetContentInfo';
+import { CreateLoadingOptions } from '@/ts-tokens/bootstrap/loading';
 
-interface CreateLoadingOptions {
-  // visible: Ref<boolean>,
-  text: Ref<string|number>|string|number;
-  target?: any; // Loading 需要覆盖的 DOM 节点。可传入一个 DOM 对象或字符串
-  grow?: Ref<boolean>|boolean;
-  vertical?: Ref<boolean>|boolean;
-  color?: Ref<string>|string;
-  background?: Ref<string>|string;
-  transitionName?: Ref<string>|string;
-  spinnerRender?: VNode|(() => VNode); // 自定义渲染spinner函数
-  textRender?: VNode|(() => VNode); // 自定义渲染内容函数
-};
-
+let loadingCount = 0;
 export function createLoading (options: CreateLoadingOptions = {} as (CreateLoadingOptions)) {
   let optionsCopy = {
     ...options
   };
-  let target = options.target;
+  // let target = options.target;
   delete optionsCopy.spinnerRender;
   delete optionsCopy.textRender;
-  delete optionsCopy.target;
+  // delete optionsCopy.target;
   let configs = reactive({
     ...optionsCopy,
     visible: false
@@ -62,10 +47,15 @@ export function createLoading (options: CreateLoadingOptions = {} as (CreateLoad
     container = target as HTMLElement;
   } */
 
+  let loadingId = `bs-loading_${++loadingCount}`;
   let vm = createVNode(BsLoading, configs, slotContent);
   render(vm, container);
 
   return {
+    id: loadingId,
+    setVisible (flag: boolean) {
+      configs.visible = !!flag;
+    },
     vm
   };
 };
