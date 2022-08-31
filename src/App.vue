@@ -1,7 +1,7 @@
 <template>
-  <div class="box">
+  <!--<div class="box">
     <BsButtonUsage></BsButtonUsage>
-  </div>
+  </div>-->
   <!--<div class="box">
     <BsInputUsage></BsInputUsage>
   </div>-->
@@ -30,9 +30,9 @@
   <!--<div class="box">
     <BsPaginationUsage></BsPaginationUsage>
   </div>-->
-  <!--<div class="box">
+  <div class="box">
     <BsBadgeUsage></BsBadgeUsage>
-  </div>-->
+  </div>
   <!--<div class="box">
     <BsMessageUsage></BsMessageUsage>
   </div>-->

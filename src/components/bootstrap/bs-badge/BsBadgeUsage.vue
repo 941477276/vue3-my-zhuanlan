@@ -4,6 +4,12 @@
   <bs-badge>默认的</bs-badge>
   <hr>
 
+  <h6>在按钮中使用</h6>
+  <bs-button type="primary">
+    Profile
+    <bs-badge type="light">9<span class="sr-only">unread messages</span></bs-badge>
+  </bs-button>
+
   <h6>各种颜色</h6>
   <bs-badge type="primary">primary</bs-badge>
   <bs-badge type="secondary">secondary</bs-badge>
