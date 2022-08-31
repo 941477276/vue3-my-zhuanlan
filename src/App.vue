@@ -1,7 +1,7 @@
 <template>
-  <!--<div class="box">
+  <div class="box">
     <BsButtonUsage></BsButtonUsage>
-  </div>-->
+  </div>
   <!--<div class="box">
     <BsInputUsage></BsInputUsage>
   </div>-->
@@ -108,9 +108,9 @@
   <!--<div class="box">
     <BsBackTopUsage></BsBackTopUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsRelativeTimeUsage></BsRelativeTimeUsage>
-  </div>
+  </div>-->
 </template>
 
 <script lang="ts">

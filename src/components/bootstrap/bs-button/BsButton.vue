@@ -4,7 +4,7 @@
     :is="tag"
     :type="nativeType"
     :class="btnClass"
-    :disabled="disabled || loading"
+    :disabled="disabled || loading || null"
     :aria-disabled="disabled || loading"
     @click="onBtnClick"
     @blur="$emit('blur', $event)"
@@ -66,10 +66,14 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
-    /* round: { // 是否圆角按钮
+    round: { // 是否圆角按钮
       type: Boolean,
       default: false
-    }, */
+    },
+    squared: { // 是否平角按钮
+      type: Boolean,
+      default: false
+    },
     disabled: { // 是否禁用
       type: Boolean,
       default: false
@@ -88,6 +92,9 @@ export default defineComponent({
       if (bntType) {
         if (props.plain) {
           classArr.push(`btn-outline-${bntType}`);
+          if (!bntType) {
+            classArr.push('btn-outline-default');
+          }
         } else {
           classArr.push(`btn-${bntType}`); // 按钮类型的class
         }
@@ -99,11 +106,14 @@ export default defineComponent({
       if (props.block) {
         classArr.push('btn-block');
       }
-      /* if (props.round) {
-        classArr.push('btn-round');
-      } */
+      if (props.round) {
+        classArr.push('rounded-pill');
+      }
+      if (props.squared) {
+        classArr.push('rounded-0');
+      }
       if (props.disabled) {
-        classArr.push('is-disabled');
+        classArr.push('disabled');
       }
       if (props.loading) {
         classArr.push('is-loading');
@@ -111,7 +121,7 @@ export default defineComponent({
       return classArr;
     });
     let onBtnClick = function (evt: MouseEvent): void {
-      if (props.disabled) {
+      if (props.disabled || props.loading) {
         return;
       }
       ctx.emit('click', evt);
@@ -126,8 +136,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.btn.bs-button{
-  &.is-disabled,
+.bs-button{
   &.is-loading{
     opacity: 0.65;
     cursor: default;
@@ -141,8 +150,8 @@ export default defineComponent({
     margin-right: 0.4em;
   }
 }
-.bs-button{
-  & + .bs-button{
+.bs-button:not(.btn-block){
+  & + .bs-button:not(.btn-block){
     margin-left: 0.625rem;
   }
 }
