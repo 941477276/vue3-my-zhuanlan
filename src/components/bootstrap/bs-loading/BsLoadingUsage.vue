@@ -13,12 +13,24 @@
         </dl>
         <!--<BsLoadingCom text="加载中..."></BsLoadingCom>-->
       </div>
+      <div style="margin-top: 15px;">
+        <bs-button type="primary" @click="showLoading">显示Loading</bs-button>
+        <bs-button type="primary" @click="hideLoading">隐藏Loading</bs-button>
+        <bs-button type="primary" @click="destroyLoading">销毁Loading</bs-button>
+        <bs-button type="primary" @click="modifyLoadingText">修改Loading文字</bs-button>
+        <bs-button type="primary" @click="setLoadingTextVertical">文字与旋转器垂直对齐</bs-button>
+      </div>
     </div>
 
-    <hr>
-    <bs-button type="primary" @click="showLoading">显示Loading</bs-button>
+    <dvi>
+      <hr>
+      <h3>全局加载（单例的）</h3>
+      <bs-button type="primary" @click="showGlobalLoading">显示Loading</bs-button>
+      <bs-button type="primary" @click="hideGlobalLoading">隐藏Loading</bs-button>
+      <bs-button type="primary" @click="destroyGlobalLoading">销毁Loading</bs-button>
+      <bs-button type="primary" @click="modifyGlobalLoadingText">修改Loading文字</bs-button>
+    </dvi>
 
-    <bs-button type="primary" @click="addLoading">创建Loading</bs-button>
     <!--<div>
       <h3>success</h3>
       <div class="container1">
@@ -38,7 +50,8 @@
 
 <script lang="ts">
 import {
-  defineComponent
+  defineComponent,
+  toRefs
 } from 'vue';
 import BsLoadingCom from './BsLoading.vue';
 import { createLoading } from './createLoading';
@@ -50,21 +63,102 @@ export default defineComponent({
     // BsLoadingCom
   },
   setup () {
+    let obj = toRefs({
+      visible: false
+    });
+    console.log('obj', obj);
+    obj.visible.value = true;
+    let loading1: any;
+    let loading1Vertical = false;
+    let globalLoading: any;
     return {
       showLoading () {
-        let loading = BsLoading({
-          text: '加载中...',
-          target: '#container1'
+        if (!loading1) {
+          loading1 = BsLoading({
+            text: '加载中...',
+            target: '#container1',
+            lock: true
+          });
+        }
+        // loading?.show();
+        loading1?.updateProps({
+          visible: true
         });
-        loading?.show();
-        console.log(loading);
+        console.log(loading1);
         console.log('------------------');
       },
-      addLoading () {
-        let loading = createLoading({
-          text: '加载中。。。'
+      hideLoading () {
+        if (loading1) {
+          loading1?.updateProps({
+            visible: false
+          });
+        }
+      },
+      destroyLoading () {
+        if (loading1) {
+          loading1?.destroy();
+          loading1 = null;
+        }
+      },
+      modifyLoadingText () {
+        if (loading1) {
+          loading1?.updateProps({
+            text: '动态修改的加载文案！'
+          });
+        }
+      },
+      setLoadingTextVertical () {
+        if (loading1) {
+          loading1?.updateProps({
+            vertical: !loading1Vertical
+          });
+          loading1Vertical = !loading1Vertical;
+        }
+      },
+
+      showGlobalLoading () {
+        if (!globalLoading) {
+          globalLoading = BsLoading({
+            text: '加载中...',
+            fullscreen: true
+            // color: '#fff',
+            // background: '#f60'
+          });
+        }
+        let globalLoading2 = BsLoading({
+          text: '加载中2...',
+          fullscreen: true
         });
-        console.log(loading);
+
+        console.log('globalLoading', globalLoading);
+        console.log('两个全局loading是否相等：', globalLoading === globalLoading2);
+        globalLoading?.updateProps({
+          visible: true
+        });
+
+        setTimeout(function () {
+          globalLoading.hide();
+        }, 2000);
+      },
+      hideGlobalLoading () {
+        if (globalLoading) {
+          globalLoading?.updateProps({
+            visible: false
+          });
+        }
+      },
+      destroyGlobalLoading () {
+        if (globalLoading) {
+          globalLoading?.destroy();
+          globalLoading = null;
+        }
+      },
+      modifyGlobalLoadingText () {
+        if (globalLoading) {
+          globalLoading?.updateProps({
+            text: '动态修改的加载文案！'
+          });
+        }
       }
     };
   }
@@ -72,10 +166,15 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.component-usage{
+ min-height: 1200px;
+}
 .container1{
-  position: relative;
+  //position: relative;
   max-width: 1200px;
   padding: 1rem;
+  height: 100px;
   border: 1px solid #ccc;
+  overflow: auto;
 }
 </style>

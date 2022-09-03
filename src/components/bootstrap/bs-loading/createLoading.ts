@@ -2,9 +2,13 @@ import {
   Ref,
   VNode,
   reactive,
+  toRefs,
   createVNode,
   render
 } from 'vue';
+import {
+  isFunction
+} from '@vue/shared';
 import BsLoading from './BsLoading.vue';
 import { useGetContentInfo } from '@/hooks/useGetContentInfo';
 import { CreateLoadingOptions } from '@/ts-tokens/bootstrap/loading';
@@ -17,11 +21,30 @@ export function createLoading (options: CreateLoadingOptions = {} as (CreateLoad
   // let target = options.target;
   delete optionsCopy.spinnerRender;
   delete optionsCopy.textRender;
+  delete optionsCopy.onHide;
   // delete optionsCopy.target;
-  let configs = reactive({
+  let configs = {
     ...optionsCopy,
-    visible: false
-  });
+    visible: false,
+    onDestroy () {
+      console.log('onDestroy');
+      (vm as any) = null;
+      if (isFunction(options.onHide)) {
+        options.onHide();
+      }
+
+      let timer = setTimeout(function () {
+        clearTimeout(timer);
+        container?.parentElement?.removeChild(container);
+        (container as any) = null;
+      }, 0);
+    },
+    onAfterLeave () {
+      if (isFunction(options.onHide)) {
+        options.onHide();
+      }
+    }
+  };
   let contentSlot = useGetContentInfo(options.textRender);
   let spinnerSlot = useGetContentInfo(options.spinnerRender);
   let slotContent: any = {};
@@ -53,9 +76,25 @@ export function createLoading (options: CreateLoadingOptions = {} as (CreateLoad
 
   return {
     id: loadingId,
-    setVisible (flag: boolean) {
-      configs.visible = !!flag;
+    updateProps (newProps: any) {
+      let component = vm?.component as any;
+      if (!component) {
+        return;
+      }
+      let comProps = component.props;
+      for (let attr in newProps) {
+        if (attr in comProps) {
+          comProps[attr] = newProps[attr];
+        }
+      }
+    },
+    destroy () {
+      if (vm) {
+        render(null, container);
+      }
     },
     vm
   };
 };
+
+export type LoadingInstance = ReturnType<typeof createLoading>;

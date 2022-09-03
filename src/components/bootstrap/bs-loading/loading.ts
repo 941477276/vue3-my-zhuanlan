@@ -1,19 +1,48 @@
 import {
   isString,
-  isObject
+  isObject,
+  isFunction
 } from '@vue/shared';
-import { createLoading } from './createLoading';
+import { createLoading, LoadingInstance } from './createLoading';
 import { CreateLoadingOptions } from '@/ts-tokens/bootstrap/loading';
+import { util } from '@/common/util';
+import { useLockScroll } from '@/hooks/useLockScroll';
+
+let fullscreenLoading: any = null;
 
 interface BsLoadingOptions extends CreateLoadingOptions {
   target?: string|HTMLElement; // Loading 需要覆盖的 DOM 节点。可传入一个 DOM 对象或字符串
   fullscreen?: boolean;
+  lock?: boolean;
 };
 
 export function BsLoading (options: BsLoadingOptions = {} as BsLoadingOptions) {
+  let { target, fullscreen, lock } = options;
+
+  if (fullscreen && fullscreenLoading) {
+    return fullscreenLoading;
+  }
+
   let container: HTMLElement|null = null;
-  let { target, fullscreen } = options;
-  let newOptions = { ...options };
+  let containerOriginStylePosition = ''; // 包裹loading父级元素的position值
+  let unlockScroll: any;
+  let newOptions = {
+    ...options,
+    onHide () {
+      console.log('执行了onHide');
+      if (container && !fullscreen) {
+        container.style.position = containerOriginStylePosition;
+      }
+      if (isFunction(options.onHide)) {
+        options.onHide();
+      }
+      if (isFunction(unlockScroll)) {
+        console.log('isFunction unlockScroll');
+        unlockScroll();
+        unlockScroll = null;
+      }
+    }
+  };
   delete newOptions.target;
   console.log('target', target);
   if (isString(target)) {
@@ -22,18 +51,85 @@ export function BsLoading (options: BsLoadingOptions = {} as BsLoadingOptions) {
     container = target;
   }
   if (!container) {
-    console.warn('BsLoading, "options.target" is not a dom!');
-    return;
+    if (fullscreen) {
+      container = document.body;
+    } else {
+      console.warn('BsLoading, "options.target" is not a dom!');
+      return;
+    }
+  }
+  if (typeof lock !== 'boolean' && fullscreen) {
+    lock = true;
   }
   let loadingIns = createLoading(newOptions);
   container.appendChild(loadingIns.vm.el as HTMLElement);
 
-  return {
+  let updateProps = function (newProps: any) {
+    let visible = newProps.visible;
+    if (!container) {
+      return;
+    }
+    if ('lock' in newProps) {
+      lock = newProps.lock;
+    }
+    if (typeof visible == 'boolean') {
+      let containerIsBody = container.nodeName == 'BODY';
+      if (visible) {
+        if (!fullscreen && !containerIsBody) { // 设置包裹loading的父级元素的定位
+          let isStaticPosition = util.getStyle(container, 'position') == 'static';
+          containerOriginStylePosition = container.style.position || '';
+          if (isStaticPosition) {
+            container.style.position = 'relative';
+          }
+        }
+        if (lock) {
+          // 锁定包裹loading父级元素的滚动条
+          if (fullscreen || containerIsBody) {
+            console.log(1111);
+            unlockScroll = useLockScroll();
+          } else {
+            let containerOriginStyleOverflow = container.style.overflow;
+            let isLocked = util.getStyle(container, 'overflow') == 'hidden';
+            if (!isLocked) {
+              container.style.overflow = 'hidden';
+              unlockScroll = function () {
+                if (!container) {
+                  return;
+                }
+                container.style.overflow = containerOriginStyleOverflow;
+              };
+            }
+          }
+        }
+      }
+    };
+    loadingIns.updateProps(newProps);
+  };
+
+  let returnResult = {
+    updateProps,
+    destroy () {
+      loadingIns.destroy();
+      container = null;
+      if (fullscreen) {
+        fullscreenLoading = null;
+      }
+    },
     show () {
-      loadingIns.setVisible(true);
+      updateProps({
+        visible: true
+      });
     },
     hide () {
-      loadingIns.setVisible(false);
+      updateProps({
+        visible: false
+      });
     }
   };
+
+  if (fullscreen) {
+    fullscreenLoading = returnResult;
+  }
+
+  return returnResult;
 }

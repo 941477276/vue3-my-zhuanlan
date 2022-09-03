@@ -1,10 +1,13 @@
 <template>
-  <transition :name="transitionName">
+  <transition
+    :name="transitionName"
+    @after-leave="$emit('after-leave')">
     <div
       v-show="visible"
       class="bs-loading"
       :class="{
-        'horizontal-align': !vertical
+        'horizontal-align': !vertical,
+        'is-fullscreen': fullscreen
       }"
       :style="{
         'background-color': maskBackground
@@ -28,7 +31,8 @@
 <script lang="ts">
 import {
   defineComponent,
-  computed
+  computed,
+  onUnmounted
 } from 'vue';
 import BsSpinner from '../bs-spinner/BsSpinner.vue';
 import { supportedBsColorTypes } from '@/ts-tokens/bootstrap';
@@ -66,11 +70,14 @@ export default defineComponent({
     transitionName: { // 过渡效果名称
       type: String,
       default: 'fade'
+    },
+    fullscreen: { // 是否全屏
+      type: Boolean,
+      default: false
     }
   },
-  setup (props: any) {
-    // let visi
-
+  emits: ['destroy', 'after-leave'],
+  setup (props: any, ctx: any) {
     let textColor = computed(function () {
       let color = props.color;
       if (!color) {
@@ -91,6 +98,10 @@ export default defineComponent({
         return `var(--${bg})`;
       }
       return bg;
+    });
+
+    onUnmounted(function () {
+      ctx.emit('destroy');
     });
 
     return {
@@ -114,7 +125,7 @@ export default defineComponent({
   z-index: 3000;
   opacity: 0.85;
   background-color: #fff;
-  transition: background-color .2s;
+  transition: background-color .2s, opacity .2s;
   &.fade-enter-from,
   &.fade-leave-to{
     opacity: 0;
@@ -122,6 +133,9 @@ export default defineComponent({
   &.fade-leave-from,
   &.fade-enter-to{
     opacity: 0.85;
+  }
+  &.is-fullscreen{
+    position: fixed;
   }
   &.horizontal-align{
     .bs-loading-content {

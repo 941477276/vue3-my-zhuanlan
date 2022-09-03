@@ -10,4 +10,5 @@ export interface CreateLoadingOptions {
   transitionName?: Ref<string>|string;
   spinnerRender?: VNode|(() => VNode); // 自定义渲染spinner函数
   textRender?: VNode|(() => VNode); // 自定义渲染内容函数
+  onHide?: () => any;
 };
