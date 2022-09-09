@@ -8,7 +8,9 @@ export interface CreateLoadingOptions {
   color?: Ref<string>|string;
   background?: Ref<string>|string;
   transitionName?: Ref<string>|string;
+  customClass?: Ref<string>|string;
   spinnerRender?: VNode|(() => VNode); // 自定义渲染spinner函数
   textRender?: VNode|(() => VNode); // 自定义渲染内容函数
   onHide?: () => any;
+  onDestroy?: () => any;
 };

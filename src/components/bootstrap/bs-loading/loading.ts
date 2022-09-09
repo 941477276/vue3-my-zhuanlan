@@ -3,14 +3,15 @@ import {
   isObject,
   isFunction
 } from '@vue/shared';
-import { createLoading, LoadingInstance } from './createLoading';
+import { createLoadingComponent, LoadingInstance } from './createLoadingComponent';
 import { CreateLoadingOptions } from '@/ts-tokens/bootstrap/loading';
 import { util } from '@/common/util';
 import { useLockScroll } from '@/hooks/useLockScroll';
+import { bsLoadingProps } from './bs-loading-props';
 
 let fullscreenLoading: any = null;
 
-interface BsLoadingOptions extends CreateLoadingOptions {
+export interface BsLoadingOptions extends CreateLoadingOptions {
   target?: string|HTMLElement; // Loading 需要覆盖的 DOM 节点。可传入一个 DOM 对象或字符串
   fullscreen?: boolean;
   lock?: boolean;
@@ -20,14 +21,20 @@ export function BsLoading (options: BsLoadingOptions = {} as BsLoadingOptions) {
   let { target, fullscreen, lock } = options;
 
   if (fullscreen && fullscreenLoading) {
+    console.log('返回缓存的全局loading实例');
     return fullscreenLoading;
   }
 
   let container: HTMLElement|null = null;
   let containerOriginStylePosition = ''; // 包裹loading父级元素的position值
   let unlockScroll: any;
-  let newOptions = {
-    ...options,
+  let newOptions: any = {
+    onDestroy () {
+      console.log('执行了onDestroy');
+      if (fullscreen) {
+        fullscreenLoading = null;
+      }
+    },
     onHide () {
       console.log('执行了onHide');
       if (container && !fullscreen) {
@@ -37,31 +44,30 @@ export function BsLoading (options: BsLoadingOptions = {} as BsLoadingOptions) {
         options.onHide();
       }
       if (isFunction(unlockScroll)) {
-        console.log('isFunction unlockScroll');
+        // console.log('isFunction unlockScroll');
         unlockScroll();
         unlockScroll = null;
       }
     }
   };
-  delete newOptions.target;
-  console.log('target', target);
-  if (isString(target)) {
-    container = document.querySelector(target);
-  } else if (target && isObject(target) && target.nodeType == 1) {
-    container = target;
+  for (let attr in bsLoadingProps) {
+    newOptions[attr] = (options as any)[attr];
   }
-  if (!container) {
-    if (fullscreen) {
-      container = document.body;
-    } else {
-      console.warn('BsLoading, "options.target" is not a dom!');
-      return;
+  // console.log('target', target);
+  if (fullscreen) {
+    container = document.body;
+  } else {
+    if (isString(target)) {
+      container = document.querySelector(target);
+    } else if (target && isObject(target) && target.nodeType == 1) {
+      container = target;
     }
   }
-  if (typeof lock !== 'boolean' && fullscreen) {
-    lock = true;
+  if (!container) {
+    console.warn('BsLoading, "options.target" is not a dom!');
+    return;
   }
-  let loadingIns = createLoading(newOptions);
+  let loadingIns = createLoadingComponent(newOptions);
   container.appendChild(loadingIns.vm.el as HTMLElement);
 
   let updateProps = function (newProps: any) {
@@ -71,6 +77,9 @@ export function BsLoading (options: BsLoadingOptions = {} as BsLoadingOptions) {
     }
     if ('lock' in newProps) {
       lock = newProps.lock;
+    }
+    if (typeof lock !== 'boolean' && fullscreen) {
+      lock = true;
     }
     if (typeof visible == 'boolean') {
       let containerIsBody = container.nodeName == 'BODY';
@@ -85,7 +94,6 @@ export function BsLoading (options: BsLoadingOptions = {} as BsLoadingOptions) {
         if (lock) {
           // 锁定包裹loading父级元素的滚动条
           if (fullscreen || containerIsBody) {
-            console.log(1111);
             unlockScroll = useLockScroll();
           } else {
             let containerOriginStyleOverflow = container.style.overflow;

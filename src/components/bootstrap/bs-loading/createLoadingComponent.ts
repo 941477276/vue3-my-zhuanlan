@@ -14,7 +14,7 @@ import { useGetContentInfo } from '@/hooks/useGetContentInfo';
 import { CreateLoadingOptions } from '@/ts-tokens/bootstrap/loading';
 
 let loadingCount = 0;
-export function createLoading (options: CreateLoadingOptions = {} as (CreateLoadingOptions)) {
+export function createLoadingComponent (options: CreateLoadingOptions = {} as (CreateLoadingOptions)) {
   let optionsCopy = {
     ...options
   };
@@ -27,10 +27,10 @@ export function createLoading (options: CreateLoadingOptions = {} as (CreateLoad
     ...optionsCopy,
     visible: false,
     onDestroy () {
-      console.log('onDestroy');
+      console.log('v-bsloading, onDestroy');
       (vm as any) = null;
-      if (isFunction(options.onHide)) {
-        options.onHide();
+      if (isFunction(options.onDestroy)) {
+        options.onDestroy();
       }
 
       let timer = setTimeout(function () {
@@ -97,4 +97,4 @@ export function createLoading (options: CreateLoadingOptions = {} as (CreateLoad
   };
 };
 
-export type LoadingInstance = ReturnType<typeof createLoading>;
+export type LoadingInstance = ReturnType<typeof createLoadingComponent>;

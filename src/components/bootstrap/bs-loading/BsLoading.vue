@@ -5,10 +5,13 @@
     <div
       v-show="visible"
       class="bs-loading"
-      :class="{
-        'horizontal-align': !vertical,
-        'is-fullscreen': fullscreen
-      }"
+      :class="[
+        {
+          'horizontal-align': !vertical,
+          'is-fullscreen': fullscreen
+        },
+        customClass
+      ]"
       :style="{
         'background-color': maskBackground
       }">
@@ -35,6 +38,7 @@ import {
   onUnmounted
 } from 'vue';
 import BsSpinner from '../bs-spinner/BsSpinner.vue';
+import { bsLoadingProps } from './bs-loading-props';
 import { supportedBsColorTypes } from '@/ts-tokens/bootstrap';
 
 export default defineComponent({
@@ -42,40 +46,7 @@ export default defineComponent({
   components: {
     BsSpinner
   },
-  props: {
-    visible: {
-      type: Boolean,
-      default: false
-    },
-    text: {
-      type: String,
-      default: ''
-    },
-    grow: { // 是否为增长式旋转器
-      type: Boolean,
-      default: false
-    },
-    vertical: { // 是否垂直对齐
-      type: Boolean,
-      default: false
-    },
-    color: { // 字体颜色
-      type: String,
-      default: ''
-    },
-    background: { // 背景色
-      type: String,
-      default: ''
-    },
-    transitionName: { // 过渡效果名称
-      type: String,
-      default: 'fade'
-    },
-    fullscreen: { // 是否全屏
-      type: Boolean,
-      default: false
-    }
-  },
+  props: bsLoadingProps,
   emits: ['destroy', 'after-leave'],
   setup (props: any, ctx: any) {
     let textColor = computed(function () {
