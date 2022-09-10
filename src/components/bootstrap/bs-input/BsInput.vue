@@ -17,9 +17,7 @@
     ]"
     @click="on_click">
     <div class="input-group-prepend" v-if="$slots.prepend">
-      <div class="input-group-text">
-        <slot name="prepend"></slot>
-      </div>
+      <slot name="prepend"></slot>
     </div>
     <div
       class="bs-input-wrap"
@@ -111,9 +109,7 @@
 
     </div>
     <div class="input-group-append" v-if="$slots.append">
-      <div class="input-group-text">
-        <slot name="append"></slot>
-      </div>
+      <slot name="append"></slot>
     </div>
   </div>
 </template>

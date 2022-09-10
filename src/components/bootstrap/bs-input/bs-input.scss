@@ -11,6 +11,9 @@
   &[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
   }
+  &:focus{
+    z-index: 5;
+  }
 }
 .bs-input-prefix,
 .bs-input-suffix{
@@ -171,6 +174,65 @@
     &.has-prefix-icon{
       .form-control{
         padding-left: 1.6rem
+      }
+    }
+  }
+
+  & > .input-group-prepend{
+    & > .bs-select{
+      margin-left: -1px;
+      &.is-focus{
+        z-index: 3;
+      }
+      .form-control{
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+      &:first-child{
+        .form-control{
+          border-top-left-radius: 0.25rem;
+          border-bottom-left-radius: 0.25rem;
+        }
+      }
+    }
+    & > .bs-dropdown {
+      & > .btn{
+        border-left: 1px solid #bfbfbf;
+        border-radius: 0;
+      }
+      &:first-child > .btn{
+        border-left: none;
+        border-top-left-radius: 0.25rem;
+        border-bottom-left-radius: 0.25rem;
+      }
+    }
+  }
+  & > .input-group-append {
+    &  > .bs-select{
+      margin-right: -1px;
+      &.is-focus{
+        z-index: 3;
+      }
+      .form-control{
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+      &:last-child{
+        .form-control{
+          border-top-right-radius: 0.25rem;
+          border-bottom-right-radius: 0.25rem;
+        }
+      }
+    }
+    & > .bs-dropdown {
+      & > .btn{
+        border-right: 1px solid #bfbfbf;
+        border-radius: 0;
+      }
+      &:last-child > .btn{
+        border-right: none;
+        border-top-right-radius: 0.25rem;
+        border-bottom-right-radius: 0.25rem;
       }
     }
   }

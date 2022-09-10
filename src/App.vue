@@ -2,9 +2,9 @@
   <!--<div class="box">
     <BsButtonUsage></BsButtonUsage>
   </div>-->
-  <!--<div class="box">
+  <div class="box">
     <BsInputUsage></BsInputUsage>
-  </div>-->
+  </div>
   <!--<div class="box">
     <BsRadioUsage></BsRadioUsage>
   </div>-->
@@ -111,9 +111,9 @@
   <!--<div class="box">
     <BsRelativeTimeUsage></BsRelativeTimeUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsLoadingUsage></BsLoadingUsage>
-  </div>
+  </div>-->
 </template>
 
 <script lang="ts">

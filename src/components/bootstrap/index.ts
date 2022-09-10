@@ -1,5 +1,5 @@
 import BsButton from './bs-button/BsButton.vue';
-import BsInput from './bs-input/BsInput.vue';
+import BsInput from './bs-input';
 import BsIcon from './bs-icon/BsIcon.vue';
 import BsRadio from './bs-radio/BsRadio.vue';
 import BsRadioGroup from './bs-radio-group/BsRadioGroup.vue';
@@ -37,7 +37,7 @@ import BsLoading from '@/components/bootstrap/bs-loading';
 
 export default function (vueApp: any) {
   vueApp.component(BsButton.name, BsButton);
-  vueApp.component(BsInput.name, BsInput);
+  vueApp.use(BsInput);
   vueApp.component(BsIcon.name, BsIcon);
   vueApp.component(BsRadio.name, BsRadio);
   vueApp.component(BsRadioGroup.name, BsRadioGroup);

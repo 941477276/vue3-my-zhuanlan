@@ -40,25 +40,126 @@
     <h3>slot</h3>
     <bs-input style="margin-bottom: 1rem;">
       <template #prepend>
-        一个前置slot
+        <!--一个前置slot-->
+        <bs-input-text @click="prependSlotClick">一个前置slot</bs-input-text>
       </template>
     </bs-input>
     <bs-input style="margin-bottom: 1rem;">
       <template #append>
-        后置slot
+        <span class="input-group-text">后置slot</span>
+        <bs-input-text>后置slot2</bs-input-text>
       </template>
     </bs-input>
     <bs-input style="margin-bottom: 1rem;">
       <template #prepend>
-        一个前置slot
+        <bs-input-text>一个前置slot</bs-input-text>
       </template>
       <template #append>
-        后置slot
+        <bs-input-text>后置slot2</bs-input-text>
       </template>
     </bs-input>
     <bs-input style="margin-bottom: 1rem;">
       <template #prepend>
-        <bs-button type="primary">一个按钮</bs-button>
+        <bs-button type="primary">前置按钮</bs-button>
+      </template>
+    </bs-input>
+    <bs-input style="margin-bottom: 1rem;">
+      <template #append>
+        <bs-button type="primary">后置按钮</bs-button>
+      </template>
+    </bs-input>
+    <bs-input style="margin-bottom: 1rem;">
+      <template #prepend>
+        <bs-button type="primary" plain>前置按钮</bs-button>
+        <bs-button type="success" plain>前置按钮</bs-button>
+      </template>
+    </bs-input>
+    <bs-input style="margin-bottom: 1rem; width: 50%;">
+      <template #prepend>
+        <bs-select>
+          <bs-option value="1">Html</bs-option>
+          <bs-option value="2">Css</bs-option>
+          <bs-option value="3">Javascript</bs-option>
+        </bs-select>
+        <bs-select>
+          <bs-option value="1">Html</bs-option>
+          <bs-option value="2">Css</bs-option>
+          <bs-option value="3">Javascript</bs-option>
+        </bs-select>
+        <bs-button type="success" plain>前置按钮</bs-button>
+      </template>
+    </bs-input>
+    <bs-input style="margin-bottom: 1rem; width: 50%;">
+      <template #append>
+        <bs-select>
+          <bs-option value="1">Html</bs-option>
+          <bs-option value="2">Css</bs-option>
+          <bs-option value="3">Javascript</bs-option>
+        </bs-select>
+        <bs-select>
+          <bs-option value="1">Html</bs-option>
+          <bs-option value="2">Css</bs-option>
+          <bs-option value="3">Javascript</bs-option>
+        </bs-select>
+        <!--<bs-button type="success" plain>前置按钮</bs-button>-->
+      </template>
+    </bs-input>
+
+    <bs-input style="margin-bottom: 1rem; width: 50%;">
+      <template #prepend>
+        <bs-dropdown>
+          <bs-button type="primary">下拉菜单</bs-button>
+          <template #dropdown-content>
+            <bs-dropdown-item value="1">Html</bs-dropdown-item>
+            <bs-dropdown-item value="2">Css</bs-dropdown-item>
+            <bs-dropdown-item value="3">Javascript</bs-dropdown-item>
+          </template>
+        </bs-dropdown>
+        <bs-dropdown>
+          <bs-button type="primary">下拉菜单2</bs-button>
+          <template #dropdown-content>
+            <bs-dropdown-item value="1">Html</bs-dropdown-item>
+            <bs-dropdown-item value="2">Css</bs-dropdown-item>
+            <bs-dropdown-item value="3">Javascript</bs-dropdown-item>
+          </template>
+        </bs-dropdown>
+      </template>
+    </bs-input>
+
+    <bs-input style="margin-bottom: 1rem; width: 50%;">
+      <template #append>
+        <bs-dropdown>
+          <bs-button type="primary">下拉菜单</bs-button>
+          <template #dropdown-content>
+            <bs-dropdown-item value="1">Html</bs-dropdown-item>
+            <bs-dropdown-item value="2">Css</bs-dropdown-item>
+            <bs-dropdown-item value="3">Javascript</bs-dropdown-item>
+          </template>
+        </bs-dropdown>
+        <bs-dropdown>
+          <bs-button type="success">下拉菜单2</bs-button>
+          <template #dropdown-content>
+            <bs-dropdown-item value="1">Html</bs-dropdown-item>
+            <bs-dropdown-item value="2">Css</bs-dropdown-item>
+            <bs-dropdown-item value="3">Javascript</bs-dropdown-item>
+          </template>
+        </bs-dropdown>
+      </template>
+    </bs-input>
+
+    <bs-input style="margin-bottom: 1rem; width: 50%;">
+      <template #prepend>
+        <bs-input-text>
+          <bs-radio name="a1"></bs-radio>
+          <bs-radio name="a1"></bs-radio>
+        </bs-input-text>
+      </template>
+    </bs-input>
+    <bs-input style="margin-bottom: 1rem; width: 50%;">
+      <template #prepend>
+        <bs-input-text>
+          <bs-checkbox></bs-checkbox>
+        </bs-input-text>
       </template>
     </bs-input>
   </div>
@@ -69,7 +170,7 @@
     <bs-input style="margin-bottom: 25px;" type="textarea" v-model="textareaVal"></bs-input>
     <bs-input type="textarea" v-model="textareaVal">
       <template #append>
-        后置slot
+        <bs-input-text>后置slot</bs-input-text>
       </template>
     </bs-input>
   </div>
@@ -108,10 +209,11 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import BsDropdownItem from '@/components/bootstrap/bs-dropdown/widgets/BsDropdownItem.vue';
 
 export default defineComponent({
   name: 'BsInputUsage',
-  components: {},
+  components: { BsDropdownItem },
 
   setup (props: any) {
     let inputValue = ref('哈哈');
@@ -119,7 +221,10 @@ export default defineComponent({
     let textareaVal = ref('文本框');
     return {
       inputValue,
-      textareaVal
+      textareaVal,
+      prependSlotClick (evt: MouseEvent) {
+        console.log('前置slot点击事件！', evt);
+      }
     };
   }
 });
