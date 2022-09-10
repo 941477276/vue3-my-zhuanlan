@@ -150,9 +150,9 @@ export default defineComponent({
     margin-right: 0.4em;
   }
 }
-.bs-button:not(.btn-block){
+/*.bs-button:not(.btn-block){
   & + .bs-button:not(.btn-block){
     margin-left: 0.625rem;
   }
-}
+}*/
 </style>

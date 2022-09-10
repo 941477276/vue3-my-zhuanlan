@@ -50,6 +50,7 @@
       @change="on_change">
     <span class="form-check-input-inner"></span>
     <label
+      v-if="$slots.default"
       class="form-check-label"
       :for="checkboxId">
       <slot></slot>
