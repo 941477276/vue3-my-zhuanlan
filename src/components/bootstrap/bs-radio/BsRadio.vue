@@ -7,6 +7,7 @@
       'is-checked': isChecked
     }">
     <input
+      ref="radioInputRef"
       class="form-check-input"
       type="radio"
       autocomplete="off"
@@ -18,7 +19,7 @@
       :id="radioId"
       :value="value"
       :disabled="disabled || disabledInner"
-      :checked="isChecked"
+      :data-checked="isChecked"
       :aria-label="ariaLabel || null"
       @focus="onFocus"
       @blur="onBlur"
@@ -38,8 +39,13 @@ import {
   computed,
   ref,
   nextTick,
-  inject
+  inject,
+  watch,
+  onUpdated
 } from 'vue';
+import {
+  isFunction
+} from '@vue/shared';
 import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
 import { FormItemContext, formItemContextKey } from '@/ts-tokens/bootstrap';
 import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
@@ -47,6 +53,7 @@ import {
   radioGroupContextKey,
   RadioGroupContext
 } from '@/ts-tokens/bootstrap/radio';
+import login from '@/pages/login/Login.vue';
 
 // 统计单选框数量
 let radioCount = 0;
@@ -95,17 +102,32 @@ export default defineComponent({
     // 计算单选框的ID
     let radioId = ref(props.id || `bs-radio_${++radioCount}`);
     let isFocus = ref(false);
+    let radioInputRef = ref<HTMLInputElement|null>(null);
     let radioGroupCtx = inject<RadioGroupContext|null>(radioGroupContextKey, null);
     let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
+    let radioChecked = ref(false);
 
-    let isChecked = computed(() => {
+    let valueIsEqual = computed(() => {
       let flag = false;
       if (radioGroupCtx) {
         flag = (props.value === radioGroupCtx.props.modelValue) || (props.value === radioGroupCtx.props.value);
       } else {
-        flag = props.modelValue === props.value;
+        let { modelValue, value } = props;
+        flag = (modelValue !== '' && value !== '') && modelValue === value;
       }
       return flag;
+    });
+
+    watch([valueIsEqual, radioChecked], function ([valueIsEqual, radioChecked]) {
+      let radioEl = radioInputRef.value;
+      if (!radioEl) {
+        return;
+      }
+      radioEl.checked = valueIsEqual || radioChecked;
+    }, { immediate: true });
+
+    let isChecked = computed(() => {
+      return valueIsEqual.value || radioChecked.value;
     });
 
     let disabledInner = ref(false);
@@ -134,14 +156,32 @@ export default defineComponent({
     /* eslint-disable */
     let on_change = function (evt: Event) {
       // console.log(evt);
+      let target = evt.target as HTMLInputElement;
+      let resultValue = props.value == '' ? target.checked : props.value;
+      radioChecked.value = target.checked;
+      // console.log('radioChecked', radioChecked.value);
       if (radioGroupCtx) {
         // 调用<bs-radio-group>组件的changeVal方法将值传递出去，父组件setup中暴露出去的函数及属性都可以在父组件都ctx中获取的到
-        radioGroupCtx.changeVal(props.value);
+        radioGroupCtx.changeVal(resultValue);
       } else {
-        ctx.emit('update:modelValue', props.value);
+        ctx.emit('update:modelValue', resultValue);
       }
-      ctx.emit('change', props.value, evt);
+      ctx.emit('change', resultValue, evt);
       callFormItem('validate', 'change');
+      let radioName = props.name;
+      if (radioName) {
+        let currentRadioEl = radioInputRef.value;
+        let radios = document.querySelectorAll('.bs-radio input.form-check-input');
+        for (let i = 0, len = radios.length; i < len; i++) {
+          let radioEl = radios[i];
+          if (radioEl !== currentRadioEl) {
+            let setRadioChecked = (radioEl as any).setRadioChecked;
+            if (isFunction(setRadioChecked)) {
+              setRadioChecked(false);
+            }
+          }
+        }
+      }
     };
 
     let onBlur = function (evt: MouseEvent) {
@@ -164,11 +204,23 @@ export default defineComponent({
       useDeliverContextToParent<FormItemContext>(formItemContextKey, deliverToFormItemCtx);
     }
 
+    onUpdated(function () {
+      let radioEl = radioInputRef.value as any;
+      if (!radioEl) {
+        return;
+      }
+      // 给input绑定一个函数，以让外部可以修改单选框选中状态
+      radioEl.setRadioChecked = function (checked: boolean) {
+        radioChecked.value = !!checked;
+      };
+    });
+
     return {
       radioId,
       isFocus,
       isChecked,
       validateStatus,
+      radioInputRef,
 
       disabledInner,
       readonlyInner,

@@ -4,6 +4,7 @@
   vertical-align: middle;
   padding-left: 0;
   line-height: 1;
+  text-align: left;
   & + .bs-radio{
     margin-left: 20px;
   }
@@ -48,6 +49,11 @@
     padding-left: 0.9rem;
     margin-left: -0.3rem;
     cursor: pointer;
+  }
+  &:hover{
+    .form-check-input-inner{
+      border-color: var(--primary);
+    }
   }
   &.is-checked{
     .form-check-input-inner{
