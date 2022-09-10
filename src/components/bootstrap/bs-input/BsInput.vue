@@ -214,9 +214,10 @@ export default defineComponent({
         }
       }
       // 解决显示的值与modelValue不一致问题
-      if (innerValue !== props.modelValue) {
+      inputValue.value = innerValue;
+      /* if (innerValue !== props.modelValue) {
         inputValue.value = props.modelValue;
-      }
+      } */
       ctx.emit('blur', evt);
       callFormItem('validate', 'blur');
     };
