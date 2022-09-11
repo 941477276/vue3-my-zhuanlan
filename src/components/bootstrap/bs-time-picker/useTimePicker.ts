@@ -145,6 +145,9 @@ export function getUpdateModelValue (options = {} as GetUpdateModelValueParams) 
     minute = date.minute();
     second = date.second();
   }
+  hour = !hour ? 0 : hour;
+  minute = !minute ? 0 : minute;
+  second = !second ? 0 : second;
   if (use12Hours) { // 如果是12小时制，则hour需加上12小时
     if (period == 'pm' && hour <= 12) {
       hour += 12;
@@ -183,7 +186,7 @@ export function getUpdateModelValue (options = {} as GetUpdateModelValueParams) 
         return resultValue;
       }
     } else {
-      console.log('getUpdateModelValue', 5555, valueFormat);
+      console.log('getUpdateModelValue', 5555, valueFormat, hour, minute, second);
       dayIns = dayjs(`${hour}:${minute}:${second}`, valueFormat);
       return dayjsUtil.locale.format(dayIns, 'en', valueFormat);
     }
