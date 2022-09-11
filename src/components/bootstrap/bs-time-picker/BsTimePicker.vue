@@ -52,7 +52,7 @@ import {
   defineComponent,
   ref,
   watch,
-  PropType
+  PropType, nextTick, inject
 } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -109,12 +109,13 @@ export default defineComponent({
       default: ''
     }
   },
-  emits: ['update:modelValue', 'change'],
+  emits: ['update:modelValue', 'change', 'hidden', 'open'],
   setup (props: any, ctx: any) {
     let bsPickerTimePanelRef = ref(null);
     let bsCommonPicker = ref(null);
     let visible = ref(false);
     let bsTimePickerId = ref(props.id || `bs-time-picker_${++bsTimePickerCount}`);
+    let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
 
     let { formatInner } = useTimePicker(props);
 
@@ -158,6 +159,22 @@ export default defineComponent({
       viewDate.value = modelValue;
       viewDateText.value = getViewDateText();
     }, { immediate: true });
+
+    /**
+     * 调用当前<bs-form-item>父组件的方法
+     * @param fnName 方法名称
+     * @param args 参数
+     */
+    let callFormItem = function (fnName: string, ...args: any) {
+      if (!props.deliveContextToFormItem) {
+        return;
+      }
+      nextTick(function () {
+        if (formItemContext) {
+          (formItemContext as any)[fnName](...args);
+        }
+      });
+    };
 
     // 开启输入与操作同步功能
     let isInputTextValid = true;
@@ -221,6 +238,7 @@ export default defineComponent({
         console.log('即将更新的modelValue：', result);
         ctx.emit('update:modelValue', result);
         ctx.emit('change', result);
+        callFormItem('validate', 'change');
         // viewDateText.value = getViewDateText();
         isInputTextValid = true;
       } else {
@@ -236,6 +254,7 @@ export default defineComponent({
     let clear = function () {
       ctx.emit('update:modelValue', '');
       ctx.emit('change', '');
+      callFormItem('validate', 'change');
     };
     let setNow = function () {
       (bsPickerTimePanelRef.value as any)?.setNow();
@@ -252,6 +271,7 @@ export default defineComponent({
       viewDate.value = newValue;
       ctx.emit('update:modelValue', newValue);
       ctx.emit('change', newValue);
+      callFormItem('validate', 'change');
       (bsCommonPicker.value as any).focus();
     };
 

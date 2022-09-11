@@ -20,6 +20,7 @@
           :name="name"
           :placeholder="placeholder"
           :readonly="inputReadOnly"
+          :delive-context-to-form-item="false"
           @input="onInput"
           @focus="onInputFocus"
           @blur="onInputBlur"

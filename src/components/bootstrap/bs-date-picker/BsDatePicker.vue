@@ -108,7 +108,7 @@ import {
   Ref,
   watch,
   provide,
-  computed
+  computed, nextTick, inject
 } from 'vue';
 import { PickerType, datePickerCtx } from '@/ts-tokens/bootstrap/date-picker';
 import BsCommonPicker from '../bs-common-picker/BsCommonPicker.vue';
@@ -157,6 +157,7 @@ export default defineComponent({
     let pickerId = ref(props.id || `bs-${props.pickerType}-picker_${++pickerCounts[props.pickerType]}`);
     let visible = ref(false);
     let now = dayjs();
+    let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
 
     // 格式模板
     let formatInner = computed(function () {
@@ -343,11 +344,28 @@ export default defineComponent({
       return !!showFooter;
     });
 
+    /**
+     * 调用当前<bs-form-item>父组件的方法
+     * @param fnName 方法名称
+     * @param args 参数
+     */
+    let callFormItem = function (fnName: string, ...args: any) {
+      if (!props.deliveContextToFormItem) {
+        return;
+      }
+      nextTick(function () {
+        if (formItemContext) {
+          (formItemContext as any)[fnName](...args);
+        }
+      });
+    };
+
     // 设置值
     let setDate = function (newDate?: Dayjs) {
       if (!newDate) {
         ctx.emit('update:modelValue', '');
         ctx.emit('change', '', null);
+        callFormItem('validate', 'change');
         return;
       }
       let valueFormat = props.valueFormat;
@@ -385,6 +403,7 @@ export default defineComponent({
       // let value = !valueFormat ? date.clone() : date.format(valueFormat);
       ctx.emit('update:modelValue', value);
       ctx.emit('change', value, newDate.clone());
+      callFormItem('validate', 'change');
     };
     // 清空内容
     let clear = function () {
