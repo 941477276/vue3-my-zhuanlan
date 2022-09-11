@@ -29,6 +29,7 @@ import BsPopConfirm from '@/components/bootstrap/bs-pop-confirm';
 import BsCollapse from '@/components/bootstrap/bs-collapse';
 import BsTree from '@/components/bootstrap/bs-tree';
 import BsTreeSelect from '@/components/bootstrap/bs-tree-select';
+import BsInputTags from '@/components/bootstrap/bs-input-tags';
 import BsSelectInput from '@/components/bootstrap/bs-select-input';
 import BsTimePicker from '@/components/bootstrap/bs-time-picker';
 import BsDatePicker from '@/components/bootstrap/bs-date-picker';
@@ -68,6 +69,7 @@ export default function (vueApp: any) {
   vueApp.use(BsCollapse);
   vueApp.use(BsTree);
   vueApp.use(BsTreeSelect);
+  vueApp.use(BsInputTags);
   vueApp.use(BsSelectInput);
   vueApp.use(BsTimePicker);
   vueApp.use(BsDatePicker);

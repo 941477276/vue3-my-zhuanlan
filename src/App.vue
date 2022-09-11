@@ -2,9 +2,9 @@
   <!--<div class="box">
     <BsButtonUsage></BsButtonUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsInputUsage></BsInputUsage>
-  </div>
+  </div>-->
   <!--<div class="box">
     <BsRadioUsage></BsRadioUsage>
   </div>-->
@@ -96,6 +96,9 @@
   <!--<div class="box">
     <BsTreeSelectUsage></BsTreeSelectUsage>
   </div>-->
+  <div class="box">
+    <BsInputTagsUsage></BsInputTagsUsage>
+  </div>
   <!--<div class="box">
     <BsSelectInputUsage></BsSelectInputUsage>
   </div>-->
@@ -152,6 +155,7 @@ import BsPopConfirmUsage from '@/components/bootstrap/bs-pop-confirm/BsPopConfir
 import BsCollapseUsage from '@/components/bootstrap/bs-collapse/BsCollapseUsage.vue';
 import BsTreeUsage from '@/components/bootstrap/bs-tree/BsTreeUsage.vue';
 import BsTreeSelectUsage from '@/components/bootstrap/bs-tree-select/BsTreeSelectUsage.vue';
+import BsInputTagsUsage from '@/components/bootstrap/bs-input-tags/BsInputTagsUsage.vue';
 import BsSelectInputUsage from '@/components/bootstrap/bs-select-input/BsSelectInputUsage.vue';
 import BsTimePickerUsage from '@/components/bootstrap/bs-time-picker/BsTimePickerUsage.vue';
 import BsDatePickerUsage from '@/components/bootstrap/bs-date-picker/BsDatePickerUsage.vue';
@@ -197,6 +201,7 @@ export default defineComponent({
     BsCollapseUsage,
     BsTreeUsage,
     BsTreeSelectUsage,
+    BsInputTagsUsage,
     BsSelectInputUsage,
     BsTimePickerUsage,
     BsDatePickerUsage,
