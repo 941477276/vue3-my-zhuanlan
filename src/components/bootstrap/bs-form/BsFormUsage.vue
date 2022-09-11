@@ -127,7 +127,7 @@ export default defineComponent({
           {type: 'number', trigger: ['input', 'change', 'blur'], transform: (val: string|number) => Number(val), max: 12, message: '工作时长不能高于12小时'},
         ],
         tags: [
-          {required: true, type: 'array', trigger: 'change', min: 1, message: '请至少填写一个标签'}
+          {required: true, type: 'array', trigger: ['change', 'blur'], min: 1, message: '请至少填写一个标签'}
         ],
         hobby: [
           {required: true, type: 'array', trigger: 'change', min: 1, message: '请至少选择一个爱好'}

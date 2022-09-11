@@ -55,7 +55,7 @@
           :disabled="disabled"
           :placeholder="placeholder"
           @keydown="onSearchInputKeyDown"
-          @blur="$emit('blur', $event)">
+          @blur="onSearchInputBlur">
         <button
           ref="addBtnRef"
           v-if="addBtnVisible"
@@ -110,6 +110,7 @@ export default defineComponent({
     // 搜索文本
     let searchText = ref('');
     let inputTagsId = ref(props.id ? props.id : `bs_input_tags-${++bsInputTagsCount}`);
+    let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
 
     // 监听是否点击了外面
     useClickOutside(bsInputTagsRootRef, function (isClickOutSide: boolean) {
@@ -204,6 +205,22 @@ export default defineComponent({
       calcInputWidth();
     }, { immediate: true });
 
+    /**
+     * 调用当前<bs-form-item>父组件的方法
+     * @param fnName 方法名称
+     * @param args 参数
+     */
+    let callFormItem = function (fnName: string, ...args: any) {
+      if (!props.deliveContextToFormItem) {
+        return;
+      }
+      nextTick(function () {
+        if (formItemContext) {
+          (formItemContext as any)[fnName](...args);
+        }
+      });
+    };
+
     // tag 关闭事件
     let onTagClose = function (tag: ValueItem) {
       // console.log('tag关闭了：', tag);
@@ -215,6 +232,7 @@ export default defineComponent({
       if (index > -1) {
         modelValue.splice(index, 1);
         ctx.emit('update:modelValue', modelValue);
+        callFormItem('validate', 'change');
       }
       ctx.emit('tag-close', tag);
     };
@@ -236,6 +254,7 @@ export default defineComponent({
       newModelValue.push(tag);
       ctx.emit('update:modelValue', newModelValue);
       searchText.value = '';
+      callFormItem('validate', 'change');
       return true;
     };
 
@@ -268,12 +287,14 @@ export default defineComponent({
           newModelValue.splice(notDisabledItemIndex, 1);
           newModelValue.reverse();
           ctx.emit('update:modelValue', newModelValue);
+          callFormItem('validate', 'change');
         }
       }
     };
     // 输入框失去焦点事件
     let onSearchInputBlur = function (evt: MouseEvent) {
       ctx.emit('blur', evt);
+      callFormItem('validate', 'blur');
     };
 
     let onAddBtnClick = function () {
