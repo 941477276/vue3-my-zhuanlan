@@ -43,7 +43,8 @@
         :type="tag.tagType || tagType"
         :class="tag.tagClass"
         :size="tagSize"
-        :closeable="!disabled && !tag.disabled"
+        :effect="tag.tagEffect || tagEffect"
+        :closeable="!disabled && !tag.disabled && tagCloseable"
         @close="onTagClose(tag)">
         <!--<slot name="tag" v-bind="tag">{{ tag.label }}</slot>-->
         <SelectInputTagSlot name="tag" :bind-data="tag">{{ tag.label }}</SelectInputTagSlot>

@@ -38,6 +38,8 @@
       :placeholder="placeholder"
       :max-tag-count="maxTagCount"
       :tag-type="tagType"
+      :tag-effect="tagEffect"
+      :tag-closeable="tagCloseable"
       @click="onSelectInputClick"
       @tag-close="onTagClose"
       @filter-text-change="onFilterTextChange"

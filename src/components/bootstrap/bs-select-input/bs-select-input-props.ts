@@ -85,6 +85,14 @@ export const bsSelectInputProps = {
     type: String as PropType<BsColorType>,
     default: 'secondary'
   },
+  tagEffect: { // tag主题
+    type: String,
+    default: 'light'
+  },
+  tagCloseable: { // tag是否可关闭
+    type: Boolean,
+    default: true
+  },
   placeholder: {
     type: String,
     default: '请选择'
