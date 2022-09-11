@@ -22,11 +22,34 @@
         </bs-select>
       </bs-form-item>
       <bs-form-item
+        label="入职日期"
+        field-prop-name="joinDate">
+        <bs-date-picker
+          v-model="formData.joinDate"
+          value-format="YYYY-MM-DD"
+          placeholder="请选择入职日期"></bs-date-picker>
+      </bs-form-item>
+      <bs-form-item
+        label="上班开始时间"
+        field-prop-name="workStartTime">
+        <bs-time-picker
+          v-model="formData.workStartTime"
+          value-format="HH:mm:ss"
+          placeholder="上班开始时间"></bs-time-picker>
+      </bs-form-item>
+      <bs-form-item
         label="工作时长"
         field-prop-name="workTimer">
         <bs-input-number
           v-model="formData.workTimer"
           placeholder="请填写工作时长"></bs-input-number>
+      </bs-form-item>
+      <bs-form-item
+        label="标签"
+        field-prop-name="tags">
+        <bs-input-tags
+          v-model="formData.tags"
+          placeholder="请填写标签，按回车键确认"></bs-input-tags>
       </bs-form-item>
       <bs-form-item label="爱好" field-prop-name="hobby">
         <bs-checkbox v-model="formData.hobby" v-if="show" checked value="yuwen">语文</bs-checkbox>
@@ -52,10 +75,11 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, ref, ComponentInternalInstance } from 'vue';
+import BsDatePicker from '@/components/bootstrap/bs-date-picker/BsDatePicker.vue';
 
 export default defineComponent({
   name: 'BsFormUsage',
-  components: {},
+  components: { BsDatePicker },
 
   setup (props: any) {
     let formRef = ref<ComponentInternalInstance|null>(null);
@@ -69,6 +93,9 @@ export default defineComponent({
       username: '',
       status: '',
       workTimer: '',
+      joinDate: '',
+      tags: [],
+      workStartTimer: '',
       hobby: []
     });
     let rules = computed(function () {
@@ -88,10 +115,19 @@ export default defineComponent({
             trigger: 'input'
           }
         ],
+        joinDate: [
+          {required: true, trigger: ['change', 'blur'], message: '请填写入职日期'}
+        ],
+        workStartTime: [
+          {required: true, trigger: ['change', 'blur'], message: '请填写上班时间'}
+        ],
         workTimer: [
           {required: true, trigger: ['input', 'change', 'blur'], message: '请填写工作时长'},
           {type: 'number', trigger: ['input', 'change', 'blur'], transform: (val: string|number) => Number(val), min: 8, message: '工作时长不能低于8小时'},
           {type: 'number', trigger: ['input', 'change', 'blur'], transform: (val: string|number) => Number(val), max: 12, message: '工作时长不能高于12小时'},
+        ],
+        tags: [
+          {required: true, type: 'array', trigger: 'change', min: 1, message: '请至少填写一个标签'}
         ],
         hobby: [
           {required: true, type: 'array', trigger: 'change', min: 1, message: '请至少选择一个爱好'}
@@ -107,6 +143,9 @@ export default defineComponent({
       (formRef.value as any).validate()
         .then((valid: boolean) => {
           console.log('表单校验结果：', valid);
+          if (valid) {
+            console.log('表单数据', formData);
+          }
         });
     };
     let clearValidate = function () {
