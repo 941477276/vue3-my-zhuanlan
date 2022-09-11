@@ -156,6 +156,9 @@ export default defineComponent({
      * @param args 参数
      */
     let callFormItem = function (fnName: string, ...args: any) {
+      if (!props.deliveContextToFormItem) {
+        return;
+      }
       nextTick(function () {
         if (formItemContext) {
           (formItemContext as any)[fnName](...args);
