@@ -137,19 +137,21 @@ export default defineComponent({
         let inputWrapEl = inputerWrapRef.value as HTMLElement;
         if (!inputWrapEl || viewTagList.value == 0) {
           inputWidth.value = '100%';
+          calcAddBtnVisible();
           return;
         }
         let inputTagsListEl = (inputTagsRef?.value as HTMLElement);
-        let inputTagsWidth = inputTagsListEl.offsetWidth || 0;
+        let inputTagsWidth = inputTagsListEl.clientWidth || 0;
         if (inputTagsWidth > 0) {
           let tags = inputTagsListEl.querySelectorAll('.bs-tag');
           let lastTagEl = tags[tags.length - 1] as HTMLElement;
           let lastTagOffsetLeft = lastTagEl.offsetLeft;
           let lastTagWidth = lastTagEl.offsetWidth;
           let lastTagMarginRight: any = util.getStyle(lastTagEl, 'margin-right');
-          let inputWrapMarginRight: any = util.getStyle(inputWrapEl, 'margin-right') || 0;
+          let inputWrapMarginLeft: any = util.getStyle(inputWrapEl, 'margin-left');
+          let inputWrapMarginRight: any = util.getStyle(inputWrapEl, 'margin-right');
 
-          let width = inputTagsWidth - (lastTagOffsetLeft + lastTagWidth + lastTagMarginRight) - inputWrapMarginRight - 1;
+          let width = inputTagsWidth - (lastTagOffsetLeft + lastTagWidth + lastTagMarginRight) - inputWrapMarginLeft - inputWrapMarginRight - 1;
           let minWidth = props.minWidth;
           // console.log('width', width, (lastTagOffsetLeft + lastTagWidth + lastTagMarginRight), inputWrapMarginRight);
           if (!minWidth || minWidth < 0) {
@@ -305,6 +307,11 @@ export default defineComponent({
     };
 
     let { validateStatus, setValidateStatus } = useSetValidateStatus();
+    watch(validateStatus, function () {
+      nextTick(function () {
+        calcInputWidth();
+      });
+    });
 
     if (props.deliveContextToFormItem) {
       // 传递给<bs-form-item>组件的参数
