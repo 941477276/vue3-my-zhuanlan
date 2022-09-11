@@ -162,7 +162,6 @@ export default defineComponent({
   emits: ['update:modelValue', 'change', 'selectLimit'],
   setup (props: any, ctx: any) {
     let bsSelectRef = ref<HTMLElement|null>(null);
-    let bsInputRef = ref<ComponentInternalInstance|null>(null);
     let bsSelectInputRef = ref<ComponentInternalInstance|null>(null);
     let bsSelectDropdownRef = ref<HTMLElement|null>(null);
     let dropdownTransitionRef = ref(null);
@@ -389,8 +388,8 @@ export default defineComponent({
         id: selectId.value,
         setValidateStatus: (status: ValidateStatus) => {
           // console.log('调select组件的setValidateStatus方法l');
-          if (bsInputRef.value) {
-            (bsInputRef.value as any).setValidateStatus(status);
+          if (bsSelectInputRef.value) {
+            (bsSelectInputRef.value as any).setValidateStatus(status);
           }
         }
       };
@@ -417,7 +416,6 @@ export default defineComponent({
     // provide('parentCtx', { ctx });
     return {
       bsSelectRef,
-      bsInputRef,
       bsSelectInputRef,
       bsSelectDropdownRef,
       dropdownTransitionRef,

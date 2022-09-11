@@ -123,6 +123,8 @@ import BsDateTimePanel from './panels/bs-date-time-panel/BsDateTimePanel.vue';
 import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil } from '@/common/dayjsUtil';
 import { getUpdateModelValue } from '@/components/bootstrap/bs-time-picker/useTimePicker';
+import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
+import { FormItemContext, formItemContextKey } from '@/ts-tokens/bootstrap';
 
 let pickerCounts: any = {
   date: 0,
@@ -511,6 +513,19 @@ export default defineComponent({
       }
     };
 
+    // 设置输入框校验状态
+    let setValidateStatus = function (status: string) {
+      (bsCommonPicker.value as any)?.setValidateStatus(status);
+    };
+    if (props.deliveContextToFormItem) {
+      // 传递给<bs-form-item>组件的参数
+      let deliverToFormItemCtx = {
+        id: pickerId.value,
+        setValidateStatus
+      };
+      // 如果当前组件处在<bs-form-item>组件中，则将setValidateStatus方法存储到<bs-form-item>组件中
+      useDeliverContextToParent<FormItemContext>(formItemContextKey, deliverToFormItemCtx);
+    }
     // 向子孙组件提供当前组件的上下问
     provide(datePickerCtx, { ctx });
 
@@ -529,6 +544,7 @@ export default defineComponent({
       hide,
       show,
       setNow,
+      setValidateStatus,
 
       onDatePanelModelValueChange,
       onNowBtnClick () {
