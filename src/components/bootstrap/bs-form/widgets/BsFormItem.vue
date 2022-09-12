@@ -43,6 +43,9 @@ import {
   inject,
   provide
 } from 'vue';
+import {
+  isObject
+} from '@vue/shared';
 import { util } from '@/common/util';
 import Schema from 'async-validator';
 import {
@@ -71,7 +74,7 @@ export default defineComponent({
       default: ''
     },
     rules: { // 当前表单的校验规则
-      type: Array,
+      type: [Array, Object],
       default: () => []
     },
     labelFor: { // label的for属性
@@ -117,10 +120,14 @@ export default defineComponent({
 
     // 获取当前表单的校验规则
     let rules = computed<Array<any>>(function () {
+      let propRules = props.rules;
       // 优先取组件自己的校验规则
-      if (props.rules && props.rules.length > 0) {
-        // console.log('rules', 1);
-        return props.rules;
+      if (propRules) {
+        if (Array.isArray(propRules) && propRules.length > 0) {
+          return propRules;
+        } else if (isObject(propRules) && !Array.isArray(propRules)) {
+          return [propRules];
+        }
       }
       if (!props.fieldPropName) {
         // console.log('rules', 2);
@@ -129,10 +136,15 @@ export default defineComponent({
       // 组件自己没有校验规则，再从<bs-form>父组件中的rules上取
       if (formContext && formContext.props.rules) {
         // console.log('rules', 3);
-        let rule = formContext.props.rules;
-        if (rule && typeof rule === 'object') {
+        let parentRules = formContext.props.rules;
+        if (parentRules && isObject(parentRules)) {
           // console.log('rules', 4, rule);
-          return rule[props.fieldPropName] || [];
+          let itemRule = parentRules[props.fieldPropName];
+          if (Array.isArray(itemRule)) {
+            return itemRule;
+          } else if (isObject(itemRule)) {
+            return [itemRule];
+          }
         }
       }
       // console.log('rules', 5);

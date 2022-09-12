@@ -128,12 +128,8 @@ export default defineComponent({
             trigger: 'input'
           }
         ],
-        paySalaryTime: [
-          {required: true, trigger: ['change', 'blur'], message: '请填写每月发放薪酬时间'}
-        ],
-        joinDate: [
-          {required: true, trigger: ['change', 'blur'], message: '请填写入职日期'}
-        ],
+        paySalaryTime: {required: true, trigger: ['change', 'blur'], message: '请填写每月发放薪酬时间'},
+        joinDate: {required: true, trigger: ['change', 'blur'], message: '请填写入职日期'},
         workStartTime: [
           {required: true, trigger: ['change', 'blur'], message: '请填写上班时间'}
         ],
