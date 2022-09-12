@@ -93,6 +93,7 @@
         </span>
         <span
           v-if="clearable"
+          v-show="(inputValue + '').length > 0"
           :data-only-child="!suffixIcon && !$slots.suffix && !showPassword"
           class="bs-input-suffix-icon clear-content_icon"
           @click.stop="handleClear">
