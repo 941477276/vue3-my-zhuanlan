@@ -12,6 +12,7 @@
         }">
         <BsTimeUnitColumn
           v-if="columnsShow.hour"
+          ref="hourColumnRef"
           :units="hours"
           :value="timeUnitValues.hour"
           :parent-visible="parentVisible"
@@ -20,6 +21,7 @@
           key="hour"></BsTimeUnitColumn>
         <BsTimeUnitColumn
           v-if="columnsShow.minute"
+          ref="minuteColumnRef"
           :units="minutes"
           :value="timeUnitValues.minute"
           :parent-visible="parentVisible"
@@ -28,6 +30,7 @@
           key="minute"></BsTimeUnitColumn>
         <BsTimeUnitColumn
           v-if="columnsShow.second"
+          ref="secondColumnRef"
           :units="seconds"
           :value="timeUnitValues.second"
           :parent-visible="parentVisible"
@@ -59,7 +62,7 @@ import PanelHeader from '../../bs-date-picker/panels/panel-header/PanelHeader.vu
 import { TimeDataUnit } from '@/ts-tokens/bootstrap/time-picker';
 import { bsPickerTimePanelProps } from './bs-picker-time-panel-props';
 import { useTimePicker, getUpdateModelValue } from '../useTimePicker';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 const calcTimeUnit = function (count = 60, step = 1, use12Hourss: boolean, disabledFn: any, disabledFnData: any[]) {
   let arr: TimeDataUnit[] = [];
@@ -103,6 +106,9 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup (props: any, ctx: any) {
+    let hourColumnRef = ref();
+    let minuteColumnRef = ref();
+    let secondColumnRef = ref();
     let {
       formatInner,
       timeUnitValues,
@@ -214,7 +220,34 @@ export default defineComponent({
       ctx.emit('update:modelValue', newModelValue);
     };
 
+    watch(() => props.parentVisible, function (isVisible: boolean) {
+      // console.log('watch parentVisible', isVisible);
+      if (isVisible && !props.modelValue) {
+        let disabledFn = () => false;
+        let date: Dayjs = getUpdateModelValue({
+          // valueFormat: props.valueFormat,
+          use12Hours: props.use12Hours,
+          // date: nowDate,
+          period: 'am',
+          originDate: dayjs(),
+          disabledFns: {
+            disabledHours: disabledFn,
+            disabledMinutes: disabledFn,
+            disabledSeconds: disabledFn
+          }
+        }) as Dayjs;
+        hourColumnRef.value?.scroll2Top(0, date.hour());
+        minuteColumnRef.value?.scroll2Top(0, date.minute());
+        secondColumnRef.value?.scroll2Top(0, date.second());
+        // console.log('date', date);
+      }
+    });
+
     return {
+      hourColumnRef,
+      minuteColumnRef,
+      secondColumnRef,
+
       hours,
       minutes,
       seconds,

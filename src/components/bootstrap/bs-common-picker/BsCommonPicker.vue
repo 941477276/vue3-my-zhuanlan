@@ -170,7 +170,6 @@ export default defineComponent({
     // 给触发元素绑定点击事件
     watch(() => triggerRef.value, function (el) {
       el?.addEventListener('click', function () {
-        console.log(1111);
         showDropdown();
       }, false);
     });

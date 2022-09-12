@@ -96,7 +96,7 @@ export function useTimePicker (props: any) {
 };
 
 type GetUpdateModelValueParams = {
-  valueFormat: string|null;
+  valueFormat?: string|null;
   use12Hours: boolean;
   date?: Dayjs|null;
   period: string;

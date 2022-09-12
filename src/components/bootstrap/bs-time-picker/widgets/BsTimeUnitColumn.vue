@@ -58,14 +58,35 @@ export default defineComponent({
       ctx.attrs.onSelect?.(item);
     };
 
-    // 将选中到元素滚动置顶
-    let scroll2Top = function (duration = 0) {
+    /**
+     * 将指定元素滚动置顶
+     * @param duration 滚动时长
+     * @param value 元素的值（可选）
+     */
+    let scroll2Top = function (duration = 0, value?: number|string) {
       nextTick(function () {
         let ulEl = ulRef.value;
         if (!ulEl) {
           return;
         }
-        let activeLi = ulEl.querySelector('.bs-picker-time-panel-cell.is-selected') as HTMLElement;
+        let activeLi: HTMLElement | null = null;
+        if (!value && value != 0) {
+          activeLi = ulEl.querySelector('.bs-picker-time-panel-cell.is-selected');
+        } else {
+          let lis = ulEl.querySelectorAll('.bs-picker-time-panel-cell');
+          if (typeof value === 'number') {
+            value = value < 10 ? ('0' + value) : value;
+          }
+          for (let i = 0, len = lis.length; i < len; i++) {
+            let li = lis[i] as HTMLElement;
+            let text = (li.innerText || li.textContent)?.trim();
+            if (text == value) {
+              activeLi = li;
+              break;
+            }
+          }
+        }
+
         if (!activeLi) {
           return;
         }
@@ -92,7 +113,8 @@ export default defineComponent({
 
     return {
       ulRef,
-      onItemClick
+      onItemClick,
+      scroll2Top
     };
   }
 });
