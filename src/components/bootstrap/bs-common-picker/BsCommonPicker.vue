@@ -137,7 +137,7 @@ export default defineComponent({
       default: ''
     }
   },
-  emits: ['update:inputModelValue', 'input', 'focus', 'blur', 'show', 'shown', 'hidden'],
+  emits: ['update:inputModelValue', 'input', 'focus', 'blur', 'clear', 'show', 'shown', 'hidden'],
   setup (props: any, ctx: any) {
     let bsInputRef = ref(null);
     let bsCommonPickerId = ref(props.id || `bs-common-picker_${++bsCommonPickerCount}`);
@@ -170,6 +170,7 @@ export default defineComponent({
     // 给触发元素绑定点击事件
     watch(() => triggerRef.value, function (el) {
       el?.addEventListener('click', function () {
+        console.log(1111);
         showDropdown();
       }, false);
     });

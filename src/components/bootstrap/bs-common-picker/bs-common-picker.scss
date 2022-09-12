@@ -8,6 +8,14 @@
       box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
     }
   }
+  .is-valid,
+  .is-invalid{
+    & + .bs-input-suffix{
+      .custom-suffix-icon{
+        display: none;
+      }
+    }
+  }
 }
 .bs-picker-panel-container{
   border-radius: 0.24rem 0.25rem;
