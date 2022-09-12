@@ -222,6 +222,7 @@ export default defineComponent({
       /* if (innerValue !== props.modelValue) {
         inputValue.value = props.modelValue;
       } */
+      clearContentIconDisplay.value = false;
       ctx.emit('blur', evt);
       callFormItem('validate', 'blur');
     };

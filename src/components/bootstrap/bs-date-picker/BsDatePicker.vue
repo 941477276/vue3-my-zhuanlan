@@ -174,7 +174,7 @@ export default defineComponent({
         quarter: 'YYYY-[Q]Q',
         year: 'YYYY'
       };
-      formatMap.dateTime += props.timePanelProps.use12Hours ? ' hh:mm:ss a' : ' HH:mm:ss';
+      formatMap.dateTime += props.timePanelProps.use12Hours ? ' hh:mm:ss' : ' HH:mm:ss';
       let formatValue = formatMap[pickerType];
       return formatValue;
     });
@@ -246,9 +246,13 @@ export default defineComponent({
             let timePanelValueFormat = timePanelProps.valueFormat;
             let datePanelValueFormat = datePanelProps.valueFormat;
             // let tempFormat = 'YYYY-MM-DD HH:mm:ss';
-            let tempFormat = datePanelValueFormat + props.valueFormatSpliter + timePanelValueFormat;
-            let dateTemp = dayjsUtil.parseToDayjs(modelValue, tempFormat);
+            let tempFormat = '';
+            if (timePanelValueFormat && datePanelValueFormat) {
+              tempFormat = datePanelValueFormat + props.valueFormatSpliter + timePanelValueFormat;
+            }
+            let dateTemp = dayjsUtil.parseToDayjs(modelValue, tempFormat || format);
             // let dateTemp2 = dateTemp;
+            console.log('================', modelValue, dateTemp, tempFormat || format);
             let hour = dateTemp.hour();
             let periods = '';
             if (upperCaseValue.endsWith('PM')) {
@@ -261,17 +265,17 @@ export default defineComponent({
               periods = hour > 12 ? 'PM' : 'AM';
               modelValue += ' ' + periods;
             }
-            /* if (hour > 12) { // 用来显示的
-              dateTemp = dateTemp.hour(hour - 12);
-            } */
-
             if (periods == 'AM' && hour > 12) {
-              // dateTemp2 = dateTemp2.hour(hour - 12);
               dateTemp = dateTemp.hour(hour - 12);
             }
             if (periods == 'PM' && hour < 12) {
-              // dateTemp2 = dateTemp2.hour(hour + 12);
               dateTemp = dateTemp.hour(hour + 12);
+            }
+            if (timePanelProps.use12Hours) {
+              let newHour = dateTemp.hour();
+              if (newHour > 12) {
+                dateTemp = dateTemp.hour(newHour - 12);
+              }
             }
             let viewText = dateTemp.format(tempFormat) + ' ' + periods;
             console.log('dateTime hour', dateTemp, hour, viewText);
