@@ -103,5 +103,13 @@ export const bsDatePickerProps = {
     default () {
       return {};
     }
+  },
+  formatSpliter: { // 格式模板之间的连接符，仅在pickerType=dateTime时有效
+    type: String,
+    default: ' '
+  },
+  valueFormatSpliter: { // 格式模板之间的连接符，仅在pickerType=dateTime时有效
+    type: String,
+    default: ' '
   }
 };

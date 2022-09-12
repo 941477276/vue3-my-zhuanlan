@@ -192,6 +192,7 @@ export default defineComponent({
         return;
       }
       let format = formatInner.value;
+      let valueFormat = props.valueFormat;
       let dayjsIns;
       let pickerType = props.pickerType;
       if (pickerType == 'quarter') {
@@ -208,7 +209,18 @@ export default defineComponent({
       // console.log('setViewDateTxt dayjsIns', dayjsIns, format);
       let viewText = '';
       if (pickerType == 'dateTime') {
+        let { timePanelProps, datePanelProps } = props;
+        let timePanelFormat = timePanelProps.format;
+        let datePanelFormat = datePanelProps.format;
+        if (!datePanelFormat) {
+          datePanelFormat = 'YYYY-MM-DD';
+        }
+        if (!timePanelFormat) {
+          timePanelFormat = timePanelProps.user12Hours ? 'hh:mm:ss' : 'HH:mm:ss';
+        }
+        format = datePanelFormat + props.formatSpliter + timePanelFormat;
         viewText = dayjsUtil.locale.format(dayjsIns, 'en', format);
+        console.log('---------dateTime setText', viewText);
       } else {
         viewText = dayjsIns.format(format);
       }
@@ -221,26 +233,20 @@ export default defineComponent({
         let dayjsIns;
         let pickerType = props.pickerType;
         let format = formatInner.value;
+        let valueFormat = props.valueFormat;
         if (props.pickerType == 'quarter') {
-          dayjsIns = dayjsUtil.parseQuarter(modelValue, format);
+          dayjsIns = dayjsUtil.parseQuarter(modelValue, valueFormat || format);
         } else if (pickerType == 'week') {
-          dayjsIns = dayjsUtil.parseWeek(modelValue, format, 'zh-cn');
+          dayjsIns = dayjsUtil.parseWeek(modelValue, valueFormat || format, 'zh-cn');
         } else {
-          /* if (pickerType == 'dateTime' && typeof modelValue == 'string') {
-            let upperCaseValue = modelValue.toUpperCase();
-            // 如果时间字符串里没有时段标识，则手动计算
-            if (!upperCaseValue.endsWith('PM') && !upperCaseValue.endsWith('AM')) {
-              let dateTemp = dayjsUtil.parseToDayjs(modelValue, 'YYYY-MM-DD hh:mm:ss');
-              let hour = dateTemp.hour();
-              let periods = hour > 12 ? 'PM' : 'AM';
-              console.log('dateTime hour', dateTemp, hour);
-              dayjsIns = dayjsUtil.parseToDayjs(modelValue + ' ' + periods, format);
-            }
-          } */
           console.log('modelValue1111111', modelValue);
           if (pickerType == 'dateTime' && typeof modelValue == 'string') {
             let upperCaseValue = modelValue.toUpperCase();
-            let tempFormat = 'YYYY-MM-DD HH:mm:ss';
+            let { timePanelProps, datePanelProps } = props;
+            let timePanelValueFormat = timePanelProps.valueFormat;
+            let datePanelValueFormat = datePanelProps.valueFormat;
+            // let tempFormat = 'YYYY-MM-DD HH:mm:ss';
+            let tempFormat = datePanelValueFormat + props.valueFormatSpliter + timePanelValueFormat;
             let dateTemp = dayjsUtil.parseToDayjs(modelValue, tempFormat);
             // let dateTemp2 = dateTemp;
             let hour = dateTemp.hour();
@@ -251,7 +257,7 @@ export default defineComponent({
             if (upperCaseValue.endsWith('AM')) {
               periods = 'AM';
             }
-            if (!upperCaseValue.endsWith('PM') && !upperCaseValue.endsWith('AM')) {
+            if (timePanelProps.use12Hours && !upperCaseValue.endsWith('PM') && !upperCaseValue.endsWith('AM')) {
               periods = hour > 12 ? 'PM' : 'AM';
               modelValue += ' ' + periods;
             }
@@ -267,25 +273,20 @@ export default defineComponent({
               // dateTemp2 = dateTemp2.hour(hour + 12);
               dateTemp = dateTemp.hour(hour + 12);
             }
-            console.log('periods', periods, hour, dateTemp);
             let viewText = dateTemp.format(tempFormat) + ' ' + periods;
-            // let newValue =
-
-            modelValue = viewText;
             console.log('dateTime hour', dateTemp, hour, viewText);
             // console.log('dateTemp2', dateTemp2);
             dayjsIns = dateTemp;
           }
           if (!dayjsIns) {
-            dayjsIns = dayjsUtil.parseToDayjs(modelValue, format);
+            dayjsIns = dayjsUtil.parseToDayjs(modelValue, valueFormat || format);
           }
-          console.log('watch modelValue', modelValue, format, dayjsIns);
+          console.log('watch modelValue', modelValue, valueFormat || format, dayjsIns);
         }
-
         date.value = dayjsIns;
       }
 
-      setViewDateTxt(modelValue);
+      setViewDateTxt(date.value as Dayjs);
     }, { immediate: true });
 
     // 输入框提示文字
@@ -370,19 +371,22 @@ export default defineComponent({
       }
       let valueFormat = props.valueFormat;
       let value;
-      if (!valueFormat) {
-        value = newDate.clone();
-      } else {
-        if (props.pickerType == 'dateTime') {
-          let period = '';
-          let use12Hours = props.timePanelProps.use12Hours;
+      if (props.pickerType == 'dateTime') {
+        let period = '';
+        let timePanelProps = props.timePanelProps;
+        let datePanelProps = props.datePanelProps;
+        let use12Hours = timePanelProps.use12Hours;
 
+        if (!timePanelProps.valueFormat || !datePanelProps.valueFormat) {
+          value = newDate.clone();
+        } else {
           if (use12Hours) {
             period = newDate.hour() > 12 ? 'pm' : 'am';
           }
-          let { disabledHours, disabledMinutes, disabledSeconds } = props.timePanelProps;
-          value = getUpdateModelValue({
-            valueFormat: props.valueFormat,
+          let { disabledHours, disabledMinutes, disabledSeconds } = timePanelProps;
+          let timeValue = getUpdateModelValue({
+            valueFormat: timePanelProps.valueFormat,
+            // valueFormat: valueFormat,
             use12Hours,
             date: newDate,
             period,
@@ -393,13 +397,18 @@ export default defineComponent({
               disabledSeconds
             }
           });
-          console.log('setDate dateTime', newDate, period, value);
-          // console.log('即将更新的modelValue：', result);
-          // ctx.emit('update:modelValue', result);
+          let dateValue = newDate.format(props.datePanelProps.valueFormat);
+          value = dateValue + ' ' + timeValue;
+          console.log('setDate dateTime2222222', newDate, period, value);
+        }
+      } else {
+        if (!valueFormat) {
+          value = newDate.clone();
         } else {
           value = newDate.format(valueFormat);
         }
       }
+
       // let value = !valueFormat ? date.clone() : date.format(valueFormat);
       ctx.emit('update:modelValue', value);
       ctx.emit('change', value, newDate.clone());
@@ -461,27 +470,7 @@ export default defineComponent({
       }
       let dayjsIns;
       let periods = '';
-      /* if (pickerType == 'dateTime' && typeof value == 'string') {
-        let upperCaseValue = value.toUpperCase();
-        let dateTemp = dayjsUtil.parseToDayjs(value, 'YYYY-MM-DD hh:mm:ss');
-        let hour = dateTemp.hour();
-        let isPM = false;
-        let periods = '';
-        if (upperCaseValue.endsWith('PM')) {
-          periods = 'PM';
-        }
-        if (!upperCaseValue.endsWith('PM') && !upperCaseValue.endsWith('AM')) {
-          periods = hour > 12 ? 'PM' : 'AM';
-          value += ' ' + periods;
-        }
-        if (periods == 'PM' && hour > 12) {
-          dateTemp = dateTemp.hour(hour - 12);
-        }
-        let newValue = dayjsUtil.locale.format(dateTemp, 'en', format);
 
-        value = newValue;
-        console.log('dateTime hour', dateTemp, hour, newValue);
-      } */
       if (pickerType == 'dateTime' && typeof value == 'string') {
         let upperCaseValue = value.toUpperCase();
         if (upperCaseValue.endsWith('AM')) {
@@ -503,17 +492,6 @@ export default defineComponent({
       }
       console.log('onInput', value, format, dayjsIns.isValid(), dayjsIns);
       if (dayjsIns.isValid()) {
-        /* let period = '';
-        if (props.use12Hours) {
-          period = dayjsIns.hour() > 12 ? 'pm' : 'am';
-        }
-        let result = getUpdateModelValue(props, null, period, {
-          hour: dayjsIns.hour(),
-          minute: dayjsIns.minute(),
-          second: dayjsIns.second()
-        });
-        // console.log('即将更新的modelValue：', result);
-        ctx.emit('update:modelValue', result); */
         let hour = dayjsIns.hour();
         if (periods == 'AM' && hour > 12) {
           dayjsIns = dayjsIns.hour(hour - 12);
