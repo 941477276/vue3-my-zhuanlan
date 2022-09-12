@@ -48,13 +48,11 @@ import {
   isFunction
 } from '@vue/shared';
 import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
-import { FormItemContext, formItemContextKey } from '@/ts-tokens/bootstrap';
-import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
 import {
   radioGroupContextKey,
   RadioGroupContext
 } from '@/ts-tokens/bootstrap/radio';
-import login from '@/pages/login/Login.vue';
+import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
 
 // 统计单选框数量
 let radioCount = 0;
@@ -105,7 +103,6 @@ export default defineComponent({
     let isFocus = ref(false);
     let radioInputRef = ref<HTMLInputElement|null>(null);
     let radioGroupCtx = inject<RadioGroupContext|null>(radioGroupContextKey, null);
-    let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
     let radioChecked = ref(false);
 
     let valueIsEqual = computed(() => {
@@ -140,22 +137,6 @@ export default defineComponent({
       readonlyInner.value = false;
     };
     let { validateStatus, setValidateStatus, getValidateStatus } = useSetValidateStatus();
-
-    /**
-     * 调用当前<bs-form-item>父组件的方法
-     * @param fnName 方法名称
-     * @param args 参数
-     */
-    let callFormItem = function (fnName: string, ...args: any) {
-      if (!props.deliveContextToFormItem) {
-        return;
-      }
-      nextTick(function () {
-        if (formItemContext) {
-          (formItemContext as any)[fnName](...args);
-        }
-      });
-    };
 
     /* eslint-disable */
     let on_change = function (evt: Event) {
@@ -198,15 +179,10 @@ export default defineComponent({
       ctx.emit('focus', evt);
     };
 
-    if (props.deliveContextToFormItem) {
-      // 传递给<bs-form-item>组件的参数
-      let deliverToFormItemCtx = {
-        id: radioId.value,
-        setValidateStatus
-      };
-      // 如果当前组件处在<bs-form-item>组件中，则将setValidateStatus方法存储到<bs-form-item>组件中
-      useDeliverContextToParent<FormItemContext>(formItemContextKey, deliverToFormItemCtx);
-    }
+    let { callFormItem } = useDeliverContextToFormItem(props, {
+      id: radioId.value,
+      setValidateStatus
+    });
 
     onUpdated(function () {
       let radioEl = radioInputRef.value as any;

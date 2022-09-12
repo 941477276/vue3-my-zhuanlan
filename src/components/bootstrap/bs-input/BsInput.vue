@@ -118,19 +118,11 @@
 <script lang="ts">
 import {
   defineComponent,
-  PropType,
-  computed,
-  ref,
-  inject,
-  nextTick
+  ref
 } from 'vue';
 import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
-import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
 import { useInput } from './useInput';
-import {
-  FormItemContext,
-  formItemContextKey
-} from '@/ts-tokens/bootstrap';
+import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
 import { bsInputProps } from './bs-input-props';
 import BsIcon from '../bs-icon/BsIcon.vue';
 
@@ -159,26 +151,13 @@ export default defineComponent({
       }
     }
 
-    let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
     let inputRef = ref<HTMLInputElement | null>(null);
     let { passwordIsShow, inputValue, inputClass, inputType, togglePasswordText } = useInput(props);
     let { validateStatus, setValidateStatus, getValidateStatus } = useSetValidateStatus();
-
-    /**
-     * 调用当前<bs-form-item>父组件的方法
-     * @param fnName 方法名称
-     * @param args 参数
-     */
-    let callFormItem = function (fnName: string, ...args: any) {
-      if (!props.deliveContextToFormItem) {
-        return;
-      }
-      nextTick(function () {
-        if (formItemContext !== null) {
-          (formItemContext as any)[fnName](...args);
-        }
-      });
-    };
+    let { callFormItem } = useDeliverContextToFormItem(props, {
+      id: inputId.value,
+      setValidateStatus
+    });
 
     // input事件
     /* eslint-disable */
@@ -277,7 +256,7 @@ export default defineComponent({
       clearContentIconDisplay.value = !!flag;
     }
 
-    if (props.deliveContextToFormItem) {
+    /* if (props.deliveContextToFormItem) {
       // 传递给<bs-form-item>组件的参数
       let deliverToFormItemCtx = {
         id: inputId.value,
@@ -285,7 +264,7 @@ export default defineComponent({
       };
       // 如果当前组件处在<bs-form-item>组件中，则将setValidateStatus方法存储到<bs-form-item>组件中
       useDeliverContextToParent<FormItemContext>(formItemContextKey, deliverToFormItemCtx);
-    }
+    } */
 
     return {
       inputRef,

@@ -34,6 +34,7 @@
         field-prop-name="workStartTime">
         <bs-time-picker
           v-model="formData.workStartTime"
+          show-footer
           value-format="HH:mm:ss"
           placeholder="上班开始时间"></bs-time-picker>
       </bs-form-item>
@@ -43,6 +44,17 @@
         <bs-input-number
           v-model="formData.workTimer"
           placeholder="请填写工作时长"></bs-input-number>
+      </bs-form-item>
+      <bs-form-item
+        label="每月发放薪酬时间"
+        field-prop-name="paySalaryTime">
+        <bs-date-picker
+          v-model="formData.paySalaryTime"
+          :time-panel-props="{valueFormat: 'HH时mm分ss秒'}"
+          :date-panel-props="{valueFormat: 'YYYY-MM-DD'}"
+          pickerType="dateTime"
+          value-format="YYYY-MM-DD HH:mm:ss"
+          placeholder="请选择每月发放薪酬时间"></bs-date-picker>
       </bs-form-item>
       <bs-form-item
         label="标签"
@@ -94,6 +106,7 @@ export default defineComponent({
       status: '',
       workTimer: '',
       joinDate: '',
+      paySalaryTime: '2022-09-23 10时28分22秒',
       tags: [],
       workStartTimer: '',
       hobby: []
@@ -114,6 +127,9 @@ export default defineComponent({
             },
             trigger: 'input'
           }
+        ],
+        paySalaryTime: [
+          {required: true, trigger: ['change', 'blur'], message: '请填写每月发放薪酬时间'}
         ],
         joinDate: [
           {required: true, trigger: ['change', 'blur'], message: '请填写入职日期'}

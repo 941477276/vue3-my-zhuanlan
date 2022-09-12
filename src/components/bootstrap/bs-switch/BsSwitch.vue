@@ -46,7 +46,8 @@ import {
 } from 'vue';
 import {
   BsColorType,
-  BsSize, FormItemContext,
+  BsSize,
+  FormItemContext,
   formItemContextKey
 } from '@/ts-tokens/bootstrap';
 

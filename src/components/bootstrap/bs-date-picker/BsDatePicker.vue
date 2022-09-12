@@ -108,7 +108,7 @@ import {
   Ref,
   watch,
   provide,
-  computed, nextTick, inject
+  computed
 } from 'vue';
 import { PickerType, datePickerCtx } from '@/ts-tokens/bootstrap/date-picker';
 import BsCommonPicker from '../bs-common-picker/BsCommonPicker.vue';
@@ -123,8 +123,7 @@ import BsDateTimePanel from './panels/bs-date-time-panel/BsDateTimePanel.vue';
 import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil } from '@/common/dayjsUtil';
 import { getUpdateModelValue } from '@/components/bootstrap/bs-time-picker/useTimePicker';
-import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
-import { FormItemContext, formItemContextKey } from '@/ts-tokens/bootstrap';
+import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
 
 let pickerCounts: any = {
   date: 0,
@@ -157,7 +156,6 @@ export default defineComponent({
     let pickerId = ref(props.id || `bs-${props.pickerType}-picker_${++pickerCounts[props.pickerType]}`);
     let visible = ref(false);
     let now = dayjs();
-    let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
 
     // 格式模板
     let formatInner = computed(function () {
@@ -349,22 +347,6 @@ export default defineComponent({
       return !!showFooter;
     });
 
-    /**
-     * 调用当前<bs-form-item>父组件的方法
-     * @param fnName 方法名称
-     * @param args 参数
-     */
-    let callFormItem = function (fnName: string, ...args: any) {
-      if (!props.deliveContextToFormItem) {
-        return;
-      }
-      nextTick(function () {
-        if (formItemContext) {
-          (formItemContext as any)[fnName](...args);
-        }
-      });
-    };
-
     // 设置值
     let setDate = function (newDate?: Dayjs) {
       if (!newDate) {
@@ -518,15 +500,12 @@ export default defineComponent({
     let setValidateStatus = function (status: string) {
       (bsCommonPicker.value as any)?.setValidateStatus(status);
     };
-    if (props.deliveContextToFormItem) {
-      // 传递给<bs-form-item>组件的参数
-      let deliverToFormItemCtx = {
-        id: pickerId.value,
-        setValidateStatus
-      };
-      // 如果当前组件处在<bs-form-item>组件中，则将setValidateStatus方法存储到<bs-form-item>组件中
-      useDeliverContextToParent<FormItemContext>(formItemContextKey, deliverToFormItemCtx);
-    }
+
+    let { callFormItem } = useDeliverContextToFormItem(props, {
+      id: pickerId.value,
+      setValidateStatus
+    });
+
     // 向子孙组件提供当前组件的上下问
     provide(datePickerCtx, { ctx });
 

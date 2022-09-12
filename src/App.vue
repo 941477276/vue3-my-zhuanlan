@@ -20,9 +20,9 @@
   <!--<div class="box">
     <BsSelectUsage></BsSelectUsage>
   </div>-->
-  <!--<div class="box">
+  <div class="box">
     <BsFormUsage></BsFormUsage>
-  </div>-->
+  </div>
   <!--<div class="box">
     <BsDropdownUsage></BsDropdownUsage>
   </div>-->
@@ -105,9 +105,9 @@
   <!--<div class="box">
     <BsTimePickerUsage></BsTimePickerUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsDatePickerUsage></BsDatePickerUsage>
-  </div>
+  </div>-->
   <!--<div class="box">
     <BsBackTopUsage></BsBackTopUsage>
   </div>-->

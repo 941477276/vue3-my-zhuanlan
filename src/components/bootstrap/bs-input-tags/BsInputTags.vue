@@ -83,10 +83,10 @@ import BsTag from '../bs-tag/BsTag.vue';
 import InputTagSlot from './widgets/InputTagsSlot.vue';
 import { bsInputTagsProps, ValueItem } from './bs-input-tags-props';
 import { useClickOutside } from '@/hooks/useClickOutside';
-import { FormItemContext, formItemContextKey, ValidateStatus } from '@/ts-tokens/bootstrap';
+import { FormItemContext, formItemContextKey } from '@/ts-tokens/bootstrap';
 import { util } from '@/common/util';
 import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
-import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
+import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
 
 let bsInputTagsCount = 0;
 export default defineComponent({
@@ -110,7 +110,6 @@ export default defineComponent({
     // 搜索文本
     let searchText = ref('');
     let inputTagsId = ref(props.id ? props.id : `bs_input_tags-${++bsInputTagsCount}`);
-    let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
 
     // 监听是否点击了外面
     useClickOutside(bsInputTagsRootRef, function (isClickOutSide: boolean) {
@@ -204,22 +203,6 @@ export default defineComponent({
     watch(() => [...(props.modelValue || [])], function () {
       calcInputWidth();
     }, { immediate: true });
-
-    /**
-     * 调用当前<bs-form-item>父组件的方法
-     * @param fnName 方法名称
-     * @param args 参数
-     */
-    let callFormItem = function (fnName: string, ...args: any) {
-      if (!props.deliveContextToFormItem) {
-        return;
-      }
-      nextTick(function () {
-        if (formItemContext) {
-          (formItemContext as any)[fnName](...args);
-        }
-      });
-    };
 
     // tag 关闭事件
     let onTagClose = function (tag: ValueItem) {
@@ -334,15 +317,10 @@ export default defineComponent({
       });
     });
 
-    if (props.deliveContextToFormItem) {
-      // 传递给<bs-form-item>组件的参数
-      let deliverToFormItemCtx = {
-        id: inputTagsId.value,
-        setValidateStatus
-      };
-      // 如果当前组件处在<bs-form-item>组件中，则将setValidateStatus方法存储到<bs-form-item>组件中
-      useDeliverContextToParent<FormItemContext>(formItemContextKey, deliverToFormItemCtx);
-    }
+    let { callFormItem } = useDeliverContextToFormItem(props, {
+      id: inputTagsId.value,
+      setValidateStatus
+    });
     provide('parentCtx', { ctx });
 
     return {

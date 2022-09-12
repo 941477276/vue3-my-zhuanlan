@@ -52,7 +52,7 @@ import {
   defineComponent,
   ref,
   watch,
-  PropType, nextTick, inject
+  PropType
 } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -61,10 +61,9 @@ import BsButton from '../bs-button/BsButton.vue';
 import BsCommonPicker from '../bs-common-picker/BsCommonPicker.vue';
 import { bsPickerTimePanelProps } from './widgets/bs-picker-time-panel-props';
 import { useTimePicker, getUpdateModelValue } from './useTimePicker';
-import { BsSize, FormItemContext, formItemContextKey } from '@/ts-tokens/bootstrap';
-import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
+import { BsSize } from '@/ts-tokens/bootstrap';
 import { dayjsUtil } from '@/common/dayjsUtil';
-import { util } from '@/common/util';
+import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
 
 dayjs.extend(customParseFormat);
 let bsTimePickerCount = 0;
@@ -115,7 +114,6 @@ export default defineComponent({
     let bsCommonPicker = ref(null);
     let visible = ref(false);
     let bsTimePickerId = ref(props.id || `bs-time-picker_${++bsTimePickerCount}`);
-    let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
 
     let { formatInner } = useTimePicker(props);
 
@@ -159,22 +157,6 @@ export default defineComponent({
       viewDate.value = modelValue;
       viewDateText.value = getViewDateText();
     }, { immediate: true });
-
-    /**
-     * 调用当前<bs-form-item>父组件的方法
-     * @param fnName 方法名称
-     * @param args 参数
-     */
-    let callFormItem = function (fnName: string, ...args: any) {
-      if (!props.deliveContextToFormItem) {
-        return;
-      }
-      nextTick(function () {
-        if (formItemContext) {
-          (formItemContext as any)[fnName](...args);
-        }
-      });
-    };
 
     // 开启输入与操作同步功能
     let isInputTextValid = true;
@@ -280,15 +262,10 @@ export default defineComponent({
       (bsCommonPicker.value as any)?.setValidateStatus(status);
     };
 
-    if (props.deliveContextToFormItem) {
-      // 传递给<bs-form-item>组件的参数
-      let deliverToFormItemCtx = {
-        id: bsTimePickerId.value,
-        setValidateStatus
-      };
-      // 如果当前组件处在<bs-form-item>组件中，则将setValidateStatus方法存储到<bs-form-item>组件中
-      useDeliverContextToParent<FormItemContext>(formItemContextKey, deliverToFormItemCtx);
-    }
+    let { callFormItem } = useDeliverContextToFormItem(props, {
+      id: bsTimePickerId.value,
+      setValidateStatus
+    });
 
     return {
       bsPickerTimePanelRef,

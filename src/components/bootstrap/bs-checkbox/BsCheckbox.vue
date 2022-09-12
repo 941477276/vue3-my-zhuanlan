@@ -64,18 +64,12 @@ import {
   ref,
   onMounted,
   onUnmounted,
-  nextTick,
-  inject,
   watch
 } from 'vue';
 import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
-import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
 import { useCheckbox } from './useCheckbox';
 import { util } from '@/common/util';
-import {
-  FormItemContext,
-  formItemContextKey
-} from '@/ts-tokens/bootstrap';
+import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
 
 // 统计复选框数量
 let checkboxCount = 0;
@@ -142,7 +136,6 @@ export default defineComponent({
     let isFocus = ref(false);
     let isIndeterminate = ref(props.indeterminate); // 判断是否为不确定状态
 
-    let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
     let { checkboxVal, isChecked, isCountLimitDisable } = useCheckbox(props, ctx, checkboxRef);
 
     let disabledInner = ref(false);
@@ -150,21 +143,6 @@ export default defineComponent({
       disabledInner.value = false;
     };
     let { validateStatus, setValidateStatus, getValidateStatus } = useSetValidateStatus();
-    /**
-     * 调用当前<bs-form-item>父组件的方法
-     * @param fnName 方法名称
-     * @param args 参数
-     */
-    let callFormItem = function (fnName: string, ...args: any) {
-      if (!props.deliveContextToFormItem) {
-        return;
-      }
-      nextTick(function () {
-        if (formItemContext) {
-          (formItemContext as any)[fnName](...args);
-        }
-      });
-    };
 
     /* eslint-disable */
     let on_change = function (evt: Event) {
@@ -196,15 +174,10 @@ export default defineComponent({
       ctx.emit('focus', evt);
     };
 
-    if (props.deliveContextToFormItem) {
-      // 传递给<bs-form-item>组件的参数
-      let deliverToFormItemCtx = {
-        id: checkboxId.value,
-        setValidateStatus
-      };
-      // 如果当前组件处在<bs-form-item>组件中，则将setValidateStatus方法存储到<bs-form-item>组件中
-      useDeliverContextToParent<FormItemContext>(formItemContextKey, deliverToFormItemCtx);
-    }
+    let { callFormItem } = useDeliverContextToFormItem(props, {
+      id: checkboxId.value,
+      setValidateStatus
+    });
 
     let watchIndeterminateTimer:number;
     let stopWatchIndeterminate = watch(() => props.indeterminate, function (indeterminate) {

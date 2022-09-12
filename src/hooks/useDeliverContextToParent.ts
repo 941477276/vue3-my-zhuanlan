@@ -16,16 +16,14 @@ export function useDeliverContextToParent <T extends HasFun> (injectKey: any, co
   onMounted(function () {
     if (formItemContext && typeof formItemContext.addChildComponentContext === 'function') {
       formItemContext.addChildComponentContext(context);
-    }
-    if (formItemContext && typeof formItemContext.addChildComponentContext !== 'function') {
+    } else {
       console.warn('useDeliverContextToParent函数中的context参数缺少[addChildComponentContext]属性');
     }
   });
   onBeforeUnmount(function () {
     if (formItemContext && typeof formItemContext.removeChildComponentContext === 'function') {
       formItemContext.removeChildComponentContext(context);
-    }
-    if (formItemContext && typeof formItemContext.removeChildComponentContext !== 'function') {
+    } else {
       console.warn('useDeliverContextToParent函数中的context参数缺少[removeChildComponentContext]属性');
     }
   });

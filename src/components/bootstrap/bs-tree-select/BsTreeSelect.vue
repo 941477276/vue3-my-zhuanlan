@@ -66,29 +66,22 @@
 import {
   defineComponent,
   nextTick,
-  PropType,
   ref,
-  reactive,
   watch,
-  provide,
   ComponentInternalInstance,
-  computed,
-  inject
+  computed
 } from 'vue';
 import {
-  BsSize,
-  FormItemContext,
   ValidateStatus,
-  formItemContextKey,
   StringKeyObject
 } from '@/ts-tokens/bootstrap';
 import { util } from '@/common/util';
 import { useClickOutside } from '@/hooks/useClickOutside';
-import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
 import BsInput from '../bs-input/BsInput.vue';
 import BsTree from '../bs-tree/BsTree.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
 import { bsTreeSelectProps } from './props';
+import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
 
 let treeSelectCount = 0;
 export default defineComponent({
@@ -111,7 +104,6 @@ export default defineComponent({
     let selectId = ref(props.id || `bs-tree-select_${++treeSelectCount}`);
     let dropdownDisplayed = ref(false); // 下拉菜单是否已经渲染
     let dropdownVisible = ref(false); // 下拉菜单是否显示
-    let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
     let treeRef = ref(null);
 
     /**
@@ -147,22 +139,6 @@ export default defineComponent({
         isFocus.value = false;
       }
       console.log('调用隐藏函数了');
-    };
-
-    /**
-     * 调用当前<bs-form-item>父组件的方法
-     * @param fnName 方法名称
-     * @param args 参数
-     */
-    let callFormItem = function (fnName: string, ...args: any) {
-      if (!props.deliveContextToFormItem) {
-        return;
-      }
-      nextTick(function () {
-        if (formItemContext) {
-          (formItemContext as any)[fnName](...args);
-        }
-      });
     };
 
     // 树组件的modelValue
@@ -253,20 +229,15 @@ export default defineComponent({
       callFormItem('validate', 'change');
     };
 
-    if (props.deliveContextToFormItem) {
-      // 传递给<bs-form-item>组件的参数
-      let deliverToFormItemCtx = {
-        id: selectId.value,
-        setValidateStatus: (status: ValidateStatus) => {
-          // console.log('调select组件的setValidateStatus方法l');
-          if (bsInputRef.value) {
-            (bsInputRef.value as any).setValidateStatus(status);
-          }
+    let { callFormItem } = useDeliverContextToFormItem(props, {
+      id: selectId.value,
+      setValidateStatus: (status: ValidateStatus) => {
+        // console.log('调select组件的setValidateStatus方法l');
+        if (bsInputRef.value) {
+          (bsInputRef.value as any).setValidateStatus(status);
         }
-      };
-      // 如果当前组件处在<bs-form-item>组件中，则将setValidateStatus方法存储到<bs-form-item>组件中
-      useDeliverContextToParent<FormItemContext>(formItemContextKey, deliverToFormItemCtx);
-    }
+      }
+    });
 
     return {
       bsTreeSelectRef,

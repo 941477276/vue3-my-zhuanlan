@@ -116,21 +116,15 @@
 <script lang="ts">
 import {
   defineComponent,
-  nextTick,
-  PropType,
   ref,
   reactive,
   watch,
   provide,
   ComponentInternalInstance,
-  computed,
-  inject
+  computed
 } from 'vue';
 import {
-  BsSize,
-  FormItemContext,
-  ValidateStatus,
-  formItemContextKey
+  ValidateStatus
 } from '@/ts-tokens/bootstrap';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import {
@@ -138,13 +132,13 @@ import {
   SelectOptionItem,
   selectContextKey
 } from '@/ts-tokens/bootstrap/select';
-import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
 import BsSelectInput from '../bs-select-input/BsSelectInput.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
 import BsSpinner from '../bs-spinner/BsSpinner.vue';
 import BsOption from './widgets/BsOption.vue';
 import BsOptionGroup from './widgets/BsOptionGroup.vue';
 import { bsSelectProps } from './props';
+import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
 
 let selectCount = 0;
 export default defineComponent({
@@ -171,7 +165,6 @@ export default defineComponent({
     let dropdownDisplayed = ref(false); // 下拉菜单是否已经渲染
     let dropdownVisible = ref(false); // 下拉菜单是否显示
     let optionItems = ref<SelectOptionItem[]>([]); // 存储option的label及value
-    let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
 
     let nativeSelectModel = computed({
       get () {
@@ -209,22 +202,6 @@ export default defineComponent({
         isFocus.value = false;
         (bsSelectInputRef.value as any)?.blur();
       }, 120);
-    };
-
-    /**
-     * 调用当前<bs-form-item>父组件的方法
-     * @param fnName 方法名称
-     * @param args 参数
-     */
-    let callFormItem = function (fnName: string, ...args: any) {
-      if (!props.deliveContextToFormItem) {
-        return;
-      }
-      nextTick(function () {
-        if (formItemContext) {
-          (formItemContext as any)[fnName](...args);
-        }
-      });
     };
 
     /**
@@ -383,22 +360,16 @@ export default defineComponent({
       let val = props.multiple ? [] : '';
       ctx.emit('update:modelValue', val);
       ctx.emit('change', val);
+      callFormItem('validate', 'change');
     };
 
-    if (props.deliveContextToFormItem) {
-      // 传递给<bs-form-item>组件的参数
-      let deliverToFormItemCtx = {
-        id: selectId.value,
-        setValidateStatus: (status: ValidateStatus) => {
-          // console.log('调select组件的setValidateStatus方法l');
-          if (bsSelectInputRef.value) {
-            (bsSelectInputRef.value as any).setValidateStatus(status);
-          }
-        }
-      };
-      // 如果当前组件处在<bs-form-item>组件中，则将setValidateStatus方法存储到<bs-form-item>组件中
-      useDeliverContextToParent<FormItemContext>(formItemContextKey, deliverToFormItemCtx);
-    }
+    let { callFormItem } = useDeliverContextToFormItem(props, {
+      id: selectId.value,
+      setValidateStatus: (status: ValidateStatus) => {
+        // console.log('调select组件的setValidateStatus方法l');
+        (bsSelectInputRef.value as any)?.setValidateStatus(status);
+      }
+    });
 
     provide<SelectContext>(selectContextKey, reactive({
       props,
