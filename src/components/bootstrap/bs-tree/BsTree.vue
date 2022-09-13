@@ -55,7 +55,8 @@ import {
   findParentsByNodeLevelPath2,
   findParentsByNodeValue2,
   findTopParentByNodeValue2,
-  treeDataToFlattarnArr2
+  treeDataToFlattarnArr2,
+  clearCachedNodeInfo
 } from './bs-tree-utils';
 import { useTreePagination } from './useTreePagination';
 import { useTreeMethods } from './useTreeMethods';
@@ -306,11 +307,13 @@ export default defineComponent({
     };
 
     let isInited = false;
-    watch([() => props.treeData, () => props.props], function ([treeData, nodeProps]) {
+    watch([() => props.treeData], function ([treeData]) {
+      let nodeProps = props.props;
       // console.time('监听treeData变化，执行耗时');
       // flatTreeNodeInfoArr.value = flatTreeDataToObject(treeData, nodeProps.children, 1, '', {});
-      flatTreeNodeInfoArr.value = treeDataToFlattarnArr2(treeData, nodeProps.children, nodeProps.disabled, 1, '', []);
+      flatTreeNodeInfoArr.value = treeDataToFlattarnArr2(treeData, nodeProps.children || 'children', nodeProps.disabled || 'disabled', 1, '', []);
       console.log('flatTreeNodeInfoArr', flatTreeNodeInfoArr.value);
+      clearCachedNodeInfo();
       if (isInited) { // 还未进行初始化的时候不执行linkParentCheckbox函数，因为下面的watch props.checkedKeys会执行
         linkParentCheckbox();
       }
@@ -405,17 +408,25 @@ export default defineComponent({
             let disabledKey = props.props.disabled;
             // let nodeKey = props.nodeKey;
             // let childrenKey = props.props.children;
-
+            console.log('addCheckedKey 11');
             // 如果节点有子孙节点，则全选它的子孙节点
             if (!props.checkStrictly) {
               if (hasChildren) {
+                console.log('addCheckedKey 22');
+
                 addChildrenChecked(nodeValue);
               } else {
+                console.log('addCheckedKey 33');
+
                 addCheckedKey(nodeValue, nodeData[disabledKey]);
               }
+              console.log('addCheckedKey 44');
+
               // 添加父级节点的选中状态
               addParentsChecked(nodeValue);
             } else {
+              console.log('addCheckedKey 55');
+
               addCheckedKey(nodeValue, nodeData[disabledKey]);
             }
             // linkParentCheckbox(true);

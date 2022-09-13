@@ -114,6 +114,7 @@ export function useBsTree (props: any, flatTreeNodeInfoArr: Ref<BsNodeInfo[]>) {
     let nodeKey = props.nodeKey;
     let childrenKey = props.props.children;
     let parents = findParentsByNodeValue2(nodeValue, nodeKey, flatTreeNodeInfoArr.value);
+    console.log('addParentsChecked', parents);
     parents.forEach(function (parentNodeInfo) {
       // console.log('添加父节点的选中状态, addParentsChecked');
       let parentNodeValue = parentNodeInfo.node[nodeKey];

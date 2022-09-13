@@ -44,6 +44,7 @@
         v-model="inputModel"
         :value="nodeValue"
         :indeterminate="isIndeterminate"
+        :delive-context-to-form-item="false"
         :name="checkboxName"
         :disabled="isDisabled"></BsCheckbox>
       <BsRadio
@@ -51,6 +52,7 @@
         v-model="inputModel"
         :value="nodeValue"
         :name="radioName"
+        :delive-context-to-form-item="false"
         :disabled="isDisabled || isRadioDisabled"></BsRadio>
       <!--<div class="bs-tree-node-label">node label</div>-->
       <BsTreeNodeLabel

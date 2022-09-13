@@ -4,6 +4,7 @@ import {
 } from '@/ts-tokens/bootstrap/tree';
 import { StringKeyObject } from '@/ts-tokens/bootstrap';
 
+let cachedNodeInfo: any = {}; // 缓存找到过的节点
 /**
  * 将树形结构扁平化转成普通对象
  * @param treeData 树数据
@@ -50,6 +51,7 @@ export function treeDataToFlattarnArr2 (treeNodeInfoArr: BsNodeInfo[], childrenK
   if (!Array.isArray(treeNodeInfoArr)) {
     treeNodeInfoArr = [treeNodeInfoArr];
   }
+  console.log('treeDataToFlattarnArr2 111', treeNodeInfoArr, childrenKey);
   treeNodeInfoArr.forEach((treeNode: any, index: number) => {
     if (!treeNode || typeof treeNode !== 'object') {
       return;
@@ -62,6 +64,7 @@ export function treeDataToFlattarnArr2 (treeNodeInfoArr: BsNodeInfo[], childrenK
     });
 
     let children = treeNode[childrenKey];
+    console.log('treeDataToFlattarnArr2 222, children', children);
     // console.log('children', children, childrenKey);
     if (children && (children?.length || 0) > 0) {
       treeDataToFlattarnArr2(children, childrenKey, disabledKey, nodeLevel + 1, nodeLevelPath, target);
@@ -169,10 +172,13 @@ export function findParentsByNodeLevelPath2 (nodeLevelPath: string, treeNodeInfo
  */
 export function findParentsByNodeValue2 (nodeValue: any, nodeKey: string, treeNodeInfoArr: BsNodeInfo[]) {
   let nodeInfo = findNodeInfoByValue2(nodeValue, nodeKey, treeNodeInfoArr);
+  console.log('findParentsByNodeValue2 11', nodeInfo);
   if (!nodeInfo.node) {
     return [];
   }
   let parents = findParentsByNodeLevelPath2(nodeInfo.nodeLevelPath, treeNodeInfoArr);
+  console.log('findParentsByNodeValue2 22', parents);
+
   return parents;
 };
 
@@ -211,9 +217,16 @@ export function findNodeInfoByValue2 (nodeValue: any, nodeKey: string, treeNodeI
     nodeLevelPath: '',
     isDisabled: false
   };
+  console.log('findNodeInfoByValue2 11', nodeValue);
+  // 优先从缓存中取
+  if (nodeValue in cachedNodeInfo) {
+    console.log('findNodeInfoByValue2 222', cachedNodeInfo);
+    return cachedNodeInfo[nodeValue];
+  }
+  console.log('findNodeInfoByValue2 333', treeNodeInfoArr);
   for (let i = 0, len = treeNodeInfoArr.length; i < len; i++) {
     let nodeInfoItem = treeNodeInfoArr[i];
-    // console.log('nodeInfoItem', nodeInfoItem.node[nodeKey]);
+    console.log('nodeInfoItem', nodeInfoItem.node, nodeInfoItem.node[nodeKey]);
     if (nodeInfoItem.node[nodeKey] === nodeValue) {
       resultNode.node = nodeInfoItem.node;
       resultNode.nodeLevelPath = nodeInfoItem.nodeLevelPath;
@@ -313,3 +326,10 @@ export function findChildrenInfoFlattarnByNodeValue2 (nodeValue: any, nodeKey: s
   let flattarnChildren = treeNodeInfoArr.filter(nodeInfo => nodeInfo.nodeLevelPath.startsWith(nodeLevelPath + '_'));
   return flattarnChildren;
 }
+
+/**
+ * 清空缓存的节点信息
+ */
+export function clearCachedNodeInfo () {
+  cachedNodeInfo = {};
+};
