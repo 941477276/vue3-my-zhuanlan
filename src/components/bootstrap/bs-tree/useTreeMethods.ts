@@ -4,11 +4,11 @@ import {
 import { BsNodeInfo } from '@/ts-tokens/bootstrap/tree';
 import { findNodeInfoByValue2 } from '@/components/bootstrap/bs-tree/bs-tree-utils';
 
-export function useTreeMethods (props: any, flatTreeNodeInfoArr: Ref<BsNodeInfo[]>, checkedKeysRoot: Ref<(string|number)[]>, halfCheckedKeys: Ref<(string|number)[]>) {
+export function useTreeMethods (props: any, flatTreeNodeInfoArr: Ref<BsNodeInfo[]>, checkedKeysRoot: Ref<(string|number)[]>, halfCheckedKeys: Ref<(string|number)[]>, treeId: string) {
 // 根据节点值查找节点
   let getNodeByNodeValue = function (nodeValue: string|number) {
     let flatTreeInfo = flatTreeNodeInfoArr.value;
-    let nodeInfo = findNodeInfoByValue2(nodeValue, props.nodeKey, flatTreeInfo);
+    let nodeInfo = findNodeInfoByValue2(treeId, nodeValue, props.nodeKey, flatTreeInfo);
     if (!nodeInfo.node) {
       return null;
     }
@@ -27,7 +27,7 @@ export function useTreeMethods (props: any, flatTreeNodeInfoArr: Ref<BsNodeInfo[
   // 根据节点值查找父级节点
   let getParentNodeByNodeValue = function (nodeValue: string|number) {
     let flatTreeInfo = flatTreeNodeInfoArr.value;
-    let nodeInfo = findNodeInfoByValue2(nodeValue, props.nodeKey, flatTreeInfo);
+    let nodeInfo = findNodeInfoByValue2(treeId, nodeValue, props.nodeKey, flatTreeInfo);
     if (!nodeInfo.node) {
       return null;
     }

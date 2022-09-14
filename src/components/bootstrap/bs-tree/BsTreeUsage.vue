@@ -387,6 +387,7 @@ export default defineComponent({
     ]);
     let checkedKeys7 = ref<(string | number)[]>([]);
     let largeTree = ref(largeTreeData.data);
+    // let largeTree = ref([]);
     let largeTreeValues = ref([]);
 
     // let checkedKeys1 = ref<(string|number)[]>(['4', '2_1', '2_4', '2_2', '2_5', '2_2_1', '2_1_1_2_2', '3_2_1']);

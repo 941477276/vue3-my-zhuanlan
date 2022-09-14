@@ -60,7 +60,7 @@ import {
 } from './bs-tree-utils';
 import { useTreePagination } from './useTreePagination';
 import { useTreeMethods } from './useTreeMethods';
-import { useBsTree } from './useBsTree';
+import { useBsTree, defaultTreeNodeProps } from './useBsTree';
 
 let treeCount = 0;
 export default defineComponent({
@@ -81,10 +81,7 @@ export default defineComponent({
       type: Object,
       default () {
         return {
-          label: 'label',
-          children: 'children',
-          disabled: 'disabled',
-          isLeaf: 'isLeaf'
+          ...defaultTreeNodeProps
         };
       }
     },
@@ -133,7 +130,7 @@ export default defineComponent({
           console.log(`${checkedKey} 节点已经展开，无需再次展开！`);
           return;
         }
-        let parents = findParentsByNodeValue2(checkedKey, nodeKey, flatTreeNodeInfos);
+        let parents = findParentsByNodeValue2(treeId, checkedKey, nodeKey, flatTreeNodeInfos);
         parents.forEach(parentNodeInfo => {
           let node = parentNodeInfo.node;
           let parentNodeValue = node[nodeKey];
@@ -148,6 +145,7 @@ export default defineComponent({
     let {
       checkedKeysRoot,
       halfCheckedKeys,
+      treeNodeProps,
 
       addCheckedKey,
       removeCheckedKey,
@@ -158,7 +156,7 @@ export default defineComponent({
       addChildrenChecked,
       removeChildrenChecked,
       nodesIsAllChecked
-    } = useBsTree(props, flatTreeNodeInfoArr);
+    } = useBsTree(props, flatTreeNodeInfoArr, treeId);
 
     // 设置最顶层的父级节点半选中状态
     let setTopParentsIndeterminate = function (topParent: BsNodeData, flag = false) {
@@ -181,8 +179,7 @@ export default defineComponent({
       // 已经处理过的节点的key
       let processedKes: StringKeyObject = {};
       let nodeKey = props.nodeKey;
-      let childKey = props.props.children;
-      let disabledKey = props.props.disabled;
+      let { children: childKey, disabled: disabledKey } = treeNodeProps.value;
       let checkedKeys = checkedKeysRoot.value;
       let flatTree = flatTreeNodeInfoArr.value;
 
@@ -193,7 +190,7 @@ export default defineComponent({
         }
 
         // console.log('linkParentCheckbox1111', checkedKey);
-        let topParent = findTopParentByNodeValue2(checkedKey, nodeKey, flatTree);
+        let topParent = findTopParentByNodeValue2(treeId, checkedKey, nodeKey, flatTree);
         // console.log('topParent', checkedKey, topParent);
         let topParentValue = topParent ? topParent[nodeKey] : '';
         if (topParentValue && (topParentValue in processedKes)) {
@@ -203,11 +200,11 @@ export default defineComponent({
           processedKes[topParentValue] = 1;
         }
         // 根据节点的值（如果有顶层父节点则从顶层父节点开始）查找有children的子节点
-        let hasChildrenChildNodes = findChildrenWhichHasChildren2(topParentValue ? topParentValue : checkedKey, nodeKey, childKey, flatTree);
+        let hasChildrenChildNodes = findChildrenWhichHasChildren2(treeId, topParentValue ? topParentValue : checkedKey, nodeKey, childKey, flatTree);
         // console.log('hasChildrenNodes', hasChildrenChildNodes);
 
         if (hasChildrenChildNodes.length === 0) {
-          let currentNodeInfo = findNodeInfoByValue2(checkedKey, nodeKey, flatTree);
+          let currentNodeInfo = findNodeInfoByValue2(treeId, checkedKey, nodeKey, flatTree);
           if (!currentNodeInfo.node) {
             // console.log('未找到节点，', checkedKey);
             return;
@@ -215,7 +212,7 @@ export default defineComponent({
           // 如果节点没有有children的子节点，那么hasChildrenChildNodes就是它自己，此时节点可能为最后一层，或倒数第二层
           hasChildrenChildNodes = [currentNodeInfo.node];
         } else if (!topParent && hasChildrenChildNodes.length > 0) { // 如果节点已经没有了父级节点，并且还有子节点，那么它自己就是顶级节点
-          topParent = findNodeInfoByValue2(checkedKey, nodeKey, flatTree).node;
+          topParent = findNodeInfoByValue2(treeId, checkedKey, nodeKey, flatTree).node;
           topParentValue = topParent ? topParent[nodeKey] : '';
           // console.log('topParent2222', topParent, topParentValue);
         }
@@ -308,12 +305,18 @@ export default defineComponent({
 
     let isInited = false;
     watch([() => props.treeData], function ([treeData]) {
-      let nodeProps = props.props;
+      let nodeProps = treeNodeProps.value;
       // console.time('监听treeData变化，执行耗时');
       // flatTreeNodeInfoArr.value = flatTreeDataToObject(treeData, nodeProps.children, 1, '', {});
-      flatTreeNodeInfoArr.value = treeDataToFlattarnArr2(treeData, nodeProps.children || 'children', nodeProps.disabled || 'disabled', 1, '', []);
+      flatTreeNodeInfoArr.value = treeDataToFlattarnArr2(treeId, treeData, nodeProps.children, nodeProps.disabled, 1, '', []);
       console.log('flatTreeNodeInfoArr', flatTreeNodeInfoArr.value);
-      clearCachedNodeInfo();
+
+      console.time('findChildrenWhichHasChildren2');
+      let children = findChildrenWhichHasChildren2(treeId, '001', 'value', 'children', flatTreeNodeInfoArr.value);
+      console.timeEnd('findChildrenWhichHasChildren2');
+
+      console.log('有子节点的children：', children);
+      clearCachedNodeInfo(treeId);
       if (isInited) { // 还未进行初始化的时候不执行linkParentCheckbox函数，因为下面的watch props.checkedKeys会执行
         linkParentCheckbox();
       }
@@ -359,7 +362,7 @@ export default defineComponent({
           let nodeKey = props.nodeKey;
 
           expandedKeys.forEach((expandedKey: string | number) => {
-            let nodeInfo = findNodeInfoByValue2(expandedKey, nodeKey, flatTreeMapData);
+            let nodeInfo = findNodeInfoByValue2(treeId, expandedKey, nodeKey, flatTreeMapData);
             let nodeParents = nodeInfo.nodeLevelPath ? findParentsByNodeLevelPath2(nodeInfo.nodeLevelPath, flatTreeMapData) : [];
             nodeParents.forEach((nodeItem: any) => {
               parentKeys.push(nodeItem.node[nodeKey]);
@@ -393,7 +396,7 @@ export default defineComponent({
       getHalfCheckedNodes,
       getHalfCheckedKeys,
       getCheckedNodesLabel
-    } = useTreeMethods(props, flatTreeNodeInfoArr, checkedKeysRoot, halfCheckedKeys);
+    } = useTreeMethods(props, flatTreeNodeInfoArr, checkedKeysRoot, halfCheckedKeys, treeId);
 
     // 向子孙组件提供根tree上下文
     provide<TreeContext>(bsTreeContextKey, {
@@ -405,7 +408,7 @@ export default defineComponent({
       addCheckedKey (nodeValue: string | number, nodeData: BsNodeData, hasChildren: boolean) {
         if (!checkedKeysRoot.value.includes(nodeValue)) {
           if (props.showCheckbox) {
-            let disabledKey = props.props.disabled;
+            let disabledKey = treeNodeProps.value.disabled;
             // let nodeKey = props.nodeKey;
             // let childrenKey = props.props.children;
             console.log('addCheckedKey 11');
@@ -441,8 +444,7 @@ export default defineComponent({
         // let index = checkedKeysRoot.value.findIndex((item) => item === nodeValue);
         // if (index > -1) {
         // let nodeKey = props.nodeKey;
-        let childrenKey = props.props.children;
-        let disabledKey = props.props.disabled;
+        let { children: childrenKey, disabled: disabledKey } = treeNodeProps.value;
         // removeCheckedKey(nodeValue, nodeData[disabledKey]);
         // console.log('手动 removeCheckedKey 111');
         if (props.showCheckbox) {

@@ -16,15 +16,9 @@ let caches: any = {};
  * @package parentNodeLevelPath 父级节点层级路径
  * @param target 目标对象
  */
-export function treeDataToFlattarnArr2 (treeId: string, treeNodeInfoArr: BsNodeInfo[], childrenKey: string, disabledKey: string, nodeLevel = 1, parentNodeLevelPath = '', target: BsNodeInfo[] = []) {
+export function treeDataToFlattarnArr2 (treeNodeInfoArr: BsNodeInfo[], childrenKey: string, disabledKey: string, nodeLevel = 1, parentNodeLevelPath = '', target: BsNodeInfo[] = []) {
   if (!Array.isArray(treeNodeInfoArr)) {
     treeNodeInfoArr = [treeNodeInfoArr];
-  }
-  if (!(treeId in caches)) {
-    caches[treeId] = {
-      cachedNodeInfo: {}, // 缓存找到过的节点
-      cachedChildrenWhichHasChildren: {} // 缓存找到的节点有子节点的节点
-    };
   }
   // console.log('treeDataToFlattarnArr2 111', treeNodeInfoArr, childrenKey);
   treeNodeInfoArr.forEach((treeNode: any, index: number) => {
@@ -42,7 +36,7 @@ export function treeDataToFlattarnArr2 (treeId: string, treeNodeInfoArr: BsNodeI
     // console.log('treeDataToFlattarnArr2 222, children', children);
     // console.log('children', children, childrenKey);
     if (children && (children?.length || 0) > 0) {
-      treeDataToFlattarnArr2(treeId, children, childrenKey, disabledKey, nodeLevel + 1, nodeLevelPath, target);
+      treeDataToFlattarnArr2(children, childrenKey, disabledKey, nodeLevel + 1, nodeLevelPath, target);
     }
   });
   return target;
@@ -118,8 +112,8 @@ export function findParentsByNodeLevelPath2 (nodeLevelPath: string, treeNodeInfo
  * @param treeNodeInfoArr 扁平化的树数组
  * @return {{node: object; nodeLevelPath: string}}
  */
-export function findParentsByNodeValue2 (treeId: string, nodeValue: any, nodeKey: string, treeNodeInfoArr: BsNodeInfo[]) {
-  let nodeInfo = findNodeInfoByValue2(treeId, nodeValue, nodeKey, treeNodeInfoArr);
+export function findParentsByNodeValue2 (nodeValue: any, nodeKey: string, treeNodeInfoArr: BsNodeInfo[]) {
+  let nodeInfo = findNodeInfoByValue2(nodeValue, nodeKey, treeNodeInfoArr);
   console.log('findParentsByNodeValue2 11', nodeInfo);
   if (!nodeInfo.node) {
     return [];
@@ -137,13 +131,13 @@ export function findParentsByNodeValue2 (treeId: string, nodeValue: any, nodeKey
  * @param treeNodeInfoArr 扁平化的树数组
  * @return {{node: object; nodeLevelPath: string}}
  */
-export function findNodeInfoByValue2 (treeId: string, nodeValue: any, nodeKey: string, treeNodeInfoArr: BsNodeInfo[]) {
+export function findNodeInfoByValue2 (nodeValue: any, nodeKey: string, treeNodeInfoArr: BsNodeInfo[]) {
   let resultNode: StringKeyObject = {
     node: null,
     nodeLevelPath: '',
     isDisabled: false
   };
-  let cachedNodeInfo = caches[treeId].cachedNodeInfo;
+
   // 优先从缓存中取
   if (nodeValue in cachedNodeInfo) {
     console.log('findNodeInfoByValue2 从缓存中取节点', nodeValue, cachedNodeInfo);
@@ -171,8 +165,8 @@ export function findNodeInfoByValue2 (treeId: string, nodeValue: any, nodeKey: s
  * @param childKey = 节点的子节点属性名
  * @param treeNodeInfoArr 扁平化的树数组
  */
-export function findChildrenByNodeValue2 (treeId: string, nodeValue: any, nodeKey: string, childKey: string, treeNodeInfoArr: BsNodeInfo[]) {
-  let nodeInfo = findNodeInfoByValue2(treeId, nodeValue, nodeKey, treeNodeInfoArr);
+export function findChildrenByNodeValue2 (nodeValue: any, nodeKey: string, childKey: string, treeNodeInfoArr: BsNodeInfo[]) {
+  let nodeInfo = findNodeInfoByValue2(nodeValue, nodeKey, treeNodeInfoArr);
   let result: any[] = [];
   if (!nodeInfo.node) {
     return result;
@@ -197,20 +191,16 @@ export function findChildrenByNodeValue2 (treeId: string, nodeValue: any, nodeKe
  * @param childKey 节点的子节点属性名
  * @param treeNodeInfoArr 扁平化的树数组
  */
-export function findChildrenWhichHasChildren2 (treeId: string, nodeValue: any, nodeKey: string, childKey: string, treeNodeInfoArr: BsNodeInfo[]) {
-  let nodeInfo = findNodeInfoByValue2(treeId, nodeValue, nodeKey, treeNodeInfoArr);
+export function findChildrenWhichHasChildren2 (nodeValue: any, nodeKey: string, childKey: string, treeNodeInfoArr: BsNodeInfo[]) {
+  let nodeInfo = findNodeInfoByValue2(nodeValue, nodeKey, treeNodeInfoArr);
   let result: any[] = [];
   // console.log('findChildrenWhichHasChildren2 1111', nodeValue);
   if (!nodeInfo.node) {
     return result;
   }
   // console.log('findChildrenWhichHasChildren2 222', nodeInfo);
-
-  let cachedChildrenWhichHasChildrenInfo = caches[treeId].cachedChildrenWhichHasChildren;
-  // 优先从缓存中取
-  if (nodeValue in cachedChildrenWhichHasChildrenInfo) {
-    console.log('findChildrenWhichHasChildren2 从缓存中取节点', nodeValue, cachedNodeInfo);
-    return cachedChildrenWhichHasChildrenInfo[nodeValue];
+  if (nodeValue in cachedChildrenWhichHasChildren) {
+    return cachedChildrenWhichHasChildren[nodeValue];
   }
   let findChildren = function (nodes: any[]) {
     if (nodes && nodes.length > 0) {
@@ -224,7 +214,7 @@ export function findChildrenWhichHasChildren2 (treeId: string, nodeValue: any, n
     }
   };
   findChildren(nodeInfo.node[childKey]);
-  cachedChildrenWhichHasChildrenInfo[nodeValue] = result;
+  cachedChildrenWhichHasChildren[nodeValue] = result;
   return result;
 }
 
@@ -234,8 +224,8 @@ export function findChildrenWhichHasChildren2 (treeId: string, nodeValue: any, n
  * @param nodeKey 节点的值的属性名
  * @param treeNodeInfoArr 扁平化的树数组
  */
-export function findTopParentByNodeValue2 (treeId: string, nodeValue: any, nodeKey: string, treeNodeInfoArr: BsNodeInfo[]) {
-  let nodeInfo = findNodeInfoByValue2(treeId, nodeValue, nodeKey, treeNodeInfoArr);
+export function findTopParentByNodeValue2 (nodeValue: any, nodeKey: string, treeNodeInfoArr: BsNodeInfo[]) {
+  let nodeInfo = findNodeInfoByValue2(nodeValue, nodeKey, treeNodeInfoArr);
   if (!nodeInfo.node) {
     return null;
   }
@@ -249,8 +239,8 @@ export function findTopParentByNodeValue2 (treeId: string, nodeValue: any, nodeK
  * @param nodeKey
  * @param treeNodeInfoArr
  */
-export function findChildrenInfoFlattarnByNodeValue2 (treeId: string, nodeValue: any, nodeKey: string, treeNodeInfoArr: BsNodeInfo[]) {
-  let currentNodeInfo = findNodeInfoByValue2(treeId, nodeValue, nodeKey, treeNodeInfoArr);
+export function findChildrenInfoFlattarnByNodeValue2 (nodeValue: any, nodeKey: string, treeNodeInfoArr: BsNodeInfo[]) {
+  let currentNodeInfo = findNodeInfoByValue2(nodeValue, nodeKey, treeNodeInfoArr);
   if (!currentNodeInfo.node) {
     return [];
   }
@@ -263,11 +253,7 @@ export function findChildrenInfoFlattarnByNodeValue2 (treeId: string, nodeValue:
 /**
  * 清空缓存的节点信息
  */
-export function clearCachedNodeInfo (treeId: string) {
-  let treeCache = caches[treeId];
-  if (!treeCache) {
-    return;
-  }
-  treeCache.cachedNodeInfo = {}; // 缓存找到过的节点
-  treeCache.cachedChildrenWhichHasChildren = {}; // 缓存找到的节点有子节点的节点
+export function clearCachedNodeInfo () {
+  cachedNodeInfo = {};
+  cachedChildrenWhichHasChildren = {};
 };
