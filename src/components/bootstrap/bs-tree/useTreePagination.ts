@@ -9,9 +9,10 @@ import { StringKeyObject } from '@/ts-tokens/bootstrap';
 /**
  * 子节点分页处理
  * @param props props
+ * @param treeId 树id
  * @param treeData 树数据
  */
-export function useTreePagination (props: any, flatTreeNodeInfoArr: Ref<BsNodeInfo[]>, treeData?: Ref<BsNodeData[]|undefined>) {
+export function useTreePagination (props: any, treeId: string, flatTreeNodeInfoArr: Ref<BsNodeInfo[]>, treeData?: Ref<BsNodeData[]|undefined>) {
   // 当前页码
   let pageCount = ref(1);
   // 子节点
@@ -36,7 +37,7 @@ export function useTreePagination (props: any, flatTreeNodeInfoArr: Ref<BsNodeIn
         // 如果节点有子孙节点，则只要子孙节点有一个匹配的那么该节点都应该显示出来
         if (nodeData[childrenKey]) {
           console.log('节点过滤，有子孙节点', nodeData[nodeKey]);
-          let childrensIfno = findChildrenInfoFlattarnByNodeValue2(nodeData[nodeKey], nodeKey, flatTreeNodeInfoArr.value);
+          let childrensIfno = findChildrenInfoFlattarnByNodeValue2(treeId, nodeData[nodeKey], nodeKey, flatTreeNodeInfoArr.value);
           childrensIfno.unshift({
             node: nodeData
           } as BsNodeInfo);

@@ -12,6 +12,7 @@
       :node-data="nodeItem"
       :key="nodeItem[nodeKey]"
       :node-leave="1"
+      :tree-id="treeId"
       :node-leave-path="`${index + 1}`"
       :label-key="props.label"
       :disabled-key="props.disabled"
@@ -384,7 +385,7 @@ export default defineComponent({
       totalPage,
       showMoreChildNode,
       showAllChildNode
-    } = useTreePagination(props, flatTreeNodeInfoArr, toRef(props, 'treeData'));
+    } = useTreePagination(props, treeId, flatTreeNodeInfoArr, toRef(props, 'treeData'));
 
     // 对外提供的函数
     let {

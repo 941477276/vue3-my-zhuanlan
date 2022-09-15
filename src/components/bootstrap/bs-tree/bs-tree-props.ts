@@ -81,7 +81,7 @@ export const bsTreeProps = {
   },
   pageSize: { // 子节点分页显示数量，值为0表示不使用分页
     type: Number,
-    default: 50
+    default: 30
   },
   filterText: { // 节点过滤文本
     type: [String, Number],

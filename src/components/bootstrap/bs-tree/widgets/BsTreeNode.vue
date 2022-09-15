@@ -71,6 +71,7 @@
             v-bind="$props"
             v-show="typeof childNode._nodeShow == 'boolean' ? childNode._nodeShow : true"
             :key="childNode[nodeKey]"
+            :tree-id="treeId"
             :node-leave="nodeLeave + 1"
             :node-data="childNode"
             :node-leave-path="`${nodeLeavePath}_${index + 1}`"
@@ -127,7 +128,11 @@ export default defineComponent({
   },
   props: {
     ...bsTreeProps,
-    ...bsTreeNodeProps
+    ...bsTreeNodeProps,
+    treeId: {
+      type: String,
+      default: ''
+    }
   },
   inheritAttrs: false,
   emit: ['node-expand'],
@@ -178,7 +183,7 @@ export default defineComponent({
     };
 
     // 分页相关数据
-    let { pageCount, nodeChildren, totalPage, showMoreChildNode, showAllChildNode } = useTreePagination(props, treeCtx.flatTreeNodeInfoArr);
+    let { pageCount, nodeChildren, totalPage, showMoreChildNode, showAllChildNode } = useTreePagination(props, props.treeId, treeCtx.flatTreeNodeInfoArr);
 
     // 复选框的值
     let inputModel = computed({

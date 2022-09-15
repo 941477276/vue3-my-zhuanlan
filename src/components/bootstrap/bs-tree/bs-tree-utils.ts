@@ -4,8 +4,6 @@ import {
 } from '@/ts-tokens/bootstrap/tree';
 import { StringKeyObject } from '@/ts-tokens/bootstrap';
 
-let cachedNodeInfo: any = {}; // 缓存找到过的节点
-let cachedChildrenWhichHasChildren: any = {}; // 缓存找到的节点有子节点的节点
 let caches: any = {};
 /**
  * 将树形结构扁平化转成普通对象
@@ -209,7 +207,7 @@ export function findChildrenWhichHasChildren2 (treeId: string, nodeValue: any, n
   let cachedChildrenWhichHasChildrenInfo = caches[treeId].cachedChildrenWhichHasChildren;
   // 优先从缓存中取
   if (nodeValue in cachedChildrenWhichHasChildrenInfo) {
-    console.log('findChildrenWhichHasChildren2 从缓存中取节点', nodeValue, cachedNodeInfo);
+    console.log('findChildrenWhichHasChildren2 从缓存中取节点', nodeValue, cachedChildrenWhichHasChildrenInfo);
     return cachedChildrenWhichHasChildrenInfo[nodeValue];
   }
   let findChildren = function (nodes: any[]) {
