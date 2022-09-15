@@ -23,6 +23,8 @@
       @clear="onCascaderInputClear"></BsSelectInput>
     <div class="bs-cascader-menus">
       <BsCascaderMenu></BsCascaderMenu>
+      <BsCascaderMenu></BsCascaderMenu>
+      <BsCascaderMenu></BsCascaderMenu>
     </div>
     <teleport :disabled="!teleported" :to="appendTo">
       <BsDropdownTransition
