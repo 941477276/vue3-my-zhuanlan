@@ -1,7 +1,7 @@
 <template>
   <div class="component-usage">
     <div class="container">
-      <!--<div>
+      <div>
         <h3>基本使用</h3>
         <bs-tree
           v-if="show"
@@ -25,8 +25,8 @@
         <br>
         <bs-button type="primary" @click="addCheckedKeys" style="margin-top: 1rem">选中项</bs-button>
         <bs-button type="primary" @click="show = !show" style="margin-top: 1rem">显示/销毁树</bs-button>
-      </div>-->
-      <div>
+      </div>
+      <!--<div>
         <h3>大量数据</h3>
         <bs-tree
           :tree-data="largeTree"
@@ -40,7 +40,7 @@
           :props="{label: 'title'}"
           v-model:checkedKeys="largeTreeValues">
         </bs-tree>
-      </div>
+      </div>-->
       <!--<div>
         <h3>单选</h3>
         <bs-tree
@@ -154,7 +154,7 @@ import {
 import {
   StringKeyObject
 } from '@/ts-tokens/bootstrap';
-import { largeTreeData } from './largeTreeData';
+// import { largeTreeData } from './largeTreeData';
 
 function randoms (min: number, max: number): number {
   return parseInt((Math.random() * (max - min + 1) + min) + '');
@@ -386,8 +386,8 @@ export default defineComponent({
       }
     ]);
     let checkedKeys7 = ref<(string | number)[]>([]);
-    let largeTree = ref(largeTreeData.data);
-    // let largeTree = ref([]);
+    // let largeTree = ref(largeTreeData.data);
+    let largeTree = ref([]);
     let largeTreeValues = ref([]);
 
     // let checkedKeys1 = ref<(string|number)[]>(['4', '2_1', '2_4', '2_2', '2_5', '2_2_1', '2_1_1_2_2', '3_2_1']);

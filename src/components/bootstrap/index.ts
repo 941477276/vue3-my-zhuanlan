@@ -35,6 +35,7 @@ import BsTimePicker from '@/components/bootstrap/bs-time-picker';
 import BsDatePicker from '@/components/bootstrap/bs-date-picker';
 import BsBackTop from '@/components/bootstrap/bs-backtop';
 import BsLoading from '@/components/bootstrap/bs-loading';
+import BsCascader from '@/components/bootstrap/bs-cascader';
 
 export default function (vueApp: any) {
   vueApp.component(BsButton.name, BsButton);
@@ -75,4 +76,5 @@ export default function (vueApp: any) {
   vueApp.use(BsDatePicker);
   vueApp.use(BsBackTop);
   vueApp.use(BsLoading);
+  vueApp.use(BsCascader);
 }

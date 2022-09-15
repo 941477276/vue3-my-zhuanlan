@@ -90,9 +90,9 @@
   <!--<div class="box">
     <BsCollapseUsage></BsCollapseUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsTreeUsage></BsTreeUsage>
-  </div>
+  </div>-->
   <!--<div class="box">
     <BsTreeSelectUsage></BsTreeSelectUsage>
   </div>-->
@@ -117,6 +117,9 @@
   <!--<div class="box">
     <BsLoadingUsage></BsLoadingUsage>
   </div>-->
+  <div class="box">
+    <BsCascaderUsage></BsCascaderUsage>
+  </div>
 </template>
 
 <script lang="ts">
@@ -162,6 +165,7 @@ import BsDatePickerUsage from '@/components/bootstrap/bs-date-picker/BsDatePicke
 import BsBackTopUsage from '@/components/bootstrap/bs-backtop/BsBackTopUsage.vue';
 import BsRelativeTimeUsage from '@/components/bootstrap/bs-relative-time/BsRelativeTimeUsage.vue';
 import BsLoadingUsage from '@/components/bootstrap/bs-loading/BsLoadingUsage.vue';
+import BsCascaderUsage from '@/components/bootstrap/bs-cascader/BsCascaderUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -207,7 +211,8 @@ export default defineComponent({
     BsDatePickerUsage,
     BsBackTopUsage,
     BsRelativeTimeUsage,
-    BsLoadingUsage
+    BsLoadingUsage,
+    BsCascaderUsage
   },
   setup () {
     return {
