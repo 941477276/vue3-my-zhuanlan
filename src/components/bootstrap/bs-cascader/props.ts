@@ -1,5 +1,6 @@
 import { PropType } from 'vue';
 import { BsColorType, BsSize } from '@/ts-tokens/bootstrap';
+import { cascaderMenuProps } from './widgets/cascader-menu-props';
 
 export const bsCascaderProps = {
   modelValue: {
@@ -40,10 +41,10 @@ export const bsCascaderProps = {
     type: String,
     default: '加载中...'
   },
-  multiple: { // 是否支持多选
+  /* multiple: { // 是否支持多选
     type: Boolean,
     default: false
-  },
+  }, */
   multipleLimit: { // 可被选择的最大数量
     type: Number,
     default: undefined
@@ -114,5 +115,6 @@ export const bsCascaderProps = {
   tagCloseable: { // tag是否可关闭
     type: Boolean,
     default: true
-  }
+  },
+  ...cascaderMenuProps
 };

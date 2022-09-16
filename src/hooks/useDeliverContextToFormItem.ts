@@ -12,7 +12,7 @@ import {
  */
 export function useDeliverContextToFormItem (props: any, contextDeliverToFormItem: any) {
   let formItemContext = inject<FormItemContext|null>(formItemContextKey, null);
-  if (props.deliveContextToFormItem) {
+  if (props.deliveContextToFormItem && formItemContext) {
     // 如果当前组件处在<bs-form-item>组件中，则将当前组件信息存储到<bs-form-item>组件中
     useDeliverContextToParent<FormItemContext>(formItemContextKey, contextDeliverToFormItem);
   }

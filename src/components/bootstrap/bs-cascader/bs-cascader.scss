@@ -1,15 +1,27 @@
 .bs-cascader-dropdown{
   position: absolute;
 }
+.bs-cascader-prev-btn{
+  /*border: none;
+  outline: none;
+  background-color: #fff;*/
+  &:hover{
+    color: var(--primary);
+  }
+  &:focus{
+    box-shadow: none;
+  }
+}
 .bs-cascader-menus{
   display: flex;
   flex-wrap: wrap;
+  border: 1px solid #ced4da;
 }
 .bs-cascader-menu{
   //position: absolute;
   height: 12.5rem; // 200px
   min-width: 10rem;
-  //border: 1px solid #ccc;
+  //border: 1px solid #ced4da;
   overflow: auto;
   & + .bs-cascader-menu{
     border-left: 1px solid #ccc;
@@ -26,6 +38,9 @@
   transition: color .3s, background-color .3s;
   &.is-checked{
     color: var(--primary);
+    .bs-cascader-check-icon{
+      display: block;
+    }
   }
   &:not(.is-disabled):not(.is-checked):hover{
     background-color: #E9ECEF;
@@ -37,4 +52,8 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+.bs-cascader-check-icon{
+  display: none;
+  font-size: 1.15rem;
 }

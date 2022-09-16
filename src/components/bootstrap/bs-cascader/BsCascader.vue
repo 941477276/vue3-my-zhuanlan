@@ -21,13 +21,30 @@
       @tag-close="onTagClose"
       @filter-text-change="onFilterTextChange"
       @clear="onCascaderInputClear"></BsSelectInput>
+    <div class="bs-cascader-menus-top">
+      <button type="button" class="btn bs-cascader-prev-btn">
+        <bs-icon name="chevron-left"></bs-icon>
+      </button>
+    </div>
     <div class="bs-cascader-menus">
-      <BsCascaderMenu></BsCascaderMenu>
-      <BsCascaderMenu></BsCascaderMenu>
-      <BsCascaderMenu></BsCascaderMenu>
+      <BsCascaderMenu
+        v-for="(menuItem, index) in expandedMenus"
+        :key="index"
+        :options="menuItem"
+        :multiple="multiple"
+        :check-strictly="checkStrictly"
+        :expand-trigger="expandTrigger"
+        :expand-icon="expandIcon"
+        :lazy="lazy"
+        :lazy-load-fn="lazyLoadFn"
+        :cascader-slots="$slots"
+        @item-click="handleMenuItemClick"></BsCascaderMenu>
+      <!--<BsCascaderMenu></BsCascaderMenu>
+      <BsCascaderMenu></BsCascaderMenu>-->
     </div>
     <teleport :disabled="!teleported" :to="appendTo">
       <BsDropdownTransition
+        v-if="dropdownDisplayed"
         ref="dropdownTransitionRef"
         placement="bottom"
         :reference-ref="bsCascaderRef"
@@ -52,7 +69,7 @@
 import {
   ComponentInternalInstance,
   computed,
-  defineComponent,
+  defineComponent, nextTick,
   provide,
   reactive,
   ref,
@@ -64,12 +81,15 @@ import {
 import BsSelectInput from '../bs-select-input/BsSelectInput.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
 import BsCascaderMenu from './widgets/bs-cascader-menu.vue';
+import BsIcon from '../bs-icon/BsIcon.vue';
 import { bsCascaderProps } from './props';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
 import { ValidateStatus } from '@/ts-tokens/bootstrap';
 import { CascaderOptionItem } from '@/ts-tokens/bootstrap/cascader';
 import { SelectContext, selectContextKey } from '@/ts-tokens/bootstrap/select';
+import { useDropdown } from './useDropdown';
+import { useCascaderMenu } from './useCascaderMenu';
 
 let cascaderCount = 0;
 export default defineComponent({
@@ -78,7 +98,8 @@ export default defineComponent({
   components: {
     BsSelectInput,
     BsDropdownTransition,
-    BsCascaderMenu
+    BsCascaderMenu,
+    BsIcon
   },
   emits: ['update:modelValue', 'change', 'selectLimit'],
   setup (props: any, ctx: any) {
@@ -87,10 +108,7 @@ export default defineComponent({
     let bsCascaderDropdownRef = ref<HTMLElement|null>(null);
     let dropdownTransitionRef = ref(null);
     let bsInputReadonly = ref(true);
-    let isFocus = ref(false);
     let cascaderId = ref(props.id || `bs-cascader_${++cascaderCount}`);
-    let dropdownDisplayed = ref(false); // 下拉菜单是否已经渲染
-    let dropdownVisible = ref(false); // 下拉菜单是否显示
     let optionItems = ref<CascaderOptionItem[]>([]); // 存储option的label及value
 
     let nativeCascaderModel = computed({
@@ -105,31 +123,15 @@ export default defineComponent({
         console.log('原生select修改值：', newVal);
       }
     });
-    /**
-     * 显示下拉菜单
-     */
-    let dropdownShow = function () {
-      if (props.disabled) {
-        return;
-      }
-      dropdownVisible.value = true;
-      if (!props.loading) {
-        isFocus.value = true;
-        (bsCascaderInputRef.value as any)?.focus();
-      }
-    };
-    /**
-     * 隐藏下拉菜单
-     */
-    let dropdownHide = function () {
-      // 延迟一会隐藏下拉菜单是因为为了等待背景色改变后再隐藏
-      let timer = setTimeout(function () {
-        clearTimeout(timer);
-        dropdownVisible.value = false;
-        isFocus.value = false;
-        (bsCascaderInputRef.value as any)?.blur();
-      }, 120);
-    };
+
+    let {
+      isFocus,
+      dropdownDisplayed,
+      dropdownVisible,
+
+      dropdownShow,
+      dropdownHide
+    } = useDropdown(props, bsCascaderInputRef);
 
     /**
      * 修改值
@@ -287,6 +289,11 @@ export default defineComponent({
       }
     });
 
+    let expandedMenus = ref<CascaderOptionItem[][]>([props.options]); // 展开的菜单options
+    let {
+      handleMenuItemClick
+    } = useCascaderMenu(props, ctx, expandedMenus);
+
     provide<SelectContext>(selectContextKey, reactive({
       props,
       ctx,
@@ -318,7 +325,10 @@ export default defineComponent({
 
       onCascaderInputClick,
       onTagClose,
-      onFilterTextChange
+      onFilterTextChange,
+
+      expandedMenus,
+      handleMenuItemClick
     };
   }
 });

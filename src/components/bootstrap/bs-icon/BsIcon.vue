@@ -1,5 +1,5 @@
 <template>
-  <svg class="bs-svg-icon" :class="`bsicon-${name}`" aria-hidden="true" v-bind="$attrs">
+  <svg class="bs-svg-icon" :class="`bsicon-${name}`" aria-hidden="true">
     <use :xlink:href="iconId" />
   </svg>
 </template>
