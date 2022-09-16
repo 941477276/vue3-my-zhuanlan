@@ -8,7 +8,9 @@
       v-for="item in options"
       :key="item.value"
       :class="{
-        'is-disabled': item.disabled
+        'is-disabled': item.disabled,
+        'is-checked': getIsChecked(item),
+        'is-expanded': getIsActive(item)
       }"
       @click="handlerItemClick(item)"
       @mouseenter="handlerItemMousehover(item, 'mouseenter')"
@@ -33,7 +35,9 @@
 
 <script lang="ts">
 import {
-  defineComponent
+  PropType,
+  defineComponent,
+  computed
 } from 'vue';
 import BsCheckbox from '../../bs-checkbox/BsCheckbox.vue';
 import BsRadio from '../../bs-radio/BsRadio.vue';
@@ -42,7 +46,8 @@ import {
   cascaderMenuProps
 } from './cascader-menu-props';
 import {
-  CascaderOptionItem
+  CascaderOptionItem,
+  CascaderExpandedMenuItem
 } from '@/ts-tokens/bootstrap/cascader';
 
 let cascaderMenuCount = 0;
@@ -64,13 +69,49 @@ export default defineComponent({
       type: Object,
       default: null
     },
+    expandedMenus: {
+      type: Array as PropType<CascaderExpandedMenuItem[]>,
+      default () {
+        return [];
+      }
+    },
+    checkedMenuValues: {
+      type: Array,
+      default () {
+        return [];
+      }
+    },
     ...cascaderMenuProps
   },
-  emits: ['item-click', 'item-mouseenter', 'item-mouseleave'],
+  emits: ['item-click', 'item-mouseenter', 'item-mouseleave', 'item-checked', 'item-change'],
   setup (props: any, ctx: any) {
     let cascaderMenuId = `bs-cascader-menu_${++cascaderMenuCount}`;
+
+    // 判断是否展开
+    let getIsActive = function (optionItem: CascaderOptionItem) {
+      let optionItemValue = optionItem.value;
+      let flag = props.expandedMenus?.some((menuItem: CascaderExpandedMenuItem) => {
+        return menuItem.menuId === cascaderMenuId && menuItem.menuItemValue === optionItemValue;
+      });
+      return flag;
+    };
+
+    // 判断是否选中了
+    let getIsChecked = function (optionItem: CascaderOptionItem) {
+      return props.checkedMenuValues?.includes(optionItem.value);
+    };
+
+    let setChecked = function (optionItem: CascaderOptionItem) {
+      ctx.emit('item-checked', optionItem, cascaderMenuId);
+      ctx.emit('item-change', optionItem, cascaderMenuId);
+    };
+
     let handlerItemClick = function (optionItem: CascaderOptionItem) {
       if (optionItem.disabled) {
+        return;
+      }
+      if (!optionItem.children || optionItem.children.length == 0) {
+        setChecked(optionItem);
         return;
       }
       ctx.emit('item-click', optionItem, cascaderMenuId);
@@ -84,6 +125,8 @@ export default defineComponent({
     return {
       cascaderMenuId,
 
+      getIsActive,
+      getIsChecked,
       handlerItemClick,
       handlerItemMousehover
     };

@@ -14,7 +14,7 @@
 }
 .bs-cascader-menus{
   display: flex;
-  flex-wrap: wrap;
+  //flex-wrap: wrap;
   border: 1px solid #ced4da;
 }
 .bs-cascader-menu{
@@ -23,6 +23,8 @@
   min-width: 10rem;
   //border: 1px solid #ced4da;
   overflow: auto;
+  margin: 0;
+  background-color: #fff;
   & + .bs-cascader-menu{
     border-left: 1px solid #ccc;
   }
@@ -41,6 +43,9 @@
     .bs-cascader-check-icon{
       display: block;
     }
+  }
+  &.is-expanded{
+    color: var(--primary);
   }
   &:not(.is-disabled):not(.is-checked):hover{
     background-color: #E9ECEF;

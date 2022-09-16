@@ -36,7 +36,19 @@ export const options1 = [{
     label: 'Basic',
     children: [{
       value: 'layout',
-      label: 'Layout 布局'
+      label: 'Layout 布局',
+      children: [
+        {
+          value: 'float',
+          label: '浮动布局'
+        }, {
+          value: 'absolute',
+          label: '绝对定位布局'
+        }, {
+          value: 'flex',
+          label: '弹性盒子布局'
+        }
+      ]
     }, {
       value: 'color',
       label: 'Color 色彩'

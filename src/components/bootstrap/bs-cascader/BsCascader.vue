@@ -28,9 +28,9 @@
     </div>
     <div class="bs-cascader-menus">
       <BsCascaderMenu
-        v-for="(menuItem, index) in expandedMenus"
-        :key="index"
-        :options="menuItem"
+        v-for="menuItem in expandedMenus"
+        :key="menuItem.menuId"
+        :options="menuItem.menuOptions"
         :multiple="multiple"
         :check-strictly="checkStrictly"
         :expand-trigger="expandTrigger"
@@ -38,7 +38,10 @@
         :lazy="lazy"
         :lazy-load-fn="lazyLoadFn"
         :cascader-slots="$slots"
-        @item-click="handleMenuItemClick"></BsCascaderMenu>
+        :expanded-menus="expandedMenus"
+        :checked-menu-values="checkedMenuValues"
+        @item-click="handleMenuItemClick"
+        @item-checked="handleMenuItemChecked"></BsCascaderMenu>
       <!--<BsCascaderMenu></BsCascaderMenu>
       <BsCascaderMenu></BsCascaderMenu>-->
     </div>
@@ -86,7 +89,7 @@ import { bsCascaderProps } from './props';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
 import { ValidateStatus } from '@/ts-tokens/bootstrap';
-import { CascaderOptionItem } from '@/ts-tokens/bootstrap/cascader';
+import { CascaderOptionItem, CascaderExpandedMenuItem } from '@/ts-tokens/bootstrap/cascader';
 import { SelectContext, selectContextKey } from '@/ts-tokens/bootstrap/select';
 import { useDropdown } from './useDropdown';
 import { useCascaderMenu } from './useCascaderMenu';
@@ -289,9 +292,15 @@ export default defineComponent({
       }
     });
 
-    let expandedMenus = ref<CascaderOptionItem[][]>([props.options]); // 展开的菜单options
+    let expandedMenus = ref<CascaderExpandedMenuItem[]>([{
+      menuId: 'bs-cascader-menu_1',
+      menuItemValue: '',
+      menuOptions: props.options
+    }]); // 展开的菜单options
     let {
-      handleMenuItemClick
+      checkedMenuValues,
+      handleMenuItemClick,
+      handleMenuItemChecked
     } = useCascaderMenu(props, ctx, expandedMenus);
 
     provide<SelectContext>(selectContextKey, reactive({
@@ -328,7 +337,9 @@ export default defineComponent({
       onFilterTextChange,
 
       expandedMenus,
-      handleMenuItemClick
+      checkedMenuValues,
+      handleMenuItemClick,
+      handleMenuItemChecked
     };
   }
 });
