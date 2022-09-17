@@ -153,14 +153,14 @@ export default defineComponent({
         isIndeterminate.value = false;
       } */
 
-      let value = '';
+      /* let value = '';
       if (isChecked) {
         value = !util.varIsNone(props.value) ? props.value : (util.varIsNone(props.trueValue) ? true : props.trueValue);
       } else {
         value = util.varIsNone(props.value) ? props.value : (util.varIsNone(props.falseValue) ? true : props.falseValue);
       }
-      ctx.emit('change', value);
-
+      ctx.emit('change', value); */
+      ctx.emit('change', evt);
       callFormItem('validate', 'change');
     };
 

@@ -24,7 +24,8 @@ export function useCheckbox (props: any, ctx: any, checkboxRef: Ref<HTMLInputEle
       if (checkboxGroupCtx) {
         return util.varIsNone(checkboxGroupCtx.props.modelValue) ? checkboxGroupCtx.props.value : checkboxGroupCtx.props.modelValue;
       } else {
-        return util.varIsNone(props.modelValue) ? (props.value || selfModelVal.value) : props.modelValue;
+        // return util.varIsNone(props.modelValue) ? (props.value || selfModelVal.value) : props.modelValue;
+        return util.varIsNone(props.modelValue) ? selfModelVal.value : props.modelValue;
       }
     },
     set (newVal: any) {
@@ -42,7 +43,7 @@ export function useCheckbox (props: any, ctx: any, checkboxRef: Ref<HTMLInputEle
           checkboxGroupCtx.changeVal(newVal);
         }
       } else {
-        // console.log('设置新的值了：', newVal);
+        console.log('设置新的值了：', newVal);
         ctx.emit('update:modelValue', newVal);
         selfModelVal.value = newVal;
       }
@@ -54,7 +55,6 @@ export function useCheckbox (props: any, ctx: any, checkboxRef: Ref<HTMLInputEle
     let flag = false;
     let value = checkboxVal.value;
     let trueValue = props.trueValue;
-
     if (checkboxGroupCtx) {
       flag = (Array.isArray(value) ? value : []).includes(props.value);
     } else {
@@ -64,7 +64,7 @@ export function useCheckbox (props: any, ctx: any, checkboxRef: Ref<HTMLInputEle
         if (!util.varIsNone(trueValue)) {
           flag = value === trueValue;
         } else {
-          return value;
+          return value === 0 || !!value;
         }
       } else {
         // console.log(111, typeof value, value);
@@ -97,6 +97,7 @@ export function useCheckbox (props: any, ctx: any, checkboxRef: Ref<HTMLInputEle
   return {
     checkboxVal,
     isChecked,
+    selfModelVal,
     isCountLimitDisable
   };
 }
