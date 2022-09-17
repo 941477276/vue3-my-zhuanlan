@@ -3,7 +3,10 @@
     <div>
       <h3>基本使用</h3>
       <BsCascader
-        :options="dataOptions1"></BsCascader>
+        v-model="cascader1"
+        :options="dataOptions1"
+        :check-strictly="true"></BsCascader>
+      <div>{{ cascader1 }}</div>
     </div>
   </div>
 </template>
@@ -24,8 +27,11 @@ export default defineComponent({
   },
   setup () {
     let dataOptions1 = ref(options1);
+
+    let cascader1 = ref([]);
     return {
-      dataOptions1
+      dataOptions1,
+      cascader1
     };
   }
 });

@@ -14,3 +14,10 @@ export type CascaderExpandedMenuItem = {
  menuItemValue?: string|number;
  menuOptions: CascaderOptionItem[];
 };
+
+export type CascaderFieldNames = {
+  label: string;
+  value: string;
+  children: string;
+  disabled: string;
+};

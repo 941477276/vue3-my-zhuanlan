@@ -39,7 +39,8 @@
         :lazy-load-fn="lazyLoadFn"
         :cascader-slots="$slots"
         :expanded-menus="expandedMenus"
-        :checked-menu-values="checkedMenuValues"
+        :checked-options="checkedOptions"
+        :field-names="fieldNameProps"
         @item-click="handleMenuItemClick"
         @item-checked="handleMenuItemChecked"></BsCascaderMenu>
       <!--<BsCascaderMenu></BsCascaderMenu>
@@ -72,14 +73,16 @@
 import {
   ComponentInternalInstance,
   computed,
-  defineComponent, nextTick,
+  defineComponent,
+  nextTick,
   provide,
   reactive,
   ref,
   watch
 } from 'vue';
 import {
-  NOOP
+  NOOP,
+  isFunction
 } from '@vue/shared';
 import BsSelectInput from '../bs-select-input/BsSelectInput.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
@@ -89,15 +92,39 @@ import { bsCascaderProps } from './props';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
 import { ValidateStatus } from '@/ts-tokens/bootstrap';
-import { CascaderOptionItem, CascaderExpandedMenuItem } from '@/ts-tokens/bootstrap/cascader';
+import {
+  CascaderOptionItem,
+  CascaderExpandedMenuItem,
+  CascaderFieldNames
+} from '@/ts-tokens/bootstrap/cascader';
 import { SelectContext, selectContextKey } from '@/ts-tokens/bootstrap/select';
 import { useDropdown } from './useDropdown';
 import { useCascaderMenu } from './useCascaderMenu';
+import {
+  treeDataToFlattarnArr2
+} from '@/components/bootstrap/bs-tree/bs-tree-utils';
+import {
+  BsNodeInfo
+} from '@/ts-tokens/bootstrap/tree';
 
+const defaultFieldNames: CascaderFieldNames = {
+  label: 'label',
+  children: 'children',
+  disabled: 'disabled',
+  value: 'value'
+};
 let cascaderCount = 0;
 export default defineComponent({
   name: 'BsCascader',
-  props: bsCascaderProps,
+  props: {
+    ...bsCascaderProps,
+    fieldNames: { // 自定义 options 中 label、 children、disabled 的字段名称
+      type: Object,
+      default () {
+        return {};
+      }
+    }
+  },
   components: {
     BsSelectInput,
     BsDropdownTransition,
@@ -125,6 +152,25 @@ export default defineComponent({
       set (newVal: any) {
         console.log('原生select修改值：', newVal);
       }
+    });
+
+    // options 中 label、 children、disabled 的字段名称
+    let fieldNameProps = computed<CascaderFieldNames>(function () {
+      return {
+        ...(props.fieldNames || {}),
+        ...defaultFieldNames
+      };
+    });
+
+    // 扁平化的options
+    let flatternOptions = ref<BsNodeInfo[]>([]);
+    watch(() => props.options, function (newOptions: BsNodeInfo[]) {
+      let { children: childrenKey, value: valueKey, disabled: disabledKey } = fieldNameProps.value;
+      let flatternArr = treeDataToFlattarnArr2(cascaderId, newOptions, childrenKey, disabledKey, 1, '', []);
+      console.log('扁平化的options', flatternArr);
+      flatternOptions.value = flatternArr;
+    }, {
+      immediate: true
     });
 
     let {
@@ -212,22 +258,6 @@ export default defineComponent({
       }
     };
 
-    let viewText = computed(function () {
-      let modelValue = Array.isArray(props.modelValue) ? props.modelValue : [props.modelValue];
-      let selectedOptionLabels = optionItems.value.filter(function (option: CascaderOptionItem) {
-        // console.log('option.value', option.value);
-        return modelValue.includes(option.value);
-      }).map(function (option: CascaderOptionItem) {
-        let newOption = {
-          ...option,
-          label: option.label || option.labelSlot
-        };
-        return newOption;
-      });
-      // console.log('selectedOptionLabels', selectedOptionLabels);
-      return selectedOptionLabels;
-    });
-
     let isClickOutside = useClickOutside([bsCascaderRef, bsCascaderDropdownRef]);
     watch(isClickOutside, (newVal: boolean) => {
       // console.log('isClickOutside', isClickOutside.value);
@@ -284,6 +314,7 @@ export default defineComponent({
       callFormItem('validate', 'change');
     };
 
+    // 向父级<bs-form-item>组件传递当前组件上下文信息
     let { callFormItem } = useDeliverContextToFormItem(props, {
       id: cascaderId.value,
       setValidateStatus: (status: ValidateStatus) => {
@@ -292,16 +323,37 @@ export default defineComponent({
       }
     });
 
-    let expandedMenus = ref<CascaderExpandedMenuItem[]>([{
-      menuId: 'bs-cascader-menu_1',
-      menuItemValue: '',
-      menuOptions: props.options
-    }]); // 展开的菜单options
     let {
-      checkedMenuValues,
+      expandedMenus,
+      checkedOptions,
       handleMenuItemClick,
       handleMenuItemChecked
-    } = useCascaderMenu(props, ctx, expandedMenus);
+    } = useCascaderMenu(props, ctx, fieldNameProps, flatternOptions, cascaderId);
+
+    let viewText = computed(function () {
+      let isMultiple = props.multiple;
+      let checkedOptionList = checkedOptions.value;
+      let result: any[] = [];
+      if (isMultiple) {
+        console.log(111);
+      } else {
+        let obj = { label: '' };
+        let text = '';
+        let labelKey = fieldNameProps.value.label;
+        let displayRender = props.displayRender;
+        if (props.showAllLevels) {
+          text = isFunction(displayRender) ? displayRender(checkedOptionList) : checkedOptionList.map((optionItem: any) => {
+            return optionItem[labelKey];
+          }).join(' / ');
+        } else {
+          let lastOption: any = checkedOptionList[checkedOptionList.length - 1] || {};
+          text = isFunction(displayRender) ? displayRender(lastOption) : lastOption[labelKey];
+        }
+        obj.label = text;
+        result.push(obj);
+      }
+      return result;
+    });
 
     provide<SelectContext>(selectContextKey, reactive({
       props,
@@ -326,6 +378,7 @@ export default defineComponent({
       optionItems,
       nativeCascaderModel,
       viewText,
+      fieldNameProps,
 
       // onCascaderRootClick,
       onCascaderInputClear,
@@ -337,7 +390,7 @@ export default defineComponent({
       onFilterTextChange,
 
       expandedMenus,
-      checkedMenuValues,
+      checkedOptions,
       handleMenuItemClick,
       handleMenuItemChecked
     };

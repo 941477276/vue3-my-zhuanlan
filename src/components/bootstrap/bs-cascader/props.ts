@@ -116,5 +116,13 @@ export const bsCascaderProps = {
     type: Boolean,
     default: true
   },
+  showAllLevels: { // 输入框中是否显示选中值的完整路径
+    type: Boolean,
+    default: true
+  },
+  displayRender: { // 选择后展示的渲染函数
+    type: Function,
+    default: null
+  },
   ...cascaderMenuProps
 };

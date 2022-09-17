@@ -17,13 +17,20 @@
       @mouseleave="handlerItemMousehover(item, 'mouseleave')">
       <BsCheckbox
         v-if="multiple"
+        :name="cascaderMenuId + '_checkbox'"
+        :disabled="item[fieldNames.disabled]"
+        :value="item[fieldNames.value]"
         :delive-context-to-form-item="false"></BsCheckbox>
       <BsRadio
         v-if="!multiple && checkStrictly"
-        :delive-context-to-form-item="false"></BsRadio>
+        :name="cascaderMenuId + '_radio'"
+        :disabled="item[fieldNames.disabled]"
+        :value="item[fieldNames.value]"
+        :delive-context-to-form-item="false"
+        @change="setChecked(item)"></BsRadio>
       <div class="bs-cascader-menu-item-label">{{ item.label }}</div>
       <BsIcon
-        v-if="item.children?.length > 0"
+        v-if="getHasChildren(item)"
         name="chevron-right"></BsIcon>
       <bs-icon
         v-if="!multiple && !checkStrictly"
@@ -47,7 +54,8 @@ import {
 } from './cascader-menu-props';
 import {
   CascaderOptionItem,
-  CascaderExpandedMenuItem
+  CascaderExpandedMenuItem,
+  CascaderFieldNames
 } from '@/ts-tokens/bootstrap/cascader';
 
 let cascaderMenuCount = 0;
@@ -75,10 +83,16 @@ export default defineComponent({
         return [];
       }
     },
-    checkedMenuValues: {
+    checkedOptions: {
       type: Array,
       default () {
         return [];
+      }
+    },
+    fieldNames: { // 自定义 options 中 label、 children、disabled 的字段名称
+      type: Object as PropType<CascaderFieldNames>,
+      default () {
+        return {};
       }
     },
     ...cascaderMenuProps
@@ -96,9 +110,29 @@ export default defineComponent({
       return flag;
     };
 
+    // 是否有子options
+    let getHasChildren = function (optionItem: any) {
+      let children = optionItem[props.fieldNames.children];
+      return Array.isArray(children) && children.length > 0;
+    };
+
     // 判断是否选中了
-    let getIsChecked = function (optionItem: CascaderOptionItem) {
-      return props.checkedMenuValues?.includes(optionItem.value);
+    let getIsChecked = function (optionItem: any) {
+      let { value: valueKey } = props.fieldNames;
+      let value = optionItem[valueKey];
+      let isInclude = props.checkedOptions?.some((checkedOptionItem: any) => {
+        // console.log('checkedOptionItem[valueKey]:', checkedOptionItem[valueKey], value);
+        return checkedOptionItem[valueKey] === value;
+      });
+      if (props.multiple) {
+        return true;
+      } else {
+        let hasChildren = getHasChildren(optionItem);
+        if (hasChildren) {
+          return false;
+        }
+        return isInclude;
+      }
     };
 
     let setChecked = function (optionItem: CascaderOptionItem) {
@@ -106,25 +140,37 @@ export default defineComponent({
       ctx.emit('item-change', optionItem, cascaderMenuId);
     };
 
-    let handlerItemClick = function (optionItem: CascaderOptionItem) {
-      if (optionItem.disabled) {
+    let handlerItemClick = function (optionItem: any) {
+      let { children: childrenKey, value: valueKey, disabled: disabledKey } = props.fieldNames;
+
+      if (optionItem[disabledKey] || props.expandTrigger !== 'click') {
         return;
       }
-      if (!optionItem.children || optionItem.children.length == 0) {
+      let multiple = props.multiple;
+      // 如果显示了复选框或单选框则不允许选中
+      if (multiple || (!multiple && props.checkStrictly)) {
+        ctx.emit('item-click', optionItem, cascaderMenuId);
+        return;
+      }
+      if (!optionItem[childrenKey] || optionItem[childrenKey].length == 0) {
         setChecked(optionItem);
         return;
       }
       ctx.emit('item-click', optionItem, cascaderMenuId);
     };
-    let handlerItemMousehover = function (optionItem: CascaderOptionItem, eventType: string) {
-      if (optionItem.disabled) {
+    let handlerItemMousehover = function (optionItem: any, eventType: string) {
+      let { disabled: disabledKey } = props.fieldNames;
+
+      if (optionItem[disabledKey] || props.expandTrigger !== 'hover') {
         return;
       }
       ctx.emit(`item-${eventType}`, optionItem, cascaderMenuId);
     };
     return {
       cascaderMenuId,
+      getHasChildren,
 
+      setChecked,
       getIsActive,
       getIsChecked,
       handlerItemClick,
