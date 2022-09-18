@@ -169,6 +169,9 @@ export default defineComponent({
       let { children: childrenKey, value: valueKey, disabled: disabledKey } = fieldNameProps.value;
       let flatternArr = treeDataToFlattarnArr2(cascaderId, newOptions, childrenKey, disabledKey, 1, '', []);
       console.log('扁平化的options', flatternArr);
+      /* console.log('扁平化的options值', flatternArr.map((item: any) => {
+        return item.node.value;
+      })); */
       flatternOptions.value = flatternArr;
     }, {
       immediate: true
@@ -183,82 +186,7 @@ export default defineComponent({
       dropdownHide
     } = useDropdown(props, bsCascaderInputRef);
 
-    /**
-     * 修改值
-     * @param val 值
-     * @param isDelete 是否移除
-     */
-    let changeVal = function (val: any, isDelete?: boolean) {
-      if (props.multiple) {
-        let selectModelValue: unknown[] = (props.modelValue || []).slice();
-        if (isDelete === true) {
-          let index = selectModelValue.indexOf(val);
-          if (index > -1) {
-            // console.log('changeVal 2, isDelete=true', props.modelValue, val, index);
-            selectModelValue.splice(index, 1);
-            ctx.emit('update:modelValue', selectModelValue);
-            ctx.emit('change', selectModelValue);
-            callFormItem('validate', 'change');
-          }
-        } else {
-          let multipleLimit = props.multipleLimit;
-          if (typeof multipleLimit === 'number' && multipleLimit > 0 && selectModelValue.length >= multipleLimit) {
-            ctx.emit('selectLimit', multipleLimit);
-            return;
-          }
-          selectModelValue.push(val);
-          ctx.emit('update:modelValue', selectModelValue);
-          ctx.emit('change', selectModelValue);
-          callFormItem('validate', 'change');
-        }
-        // 多选时值改变后需要刷新下拉内容
-        let timer = setTimeout(function () {
-          clearTimeout(timer);
-          (dropdownTransitionRef.value as any)?.refresh();
-        }, 60);
-      } else {
-        if (isDelete === true) {
-          if (props.modelValue === val) {
-            // console.log('changeVal 2, isDelete=true', props.modelValue, val);
-            ctx.emit('update:modelValue', '');
-            ctx.emit('change', '');
-            dropdownHide();
-            callFormItem('validate', 'change');
-            return;
-          }
-          return;
-        }
-        ctx.emit('update:modelValue', val);
-        ctx.emit('change', val);
-        dropdownHide();
-        callFormItem('validate', 'change');
-      }
-    };
-
-    /**
-     * 添加option
-     * @param option
-     */
-    let addOption = function (option: CascaderOptionItem) {
-      let optionExists = optionItems.value.some((optionItem: CascaderOptionItem) => optionItem.id === option.id);
-      // console.log('optionExists', optionExists);
-      if (!optionExists) {
-        optionItems.value.push(option);
-      }
-    };
-    /**
-     * 移除option
-     * @param option
-     */
-    let removeOption = function (optionId: string, optionValue: any) {
-      let index = optionItems.value.findIndex((optionItem: CascaderOptionItem) => optionItem.id === optionId);
-      if (index > -1) {
-        optionItems.value.splice(index, 1);
-        // console.log('removeOption changeVal', optionValue);
-        changeVal(optionValue, true);
-      }
-    };
-
+    // 点击外部隐藏下拉
     let isClickOutside = useClickOutside([bsCascaderRef, bsCascaderDropdownRef]);
     watch(isClickOutside, (newVal: boolean) => {
       // console.log('isClickOutside', isClickOutside.value);
@@ -281,11 +209,6 @@ export default defineComponent({
       } else {
         dropdownShow();
       }
-    };
-
-    // 标签关闭事件
-    let onTagClose = function (option: CascaderOptionItem) {
-      changeVal(option.value, true);
     };
 
     let filterText = ref('');
@@ -327,9 +250,16 @@ export default defineComponent({
     let {
       expandedMenus,
       checkedOptions,
+      removeCheckedOption,
       handleMenuItemClick,
       handleMenuItemChecked
     } = useCascaderMenu(props, ctx, fieldNameProps, flatternOptions, cascaderId);
+
+    // 标签关闭事件
+    let onTagClose = function (option: CascaderOptionItem) {
+      console.log('标签关闭事件', option);
+      removeCheckedOption(option);
+    };
 
     // 用于显示的内容
     let viewText = computed(function () {

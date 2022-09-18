@@ -36,7 +36,7 @@
   padding: 0.375rem 0.75rem;
   background-color: #fff;
   cursor: pointer;
-  color: #212529;
+  color: #454545;
   transition: color .3s, background-color .3s;
   &.is-checked{
     color: var(--primary);
@@ -44,7 +44,9 @@
       display: block;
     }
   }
-  &.is-expanded,
+  &.is-expanded {
+    color: #212529;
+  }
   &.is-actived{
     color: var(--primary);
   }
