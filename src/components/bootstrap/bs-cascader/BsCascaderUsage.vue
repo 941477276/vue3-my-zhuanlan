@@ -7,6 +7,7 @@
         :multiple="true"
         :show-all-levels="true"
         :options="dataOptions1"
+        :emit-path="true"
         :check-strictly="true"></BsCascader>
       <div>{{ cascader1 }}</div>
     </div>

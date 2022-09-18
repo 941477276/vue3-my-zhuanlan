@@ -94,11 +94,19 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
         console.log('多选，很麻烦多处理');
       }
     }
-    let newModelValue = Object.values(checkedOptions.value).map((checkedOptionItem: any) => {
-      return checkedOptionItem[valueKey];
+    let emitPath = props.emitPath;
+    let newModelValue = (Object.values(checkedOptions.value) as CascaderOptionItem[][]).map((checkedOptionItemListPath: any[]) => {
+      let values = checkedOptionItemListPath.map(function (checkedOptionItem) {
+        return checkedOptionItem[valueKey];
+      });
+      let result = emitPath ? values : [values[values.length - 1]];
+      return result;
     });
-      // checkedOptions.value.map((checkedOptionItem: any) => checkedOptionItem[valueKey]);
-    ctx.emit('update:modelValue', newModelValue);
+    if (!props.multiple) {
+      ctx.emit('update:modelValue', newModelValue[0]);
+    } else {
+      ctx.emit('update:modelValue', newModelValue);
+    }
   };
 
   let removeCheckedOption = function (optionItem: any) {
