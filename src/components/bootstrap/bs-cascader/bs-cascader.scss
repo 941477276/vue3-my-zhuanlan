@@ -44,7 +44,8 @@
       display: block;
     }
   }
-  &.is-expanded{
+  &.is-expanded,
+  &.is-actived{
     color: var(--primary);
   }
   &:not(.is-disabled):not(.is-checked):hover{

@@ -7,23 +7,26 @@
       class="bs-cascader-menu-item"
       v-for="item in options"
       :key="item.value"
-      :class="{
-        'is-disabled': item.disabled,
-        'is-checked': getIsChecked(item),
-        'is-expanded': getIsActive(item)
-      }"
+      :class="[
+        {
+          'is-disabled': item.disabled
+        },
+        getClassnames(item)
+      ]"
       @click="handlerItemClick(item)"
       @mouseenter="handlerItemMousehover(item, 'mouseenter')"
       @mouseleave="handlerItemMousehover(item, 'mouseleave')">
       <BsCheckbox
         v-if="multiple"
-        :name="cascaderMenuId + '_checkbox'"
-        :disabled="item[fieldNames.disabled]"
+        v-model="checkboxInputValue"
         :value="item[fieldNames.value]"
-        :delive-context-to-form-item="false"></BsCheckbox>
+        :name="checkboxName || (cascaderId + '_checkbox')"
+        :disabled="item[fieldNames.disabled]"
+        :delive-context-to-form-item="false"
+        @change="handleCheckboxChange(item, $event)"></BsCheckbox>
       <BsRadio
         v-if="!multiple && checkStrictly"
-        :name="cascaderMenuId + '_radio'"
+        :name="radioName || (cascaderId + '_radio')"
         :disabled="item[fieldNames.disabled]"
         :value="item[fieldNames.value]"
         :delive-context-to-form-item="false"
@@ -44,7 +47,8 @@
 import {
   PropType,
   defineComponent,
-  computed
+  computed,
+  ref
 } from 'vue';
 import BsCheckbox from '../../bs-checkbox/BsCheckbox.vue';
 import BsRadio from '../../bs-radio/BsRadio.vue';
@@ -84,9 +88,9 @@ export default defineComponent({
       }
     },
     checkedOptions: {
-      type: Array,
+      type: Object,
       default () {
-        return [];
+        return {};
       }
     },
     fieldNames: { // 自定义 options 中 label、 children、disabled 的字段名称
@@ -95,20 +99,15 @@ export default defineComponent({
         return {};
       }
     },
+    cascaderId: {
+      type: String,
+      default: ''
+    },
     ...cascaderMenuProps
   },
   emits: ['item-click', 'item-mouseenter', 'item-mouseleave', 'item-checked', 'item-change'],
   setup (props: any, ctx: any) {
     let cascaderMenuId = `bs-cascader-menu_${++cascaderMenuCount}`;
-
-    // 判断是否展开
-    let getIsActive = function (optionItem: CascaderOptionItem) {
-      let optionItemValue = optionItem.value;
-      let flag = props.expandedMenus?.some((menuItem: CascaderExpandedMenuItem) => {
-        return menuItem.menuId === cascaderMenuId && menuItem.menuItemValue === optionItemValue;
-      });
-      return flag;
-    };
 
     // 是否有子options
     let getHasChildren = function (optionItem: any) {
@@ -116,32 +115,65 @@ export default defineComponent({
       return Array.isArray(children) && children.length > 0;
     };
 
-    // 判断是否选中了
-    let getIsChecked = function (optionItem: any) {
+    let getClassnames = function (optionItem: any) {
+      let classlist: string[] = [];
       let { value: valueKey } = props.fieldNames;
       let value = optionItem[valueKey];
-      let isInclude = props.checkedOptions?.some((checkedOptionItem: any) => {
-        // console.log('checkedOptionItem[valueKey]:', checkedOptionItem[valueKey], value);
-        return checkedOptionItem[valueKey] === value;
+      let isChecked = !!props.checkedOptions[value];
+      let isInclude = Object.values(props.checkedOptions).some(function (checkedOptionList) {
+        return (checkedOptionList as CascaderOptionItem[]).some((checkedOption: any) => checkedOption[valueKey] === value);
       });
+      let isExpanded = props.expandedMenus?.some((menuItem: CascaderExpandedMenuItem) => {
+        return menuItem.menuId === cascaderMenuId && menuItem.menuItemValue === optionItem;
+      });
+
       if (props.multiple) {
-        return true;
+        /* if (props.checkStrictly) {
+          isChecked = isInclude;
+        } */
+        // isChecked =  true;
       } else {
         let hasChildren = getHasChildren(optionItem);
-        if (hasChildren) {
-          return false;
+        if (hasChildren && !props.checkStrictly) {
+          isChecked = false;
         }
-        return isInclude;
+        // isChecked = isInclude;
       }
+      if (isExpanded) {
+        classlist.push('is-expanded');
+      }
+      if (isInclude) {
+        classlist.push('is-actived');
+      }
+      if (isChecked) {
+        classlist.push('is-checked');
+      }
+      return classlist;
     };
 
     let setChecked = function (optionItem: CascaderOptionItem) {
       ctx.emit('item-checked', optionItem, cascaderMenuId);
       ctx.emit('item-change', optionItem, cascaderMenuId);
     };
+    let removeChecked = function (optionItem: CascaderOptionItem) {
+      ctx.emit('item-checked', optionItem, cascaderMenuId, false);
+      ctx.emit('item-change', optionItem, cascaderMenuId, false);
+    };
+
+    let checkboxInputValue = ref([]);
+    // 多选框值改变事件
+    let handleCheckboxChange = function (optionItem: CascaderOptionItem, evt: InputEvent) {
+      console.log('多选框值改变事件', optionItem, (evt.target as HTMLInputElement).checked);
+      let isChecked = (evt.target as HTMLInputElement).checked;
+      isChecked ? setChecked(optionItem) : removeChecked(optionItem);
+    };
 
     let handlerItemClick = function (optionItem: any) {
-      let { children: childrenKey, value: valueKey, disabled: disabledKey } = props.fieldNames;
+      let {
+        children: childrenKey,
+        value: valueKey,
+        disabled: disabledKey
+      } = props.fieldNames;
 
       if (optionItem[disabledKey] || props.expandTrigger !== 'click') {
         return;
@@ -168,13 +200,14 @@ export default defineComponent({
     };
     return {
       cascaderMenuId,
+      checkboxInputValue,
       getHasChildren,
+      getClassnames,
 
       setChecked,
-      getIsActive,
-      getIsChecked,
       handlerItemClick,
-      handlerItemMousehover
+      handlerItemMousehover,
+      handleCheckboxChange
     };
   }
 });

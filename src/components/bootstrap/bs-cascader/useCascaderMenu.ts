@@ -21,7 +21,7 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
     menuOptions: props.options
   }]);
   // 选中项列表
-  let checkedOptions = ref<CascaderOptionItem[]>([]);
+  let checkedOptions = ref<any>({});
 
   // 添加菜单到展开列表
   let pushMenuToExpanded = function (menuOption: any, cascaderMenuId: string) {
@@ -51,31 +51,76 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
     }
   };
 
+  /**
+   * 添加选中项
+   * @param optionItem 选中option
+   */
   let setOptionChecked = function (optionItem: any) {
     let { value: valueKey, disabled: disabledKey } = fieldNameProps.value;
     let value = optionItem[valueKey];
     if (optionItem[disabledKey]) {
       return;
     }
+    // 获取当前option的所有父级节点
+    let findOptionParents = function () {
+      let optionParentNodeInfos = findParentsByNodeValue2(cascaderId, value, valueKey, flatternOptions.value);
+      let optionParents = optionParentNodeInfos.map((nodeInfo: BsNodeInfo) => {
+        return nodeInfo.node;
+      }) as CascaderOptionItem[];
+      optionParents.reverse();
+      console.log('optionParents', optionParents);
+      return optionParents;
+    };
     if (!props.multiple) {
       if (!props.emitPath) {
-        checkedOptions.value = [optionItem];
+        checkedOptions.value = {
+          [value]: [optionItem]
+        };
       } else {
-        let optionParents = findParentsByNodeValue2(cascaderId, value, valueKey, flatternOptions.value);
-        console.log('optionParents', optionParents);
-        let values = optionParents.map((nodeInfo: BsNodeInfo) => {
-          return nodeInfo.node;
-        }) as CascaderOptionItem[];
-        values.unshift(optionItem);
-        values.reverse();
-        checkedOptions.value = values;
-        console.log('values', values);
+        let optionParents = findOptionParents();
+        optionParents.push(optionItem);
+        checkedOptions.value = {
+          [value]: optionParents
+        };
+        console.log('values', optionParents);
       }
     } else {
-      checkedOptions.value.push(value);
+      let optionParents = findOptionParents();
+      optionParents.push(optionItem);
+      if (props.checkStrictly) {
+        console.log('多选，任意多选');
+        checkedOptions.value[value] = optionParents;
+      } else {
+        console.log('多选，很麻烦多处理');
+      }
     }
-    let newModelValue = checkedOptions.value.map((checkedOptionItem: any) => checkedOptionItem[valueKey]);
+    let newModelValue = Object.values(checkedOptions.value).map((checkedOptionItem: any) => {
+      return checkedOptionItem[valueKey];
+    });
+      // checkedOptions.value.map((checkedOptionItem: any) => checkedOptionItem[valueKey]);
     ctx.emit('update:modelValue', newModelValue);
+  };
+
+  let removeCheckedOption = function (optionItem: any) {
+    let { value: valueKey, disabled: disabledKey } = fieldNameProps.value;
+    let value = optionItem[valueKey];
+    if (optionItem[disabledKey]) {
+      return;
+    }
+    let checkedOptionsList = checkedOptions.value;
+    let index = checkedOptionsList.findIndex((checkedOptionItem: any) => {
+      return checkedOptionItem[valueKey] === value;
+    });
+    if (index == -1) {
+      return;
+    }
+    if (!props.multiple) {
+      checkedOptions.value = [];
+    } else {
+      if (props.checkStrictly) {
+        checkedOptionsList.splice(index, 1);
+      }
+    }
   };
 
   let handleMenuItemClick = function (menu: CascaderOptionItem, cascaderMenuId: string) {
@@ -83,7 +128,7 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
     pushMenuToExpanded(menu, cascaderMenuId);
   };
 
-  let handleMenuItemChecked = function (optionItem: CascaderOptionItem, cascaderMenuId: string) {
+  let handleMenuItemChecked = function (optionItem: CascaderOptionItem, cascaderMenuId: string, isAdd: boolean|undefined) {
     console.log('菜单选中了', optionItem, cascaderMenuId);
     /* let { value: valueKey } = fieldNameProps.value;
     let value = (optionItem as any)[valueKey];
@@ -92,7 +137,11 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
     } else if (!checkedMenuValues.value.includes(value)) {
       checkedMenuValues.value.push(value);
     } */
-    setOptionChecked(optionItem);
+    if (typeof isAdd === 'undefined' || !!isAdd) {
+      setOptionChecked(optionItem);
+    } else {
+
+    }
   };
 
   return {

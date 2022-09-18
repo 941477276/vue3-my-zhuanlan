@@ -4,6 +4,8 @@
       <h3>基本使用</h3>
       <BsCascader
         v-model="cascader1"
+        :multiple="true"
+        :show-all-levels="true"
         :options="dataOptions1"
         :check-strictly="true"></BsCascader>
       <div>{{ cascader1 }}</div>

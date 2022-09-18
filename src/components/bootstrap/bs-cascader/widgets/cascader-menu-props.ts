@@ -26,5 +26,13 @@ export const cascaderMenuProps = {
   multiple: { // 是否支持多选
     type: Boolean,
     default: false
+  },
+  checkboxName: { // 复选框的name属性
+    type: String,
+    default: ''
+  },
+  radioName: { // 单选框的name属性
+    type: String,
+    default: ''
   }
 };

@@ -41,6 +41,7 @@
         :expanded-menus="expandedMenus"
         :checked-options="checkedOptions"
         :field-names="fieldNameProps"
+        :cascader-id="cascaderId"
         @item-click="handleMenuItemClick"
         @item-checked="handleMenuItemChecked"></BsCascaderMenu>
       <!--<BsCascaderMenu></BsCascaderMenu>
@@ -330,26 +331,48 @@ export default defineComponent({
       handleMenuItemChecked
     } = useCascaderMenu(props, ctx, fieldNameProps, flatternOptions, cascaderId);
 
+    // 用于显示的内容
     let viewText = computed(function () {
       let isMultiple = props.multiple;
-      let checkedOptionList = checkedOptions.value;
-      let result: any[] = [];
+      let checkedOptionList: CascaderOptionItem[][] = Object.values(checkedOptions.value);
+      let labelKey = fieldNameProps.value.label;
+      let valueKey = fieldNameProps.value.value;
+      let displayRender = props.displayRender;
+      let result: { label: string; value: string|number }[] = [];
+      if (checkedOptionList.length == 0) {
+        return result;
+      }
       if (isMultiple) {
-        console.log(111);
+        result = checkedOptionList.map(function (checkedOptionsPathList: any[]) {
+          let label = '';
+          let lastOption = checkedOptionsPathList[checkedOptionsPathList.length - 1];
+          if (props.showAllLevels) {
+            label = isFunction(displayRender) ? displayRender(checkedOptionsPathList) : checkedOptionsPathList.map(checkedOptionItem => {
+              return checkedOptionItem[labelKey];
+            }).join(' / ');
+          } else {
+            label = isFunction(displayRender) ? displayRender([lastOption]) : lastOption[labelKey];
+          }
+          let value = lastOption[valueKey];
+          return {
+            value,
+            label
+          };
+        });
       } else {
-        let obj = { label: '' };
+        let obj = { label: '', value: '' };
         let text = '';
-        let labelKey = fieldNameProps.value.label;
-        let displayRender = props.displayRender;
+        let checkedOptionList2 = checkedOptionList[0];
+        let lastOption: any = checkedOptionList2[checkedOptionList2.length - 1] || {};
         if (props.showAllLevels) {
-          text = isFunction(displayRender) ? displayRender(checkedOptionList) : checkedOptionList.map((optionItem: any) => {
+          text = isFunction(displayRender) ? displayRender(checkedOptionList2) : checkedOptionList2.map((optionItem: any) => {
             return optionItem[labelKey];
           }).join(' / ');
         } else {
-          let lastOption: any = checkedOptionList[checkedOptionList.length - 1] || {};
-          text = isFunction(displayRender) ? displayRender(lastOption) : lastOption[labelKey];
+          text = isFunction(displayRender) ? displayRender([lastOption]) : lastOption[labelKey];
         }
         obj.label = text;
+        obj.value = lastOption[valueKey];
         result.push(obj);
       }
       return result;
