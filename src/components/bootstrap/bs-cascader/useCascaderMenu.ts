@@ -11,13 +11,20 @@ import {
 import {
   CascaderOptionItem,
   CascaderExpandedMenuItem,
-  CascaderFieldNames
+  CascaderFieldNames,
+  CheckedOptions
 } from '@/ts-tokens/bootstrap/cascader';
+import { BsNodeInfo } from '@/ts-tokens/bootstrap/tree';
+import {
+  StringKeyObject
+} from '@/ts-tokens/bootstrap';
 import {
   findNodeInfoByValue2,
   findParentsByNodeValue2
 } from '@/components/bootstrap/bs-tree/bs-tree-utils';
-import { BsNodeInfo } from '@/ts-tokens/bootstrap/tree';
+import {
+  useCascaderMultiple
+} from './useCascaderMultiple';
 
 export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedRef<CascaderFieldNames>, flatternOptions: Ref<BsNodeInfo[]>, cascaderId: string) {
   // 展开的菜单options
@@ -27,9 +34,16 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
     menuOptions: props.options
   }]);
   // 选中项列表
-  let checkedOptions = ref<any>({});
+  let checkedOptions = ref<CheckedOptions>({});
+  // 半选中列表
+  let halfCheckedOptions = ref<StringKeyObject>({});
   // 存储最近一个更新给父组件的值
   let localModelValue: any[] = [];
+
+  let {
+    addMultipleOptionsChecked,
+    removeMultipleOptionsChecked
+  } = useCascaderMultiple(props, checkedOptions, halfCheckedOptions, fieldNameProps, flatternOptions, cascaderId);
 
   // 添加菜单到展开列表
   let pushMenuToExpanded = function (menuOption: any, cascaderMenuId: string) {
@@ -97,10 +111,11 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
    * @param optionItem 选中option
    * @param needUpdateModelValue 是否需要更新父组件的值
    */
-  let setOptionChecked = function (optionItem: any, needUpdateModelValue = true) {
+  let addOptionChecked = function (optionItem: any, needUpdateModelValue = true) {
     let {
       value: valueKey,
-      disabled: disabledKey
+      disabled: disabledKey,
+      children: childrenKey
     } = fieldNameProps.value;
     let value = optionItem[valueKey];
     if (optionItem[disabledKey] && needUpdateModelValue) {
@@ -135,6 +150,7 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
         checkedOptions.value[value] = optionParents;
       } else {
         console.log('多选，很麻烦多处理');
+        addMultipleOptionsChecked(optionItem);
       }
     }
     if (needUpdateModelValue || !props.multiple) {
@@ -142,6 +158,11 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
     }
   };
 
+  /**
+   * 移除选中项
+   * @param optionItem 选中option
+   * @param needUpdateModelValue 是否需要更新父组件的值
+   */
   let removeCheckedOption = function (optionItem: any, needUpdateModelValue = true) {
     let {
       value: valueKey,
@@ -152,17 +173,19 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
       return;
     }
     let checkedOptionsMap = checkedOptions.value;
-    if (!(value in checkedOptionsMap)) {
+    /* if (!(value in checkedOptionsMap)) {
       return;
-    }
+    } */
     if (!props.multiple) {
       checkedOptions.value = {};
     } else {
-      if (props.checkStrictly) {
+      /* if (props.checkStrictly) {
         delete checkedOptionsMap[value];
       } else {
         console.log('移除选中项，很麻烦');
-      }
+      } */
+      console.log('移除选中项，很麻烦');
+      removeMultipleOptionsChecked(optionItem);
     }
     if (needUpdateModelValue) {
       updateModelValue();
@@ -177,7 +200,7 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
   let handleMenuItemChecked = function (optionItem: CascaderOptionItem, cascaderMenuId: string, isAdd: boolean | undefined) {
     console.log('菜单选中了', optionItem, cascaderMenuId);
     if (typeof isAdd === 'undefined' || !!isAdd) {
-      setOptionChecked(optionItem);
+      addOptionChecked(optionItem);
     } else {
       removeCheckedOption(optionItem);
     }
@@ -196,7 +219,7 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
         modelValue = [optionValues[optionValues.length - 1]];
       }
     }
-    if (localModelValue.toString() === modelValue.toString()) {
+    if ([...localModelValue].sort().join(',') === [...modelValue].sort().join(',')) {
       console.log('本地值与父组件值一致，不执行同步');
       return;
     }
@@ -206,6 +229,7 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
       label: labelKey
     } = fieldNameProps.value;
     checkedOptions.value = {}; // 清空原来的选中项列表
+    halfCheckedOptions.value = {};
     modelValue.forEach(function (item: string | number | (string | number)[]) {
       let optionValue: string | number;
       if (isArray(item)) { // 如果还是数组，则取数组最后一项的值，这样不管props.emitPath是否为true都不会取错值
@@ -229,7 +253,7 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
         }
       }
       console.log('新的选中项', option);
-      setOptionChecked(option, false);
+      addOptionChecked(option, false);
     });
   }, {
     immediate: true,
@@ -239,6 +263,7 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
   return {
     expandedMenus,
     checkedOptions,
+    halfCheckedOptions,
     removeCheckedOption,
     handleMenuItemClick,
     handleMenuItemChecked

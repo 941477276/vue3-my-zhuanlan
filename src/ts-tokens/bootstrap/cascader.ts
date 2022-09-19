@@ -1,6 +1,6 @@
 import { InjectionKey, Ref } from 'vue';
 
-export type CascaderOptionItem = {
+export interface CascaderOptionItem {
   id?: string;
   value?: string|number;
   label?: string|number;
@@ -9,13 +9,17 @@ export type CascaderOptionItem = {
   children?: CascaderOptionItem[];
 };
 
-export type CascaderExpandedMenuItem = {
+export interface CheckedOptions {
+  [key: string]: CascaderOptionItem[]
+};
+
+export interface CascaderExpandedMenuItem {
  menuId: string;
  menuItemValue?: string|number;
  menuOptions: CascaderOptionItem[];
 };
 
-export type CascaderFieldNames = {
+export interface CascaderFieldNames {
   label: string;
   value: string;
   children: string;

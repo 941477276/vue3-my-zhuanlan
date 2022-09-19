@@ -18,15 +18,17 @@
       @mouseleave="handlerItemMousehover(item, 'mouseleave')">
       <BsCheckbox
         v-if="multiple"
-        :model-value="checkboxInputValue"
+        :data-model-value11="formInputValue"
+        :model-value="getCheckboxInputValue(item)"
         :value="item[fieldNames.value]"
         :name="checkboxName || (cascaderId + '_checkbox')"
         :disabled="item[fieldNames.disabled]"
         :delive-context-to-form-item="false"
+        :indeterminate="getIsIndeterminate(item)"
         @change="handleCheckboxChange(item, $event)"></BsCheckbox>
       <BsRadio
         v-if="!multiple && checkStrictly"
-        :model-value="checkboxInputValue"
+        :model-value="formInputValue"
         :name="radioName || (cascaderId + '_radio')"
         :disabled="item[fieldNames.disabled]"
         :value="item[fieldNames.value]"
@@ -89,7 +91,13 @@ export default defineComponent({
         return [];
       }
     },
-    checkedOptions: {
+    checkedOptions: { // 选中节点列表
+      type: Object,
+      default () {
+        return {};
+      }
+    },
+    halfCheckedOptions: { // 半选中节点列表，只在多选时有效
       type: Object,
       default () {
         return {};
@@ -117,14 +125,22 @@ export default defineComponent({
       return Array.isArray(children) && children.length > 0;
     };
 
+    let getIsInclude = function (optionItem: any) {
+      let { value: valueKey } = props.fieldNames;
+      let value = optionItem[valueKey];
+      let isInclude = Object.values(props.checkedOptions).some(function (checkedOptionList) {
+        return (checkedOptionList as CascaderOptionItem[]).some((checkedOption: any) => checkedOption[valueKey] === value);
+      });
+      return isInclude;
+    };
+
+    // 设置classname
     let getClassnames = function (optionItem: any) {
       let classlist: string[] = [];
       let { value: valueKey } = props.fieldNames;
       let value = optionItem[valueKey];
       let isChecked = !!props.checkedOptions[value];
-      let isInclude = Object.values(props.checkedOptions).some(function (checkedOptionList) {
-        return (checkedOptionList as CascaderOptionItem[]).some((checkedOption: any) => checkedOption[valueKey] === value);
-      });
+      let isInclude = getIsInclude(optionItem);
       let isExpanded = props.expandedMenus?.some((menuItem: CascaderExpandedMenuItem) => {
         return menuItem.menuId === cascaderMenuId && menuItem.menuItemValue === value;
       });
@@ -162,7 +178,29 @@ export default defineComponent({
       ctx.emit('item-change', optionItem, cascaderMenuId, false);
     };
 
-    let checkboxInputValue = computed(function () {
+    // 复选框是否为半选中状态
+    let getIsIndeterminate = function (optionItem: CascaderOptionItem) {
+      let {
+        value: valueKey
+      } = props.fieldNames;
+      return (optionItem as any)[valueKey] in props.halfCheckedOptions;
+    };
+
+    // 复选框的值
+    let getCheckboxInputValue = function (optionItem: CascaderOptionItem) {
+      // let keys = Object.keys(props.checkedOptions);
+      if (props.multiple && props.checkStrictly) {
+        return Object.keys(props.checkedOptions);
+      }
+      let { value: valueKey } = props.fieldNames;
+      let value = (optionItem as any)[valueKey];
+      let isIndeterminate = getIsIndeterminate(optionItem);
+      let isInclude = getIsInclude(optionItem);
+      let result = isInclude && !isIndeterminate ? [value] : [];
+      return result;
+    };
+
+    let formInputValue = computed(function () {
       let keys = Object.keys(props.checkedOptions);
       return props.multiple ? keys : keys[0];
     });
@@ -209,9 +247,11 @@ export default defineComponent({
     };
     return {
       cascaderMenuId,
-      checkboxInputValue,
+      formInputValue,
       getHasChildren,
       getClassnames,
+      getIsIndeterminate,
+      getCheckboxInputValue,
 
       setChecked,
       handlerItemClick,

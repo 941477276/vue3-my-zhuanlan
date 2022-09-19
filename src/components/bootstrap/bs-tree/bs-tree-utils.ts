@@ -178,8 +178,9 @@ export function findChildrenByNodeValue2 (treeId: string, nodeValue: any, nodeKe
   let findChildren = function (node: any) {
     let children = node[childKey];
     if (children && children.length > 0) {
-      ([]).push.apply(result, children);
+      // ([]).push.apply(result, children);
       children.forEach((nodeItem: any) => {
+        result.push(nodeItem);
         findChildren(nodeItem);
       });
     }

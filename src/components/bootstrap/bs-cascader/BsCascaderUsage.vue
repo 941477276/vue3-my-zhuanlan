@@ -4,11 +4,11 @@
       <h3>基本使用</h3>
       <BsCascader
         v-model="cascader1"
-        :multiple="false"
+        :multiple="true"
         :show-all-levels="true"
         :options="dataOptions1"
         :emit-path="true"
-        :check-strictly="true"></BsCascader>
+        :check-strictly="false"></BsCascader>
       <div>{{ cascader1 }}</div>
       <bs-button type="primary" @click="removeLastCheckedItem">移除最后一个选中项</bs-button>
       <bs-button type="primary" style="margin-left: 1rem;" @click="addCheckedItem">添加一个选中项</bs-button>

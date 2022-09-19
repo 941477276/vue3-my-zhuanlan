@@ -42,6 +42,7 @@
         :checked-options="checkedOptions"
         :field-names="fieldNameProps"
         :cascader-id="cascaderId"
+        :half-checked-options="halfCheckedOptions"
         @item-click="handleMenuItemClick"
         @item-checked="handleMenuItemChecked"></BsCascaderMenu>
       <!--<BsCascaderMenu></BsCascaderMenu>
@@ -79,7 +80,8 @@ import {
   provide,
   reactive,
   ref,
-  watch
+  watch,
+  onUnmounted
 } from 'vue';
 import {
   NOOP,
@@ -102,7 +104,8 @@ import { SelectContext, selectContextKey } from '@/ts-tokens/bootstrap/select';
 import { useDropdown } from './useDropdown';
 import { useCascaderMenu } from './useCascaderMenu';
 import {
-  treeDataToFlattarnArr2
+  treeDataToFlattarnArr2,
+  clearCachedNodeInfo
 } from '@/components/bootstrap/bs-tree/bs-tree-utils';
 import {
   BsNodeInfo
@@ -232,7 +235,7 @@ export default defineComponent({
 
     // 清空内容
     let onCascaderInputClear = function () {
-      let val = props.multiple ? [] : '';
+      let val: any[] = [];
       ctx.emit('update:modelValue', val);
       ctx.emit('change', val);
       callFormItem('validate', 'change');
@@ -250,6 +253,7 @@ export default defineComponent({
     let {
       expandedMenus,
       checkedOptions,
+      halfCheckedOptions,
       removeCheckedOption,
       handleMenuItemClick,
       handleMenuItemChecked
@@ -318,6 +322,11 @@ export default defineComponent({
       addOption: NOOP,
       removeOption: NOOP
     }));
+
+    onUnmounted(function () {
+      clearCachedNodeInfo(cascaderId);
+    });
+
     return {
       bsCascaderRef,
       bsCascaderInputRef,
@@ -344,6 +353,7 @@ export default defineComponent({
 
       expandedMenus,
       checkedOptions,
+      halfCheckedOptions,
       handleMenuItemClick,
       handleMenuItemChecked
     };
