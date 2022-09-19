@@ -44,7 +44,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, provide, ref, watch, toRef, computed } from 'vue';
+import {
+  defineComponent,
+  provide,
+  ref,
+  watch,
+  toRef,
+  computed,
+  onUnmounted
+} from 'vue';
 import BsTreeNode from './widgets/BsTreeNode.vue';
 import BsTreeNodeOperate from './widgets/BsTreeNodeOperate.vue';
 import { bsTreeProps } from './bs-tree-props';
@@ -497,6 +505,11 @@ export default defineComponent({
     });
 
     console.timeEnd('Tree组件Script执行耗时：');
+
+    onUnmounted(function () {
+      clearCachedNodeInfo(treeId);
+    });
+
     return {
       expandedKeysRoot,
       checkedKeysRoot,
