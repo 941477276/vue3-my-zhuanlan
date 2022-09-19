@@ -103,7 +103,6 @@ export default defineComponent({
     let isFocus = ref(false);
     let radioInputRef = ref<HTMLInputElement|null>(null);
     let radioGroupCtx = inject<RadioGroupContext|null>(radioGroupContextKey, null);
-    let radioChecked = ref(false);
 
     let valueIsEqual = computed(() => {
       let flag = false;
@@ -116,16 +115,16 @@ export default defineComponent({
       return flag;
     });
 
-    watch([valueIsEqual, radioChecked], function ([valueIsEqual, radioChecked]) {
+    watch([valueIsEqual], function ([valueIsEqual]) {
       let radioEl = radioInputRef.value;
       if (!radioEl) {
         return;
       }
-      radioEl.checked = valueIsEqual || radioChecked;
+      radioEl.checked = valueIsEqual;
     }, { immediate: true });
 
     let isChecked = computed(() => {
-      return valueIsEqual.value || radioChecked.value;
+      return valueIsEqual.value;
     });
 
     let disabledInner = ref(false);
@@ -143,7 +142,7 @@ export default defineComponent({
       // console.log(evt);
       let target = evt.target as HTMLInputElement;
       let resultValue = props.value == '' ? target.checked : props.value;
-      radioChecked.value = target.checked;
+      // radioChecked.value = target.checked;
       // console.log('radioChecked', radioChecked.value);
       if (radioGroupCtx) {
         // 调用<bs-radio-group>组件的changeVal方法将值传递出去，父组件setup中暴露出去的函数及属性都可以在父组件都ctx中获取的到
@@ -151,22 +150,8 @@ export default defineComponent({
       } else {
         ctx.emit('update:modelValue', resultValue);
       }
-      ctx.emit('change', resultValue, evt);
+      ctx.emit('change', evt, resultValue);
       callFormItem('validate', 'change');
-      let radioName = props.name;
-      if (radioName) {
-        let currentRadioEl = radioInputRef.value;
-        let radios = document.querySelectorAll('.bs-radio input.form-check-input');
-        for (let i = 0, len = radios.length; i < len; i++) {
-          let radioEl = radios[i];
-          if (radioEl !== currentRadioEl) {
-            let setRadioChecked = (radioEl as any).setRadioChecked;
-            if (isFunction(setRadioChecked)) {
-              setRadioChecked(false);
-            }
-          }
-        }
-      }
     };
 
     let onBlur = function (evt: MouseEvent) {
@@ -182,17 +167,6 @@ export default defineComponent({
     let { callFormItem } = useDeliverContextToFormItem(props, {
       id: radioId.value,
       setValidateStatus
-    });
-
-    onUpdated(function () {
-      let radioEl = radioInputRef.value as any;
-      if (!radioEl) {
-        return;
-      }
-      // 给input绑定一个函数，以让外部可以修改单选框选中状态
-      radioEl.setRadioChecked = function (checked: boolean) {
-        radioChecked.value = !!checked;
-      };
     });
 
     return {
