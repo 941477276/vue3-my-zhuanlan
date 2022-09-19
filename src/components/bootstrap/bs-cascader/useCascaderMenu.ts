@@ -86,7 +86,7 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
     let checkedOptionsList = Object.values(checkedOptions.value) as CascaderOptionItem[][];
     if (checkedOptionsList.length == 0) {
       localModelValue = [];
-      ctx.emit('update:modelValue', localModelValue);
+      ctx.emit('update:modelValue', []);
       return;
     }
     let newModelValue = checkedOptionsList.map((checkedOptionItemListPath: any[]) => {

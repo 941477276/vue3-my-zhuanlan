@@ -2,7 +2,9 @@ import {
   ComputedRef,
   Ref
 } from 'vue';
-import { isArray } from '@vue/shared';
+import {
+  isArray
+} from '@vue/shared';
 import {
   StringKeyObject
 } from '@/ts-tokens/bootstrap';
@@ -138,31 +140,39 @@ export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptio
       children: childrenKey
     } = fieldNameProps.value;
     let allChecked = true;
+    let hasAnyChecked = false;
     let hasHalfChecked = false;
     if (!Array.isArray(options)) {
       options = [options];
     }
     let checkedOptionsList = checkedOptions.value;
     let halfCheckedOptionsList = halfCheckedOptions.value;
-    options.some(function (optionItem: any) {
+    console.log('halfCheckedOptionsList', halfCheckedOptionsList);
+    options.forEach(function (optionItem: any) {
       let value = optionItem[valueKey];
       let children = optionItem[childrenKey];
+      console.log('hasHalfChecked', value, value in halfCheckedOptionsList);
       if (isArray(children) && children.length > 0) { // 如果节点有子节点，则判断该节点是否为半选中状态即可
+        console.log('有子节点', value);
         if (value in halfCheckedOptionsList) {
+          console.log(33333);
           allChecked = false;
-          // 这里 return true 是为了中断循环
-          return true;
+          hasHalfChecked = true;
+          hasAnyChecked = true;
         }
       } else {
         if (!(value in checkedOptionsList)) {
           allChecked = false;
-          return true;
+        } else {
+          hasAnyChecked = true;
         }
       }
     });
+    console.log('hasHalfChecked最终的值', hasHalfChecked);
     return {
       allChecked,
-      hasHalfChecked
+      hasHalfChecked,
+      hasAnyChecked
     };
   };
 
@@ -178,13 +188,22 @@ export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptio
     let halfCheckedOptionsList = halfCheckedOptions.value;
     [...optionParents].reverse().forEach((parentItem: any) => {
       let parentItemValue = parentItem[valueKey];
-      let childrenCheckedStatus = getOptionsCheckedStatus(parentItem[childrenKey]);
-      let allChecked = childrenCheckedStatus.allChecked;
-      console.log('子节点选中状态', childrenCheckedStatus);
-      if (allChecked || (!allChecked && !childrenCheckedStatus.hasHalfChecked)) {
-        delete halfCheckedOptionsList[parentItemValue];
+      let { allChecked, hasHalfChecked, hasAnyChecked } = getOptionsCheckedStatus(parentItem[childrenKey]);
+      console.log('子节点选中状态', { allChecked, hasHalfChecked, hasAnyChecked });
+      if (hasAnyChecked) {
+        // if ((allChecked && !hasHalfChecked) || (!allChecked && hasHalfChecked === false)) {
+        console.log('设置父节点状态111');
+
+        if (allChecked && !hasHalfChecked) {
+          console.log('设置父节点状态222');
+          delete halfCheckedOptionsList[parentItemValue];
+        } else {
+          console.log('设置父节点状态333');
+          halfCheckedOptionsList[parentItemValue] = 1;
+        }
       } else {
-        halfCheckedOptionsList[parentItemValue] = 1;
+        delete halfCheckedOptionsList[parentItemValue];
+        console.log('设置父节点状态444');
       }
     });
   };
