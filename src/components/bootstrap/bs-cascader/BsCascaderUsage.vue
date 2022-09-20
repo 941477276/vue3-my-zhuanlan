@@ -4,7 +4,7 @@
       <h3>基本使用</h3>
       <BsCascader
         v-model="cascader1"
-        :multiple="true"
+        :multiple="false"
         :show-all-levels="true"
         :options="dataOptions1"
         :emit-path="true"

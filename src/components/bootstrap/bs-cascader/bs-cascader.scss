@@ -39,7 +39,10 @@
   color: #454545;
   transition: color .3s, background-color .3s;
   &.is-checked{
-    color: #212529;
+    color: var(--primary);
+    &.is-multiple{
+      color: #212529;
+    }
     .bs-cascader-check-icon{
       display: block;
     }
@@ -48,7 +51,9 @@
     color: var(--primary);
   }
   /*&.is-actived{
-    color: var(--primary);
+    &:not(.is-multiple){
+      color: var(--primary);
+    }
   }*/
   &.is-disabled{
     color: #a1a1a1;
@@ -71,6 +76,6 @@
 }
 .bs-cascader-check-icon{
   display: none;
-  margin-left: 0.625rem;
+  margin-left: 0.5rem;
   font-size: 1.15rem;
 }

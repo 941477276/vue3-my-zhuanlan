@@ -9,7 +9,8 @@
       :key="item.value"
       :class="[
         {
-          'is-disabled': item.disabled
+          'is-disabled': item.disabled,
+          'is-multiple': multiple
         },
         getClassnames(item)
       ]"
