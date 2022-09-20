@@ -26,13 +26,7 @@ import {
   useCascaderMultiple
 } from './useCascaderMultiple';
 
-export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedRef<CascaderFieldNames>, flatternOptions: Ref<BsNodeInfo[]>, cascaderId: string) {
-  // 展开的菜单options
-  let expandedMenus = ref<CascaderExpandedMenuItem[]>([{
-    menuId: 'bs-cascader-menu_1',
-    menuItemValue: '',
-    menuOptions: props.options
-  }]);
+export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedRef<CascaderFieldNames>, flatternOptions: Ref<BsNodeInfo[]>, expandedMenus: Ref<CascaderExpandedMenuItem[]>, cascaderId: string) {
   // 选中项列表
   let checkedOptions = ref<CheckedOptions>({});
   // 半选中列表

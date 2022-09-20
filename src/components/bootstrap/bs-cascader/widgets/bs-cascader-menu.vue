@@ -15,8 +15,7 @@
         getClassnames(item)
       ]"
       @click="handlerItemClick(item, $event)"
-      @mouseenter="handlerItemMousehover(item, 'mouseenter')"
-      @mouseleave="handlerItemMousehover(item, 'mouseleave')">
+      @mouseenter="handlerItemMouseenter(item, $event)">
       <BsCheckbox
         v-if="multiple"
         :model-value="getCheckboxInputValue(item)"
@@ -29,7 +28,7 @@
         @change="handleCheckboxChange(item, $event)"></BsCheckbox>
       <BsRadio
         v-if="!multiple && checkStrictly"
-        :model-value="formInputValue"
+        :model-value="radioInputValue"
         :name="radioName || (cascaderId + '_radio')"
         :disabled="item[fieldNames.disabled]"
         :value="item[fieldNames.value]"
@@ -131,7 +130,7 @@ export default defineComponent({
     },
     ...cascaderMenuProps
   },
-  emits: ['item-open', 'item-mouseenter', 'item-mouseleave', 'item-checked', 'item-change'],
+  emits: ['item-open', 'item-checked', 'item-change'],
   setup (props: any, ctx: any) {
     let cascaderMenuId = `bs-cascader-menu_${++cascaderMenuCount}`;
     // 存储节点加载子节点数据状态，状态值可以为：loading、success、fail
@@ -155,7 +154,7 @@ export default defineComponent({
       if (!lazy) {
         return hasChildren;
       }
-      console.log('getChevronVisible', loadingStatus, (loadingStatus == 'success' && !hasChildren), isLeaf, optionItem);
+      // console.log('getChevronVisible', loadingStatus, (loadingStatus == 'success' && !hasChildren), isLeaf, optionItem);
       if (isLeaf === true || loadingStatus == 'loading' || (loadingStatus == 'success' && !hasChildren)) {
         return false;
       }
@@ -237,7 +236,7 @@ export default defineComponent({
       return result;
     };
 
-    let formInputValue = computed(function () {
+    let radioInputValue = computed(function () {
       let keys = Object.keys(props.checkedOptions);
       return props.multiple ? keys : keys[0];
     });
@@ -299,7 +298,7 @@ export default defineComponent({
       if (target.nodeName === 'INPUT' && util.hasClass(target, 'form-check-input')) {
         return;
       }
-      if (optionItem[disabledKey] || props.expandTrigger !== 'click') {
+      if (optionItem[disabledKey]) {
         return;
       }
 
@@ -323,17 +322,22 @@ export default defineComponent({
       // 展开子节点
       ctx.emit('item-open', optionItem, cascaderMenuId);
     };
-    let handlerItemMousehover = function (optionItem: any, eventType: string) {
-      let { disabled: disabledKey } = props.fieldNames;
 
+    let handlerItemMouseenter = function (optionItem: any, evt: MouseEvent) {
+      let { disabled: disabledKey } = props.fieldNames;
       if (optionItem[disabledKey] || props.expandTrigger !== 'hover') {
         return;
       }
-      ctx.emit(`item-${eventType}`, optionItem, cascaderMenuId);
+      let isLoading = triggerLazyLoad(optionItem);
+      if (isLoading) {
+        return;
+      }
+      // 展开子节点
+      ctx.emit('item-open', optionItem, cascaderMenuId);
     };
     return {
       cascaderMenuId,
-      formInputValue,
+      radioInputValue,
       loadingMap,
       getHasChildren,
       getClassnames,
@@ -343,7 +347,7 @@ export default defineComponent({
 
       setChecked,
       handlerItemClick,
-      handlerItemMousehover,
+      handlerItemMouseenter,
       handleCheckboxChange
     };
   }

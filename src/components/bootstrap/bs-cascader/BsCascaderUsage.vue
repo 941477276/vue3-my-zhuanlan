@@ -7,6 +7,7 @@
         :multiple="false"
         :show-all-levels="true"
         :options="dataOptions1"
+        expand-trigger="hover"
         :emit-path="true"
         :check-strictly="false"></BsCascader>
       <div>{{ cascader1 }}</div>
@@ -22,6 +23,7 @@
         :show-all-levels="true"
         :options="dataOptions2"
         :emit-path="true"
+        expand-trigger="click"
         lazy
         :lazy-load-fn="lazyLoadFn"
         :check-strictly="false"></BsCascader>

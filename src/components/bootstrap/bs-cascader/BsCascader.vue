@@ -146,6 +146,13 @@ export default defineComponent({
     let cascaderId = ref(props.id || `bs-cascader_${++cascaderCount}`);
     let optionItems = ref<CascaderOptionItem[]>([]); // 存储option的label及value
 
+    // 展开的菜单options
+    let expandedMenus = ref<CascaderExpandedMenuItem[]>([/* {
+      menuId: 'bs-cascader-menu_1',
+      menuItemValue: '',
+      menuOptions: props.options
+    } */]);
+
     let nativeCascaderModel = computed({
       get () {
         if (Array.isArray(props.modelValue)) {
@@ -169,14 +176,35 @@ export default defineComponent({
 
     // 扁平化的options
     let flatternOptions = ref<BsNodeInfo[]>([]);
-    watch(() => props.options, function (newOptions: BsNodeInfo[]) {
+    watch(() => props.options, function (newOptions: CascaderOptionItem[]) {
       let { children: childrenKey, value: valueKey, disabled: disabledKey } = fieldNameProps.value;
-      let flatternArr = treeDataToFlattarnArr2(cascaderId, newOptions, childrenKey, disabledKey, 1, '', []);
+      let flatternArr = treeDataToFlattarnArr2(cascaderId, newOptions as BsNodeInfo[], childrenKey, disabledKey, 1, '', []);
       console.log('扁平化的options', flatternArr);
       /* console.log('扁平化的options值', flatternArr.map((item: any) => {
         return item.node.value;
       })); */
       flatternOptions.value = flatternArr;
+      expandedMenus.value[0] = {
+        menuId: 'bs-cascader-menu_1',
+        menuItemValue: '',
+        menuOptions: newOptions
+      };
+      let timer = setTimeout(function () {
+        clearTimeout(timer);
+        let flatternArrValues = flatternArr.map(nodeItem => nodeItem.node[valueKey]);
+        let expandedMenusNotInNewOptionsIndex = expandedMenus.value.findIndex(expandedMenuItem => {
+          let menuItemValue = expandedMenuItem.menuItemValue;
+          return menuItemValue != '' && !flatternArrValues.includes(expandedMenuItem.menuItemValue);
+        });
+        // 防止options更新后之前展开的option不存在而导致界面出错问题
+        if (expandedMenusNotInNewOptionsIndex > -1) {
+          if (expandedMenusNotInNewOptionsIndex == 0) {
+            expandedMenus.value[0].menuItemValue = '';
+          } else {
+            expandedMenus.value.splice(expandedMenusNotInNewOptionsIndex);
+          }
+        }
+      }, 0);
     }, {
       immediate: true,
       deep: true
@@ -253,13 +281,12 @@ export default defineComponent({
     });
 
     let {
-      expandedMenus,
       checkedOptions,
       halfCheckedOptions,
       removeCheckedOption,
       handleMenuItemOpen,
       handleMenuItemChecked
-    } = useCascaderMenu(props, ctx, fieldNameProps, flatternOptions, cascaderId);
+    } = useCascaderMenu(props, ctx, fieldNameProps, flatternOptions, expandedMenus, cascaderId);
 
     // 标签关闭事件
     let onTagClose = function (option: CascaderOptionItem) {
