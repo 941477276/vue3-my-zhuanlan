@@ -26,7 +26,9 @@
         <bs-icon name="chevron-left"></bs-icon>
       </button>
     </div>
-    <div class="bs-cascader-menus">
+    <div
+      ref="cascaderMenusRef"
+      class="bs-cascader-menus">
       <BsCascaderMenu
         v-for="menuItem in expandedMenus"
         :key="menuItem.menuId"
@@ -141,6 +143,7 @@ export default defineComponent({
     let bsCascaderRef = ref<HTMLElement|null>(null);
     let bsCascaderInputRef = ref<ComponentInternalInstance|null>(null);
     let bsCascaderDropdownRef = ref<HTMLElement|null>(null);
+    let cascaderMenusRef = ref<HTMLElement|null>(null);
     let dropdownTransitionRef = ref(null);
     let bsInputReadonly = ref(true);
     let cascaderId = ref(props.id || `bs-cascader_${++cascaderCount}`);
@@ -290,7 +293,7 @@ export default defineComponent({
       removeCheckedOption,
       handleMenuItemOpen,
       handleMenuItemChecked
-    } = useCascaderMenu(props, ctx, fieldNameProps, flatternOptions, expandedMenus, cascaderId);
+    } = useCascaderMenu(props, ctx, fieldNameProps, flatternOptions, expandedMenus, cascaderMenusRef, cascaderId);
 
     // 标签关闭事件
     let onTagClose = function (option: CascaderOptionItem) {
@@ -369,6 +372,7 @@ export default defineComponent({
       bsCascaderInputRef,
       bsCascaderDropdownRef,
       dropdownTransitionRef,
+      cascaderMenusRef,
       bsInputReadonly,
       isFocus,
       cascaderId,

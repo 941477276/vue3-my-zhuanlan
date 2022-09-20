@@ -15,7 +15,9 @@
 .bs-cascader-menus{
   display: flex;
   //flex-wrap: wrap;
+  max-width: calc(100vw - 2rem);
   border: 1px solid #ced4da;
+  overflow-x: auto;
 }
 .bs-cascader-menu{
   //position: absolute;

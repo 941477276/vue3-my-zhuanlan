@@ -2,7 +2,8 @@ import {
   ComputedRef,
   Ref,
   ref,
-  watch
+  watch,
+  nextTick
 } from 'vue';
 import {
   isString,
@@ -25,8 +26,9 @@ import {
 import {
   useCascaderMultiple
 } from './useCascaderMultiple';
+import { util } from '@/common/util';
 
-export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedRef<CascaderFieldNames>, flatternOptions: Ref<BsNodeInfo[]>, expandedMenus: Ref<CascaderExpandedMenuItem[]>, cascaderId: string) {
+export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedRef<CascaderFieldNames>, flatternOptions: Ref<BsNodeInfo[]>, expandedMenus: Ref<CascaderExpandedMenuItem[]>, cascaderMenusRef: Ref<HTMLElement|null>, cascaderId: string) {
   // 选中项列表
   let checkedOptions = ref<CheckedOptions>({});
   // 半选中列表
@@ -66,6 +68,14 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
         }
       } else {
         expandedMenus.value.push(newMenu);
+      }
+      let cascaderMenusEl = cascaderMenusRef.value;
+      if (cascaderMenusEl) {
+        console.log('滚动滚动条');
+        nextTick(function () {
+          // @ts-ignore
+          util.scrollTo(cascaderMenusEl, 'x', cascaderMenusEl?.scrollWidth || 0, 200);
+        });
       }
     }
   };
