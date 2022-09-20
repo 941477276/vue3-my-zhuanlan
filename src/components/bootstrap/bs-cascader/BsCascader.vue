@@ -115,7 +115,8 @@ const defaultFieldNames: CascaderFieldNames = {
   label: 'label',
   children: 'children',
   disabled: 'disabled',
-  value: 'value'
+  value: 'value',
+  leaf: 'leaf'
 };
 let cascaderCount = 0;
 export default defineComponent({

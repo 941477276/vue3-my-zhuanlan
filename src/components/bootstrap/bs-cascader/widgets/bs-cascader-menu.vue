@@ -19,13 +19,13 @@
       @mouseleave="handlerItemMousehover(item, 'mouseleave')">
       <BsCheckbox
         v-if="multiple"
-        :data-model-value11="formInputValue"
         :model-value="getCheckboxInputValue(item)"
         :value="item[fieldNames.value]"
         :name="checkboxName || (cascaderId + '_checkbox')"
         :disabled="item[fieldNames.disabled]"
         :delive-context-to-form-item="false"
         :indeterminate="getIsIndeterminate(item)"
+        @click.stop
         @change="handleCheckboxChange(item, $event)"></BsCheckbox>
       <BsRadio
         v-if="!multiple && checkStrictly"
@@ -34,10 +34,15 @@
         :disabled="item[fieldNames.disabled]"
         :value="item[fieldNames.value]"
         :delive-context-to-form-item="false"
+        @click.stop
         @change="setChecked(item)"></BsRadio>
-      <div class="bs-cascader-menu-item-label">{{ item.label }}</div>
+      <div class="bs-cascader-menu-item-label" :title="item.label">{{ item.label }}</div>
+      <BsSpinner
+        class="bs-cascader-loading-icon"
+        v-if="lazy && (item[fieldNames.value] in loadingMap)"
+        v-show="loadingMap[item[fieldNames.value]] == 'loading'"></BsSpinner>
       <BsIcon
-        v-if="getHasChildren(item)"
+        v-if="getChevronVisible(item)"
         name="chevron-right"></BsIcon>
       <bs-icon
         v-if="!multiple && !checkStrictly"
@@ -50,13 +55,20 @@
 <script lang="ts">
 import {
   PropType,
+  Ref,
   defineComponent,
   computed,
-  ref
+  ref,
+  reactive
 } from 'vue';
+import {
+  NOOP,
+  isFunction
+} from '@vue/shared';
 import BsCheckbox from '../../bs-checkbox/BsCheckbox.vue';
 import BsRadio from '../../bs-radio/BsRadio.vue';
 import BsIcon from '../../bs-icon/BsIcon.vue';
+import BsSpinner from '../../bs-spinner/BsSpinner.vue';
 import {
   cascaderMenuProps
 } from './cascader-menu-props';
@@ -67,13 +79,16 @@ import {
 } from '@/ts-tokens/bootstrap/cascader';
 import { util } from '@/common/util';
 
+type LazyLoadingStatus = 'loading' | 'fail' | 'success';
+
 let cascaderMenuCount = 0;
 export default defineComponent({
   name: 'bs-cascader-menu',
   components: {
     BsCheckbox,
     BsRadio,
-    BsIcon
+    BsIcon,
+    BsSpinner
   },
   props: {
     options: {
@@ -119,11 +134,32 @@ export default defineComponent({
   emits: ['item-click', 'item-mouseenter', 'item-mouseleave', 'item-checked', 'item-change'],
   setup (props: any, ctx: any) {
     let cascaderMenuId = `bs-cascader-menu_${++cascaderMenuCount}`;
+    // 存储节点加载子节点数据状态，状态值可以为：loading、success、fail
+    let loadingMap = reactive<{ [key:string]: LazyLoadingStatus }>({});
 
     // 是否有子options
     let getHasChildren = function (optionItem: any) {
       let children = optionItem[props.fieldNames.children];
       return Array.isArray(children) && children.length > 0;
+    };
+
+    // 是否显示向右箭头
+    let getChevronVisible = function (optionItem: any) {
+      let { value: valueKey, children: childrenKey, leaf: leafKey } = props.fieldNames;
+      let children = optionItem[childrenKey];
+      let hasChildren = Array.isArray(children) && children.length > 0;
+      let lazy = props.lazy;
+      let isLeaf = optionItem[leafKey];
+      // let isLoading = optionItem[valueKey] in loadingMap;
+      let loadingStatus = loadingMap[optionItem[valueKey]];
+      if (!lazy) {
+        return hasChildren;
+      }
+      console.log('getChevronVisible', loadingStatus, (loadingStatus == 'success' && !hasChildren), isLeaf, optionItem);
+      if (isLeaf === true || loadingStatus == 'loading' || (loadingStatus == 'success' && !hasChildren)) {
+        return false;
+      }
+      return true;
     };
 
     let getIsInclude = function (optionItem: any) {
@@ -216,9 +252,11 @@ export default defineComponent({
       let {
         children: childrenKey,
         value: valueKey,
-        disabled: disabledKey
+        disabled: disabledKey,
+        leaf: leafKey
       } = props.fieldNames;
       let target = evt.target as HTMLElement;
+      console.log('handlerItemClick');
       // 防止点击复选框、单选框后造成重复点击！
       if (target.nodeName === 'INPUT' && util.hasClass(target, 'form-check-input')) {
         return;
@@ -232,10 +270,41 @@ export default defineComponent({
         ctx.emit('item-click', optionItem, cascaderMenuId);
         return;
       }
-      if (!optionItem[childrenKey] || optionItem[childrenKey].length == 0) {
+      let value = optionItem[valueKey];
+      let children = optionItem[childrenKey];
+      let hasChildren = Array.isArray(children) && children.length > 0;
+      let loadingStatus = loadingMap[value];
+      console.log('loadingStatus', loadingStatus);
+      // 懒加载节点数据
+      if (props.lazy && (!loadingStatus || loadingStatus == 'fail')) { // 正在加载中或已加载完成不允许再次加载
+        let lazyLoadFn = props.lazyLoadFn;
+        lazyLoadFn = !isFunction(lazyLoadFn) ? function (optionData: any, setLoadStatus: any) {
+          setLoadStatus();
+        } : lazyLoadFn;
+        console.log('lazy 222');
+        // 没有子节点或者非叶子节点才进行懒加载数据
+        if (!hasChildren && optionItem[leafKey] !== true) {
+          loadingMap[value] = 'loading';
+          console.log('lazy 333');
+          lazyLoadFn(optionItem, function (loadSuccess: boolean) {
+            let isLoadSuccess = typeof loadSuccess === 'undefined' ? true : !!loadSuccess;
+            loadingMap[value] = isLoadSuccess ? 'success' : 'fail';
+            console.log('lazy 444');
+            let newChildren = optionItem[childrenKey];
+            if (Array.isArray(newChildren) && newChildren.length > 0) {
+              // 展开子节点
+              ctx.emit('item-click', optionItem, cascaderMenuId);
+            }
+          });
+          return;
+        }
+      }
+      // 单选节点
+      if (!hasChildren) {
         setChecked(optionItem);
         return;
       }
+      // 展开子节点
       ctx.emit('item-click', optionItem, cascaderMenuId);
     };
     let handlerItemMousehover = function (optionItem: any, eventType: string) {
@@ -249,10 +318,12 @@ export default defineComponent({
     return {
       cascaderMenuId,
       formInputValue,
+      loadingMap,
       getHasChildren,
       getClassnames,
       getIsIndeterminate,
       getCheckboxInputValue,
+      getChevronVisible,
 
       setChecked,
       handlerItemClick,

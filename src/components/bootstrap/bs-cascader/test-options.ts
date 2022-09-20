@@ -9,7 +9,8 @@ export const options1 = [{
       label: '一致'
     }, {
       value: 'fankui',
-      label: '反馈'
+      label: '反馈',
+      leaf: true
     }, {
       value: 'xiaolv',
       label: '效率'
@@ -23,10 +24,12 @@ export const options1 = [{
     label: '导航',
     children: [{
       value: 'cexiangdaohang',
-      label: '侧向导航'
+      label: '侧向导航',
+      leaf: true
     }, {
       value: 'dingbudaohang',
-      label: '顶部导航'
+      label: '顶部导航',
+      leaf: true
     }]
   }]
 }, {
@@ -44,7 +47,8 @@ export const options1 = [{
           label: '浮动布局'
         }, {
           value: 'absolute',
-          label: '绝对定位布局'
+          label: '绝对定位布局',
+          leaf: true
         }, {
           value: 'flex',
           label: '弹性盒子布局'
@@ -58,10 +62,12 @@ export const options1 = [{
       label: 'Typography 字体'
     }, {
       value: 'icon',
-      label: 'Icon 图标'
+      label: 'Icon 图标',
+      leaf: true
     }, {
       value: 'button',
-      label: 'Button 按钮'
+      label: 'Button 按钮',
+      leaf: true
     }]
   }, {
     value: 'form',
@@ -201,9 +207,229 @@ export const options1 = [{
     label: 'Axure Components'
   }, {
     value: 'sketch',
-    label: 'Sketch Templates'
+    label: 'Sketch Templates',
+    leaf: true
   }, {
     value: 'jiaohu',
     label: '组件交互文档'
+  }]
+}];
+
+export const options2 = [{
+  value: 'zhinan',
+  label: '指南',
+  children2: [{
+    value: 'shejiyuanze',
+    label: '设计原则',
+    children2: [{
+      value: 'yizhi',
+      label: '一致'
+    }, {
+      value: 'fankui',
+      label: '反馈'
+    }, {
+      value: 'xiaolv',
+      label: '效率'
+    }, {
+      value: 'kekong',
+      label: '可控',
+      disabled: true
+    }]
+  }, {
+    value: 'daohang',
+    label: '导航',
+    children2: [{
+      value: 'cexiangdaohang',
+      label: '侧向导航'
+    }, {
+      value: 'dingbudaohang',
+      label: '顶部导航'
+    }]
+  }]
+}, {
+  value: 'zujian',
+  label: '组件',
+  children: [{
+    value: 'basic',
+    label: 'Basic',
+    children2: [{
+      value: 'layout',
+      label: 'Layout 布局',
+      children2: [
+        {
+          value: 'float',
+          label: '浮动布局'
+        }, {
+          value: 'absolute',
+          label: '绝对定位布局',
+          leaf: true
+        }, {
+          value: 'flex',
+          label: '弹性盒子布局'
+        }
+      ]
+    }, {
+      value: 'color',
+      label: 'Color 色彩'
+    }, {
+      value: 'typography',
+      label: 'Typography 字体'
+    }, {
+      value: 'icon',
+      label: 'Icon 图标',
+      leaf: true
+    }, {
+      value: 'button',
+      label: 'Button 按钮',
+      leaf: true
+    }]
+  }, {
+    value: 'form',
+    label: 'Form',
+    children: [{
+      value: 'radio',
+      label: 'Radio 单选框'
+    }, {
+      value: 'checkbox',
+      label: 'Checkbox 多选框'
+    }, {
+      value: 'input',
+      label: 'Input 输入框'
+    }, {
+      value: 'input-number',
+      label: 'InputNumber 计数器'
+    }, {
+      value: 'select',
+      label: 'Select 选择器'
+    }, {
+      value: 'cascader',
+      label: 'Cascader 级联选择器'
+    }, {
+      value: 'switch',
+      label: 'Switch 开关'
+    }, {
+      value: 'slider',
+      label: 'Slider 滑块'
+    }, {
+      value: 'time-picker',
+      label: 'TimePicker 时间选择器'
+    }, {
+      value: 'date-picker',
+      label: 'DatePicker 日期选择器',
+      leaf: true
+    }, {
+      value: 'datetime-picker',
+      label: 'DateTimePicker 日期时间选择器'
+    }, {
+      value: 'upload',
+      label: 'Upload 上传',
+      leaf: true
+    }, {
+      value: 'rate',
+      label: 'Rate 评分'
+    }, {
+      value: 'form',
+      label: 'Form 表单',
+      leaf: true
+    }]
+  }, {
+    value: 'data',
+    label: 'Data',
+    children2: [{
+      value: 'table',
+      label: 'Table 表格'
+    }, {
+      value: 'tag',
+      label: 'Tag 标签'
+    }, {
+      value: 'progress',
+      label: 'Progress 进度条'
+    }, {
+      value: 'tree',
+      label: 'Tree 树形控件'
+    }, {
+      value: 'pagination',
+      label: 'Pagination 分页'
+    }, {
+      value: 'badge',
+      label: 'Badge 标记'
+    }]
+  }, {
+    value: 'notice',
+    label: 'Notice',
+    children2: [{
+      value: 'alert',
+      label: 'Alert 警告'
+    }, {
+      value: 'loading',
+      label: 'Loading 加载'
+    }, {
+      value: 'message',
+      label: 'Message 消息提示'
+    }, {
+      value: 'message-box',
+      label: 'MessageBox 弹框'
+    }, {
+      value: 'notification',
+      label: 'Notification 通知'
+    }]
+  }, {
+    value: 'navigation',
+    label: 'Navigation',
+    children: [{
+      value: 'menu',
+      label: 'NavMenu 导航菜单'
+    }, {
+      value: 'tabs',
+      label: 'Tabs 标签页'
+    }, {
+      value: 'breadcrumb',
+      label: 'Breadcrumb 面包屑'
+    }, {
+      value: 'dropdown',
+      label: 'Dropdown 下拉菜单',
+      leaf: true
+    }, {
+      value: 'steps',
+      label: 'Steps 步骤条'
+    }]
+  }, {
+    value: 'others',
+    label: 'Others',
+    disabled: true,
+    children2: [{
+      value: 'dialog',
+      label: 'Dialog 对话框'
+    }, {
+      value: 'tooltip',
+      label: 'Tooltip 文字提示'
+    }, {
+      value: 'popover',
+      label: 'Popover 弹出框'
+    }, {
+      value: 'card',
+      label: 'Card 卡片'
+    }, {
+      value: 'carousel',
+      label: 'Carousel 走马灯'
+    }, {
+      value: 'collapse',
+      label: 'Collapse 折叠面板'
+    }]
+  }]
+}, {
+  value: 'ziyuan',
+  label: '资源',
+  children2: [{
+    value: 'axure',
+    label: 'Axure Components',
+    leaf: true
+  }, {
+    value: 'sketch',
+    label: 'Sketch Templates'
+  }, {
+    value: 'jiaohu',
+    label: '组件交互文档',
+    leaf: true
   }]
 }];

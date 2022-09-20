@@ -24,4 +24,5 @@ export interface CascaderFieldNames {
   value: string;
   children: string;
   disabled: string;
+  leaf: string;
 };
