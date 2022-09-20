@@ -43,7 +43,7 @@
         :field-names="fieldNameProps"
         :cascader-id="cascaderId"
         :half-checked-options="halfCheckedOptions"
-        @item-click="handleMenuItemClick"
+        @item-open="handleMenuItemOpen"
         @item-checked="handleMenuItemChecked"></BsCascaderMenu>
       <!--<BsCascaderMenu></BsCascaderMenu>
       <BsCascaderMenu></BsCascaderMenu>-->
@@ -178,7 +178,8 @@ export default defineComponent({
       })); */
       flatternOptions.value = flatternArr;
     }, {
-      immediate: true
+      immediate: true,
+      deep: true
     });
 
     let {
@@ -256,7 +257,7 @@ export default defineComponent({
       checkedOptions,
       halfCheckedOptions,
       removeCheckedOption,
-      handleMenuItemClick,
+      handleMenuItemOpen,
       handleMenuItemChecked
     } = useCascaderMenu(props, ctx, fieldNameProps, flatternOptions, cascaderId);
 
@@ -359,7 +360,7 @@ export default defineComponent({
       expandedMenus,
       checkedOptions,
       halfCheckedOptions,
-      handleMenuItemClick,
+      handleMenuItemOpen,
       handleMenuItemChecked
     };
   }

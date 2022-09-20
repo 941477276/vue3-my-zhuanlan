@@ -18,7 +18,7 @@
       <h3>懒加载</h3>
       <BsCascader
         v-model="cascader2"
-        :multiple="false"
+        :multiple="true"
         :show-all-levels="true"
         :options="dataOptions2"
         :emit-path="true"

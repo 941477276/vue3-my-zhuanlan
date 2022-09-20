@@ -183,7 +183,7 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
     }
   };
 
-  let handleMenuItemClick = function (menu: CascaderOptionItem, cascaderMenuId: string) {
+  let handleMenuItemOpen = function (menu: CascaderOptionItem, cascaderMenuId: string) {
     console.log('菜单项点击了：', menu, cascaderMenuId);
     pushMenuToExpanded(menu, cascaderMenuId);
   };
@@ -256,7 +256,7 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
     checkedOptions,
     halfCheckedOptions,
     removeCheckedOption,
-    handleMenuItemClick,
+    handleMenuItemOpen,
     handleMenuItemChecked
   };
 };

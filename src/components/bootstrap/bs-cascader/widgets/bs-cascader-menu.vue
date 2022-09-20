@@ -131,7 +131,7 @@ export default defineComponent({
     },
     ...cascaderMenuProps
   },
-  emits: ['item-click', 'item-mouseenter', 'item-mouseleave', 'item-checked', 'item-change'],
+  emits: ['item-open', 'item-mouseenter', 'item-mouseleave', 'item-checked', 'item-change'],
   setup (props: any, ctx: any) {
     let cascaderMenuId = `bs-cascader-menu_${++cascaderMenuCount}`;
     // 存储节点加载子节点数据状态，状态值可以为：loading、success、fail
@@ -248,28 +248,14 @@ export default defineComponent({
       isChecked ? setChecked(optionItem) : removeChecked(optionItem);
     };
 
-    let handlerItemClick = function (optionItem: any, evt: MouseEvent) {
+    // 执行懒加载数据
+    let triggerLazyLoad = function (optionItem: any) {
       let {
         children: childrenKey,
         value: valueKey,
-        disabled: disabledKey,
+        // disabled: disabledKey,
         leaf: leafKey
       } = props.fieldNames;
-      let target = evt.target as HTMLElement;
-      console.log('handlerItemClick');
-      // 防止点击复选框、单选框后造成重复点击！
-      if (target.nodeName === 'INPUT' && util.hasClass(target, 'form-check-input')) {
-        return;
-      }
-      if (optionItem[disabledKey] || props.expandTrigger !== 'click') {
-        return;
-      }
-      let multiple = props.multiple;
-      // 如果显示了复选框或单选框则不允许选中
-      if (multiple || (!multiple && props.checkStrictly)) {
-        ctx.emit('item-click', optionItem, cascaderMenuId);
-        return;
-      }
       let value = optionItem[valueKey];
       let children = optionItem[childrenKey];
       let hasChildren = Array.isArray(children) && children.length > 0;
@@ -293,19 +279,49 @@ export default defineComponent({
             let newChildren = optionItem[childrenKey];
             if (Array.isArray(newChildren) && newChildren.length > 0) {
               // 展开子节点
-              ctx.emit('item-click', optionItem, cascaderMenuId);
+              ctx.emit('item-open', optionItem, cascaderMenuId);
             }
           });
-          return;
+          return true;
         }
       }
+    };
+
+    let handlerItemClick = function (optionItem: any, evt: MouseEvent) {
+      let {
+        children: childrenKey,
+        // value: valueKey,
+        disabled: disabledKey
+      } = props.fieldNames;
+      let target = evt.target as HTMLElement;
+      console.log('handlerItemClick');
+      // 防止点击复选框、单选框后造成重复点击！
+      if (target.nodeName === 'INPUT' && util.hasClass(target, 'form-check-input')) {
+        return;
+      }
+      if (optionItem[disabledKey] || props.expandTrigger !== 'click') {
+        return;
+      }
+
+      let isLoading = triggerLazyLoad(optionItem);
+      if (isLoading) {
+        return;
+      }
+      let multiple = props.multiple;
+      // 如果显示了复选框或单选框则展开子节点
+      if (multiple || (!multiple && props.checkStrictly)) {
+        ctx.emit('item-open', optionItem, cascaderMenuId);
+        return;
+      }
+      let children = optionItem[childrenKey];
+      let hasChildren = Array.isArray(children) && children.length > 0;
       // 单选节点
       if (!hasChildren) {
         setChecked(optionItem);
         return;
       }
       // 展开子节点
-      ctx.emit('item-click', optionItem, cascaderMenuId);
+      ctx.emit('item-open', optionItem, cascaderMenuId);
     };
     let handlerItemMousehover = function (optionItem: any, eventType: string) {
       let { disabled: disabledKey } = props.fieldNames;
