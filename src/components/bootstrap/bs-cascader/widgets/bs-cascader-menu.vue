@@ -277,8 +277,12 @@ export default defineComponent({
             console.log('lazy 444');
             let newChildren = optionItem[childrenKey];
             if (Array.isArray(newChildren) && newChildren.length > 0) {
-              // 展开子节点
-              ctx.emit('item-open', optionItem, cascaderMenuId);
+              // 防止因使用者先调用这个函数展开子节点，而节点还未设置children导致节点展开后未能高亮问题
+              let timer = setTimeout(function () {
+                clearTimeout(timer);
+                // 展开子节点
+                ctx.emit('item-open', optionItem, cascaderMenuId);
+              }, 0);
             }
           });
           return true;

@@ -184,11 +184,15 @@ export default defineComponent({
         return item.node.value;
       })); */
       flatternOptions.value = flatternArr;
-      expandedMenus.value[0] = {
-        menuId: 'bs-cascader-menu_1',
-        menuItemValue: '',
-        menuOptions: newOptions
-      };
+      if (!expandedMenus.value[0]) {
+        expandedMenus.value[0] = {
+          menuId: 'bs-cascader-menu_1',
+          menuItemValue: '',
+          menuOptions: newOptions
+        };
+      } else {
+        expandedMenus.value[0].menuOptions = newOptions;
+      }
       let timer = setTimeout(function () {
         clearTimeout(timer);
         let flatternArrValues = flatternArr.map(nodeItem => nodeItem.node[valueKey]);
