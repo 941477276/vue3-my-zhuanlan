@@ -147,18 +147,42 @@ export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptio
     }
     let checkedOptionsList = checkedOptions.value;
     let halfCheckedOptionsList = halfCheckedOptions.value;
-    console.log('halfCheckedOptionsList', halfCheckedOptionsList);
+    // console.log('halfCheckedOptionsList', halfCheckedOptionsList);
     options.forEach(function (optionItem: any) {
       let value = optionItem[valueKey];
       let children = optionItem[childrenKey];
-      console.log('hasHalfChecked', value, value in halfCheckedOptionsList);
-      if (isArray(children) && children.length > 0) { // 如果节点有子节点，则判断该节点是否为半选中状态即可
-        console.log('有子节点', value);
-        if (value in halfCheckedOptionsList) {
+      // console.log('hasHalfChecked', value, value in halfCheckedOptionsList);
+      if (isArray(children) && children.length > 0) {
+        // console.log('有子节点', value);
+        if (value in halfCheckedOptionsList) { // 如果节点有子节点，则判断该节点是否为半选中状态
           console.log(33333);
           allChecked = false;
           hasHalfChecked = true;
           hasAnyChecked = true;
+        } else { // 如果该节点不是半选中状态，则查找它下面的没有子节点的子孙节点的选中情况
+          // 找到节点的所有子孙节点
+          let optionItemChildrens = findChildrenByNodeValue2(cascaderId, value, valueKey, childrenKey, flatternOptions.value);
+          let pureChildrenLength = 0;
+          let pureChildrenCheckedCount = 0;
+          optionItemChildrens.forEach(function (childrenItem: any) {
+            let children = childrenItem[childrenKey];
+            // 如果节点有子节点则跳过，因为在父子强关联的模式下只有叶子节点才能被选择
+            if (isArray(children) && children.length > 0) {
+              return;
+            }
+            let childrenItemValue = childrenItem[valueKey];
+            pureChildrenLength++;
+            if (childrenItemValue in checkedOptionsList) {
+              pureChildrenCheckedCount++;
+              hasAnyChecked = true;
+            }
+          });
+          console.log('pureChildrenLength', pureChildrenLength, pureChildrenCheckedCount);
+          if (pureChildrenLength == pureChildrenCheckedCount) {
+            allChecked = true;
+          } else {
+            hasHalfChecked = true;
+          }
         }
       } else {
         if (!(value in checkedOptionsList)) {
@@ -189,11 +213,9 @@ export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptio
     [...optionParents].reverse().forEach((parentItem: any) => {
       let parentItemValue = parentItem[valueKey];
       let { allChecked, hasHalfChecked, hasAnyChecked } = getOptionsCheckedStatus(parentItem[childrenKey]);
-      console.log('子节点选中状态', { allChecked, hasHalfChecked, hasAnyChecked });
+      console.log('子节点选中状态', parentItem, { allChecked, hasHalfChecked, hasAnyChecked });
       if (hasAnyChecked) {
-        // if ((allChecked && !hasHalfChecked) || (!allChecked && hasHalfChecked === false)) {
         console.log('设置父节点状态111');
-
         if (allChecked && !hasHalfChecked) {
           console.log('设置父节点状态222');
           delete halfCheckedOptionsList[parentItemValue];
