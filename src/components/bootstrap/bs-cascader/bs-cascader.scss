@@ -39,16 +39,20 @@
   color: #454545;
   transition: color .3s, background-color .3s;
   &.is-checked{
-    color: var(--primary);
+    color: #212529;
     .bs-cascader-check-icon{
       display: block;
     }
   }
   &.is-expanded {
-    color: #212529;
-  }
-  &.is-actived{
     color: var(--primary);
+  }
+  /*&.is-actived{
+    color: var(--primary);
+  }*/
+  &.is-disabled{
+    color: #a1a1a1;
+    cursor: not-allowed;
   }
   &:not(.is-disabled):not(.is-checked):hover{
     background-color: #E9ECEF;

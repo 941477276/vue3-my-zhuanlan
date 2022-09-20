@@ -271,8 +271,9 @@ export default defineComponent({
       let checkedOptionList: CascaderOptionItem[][] = Object.values(checkedOptions.value);
       let labelKey = fieldNameProps.value.label;
       let valueKey = fieldNameProps.value.value;
+      let disabledKey = fieldNameProps.value.disabled;
       let displayRender = props.displayRender;
-      let result: { label: string; value: string|number }[] = [];
+      let result: { label: string; value: string|number, disabled: boolean }[] = [];
       if (checkedOptionList.length == 0) {
         return result;
       }
@@ -287,14 +288,16 @@ export default defineComponent({
           } else {
             label = isFunction(displayRender) ? displayRender([lastOption]) : lastOption[labelKey];
           }
+          let disabled = checkedOptionsPathList.some(checkedOptionItem => checkedOptionItem[disabledKey]);
           let value = lastOption[valueKey];
           return {
             value,
-            label
+            label,
+            disabled
           };
         });
       } else {
-        let obj = { label: '', value: '' };
+        let obj = { label: '', value: '', disabled: false };
         let text = '';
         let checkedOptionList2 = checkedOptionList[0];
         let lastOption: any = checkedOptionList2[checkedOptionList2.length - 1] || {};
@@ -307,6 +310,7 @@ export default defineComponent({
         }
         obj.label = text;
         obj.value = lastOption[valueKey];
+        obj.disabled = lastOption[disabledKey];
         result.push(obj);
       }
       return result;

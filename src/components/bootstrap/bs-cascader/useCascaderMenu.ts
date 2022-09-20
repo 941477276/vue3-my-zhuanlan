@@ -150,7 +150,7 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
         checkedOptions.value[value] = optionParents;
       } else {
         console.log('多选，很麻烦多处理');
-        addMultipleOptionsChecked(optionItem);
+        addMultipleOptionsChecked(optionItem, !needUpdateModelValue);
       }
     }
     if (needUpdateModelValue || !props.multiple) {
@@ -168,22 +168,13 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
       value: valueKey,
       disabled: disabledKey
     } = fieldNameProps.value;
-    let value = optionItem[valueKey];
+    // let value = optionItem[valueKey];
     if (optionItem[disabledKey] && needUpdateModelValue) {
       return;
     }
-    let checkedOptionsMap = checkedOptions.value;
-    /* if (!(value in checkedOptionsMap)) {
-      return;
-    } */
     if (!props.multiple) {
       checkedOptions.value = {};
     } else {
-      /* if (props.checkStrictly) {
-        delete checkedOptionsMap[value];
-      } else {
-        console.log('移除选中项，很麻烦');
-      } */
       console.log('移除选中项，很麻烦');
       removeMultipleOptionsChecked(optionItem);
     }

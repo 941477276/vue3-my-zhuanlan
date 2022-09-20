@@ -36,7 +36,7 @@ export default defineComponent({
   setup () {
     let dataOptions1 = ref(options1);
 
-    let cascader1 = ref<any>([]);
+    let cascader1 = ref<any>(['kekong']);
     return {
       dataOptions1,
       cascader1,

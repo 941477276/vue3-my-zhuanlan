@@ -30,14 +30,18 @@ export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptio
     return optionParents;
   };
 
-  // 多选时添加节点进选中节点列表
-  let addMultipleOptionsChecked = function (optionItem: any) {
+  /**
+   * 多选时添加节点进选中节点列表
+   * @param optionItem 待添加节点
+   * @param allowDisabledAdd 是否允许添加禁用的节点
+   */
+  let addMultipleOptionsChecked = function (optionItem: any, allowDisabledAdd = false) {
     let {
       value: valueKey,
       disabled: disabledKey,
       children: childrenKey
     } = fieldNameProps.value;
-    if (optionItem[disabledKey]) {
+    if (optionItem[disabledKey] && !allowDisabledAdd) {
       return;
     }
     let value = optionItem[valueKey];
@@ -45,6 +49,12 @@ export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptio
     let optionParents = findOptionParents(value, valueKey);
 
     if (!isArray(optionChildren) || optionChildren.length == 0) { // 节点没有子孙节点，直接添加进选中的节点列表
+      if (!allowDisabledAdd) {
+        let parentsHasDisabled = optionParents.some((parentItem: any) => parentItem[disabledKey]);
+        if (parentsHasDisabled) {
+          return;
+        }
+      }
       checkedOptions.value[value] = [...optionParents, optionItem];
     } else {
       // 找到节点的所有子孙节点
@@ -70,6 +80,12 @@ export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptio
         }
         let value = optionPureItem[valueKey];
         let parents = findOptionParents(value, valueKey);
+        if (!allowDisabledAdd) {
+          let parentsHasDisabled = parents.some((parentItem: any) => parentItem[disabledKey]);
+          if (parentsHasDisabled) { // 父级节点有禁用项也不允许添加进去
+            return;
+          }
+        }
         parents.push(optionPureItem);
         checkedOptions.value[value] = parents;
       });
@@ -81,20 +97,31 @@ export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptio
     setParentsCheckedStatus(optionParents);
   };
 
-  let removeMultipleOptionsChecked = function (optionItem: any) {
+  /**
+   * 多选时从选中节点列表中移除节点
+   * @param optionItem 待移除节点
+   * @param allowDisabledAdd 是否允许移除禁用的
+   */
+  let removeMultipleOptionsChecked = function (optionItem: any, allowDisabledAdd = false) {
     let {
       value: valueKey,
       disabled: disabledKey,
       children: childrenKey
     } = fieldNameProps.value;
     let value = optionItem[valueKey];
-    if (optionItem[disabledKey]) {
+    if (optionItem[disabledKey] && !allowDisabledAdd) {
       return;
     }
     let optionChildren = optionItem[childrenKey];
     let optionParents = findOptionParents(value, valueKey);
 
     if (!isArray(optionChildren) || optionChildren.length == 0) { // 节点没有子孙节点，直接添加进选中的节点列表
+      if (!allowDisabledAdd) {
+        let parentsHasDisabled = optionParents.some((parentItem: any) => parentItem[disabledKey]);
+        if (parentsHasDisabled) {
+          return;
+        }
+      }
       delete checkedOptions.value[value];
     } else {
       // 找到节点的所有子孙节点
@@ -119,6 +146,13 @@ export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptio
           return;
         }
         let value = optionPureItem[valueKey];
+        let parents = findOptionParents(value, valueKey);
+        if (!allowDisabledAdd) {
+          let parentsHasDisabled = parents.some((parentItem: any) => parentItem[disabledKey]);
+          if (parentsHasDisabled) {
+            return;
+          }
+        }
         delete checkedOptions.value[value];
       });
 
@@ -215,17 +249,17 @@ export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptio
       let { allChecked, hasHalfChecked, hasAnyChecked } = getOptionsCheckedStatus(parentItem[childrenKey]);
       console.log('子节点选中状态', parentItem, { allChecked, hasHalfChecked, hasAnyChecked });
       if (hasAnyChecked) {
-        console.log('设置父节点状态111');
+        // console.log('设置父节点状态111');
         if (allChecked && !hasHalfChecked) {
-          console.log('设置父节点状态222');
+          // console.log('设置父节点状态222');
           delete halfCheckedOptionsList[parentItemValue];
         } else {
-          console.log('设置父节点状态333');
+          // console.log('设置父节点状态333');
           halfCheckedOptionsList[parentItemValue] = 1;
         }
       } else {
         delete halfCheckedOptionsList[parentItemValue];
-        console.log('设置父节点状态444');
+        // console.log('设置父节点状态444');
       }
     });
   };

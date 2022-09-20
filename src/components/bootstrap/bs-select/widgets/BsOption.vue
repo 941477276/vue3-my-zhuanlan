@@ -153,7 +153,8 @@ export default defineComponent({
   }
   &.is-disabled{
     cursor: not-allowed;
-    opacity: 0.6;
+    //opacity: 0.6;
+    color: #a1a1a1;
   }
   &.is-checked{
     color: #fff;

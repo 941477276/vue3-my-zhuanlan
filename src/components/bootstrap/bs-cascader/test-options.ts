@@ -15,7 +15,8 @@ export const options1 = [{
       label: '效率'
     }, {
       value: 'kekong',
-      label: '可控'
+      label: '可控',
+      disabled: true
     }]
   }, {
     value: 'daohang',
@@ -171,6 +172,7 @@ export const options1 = [{
   }, {
     value: 'others',
     label: 'Others',
+    disabled: true,
     children: [{
       value: 'dialog',
       label: 'Dialog 对话框'
