@@ -1,71 +1,40 @@
 <template>
   <div class="bs-cascader" ref="bsCascaderRef">
-    <BsSelectInput
-      ref="bsCascaderInputRef"
-      :disabled="disabled"
-      :loading="loading"
-      :loading-text="loadingText"
-      :loading-color-type="loadingColorType"
-      :clearable="clearable"
-      :id="cascaderId"
-      :values="viewText"
-      :size="size"
-      :multiple="multiple"
-      :filterable="filterable"
-      :placeholder="placeholder"
-      :max-tag-count="maxTagCount"
-      :tag-type="tagType"
-      :tag-effect="tagEffect"
-      :tag-closeable="tagCloseable"
-      :suffix-icon="suffixIcon"
-      @click="onCascaderInputClick"
-      @tag-close="onTagClose"
-      @filter-text-change="onFilterTextChange"
-      @clear="onCascaderInputClear"></BsSelectInput>
-    <div
-      ref="cascaderMenusRef"
-      class="bs-cascader-menus">
-      <template v-if="!loading && options.length > 0">
-        <BsCascaderMenu
-          v-for="(menuItem, index) in expandedMenus"
-          :key="menuItem.menuId"
-          :options="menuItem.menuOptions"
+    <BsOnlyChild>
+      <slot>
+        <BsSelectInput
+          ref="bsCascaderInputRef"
+          :disabled="disabled"
+          :loading="loading"
+          :loading-text="loadingText"
+          :loading-color-type="loadingColorType"
+          :clearable="clearable"
+          :id="cascaderId"
+          :values="viewText"
+          :size="size"
           :multiple="multiple"
-          :check-strictly="checkStrictly"
-          :expand-trigger="expandTrigger"
-          :expand-icon="expandIcon"
-          :lazy="lazy"
-          :lazy-load-fn="lazyLoadFn"
-          :cascader-slots="$slots"
-          :expanded-menus="expandedMenus"
-          :checked-options="checkedOptions"
-          :field-names="fieldNameProps"
-          :cascader-id="cascaderId"
-          :menu-id="index == 0 ? 'bs-cascader-menu_0' : ''"
-          :half-checked-options="halfCheckedOptions"
-          @item-open="handleMenuItemOpen"
-          @item-checked="handleMenuItemChecked"></BsCascaderMenu>
-      </template>
-      <div
-        v-if="!loading && options.length == 0"
-        class="bs-cascader-empty">
-        <slot name="empty">{{ noDataText }}</slot>
-      </div>
-      <div class="bs-cascader-loading" v-if="loading">
-        <slot name="loading">
-          <BsSpinner></BsSpinner>
-          <span class="bs-cascader-loading-text">{{loadingText}}</span>
-        </slot>
-      </div>
-    </div>
+          :filterable="filterable"
+          :placeholder="placeholder"
+          :max-tag-count="maxTagCount"
+          :tag-type="tagType"
+          :tag-effect="tagEffect"
+          :tag-closeable="tagCloseable"
+          :suffix-icon="suffixIcon"
+          @tag-close="onTagClose"
+          @filter-text-change="onFilterTextChange"
+          @clear="onCascaderInputClear"></BsSelectInput>
+      </slot>
+    </BsOnlyChild>
+
     <teleport :disabled="!teleported" :to="appendTo">
       <BsDropdownTransition
         v-if="dropdownDisplayed"
         ref="dropdownTransitionRef"
         placement="bottom"
-        :reference-ref="bsCascaderRef"
+        :reference-ref="triggerRef"
         :try-all-placement="false"
-        :set-width="true">
+        :set-width="setDropdownWidth"
+        :set-min-width="setDropdownMinWidth">
         <div
           v-show="dropdownVisible"
           ref="bsSelectDropdownRef"
@@ -73,8 +42,43 @@
           :class="{
             'is-multiple': multiple
           }"
-          :data-for-select="cascaderId">
-          <h1>下拉菜单</h1>
+          :data-for-cascader="cascaderId">
+          <div
+            ref="cascaderMenusRef"
+            class="bs-cascader-panel">
+            <template v-if="!loading && options.length > 0">
+              <BsCascaderMenu
+                v-for="(menuItem, index) in expandedMenus"
+                :key="menuItem.menuId"
+                :options="menuItem.menuOptions"
+                :multiple="multiple"
+                :check-strictly="checkStrictly"
+                :expand-trigger="expandTrigger"
+                :expand-icon="expandIcon"
+                :lazy="lazy"
+                :lazy-load-fn="lazyLoadFn"
+                :cascader-slots="$slots"
+                :expanded-menus="expandedMenus"
+                :checked-options="checkedOptions"
+                :field-names="fieldNameProps"
+                :cascader-id="cascaderId"
+                :menu-id="index == 0 ? 'bs-cascader-menu_0' : ''"
+                :half-checked-options="halfCheckedOptions"
+                @item-open="handleMenuItemOpen"
+                @item-checked="handleMenuItemChecked"></BsCascaderMenu>
+            </template>
+            <div
+              v-if="!loading && options.length == 0"
+              class="bs-cascader-empty">
+              <slot name="empty">{{ noDataText }}</slot>
+            </div>
+            <div class="bs-cascader-loading" v-if="loading">
+              <slot name="loading">
+                <BsSpinner></BsSpinner>
+                <span class="bs-cascader-loading-text">{{loadingText}}</span>
+              </slot>
+            </div>
+          </div>
         </div>
       </BsDropdownTransition>
     </teleport>
@@ -100,9 +104,11 @@ import {
 import BsSelectInput from '../bs-select-input/BsSelectInput.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
 import BsCascaderMenu from './widgets/bs-cascader-menu.vue';
+import BsOnlyChild from '../bs-slot/BsOnlyChild.vue';
 import { bsCascaderProps } from './props';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
+import { useForwardRef } from '@/hooks/useForwardRef';
 import { ValidateStatus } from '@/ts-tokens/bootstrap';
 import {
   CascaderOptionItem,
@@ -142,7 +148,8 @@ export default defineComponent({
   components: {
     BsSelectInput,
     BsDropdownTransition,
-    BsCascaderMenu
+    BsCascaderMenu,
+    BsOnlyChild
   },
   emits: ['update:modelValue', 'change', 'selectLimit'],
   setup (props: any, ctx: any) {
@@ -156,25 +163,7 @@ export default defineComponent({
     let optionItems = ref<CascaderOptionItem[]>([]); // 存储option的label及value
 
     // 展开的菜单options
-    let expandedMenus = ref<CascaderExpandedMenuItem[]>([/* {
-      menuId: 'bs-cascader-menu_1',
-      menuItemValue: '',
-      menuOptions: props.options
-    } */]);
-
-    let nativeCascaderModel = computed({
-      get () {
-        if (Array.isArray(props.modelValue)) {
-          return [...props.modelValue];
-        } else {
-          return props.modelValue;
-        }
-      },
-      set (newVal: any) {
-        console.log('原生select修改值：', newVal);
-      }
-    });
-
+    let expandedMenus = ref<CascaderExpandedMenuItem[]>([]);
     // options 中 label、 children、disabled 的字段名称
     let fieldNameProps = computed<CascaderFieldNames>(function () {
       return {
@@ -241,7 +230,7 @@ export default defineComponent({
       }
     });
 
-    // 输入框点击事件
+    /* // 输入框点击事件
     let onCascaderInputClick = function () {
       if (props.disabled) {
         return;
@@ -255,7 +244,7 @@ export default defineComponent({
       } else {
         dropdownShow();
       }
-    };
+    }; */
 
     let filterText = ref('');
     // 搜索文本change事件
@@ -299,7 +288,18 @@ export default defineComponent({
       removeCheckedOption,
       handleMenuItemOpen,
       handleMenuItemChecked
-    } = useCascaderMenu(props, ctx, fieldNameProps, flatternOptions, expandedMenus, cascaderMenusRef, cascaderId);
+    } = useCascaderMenu({
+      props,
+      ctx,
+      fieldNameProps,
+      flatternOptions,
+      expandedMenus,
+      cascaderMenusRef,
+      dropdownTransitionRef,
+      cascaderId,
+      callFormItem,
+      dropdownHide
+    });
 
     // 标签关闭事件
     let onTagClose = function (option: CascaderOptionItem) {
@@ -369,11 +369,40 @@ export default defineComponent({
       removeOption: NOOP
     }));
 
+    // 触发元素
+    let triggerRef = ref<HTMLElement|null>(null);
+    useForwardRef(triggerRef);
+
+    // 给触发元素绑定点击事件
+    watch(() => triggerRef.value, function (el) {
+      if (el) {
+        if ((el as any)._evt_binded) {
+          return;
+        }
+        (el as any)._evt_binded = true;
+        el.addEventListener('click', function () {
+          if (props.disabled) {
+            return;
+          }
+          if (dropdownVisible.value) {
+            if (!props.multiple) {
+              dropdownHide();
+            } else {
+              (bsCascaderInputRef.value as any)?.focus();
+            }
+          } else {
+            dropdownShow();
+          }
+        }, false);
+      }
+    });
+
     onUnmounted(function () {
       clearCachedNodeInfo(cascaderId);
     });
 
     return {
+      triggerRef,
       bsCascaderRef,
       bsCascaderInputRef,
       bsCascaderDropdownRef,
@@ -385,7 +414,6 @@ export default defineComponent({
       dropdownDisplayed,
       dropdownVisible,
       optionItems,
-      nativeCascaderModel,
       viewText,
       fieldNameProps,
 
@@ -394,7 +422,7 @@ export default defineComponent({
       dropdownShow,
       dropdownHide,
 
-      onCascaderInputClick,
+      // onCascaderInputClick,
       onTagClose,
       onFilterTextChange,
 

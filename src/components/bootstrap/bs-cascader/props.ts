@@ -128,5 +128,13 @@ export const bsCascaderProps = {
     type: String,
     default: ''
   },
+  setDropdownWidth: { // 是否设置下拉菜单的宽度为参照元素的宽度
+    type: Boolean,
+    default: false
+  },
+  setDropdownMinWidth: { // 是否设置下拉菜单的最小宽度为参照元素的宽度
+    type: Boolean,
+    default: false
+  },
   ...cascaderMenuProps
 };

@@ -28,7 +28,19 @@ import {
 } from './useCascaderMultiple';
 import { util } from '@/common/util';
 
-export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedRef<CascaderFieldNames>, flatternOptions: Ref<BsNodeInfo[]>, expandedMenus: Ref<CascaderExpandedMenuItem[]>, cascaderMenusRef: Ref<HTMLElement|null>, cascaderId: string) {
+export function useCascaderMenu (options: any) {
+  let {
+    props,
+    ctx,
+    fieldNameProps,
+    flatternOptions,
+    expandedMenus,
+    cascaderMenusRef,
+    dropdownTransitionRef,
+    cascaderId,
+    callFormItem,
+    dropdownHide
+  } = options;
   // 选中项列表
   let checkedOptions = ref<CheckedOptions>({});
   // 半选中列表
@@ -39,7 +51,7 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
   let {
     addMultipleOptionsChecked,
     removeMultipleOptionsChecked
-  } = useCascaderMultiple(props, checkedOptions, halfCheckedOptions, fieldNameProps, flatternOptions, cascaderId);
+  } = useCascaderMultiple(props, checkedOptions, halfCheckedOptions, fieldNameProps, flatternOptions, dropdownTransitionRef, cascaderId);
 
   // 添加菜单到展开列表
   let pushMenuToExpanded = function (menuOption: any, cascaderMenuId: string) {
@@ -56,13 +68,13 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
 
     let expandedMenuList = expandedMenus.value;
     if (menuChildren && menuChildren.length > 0) {
-      let index = expandedMenuList.findIndex(menuItem => menuItem.menuId === cascaderMenuId);
+      let index = expandedMenuList.findIndex((menuItem: CascaderExpandedMenuItem) => menuItem.menuId === cascaderMenuId);
       let newMenu = {
         menuId: newMenuId,
         menuItemValue: '',
         menuOptions: menuChildren
       };
-      // console.log('111111', index, menuOption, cascaderMenuId);
+      console.log('111111', index, menuOption, cascaderMenuId);
       if (index > -1) {
         let removeCount = expandedMenuList.length - index;
         expandedMenuList[index].menuItemValue = menuItemValue;
@@ -94,6 +106,7 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
     if (checkedOptionsList.length == 0) {
       localModelValue = [];
       ctx.emit('update:modelValue', []);
+      callFormItem('validate', 'change');
       return;
     }
     let newModelValue = checkedOptionsList.map((checkedOptionItemListPath: any[]) => {
@@ -111,6 +124,7 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
     }
     localModelValue = [...modelValue];
     ctx.emit('update:modelValue', modelValue);
+    callFormItem('validate', 'change');
   };
 
   /**
@@ -155,16 +169,20 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
     } else {
       // let optionParents = findOptionParents();
       // optionParents.push(optionItem);
-      if (props.checkStrictly) {
+      /* if (props.checkStrictly) {
         console.log('多选，任意多选');
         checkedOptions.value[value] = optionParents;
       } else {
         console.log('多选，很麻烦多处理');
         addMultipleOptionsChecked(optionItem, !needUpdateModelValue);
-      }
+      } */
+      addMultipleOptionsChecked(optionItem, !needUpdateModelValue);
     }
     if (needUpdateModelValue || !props.multiple) {
       updateModelValue();
+    }
+    if (needUpdateModelValue && !props.multiple && !props.checkStrictly) {
+      dropdownHide();
     }
   };
 

@@ -19,7 +19,7 @@ import {
   findChildrenByNodeValue2
 } from '@/components/bootstrap/bs-tree/bs-tree-utils';
 
-export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptions>, halfCheckedOptions: Ref<StringKeyObject>, fieldNameProps: ComputedRef<CascaderFieldNames>, flatternOptions: Ref<BsNodeInfo[]>, cascaderId: string) {
+export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptions>, halfCheckedOptions: Ref<StringKeyObject>, fieldNameProps: ComputedRef<CascaderFieldNames>, flatternOptions: Ref<BsNodeInfo[]>, dropdownTransitionRef: Ref<any>, cascaderId: string) {
   let findOptionParents = function (value: string, valueKey: string) {
     let optionParentNodeInfos = findParentsByNodeValue2(cascaderId, value, valueKey, flatternOptions.value);
     let optionParents = optionParentNodeInfos.map((nodeInfo: BsNodeInfo) => {
@@ -48,53 +48,63 @@ export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptio
     let optionChildren = optionItem[childrenKey];
     let optionParents = findOptionParents(value, valueKey);
 
-    if (!isArray(optionChildren) || optionChildren.length == 0) { // 节点没有子孙节点，直接添加进选中的节点列表
-      if (!allowDisabledAdd) {
-        let parentsHasDisabled = optionParents.some((parentItem: any) => parentItem[disabledKey]);
-        if (parentsHasDisabled) {
-          return;
-        }
-      }
-      checkedOptions.value[value] = [...optionParents, optionItem];
+    if (props.checkStrictly) {
+      console.log('多选，任意多选');
+      checkedOptions.value[value] = optionParents;
     } else {
-      // 找到节点的所有子孙节点
-      let optionChildrens = findChildrenByNodeValue2(cascaderId, value, valueKey, childrenKey, flatternOptions.value);
-      console.log('addMultipleOptionsChecked optionChildrens', optionChildrens);
-      // 没有子孙节点的节点
-      let optionPureChildrens: CascaderOptionItem[] = [];
-      // 有子孙节点的节点
-      let optionChildrensWhichHasChildren: CascaderOptionItem[] = [];
-      optionChildrens.forEach(function (option: any) {
-        let children = option[childrenKey];
-        if (isArray(children) && children.length > 0) {
-          optionChildrensWhichHasChildren.push(option);
-        } else {
-          optionPureChildrens.push(option);
-        }
-      });
-
-      // 添加进选中的节点列表
-      optionPureChildrens.forEach(function (optionPureItem: any) {
-        if (optionPureItem[disabledKey]) { // 禁用项不添加进去
-          return;
-        }
-        let value = optionPureItem[valueKey];
-        let parents = findOptionParents(value, valueKey);
+      if (!isArray(optionChildren) || optionChildren.length == 0) { // 节点没有子孙节点，直接添加进选中的节点列表
         if (!allowDisabledAdd) {
-          let parentsHasDisabled = parents.some((parentItem: any) => parentItem[disabledKey]);
-          if (parentsHasDisabled) { // 父级节点有禁用项也不允许添加进去
+          let parentsHasDisabled = optionParents.some((parentItem: any) => parentItem[disabledKey]);
+          if (parentsHasDisabled) {
             return;
           }
         }
-        parents.push(optionPureItem);
-        checkedOptions.value[value] = parents;
-      });
+        checkedOptions.value[value] = [...optionParents, optionItem];
+      } else {
+        // 找到节点的所有子孙节点
+        let optionChildrens = findChildrenByNodeValue2(cascaderId, value, valueKey, childrenKey, flatternOptions.value);
+        console.log('addMultipleOptionsChecked optionChildrens', optionChildrens);
+        // 没有子孙节点的节点
+        let optionPureChildrens: CascaderOptionItem[] = [];
+        // 有子孙节点的节点
+        let optionChildrensWhichHasChildren: CascaderOptionItem[] = [];
+        optionChildrens.forEach(function (option: any) {
+          let children = option[childrenKey];
+          if (isArray(children) && children.length > 0) {
+            optionChildrensWhichHasChildren.push(option);
+          } else {
+            optionPureChildrens.push(option);
+          }
+        });
 
-      optionParents = [...optionParents, optionItem, ...optionChildrensWhichHasChildren];
+        // 添加进选中的节点列表
+        optionPureChildrens.forEach(function (optionPureItem: any) {
+          if (optionPureItem[disabledKey]) { // 禁用项不添加进去
+            return;
+          }
+          let value = optionPureItem[valueKey];
+          let parents = findOptionParents(value, valueKey);
+          if (!allowDisabledAdd) {
+            let parentsHasDisabled = parents.some((parentItem: any) => parentItem[disabledKey]);
+            if (parentsHasDisabled) { // 父级节点有禁用项也不允许添加进去
+              return;
+            }
+          }
+          parents.push(optionPureItem);
+          checkedOptions.value[value] = parents;
+        });
+
+        optionParents = [...optionParents, optionItem, ...optionChildrensWhichHasChildren];
+      }
+
+      // 设置父级节点选中/半选中状态
+      setParentsCheckedStatus(optionParents);
     }
 
-    // 设置父级节点选中/半选中状态
-    setParentsCheckedStatus(optionParents);
+    let timer = setTimeout(function () {
+      clearTimeout(timer);
+      dropdownTransitionRef.value?.refresh();
+    }, 60);
   };
 
   /**
@@ -161,6 +171,10 @@ export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptio
 
     // 设置父级节点选中/半选中状态
     setParentsCheckedStatus(optionParents);
+    let timer = setTimeout(function () {
+      clearTimeout(timer);
+      dropdownTransitionRef.value?.refresh();
+    }, 60);
   };
 
   /**

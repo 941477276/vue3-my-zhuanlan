@@ -1,19 +1,20 @@
 <template>
   <div class="component-usage">
-    <!--<div>
+    <div>
       <h3>基本使用</h3>
       <BsCascader
         v-model="cascader1"
-        :multiple="false"
+        :multiple="true"
         :show-all-levels="true"
         :options="dataOptions1"
-        expand-trigger="hover"
+        expand-trigger="click"
+        clearable
         :emit-path="true"
         :check-strictly="false"></BsCascader>
       <div>{{ cascader1 }}</div>
       <bs-button type="primary" @click="removeLastCheckedItem">移除最后一个选中项</bs-button>
       <bs-button type="primary" style="margin-left: 1rem;" @click="addCheckedItem">添加一个选中项</bs-button>
-    </div>-->
+    </div>
 
     <!--<div>
       <h3>懒加载</h3>
@@ -68,18 +69,19 @@
       </BsCascader>
     </div>-->
 
-    <div>
-      <h3>可搜索</h3>
+    <!--<div>
+      <h3>自定义显示</h3>
       <BsCascader
         v-model="cascader1"
-        :filterable="true"
+        :filterable="false"
         :multiple="false"
         :show-all-levels="true"
         :options="dataOptions1"
         :emit-path="true"
         :check-strictly="false">
+        <bs-button type="primary">点击我吧</bs-button>
       </BsCascader>
-    </div>
+    </div>-->
   </div>
 </template>
 
