@@ -3,13 +3,21 @@
   vertical-align: middle;
   height: 2rem;
   line-height: calc(2rem - 2px);
+  max-width: 100%;
   padding: 0 0.5rem;
   border: 1px solid #d9ecff;
   border-radius: 0.25rem;
   background-color: #ecf5ff;
   color: #007bff;
   font-size: 0.75rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   transition: width .3s, height .3s, font-size .3s, transform .3s;
+  &:hover{
+    max-width: none;
+    overflow: unset;
+  }
   &.fold-enter-active,
   &.fold-leave-active{
     transition: all .3s cubic-bezier(.55, 0, .1, 1);
