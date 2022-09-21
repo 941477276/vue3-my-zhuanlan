@@ -27,7 +27,7 @@
       class="bs-cascader-menus">
       <template v-if="!loading && options.length > 0">
         <BsCascaderMenu
-          v-for="menuItem in expandedMenus"
+          v-for="(menuItem, index) in expandedMenus"
           :key="menuItem.menuId"
           :options="menuItem.menuOptions"
           :multiple="multiple"
@@ -41,6 +41,7 @@
           :checked-options="checkedOptions"
           :field-names="fieldNameProps"
           :cascader-id="cascaderId"
+          :menu-id="index == 0 ? 'bs-cascader-menu_0' : ''"
           :half-checked-options="halfCheckedOptions"
           @item-open="handleMenuItemOpen"
           @item-checked="handleMenuItemChecked"></BsCascaderMenu>
@@ -194,7 +195,7 @@ export default defineComponent({
       flatternOptions.value = flatternArr;
       if (!expandedMenus.value[0]) {
         expandedMenus.value[0] = {
-          menuId: 'bs-cascader-menu_1',
+          menuId: 'bs-cascader-menu_0',
           menuItemValue: '',
           menuOptions: newOptions
         };

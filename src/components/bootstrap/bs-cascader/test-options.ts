@@ -51,7 +51,17 @@ export const options1 = [{
           leaf: true
         }, {
           value: 'flex',
-          label: '弹性盒子布局'
+          label: '弹性盒子布局',
+          children: [
+            {
+              value: 'space-around',
+              label: '两端对齐'
+            }, {
+              value: 'center',
+              label: '中间对齐',
+              leaf: true
+            }
+          ]
         }
       ]
     }, {
@@ -265,7 +275,17 @@ export const options2 = [{
           leaf: true
         }, {
           value: 'flex',
-          label: '弹性盒子布局'
+          label: '弹性盒子布局',
+          children: [
+            {
+              value: 'space-around',
+              label: '两端对齐'
+            }, {
+              value: 'center',
+              label: '中间对齐',
+              leaf: true
+            }
+          ]
         }
       ]
     }, {

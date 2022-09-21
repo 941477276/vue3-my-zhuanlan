@@ -45,7 +45,7 @@
       </BsCascader>
     </div>-->
 
-    <div>
+    <!--<div>
       <h3>Loading与无数据</h3>
       <h5>Loading</h5>
       <BsCascader
@@ -63,6 +63,19 @@
         :multiple="false"
         :show-all-levels="true"
         :options="[]"
+        :emit-path="true"
+        :check-strictly="false">
+      </BsCascader>
+    </div>-->
+
+    <div>
+      <h3>可搜索</h3>
+      <BsCascader
+        v-model="cascader1"
+        :filterable="true"
+        :multiple="false"
+        :show-all-levels="true"
+        :options="dataOptions1"
         :emit-path="true"
         :check-strictly="false">
       </BsCascader>

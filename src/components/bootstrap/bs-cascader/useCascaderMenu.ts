@@ -48,26 +48,29 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
       value: valueKey
     } = fieldNameProps.value;
     let menuChildren = menuOption[childrenKey];
+    let menuItemValue = menuOption[valueKey];
+
+    let menuIdPrefix = cascaderMenuId.split('_')[0];
+    let menuCount = Number(cascaderMenuId.split('_')[1]);
+    let newMenuId = `${menuIdPrefix}_${++menuCount}`;
+
+    let expandedMenuList = expandedMenus.value;
     if (menuChildren && menuChildren.length > 0) {
-      let index = expandedMenus.value.findIndex(menuItem => menuItem.menuId === cascaderMenuId);
+      let index = expandedMenuList.findIndex(menuItem => menuItem.menuId === cascaderMenuId);
       let newMenu = {
-        menuId: cascaderMenuId,
-        menuItemValue: menuOption[valueKey],
+        menuId: newMenuId,
+        menuItemValue: '',
         menuOptions: menuChildren
       };
+      // console.log('111111', index, menuOption, cascaderMenuId);
       if (index > -1) {
-        let removeCount = expandedMenus.value.length - index;
-        if (cascaderMenuId === 'bs-cascader-menu_1') {
-          expandedMenus.value[0].menuItemValue = menuOption[valueKey];
-          newMenu.menuItemValue = '';
-          // 如果当前展开的是第一个菜单的子菜单，则将当前菜单后面到菜单都移除掉，并替换成新的菜单
-          expandedMenus.value.splice(index + 1, removeCount, newMenu);
-        } else {
-          // 将当前菜单及起后面的菜单都移除掉，并替换成新的菜单
-          expandedMenus.value.splice(index, removeCount, newMenu);
-        }
+        let removeCount = expandedMenuList.length - index;
+        expandedMenuList[index].menuItemValue = menuItemValue;
+        // 则将当前菜单后面到菜单都移除掉，并替换成新的菜单
+        expandedMenuList.splice(index + 1, removeCount, newMenu);
       } else {
-        expandedMenus.value.push(newMenu);
+        newMenu.menuItemValue = menuItemValue;
+        expandedMenuList.push(newMenu);
       }
       let cascaderMenusEl = cascaderMenusRef.value;
       if (cascaderMenusEl) {

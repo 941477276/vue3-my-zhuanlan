@@ -133,11 +133,15 @@ export default defineComponent({
       type: String,
       default: ''
     },
+    menuId: {
+      type: String,
+      default: ''
+    },
     ...cascaderMenuProps
   },
   emits: ['item-open', 'item-checked', 'item-change'],
   setup (props: any, ctx: any) {
-    let cascaderMenuId = `bs-cascader-menu_${++cascaderMenuCount}`;
+    let cascaderMenuId = props.menuId ? props.menuId : `bs-cascader-menu_${++cascaderMenuCount}`;
     // 存储节点加载子节点数据状态，状态值可以为：loading、success、fail
     let loadingMap = reactive<{ [key:string]: LazyLoadingStatus }>({});
 
