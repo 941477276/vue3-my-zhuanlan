@@ -25,26 +25,37 @@
     <div
       ref="cascaderMenusRef"
       class="bs-cascader-menus">
-      <BsCascaderMenu
-        v-for="menuItem in expandedMenus"
-        :key="menuItem.menuId"
-        :options="menuItem.menuOptions"
-        :multiple="multiple"
-        :check-strictly="checkStrictly"
-        :expand-trigger="expandTrigger"
-        :expand-icon="expandIcon"
-        :lazy="lazy"
-        :lazy-load-fn="lazyLoadFn"
-        :cascader-slots="$slots"
-        :expanded-menus="expandedMenus"
-        :checked-options="checkedOptions"
-        :field-names="fieldNameProps"
-        :cascader-id="cascaderId"
-        :half-checked-options="halfCheckedOptions"
-        @item-open="handleMenuItemOpen"
-        @item-checked="handleMenuItemChecked"></BsCascaderMenu>
-      <!--<BsCascaderMenu></BsCascaderMenu>
-      <BsCascaderMenu></BsCascaderMenu>-->
+      <template v-if="!loading && options.length > 0">
+        <BsCascaderMenu
+          v-for="menuItem in expandedMenus"
+          :key="menuItem.menuId"
+          :options="menuItem.menuOptions"
+          :multiple="multiple"
+          :check-strictly="checkStrictly"
+          :expand-trigger="expandTrigger"
+          :expand-icon="expandIcon"
+          :lazy="lazy"
+          :lazy-load-fn="lazyLoadFn"
+          :cascader-slots="$slots"
+          :expanded-menus="expandedMenus"
+          :checked-options="checkedOptions"
+          :field-names="fieldNameProps"
+          :cascader-id="cascaderId"
+          :half-checked-options="halfCheckedOptions"
+          @item-open="handleMenuItemOpen"
+          @item-checked="handleMenuItemChecked"></BsCascaderMenu>
+      </template>
+      <div
+        v-if="!loading && options.length == 0"
+        class="bs-cascader-empty">
+        <slot name="empty">{{ noDataText }}</slot>
+      </div>
+      <div class="bs-cascader-loading" v-if="loading">
+        <slot name="loading">
+          <BsSpinner></BsSpinner>
+          <span class="bs-cascader-loading-text">{{loadingText}}</span>
+        </slot>
+      </div>
     </div>
     <teleport :disabled="!teleported" :to="appendTo">
       <BsDropdownTransition

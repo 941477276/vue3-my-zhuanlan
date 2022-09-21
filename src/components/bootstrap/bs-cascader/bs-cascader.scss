@@ -7,6 +7,7 @@
   max-width: calc(100vw - 2rem);
   border: 1px solid #ced4da;
   overflow-x: auto;
+  background-color: #fff;
 }
 .bs-cascader-menu{
   //position: absolute;
@@ -77,3 +78,29 @@
   margin-left: 0.5rem;
   font-size: 1.15rem;
 }
+.bs-cascader-empty{
+  flex: 1;
+  padding: 1.5rem 1.2rem;
+  color: #888;
+  text-align: center;
+  cursor: default;
+}
+.bs-cascader-loading{
+  flex: 1;
+  padding: 1.5rem 1.2rem;
+  text-align: center;
+  color: var(--primary);
+  opacity: 0.65;
+  .bs-spinner{
+    width: 1.5rem;
+    height: 1.5rem;
+    vertical-align: middle;
+    border-width: 0.125rem;
+  }
+}
+.bs-cascader-loading-text{
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0.8rem;
+}
+

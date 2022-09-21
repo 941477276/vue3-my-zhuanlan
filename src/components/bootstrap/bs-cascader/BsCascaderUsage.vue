@@ -30,7 +30,7 @@
       <div>{{ cascader2 }}</div>
     </div>-->
 
-    <div>
+    <!--<div>
       <h3>自定义节点内容</h3>
       <BsCascader
         v-model="cascader1"
@@ -40,8 +40,31 @@
         :emit-path="true"
         :check-strictly="false">
         <template #label="option">
-          {{ option.label }} <small style="color: var(--success);">（{{ option.children?.length || 0 }}）</small>
+          {{ option.label }} <small style="color: var(&#45;&#45;success);">（{{ option.children?.length || 0 }}）</small>
         </template>
+      </BsCascader>
+    </div>-->
+
+    <div>
+      <h3>Loading与无数据</h3>
+      <h5>Loading</h5>
+      <BsCascader
+        v-model="cascader1"
+        :loading="true"
+        :multiple="false"
+        :show-all-levels="true"
+        :options="dataOptions1"
+        :emit-path="true"
+        :check-strictly="false">
+      </BsCascader>
+      <h5>无数据</h5>
+      <BsCascader
+        v-model="cascader1"
+        :multiple="false"
+        :show-all-levels="true"
+        :options="[]"
+        :emit-path="true"
+        :check-strictly="false">
       </BsCascader>
     </div>
   </div>

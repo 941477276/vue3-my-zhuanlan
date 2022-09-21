@@ -121,6 +121,9 @@ export function useCascaderMenu (props: any, ctx: any, fieldNameProps: ComputedR
       disabled: disabledKey,
       children: childrenKey
     } = fieldNameProps.value;
+    if (!optionItem) {
+      return;
+    }
     let value = optionItem[valueKey];
     if (optionItem[disabledKey] && needUpdateModelValue) {
       return;
