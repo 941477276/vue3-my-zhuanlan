@@ -124,5 +124,9 @@ export const bsCascaderProps = {
     type: Function,
     default: null
   },
+  suffixIcon: { // 后缀图标名称
+    type: String,
+    default: ''
+  },
   ...cascaderMenuProps
 };

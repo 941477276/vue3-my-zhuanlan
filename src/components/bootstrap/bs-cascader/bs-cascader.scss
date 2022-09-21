@@ -1,17 +1,6 @@
 .bs-cascader-dropdown{
   position: absolute;
 }
-.bs-cascader-prev-btn{
-  /*border: none;
-  outline: none;
-  background-color: #fff;*/
-  &:hover{
-    color: var(--primary);
-  }
-  &:focus{
-    box-shadow: none;
-  }
-}
 .bs-cascader-menus{
   display: flex;
   //flex-wrap: wrap;

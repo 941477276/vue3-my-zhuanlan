@@ -17,15 +17,11 @@
       :tag-type="tagType"
       :tag-effect="tagEffect"
       :tag-closeable="tagCloseable"
+      :suffix-icon="suffixIcon"
       @click="onCascaderInputClick"
       @tag-close="onTagClose"
       @filter-text-change="onFilterTextChange"
       @clear="onCascaderInputClear"></BsSelectInput>
-    <div class="bs-cascader-menus-top">
-      <button type="button" class="btn bs-cascader-prev-btn">
-        <bs-icon name="chevron-left"></bs-icon>
-      </button>
-    </div>
     <div
       ref="cascaderMenusRef"
       class="bs-cascader-menus">
@@ -92,7 +88,6 @@ import {
 import BsSelectInput from '../bs-select-input/BsSelectInput.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
 import BsCascaderMenu from './widgets/bs-cascader-menu.vue';
-import BsIcon from '../bs-icon/BsIcon.vue';
 import { bsCascaderProps } from './props';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
@@ -135,8 +130,7 @@ export default defineComponent({
   components: {
     BsSelectInput,
     BsDropdownTransition,
-    BsCascaderMenu,
-    BsIcon
+    BsCascaderMenu
   },
   emits: ['update:modelValue', 'change', 'selectLimit'],
   setup (props: any, ctx: any) {

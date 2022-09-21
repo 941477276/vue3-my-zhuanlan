@@ -30,7 +30,7 @@
       @clear="$emit('clear')">
       <template #suffix>
         <bs-spinner v-if="loading" :color-type="loadingColorType" :text="loadingText"></bs-spinner>
-        <bs-icon v-else name="chevron-down"></bs-icon>
+        <bs-icon v-else :name="suffixIcon || 'chevron-down'"></bs-icon>
       </template>
     </bs-input>
     <div
