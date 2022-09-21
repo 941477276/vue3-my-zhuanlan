@@ -15,7 +15,7 @@
       <bs-button type="primary" style="margin-left: 1rem;" @click="addCheckedItem">添加一个选中项</bs-button>
     </div>-->
 
-    <div>
+    <!--<div>
       <h3>懒加载</h3>
       <BsCascader
         v-model="cascader2"
@@ -28,6 +28,21 @@
         :lazy-load-fn="lazyLoadFn"
         :check-strictly="false"></BsCascader>
       <div>{{ cascader2 }}</div>
+    </div>-->
+
+    <div>
+      <h3>自定义节点内容</h3>
+      <BsCascader
+        v-model="cascader1"
+        :multiple="false"
+        :show-all-levels="true"
+        :options="dataOptions1"
+        :emit-path="true"
+        :check-strictly="false">
+        <template #label="option">
+          {{ option.label }} <small style="color: var(--success);">（{{ option.children?.length || 0 }}）</small>
+        </template>
+      </BsCascader>
     </div>
   </div>
 </template>

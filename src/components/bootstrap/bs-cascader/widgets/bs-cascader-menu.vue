@@ -35,7 +35,10 @@
         :delive-context-to-form-item="false"
         @click.stop
         @change="setChecked(item)"></BsRadio>
-      <div class="bs-cascader-menu-item-label" :title="item.label">{{ item.label }}</div>
+      <!--<div class="bs-cascader-menu-item-label" :title="item.label">{{ item.label }}</div>-->
+      <BsCascaderMenuItemLabel
+        :cascader-slots="cascaderSlots"
+        :option-item="item">{{ item.label }}</BsCascaderMenuItemLabel>
       <BsSpinner
         class="bs-cascader-loading-icon"
         v-if="lazy && (item[fieldNames.value] in loadingMap)"
@@ -68,6 +71,7 @@ import BsCheckbox from '../../bs-checkbox/BsCheckbox.vue';
 import BsRadio from '../../bs-radio/BsRadio.vue';
 import BsIcon from '../../bs-icon/BsIcon.vue';
 import BsSpinner from '../../bs-spinner/BsSpinner.vue';
+import BsCascaderMenuItemLabel from './bs-cascader-menu-item-label';
 import {
   cascaderMenuProps
 } from './cascader-menu-props';
@@ -87,7 +91,8 @@ export default defineComponent({
     BsCheckbox,
     BsRadio,
     BsIcon,
-    BsSpinner
+    BsSpinner,
+    BsCascaderMenuItemLabel
   },
   props: {
     options: {
