@@ -85,6 +85,7 @@
   font-size: 1.15rem;
 }
 .bs-cascader-empty{
+  min-width: 10rem;
   flex: 1;
   padding: 1.5rem 1.2rem;
   color: #888;
@@ -92,6 +93,7 @@
   cursor: default;
 }
 .bs-cascader-loading{
+  min-width: 10rem;
   flex: 1;
   padding: 1.5rem 1.2rem;
   text-align: center;

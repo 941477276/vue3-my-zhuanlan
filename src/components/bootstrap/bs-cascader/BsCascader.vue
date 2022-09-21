@@ -34,7 +34,7 @@
         :reference-ref="triggerRef"
         :try-all-placement="false"
         :set-width="setDropdownWidth"
-        :set-min-width="setDropdownMinWidth">
+        :set-min-width="setDropdownMinWidth || loading || (!loading && options.length == 0)">
         <div
           v-show="dropdownVisible"
           ref="bsSelectDropdownRef"
