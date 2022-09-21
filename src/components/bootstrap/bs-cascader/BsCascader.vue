@@ -176,7 +176,7 @@ export default defineComponent({
     let flatternOptions = ref<BsNodeInfo[]>([]);
     watch(() => props.options, function (newOptions: CascaderOptionItem[]) {
       let { children: childrenKey, value: valueKey, disabled: disabledKey } = fieldNameProps.value;
-      let flatternArr = treeDataToFlattarnArr2(cascaderId, newOptions as BsNodeInfo[], childrenKey, disabledKey, 1, '', []);
+      let flatternArr = treeDataToFlattarnArr2(cascaderId.value, newOptions as BsNodeInfo[], childrenKey, disabledKey, 1, '', []);
       console.log('扁平化的options', flatternArr);
       /* console.log('扁平化的options值', flatternArr.map((item: any) => {
         return item.node.value;
@@ -271,6 +271,10 @@ export default defineComponent({
       ctx.emit('update:modelValue', val);
       ctx.emit('change', val);
       callFormItem('validate', 'change');
+      let timer = setTimeout(function () {
+        clearTimeout(timer);
+        (dropdownTransitionRef.value as any)?.refresh();
+      }, 60);
     };
 
     // 向父级<bs-form-item>组件传递当前组件上下文信息
@@ -296,7 +300,7 @@ export default defineComponent({
       expandedMenus,
       cascaderMenusRef,
       dropdownTransitionRef,
-      cascaderId,
+      cascaderId: cascaderId.value,
       callFormItem,
       dropdownHide
     });
@@ -315,7 +319,7 @@ export default defineComponent({
       let valueKey = fieldNameProps.value.value;
       let disabledKey = fieldNameProps.value.disabled;
       let displayRender = props.displayRender;
-      let result: { label: string; value: string|number, disabled: boolean }[] = [];
+      let result: { label: string; value: string|number, disabled: boolean, tagType?: string, option?: CascaderOptionItem, optionPath?: CascaderOptionItem[] }[] = [];
       if (checkedOptionList.length == 0) {
         return result;
       }
@@ -335,6 +339,9 @@ export default defineComponent({
           return {
             value,
             label,
+            option: lastOption,
+            tagType: lastOption.tagType,
+            optionPath: checkedOptionsPathList,
             disabled
           };
         });
@@ -398,7 +405,7 @@ export default defineComponent({
     });
 
     onUnmounted(function () {
-      clearCachedNodeInfo(cascaderId);
+      clearCachedNodeInfo(cascaderId.value);
     });
 
     return {

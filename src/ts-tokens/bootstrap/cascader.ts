@@ -6,6 +6,7 @@ export interface CascaderOptionItem {
   label?: string|number;
   labelSlot?: string|number;
   disabled?: boolean;
+  tagType?: string;
   children?: CascaderOptionItem[];
 };
 

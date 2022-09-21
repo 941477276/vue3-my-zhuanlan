@@ -242,38 +242,42 @@ export function useCascaderMenu (options: any) {
       console.log('本地值与父组件值一致，不执行同步');
       return;
     }
-    let oldCheckedOptions = checkedOptions.value;
-    let {
-      value: valueKey,
-      label: labelKey
-    } = fieldNameProps.value;
-    checkedOptions.value = {}; // 清空原来的选中项列表
-    halfCheckedOptions.value = {};
-    modelValue.forEach(function (item: string | number | (string | number)[]) {
-      let optionValue: string | number;
-      if (isArray(item)) { // 如果还是数组，则取数组最后一项的值，这样不管props.emitPath是否为true都不会取错值
-        optionValue = item[item.length - 1];
-      } else {
-        optionValue = item;
-      }
-      let option: CascaderOptionItem;
-      if (optionValue in oldCheckedOptions) {
-        let oldCheckedOptionPath = oldCheckedOptions[optionValue];
-        option = oldCheckedOptionPath[oldCheckedOptionPath.length - 1];
-      } else {
-        let currentOption = findNodeInfoByValue2(cascaderId, optionValue, valueKey, flatternOptions.value);
-        if (!currentOption) { // 如果在节点列表没有找到该节点，则根据节点的值创建一个新节点
-          option = {
-            [labelKey]: optionValue,
-            [valueKey]: optionValue
-          };
+    // 延迟60毫秒的原因是防止扁平化树时太慢而导致查找option不正确
+    let timer = setTimeout(function () {
+      clearTimeout(timer);
+      let oldCheckedOptions = checkedOptions.value;
+      let {
+        value: valueKey,
+        label: labelKey
+      } = fieldNameProps.value;
+      checkedOptions.value = {}; // 清空原来的选中项列表
+      halfCheckedOptions.value = {};
+      modelValue.forEach(function (item: string | number | (string | number)[]) {
+        let optionValue: string | number;
+        if (isArray(item)) { // 如果还是数组，则取数组最后一项的值，这样不管props.emitPath是否为true都不会取错值
+          optionValue = item[item.length - 1];
         } else {
-          option = currentOption.node;
+          optionValue = item;
         }
-      }
-      console.log('新的选中项', option);
-      addOptionChecked(option, false);
-    });
+        let option: CascaderOptionItem;
+        if (optionValue in oldCheckedOptions) {
+          let oldCheckedOptionPath = oldCheckedOptions[optionValue];
+          option = oldCheckedOptionPath[oldCheckedOptionPath.length - 1];
+        } else {
+          let currentOption = findNodeInfoByValue2(cascaderId, optionValue, valueKey, flatternOptions.value);
+          if (!currentOption) { // 如果在节点列表没有找到该节点，则根据节点的值创建一个新节点
+            option = {
+              [labelKey]: optionValue,
+              [valueKey]: optionValue
+            };
+          } else {
+            option = currentOption.node;
+          }
+        }
+        console.log('新的选中项', option);
+        addOptionChecked(option, false);
+      });
+    }, 60);
   }, {
     immediate: true,
     deep: true

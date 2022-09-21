@@ -144,7 +144,7 @@ export function findNodeInfoByValue2 (treeId: string, nodeValue: any, nodeKey: s
   let cachedNodeInfo = caches[treeId].cachedNodeInfo;
   // 优先从缓存中取
   if (nodeValue in cachedNodeInfo) {
-    console.log('findNodeInfoByValue2 从缓存中取节点', nodeValue, cachedNodeInfo);
+    console.log('findNodeInfoByValue2 从缓存中取节点', treeId, nodeValue, cachedNodeInfo);
     return cachedNodeInfo[nodeValue];
   }
   // console.log('findNodeInfoByValue2 333', treeNodeInfoArr);

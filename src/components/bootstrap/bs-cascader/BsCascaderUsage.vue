@@ -1,6 +1,6 @@
 <template>
   <div class="component-usage">
-    <div>
+    <!--<div>
       <h3>基本使用</h3>
       <BsCascader
         v-model="cascader1"
@@ -14,9 +14,10 @@
       <div>{{ cascader1 }}</div>
       <bs-button type="primary" @click="removeLastCheckedItem">移除最后一个选中项</bs-button>
       <bs-button type="primary" style="margin-left: 1rem;" @click="addCheckedItem">添加一个选中项</bs-button>
-    </div>
+    </div>-->
 
     <!--<div>
+      <hr>
       <h3>懒加载</h3>
       <BsCascader
         v-model="cascader2"
@@ -32,6 +33,7 @@
     </div>-->
 
     <!--<div>
+      <hr>
       <h3>自定义节点内容</h3>
       <BsCascader
         v-model="cascader1"
@@ -47,6 +49,7 @@
     </div>-->
 
     <!--<div>
+      <hr>
       <h3>Loading与无数据</h3>
       <h5>Loading</h5>
       <BsCascader
@@ -70,6 +73,7 @@
     </div>-->
 
     <!--<div>
+      <hr>
       <h3>自定义显示</h3>
       <BsCascader
         v-model="cascader1"
@@ -82,6 +86,61 @@
         <bs-button type="primary">点击我吧</bs-button>
       </BsCascader>
     </div>-->
+
+    <div>
+      <hr>
+      <h3>自定义Tag</h3>
+      <h5>自定义Tag内容</h5>
+      <BsCascader
+        v-model="cascader1"
+        :filterable="false"
+        :multiple="true"
+        :show-all-levels="true"
+        :options="dataOptions1"
+        :emit-path="true"
+        :check-strictly="false">
+        <template #tag="tag">
+          {{ tag.label }}
+          <strong style="color: var(--success);">(选中项在第{{tag.optionPath.length}}层)</strong>
+        </template>
+      </BsCascader>
+      <h5 style="margin-top: 0.5rem;">自定义Tag类型</h5>
+      <BsCascader
+        v-model="cascader3"
+        :filterable="false"
+        :multiple="true"
+        :show-all-levels="true"
+        :options="dataOptions1"
+        :emit-path="true"
+        :check-strictly="false"
+        tag-type="primary">
+      </BsCascader>
+      <BsCascader
+        style="margin-top: 1rem;"
+        v-model="cascader3"
+        :filterable="false"
+        :multiple="true"
+        :show-all-levels="true"
+        :options="dataOptions3"
+        :emit-path="true"
+        :check-strictly="false">
+      </BsCascader>
+    </div>
+
+    <div>
+      <hr>
+      <h3>禁用</h3>
+      <BsCascader
+        v-model="cascader1"
+        :filterable="false"
+        :multiple="true"
+        :show-all-levels="true"
+        :options="dataOptions1"
+        :emit-path="true"
+        disabled
+        :check-strictly="false">
+      </BsCascader>
+    </div>
   </div>
 </template>
 
@@ -92,7 +151,7 @@ import {
 } from 'vue';
 import BsCascader from './BsCascader.vue';
 import BsIcon from '@/components/bootstrap/bs-icon/BsIcon.vue';
-import { options1, options2 } from './test-options';
+import { options1, options2, options3 } from './test-options';
 
 function randoms (min: number, max: number): number {
   return parseInt((Math.random() * (max - min + 1) + min) + '');
@@ -105,14 +164,19 @@ export default defineComponent({
   setup () {
     let dataOptions1 = ref(options1);
     let dataOptions2 = ref(options2);
+    let dataOptions3 = ref(options3);
 
     let cascader1 = ref<any>(['kekong']);
     let cascader2 = ref<any>([]);
+    let cascader3 = ref<any>(['kekong', 'float', 'shejiyuanze']);
+
     return {
       dataOptions1,
       dataOptions2,
+      dataOptions3,
       cascader1,
       cascader2,
+      cascader3,
       removeLastCheckedItem () {
         let length = cascader1.value.length;
         if (length > 0) {
