@@ -8,30 +8,34 @@
       class="page-item prev"
       :class="{
         disabled: currentPage == 1
-      }">
-      <span class="page-link">
+      }"
+      role="presentation">
+      <button type="button" class="page-link">
         <slot name="prev">
           <template v-if="prevText">{{ prevText }}</template>
           <bs-icon v-else name="chevron-left"></bs-icon>
         </slot>
-      </span>
+      </button>
     </li>
     <li
       v-show="totalPages > 0"
       class="page-item"
       :class="{
-        active: currentPage == 1
+        active: currentPage == 1,
+        disabled: disabledPage?.includes(1)
       }"
-      :aria-current="currentPage == 1 ? 'page' : null">
-      <span class="page-link">1</span>
+      :aria-current="currentPage == 1 ? 'page' : null"
+      role="presentation">
+      <button type="button" class="page-link">1</button>
     </li>
     <li
       v-show="showPrevMore"
-      class="page-item prev-more">
-      <span class="page-link">
+      class="page-item prev-more"
+      role="presentation">
+      <button type="button" class="page-link">
         <bs-icon class="three-dots" name="three-dots"></bs-icon>
         <bs-icon class="chevron-double-left" name="chevron-double-left"></bs-icon>
-      </span>
+      </button>
     </li>
     <li
       v-for="pageNum in pagers"
@@ -41,38 +45,43 @@
         disabled: disabledPage?.includes(pageNum)
       }"
       :key="pageNum"
-      :aria-current="currentPage == pageNum ? 'page' : null">
-      <span class="page-link">{{ pageNum }}</span>
+      :aria-current="currentPage == pageNum ? 'page' : null"
+      role="presentation">
+      <button type="button" class="page-link">{{ pageNum }}</button>
     </li>
     <li
       v-show="showNextMore"
-      class="page-item next-more">
-      <span class="page-link">
+      class="page-item next-more"
+      role="presentation">
+      <button type="button" class="page-link">
         <bs-icon class="three-dots" name="three-dots"></bs-icon>
         <bs-icon class="chevron-double-right" name="chevron-double-right"></bs-icon>
-      </span>
+      </button>
     </li>
     <li
       v-show="totalPages > 1"
       class="page-item"
       :class="{
-        active: currentPage == totalPages
+        active: currentPage == totalPages,
+        disabled: disabledPage?.includes(totalPages)
       }"
-      :aria-current="currentPage == totalPages ? 'page' : null">
-      <span class="page-link">{{ totalPages }}</span>
+      :aria-current="currentPage == totalPages ? 'page' : null"
+      role="presentation">
+      <button type="button" class="page-link">{{ totalPages }}</button>
     </li>
     <li
       v-if="useNext"
       class="page-item next"
       :class="{
         disabled: currentPage == totalPages
-      }">
-      <span class="page-link">
+      }"
+      role="presentation">
+      <button type="button" class="page-link">
         <slot name="next">
           <template v-if="nextText">{{ nextText }}</template>
           <bs-icon v-else name="chevron-right"></bs-icon>
         </slot>
-      </span>
+      </button>
     </li>
   </ul>
 </template>
