@@ -40,6 +40,19 @@
         v-model:current-page="pageData.currentPage">
       </bs-pagination>
     </div>
+
+    <div>
+      <hr>
+      <h3>禁用项</h3>
+      <bs-pagination
+        :total="pageData.total"
+        :pager-count="5"
+        :hideOnSinglePage="false"
+        :disabled-page="[3,4,7,8,11]"
+        v-model:pageSize="pageData.pageSize"
+        v-model:current-page="pageData.currentPage2">
+      </bs-pagination>
+    </div>
   </div>
 </template>
 
@@ -55,6 +68,7 @@ export default defineComponent({
     let pageData = reactive({
       total: 153,
       currentPage: 6,
+      currentPage2: 1,
       pageSize: 10
     });
     return {

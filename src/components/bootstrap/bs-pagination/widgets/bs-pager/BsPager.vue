@@ -37,7 +37,8 @@
       v-for="pageNum in pagers"
       class="page-item"
       :class="{
-        active: currentPage == pageNum
+        active: currentPage == pageNum,
+        disabled: disabledPage?.includes(pageNum)
       }"
       :key="pageNum"
       :aria-current="currentPage == pageNum ? 'page' : null">
@@ -118,6 +119,12 @@ export default defineComponent({
       type: Array,
       default () {
         return [10, 20, 30, 40, 50, 100];
+      }
+    },
+    disabledPage: { // 禁用的页码
+      type: Array,
+      default () {
+        return [];
       }
     },
     size: { // 分页器大小
@@ -206,6 +213,25 @@ export default defineComponent({
       }
     });
 
+    let findNotDisabledPage = function (page: number, isPrev: boolean) {
+      let disabledPages = props.disabledPage;
+      let newPage = page;
+      while (disabledPages?.includes(newPage)) {
+        if (isPrev) {
+          newPage--;
+        } else {
+          newPage++;
+        }
+      }
+      if (newPage < 1) {
+        newPage = 1;
+      }
+      if (newPage > props.totalPages) {
+        newPage = props.totalPages;
+      }
+      return newPage;
+    };
+
     let onPaginationClick = function (evt: MouseEvent) {
       let target = evt.target as HTMLElement;
       let pageNumber = Number(target.innerText);
@@ -219,24 +245,26 @@ export default defineComponent({
       // console.log('target', target, pageNumber);
       let newPage;
       let currentPage = props.currentPage;
+      let isNewPageDisabled = false;
       if (util.hasClass(pageItem, 'prev')) {
         if (currentPage != 1) {
-          newPage = currentPage - 1;
+          newPage = findNotDisabledPage(currentPage - 1, true);
         }
       } else if (util.hasClass(pageItem, 'next')) {
         if (currentPage != props.totalPages) {
-          newPage = currentPage + 1;
+          newPage = findNotDisabledPage(currentPage + 1, false);
         }
       } else if (util.hasClass(pageItem, 'prev-more')) {
         newPage = currentPage - pagerCountOffset;
-        newPage = newPage <= 0 ? 1 : newPage;
+        newPage = findNotDisabledPage(newPage <= 0 ? 1 : newPage, true);
       } else if (util.hasClass(pageItem, 'next-more')) {
-        newPage = currentPage + pagerCountOffset;
+        newPage = findNotDisabledPage(currentPage + pagerCountOffset, false);
       } else {
         newPage = isNaN(pageNumber) ? 1 : pageNumber;
+        isNewPageDisabled = props.disabledPage?.includes(newPage);
       }
       // console.log('newPage', newPage);
-      if (newPage && newPage !== currentPage) {
+      if (newPage && newPage !== currentPage && !isNewPageDisabled) {
         ctx.emit('change', newPage);
       }
     };

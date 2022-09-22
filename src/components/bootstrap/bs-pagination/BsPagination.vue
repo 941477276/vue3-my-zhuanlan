@@ -71,6 +71,12 @@ export default defineComponent({
         return [10, 20, 30, 40, 50, 100];
       }
     },
+    disabledPage: { // 禁用的页码
+      type: Array,
+      default () {
+        return [];
+      }
+    },
     size: { // 分页器大小
       type: String as PropType<BsSize>,
       default: ''
@@ -114,7 +120,7 @@ export default defineComponent({
     // 处理当前页码变化
     let changeCurrentPage = function (currentPage: number) {
       // console.log('currentPage', currentPage);
-      if (typeof currentPage !== 'object' && currentPage !== props.currentPage) {
+      if (typeof currentPage !== 'object' && currentPage !== props.currentPage && !props.disabledPage?.includes(currentPage)) {
         ctx.emit('update:currentPage', currentPage);
         ctx.emit('currentChange', currentPage);
       }
