@@ -1,26 +1,45 @@
 <template>
   <div class="component-usage">
-    <h1>分页器</h1>
-    <bs-pagination
-      size=""
-      data-layout="total,sizes,pager,slot,jumper"
-      :total="pageData.total"
-      :pager-count="7"
-      v-model:pageSize="pageData.pageSize"
-      v-model:current-page="pageData.currentPage">
-      【哈哈】
-    </bs-pagination>
+    <div>
+      <h3>分页器</h3>
+      <bs-pagination
+        size=""
+        data-layout="total,sizes,pager,slot,jumper"
+        :total="pageData.total"
+        :pager-count="7"
+        v-model:pageSize="pageData.pageSize"
+        v-model:current-page="pageData.currentPage">
+        【哈哈】
+      </bs-pagination>
+    </div>
 
-    <h1>小号分页器</h1>
-    <bs-pagination
-      size="sm"
-      layout="total,sizes,pager,slot,jumper"
-      :total="pageData.total"
-      :pager-count="7"
-      :hideOnSinglePage="false"
-      v-model:pageSize="pageData.pageSize"
-      v-model:current-page="pageData.currentPage">
-    </bs-pagination>
+    <div>
+      <hr>
+      <h3>小号分页器</h3>
+      <bs-pagination
+        size="sm"
+        layout="total,sizes,pager,slot,jumper"
+        :total="pageData.total"
+        :pager-count="7"
+        :hideOnSinglePage="false"
+        v-model:pageSize="pageData.pageSize"
+        v-model:current-page="pageData.currentPage">
+      </bs-pagination>
+    </div>
+
+    <div>
+      <hr>
+      <h3>大号分页器</h3>
+      <bs-pagination
+        size="lg"
+        layout="total,sizes,pager,slot,jumper"
+        :total="pageData.total"
+        :pager-count="7"
+        :hideOnSinglePage="false"
+        v-model:pageSize="pageData.pageSize"
+        v-model:current-page="pageData.currentPage">
+      </bs-pagination>
+    </div>
   </div>
 </template>
 

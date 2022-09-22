@@ -59,24 +59,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style lang="scss">
-.bs-pagination-sizes{
-  margin-right: 0.75rem;
-  .bs-select{
-    width: 7.5rem; // 120px
-    &.bs-select-lg{
-      width: 9rem; // 144px
-      .bs-input-suffix-icon{
-        line-height: calc(1.5em + 1.5rem + 2px);
-      }
-    }
-  }
-  .bs-input.input-group-lg{
-    .form-control:not(textarea){
-      height: calc(1.5em + 1.5rem + 2px);
-      font-size: 1.25rem;
-    }
-  }
-}
-</style>

@@ -36,9 +36,3 @@ function Total (props: any) {
 Total.props = ['total', 'totalPage'];
 export default Total;
 </script>
-
-<style lang="scss">
-.bs-pagination-total{
-  margin-right: 0.75rem;
-}
-</style>

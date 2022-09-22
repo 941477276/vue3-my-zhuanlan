@@ -177,32 +177,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.bs-pagination{
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  .pagination{
-    margin-right: 0.75rem;
-  }
-  &>div,
-  &>ul{
-    &:last-child{
-      margin-right: 0;
-    }
-  }
-}
-.bs-pagination-sm{
-  line-height: 1.5;
-  font-size: 0.875rem;
-}
-.bs-pagination-lg{
-  line-height: 1.5;
-  font-size: 1.25rem;
-  .bs-pagination-total,
-  .bs-pagination-sizes,
-  .bs-pagination-pager,
-  .bs-pagination-jumper{
-    margin-right: 1.5rem;
-  }
-}
+@import "bs-pagination";
 </style>

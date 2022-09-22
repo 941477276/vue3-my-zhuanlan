@@ -88,33 +88,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style lang="scss">
-.bs-pagination-jumper{
-  display: inline-flex;
-  vertical-align: middle;
-  align-items: center;
-  margin-right: 0.75rem;
-  .bs-input{
-    //display: inline-flex;
-    //vertical-align: middle;
-    width: 3.25rem; // 52px
-    margin: 0 0.35rem;
-  }
-  .form-control{
-    text-align: center;
-  }
-  .bs-input.input-group-lg{
-    width: 4.6875rem; // 75px
-    .form-control:not(textarea){
-      height: calc(1.5em + 1.5rem + 2px);
-      font-size: 1.25rem;
-    }
-  }
-}
-.bs-pagination-jumper-lg{
-  .bs-input{
-    margin: 0 0.85rem;
-  }
-}
-</style>
