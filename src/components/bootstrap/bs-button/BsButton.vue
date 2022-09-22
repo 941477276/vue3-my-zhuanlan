@@ -81,6 +81,14 @@ export default defineComponent({
     loading: { // 是否加载中
       type: Boolean,
       default: false
+    },
+    dropdownToggle: { // 是否为下拉菜单切换按钮
+      type: Boolean,
+      default: false
+    },
+    showToggleSplit: { // 是否为显示下拉菜单切换按钮分割线
+      type: Boolean,
+      default: false
     }
   },
   emits: ['click', 'focus', 'blur', 'mouseenter', 'mouseleave', 'mousewheel', 'contextmenu', 'dblclick'],
@@ -117,6 +125,12 @@ export default defineComponent({
       }
       if (props.loading) {
         classArr.push('is-loading');
+      }
+      if (props.dropdownToggle) {
+        classArr.push('dropdown-toggle');
+      }
+      if (props.showToggleSplit) {
+        classArr.push('dropdown-toggle-split');
       }
       return classArr;
     });

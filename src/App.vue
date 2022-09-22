@@ -2,6 +2,9 @@
   <!--<div class="box">
     <BsButtonUsage></BsButtonUsage>
   </div>-->
+  <div class="box">
+    <BsButtonGroupUsage></BsButtonGroupUsage>
+  </div>
   <!--<div class="box">
     <BsInputUsage></BsInputUsage>
   </div>-->
@@ -27,9 +30,9 @@
     <BsDropdownUsage></BsDropdownUsage>
   </div>-->
   <!--<router-view></router-view>-->
-  <div class="box">
+  <!--<div class="box">
     <BsPaginationUsage></BsPaginationUsage>
-  </div>
+  </div>-->
   <!--<div class="box">
     <BsBadgeUsage></BsBadgeUsage>
   </div>-->
@@ -117,9 +120,9 @@
   <!--<div class="box">
     <BsLoadingUsage></BsLoadingUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsCascaderUsage></BsCascaderUsage>
-  </div>
+  </div>-->
 </template>
 
 <script lang="ts">
@@ -128,6 +131,7 @@ import { computed, defineComponent, ref, reactive } from 'vue';
 // import AsyncValidatorUsage from './components/AsyncValidatorUsage.vue';
 import BsFormUsage from '@/components/bootstrap/bs-form/BsFormUsage.vue';
 import BsButtonUsage from '@/components/bootstrap/bs-button/BsButtonUsage.vue';
+import BsButtonGroupUsage from '@/components/bootstrap/bs-button-group/BsButtonGroupUsage.vue';
 import BsInputUsage from '@/components/bootstrap/bs-input/BsInputUsage.vue';
 import BsRadioUsage from '@/components/bootstrap/bs-radio/BsRadioUsage.vue';
 import BsRadioGroupUsage from '@/components/bootstrap/bs-radio-group/BsRadioGroupUsage.vue';
@@ -175,6 +179,7 @@ export default defineComponent({
     // AsyncValidatorUsage,
     BsFormUsage,
     BsButtonUsage,
+    BsButtonGroupUsage,
     BsInputUsage,
     BsRadioUsage,
     BsRadioGroupUsage,

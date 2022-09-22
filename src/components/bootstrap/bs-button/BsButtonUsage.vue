@@ -54,8 +54,8 @@
     <hr>
     <h3>块级按钮</h3>
     <bs-button type="primary" block>块级按钮</bs-button>
-    <bs-button type="secondary" block>块级按钮</bs-button>
-    <bs-button type="success" block>块级按钮</bs-button>
+    <bs-button type="secondary" style="margin-left: 0;" block>块级按钮</bs-button>
+    <bs-button type="success" style="margin-left: 0;" block>块级按钮</bs-button>
   </div>
 
   <div>
@@ -111,6 +111,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.bs-button + .bs-button{
+  margin-left: 1rem;
+}
 </style>

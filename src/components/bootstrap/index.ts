@@ -1,4 +1,5 @@
 import BsButton from './bs-button/BsButton.vue';
+import BsButtonGroup from '@/components/bootstrap/bs-button-group';
 import BsInput from './bs-input';
 import BsIcon from './bs-icon/BsIcon.vue';
 import BsRadio from './bs-radio/BsRadio.vue';
@@ -77,4 +78,5 @@ export default function (vueApp: any) {
   vueApp.use(BsBackTop);
   vueApp.use(BsLoading);
   vueApp.use(BsCascader);
+  vueApp.use(BsButtonGroup);
 }
