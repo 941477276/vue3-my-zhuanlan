@@ -152,7 +152,7 @@ export default defineComponent({
     BsCascaderMenu,
     BsOnlyChild
   },
-  emits: ['update:modelValue', 'change', 'selectLimit'],
+  emits: ['update:modelValue', 'change', 'select'],
   setup (props: any, ctx: any) {
     let bsCascaderRef = ref<HTMLElement|null>(null);
     let bsCascaderInputRef = ref<ComponentInternalInstance|null>(null);

@@ -106,6 +106,7 @@ export function useCascaderMenu (options: any) {
     if (checkedOptionsList.length == 0) {
       localModelValue = [];
       ctx.emit('update:modelValue', []);
+      ctx.emit('change', []);
       callFormItem('validate', 'change');
       return;
     }
@@ -124,6 +125,7 @@ export function useCascaderMenu (options: any) {
     }
     localModelValue = [...modelValue];
     ctx.emit('update:modelValue', modelValue);
+    ctx.emit('change', modelValue);
     callFormItem('validate', 'change');
   };
 
@@ -167,19 +169,11 @@ export function useCascaderMenu (options: any) {
       };
       console.log('values', optionParents);
     } else {
-      // let optionParents = findOptionParents();
-      // optionParents.push(optionItem);
-      /* if (props.checkStrictly) {
-        console.log('多选，任意多选');
-        checkedOptions.value[value] = optionParents;
-      } else {
-        console.log('多选，很麻烦多处理');
-        addMultipleOptionsChecked(optionItem, !needUpdateModelValue);
-      } */
       addMultipleOptionsChecked(optionItem, !needUpdateModelValue);
     }
     if (needUpdateModelValue || !props.multiple) {
       updateModelValue();
+      ctx.emit('select', optionItem, true);
     }
     if (needUpdateModelValue && !props.multiple && !props.checkStrictly) {
       dropdownHide();
@@ -208,6 +202,7 @@ export function useCascaderMenu (options: any) {
     }
     if (needUpdateModelValue) {
       updateModelValue();
+      ctx.emit('select', optionItem, false);
     }
   };
 
