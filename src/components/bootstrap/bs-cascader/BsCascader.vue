@@ -20,6 +20,7 @@
           :tag-effect="tagEffect"
           :tag-closeable="tagCloseable"
           :suffix-icon="suffixIcon"
+          :name="name"
           @tag-close="onTagClose"
           @filter-text-change="onFilterTextChange"
           @clear="onCascaderInputClear"></BsSelectInput>

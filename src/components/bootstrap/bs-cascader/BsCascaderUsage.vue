@@ -1,20 +1,21 @@
 <template>
   <div class="component-usage">
-    <!--<div>
+    <div>
       <h3>基本使用</h3>
       <BsCascader
         v-model="cascader1"
         :multiple="true"
         :show-all-levels="true"
         :options="dataOptions1"
-        expand-trigger="click"
+        expand-trigger="hover"
         clearable
         :emit-path="true"
+        name="aaa"
         :check-strictly="false"></BsCascader>
       <div>{{ cascader1 }}</div>
       <bs-button type="primary" @click="removeLastCheckedItem">移除最后一个选中项</bs-button>
       <bs-button type="primary" style="margin-left: 1rem;" @click="addCheckedItem">添加一个选中项</bs-button>
-    </div>-->
+    </div>
 
     <!--<div>
       <hr>
@@ -87,7 +88,7 @@
       </BsCascader>
     </div>-->
 
-    <div>
+    <!--<div>
       <hr>
       <h3>自定义Tag</h3>
       <h5>自定义Tag内容</h5>
@@ -101,7 +102,7 @@
         :check-strictly="false">
         <template #tag="tag">
           {{ tag.label }}
-          <strong style="color: var(--success);">(选中项在第{{tag.optionPath.length}}层)</strong>
+          <strong style="color: var(&#45;&#45;success);">(选中项在第{{tag.optionPath.length}}层)</strong>
         </template>
       </BsCascader>
       <h5 style="margin-top: 0.5rem;">自定义Tag类型</h5>
@@ -125,9 +126,9 @@
         :emit-path="true"
         :check-strictly="false">
       </BsCascader>
-    </div>
+    </div>-->
 
-    <div>
+    <!--<div>
       <hr>
       <h3>禁用</h3>
       <BsCascader
@@ -140,7 +141,7 @@
         disabled
         :check-strictly="false">
       </BsCascader>
-    </div>
+    </div>-->
   </div>
 </template>
 

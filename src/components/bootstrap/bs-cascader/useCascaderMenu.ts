@@ -54,7 +54,7 @@ export function useCascaderMenu (options: any) {
   } = useCascaderMultiple(props, checkedOptions, halfCheckedOptions, fieldNameProps, flatternOptions, dropdownTransitionRef, cascaderId);
 
   // 添加菜单到展开列表
-  let pushMenuToExpanded = function (menuOption: any, cascaderMenuId: string) {
+  let pushMenuToExpanded = function (menuOption: any, cascaderMenuId: string, nextMenuCount: number) {
     let {
       children: childrenKey,
       value: valueKey
@@ -63,8 +63,8 @@ export function useCascaderMenu (options: any) {
     let menuItemValue = menuOption[valueKey];
 
     let menuIdPrefix = cascaderMenuId.split('_')[0];
-    let menuCount = Number(cascaderMenuId.split('_')[1]);
-    let newMenuId = `${menuIdPrefix}_${++menuCount}`;
+    // let menuCount = Number(cascaderMenuId.split('_')[1]);
+    let newMenuId = `${menuIdPrefix}_${nextMenuCount}`;
 
     let expandedMenuList = expandedMenus.value;
     if (menuChildren && menuChildren.length > 0) {
@@ -78,7 +78,7 @@ export function useCascaderMenu (options: any) {
       if (index > -1) {
         let removeCount = expandedMenuList.length - index;
         expandedMenuList[index].menuItemValue = menuItemValue;
-        // 则将当前菜单后面到菜单都移除掉，并替换成新的菜单
+        // 将当前菜单后面到菜单都移除掉，并替换成新的菜单
         expandedMenuList.splice(index + 1, removeCount, newMenu);
       } else {
         newMenu.menuItemValue = menuItemValue;
@@ -211,9 +211,9 @@ export function useCascaderMenu (options: any) {
     }
   };
 
-  let handleMenuItemOpen = function (menu: CascaderOptionItem, cascaderMenuId: string) {
-    console.log('菜单项点击了：', menu, cascaderMenuId);
-    pushMenuToExpanded(menu, cascaderMenuId);
+  let handleMenuItemOpen = function (menu: CascaderOptionItem, cascaderMenuId: string, nexMenuCount: number) {
+    console.log('菜单项点击了：', menu, cascaderMenuId, nexMenuCount);
+    pushMenuToExpanded(menu, cascaderMenuId, nexMenuCount);
   };
 
   let handleMenuItemChecked = function (optionItem: CascaderOptionItem, cascaderMenuId: string, isAdd: boolean | undefined) {

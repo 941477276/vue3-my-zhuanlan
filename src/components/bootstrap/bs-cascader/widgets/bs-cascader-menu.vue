@@ -290,7 +290,7 @@ export default defineComponent({
               let timer = setTimeout(function () {
                 clearTimeout(timer);
                 // 展开子节点
-                ctx.emit('item-open', optionItem, cascaderMenuId);
+                ctx.emit('item-open', optionItem, cascaderMenuId, cascaderMenuCount + 1);
               }, 0);
             }
           });
@@ -322,7 +322,7 @@ export default defineComponent({
       let multiple = props.multiple;
       // 如果显示了复选框或单选框则展开子节点
       if (multiple || (!multiple && props.checkStrictly)) {
-        ctx.emit('item-open', optionItem, cascaderMenuId);
+        ctx.emit('item-open', optionItem, cascaderMenuId, cascaderMenuCount + 1);
         return;
       }
       let children = optionItem[childrenKey];
@@ -333,7 +333,7 @@ export default defineComponent({
         return;
       }
       // 展开子节点
-      ctx.emit('item-open', optionItem, cascaderMenuId);
+      ctx.emit('item-open', optionItem, cascaderMenuId, cascaderMenuCount + 1);
     };
 
     let handlerItemMouseenter = function (optionItem: any, evt: MouseEvent) {
@@ -346,7 +346,7 @@ export default defineComponent({
         return;
       }
       // 展开子节点
-      ctx.emit('item-open', optionItem, cascaderMenuId);
+      ctx.emit('item-open', optionItem, cascaderMenuId, cascaderMenuCount + 1);
     };
     return {
       cascaderMenuId,
