@@ -1,7 +1,7 @@
 import { InjectionKey, Ref } from 'vue';
 
 export type SelectOptionItem = {
-  id: string;
+  id?: string;
   value: any;
   label: string|number;
   labelSlot?: string|number;
@@ -11,7 +11,7 @@ export type SelectOptionItem = {
 export type SelectContext = {
   ctx?: any;
   props: any;
-  filterText: string;
+  filterText?: string;
   filterMethod: (option: SelectOptionItem) => boolean;
   changeVal: (val: any, isDelete?: boolean) => void;
   addOption: (option: SelectOptionItem) => void;

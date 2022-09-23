@@ -52,7 +52,9 @@
         placement="bottom"
         :reference-ref="bsSelectRef"
         :try-all-placement="false"
-        :set-width="true">
+        :set-width="true"
+        @after-enter="onDropdownVisibleChange(true, $event)"
+        @after-leave="onDropdownVisibleChange(false, $event)">
         <div
           v-show="dropdownVisible"
           ref="bsSelectDropdownRef"
@@ -94,7 +96,7 @@
             </template>
             <slot></slot>
             <li
-              v-if="!loading && optionItems.length == 0"
+              v-if="(!loading && optionItems.length == 0) || (filtering && filterable && Object.keys(filteredVisibleOptions).length == 0)"
               class="bs-select-empty">
               <slot name="empty">{{ noDataText }}</slot>
             </li>
@@ -153,7 +155,7 @@ export default defineComponent({
   props: {
     ...bsSelectProps
   },
-  emits: ['update:modelValue', 'change', 'selectLimit'],
+  emits: ['update:modelValue', 'change', 'selectLimit', 'visibleChange'],
   setup (props: any, ctx: any) {
     let bsSelectRef = ref<HTMLElement|null>(null);
     let bsSelectInputRef = ref<ComponentInternalInstance|null>(null);
@@ -280,17 +282,6 @@ export default defineComponent({
       }
     };
 
-    /* let viewText = computed(function () {
-      let modelValue = Array.isArray(props.modelValue) ? props.modelValue : [props.modelValue];
-      let selectedOptionLabels = optionItems.value.filter(function (option: SelectOptionItem) {
-        // console.log('option.value', option.value);
-        return modelValue.includes(option.value);
-      }).map(function (option: SelectOptionItem) {
-        return option.label || (option as any).labelSlot;
-      });
-      // console.log('selectedOptionLabels', selectedOptionLabels);
-      return selectedOptionLabels.join(',');
-    }); */
     let viewText = computed(function () {
       let modelValue = Array.isArray(props.modelValue) ? props.modelValue : [props.modelValue];
       let selectedOptionLabels = optionItems.value.filter(function (option: SelectOptionItem) {
@@ -337,23 +328,14 @@ export default defineComponent({
     };
 
     let filterText = ref('');
+    let filtering = ref(false); // 是否正在搜索中
     // 搜索文本change事件
     let onFilterTextChange = function (searchText: string) {
       console.log('搜索文本：', searchText);
       filterText.value = searchText;
     };
-    // 默认的搜索函数
-    let filterMethodInner = function (option: SelectOptionItem) {
-      let text = filterText.value;
-      if (!text) {
-        return true;
-      }
-      let label = option.label;
-      if (label == null || typeof label === 'undefined') {
-        return false;
-      }
-      return (label + '').toLowerCase().includes(text.toLowerCase());
-    };
+    // 筛选通过的项
+    let filteredVisibleOptions = reactive<{[key:string]: number}>({});
 
     // 清空内容
     let onSelectInputClear = function () {
@@ -361,6 +343,15 @@ export default defineComponent({
       ctx.emit('update:modelValue', val);
       ctx.emit('change', val);
       callFormItem('validate', 'change');
+    };
+
+    // 下拉菜单显示/隐藏事件
+    let onDropdownVisibleChange = function (isVisible: boolean, el: HTMLElement) {
+      ctx.emit('visibleChange', isVisible, el);
+      if (!isVisible) {
+        filtering.value = false;
+        filterText.value = ''; // 解决单选模式下选中了某个下拉项后filterText变成了选中项的值
+      }
     };
 
     let { callFormItem } = useDeliverContextToFormItem(props, {
@@ -374,15 +365,26 @@ export default defineComponent({
     provide<SelectContext>(selectContextKey, reactive({
       props,
       ctx,
-      filterText,
-      // 给 option 子组件调用
-      filterMethod: computed(function () {
+      filterMethod: function (option: SelectOptionItem) {
+        let text = filterText.value;
+        if (!props.filterable) {
+          return true;
+        }
+        filtering.value = true;
         let filterMethod = props.filterMethod;
+        let result = true;
         if (typeof filterMethod === 'function') {
-          return filterMethod;
+          result = !!filterMethod(text, option);
+        } else {
+          result = ((option.label || '') + '').toLowerCase().includes(text.toLowerCase());
         };
-        return filterMethodInner;
-      }),
+        if (result) {
+          filteredVisibleOptions[option.value] = 1;
+        } else {
+          delete filteredVisibleOptions[option.value];
+        }
+        return result;
+      },
       changeVal,
       addOption,
       removeOption
@@ -401,6 +403,8 @@ export default defineComponent({
       optionItems,
       nativeSelectModel,
       viewText,
+      filtering,
+      filteredVisibleOptions,
 
       // onSelectRootClick,
       onSelectInputClear,
@@ -409,7 +413,8 @@ export default defineComponent({
 
       onSelectInputClick,
       onTagClose,
-      onFilterTextChange
+      onFilterTextChange,
+      onDropdownVisibleChange
     };
   }
 });

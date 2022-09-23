@@ -3,7 +3,7 @@
   //top: -100%;
   //display: none;
   z-index: 2222;
-  max-height: 280px;
+  max-height: 17.5rem; // 280px
   border: 1px solid #e4e7eb;
   border-radius: 0.28rem;
   overflow-y: auto;
@@ -14,8 +14,9 @@
   margin: 0;
 }
 .bs-select-empty{
-  padding: 0.8rem 1.2rem;
+  padding: 1.5rem 1.2rem;
   color: #888;
+  text-align: center;
 }
 .bs-select-loading{
   padding: 1.5rem 1.2rem;

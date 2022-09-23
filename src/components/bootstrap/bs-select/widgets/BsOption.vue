@@ -80,7 +80,11 @@ export default defineComponent({
       if (label == null || typeof label === 'undefined') {
         return false;
       }
-      return filterMethod({ label } as SelectOptionItem);
+      return filterMethod({
+        label,
+        value: props.value,
+        disabled: props.disabled
+      });
     });
 
     let isSelected = computed<boolean>(function () {
