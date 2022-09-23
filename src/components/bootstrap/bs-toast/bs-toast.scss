@@ -1,0 +1,29 @@
+.bs-toast{
+  opacity: 1;
+  .toast-header{
+    word-break: break-word;
+    &.bg-primary,
+    &.bg-secondary,
+    &.bg-success,
+    &.bg-danger,
+    &.bg-warning,
+    &.bg-info,
+    &.bg-dark{
+      color: #fff;
+      .close{
+        color: #e5e5e5;
+        text-shadow: none;
+      }
+    }
+  }
+  .close{
+    align-self: stretch;
+    padding: 0 0 0.25rem 0.5rem;
+    margin: 0;
+    transition: color .2s;
+    &:not(:disabled):not(.disabled):hover,
+    &:not(:disabled):not(.disabled):focus{
+      opacity: 1;
+    }
+  }
+}

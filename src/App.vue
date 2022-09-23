@@ -102,9 +102,9 @@
   <!--<div class="box">
     <BsInputTagsUsage></BsInputTagsUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsSelectInputUsage></BsSelectInputUsage>
-  </div>
+  </div>-->
   <!--<div class="box">
     <BsTimePickerUsage></BsTimePickerUsage>
   </div>-->
@@ -123,6 +123,9 @@
   <!--<div class="box">
     <BsCascaderUsage></BsCascaderUsage>
   </div>-->
+  <div class="box">
+    <BsToastUsage></BsToastUsage>
+  </div>
 </template>
 
 <script lang="ts">
@@ -170,6 +173,7 @@ import BsBackTopUsage from '@/components/bootstrap/bs-backtop/BsBackTopUsage.vue
 import BsRelativeTimeUsage from '@/components/bootstrap/bs-relative-time/BsRelativeTimeUsage.vue';
 import BsLoadingUsage from '@/components/bootstrap/bs-loading/BsLoadingUsage.vue';
 import BsCascaderUsage from '@/components/bootstrap/bs-cascader/BsCascaderUsage.vue';
+import BsToastUsage from '@/components/bootstrap/bs-toast/BsToastUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -217,7 +221,8 @@ export default defineComponent({
     BsBackTopUsage,
     BsRelativeTimeUsage,
     BsLoadingUsage,
-    BsCascaderUsage
+    BsCascaderUsage,
+    BsToastUsage
   },
   setup () {
     return {
