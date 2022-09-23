@@ -12,8 +12,8 @@
   <h3>不同大小</h3>
   <div>
     <bs-tag>默认大小</bs-tag>
-    <bs-tag size="medium">中等大小</bs-tag>
-    <bs-tag size="small">小的</bs-tag>
+    <bs-tag size="md">中等大小</bs-tag>
+    <bs-tag size="sm">小的</bs-tag>
     <bs-tag size="mini">超级小的</bs-tag>
     <bs-tag type="success" :size="size">动态变化</bs-tag>
   </div>

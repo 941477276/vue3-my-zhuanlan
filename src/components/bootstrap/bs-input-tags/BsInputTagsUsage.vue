@@ -139,7 +139,7 @@
       <h3>不同大小</h3>
       <h6>大的</h6>
       <BsInputTags
-        v-model="values4"
+        v-model="values6"
         :is-focus="false"
         :clearable="true"
         :multiple="true"
@@ -148,7 +148,7 @@
         @tag-close="onTagClose4"></BsInputTags>
       <h6 style="margin: 1rem 0;">中等的</h6>
       <BsInputTags
-        v-model="values4"
+        v-model="values6"
         :is-focus="false"
         :clearable="true"
         :multiple="true"
@@ -156,7 +156,7 @@
         @tag-close="onTagClose4"></BsInputTags>
       <h6 style="margin: 1rem 0;">小的</h6>
       <BsInputTags
-        v-model="values4"
+        v-model="values6"
         :is-focus="false"
         :clearable="true"
         :multiple="true"
@@ -229,6 +229,12 @@ export default defineComponent({
       // { label: 'Vue.js', value: 'vue' },
       // { label: 'React.js', value: 'react' }
     ]);
+    let values6 = ref([
+      { label: 'HTML', value: 'html' }
+      // { label: 'Css', value: 'css' }
+      // { label: 'Vue.js', value: 'vue' },
+      // { label: 'React.js', value: 'react' }
+    ]);
     let onTagClose4 = function (tag: any) {
       console.log('tag标签关闭事件');
       /* let index = values4.value.findIndex(item => item.value === tag.value);
@@ -244,6 +250,7 @@ export default defineComponent({
       values3,
       values4,
       values5,
+      values6,
       verifyStatusRef,
 
       onTagClose2,

@@ -289,10 +289,10 @@ export default defineComponent({
     };
 
     let tagSize = computed(function () {
-      let size = props.size;
-      if (!size) {
+      let size = props.size || '';
+      /* if (!size) {
         return 'md';
-      }
+      } */
       if (size == 'lg') {
         return '';
       }

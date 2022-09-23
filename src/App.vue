@@ -63,9 +63,9 @@
   <!--<div class="box">
     <BsAlertUsage></BsAlertUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsInputNumberUsage></BsInputNumberUsage>
-  </div>
+  </div>-->
   <!--<div class="box">
     <BsPopperUsage></BsPopperUsage>
   </div>-->
@@ -99,9 +99,9 @@
   <!--<div class="box">
     <BsTreeSelectUsage></BsTreeSelectUsage>
   </div>-->
-  <!--<div class="box">
+  <div class="box">
     <BsInputTagsUsage></BsInputTagsUsage>
-  </div>-->
+  </div>
   <!--<div class="box">
     <BsSelectInputUsage></BsSelectInputUsage>
   </div>-->
