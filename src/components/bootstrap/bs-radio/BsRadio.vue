@@ -141,7 +141,7 @@ export default defineComponent({
     let on_change = function (evt: Event) {
       // console.log(evt);
       let target = evt.target as HTMLInputElement;
-      let resultValue = props.value == '' ? target.checked : props.value;
+      let resultValue = props.value === '' ? target.checked : props.value;
       // radioChecked.value = target.checked;
       // console.log('radioChecked', radioChecked.value);
       if (radioGroupCtx) {
