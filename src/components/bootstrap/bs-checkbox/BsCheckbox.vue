@@ -2,7 +2,7 @@
   <label
     class="form-check bs-checkbox"
     :class="{
-      'is-disabled': disabled || disabledInner,
+      'is-disabled': disabled || disabledInner || isCountLimitDisable,
       'is-focus': isFocus,
       'is-checked': isChecked,
       'is-indeterminate': isIndeterminate
