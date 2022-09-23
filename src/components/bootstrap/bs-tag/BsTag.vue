@@ -1,7 +1,7 @@
 <template>
   <transition name="fold">
     <span
-      v-if="show"
+      v-show="show"
       class="bs-tag"
       :class="[
         `bs-tag-${type || 'primary'}`,
@@ -46,7 +46,7 @@ export default defineComponent({
       type: String as PropType<BsColorType>,
       default: 'primary',
       validator (typeVal: BsColorType) {
-        return supportedBsColorTypes.includes(typeVal);
+        return [...supportedBsColorTypes, 'link'].includes(typeVal);
       }
     },
     size: { // 大小

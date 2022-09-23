@@ -52,8 +52,8 @@
   <h3>可关闭，不同大小</h3>
   <div>
     <bs-tag :closeable="true">默认大小</bs-tag>
-    <bs-tag size="medium" :closeable="true">中等大小</bs-tag>
-    <bs-tag size="small" :closeable="true">小的</bs-tag>
+    <bs-tag size="md" :closeable="true">中等大小</bs-tag>
+    <bs-tag size="sm" :closeable="true">小的</bs-tag>
     <bs-tag size="mini" :closeable="true">超级小的</bs-tag>
     <bs-tag type="success" :size="size" :closeable="true">动态变化</bs-tag>
   </div>
