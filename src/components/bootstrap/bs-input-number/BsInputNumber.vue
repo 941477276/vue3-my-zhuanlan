@@ -52,6 +52,7 @@
           ]"
           :value="inputValue"
           :id="inputId"
+          :inputmode="inputmode"
           :disabled="disabled"
           :readonly="readonly"
           :placeholder="placeholder || null"

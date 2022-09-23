@@ -42,9 +42,9 @@
   <!--<div class="box">
     <BsBreadcrumbUsage></BsBreadcrumbUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsTagUsage></BsTagUsage>
-  </div>
+  </div>-->
   <!--<div class="box">
     <BsProgressUsage></BsProgressUsage>
   </div>-->
@@ -63,9 +63,9 @@
   <!--<div class="box">
     <BsAlertUsage></BsAlertUsage>
   </div>-->
-  <!--<div class="box">
+  <div class="box">
     <BsInputNumberUsage></BsInputNumberUsage>
-  </div>-->
+  </div>
   <!--<div class="box">
     <BsPopperUsage></BsPopperUsage>
   </div>-->

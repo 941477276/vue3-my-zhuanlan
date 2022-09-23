@@ -23,6 +23,10 @@ export const bsInputNumberProps = {
     type: Boolean,
     default: true
   },
+  inputmode: { // 输入框到inputmode属性
+    type: String,
+    default: null
+  },
   size: { // 输入框大小
     type: String as PropType<BsSize>,
     default: ''
