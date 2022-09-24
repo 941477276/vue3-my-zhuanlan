@@ -1365,3 +1365,21 @@ var tool = {
 };
 export default tool;
 export { tool as util };
+
+/**
+ * 判断参数是否为undefined
+ * @param varable
+ * @returns {boolean}
+ */
+export function isUndefined (varable) {
+  return typeof varable === 'undefined';
+}
+
+/**
+ * 判断参数是否为booleal类型
+ * @param varable
+ * @returns {boolean}
+ */
+export function isBoolean (varable) {
+  return typeof varable === 'boolean';
+}
