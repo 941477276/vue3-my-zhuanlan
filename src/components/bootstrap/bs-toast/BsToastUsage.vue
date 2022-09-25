@@ -85,14 +85,14 @@
   <div>
     <hr>
     <div style="margin: 1rem;">
-      <bs-button type="primary" @click="showToast2('', 'top-left')">top-left</bs-button>
-      <bs-button type="primary" @click="showToast2('primary', 'top-right')">top-right</bs-button>
-      <bs-button type="primary" @click="showToast2('secondary', 'top-center')">top-center</bs-button>
+      <bs-button type="primary" @click="showToast2('top-left')">top-left</bs-button>
+      <bs-button type="primary" @click="showToast2( 'top-right')">top-right</bs-button>
+      <bs-button type="primary" @click="showToast2( 'top-center')">top-center</bs-button>
     </div>
     <div style="margin: 1rem;">
-      <bs-button type="primary" @click="showToast2('success', 'bottom-left')">bottom-left</bs-button>
-      <bs-button type="primary" @click="showToast2('warning', 'bottom-right')">bottom-right</bs-button>
-      <bs-button type="primary" @click="showToast2('danger', 'bottom-center')">bottom-center</bs-button>
+      <bs-button type="primary" @click="showToast2( 'bottom-left')">bottom-left</bs-button>
+      <bs-button type="primary" @click="showToast2( 'bottom-right')">bottom-right</bs-button>
+      <bs-button type="primary" @click="showToast2( 'bottom-center')">bottom-center</bs-button>
     </div>
   </div>
 </div>
@@ -107,6 +107,12 @@ import {
 } from './bs-toast';
 import BsToastCom from './BsToast.vue';
 import dayjs from 'dayjs';
+import {
+  supportedBsColorTypes
+} from '@/ts-tokens/bootstrap';
+import {
+  getRandomNumber
+} from '@/common/util';
 
 export default defineComponent({
   name: 'BsToastUsage',
@@ -117,7 +123,9 @@ export default defineComponent({
     let showToast1 = function (id: string) {
       BsToast.show(id);
     };
-    let showToast2 = function (type: string, placement: string) {
+    let showToast2 = function (placement: string) {
+      let type = supportedBsColorTypes[getRandomNumber(0, supportedBsColorTypes.length - 1)];
+      console.log('type', type);
       BsToast({
         title: placement,
         type,

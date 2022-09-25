@@ -17,9 +17,11 @@ import { useGetContentInfo } from '@/hooks/useGetContentInfo';
 import {
   ToastCtx,
   getToastCtx,
-  removeToastCtx
+  getAllToastCtx
 } from './bs-toast-ctxs';
-import login from '@/pages/login/Login.vue';
+import {
+  supportedBsColorTypes
+} from '@/ts-tokens/bootstrap';
 
 let toastCount = 0;
 function BsToast (options = {} as any, context?: AppContext | null) {
@@ -43,6 +45,8 @@ function BsToast (options = {} as any, context?: AppContext | null) {
     appendTo,
     duration,
     onHide,
+    onShow,
+    onClick,
     zIndex,
     dangerouslyUseHTMLString,
     transitionName,
@@ -63,7 +67,7 @@ function BsToast (options = {} as any, context?: AppContext | null) {
   container.className = 'bs-toast-container';
   container.setAttribute('data-for-id', id);
 
-  console.log('appendTo11', appendTo);
+  // console.log('appendTo11', appendTo);
   appendTo = (appendTo && isString(appendTo)) ? document.querySelector(appendTo) : appendTo;
   if (!appendTo) {
     appendTo = document.body;
@@ -100,8 +104,9 @@ function BsToast (options = {} as any, context?: AppContext | null) {
     dangerouslyUseHTMLString,
     transitionName,
     showClose,
+    onShow,
     onHide () {
-      console.log('执行了api传递的onClose！');
+      // console.log('执行了api传递的onClose！');
       // 销毁实例
       render(null, container);
       // 移除container
@@ -115,11 +120,11 @@ function BsToast (options = {} as any, context?: AppContext | null) {
       if (isFunction(onHide)) {
         onHide();
       }
-    }
+    },
+    onClick
   }, slots);
   console.log('appendTo', appendTo);
   appendTo.appendChild(container);
-  console.log('1111');
 
   render(vm, container);
   show(id);
@@ -154,9 +159,24 @@ function hide (toastId: string) {
     toastCtx.hide();
   }
 };
-
+// 快捷创建各种类型的toast
+supportedBsColorTypes.forEach((type: string) => {
+  (BsToast as any)[type] = function (options: any) {
+    return BsToast({
+      ...options,
+      type
+    });
+  };
+});
 BsToast.show = show;
 BsToast.hide = hide;
+// 隐藏所有toast
+BsToast.hideAll = function () {
+  let allToastCtxs = getAllToastCtx();
+  for (let toastId in allToastCtxs) {
+    allToastCtxs[toastId].hide();
+  }
+};
 
 export {
   BsToast

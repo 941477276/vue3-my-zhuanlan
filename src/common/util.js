@@ -1383,3 +1383,13 @@ export function isUndefined (varable) {
 export function isBoolean (varable) {
   return typeof varable === 'boolean';
 }
+
+/**
+ * 获取两个数之间的随机值
+ * @param min 最小值
+ * @param max 最大值
+ * @returns {number}
+ */
+export function getRandomNumber (min, max) {
+  return parseInt((Math.random() * (max - min + 1) + min) + '');
+}
