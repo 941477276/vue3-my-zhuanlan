@@ -77,14 +77,15 @@ function BsToast (options = {} as any, context?: AppContext | null) {
   if (headerSlot) {
     slots.header = headerSlot;
   }
+  console.log('titleSlot', titleSlot);
   if (titleSlot) {
-    slots.title = titleSlot;
+    slots.title = titleSlot.default;
   }
   if (secondaryTitleSlot) {
-    slots.secondaryTitle = secondaryTitleSlot;
+    slots.secondaryTitle = secondaryTitleSlot.default;
   }
   if (messageSlot) {
-    slots.default = messageSlot;
+    slots.default = messageSlot.default;
   }
   let vm = createVNode(BsToastComponent, {
     title,

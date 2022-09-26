@@ -28,7 +28,7 @@
           <div class="toast-header-content">
             <slot name="header">
               <strong class="bs-toast-title">
-                <slot name="title">{{ title }}</slot>
+                <slot name="title">{{ titleInner }}</slot>
               </strong>
               <small v-if="secondaryTitle" class="bs-toast-secondary-title">
                 <slot name="secondaryTitle">{{ secondaryTitle }}</slot>
@@ -48,7 +48,7 @@
         <div class="toast-body">
           <slot>
             <div v-if="dangerouslyUseHTMLString" v-html="message"></div>
-            <template v-else>{{ message }}</template>
+            <template v-else>{{ messageInner }}</template>
           </slot>
         </div>
       </div>
@@ -62,7 +62,7 @@ import {
   ref,
   computed,
   defineComponent,
-  onUnmounted
+  onUnmounted, isRef
 } from 'vue';
 import { bsToastProps } from './bs-toast-props';
 import {
@@ -109,6 +109,28 @@ export default defineComponent({
       return classArr;
     });
 
+    // 标题
+    let titleInner = computed(function () {
+      let title = props.title;
+      if (typeof title === 'function') {
+        return title();
+      } else if (isRef(title)) {
+        return title.value;
+      }
+      return title;
+    });
+
+    // 内容
+    let messageInner = computed(function () {
+      let message = props.message;
+      if (typeof message === 'function') {
+        return message();
+      } else if (isRef(message)) {
+        return message.value;
+      }
+      return message;
+    });
+
     let { nextZIndex } = useZIndex();
     let zIndexInner = ref(props.zIndex || '');
     let visible = ref(false);
@@ -136,8 +158,12 @@ export default defineComponent({
       }
 
       let offsetTop = props.offsetTop;
+      let offsetLeft = props.offsetLeft;
       if (offsetTop < 1) {
         offsetTop = 20;
+      }
+      if (offsetLeft < 0) {
+        offsetLeft = 0;
       }
       let result = toastIds.reduce(function (res: number, item: FixedToastItem) {
         let el = document.getElementById(item.toastId);
@@ -152,6 +178,9 @@ export default defineComponent({
       console.log(`【${toastId.value}】的显示位置为：${result}px!`);
       // positionStyle[isBottom ? 'bottom' : 'top'] = result + 'px';
       (toastRef.value as any).style[isBottom ? 'bottom' : 'top'] = result + 'px';
+      if (offsetLeft > 0) {
+        (toastRef.value as any).style[placement?.endsWith('left') ? 'left' : 'right'] = offsetLeft + 'px';
+      }
     };
     // 显示
     let show = function () {
@@ -244,6 +273,8 @@ export default defineComponent({
       classNames,
       visible,
       zIndexInner,
+      titleInner,
+      messageInner,
 
       show,
       hide,
