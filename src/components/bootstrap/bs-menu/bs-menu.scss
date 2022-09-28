@@ -1,0 +1,16 @@
+.bs-menu{
+  padding: 0;
+  margin: 0;
+}
+.bs-sub-menu{
+  padding: 0;
+  margin: 0;
+}
+.bs-menu-item{
+  display: flex;
+  align-items: center;
+  transition: background .3s,padding .1s cubic-bezier(.215,.61,.355,1);
+  .bs-menu-item-icon{
+    margin-right: 0.625rem;
+  }
+}

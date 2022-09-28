@@ -123,8 +123,11 @@
   <!--<div class="box">
     <BsCascaderUsage></BsCascaderUsage>
   </div>-->
-  <div class="box">
+  <!--<div class="box">
     <BsToastUsage></BsToastUsage>
+  </div>-->
+  <div class="box">
+    <BsMenuUsage></BsMenuUsage>
   </div>
 </template>
 
@@ -174,6 +177,7 @@ import BsRelativeTimeUsage from '@/components/bootstrap/bs-relative-time/BsRelat
 import BsLoadingUsage from '@/components/bootstrap/bs-loading/BsLoadingUsage.vue';
 import BsCascaderUsage from '@/components/bootstrap/bs-cascader/BsCascaderUsage.vue';
 import BsToastUsage from '@/components/bootstrap/bs-toast/BsToastUsage.vue';
+import BsMenuUsage from '@/components/bootstrap/bs-menu/BsMenuUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -222,7 +226,8 @@ export default defineComponent({
     BsRelativeTimeUsage,
     BsLoadingUsage,
     BsCascaderUsage,
-    BsToastUsage
+    BsToastUsage,
+    BsMenuUsage
   },
   setup () {
     return {
