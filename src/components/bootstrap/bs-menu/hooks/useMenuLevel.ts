@@ -24,8 +24,11 @@ export function useMenuLevel (currentInstance: ComponentInternalInstance, props:
   let keyIndexPath = computed(function () {
     let parent = currentInstance.parent!;
     let path = [currentKeyIndex.value];
+    let menuComponentNames = ['BsMenu', 'BsSubMenu', 'BsMenuItemGroup'];
     while (parent && parent.type.name !== 'BsMenu') {
-      path.unshift(parent.props.keyIndex as string);
+      if (menuComponentNames.includes(parent.type.name as string)) {
+        path.unshift((parent.proxy as any)?.currentKeyIndex as string);
+      }
       parent = parent.parent!;
     }
     return path;

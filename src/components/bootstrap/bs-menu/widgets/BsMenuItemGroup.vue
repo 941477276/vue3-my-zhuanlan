@@ -1,5 +1,7 @@
 <template>
-  <li class="bs-menu-item-group">
+  <li
+    class="bs-menu-item-group"
+    :aria-level="keyIndexPath.length">
     <div
       ref="groupTitleRef"
       class="bs-menu-item-group-title"

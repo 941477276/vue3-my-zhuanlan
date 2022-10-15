@@ -1322,7 +1322,7 @@ var tool = {
       calcedDirection = defaultDirectionResult;
       calcedDirection.isRollback = true;
     }
-    // console.log('最终使用的方位：', calcedDirection);
+    console.log('最终使用的方位：', calcedDirection);
     // 恢复目标元素的display、opacity属性
     if (styleOpacity) {
       targetEl.style.opacity = styleOpacity;

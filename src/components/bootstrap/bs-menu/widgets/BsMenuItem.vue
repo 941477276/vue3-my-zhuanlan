@@ -8,6 +8,7 @@
       paddingLeft: paddingLeft.value + paddingLeft.unit
     }"
     role="menuitem"
+    :aria-level="keyIndexPath.length"
     aria-disabled="false">
     <span
       v-if="icon || $slots.icon"

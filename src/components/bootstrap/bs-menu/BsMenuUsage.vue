@@ -48,8 +48,9 @@
       <hr>
       <h3>垂直菜单</h3>
       <BsMenu
-        mode="vertical">
-        <bs-menu-item keyIndex="dashboard" title="仪表盘">
+        mode="vertical"
+        subMenuDisplayMode="dropdown">
+        <bs-menu-item data-keyIndex="dashboard" title="仪表盘">
           <template #icon>
             <img src="./test-usage-assets/dash-board.svg" alt="dashboard" class="icon-dashboard">
           </template>
@@ -57,10 +58,15 @@
         </bs-menu-item>
         <bs-menu-item class="is-selected" keyIndex="overview" icon="check-circle-fill">机构总览</bs-menu-item>
         <bs-menu-item keyIndex="overview1">机构总览1</bs-menu-item>
-        <bs-sub-menu class="bs-submenu-selected bs-submenu-expanded" keyIndex="userManageSub" icon="eye" title="用户管理">
+        <bs-sub-menu keyIndex="userManageSub" icon="eye" title="用户管理">
           <bs-menu-item keyIndex="orgManage">组织管理</bs-menu-item>
           <bs-menu-item class="is-disabled" keyIndex="userManage">用户管理</bs-menu-item>
           <bs-menu-item keyIndex="userPartTime">一人多岗</bs-menu-item>
+          <bs-sub-menu keyIndex="secretManageSub3">
+            <template #title>密钥管理3</template>
+            <bs-menu-item keyIndex="kmip3">数据库密钥3</bs-menu-item>
+            <bs-menu-item keyIndex="kgc3">库内密钥3</bs-menu-item>
+          </bs-sub-menu>
         </bs-sub-menu>
         <bs-menu-item keyIndex="identification">
           <template #icon>
@@ -73,7 +79,7 @@
           <bs-menu-item keyIndex="kmip">数据库密钥</bs-menu-item>
           <bs-menu-item keyIndex="kgc">库内密钥</bs-menu-item>
         </bs-sub-menu>
-        <bs-sub-menu class="bs-submenu-expanded" keyIndex="vpnPolicyManageSub">
+        <bs-sub-menu keyIndex="vpnPolicyManageSub">
           <template #icon>
             <i class="icon-vpn-policy-manage"></i>
           </template>

@@ -39,12 +39,20 @@
 }
 .bs-submenu-arrow{
   margin-left: auto;
-  .bs-svg-icon{
-    transition: transform .2s;
+  .bs-submenu-arrow-icon{
+    transition: transform .3s;
   }
 }
-.bs-submenu-content{
+/*.bs-submenu-content{
   display: none;
+}*/
+.bs-submenu-content-dropdown{
+  min-width: 11.25rem; // 180px
+  max-height: calc(100vh - 7.5rem); // 7.5rem = 120px
+  border-radius: 0.125rem;
+  box-shadow: 0 0 0.5rem rgba(0,0,0,0.15);
+  overflow-y: auto;
+  background-color: #fff;
 }
 .bs-submenu{
   padding: 0;
@@ -55,13 +63,64 @@
     }
   }
   &.bs-submenu-expanded{
-    .bs-submenu-arrow{
-      .bs-svg-icon{
+    &>.bs-submenu-title{
+      .bs-submenu-arrow-icon{
         transform: rotate(-180deg);
       }
     }
-    .bs-submenu-content{
+
+    /*.bs-submenu-content{
       display: block;
+    }*/
+  }
+  &.bs-submenu-display-with-dropdown{
+    .bs-submenu-arrow{
+      .bs-submenu-arrow-icon{
+        transform: rotate(-90deg);
+      }
+    }
+  }
+}
+.bs-submenu-content-dropdown{
+  &.bs-placement-left,
+  &.bs-placement-right{
+    &.bs-slide-enter-from,
+    &.bs-slide-leave-to{
+      transform: scale(0);
+    }
+    &.bs-slide-enter-to,
+    &.bs-slide-leave-from{
+      transform: scale(1);
+    }
+  }
+
+  .bs-menu-item{
+    &:not(.is-disabled):hover{
+      background-color: #eef5fe;
+    }
+    &::after{
+      display: none;
+      top: 0;
+      right: -1px;
+      bottom: 0;
+      width: 0.125rem;
+      transform: scaleY(0);
+      background-color: var(--primary);
+    }
+    &.is-selected{
+      display: block;
+      color: var(--primary);
+      background-color: #e8f5fd;
+      &::after{
+        transform: scaleY(1);
+      }
+    }
+  }
+  .bs-submenu{
+    &:not(.bs-submenu-selected):not(.bs-submenu-disabled):hover{
+      .bs-submenu-title{
+        color: var(--primary);
+      }
     }
   }
 }
@@ -120,7 +179,9 @@
   }
   .bs-submenu{
     &:not(.bs-submenu-selected):not(.bs-submenu-disabled):hover{
-      background-color: #e8f5fd;
+      .bs-submenu-title{
+        color: var(--primary);
+      }
     }
   }
   .bs-submenu-content{
