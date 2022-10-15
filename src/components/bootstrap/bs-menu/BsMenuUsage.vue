@@ -1,6 +1,6 @@
 <template>
   <div class="component-usage">
-    <div>
+    <!--<div>
       <h3>水平菜单</h3>
       <BsMenu>
         <bs-menu-item key="dashboard" title="仪表盘">
@@ -42,49 +42,55 @@
           </bs-menu-item-group>
         </bs-sub-menu>
       </BsMenu>
-    </div>
+    </div>-->
 
     <div>
       <hr>
       <h3>垂直菜单</h3>
       <BsMenu
         mode="vertical">
-        <bs-menu-item key="dashboard" title="仪表盘">
+        <bs-menu-item keyIndex="dashboard" title="仪表盘">
           <template #icon>
             <img src="./test-usage-assets/dash-board.svg" alt="dashboard" class="icon-dashboard">
           </template>
           仪表盘
         </bs-menu-item>
-        <bs-menu-item class="is-selected" key="overview" icon="check-circle-fill">机构总览</bs-menu-item>
-        <bs-sub-menu class="bs-submenu-selected bs-submenu-expanded" key="userManageSub" icon="eye" title="用户管理">
-          <bs-menu-item key="orgManage">组织管理</bs-menu-item>
-          <bs-menu-item class="is-disabled" key="userManage">用户管理</bs-menu-item>
-          <bs-menu-item key="userPartTime">一人多岗</bs-menu-item>
+        <bs-menu-item class="is-selected" keyIndex="overview" icon="check-circle-fill">机构总览</bs-menu-item>
+        <bs-menu-item keyIndex="overview1">机构总览1</bs-menu-item>
+        <bs-sub-menu class="bs-submenu-selected bs-submenu-expanded" keyIndex="userManageSub" icon="eye" title="用户管理">
+          <bs-menu-item keyIndex="orgManage">组织管理</bs-menu-item>
+          <bs-menu-item class="is-disabled" keyIndex="userManage">用户管理</bs-menu-item>
+          <bs-menu-item keyIndex="userPartTime">一人多岗</bs-menu-item>
         </bs-sub-menu>
-        <bs-menu-item key="identification">
+        <bs-menu-item keyIndex="identification">
           <template #icon>
             <img src="./test-usage-assets/identification.png" alt="" class="icon-identification">
           </template>
           标识管理
         </bs-menu-item>
-        <bs-sub-menu key="secretManageSub">
+        <bs-sub-menu keyIndex="secretManageSub">
           <template #title>密钥管理</template>
-          <bs-menu-item key="kmip">数据库密钥</bs-menu-item>
-          <bs-menu-item key="kgc">库内密钥</bs-menu-item>
+          <bs-menu-item keyIndex="kmip">数据库密钥</bs-menu-item>
+          <bs-menu-item keyIndex="kgc">库内密钥</bs-menu-item>
         </bs-sub-menu>
-        <bs-sub-menu class="bs-submenu-expanded" key="vpnPolicyManageSub">
+        <bs-sub-menu class="bs-submenu-expanded" keyIndex="vpnPolicyManageSub">
           <template #icon>
             <i class="icon-vpn-policy-manage"></i>
           </template>
           <template #title>VPN策略管理</template>
-          <bs-menu-item-group key="vpnPolicyAttrGroup" title="策略属性管理">
-            <bs-menu-item key="vpnPolicyTimeObject">时间对象</bs-menu-item>
-            <bs-menu-item key="vpnPolicyTargetIP">目标IP</bs-menu-item>
+          <bs-menu-item-group keyIndex="vpnPolicyAttrGroup" title="策略属性管理">
+            <bs-menu-item keyIndex="vpnPolicyTimeObject">时间对象</bs-menu-item>
+            <bs-menu-item keyIndex="vpnPolicyTargetIP">目标IP</bs-menu-item>
           </bs-menu-item-group>
-          <bs-menu-item-group key="vpnPolicyGroup">
+          <bs-menu-item-group keyIndex="vpnPolicyGroup">
             <template #title>策略管理</template>
-            <bs-menu-item key="vpnOrgPolicy">组织策略</bs-menu-item>
-            <bs-menu-item key="vpnUserPolicy">用户策略</bs-menu-item>
+            <bs-menu-item keyIndex="vpnOrgPolicy">组织策略</bs-menu-item>
+            <bs-menu-item-group keyIndex="vpnPolicyGroup2">
+              <template #title>策略管理2</template>
+              <bs-menu-item keyIndex="vpnOrgPolicy2">组织策略2</bs-menu-item>
+              <bs-menu-item keyIndex="vpnUserPolicy2">用户策略2</bs-menu-item>
+            </bs-menu-item-group>
+            <bs-menu-item keyIndex="vpnUserPolicy">用户策略</bs-menu-item>
           </bs-menu-item-group>
         </bs-sub-menu>
       </BsMenu>

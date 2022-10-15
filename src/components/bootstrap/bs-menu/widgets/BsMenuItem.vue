@@ -1,5 +1,14 @@
 <template>
-  <li class="bs-menu-item" role="menuitem" aria-disabled="false">
+  <li
+    class="bs-menu-item"
+    :class="{
+      'has-icon': icon || $slots.icon
+    }"
+    :style="{
+      paddingLeft: paddingLeft.value + paddingLeft.unit
+    }"
+    role="menuitem"
+    aria-disabled="false">
     <span
       v-if="icon || $slots.icon"
       class="bs-menu-item-icon"
@@ -16,17 +25,21 @@
 
 <script lang="ts">
 import {
-  defineComponent
+  defineComponent,
+  getCurrentInstance,
+  computed
 } from 'vue';
 import BsIcon from '../../bs-icon/BsIcon.vue';
+import { useMenuLevel } from '../hooks/useMenuLevel';
 
+let menuItemCount = 0;
 export default defineComponent({
   name: 'BsMenuItem',
   components: {
     BsIcon
   },
   props: {
-    key: { // 唯一标识，必填
+    keyIndex: { // 唯一标识，必填
       type: String,
       default: '',
       required: true
@@ -43,6 +56,24 @@ export default defineComponent({
       type: Boolean,
       default: false
     }
+  },
+  setup (props: any, ctx: any) {
+    let currentIns = getCurrentInstance()!;
+    let menuItemId = `bs-menu-item_${++menuItemCount}`;
+
+    // 获取当前组件的父级菜单组件，层级路径，层级ID
+    let {
+      currentKeyIndex,
+      keyIndexPath,
+      parentMenu,
+      paddingLeft
+    } = useMenuLevel(currentIns, props, menuItemId);
+
+    return {
+      currentKeyIndex,
+      keyIndexPath,
+      paddingLeft
+    };
   }
 });
 </script>

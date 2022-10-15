@@ -17,7 +17,7 @@ export const bsMenuProps = {
   },
   indent: { // 菜单为垂直模式时的缩进宽度
     type: Number,
-    default: 20
+    default: 16
   },
   indentUnit: { // 菜单为垂直模式时缩进宽度的单位
     type: String,
@@ -39,8 +39,8 @@ export const bsMenuProps = {
     type: String,
     default: 'hover'
   },
-  subMenuDisplayMenu: { // 子菜单展现形式
+  subMenuDisplayMode: { // 子菜单展现形式
     type: String as PropType<BsSubMenuDisplayMode>,
-    default: 'collapse'
+    default: ''
   }
 };
