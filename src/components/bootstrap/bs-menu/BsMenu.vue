@@ -1,5 +1,10 @@
 <template>
-  <ul class="bs-menu" role="menu">
+  <ul
+    class="bs-menu"
+    :class="[
+      `bs-menu-${mode}`
+    ]"
+    role="menu">
     <slot></slot>
   </ul>
 </template>

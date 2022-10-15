@@ -1,6 +1,11 @@
 <template>
   <li class="bs-menu-item-group">
-    <slot></slot>
+    <div class="bs-menu-item-group-title">
+      <slot name="title">{{ title }}</slot>
+    </div>
+    <ul class="bs-menu-item-group-content">
+      <slot></slot>
+    </ul>
   </li>
 </template>
 

@@ -1,45 +1,94 @@
 <template>
   <div class="component-usage">
-    <BsMenu>
-      <bs-menu-item key="dashboard" title="仪表盘">
-        <template #icon>
-          <img src="./test-usage-assets/dash-board.svg" alt="dashboard" class="icon-dashboard">
-        </template>
-        仪表盘
-      </bs-menu-item>
-      <bs-menu-item key="overview">机构总览</bs-menu-item>
-      <bs-sub-menu key="userManageSub" title="用户管理">
-        <bs-menu-item key="orgManage">组织管理</bs-menu-item>
-        <bs-menu-item key="userManage">用户管理</bs-menu-item>
-        <bs-menu-item key="userPartTime">一人多岗</bs-menu-item>
-      </bs-sub-menu>
-      <bs-menu-item key="identification">
-        <template #icon>
-          <img src="./test-usage-assets/identification.png" alt="" class="icon-identification">
-        </template>
-        标识管理
-      </bs-menu-item>
-      <bs-sub-menu key="secretManageSub">
-        <template #title>密钥管理</template>
-        <bs-menu-item key="kmip">数据库密钥</bs-menu-item>
-        <bs-menu-item key="kgc">库内密钥</bs-menu-item>
-      </bs-sub-menu>
-      <bs-sub-menu key="vpnPolicyManageSub">
-        <template #icon>
-          <i class="icon-vpn-policy-manage"></i>
-        </template>
-        <template #title>VPN策略管理</template>
-        <bs-menu-item-group key="vpnPolicyAttrGroup" title="策略属性管理">
-          <bs-menu-item key="vpnPolicyTimeObject">时间对象</bs-menu-item>
-          <bs-menu-item key="vpnPolicyTargetIP">目标IP</bs-menu-item>
-        </bs-menu-item-group>
-        <bs-menu-item-group key="vpnPolicyGroup">
-          <template #title>策略管理</template>
-          <bs-menu-item key="vpnOrgPolicy">组织策略</bs-menu-item>
-          <bs-menu-item key="vpnUserPolicy">用户策略</bs-menu-item>
-        </bs-menu-item-group>
-      </bs-sub-menu>
-    </BsMenu>
+    <div>
+      <h3>水平菜单</h3>
+      <BsMenu>
+        <bs-menu-item key="dashboard" title="仪表盘">
+          <template #icon>
+            <img src="./test-usage-assets/dash-board.svg" alt="dashboard" class="icon-dashboard">
+          </template>
+          仪表盘
+        </bs-menu-item>
+        <bs-menu-item class="is-selected" key="overview" icon="check-circle-fill">机构总览</bs-menu-item>
+        <bs-sub-menu class="bs-submenu-selected" key="userManageSub" icon="eye" title="用户管理">
+          <bs-menu-item key="orgManage">组织管理</bs-menu-item>
+          <bs-menu-item class="is-disabled" key="userManage">用户管理</bs-menu-item>
+          <bs-menu-item key="userPartTime">一人多岗</bs-menu-item>
+        </bs-sub-menu>
+        <bs-menu-item class="is-disabled" key="identification">
+          <template #icon>
+            <img src="./test-usage-assets/identification.png" alt="" class="icon-identification">
+          </template>
+          标识管理
+        </bs-menu-item>
+        <bs-sub-menu key="secretManageSub">
+          <template #title>密钥管理</template>
+          <bs-menu-item key="kmip">数据库密钥</bs-menu-item>
+          <bs-menu-item key="kgc">库内密钥</bs-menu-item>
+        </bs-sub-menu>
+        <bs-sub-menu key="vpnPolicyManageSub">
+          <template #icon>
+            <i class="icon-vpn-policy-manage"></i>
+          </template>
+          <template #title>VPN策略管理</template>
+          <bs-menu-item-group key="vpnPolicyAttrGroup" title="策略属性管理">
+            <bs-menu-item key="vpnPolicyTimeObject">时间对象</bs-menu-item>
+            <bs-menu-item key="vpnPolicyTargetIP">目标IP</bs-menu-item>
+          </bs-menu-item-group>
+          <bs-menu-item-group key="vpnPolicyGroup">
+            <template #title>策略管理</template>
+            <bs-menu-item key="vpnOrgPolicy">组织策略</bs-menu-item>
+            <bs-menu-item key="vpnUserPolicy">用户策略</bs-menu-item>
+          </bs-menu-item-group>
+        </bs-sub-menu>
+      </BsMenu>
+    </div>
+
+    <div>
+      <hr>
+      <h3>垂直菜单</h3>
+      <BsMenu
+        mode="vertical">
+        <bs-menu-item key="dashboard" title="仪表盘">
+          <template #icon>
+            <img src="./test-usage-assets/dash-board.svg" alt="dashboard" class="icon-dashboard">
+          </template>
+          仪表盘
+        </bs-menu-item>
+        <bs-menu-item class="is-selected" key="overview" icon="check-circle-fill">机构总览</bs-menu-item>
+        <bs-sub-menu class="bs-submenu-selected bs-submenu-expanded" key="userManageSub" icon="eye" title="用户管理">
+          <bs-menu-item key="orgManage">组织管理</bs-menu-item>
+          <bs-menu-item class="is-disabled" key="userManage">用户管理</bs-menu-item>
+          <bs-menu-item key="userPartTime">一人多岗</bs-menu-item>
+        </bs-sub-menu>
+        <bs-menu-item key="identification">
+          <template #icon>
+            <img src="./test-usage-assets/identification.png" alt="" class="icon-identification">
+          </template>
+          标识管理
+        </bs-menu-item>
+        <bs-sub-menu key="secretManageSub">
+          <template #title>密钥管理</template>
+          <bs-menu-item key="kmip">数据库密钥</bs-menu-item>
+          <bs-menu-item key="kgc">库内密钥</bs-menu-item>
+        </bs-sub-menu>
+        <bs-sub-menu class="bs-submenu-expanded" key="vpnPolicyManageSub">
+          <template #icon>
+            <i class="icon-vpn-policy-manage"></i>
+          </template>
+          <template #title>VPN策略管理</template>
+          <bs-menu-item-group key="vpnPolicyAttrGroup" title="策略属性管理">
+            <bs-menu-item key="vpnPolicyTimeObject">时间对象</bs-menu-item>
+            <bs-menu-item key="vpnPolicyTargetIP">目标IP</bs-menu-item>
+          </bs-menu-item-group>
+          <bs-menu-item-group key="vpnPolicyGroup">
+            <template #title>策略管理</template>
+            <bs-menu-item key="vpnOrgPolicy">组织策略</bs-menu-item>
+            <bs-menu-item key="vpnUserPolicy">用户策略</bs-menu-item>
+          </bs-menu-item-group>
+        </bs-sub-menu>
+      </BsMenu>
+    </div>
     <!--<a-menu
       id="dddddd"
       v-model:openKeys="openKeys"
@@ -141,6 +190,9 @@ export default defineComponent({
 </style>
 
 <style lang="scss" scoped>
+.bs-menu-vertical{
+  width: 300px;
+}
 .icon-dashboard,
 .icon-identification{
   display: block;

@@ -1,5 +1,5 @@
 <template>
-  <li class="bs-menu-item" role="menuitem">
+  <li class="bs-menu-item" role="menuitem" aria-disabled="false">
     <span
       v-if="icon || $slots.icon"
       class="bs-menu-item-icon"
