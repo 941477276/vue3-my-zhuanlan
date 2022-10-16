@@ -18,7 +18,8 @@
       :style="{
         paddingLeft: paddingLeft.value ? (paddingLeft.value + paddingLeft.unit): ''
       }"
-      @click="handleSubmenuTitleClick">
+      @click="handleSubmenuTitleClick"
+      @mouseenter="handleSubmenuTitleMouseenter">
       <span
         v-if="icon || $slots.icon"
         class="bs-menu-item-icon"
@@ -37,10 +38,12 @@
       </span>
     </div>
     <BsCollapseTransition
-      v-if="menuRootProps.subMenuDisplayMode == 'collapse' && submenuRendered">
+      v-if="menuRootProps.subMenuDisplayMode == 'collapse'">
       <ul
         v-show="submenuVisible"
-        class="bs-submenu-content">
+        class="bs-submenu-content"
+        :id="comId + '--content'"
+        :data-submenu-path="submenuPath">
         <slot></slot>
       </ul>
     </BsCollapseTransition>
@@ -57,6 +60,8 @@
         <ul
           v-show="submenuVisible"
           class="bs-submenu-content"
+          :id="comId + '--content'"
+          :data-submenu-path="submenuPath"
           :class="{
             'bs-submenu-content-dropdown': menuRootProps.subMenuDisplayMode == 'dropdown'
           }">
@@ -69,17 +74,22 @@
 
 <script lang="ts">
 import {
+  Ref,
   defineComponent,
   getCurrentInstance,
   computed,
   ref,
   inject,
-  nextTick
+  nextTick,
+  toRef,
+  onMounted,
+  onUnmounted
 } from 'vue';
 import BsIcon from '../../bs-icon/BsIcon.vue';
 import BsDropdownTransition from '../../bs-dropdown-transition/BsDropdownTransition.vue';
 import BsCollapseTransition from '../../bs-collapse-transition/BsCollapseTransition.vue';
 import { useMenuLevel } from '../hooks/useMenuLevel';
+import { useGlobalEvent } from '@/hooks/useGlobalEvent';
 import {
   bsMenuRootInjectKey,
   bsSubMenuDisplayMode
@@ -89,8 +99,9 @@ import {
 } from '@/common/util';
 
 let subMenuCount = 0;
+let componentName = 'BsSubMenu';
 export default defineComponent({
-  name: 'BsSubMenu',
+  name: componentName,
   components: {
     BsIcon,
     BsCollapseTransition,
@@ -117,7 +128,8 @@ export default defineComponent({
   },
   setup (props: any, ctx: any) {
     let currentIns = getCurrentInstance()!;
-    let subMenuId = `bs-submenu_${++subMenuCount}`;
+    let currentSubMenuCount = ++subMenuCount;
+    let subMenuId = `bs-submenu_${currentSubMenuCount}`;
     let bsSubmenuTitleRef = ref<HTMLElement | null>(null);
     let menuRootCtx = inject(bsMenuRootInjectKey) as any;
 
@@ -126,20 +138,40 @@ export default defineComponent({
       currentKeyIndex,
       keyIndexPath,
       parentMenu,
+      parentsIdPath,
       paddingLeft
     } = useMenuLevel(currentIns, props, subMenuId);
 
+    // 根菜单的属性
     let menuRootProps = computed(function () {
       let subMenuDisplayModeInner = menuRootCtx?.subMenuDisplayModeInner.value || bsSubMenuDisplayMode.collapse;
       let rootProps = menuRootCtx?.props;
-      let triggerType = rootProps?.subMenuTrigger || 'click';
+      let mode = rootProps?.mode;
+      let triggerType = rootProps?.subMenuTrigger;
       let collapsed = rootProps?.collapse; // 根菜单是否收缩起来了
+      if (!triggerType) {
+        if (collapsed || mode == 'vertical' || mode == 'horizontal') {
+          triggerType = 'hover';
+        } else {
+          triggerType = 'click';
+        }
+      }
       return {
         subMenuDisplayMode: subMenuDisplayModeInner,
         triggerType,
         collapsed,
         mode: rootProps?.mode
       };
+    });
+
+    // 当前submenu的路径，当子菜单展现形式为下拉时用来匹配是否为当前submenu的内容
+    let submenuPath = computed(function () {
+      let parent = parentMenu.value;
+      if (!parent || parent.type.name == 'BsMenu') {
+        return currentSubMenuCount + '';
+      }
+      let parentSubmenuPath = (parent.proxy as any)?.submenuPath || '';
+      return parentSubmenuPath + '__' + currentSubMenuCount;
     });
 
     // 子菜单是否显示
@@ -155,12 +187,20 @@ export default defineComponent({
       } else {
         flag = !!flag;
       }
+
+      menuRootCtx.expandedSubMenu(subMenuId, flag);
+      if (flag) {
+        useGlobalEvent.addEvent('document', 'mousemove', handleMouseleave);
+      } else {
+        useGlobalEvent.removeEvent('document', 'mousemove', handleMouseleave);
+      }
+
       if (flag && !submenuRendered.value) {
         submenuRendered.value = true;
         let timer = setTimeout(function () {
           clearTimeout(timer);
           submenuVisible.value = flag as boolean;
-        }, 100);
+        }, 160);
       } else {
         nextTick(function () {
           submenuVisible.value = flag as boolean;
@@ -174,8 +214,34 @@ export default defineComponent({
       }
       expandSubmenu();
     };
+    let handleSubmenuTitleMouseenter = function () {
+      let menuRootPropsValue = menuRootProps.value;
+      if (props.disabled || menuRootPropsValue.triggerType != 'hover') {
+        return;
+      }
+      expandSubmenu();
+    };
+    let handleMouseleave = function (evt: MouseEvent) {
+      console.log('handleMouseleave', handleMouseleave);
+    };
 
+    menuRootCtx?.addSubMenu({
+      keyIndex: currentKeyIndex.value,
+      id: subMenuId,
+      name: componentName,
+      parentsIdPath: parentsIdPath,
+      disabled: toRef(props, 'disabled') as Ref<boolean>,
+      // parentMenuId: string;
+      expandSubmenu
+    });
+
+    onUnmounted(function () {
+      menuRootCtx?.removeSubMenu(subMenuId);
+      useGlobalEvent.removeEvent('document', 'mousemove', handleMouseleave);
+    });
     return {
+      comId: subMenuId,
+      subMenuCount: currentSubMenuCount,
       currentKeyIndex,
       keyIndexPath,
       paddingLeft,
@@ -183,9 +249,11 @@ export default defineComponent({
       submenuVisible,
       submenuRendered,
       bsSubmenuTitleRef,
+      submenuPath,
 
       expandSubmenu,
-      handleSubmenuTitleClick
+      handleSubmenuTitleClick,
+      handleSubmenuTitleMouseenter
     };
   }
 });

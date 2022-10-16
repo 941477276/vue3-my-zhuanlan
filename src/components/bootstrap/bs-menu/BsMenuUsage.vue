@@ -49,7 +49,8 @@
       <h3>垂直菜单</h3>
       <BsMenu
         mode="vertical"
-        subMenuDisplayMode="dropdown">
+        subMenuDisplayMode="dropdown"
+        sub-menu-trigger="click">
         <bs-menu-item data-keyIndex="dashboard" title="仪表盘">
           <template #icon>
             <img src="./test-usage-assets/dash-board.svg" alt="dashboard" class="icon-dashboard">

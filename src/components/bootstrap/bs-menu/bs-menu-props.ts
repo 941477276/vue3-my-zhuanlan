@@ -37,7 +37,7 @@ export const bsMenuProps = {
   },
   subMenuTrigger: { // 子菜单打开的触发方式(只在 mode 为 horizontal 时有效)
     type: String,
-    default: 'click'
+    default: ''
   },
   subMenuDisplayMode: { // 子菜单展现形式
     type: String as PropType<BsSubMenuDisplayMode>,

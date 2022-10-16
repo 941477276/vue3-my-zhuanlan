@@ -40,7 +40,7 @@ export default defineComponent({
   },
   setup (props: any, ctx: any) {
     let currentIns = getCurrentInstance()!;
-    let menuItemGroupId = `bs-submenu_${++bsMenuItemGroupCount}`;
+    let menuItemGroupId = `bs-menu-item-group_${++bsMenuItemGroupCount}`;
 
     // 获取当前组件的父级菜单组件，层级路径，层级ID
     let {
@@ -50,6 +50,7 @@ export default defineComponent({
       paddingLeft
     } = useMenuLevel(currentIns, props, menuItemGroupId);
     return {
+      comId: menuItemGroupId,
       currentKeyIndex,
       keyIndexPath,
       paddingLeft

@@ -72,6 +72,7 @@ export default defineComponent({
     } = useMenuLevel(currentIns, props, menuItemId);
 
     return {
+      comId: menuItemId,
       currentKeyIndex,
       keyIndexPath,
       paddingLeft

@@ -31,11 +31,27 @@ export function useMenuLevel (currentInstance: ComponentInternalInstance, props:
       keyIndex: currentKeyIndex.value,
       name: currentInstance.type.name
     }];
-    let menuComponentNames = [MENU_NAME, SUB_MENU_NAME, ITEM_GROUP_NAME];
+    let menuComponentNames = [SUB_MENU_NAME, ITEM_GROUP_NAME];
     while (parent && parent.type.name !== MENU_NAME) {
       if (menuComponentNames.includes(parent.type.name as string)) {
         path.unshift({
           keyIndex: (parent.proxy as any)?.currentKeyIndex,
+          name: parent.type.name
+        });
+      }
+      parent = parent.parent!;
+    }
+    return path;
+  });
+  // 获取组件所有父级组件的ID
+  let parentsIdPath = computed(function () {
+    let parent = currentInstance.parent!;
+    let path = [];
+    let menuComponentNames = [SUB_MENU_NAME, ITEM_GROUP_NAME];
+    while (parent && parent.type.name !== MENU_NAME) {
+      if (menuComponentNames.includes(parent.type.name as string)) {
+        path.unshift({
+          id: (parent.proxy as any)?.comId,
           name: parent.type.name
         });
       }
@@ -104,6 +120,7 @@ export function useMenuLevel (currentInstance: ComponentInternalInstance, props:
   return {
     currentKeyIndex,
     keyIndexPath,
+    parentsIdPath,
     parentMenu,
     paddingLeft
   };
