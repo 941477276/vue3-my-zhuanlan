@@ -60,7 +60,7 @@
         <bs-menu-item keyIndex="overview1">机构总览1</bs-menu-item>
         <bs-sub-menu keyIndex="userManageSub" icon="eye" title="用户管理">
           <bs-menu-item keyIndex="orgManage">组织管理</bs-menu-item>
-          <bs-menu-item class="is-disabled" keyIndex="userManage">用户管理</bs-menu-item>
+          <bs-menu-item disabled keyIndex="userManage">用户管理</bs-menu-item>
           <bs-menu-item keyIndex="userPartTime">一人多岗</bs-menu-item>
           <bs-sub-menu keyIndex="secretManageSub3">
             <template #title>密钥管理3</template>

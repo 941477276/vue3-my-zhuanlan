@@ -2,14 +2,15 @@
   <li
     class="bs-menu-item"
     :class="{
-      'has-icon': icon || $slots.icon
+      'has-icon': icon || $slots.icon,
+      'is-disabled': disabled
     }"
     :style="{
-      paddingLeft: paddingLeft.value + paddingLeft.unit
+      paddingLeft: paddingLeft.value ? (paddingLeft.value + paddingLeft.unit): ''
     }"
     role="menuitem"
     :aria-level="keyIndexPath.length"
-    aria-disabled="false">
+    :aria-disabled="disabled">
     <span
       v-if="icon || $slots.icon"
       class="bs-menu-item-icon"

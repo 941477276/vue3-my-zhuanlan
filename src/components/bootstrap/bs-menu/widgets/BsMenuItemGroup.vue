@@ -6,7 +6,7 @@
       ref="groupTitleRef"
       class="bs-menu-item-group-title"
       :style="{
-        paddingLeft: paddingLeft.value + paddingLeft.unit
+        paddingLeft: paddingLeft.value ? (paddingLeft.value + paddingLeft.unit): ''
       }">
       <slot name="title">{{ title }}</slot>
     </div>

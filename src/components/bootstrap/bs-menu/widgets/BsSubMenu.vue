@@ -3,7 +3,7 @@
     class="bs-submenu"
     :class="{
       'bs-submenu-expanded': submenuVisible,
-      'bs-submenu-display-with-dropdown': menuRootProps.subMenuDisplayMode == 'dropdown' && !menuRootProps.collapsed
+      'bs-submenu-display-with-dropdown': menuRootProps.subMenuDisplayMode == 'dropdown'
     }"
     role="menu"
     :aria-expanded="submenuVisible"
@@ -16,7 +16,7 @@
         'has-icon': icon || $slots.icon
       }"
       :style="{
-        paddingLeft: paddingLeft.value + paddingLeft.unit
+        paddingLeft: paddingLeft.value ? (paddingLeft.value + paddingLeft.unit): ''
       }"
       @click="handleSubmenuTitleClick">
       <span
@@ -157,10 +157,15 @@ export default defineComponent({
       }
       if (flag && !submenuRendered.value) {
         submenuRendered.value = true;
+        let timer = setTimeout(function () {
+          clearTimeout(timer);
+          submenuVisible.value = flag as boolean;
+        }, 100);
+      } else {
+        nextTick(function () {
+          submenuVisible.value = flag as boolean;
+        });
       }
-      nextTick(function () {
-        submenuVisible.value = flag as boolean;
-      });
     };
     let handleSubmenuTitleClick = function () {
       let menuRootPropsValue = menuRootProps.value;

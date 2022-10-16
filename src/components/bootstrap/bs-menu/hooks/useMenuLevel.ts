@@ -9,6 +9,10 @@ import {
   bsMenuRootInjectKey
 } from '@/ts-tokens/bootstrap/menu';
 
+const MENU_NAME = 'BsMenu';
+const SUB_MENU_NAME = 'BsSubMenu';
+const MENU_ITEM_NAME = 'BsMenuItem';
+const ITEM_GROUP_NAME = 'BsMenuItemGroup';
 export function useMenuLevel (currentInstance: ComponentInternalInstance, props: any, id: string) {
   let menuRootCtx = inject(bsMenuRootInjectKey) as any;
 
@@ -23,11 +27,17 @@ export function useMenuLevel (currentInstance: ComponentInternalInstance, props:
   // 获取组件层级路径
   let keyIndexPath = computed(function () {
     let parent = currentInstance.parent!;
-    let path = [currentKeyIndex.value];
-    let menuComponentNames = ['BsMenu', 'BsSubMenu', 'BsMenuItemGroup'];
-    while (parent && parent.type.name !== 'BsMenu') {
+    let path = [{
+      keyIndex: currentKeyIndex.value,
+      name: currentInstance.type.name
+    }];
+    let menuComponentNames = [MENU_NAME, SUB_MENU_NAME, ITEM_GROUP_NAME];
+    while (parent && parent.type.name !== MENU_NAME) {
       if (menuComponentNames.includes(parent.type.name as string)) {
-        path.unshift((parent.proxy as any)?.currentKeyIndex as string);
+        path.unshift({
+          keyIndex: (parent.proxy as any)?.currentKeyIndex,
+          name: parent.type.name
+        });
       }
       parent = parent.parent!;
     }
@@ -36,7 +46,7 @@ export function useMenuLevel (currentInstance: ComponentInternalInstance, props:
   // 获取组件的父级菜单组件
   let parentMenu = computed(function () {
     let parent = currentInstance.parent!;
-    let names = ['BsMenu', 'BsSubMenu'];
+    let names = [MENU_NAME, SUB_MENU_NAME];
     while (parent && !names.includes(parent.type.name as string)) {
       parent = parent.parent!;
     }
@@ -52,18 +62,38 @@ export function useMenuLevel (currentInstance: ComponentInternalInstance, props:
       indentUnit,
       collapse
     } = menuRootCtx.props;
-    if (collapse) {
-      return '';
+    let result = {
+      value: '',
+      unit: indentUnit
+    };
+    let currentComponentName = currentInstance.type.name;
+    let keyIndexPathValue = keyIndexPath.value.slice(0);
+    let subMenuDisplayMode = menuRootCtx.subMenuDisplayModeInner.value;
+    let parentMenuName = parentMenu.value?.type.name || '';
+
+    // 如果父组件是menu根组件，并且菜单收起来了，则不计算padding-left值
+    if ((parentMenuName == MENU_NAME) && collapse) {
+      return result;
     }
-    let indentNumber = keyIndexPath.value.reduce(function (res) {
+
+    if (subMenuDisplayMode == 'dropdown') {
+      // 当子菜单展现形式为下拉时，BsSubMenu组件不需要缩进
+      if (currentComponentName == SUB_MENU_NAME) {
+        return result;
+      }
+      // 当子菜单展现形式为下拉时，只筛选出 BsMenuItemGroup 组件，因为只有该组件及该组件下的 BsMenuItem 组件才需要进行缩进
+      keyIndexPathValue = keyIndexPathValue.filter(item => {
+        return item.name == ITEM_GROUP_NAME;
+      });
+      if (keyIndexPathValue.length > 0 && currentComponentName == MENU_ITEM_NAME) {
+        keyIndexPathValue.push(keyIndexPath.value[keyIndexPath.value.length]);
+      }
+    }
+
+    let indentNumber = keyIndexPathValue.reduce(function (res) {
       return res + indent;
     }, 0);
     // console.log('indentNumber', indentNumber);
-    /* let pl = '';
-    if (indentUnit == 'px') {
-      pl = indentNumber + 'px';
-    } */
-    // let pl = indentNumber + indentUnit;
 
     return {
       value: indentNumber,
