@@ -94,14 +94,17 @@ export function useMenuLevel (currentInstance: ComponentInternalInstance, props:
 
     if (subMenuDisplayMode == 'dropdown') {
       // 当子菜单展现形式为下拉时，BsSubMenu组件不需要缩进
-      if (currentComponentName == SUB_MENU_NAME) {
+      /* if (currentComponentName == SUB_MENU_NAME) {
         return result;
-      }
+      } */
+      // 获取最近的父组件的名称
+      let nearestParentComponentName = keyIndexPathValue.length > 0 ? (keyIndexPathValue[keyIndexPathValue.length - 2]?.name) : '';
+      console.log('nearestParentComponentName', nearestParentComponentName);
       // 当子菜单展现形式为下拉时，只筛选出 BsMenuItemGroup 组件，因为只有该组件及该组件下的 BsMenuItem 组件才需要进行缩进
       keyIndexPathValue = keyIndexPathValue.filter(item => {
         return item.name == ITEM_GROUP_NAME;
       });
-      if (keyIndexPathValue.length > 0 && currentComponentName == MENU_ITEM_NAME) {
+      if (keyIndexPathValue.length > 0 && nearestParentComponentName == ITEM_GROUP_NAME && [MENU_ITEM_NAME, SUB_MENU_NAME].includes(currentComponentName as string)) {
         keyIndexPathValue.push(keyIndexPath.value[keyIndexPath.value.length]);
       }
     }
