@@ -95,6 +95,7 @@ import {
   bsSubMenuDisplayMode
 } from '@/ts-tokens/bootstrap/menu';
 import {
+  util,
   isUndefined
 } from '@/common/util';
 
@@ -190,7 +191,10 @@ export default defineComponent({
 
       menuRootCtx.expandedSubMenu(subMenuId, flag);
       if (flag) {
-        useGlobalEvent.addEvent('document', 'mousemove', handleMouseleave);
+        console.log('menuRootProps.value.triggerType', menuRootProps.value.triggerType);
+        if (menuRootProps.value.triggerType === 'hover') {
+          useGlobalEvent.addEvent('document', 'mousemove', handleMouseleave);
+        }
       } else {
         useGlobalEvent.removeEvent('document', 'mousemove', handleMouseleave);
       }
@@ -214,15 +218,49 @@ export default defineComponent({
       }
       expandSubmenu();
     };
+
+    let mouseenterTimer = 0;
     let handleSubmenuTitleMouseenter = function () {
       let menuRootPropsValue = menuRootProps.value;
-      if (props.disabled || menuRootPropsValue.triggerType != 'hover') {
+      if (props.disabled || submenuVisible.value || menuRootPropsValue.triggerType != 'hover') {
         return;
       }
-      expandSubmenu();
+      clearTimeout(mouseenterTimer);
+      mouseenterTimer = setTimeout(function () {
+        clearTimeout(mouseenterTimer);
+        expandSubmenu(true);
+      }, 150);
     };
+
+    let mouseleavetimer = 0;
     let handleMouseleave = function (evt: MouseEvent) {
-      console.log('handleMouseleave', handleMouseleave);
+      let now = new Date().getTime();
+      if (mouseleavetimer > 0 && (now - mouseleavetimer) < 150) {
+        return;
+      }
+      if (props.disabled || !submenuVisible.value || menuRootProps.value.triggerType != 'hover') {
+        return;
+      }
+      mouseleavetimer = now;
+      let target = evt.target;
+      let bsSubmenuTitleEle = bsSubmenuTitleRef.value;
+      let submenuPathVale = submenuPath.value;
+      // console.log('handleMouseleave', target, util.elementContains(bsSubmenuTitleEle, target));
+      // 如果鼠标是在当前submenu的标题上，则不处理任何事情
+      if (target === bsSubmenuTitleEle || util.elementContains(bsSubmenuTitleEle, target)) {
+        return;
+      }
+      // 获取子下拉菜单的根元素
+      let childSubmenuDropdownRootEl = util.parents(target, 'bs-submenu-content');
+      // console.log('childSubmenuDropdownRootEl', childSubmenuDropdownRootEl);
+      if (childSubmenuDropdownRootEl) {
+        let childSubmenuPath = childSubmenuDropdownRootEl.dataset.submenuPath || '';
+        // 鼠标在子下拉菜单中
+        if (childSubmenuPath.startsWith(submenuPathVale)) {
+          return;
+        }
+      }
+      expandSubmenu(false);
     };
 
     menuRootCtx?.addSubMenu({

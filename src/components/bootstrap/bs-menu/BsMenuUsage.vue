@@ -50,7 +50,7 @@
       <BsMenu
         mode="vertical"
         subMenuDisplayMode="dropdown"
-        sub-menu-trigger="click">
+        data-sub-menu-trigger="click">
         <bs-menu-item data-keyIndex="dashboard" title="仪表盘">
           <template #icon>
             <img src="./test-usage-assets/dash-board.svg" alt="dashboard" class="icon-dashboard">
@@ -67,6 +67,15 @@
             <template #title>密钥管理3</template>
             <bs-menu-item keyIndex="kmip3">数据库密钥3</bs-menu-item>
             <bs-menu-item keyIndex="kgc3">库内密钥3</bs-menu-item>
+            <bs-menu-item-group keyIndex="vpnPolicyGroup2">
+              <template #title>策略管理3</template>
+              <bs-menu-item keyIndex="vpnOrgPolicy3">组织策略3</bs-menu-item>
+              <bs-sub-menu title="策略管理3" keyIndex="vpnPolicyGroup3">
+                <bs-menu-item keyIndex="vpnOrgPolicy3">组织策略3</bs-menu-item>
+                <bs-menu-item keyIndex="vpnUserPolicy3">用户策略3</bs-menu-item>
+              </bs-sub-menu>
+              <bs-menu-item keyIndex="vpnUserPolicy3">用户策略3</bs-menu-item>
+            </bs-menu-item-group>
           </bs-sub-menu>
         </bs-sub-menu>
         <bs-menu-item keyIndex="identification">
@@ -162,10 +171,12 @@ import {
 import BsMenu from './BsMenu.vue';
 // import { AppstoreOutlined, MailOutlined, QqOutlined, SettingOutlined } from '@ant-design/icons-vue';
 import { MenuProps } from 'ant-design-vue';
+import BsSubMenu from '@/components/bootstrap/bs-menu/widgets/BsSubMenu.vue';
 
 export default defineComponent({
   name: 'BsMenuUsage',
   components: {
+    BsSubMenu,
     BsMenu
     // MailOutlined,
     // QqOutlined,

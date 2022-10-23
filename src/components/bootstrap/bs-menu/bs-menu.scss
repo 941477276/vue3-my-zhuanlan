@@ -79,6 +79,11 @@
         transform: rotate(-90deg);
       }
     }
+    &.bs-submenu-expanded{
+      &>.bs-submenu-title{
+        color: var(--primary);
+      }
+    }
   }
 }
 .bs-submenu-content-dropdown{
