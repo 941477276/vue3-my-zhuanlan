@@ -28,7 +28,9 @@ export const useGlobalEvent = {
       events = eventMap[target][eventName] = [];
       eventTarget.addEventListener(eventName, function (evt: Event) {
         let errors: Error[] = [];
-        events.forEach((eventFn: EventCallbackFn) => {
+        // 将事件数组复制一份出来，防止因移除了数组前面的事件，而导致有些事件执行不到问题
+        let eventsCopy = events.slice(0);
+        eventsCopy.forEach((eventFn: EventCallbackFn) => {
           try {
             eventFn(evt);
           } catch (e) {
@@ -49,6 +51,7 @@ export const useGlobalEvent = {
     if (!events.includes(eventCb)) {
       events.push(eventCb);
     }
+    console.log(target, 'events', eventName, events);
   },
   removeEvent: function (target: EventTarget, eventName: string, eventCb: EventCallbackFn): void {
     let events = eventMap[target][eventName];

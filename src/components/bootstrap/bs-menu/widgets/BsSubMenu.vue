@@ -190,13 +190,18 @@ export default defineComponent({
       }
 
       menuRootCtx.expandedSubMenu(subMenuId, flag);
+      let triggerType = menuRootProps.value.triggerType;
       if (flag) {
-        console.log('menuRootProps.value.triggerType', menuRootProps.value.triggerType);
-        if (menuRootProps.value.triggerType === 'hover') {
+        // console.log('menuRootProps.value.triggerType', menuRootProps.value.triggerType);
+        if (triggerType === 'hover') {
           useGlobalEvent.addEvent('document', 'mousemove', handleMouseleave);
+        } else if (triggerType === 'click') {
+          console.log('给document绑定click事件', subMenuId);
+          useGlobalEvent.addEvent('document', 'click', handleDocumentClick);
         }
       } else {
         useGlobalEvent.removeEvent('document', 'mousemove', handleMouseleave);
+        useGlobalEvent.removeEvent('document', 'click', handleDocumentClick);
       }
 
       if (flag && !submenuRendered.value) {
@@ -232,6 +237,31 @@ export default defineComponent({
       }, 150);
     };
 
+    // 判断子菜单是否应该隐藏
+    let isChildrenShouldHide = function (target: HTMLElement | undefined) {
+      if (!target) {
+        return true;
+      }
+      let bsSubmenuTitleEle = bsSubmenuTitleRef.value;
+      let submenuPathVale = submenuPath.value;
+      // console.log('handleMouseleave', target, util.elementContains(bsSubmenuTitleEle, target));
+      // 如果鼠标是在当前submenu的标题上，则不处理任何事情
+      if (target === bsSubmenuTitleEle || util.elementContains(bsSubmenuTitleEle, target)) {
+        return false;
+      }
+      // 获取子下拉菜单的根元素
+      let childSubmenuDropdownRootEl = util.parents(target, 'bs-submenu-content');
+      // console.log('childSubmenuDropdownRootEl', childSubmenuDropdownRootEl);
+      if (childSubmenuDropdownRootEl) {
+        let childSubmenuPath = childSubmenuDropdownRootEl.dataset.submenuPath || '';
+        // 鼠标在子下拉菜单中
+        if (childSubmenuPath.startsWith(submenuPathVale)) {
+          return false;
+        }
+      }
+      return true;
+    };
+
     let mouseleavetimer = 0;
     let handleMouseleave = function (evt: MouseEvent) {
       let now = new Date().getTime();
@@ -242,25 +272,22 @@ export default defineComponent({
         return;
       }
       mouseleavetimer = now;
-      let target = evt.target;
-      let bsSubmenuTitleEle = bsSubmenuTitleRef.value;
-      let submenuPathVale = submenuPath.value;
-      // console.log('handleMouseleave', target, util.elementContains(bsSubmenuTitleEle, target));
-      // 如果鼠标是在当前submenu的标题上，则不处理任何事情
-      if (target === bsSubmenuTitleEle || util.elementContains(bsSubmenuTitleEle, target)) {
+      let target = evt.target as HTMLElement;
+      if (isChildrenShouldHide(target)) {
+        expandSubmenu(false);
+      }
+    };
+
+    let handleDocumentClick = function (evt: MouseEvent) {
+      let menuRootPropsValue = menuRootProps.value;
+      if (props.disabled || menuRootPropsValue.triggerType != 'click' || menuRootPropsValue.subMenuDisplayMode != 'dropdown') {
         return;
       }
-      // 获取子下拉菜单的根元素
-      let childSubmenuDropdownRootEl = util.parents(target, 'bs-submenu-content');
-      // console.log('childSubmenuDropdownRootEl', childSubmenuDropdownRootEl);
-      if (childSubmenuDropdownRootEl) {
-        let childSubmenuPath = childSubmenuDropdownRootEl.dataset.submenuPath || '';
-        // 鼠标在子下拉菜单中
-        if (childSubmenuPath.startsWith(submenuPathVale)) {
-          return;
-        }
+      let target = evt.target as HTMLElement;
+      console.log('isChildrenShouldHide(target)', isChildrenShouldHide(target), target);
+      if (isChildrenShouldHide(target)) {
+        expandSubmenu(false);
       }
-      expandSubmenu(false);
     };
 
     menuRootCtx?.addSubMenu({
@@ -276,6 +303,7 @@ export default defineComponent({
     onUnmounted(function () {
       menuRootCtx?.removeSubMenu(subMenuId);
       useGlobalEvent.removeEvent('document', 'mousemove', handleMouseleave);
+      useGlobalEvent.removeEvent('document', 'click', handleDocumentClick);
     });
     return {
       comId: subMenuId,
