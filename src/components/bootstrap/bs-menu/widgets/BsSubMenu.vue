@@ -56,7 +56,8 @@
         :reference-ref="bsSubmenuTitleRef"
         :try-all-placement="false"
         :set-width="menuRootProps.mode == 'horizontal'"
-        :set-min-width="false">
+        :set-min-width="false"
+        @vnode-mounted="onDropdownTransitionMounted">
         <ul
           v-show="submenuVisible"
           class="bs-submenu-content"
@@ -206,10 +207,10 @@ export default defineComponent({
 
       if (flag && !submenuRendered.value) {
         submenuRendered.value = true;
-        let timer = setTimeout(function () {
+        /* let timer = setTimeout(function () {
           clearTimeout(timer);
           submenuVisible.value = flag as boolean;
-        }, 160);
+        }, 160); */
       } else {
         nextTick(function () {
           submenuVisible.value = flag as boolean;
@@ -290,6 +291,14 @@ export default defineComponent({
       }
     };
 
+    // 下拉过渡组件mounted事件(监听子组件生命周期)
+    let onDropdownTransitionMounted = function (a: any) {
+      console.log('onDropdownTransitionMounted', a);
+      nextTick(function () {
+        submenuVisible.value = true;
+      });
+    };
+
     menuRootCtx?.addSubMenu({
       keyIndex: currentKeyIndex.value,
       id: subMenuId,
@@ -319,7 +328,8 @@ export default defineComponent({
 
       expandSubmenu,
       handleSubmenuTitleClick,
-      handleSubmenuTitleMouseenter
+      handleSubmenuTitleMouseenter,
+      onDropdownTransitionMounted
     };
   }
 });
