@@ -1,10 +1,11 @@
 <template>
   <li
     class="bs-submenu"
-    :class="{
+    :class="[{
       'bs-submenu-expanded': submenuVisible,
-      'bs-submenu-display-with-dropdown': menuRootProps.subMenuDisplayMode == 'dropdown'
-    }"
+      'bs-submenu-display-with-dropdown': menuRootProps.subMenuDisplayMode == 'dropdown',
+      'bs-submenu-first-level': keyIndexPath.length == 1
+    }, `bs-submenu-${menuRootProps.mode}`]"
     role="menu"
     :aria-expanded="submenuVisible"
     :aria-disabled="disabled"
@@ -52,12 +53,11 @@
       v-else-if="menuRootProps.subMenuDisplayMode == 'dropdown'">
       <BsDropdownTransition
         v-if="submenuRendered"
-        placement="right"
+        :placement="dropdownTransitionPlacement"
         :reference-ref="bsSubmenuTitleRef"
         :try-all-placement="false"
         :set-width="menuRootProps.mode == 'horizontal'"
-        :set-min-width="false"
-        @vnode-mounted="onDropdownTransitionMounted">
+        :set-min-width="false">
         <ul
           v-show="submenuVisible"
           class="bs-submenu-content"
@@ -152,8 +152,14 @@ export default defineComponent({
       let triggerType = rootProps?.subMenuTrigger;
       let collapsed = rootProps?.collapse; // 根菜单是否收缩起来了
       if (!triggerType) {
-        if (collapsed || mode == 'vertical' || mode == 'horizontal') {
+        if (collapsed || mode == 'horizontal') {
           triggerType = 'hover';
+        } else if (mode == 'vertical') {
+          if (subMenuDisplayModeInner == 'collapse') {
+            triggerType = 'click';
+          } else {
+            triggerType = 'hover';
+          }
         } else {
           triggerType = 'click';
         }
@@ -174,6 +180,16 @@ export default defineComponent({
       }
       let parentSubmenuPath = (parent.proxy as any)?.submenuPath || '';
       return parentSubmenuPath + '__' + currentSubMenuCount;
+    });
+
+    // 下拉内容的弹出方向
+    let dropdownTransitionPlacement = computed(function () {
+      if (menuRootProps.value.mode == 'horizontal') {
+        if (keyIndexPath.value.length <= 1) {
+          return 'bottom';
+        }
+      }
+      return 'right';
     });
 
     // 子菜单是否显示
@@ -207,10 +223,10 @@ export default defineComponent({
 
       if (flag && !submenuRendered.value) {
         submenuRendered.value = true;
-        /* let timer = setTimeout(function () {
+        let timer = setTimeout(function () {
           clearTimeout(timer);
           submenuVisible.value = flag as boolean;
-        }, 160); */
+        }, 160);
       } else {
         nextTick(function () {
           submenuVisible.value = flag as boolean;
@@ -325,6 +341,7 @@ export default defineComponent({
       submenuRendered,
       bsSubmenuTitleRef,
       submenuPath,
+      dropdownTransitionPlacement,
 
       expandSubmenu,
       handleSubmenuTitleClick,
