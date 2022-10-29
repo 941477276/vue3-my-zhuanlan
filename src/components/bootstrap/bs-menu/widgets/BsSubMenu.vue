@@ -63,9 +63,9 @@
           class="bs-submenu-content"
           :id="comId + '--content'"
           :data-submenu-path="submenuPath"
-          :class="{
+          :class="[{
             'bs-submenu-content-dropdown': menuRootProps.subMenuDisplayMode == 'dropdown'
-          }">
+          }, dropdownClassname]">
           <slot></slot>
         </ul>
       </BsDropdownTransition>
@@ -126,6 +126,10 @@ export default defineComponent({
     disabled: { // 是否禁用
       type: Boolean,
       default: false
+    },
+    dropdownClassname: { // 下拉子菜单的样式
+      type: String,
+      default: ''
     }
   },
   setup (props: any, ctx: any) {
