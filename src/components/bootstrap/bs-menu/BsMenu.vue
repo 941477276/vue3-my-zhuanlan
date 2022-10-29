@@ -75,6 +75,7 @@ export default defineComponent({
     provide(bsMenuRootInjectKey, {
       subMenuDisplayModeInner,
       props,
+      registedMenuItems,
       addSubMenu (submenu: MenuItemResgisted) {
         registedSubMenus[submenu.id] = submenu;
       },
@@ -87,6 +88,21 @@ export default defineComponent({
       removeMenuItem (menuId: string) {
         delete registedMenuItems[menuId];
       },
+      // 获取所有已经注册的菜单项
+      getRegistedMenuItems () {
+        return Object.values(registedMenuItems);
+      },
+      // 根据菜单项的keyIndex查找菜单项
+      findMenuItemByKeyIndex (keyIndex: string|number) {
+        let result;
+        for (let attr in registedMenuItems) {
+          let menuItem = registedMenuItems[attr];
+          if (menuItem.keyIndex.value === keyIndex) {
+            result = menuItem;
+          }
+        }
+        return result;
+      },
       expandedSubMenu (submenuId: string, isExpanded: boolean) {
         if (isExpanded) {
           expandedSubMenuIds[submenuId] = submenuId;
@@ -98,7 +114,8 @@ export default defineComponent({
     return {
       comId: menuId,
       subMenuDisplayModeInner,
-      expandedSubMenuIds
+      expandedSubMenuIds,
+      registedMenuItems
     };
   }
 });

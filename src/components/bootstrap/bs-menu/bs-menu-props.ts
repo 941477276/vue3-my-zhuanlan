@@ -29,7 +29,7 @@ export const bsMenuProps = {
       return [];
     }
   },
-  selectedKeys: { // 当前选中的 SubMenu 菜单项 key 数组
+  selectedKeys: { // 当前选中的菜单项 key 数组
     type: Array,
     default () {
       return [];

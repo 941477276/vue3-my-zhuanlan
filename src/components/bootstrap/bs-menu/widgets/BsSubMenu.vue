@@ -4,7 +4,8 @@
     :class="[{
       'bs-submenu-expanded': submenuVisible,
       'bs-submenu-display-with-dropdown': menuRootProps.subMenuDisplayMode == 'dropdown',
-      'bs-submenu-first-level': keyIndexPath.length == 1
+      'bs-submenu-first-level': keyIndexPath.length == 1,
+      'bs-submenu-selected': hasMenuItemSelected
     }, `bs-submenu-${menuRootProps.mode}`]"
     role="menu"
     :aria-expanded="submenuVisible"
@@ -52,7 +53,6 @@
       to="body"
       v-else-if="menuRootProps.subMenuDisplayMode == 'dropdown'">
       <BsDropdownTransition
-        v-if="submenuRendered"
         :placement="dropdownTransitionPlacement"
         :reference-ref="bsSubmenuTitleRef"
         :try-all-placement="false"
@@ -84,8 +84,12 @@ import {
   nextTick,
   toRef,
   onMounted,
-  onUnmounted
+  onBeforeUnmount,
+  watch
 } from 'vue';
+import {
+  isFunction
+} from '@vue/shared';
 import BsIcon from '../../bs-icon/BsIcon.vue';
 import BsDropdownTransition from '../../bs-dropdown-transition/BsDropdownTransition.vue';
 import BsCollapseTransition from '../../bs-collapse-transition/BsCollapseTransition.vue';
@@ -93,7 +97,8 @@ import { useMenuLevel } from '../hooks/useMenuLevel';
 import { useGlobalEvent } from '@/hooks/useGlobalEvent';
 import {
   bsMenuRootInjectKey,
-  bsSubMenuDisplayMode
+  bsSubMenuDisplayMode,
+  MenuItemResgisted
 } from '@/ts-tokens/bootstrap/menu';
 import {
   util,
@@ -176,6 +181,29 @@ export default defineComponent({
       };
     });
 
+    /* // 判断是否有子孙菜单项选中
+    let hasMenuItemSelected = computed(function () {
+      let selectedKeys = menuRootCtx?.props.selectedKeys || [];
+      // 已经注册的菜单项列表
+      let registedMenuItems: Record<string, MenuItemResgisted> = menuRootCtx?.registedMenuItems;
+      if (selectedKeys.length == 0 || !registedMenuItems) {
+        return false;
+      }
+      // console.log('11111');
+      let flag = Object.values(registedMenuItems).some(function (menuItem: MenuItemResgisted) {
+        let parentsIdPath = menuItem.parentsIdPath || [];
+        // console.log('menuItem', menuItem, menuItem.id, typeof menuItem.parentsIdPath.value);
+        console.log('parentsIdPath', menuItem, parentsIdPath, menuItem.parentsIdPath);
+        return parentsIdPath.map((parentInfo: any) => {
+          console.log('parent id', parentInfo.id, subMenuId);
+          return parentInfo.id;
+        }).includes(subMenuId);
+        // return false;
+      });
+      console.log('hasMenuItemSelected', flag, subMenuId);
+      return flag;
+    }); */
+
     // 当前submenu的路径，当子菜单展现形式为下拉时用来匹配是否为当前submenu的内容
     let submenuPath = computed(function () {
       let parent = parentMenu.value;
@@ -195,6 +223,48 @@ export default defineComponent({
       }
       return 'right';
     });
+
+    // 判断是否有子孙菜单项选中
+    let hasMenuItemSelected = ref(false);
+    watch([() => menuRootCtx?.registedMenuItems, () => menuRootCtx?.selectedKeys], function (newValues) {
+      calcHasMenuItemSelected(newValues[0]);
+    }, {
+      // immediate: true,
+      flush: 'post'
+    });
+    // 计算子孙菜单项选中
+    function calcHasMenuItemSelected (registedMenuItems: Record<string, MenuItemResgisted>) {
+      let selectedKeys = menuRootCtx?.props.selectedKeys || [];
+      if (selectedKeys.length == 0 || !registedMenuItems) {
+        hasMenuItemSelected.value = false;
+        return;
+      }
+      let flag = false;
+      let selectedMnu;
+      for (let attr in registedMenuItems) {
+        let menuItem = registedMenuItems[attr];
+        if (!selectedKeys.includes(menuItem.keyIndex)) {
+          console.log('菜单项未选中', menuItem.keyIndex);
+          continue;
+        }
+        console.log('------------菜单项被选中', menuItem.keyIndex);
+        let parentsIdPath = menuItem.parentsIdPath || [];
+        selectedMnu = menuItem;
+        // console.log('parentsIdPath', parentsIdPath, subMenuId);
+        let isInclude = parentsIdPath.map(item => {
+          console.log('aaa', item);
+          return item.id;
+        }).includes(subMenuId);
+        if (isInclude) {
+          flag = true;
+          break;
+        }
+      }
+      // console.log();
+      // return flag;
+      console.log('hasMenuItemSelected', flag, selectedMnu?.keyIndex, subMenuId);
+      hasMenuItemSelected.value = flag;
+    }
 
     // 子菜单是否显示
     let submenuVisible = ref(false);
@@ -320,7 +390,7 @@ export default defineComponent({
     };
 
     menuRootCtx?.addSubMenu({
-      keyIndex: currentKeyIndex.value,
+      keyIndex: currentKeyIndex,
       id: subMenuId,
       name: componentName,
       parentsIdPath: parentsIdPath,
@@ -329,7 +399,11 @@ export default defineComponent({
       expandSubmenu
     });
 
-    onUnmounted(function () {
+    onMounted(function () {
+      calcHasMenuItemSelected(menuRootCtx?.registedMenuItems);
+    });
+
+    onBeforeUnmount(function () {
       menuRootCtx?.removeSubMenu(subMenuId);
       useGlobalEvent.removeEvent('document', 'mousemove', handleMouseleave);
       useGlobalEvent.removeEvent('document', 'click', handleDocumentClick);
@@ -346,6 +420,7 @@ export default defineComponent({
       bsSubmenuTitleRef,
       submenuPath,
       dropdownTransitionPlacement,
+      hasMenuItemSelected,
 
       expandSubmenu,
       handleSubmenuTitleClick,

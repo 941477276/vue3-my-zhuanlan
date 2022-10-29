@@ -9,11 +9,11 @@ export type BsMenuMode = 'horizontal' | 'vertical' | 'h5';
 export type BsSubMenuDisplayMode = 'collapse' | 'dropdown' | 'drawer';
 
 export interface MenuItemResgisted {
-  keyIndex: string;
+  keyIndex: ComputedRef<string>;
   id: string;
   name: string;
   disabled: Ref<boolean>;
-  parentsIdPath: ComputedRef<string[]>;
+  parentsIdPath: Record<string, string>[];
   // parentMenuId: string;
   expandSubmenu?: (flag?: boolean) => void;
 };

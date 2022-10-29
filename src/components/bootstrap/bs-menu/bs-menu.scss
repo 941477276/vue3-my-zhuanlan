@@ -63,7 +63,7 @@
     }
   }
   &.bs-submenu-selected{
-    .bs-submenu-title{
+    &>.bs-submenu-title{
       color: var(--primary);
     }
   }

@@ -4,6 +4,7 @@
       <hr>
       <h3>水平菜单</h3>
       <BsMenu
+        :selected-keys="['overview', 'vpnOrgPolicy4']"
         data-sub-menu-trigger="click">
         <bs-menu-item data-keyIndex="dashboard" title="仪表盘">
           <template #icon>
@@ -11,7 +12,7 @@
           </template>
           仪表盘
         </bs-menu-item>
-        <bs-menu-item class="is-selected" keyIndex="overview" icon="check-circle-fill">机构总览</bs-menu-item>
+        <bs-menu-item keyIndex="overview" icon="check-circle-fill">机构总览</bs-menu-item>
         <bs-menu-item keyIndex="overview1">机构总览1</bs-menu-item>
         <bs-sub-menu keyIndex="userManageSub" icon="eye" title="用户管理">
           <bs-menu-item keyIndex="orgManage">组织管理</bs-menu-item>
@@ -25,8 +26,8 @@
               <template #title>策略管理3</template>
               <bs-menu-item keyIndex="vpnOrgPolicy3">组织策略3</bs-menu-item>
               <bs-sub-menu title="策略管理3" keyIndex="vpnPolicyGroup3">
-                <bs-menu-item keyIndex="vpnOrgPolicy3">组织策略3</bs-menu-item>
-                <bs-menu-item keyIndex="vpnUserPolicy3">用户策略3</bs-menu-item>
+                <bs-menu-item keyIndex="vpnOrgPolicy4">组织策略4</bs-menu-item>
+                <bs-menu-item keyIndex="vpnUserPolicy4">用户策略</bs-menu-item>
               </bs-sub-menu>
               <bs-menu-item keyIndex="vpnUserPolicy3">用户策略3</bs-menu-item>
             </bs-menu-item-group>
@@ -66,12 +67,13 @@
       </BsMenu>
     </div>
 
-    <div>
+    <!--<div>
       <hr>
       <h3>垂直菜单(折叠展开子菜单)</h3>
       <BsMenu
         mode="vertical"
         subMenuDisplayMode="collapse"
+        :selected-keys="['kgc3']"
         data-sub-menu-trigger="click">
         <bs-menu-item data-keyIndex="dashboard" title="仪表盘">
           <template #icon>
@@ -79,7 +81,7 @@
           </template>
           仪表盘
         </bs-menu-item>
-        <bs-menu-item class="is-selected" keyIndex="overview" icon="check-circle-fill">机构总览</bs-menu-item>
+        <bs-menu-item keyIndex="overview" icon="check-circle-fill">机构总览</bs-menu-item>
         <bs-menu-item keyIndex="overview1">机构总览1</bs-menu-item>
         <bs-sub-menu keyIndex="userManageSub" icon="eye" title="用户管理">
           <bs-menu-item keyIndex="orgManage">组织管理</bs-menu-item>
@@ -132,7 +134,7 @@
           </bs-menu-item-group>
         </bs-sub-menu>
       </BsMenu>
-    </div>
+    </div>-->
 
     <div>
       <hr>
@@ -140,6 +142,7 @@
       <BsMenu
         mode="vertical"
         subMenuDisplayMode="dropdown"
+        :selected-keys="['kgc3']"
         data-sub-menu-trigger="click">
         <bs-menu-item data-keyIndex="dashboard" title="仪表盘">
           <template #icon>
@@ -147,7 +150,7 @@
           </template>
           仪表盘
         </bs-menu-item>
-        <bs-menu-item class="is-selected" keyIndex="overview" icon="check-circle-fill">机构总览</bs-menu-item>
+        <bs-menu-item keyIndex="overview" icon="check-circle-fill">机构总览</bs-menu-item>
         <bs-menu-item keyIndex="overview1">机构总览1</bs-menu-item>
         <bs-sub-menu keyIndex="userManageSub" icon="eye" title="用户管理">
           <bs-menu-item keyIndex="orgManage">组织管理</bs-menu-item>
@@ -202,7 +205,41 @@
       </BsMenu>
     </div>
 
-    <div>
+    <!--<a-menu v-model:selectedKeys="current" mode="horizontal">
+      <a-menu-item key="mail">
+        <template #icon>
+          <mail-outlined />
+        </template>
+        Navigation One
+      </a-menu-item>
+      <a-menu-item key="app" disabled>
+        <template #icon>
+          <appstore-outlined />
+        </template>
+        Navigation Two
+      </a-menu-item>
+      <a-sub-menu key="sub1">
+        <template #icon>
+          <setting-outlined />
+        </template>
+        <template #title>Navigation Three - Submenu</template>
+        <a-menu-item-group title="Item 1">
+          <a-menu-item key="setting:1">Option 1</a-menu-item>
+          <a-menu-item key="setting:2">Option 2</a-menu-item>
+        </a-menu-item-group>
+        <a-menu-item-group title="Item 2">
+          <a-menu-item key="setting:3">Option 3</a-menu-item>
+          <a-menu-item key="setting:4">Option 4</a-menu-item>
+        </a-menu-item-group>
+      </a-sub-menu>
+      <a-menu-item key="alipay">
+        <a href="https://antdv.com" target="_blank" rel="noopener noreferrer">
+          Navigation Four - Link
+        </a>
+      </a-menu-item>
+    </a-menu>-->
+
+    <!--<div>
       <hr>
       <h3>垂直菜单（点击方式展开下拉子菜单）</h3>
       <BsMenu
@@ -215,7 +252,7 @@
           </template>
           仪表盘
         </bs-menu-item>
-        <bs-menu-item class="is-selected" keyIndex="overview" icon="check-circle-fill">机构总览</bs-menu-item>
+        <bs-menu-item keyIndex="overview" icon="check-circle-fill">机构总览</bs-menu-item>
         <bs-menu-item keyIndex="overview1">机构总览1</bs-menu-item>
         <bs-sub-menu keyIndex="userManageSub" icon="eye" title="用户管理">
           <bs-menu-item keyIndex="orgManage">组织管理</bs-menu-item>
@@ -268,9 +305,9 @@
           </bs-menu-item-group>
         </bs-sub-menu>
       </BsMenu>
-    </div>
+    </div>-->
 
-    <div>
+    <!--<div>
       <hr>
       <h3>垂直菜单(收起菜单)</h3>
       <div style="margin-bottom: 1rem">
@@ -289,7 +326,7 @@
           </template>
           仪表盘
         </bs-menu-item>
-        <bs-menu-item class="is-selected" keyIndex="overview" icon="check-circle-fill">机构总览</bs-menu-item>
+        <bs-menu-item keyIndex="overview" icon="check-circle-fill">机构总览</bs-menu-item>
         <bs-menu-item keyIndex="overview1">机构总览1</bs-menu-item>
         <bs-sub-menu keyIndex="userManageSub" icon="eye" title="用户管理">
           <bs-menu-item keyIndex="orgManage">组织管理</bs-menu-item>
@@ -342,7 +379,7 @@
           </bs-menu-item-group>
         </bs-sub-menu>
       </BsMenu>
-    </div>
+    </div>-->
     <!--<a-menu
       id="dddddd"
       v-model:openKeys="openKeys"
@@ -404,6 +441,7 @@ import BsMenu from './BsMenu.vue';
 // import { AppstoreOutlined, MailOutlined, QqOutlined, SettingOutlined } from '@ant-design/icons-vue';
 import { MenuProps } from 'ant-design-vue';
 import BsSubMenu from '@/components/bootstrap/bs-menu/widgets/BsSubMenu.vue';
+import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons-vue';
 
 export default defineComponent({
   name: 'BsMenuUsage',
@@ -412,6 +450,9 @@ export default defineComponent({
     BsMenu
     // MailOutlined,
     // QqOutlined,
+    // AppstoreOutlined,
+    // SettingOutlined
+    // MailOutlined,
     // AppstoreOutlined,
     // SettingOutlined
   },
@@ -433,10 +474,12 @@ export default defineComponent({
 
     let menuCollapsed = ref(true);
 
+    const current = ref<string[]>(['mail', 'setting:1']);
     return {
       selectedKeys,
       openKeys,
       menuCollapsed,
+      current,
 
       handleClick,
       titleClick

@@ -9,7 +9,8 @@
       class="bs-menu-item"
       :class="{
         'has-icon': icon || $slots.icon,
-        'is-disabled': disabled
+        'is-disabled': disabled,
+        'is-selected': isSelected
       }"
       :style="{
         paddingLeft: paddingLeft.value ? (paddingLeft.value + paddingLeft.unit): ''
@@ -36,7 +37,8 @@
     class="bs-menu-item"
     :class="{
         'has-icon': icon || $slots.icon,
-        'is-disabled': disabled
+        'is-disabled': disabled,
+        'is-selected': isSelected
       }"
     :style="{
         paddingLeft: paddingLeft.value ? (paddingLeft.value + paddingLeft.unit): ''
@@ -65,7 +67,10 @@ import {
   getCurrentInstance,
   computed,
   inject,
-  ref
+  ref,
+  toRef,
+  Ref,
+  onBeforeUnmount
 } from 'vue';
 import BsTooltip from '../../bs-tooltip/BsTooltip.vue';
 import BsIcon from '../../bs-icon/BsIcon.vue';
@@ -73,8 +78,9 @@ import { useMenuLevel } from '../hooks/useMenuLevel';
 import { bsMenuRootInjectKey } from '@/ts-tokens/bootstrap/menu';
 
 let menuItemCount = 0;
+let componentName = 'BsMenuItem';
 export default defineComponent({
-  name: 'BsMenuItem',
+  name: componentName,
   components: {
     BsIcon,
     BsTooltip
@@ -113,6 +119,7 @@ export default defineComponent({
       currentKeyIndex,
       keyIndexPath,
       parentMenu,
+      parentsIdPath,
       paddingLeft
     } = useMenuLevel(currentIns, props, menuItemId);
 
@@ -125,12 +132,34 @@ export default defineComponent({
       return parent.type.name == 'BsMenu';
     });
 
+    // 判断菜单是否选中
+    let isSelected = computed(function () {
+      let selectedKeys = menuRootCtx?.props.selectedKeys;
+      if (!selectedKeys) {
+        return false;
+      }
+      let keyIndex = currentKeyIndex.value;
+      return selectedKeys.includes(keyIndex);
+    });
+
     let tooltipContent = ref('');
     let handleMouseenter = function (evt: MouseEvent) {
       let target = evt.target as HTMLElement;
       let titleEl = target.querySelector('.bs-menu-item-title');
       tooltipContent.value = (titleEl as any)?.innerText || titleEl?.textContent;
     };
+
+    menuRootCtx?.addMenuItem({
+      keyIndex: currentKeyIndex,
+      id: menuItemId,
+      name: componentName,
+      parentsIdPath: parentsIdPath,
+      disabled: toRef(props, 'disabled') as Ref<boolean>
+    });
+
+    onBeforeUnmount(function () {
+      menuRootCtx?.removeMenuItem(menuItemId);
+    });
 
     return {
       comId: menuItemId,
@@ -140,6 +169,8 @@ export default defineComponent({
       isCollapsed,
       parentIsMenuRoot,
       tooltipContent,
+      parentsIdPath,
+      isSelected,
 
       handleMouseenter
     };
