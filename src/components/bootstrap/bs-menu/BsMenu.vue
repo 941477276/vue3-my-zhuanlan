@@ -19,8 +19,12 @@ import {
   computed,
   provide,
   ref,
-  reactive
+  reactive,
+  watch
 } from 'vue';
+import {
+  isString
+} from '@vue/shared';
 import { bsMenuProps } from './bs-menu-props';
 import {
   bsSubMenuDisplayMode,
@@ -33,7 +37,7 @@ let menuCount = 0;
 export default defineComponent({
   name: 'BsMenu',
   props: bsMenuProps,
-  emits: ['openChange'],
+  emits: ['openChange', 'itemClick', 'update:selectedKeys', 'select'],
   setup (props: any, ctx:any) {
     let menuId = `bs-menu_${++menuCount}`;
     // 子菜单展现形式
@@ -75,10 +79,28 @@ export default defineComponent({
     // 已注册的menuitem
     let registedMenuItems = reactive<Record<string, MenuItemResgisted>>({});
 
+    // 选中的菜单项
+    let selectedKeysInner = ref<string[]>([]);
+    watch(() => {
+      let selectedKes = props.selectedKeys;
+      if (isString(selectedKes)) {
+        return selectedKes.split(',');
+      }
+      return [...selectedKes];
+    }, function (selectedKes: string[]) {
+      if (selectedKes.join(',') === selectedKeysInner.value.join(',')) {
+        return;
+      }
+      selectedKeysInner.value = selectedKes;
+    }, {
+      immediate: true
+    });
+
     provide(bsMenuRootInjectKey, {
       subMenuDisplayModeInner,
       props,
       registedMenuItems,
+      selectedKeysInner,
       addSubMenu (submenu: MenuItemResgisted) {
         registedSubMenus[submenu.id] = submenu;
       },
@@ -93,13 +115,6 @@ export default defineComponent({
       },
       expandedSubMenu (submenu: ExpandedSubmenu, isExpanded: boolean) {
         if (isExpanded) {
-          // 如果开启了同层级只有一个子菜单展开，则收起其他菜单
-          if (props.uniqueOpened) {
-            for (let attr in expandedChildSubmenus) {
-              expandedChildSubmenus[attr].shrinkSubmenu();
-            }
-            expandedChildSubmenus = {};
-          }
           expandedSubMenus[submenu.id] = submenu;
         } else {
           delete expandedSubMenus[submenu.id];
@@ -107,10 +122,22 @@ export default defineComponent({
       },
       handChildSubmenuExpand (submenu: ExpandedSubmenu, isExpanded: boolean) {
         if (isExpanded) {
+          // 如果开启了同层级只有一个子菜单展开，则收起其他菜单
+          if (props.uniqueOpened) {
+            for (let attr in expandedChildSubmenus) {
+              expandedChildSubmenus[attr].shrinkSubmenu();
+            }
+            expandedChildSubmenus = {};
+          }
           expandedChildSubmenus[submenu.id] = submenu;
         } else {
           delete expandedChildSubmenus[submenu.id];
         }
+      },
+      handleMenuItemSelect (keyIndex: string, keyPath: string[], isSelected: boolean) {
+        selectedKeysInner.value = [keyIndex];
+        ctx.emit('update:selectedKeys', [keyIndex]);
+        ctx.emit('select', keyIndex, isSelected, keyPath);
       },
       emit (name: string, ...args: any) {
         ctx.emit(name, ...args);
@@ -121,7 +148,8 @@ export default defineComponent({
       subMenuDisplayModeInner,
       expandedSubMenus,
       expandedChildSubmenus,
-      registedMenuItems
+      registedMenuItems,
+      selectedKeysInner
     };
   }
 });

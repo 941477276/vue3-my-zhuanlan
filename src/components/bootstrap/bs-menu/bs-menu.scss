@@ -78,6 +78,12 @@
       display: block;
     }*/
   }
+  &.bs-submenu-disabled{
+    &>.bs-submenu-title {
+      cursor: not-allowed;
+      color: #bcbcbc;
+    }
+  }
   &.bs-submenu-display-with-dropdown:not(.bs-submenu-horizontal.bs-submenu-first-level){
     .bs-submenu-arrow{
       .bs-submenu-arrow-icon{

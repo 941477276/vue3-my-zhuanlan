@@ -34,7 +34,7 @@ export const bsMenuProps = {
     default: false
   },
   selectedKeys: { // 当前选中的菜单项 key 数组
-    type: Array,
+    type: [Array, String],
     default () {
       return [];
     }

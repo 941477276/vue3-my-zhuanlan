@@ -5,7 +5,8 @@
       'bs-submenu-expanded': submenuVisible,
       'bs-submenu-display-with-dropdown': menuRootProps.subMenuDisplayMode == 'dropdown',
       'bs-submenu-first-level': keyIndexPath.length == 1,
-      'bs-submenu-selected': hasMenuItemSelected
+      'bs-submenu-selected': hasMenuItemSelected,
+      'bs-submenu-disabled': disabled,
     }, `bs-submenu-${menuRootProps.mode}`]"
     role="menu"
     :aria-expanded="submenuVisible"
@@ -89,9 +90,6 @@ import {
   onBeforeUnmount,
   watch
 } from 'vue';
-import {
-  isFunction
-} from '@vue/shared';
 import BsIcon from '../../bs-icon/BsIcon.vue';
 import BsDropdownTransition from '../../bs-dropdown-transition/BsDropdownTransition.vue';
 import BsCollapseTransition from '../../bs-collapse-transition/BsCollapseTransition.vue';
@@ -212,7 +210,14 @@ export default defineComponent({
 
     // 判断是否有子孙菜单项选中
     let hasMenuItemSelected = ref(false);
-    watch([() => menuRootCtx?.registedMenuItems, () => menuRootCtx?.selectedKeys], function (newValues) {
+    watch([
+      () => menuRootCtx?.registedMenuItems,
+      () => {
+        let selectedKeys = menuRootCtx?.selectedKeysInner?.value || [];
+        return selectedKeys;
+      }
+    ], function (newValues) {
+      // console.log('判断是否有子孙菜单选中', newValues);
       calcHasMenuItemSelected(newValues[0]);
     }, {
       // immediate: true,
@@ -220,7 +225,7 @@ export default defineComponent({
     });
     // 计算子孙菜单项选中
     function calcHasMenuItemSelected (registedMenuItems: Record<string, MenuItemResgisted>) {
-      let selectedKeys = menuRootCtx?.props.selectedKeys || [];
+      let selectedKeys = menuRootCtx?.selectedKeysInner?.value || [];
       if (selectedKeys.length == 0 || !registedMenuItems) {
         hasMenuItemSelected.value = false;
         return;

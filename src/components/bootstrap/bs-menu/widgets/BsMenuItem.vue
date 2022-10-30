@@ -18,6 +18,7 @@
       role="menuitem"
       :aria-level="keyIndexPath.length"
       :aria-disabled="disabled"
+      @click="handleClick"
       @mouseenter="handleMouseenter">
       <span
         v-if="icon || $slots.icon"
@@ -47,6 +48,7 @@
     role="menuitem"
     :aria-level="keyIndexPath.length"
     :aria-disabled="disabled"
+    @click="handleClick"
     @mouseenter="handleMouseenter">
       <span
         v-if="icon || $slots.icon"
@@ -105,6 +107,7 @@ export default defineComponent({
       default: false
     }
   },
+  emits: ['click'],
   setup (props: any, ctx: any) {
     let currentIns = getCurrentInstance()!;
     let menuItemId = `bs-menu-item_${++menuItemCount}`;
@@ -135,7 +138,7 @@ export default defineComponent({
 
     // 判断菜单是否选中
     let isSelected = computed(function () {
-      let selectedKeys = menuRootCtx?.props.selectedKeys;
+      let selectedKeys = menuRootCtx?.selectedKeysInner?.value;
       if (!selectedKeys) {
         return false;
       }
@@ -148,6 +151,21 @@ export default defineComponent({
       let target = evt.target as HTMLElement;
       let titleEl = target.querySelector('.bs-menu-item-title');
       tooltipContent.value = (titleEl as any)?.innerText || titleEl?.textContent;
+    };
+
+    // 点击事件
+    let handleClick = function (evt: MouseEvent) {
+      console.log('菜单点击了');
+      if (props.disabled) {
+        return;
+      }
+      let emitParams = {
+        keyIndex: currentKeyIndex.value,
+        keyPath: keyIndexPath.value
+      };
+      menuRootCtx?.emit('itemClick', emitParams, evt);
+      menuRootCtx?.handleMenuItemSelect(currentKeyIndex.value, keyIndexPath.value, !isSelected.value);
+      ctx.emit('click', emitParams, evt);
     };
 
     menuRootCtx?.addMenuItem({
@@ -173,7 +191,8 @@ export default defineComponent({
       parentsIdPath,
       isSelected,
 
-      handleMouseenter
+      handleMouseenter,
+      handleClick
     };
   }
 });
