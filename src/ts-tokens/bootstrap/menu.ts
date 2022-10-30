@@ -18,6 +18,12 @@ export interface MenuItemResgisted {
   expandSubmenu?: (flag?: boolean) => void;
 };
 
+export interface ExpandedSubmenu {
+  keyIndex: ComputedRef<string>;
+  id: string;
+  shrinkSubmenu: () => void;
+}
+
 // 子菜单展现模式
 export const bsSubMenuDisplayMode = {
   collapse: 'collapse',
@@ -26,3 +32,4 @@ export const bsSubMenuDisplayMode = {
 };
 
 export const bsMenuRootInjectKey = 'bsMenuRoot';
+export const bsSubMenuInjectKey = 'bsSubMenu';

@@ -23,7 +23,7 @@ export const bsMenuProps = {
     type: String,
     default: 'px'
   },
-  openKeys: { // 当前展开的 SubMenu 菜单项 key 数组
+  openedKeys: { // 当前展开的 SubMenu 菜单项 key 数组
     type: Array,
     default () {
       return [];

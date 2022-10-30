@@ -30,6 +30,7 @@
       <span class="bs-menu-item-title">
         <slot>{{ title }}</slot>
       </span>
+      <slot name="content"></slot>
     </li>
   </BsTooltip>
   <li

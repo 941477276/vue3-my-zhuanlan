@@ -25,13 +25,15 @@ import { bsMenuProps } from './bs-menu-props';
 import {
   bsSubMenuDisplayMode,
   bsMenuRootInjectKey,
-  MenuItemResgisted
+  MenuItemResgisted,
+  ExpandedSubmenu
 } from '@/ts-tokens/bootstrap/menu';
 
 let menuCount = 0;
 export default defineComponent({
   name: 'BsMenu',
   props: bsMenuProps,
+  emits: ['openChange'],
   setup (props: any, ctx:any) {
     let menuId = `bs-menu_${++menuCount}`;
     // 子菜单展现形式
@@ -63,12 +65,13 @@ export default defineComponent({
       }
       return bsSubMenuDisplayMode.collapse;
     });
-    console.log(getCurrentInstance());
 
     // 已注册的submenu
     let registedSubMenus = reactive<Record<string, MenuItemResgisted>>({});
     // 展开的submenu
-    let expandedSubMenuIds = reactive<Record<string, string>>({});
+    let expandedSubMenus = reactive<Record<string, ExpandedSubmenu>>({});
+    // 展开的直接子submenu
+    let expandedChildSubmenus = reactive<Record<string, ExpandedSubmenu>>({});
     // 已注册的menuitem
     let registedMenuItems = reactive<Record<string, MenuItemResgisted>>({});
 
@@ -88,33 +91,29 @@ export default defineComponent({
       removeMenuItem (menuId: string) {
         delete registedMenuItems[menuId];
       },
-      // 获取所有已经注册的菜单项
-      getRegistedMenuItems () {
-        return Object.values(registedMenuItems);
-      },
-      // 根据菜单项的keyIndex查找菜单项
-      findMenuItemByKeyIndex (keyIndex: string|number) {
-        let result;
-        for (let attr in registedMenuItems) {
-          let menuItem = registedMenuItems[attr];
-          if (menuItem.keyIndex.value === keyIndex) {
-            result = menuItem;
-          }
-        }
-        return result;
-      },
-      expandedSubMenu (submenuId: string, isExpanded: boolean) {
+      expandedSubMenu (submenu: ExpandedSubmenu, isExpanded: boolean) {
         if (isExpanded) {
-          expandedSubMenuIds[submenuId] = submenuId;
+          expandedSubMenus[submenu.id] = submenu;
         } else {
-          delete expandedSubMenuIds[submenuId];
+          delete expandedSubMenus[submenu.id];
         }
+      },
+      handChildSubmenuExpand (submenu: ExpandedSubmenu, isExpanded: boolean) {
+        if (isExpanded) {
+          expandedChildSubmenus[submenu.id] = submenu;
+        } else {
+          delete expandedChildSubmenus[submenu.id];
+        }
+      },
+      emit (name: string, ...args: any) {
+        ctx.emit(name, ...args);
       }
     });
     return {
       comId: menuId,
       subMenuDisplayModeInner,
-      expandedSubMenuIds,
+      expandedSubMenus,
+      expandedChildSubmenus,
       registedMenuItems
     };
   }

@@ -82,6 +82,7 @@ import {
   computed,
   ref,
   inject,
+  provide,
   nextTick,
   toRef,
   onMounted,
@@ -98,8 +99,10 @@ import { useMenuLevel } from '../hooks/useMenuLevel';
 import { useGlobalEvent } from '@/hooks/useGlobalEvent';
 import {
   bsMenuRootInjectKey,
+  bsSubMenuInjectKey,
   bsSubMenuDisplayMode,
-  MenuItemResgisted
+  MenuItemResgisted,
+  ExpandedSubmenu
 } from '@/ts-tokens/bootstrap/menu';
 import {
   util,
@@ -143,7 +146,12 @@ export default defineComponent({
     let currentSubMenuCount = ++subMenuCount;
     let subMenuId = `bs-submenu_${currentSubMenuCount}`;
     let bsSubmenuTitleRef = ref<HTMLElement | null>(null);
+    // 根菜单上下文
     let menuRootCtx = inject(bsMenuRootInjectKey) as any;
+    // 父级submenu上下文
+    let parentSubmenuCtx = inject(bsSubMenuInjectKey) as any;
+    // 展开的子菜单
+    let expandedChildSubmenus: Record<string, ExpandedSubmenu> = {};
 
     // 获取当前组件的父级菜单组件，层级路径，层级ID
     let {
@@ -181,29 +189,6 @@ export default defineComponent({
         mode: rootProps?.mode
       };
     });
-
-    /* // 判断是否有子孙菜单项选中
-    let hasMenuItemSelected = computed(function () {
-      let selectedKeys = menuRootCtx?.props.selectedKeys || [];
-      // 已经注册的菜单项列表
-      let registedMenuItems: Record<string, MenuItemResgisted> = menuRootCtx?.registedMenuItems;
-      if (selectedKeys.length == 0 || !registedMenuItems) {
-        return false;
-      }
-      // console.log('11111');
-      let flag = Object.values(registedMenuItems).some(function (menuItem: MenuItemResgisted) {
-        let parentsIdPath = menuItem.parentsIdPath || [];
-        // console.log('menuItem', menuItem, menuItem.id, typeof menuItem.parentsIdPath.value);
-        console.log('parentsIdPath', menuItem, parentsIdPath, menuItem.parentsIdPath);
-        return parentsIdPath.map((parentInfo: any) => {
-          console.log('parent id', parentInfo.id, subMenuId);
-          return parentInfo.id;
-        }).includes(subMenuId);
-        // return false;
-      });
-      console.log('hasMenuItemSelected', flag, subMenuId);
-      return flag;
-    }); */
 
     // 当前submenu的路径，当子菜单展现形式为下拉时用来匹配是否为当前submenu的内容
     let submenuPath = computed(function () {
@@ -245,15 +230,14 @@ export default defineComponent({
       for (let attr in registedMenuItems) {
         let menuItem = registedMenuItems[attr];
         if (!selectedKeys.includes(menuItem.keyIndex)) {
-          console.log('菜单项未选中', menuItem.keyIndex);
+          // console.log('菜单项未选中', menuItem.keyIndex);
           continue;
         }
-        console.log('------------菜单项被选中', menuItem.keyIndex);
+        // console.log('------------菜单项被选中', menuItem.keyIndex);
         let parentsIdPath = menuItem.parentsIdPath || [];
         selectedMnu = menuItem;
         // console.log('parentsIdPath', parentsIdPath, subMenuId);
         let isInclude = parentsIdPath.map(item => {
-          console.log('aaa', item);
           return item.id;
         }).includes(subMenuId);
         if (isInclude) {
@@ -261,8 +245,6 @@ export default defineComponent({
           break;
         }
       }
-      // console.log();
-      // return flag;
       console.log('hasMenuItemSelected', flag, selectedMnu?.keyIndex, subMenuId);
       hasMenuItemSelected.value = flag;
     }
@@ -281,8 +263,22 @@ export default defineComponent({
       } else {
         flag = !!flag;
       }
+      if (flag === submenuVisible.value) {
+        return;
+      }
 
-      menuRootCtx.expandedSubMenu(subMenuId, flag);
+      let expandedMenuInfo = {
+        keyIndex: currentKeyIndex,
+        id: subMenuId,
+        shrinkSubmenu () {
+          expandSubmenu(false);
+        }
+      };
+      menuRootCtx.expandedSubMenu(expandedMenuInfo, flag);
+      let parentMenuName = parentMenu.value?.type.name;
+      if (parentMenuName === 'BsMenu') {
+        menuRootCtx.handChildSubmenuExpand(expandedMenuInfo, flag);
+      }
       let triggerType = menuRootProps.value.triggerType;
       if (flag) {
         // console.log('menuRootProps.value.triggerType', menuRootProps.value.triggerType);
@@ -292,18 +288,25 @@ export default defineComponent({
           console.log('给document绑定click事件', subMenuId);
           useGlobalEvent.addEvent('document', 'click', handleDocumentClick);
         }
+        parentSubmenuCtx?.handleChildSubmenuExpand(expandedMenuInfo);
       } else {
         useGlobalEvent.removeEvent('document', 'mousemove', handleMouseleave);
         useGlobalEvent.removeEvent('document', 'click', handleDocumentClick);
+        parentSubmenuCtx?.handleChildSubmenuShrink(subMenuId);
       }
 
+      let emitParent = function (flag: boolean) {
+        menuRootCtx?.emit('openChange', currentKeyIndex.value, flag, keyIndexPath.value);
+      };
       if (flag && !submenuTeleported.value && menuRootProps.value.subMenuDisplayMode == 'dropdown') {
         submenuTeleported.value = true;
         nextTick(function () {
           submenuVisible.value = flag as boolean;
+          emitParent(flag as boolean);
         });
       } else {
-        submenuVisible.value = flag as boolean;
+        submenuVisible.value = flag;
+        emitParent(flag);
       }
     };
     let handleSubmenuTitleClick = function () {
@@ -380,14 +383,6 @@ export default defineComponent({
       }
     };
 
-    // 下拉过渡组件mounted事件(监听子组件生命周期)
-    let onDropdownTransitionMounted = function (a: any) {
-      console.log('onDropdownTransitionMounted', a);
-      nextTick(function () {
-        submenuVisible.value = true;
-      });
-    };
-
     menuRootCtx?.addSubMenu({
       keyIndex: currentKeyIndex,
       id: subMenuId,
@@ -398,14 +393,51 @@ export default defineComponent({
       expandSubmenu
     });
 
+    // 监听展开的子菜单的key
+    watch(() => [...(menuRootCtx?.props.openedKeys || [])], function (openedKeys) {
+      console.log('监听 openedKeys', openedKeys);
+      // 只有折叠形式显示子菜单才允许自动展开子菜单
+      if (menuRootProps.value.subMenuDisplayMode !== 'collapse') {
+        return;
+      }
+      let currentKey = currentKeyIndex.value;
+      if (openedKeys.includes(currentKey)) {
+        nextTick(function () {
+          expandSubmenu(true);
+        });
+      }
+    }, {
+      immediate: true,
+      flush: 'post'
+    });
+
+    // 给子孙组件提供上下文
+    provide(bsSubMenuInjectKey, {
+      handleChildSubmenuExpand (submenu: ExpandedSubmenu) {
+        expandedChildSubmenus[submenu.id] = submenu;
+        // 子孙菜单展开后，当前菜单及父级菜单也同时展开
+        expandSubmenu(true);
+      },
+      handleChildSubmenuShrink (submenuId: string) {
+        delete expandedChildSubmenus[submenuId];
+      }
+    });
+
     onMounted(function () {
       calcHasMenuItemSelected(menuRootCtx?.registedMenuItems);
     });
 
     onBeforeUnmount(function () {
-      menuRootCtx?.removeSubMenu(subMenuId);
       useGlobalEvent.removeEvent('document', 'mousemove', handleMouseleave);
       useGlobalEvent.removeEvent('document', 'click', handleDocumentClick);
+
+      let expandedSubmenuInfo = {
+        id: subMenuId
+      } as ExpandedSubmenu;
+      menuRootCtx?.removeSubMenu(subMenuId);
+      menuRootCtx?.expandedSubMenu(expandedSubmenuInfo, false);
+      menuRootCtx?.handChildSubmenuExpand(expandedSubmenuInfo, false);
+      parentSubmenuCtx?.handleChildSubmenuShrink(subMenuId);
     });
     return {
       comId: subMenuId,
@@ -421,11 +453,11 @@ export default defineComponent({
       dropdownTransitionPlacement,
       hasMenuItemSelected,
       submenuTeleported,
+      expandedChildSubmenus,
 
       expandSubmenu,
       handleSubmenuTitleClick,
-      handleSubmenuTitleMouseenter,
-      onDropdownTransitionMounted
+      handleSubmenuTitleMouseenter
     };
   }
 });

@@ -1,6 +1,6 @@
 <template>
   <div class="component-usage">
-    <div>
+    <!--<div>
       <hr>
       <h3>水平菜单</h3>
       <BsMenu
@@ -65,15 +65,16 @@
           </bs-menu-item-group>
         </bs-sub-menu>
       </BsMenu>
-    </div>
+    </div>-->
 
-    <!--<div>
+    <div>
       <hr>
       <h3>垂直菜单(折叠展开子菜单)</h3>
       <BsMenu
         mode="vertical"
         subMenuDisplayMode="collapse"
         :selected-keys="['kgc3']"
+        :opened-keys="['vpnPolicyGroup3', 'secretManageSub']"
         data-sub-menu-trigger="click">
         <bs-menu-item data-keyIndex="dashboard" title="仪表盘">
           <template #icon>
@@ -134,9 +135,9 @@
           </bs-menu-item-group>
         </bs-sub-menu>
       </BsMenu>
-    </div>-->
+    </div>
 
-    <div>
+    <!--<div>
       <hr>
       <h3>垂直菜单（下拉展开子菜单）</h3>
       <BsMenu
@@ -203,7 +204,7 @@
           </bs-menu-item-group>
         </bs-sub-menu>
       </BsMenu>
-    </div>
+    </div>-->
 
     <!--<a-menu v-model:selectedKeys="current" mode="horizontal">
       <a-menu-item key="mail">
