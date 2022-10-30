@@ -51,6 +51,7 @@
     </BsCollapseTransition>
     <teleport
       to="body"
+      :disabled="!submenuTeleported"
       v-else-if="menuRootProps.subMenuDisplayMode == 'dropdown'">
       <BsDropdownTransition
         :placement="dropdownTransitionPlacement"
@@ -269,6 +270,7 @@ export default defineComponent({
     // 子菜单是否显示
     let submenuVisible = ref(false);
     let submenuRendered = ref(false);
+    let submenuTeleported = ref(false);
     // 显示/隐藏子菜单
     let expandSubmenu = function (flag?: boolean) {
       if (props.disabled) {
@@ -295,16 +297,13 @@ export default defineComponent({
         useGlobalEvent.removeEvent('document', 'click', handleDocumentClick);
       }
 
-      if (flag && !submenuRendered.value) {
-        submenuRendered.value = true;
-        let timer = setTimeout(function () {
-          clearTimeout(timer);
-          submenuVisible.value = flag as boolean;
-        }, 160);
-      } else {
+      if (flag && !submenuTeleported.value && menuRootProps.value.subMenuDisplayMode == 'dropdown') {
+        submenuTeleported.value = true;
         nextTick(function () {
           submenuVisible.value = flag as boolean;
         });
+      } else {
+        submenuVisible.value = flag as boolean;
       }
     };
     let handleSubmenuTitleClick = function () {
@@ -421,6 +420,7 @@ export default defineComponent({
       submenuPath,
       dropdownTransitionPlacement,
       hasMenuItemSelected,
+      submenuTeleported,
 
       expandSubmenu,
       handleSubmenuTitleClick,
