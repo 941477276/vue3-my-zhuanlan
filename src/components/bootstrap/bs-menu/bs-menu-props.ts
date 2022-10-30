@@ -29,6 +29,10 @@ export const bsMenuProps = {
       return [];
     }
   },
+  uniqueOpened: { // 是否只保持同级的子菜单只有一个展开
+    type: Boolean,
+    default: false
+  },
   selectedKeys: { // 当前选中的菜单项 key 数组
     type: Array,
     default () {

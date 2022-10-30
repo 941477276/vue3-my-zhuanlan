@@ -414,6 +414,13 @@ export default defineComponent({
     // 给子孙组件提供上下文
     provide(bsSubMenuInjectKey, {
       handleChildSubmenuExpand (submenu: ExpandedSubmenu) {
+        // 如果开启了同层级只有一个子菜单展开，则收起其他菜单
+        if (menuRootCtx?.props.uniqueOpened) {
+          for (let attr in expandedChildSubmenus) {
+            expandedChildSubmenus[attr].shrinkSubmenu();
+          }
+          expandedChildSubmenus = {};
+        }
         expandedChildSubmenus[submenu.id] = submenu;
         // 子孙菜单展开后，当前菜单及父级菜单也同时展开
         expandSubmenu(true);

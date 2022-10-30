@@ -93,6 +93,13 @@ export default defineComponent({
       },
       expandedSubMenu (submenu: ExpandedSubmenu, isExpanded: boolean) {
         if (isExpanded) {
+          // 如果开启了同层级只有一个子菜单展开，则收起其他菜单
+          if (props.uniqueOpened) {
+            for (let attr in expandedChildSubmenus) {
+              expandedChildSubmenus[attr].shrinkSubmenu();
+            }
+            expandedChildSubmenus = {};
+          }
           expandedSubMenus[submenu.id] = submenu;
         } else {
           delete expandedSubMenus[submenu.id];
