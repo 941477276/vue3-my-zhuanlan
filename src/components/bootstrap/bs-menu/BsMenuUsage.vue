@@ -137,14 +137,15 @@
       </BsMenu>
     </div>-->
 
-    <!--<div>
+    <div>
       <hr>
       <h3>垂直菜单（下拉展开子菜单）</h3>
       <BsMenu
         mode="vertical"
         subMenuDisplayMode="dropdown"
         :selected-keys="['kgc3']"
-        data-sub-menu-trigger="click">
+        data-sub-menu-trigger="click"
+        @item-click="onMenuClick">
         <bs-menu-item data-keyIndex="dashboard" title="仪表盘">
           <template #icon>
             <img src="./test-usage-assets/dash-board.svg" alt="dashboard" class="icon-dashboard">
@@ -164,9 +165,9 @@
             <bs-menu-item-group keyIndex="vpnPolicyGroup2">
               <template #title>策略管理3</template>
               <bs-menu-item keyIndex="vpnOrgPolicy3">组织策略3</bs-menu-item>
-              <bs-sub-menu title="策略管理3" keyIndex="vpnPolicyGroup3">
-                <bs-menu-item keyIndex="vpnOrgPolicy3">组织策略3</bs-menu-item>
-                <bs-menu-item keyIndex="vpnUserPolicy3">用户策略3</bs-menu-item>
+              <bs-sub-menu title="策略管理4" keyIndex="vpnPolicyGroup3">
+                <bs-menu-item keyIndex="vpnOrgPolicy4">组织策略4</bs-menu-item>
+                <bs-menu-item keyIndex="vpnUserPolicy4">用户策略4</bs-menu-item>
               </bs-sub-menu>
               <bs-menu-item keyIndex="vpnUserPolicy3">用户策略3</bs-menu-item>
             </bs-menu-item-group>
@@ -204,7 +205,7 @@
           </bs-menu-item-group>
         </bs-sub-menu>
       </BsMenu>
-    </div>-->
+    </div>
 
     <!--<div>
       <hr>
@@ -275,15 +276,16 @@
       </BsMenu>
     </div>-->
 
-    <div>
+    <!--<div>
       <hr>
-      <h3>垂直菜单--默认有选中项</h3>
+      <h3>垂直菜单&#45;&#45;默认有选中项</h3>
       <BsMenu
         mode="vertical"
         subMenuDisplayMode="collapse"
         :selected-keys="['overview', 'vpnOrgPolicy3']"
         unique-opened
-        data-sub-menu-trigger="click">
+        data-sub-menu-trigger="click"
+        @item-click="onMenuClick">
         <bs-menu-item data-keyIndex="dashboard" title="仪表盘">
           <template #icon>
             <img src="./test-usage-assets/dash-board.svg" alt="dashboard" class="icon-dashboard">
@@ -377,7 +379,7 @@
           Navigation Four - Link
         </a>
       </a-menu-item>
-    </a-menu>
+    </a-menu>-->
 
     <!--<div>
       <hr>
@@ -622,7 +624,10 @@ export default defineComponent({
       current,
 
       handleClick,
-      titleClick
+      titleClick,
+      onMenuClick (itemOptions: any, evt: MouseEvent) {
+        console.log('菜单点击了', itemOptions);
+      }
     };
   }
 });

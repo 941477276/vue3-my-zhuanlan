@@ -432,6 +432,13 @@ export default defineComponent({
       },
       handleChildSubmenuShrink (submenuId: string) {
         delete expandedChildSubmenus[submenuId];
+      },
+      handleMenuItemClick (menuItem: any) {
+        if (menuRootProps.value.subMenuDisplayMode !== 'dropdown') {
+          return;
+        }
+        expandSubmenu(false);
+        parentSubmenuCtx?.handleMenuItemClick(menuItem);
       }
     });
 

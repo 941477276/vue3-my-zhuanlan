@@ -78,7 +78,7 @@ import {
 import BsTooltip from '../../bs-tooltip/BsTooltip.vue';
 import BsIcon from '../../bs-icon/BsIcon.vue';
 import { useMenuLevel } from '../hooks/useMenuLevel';
-import { bsMenuRootInjectKey } from '@/ts-tokens/bootstrap/menu';
+import { bsMenuRootInjectKey, bsSubMenuInjectKey } from '@/ts-tokens/bootstrap/menu';
 
 let menuItemCount = 0;
 let componentName = 'BsMenuItem';
@@ -113,6 +113,8 @@ export default defineComponent({
     let menuItemId = `bs-menu-item_${++menuItemCount}`;
     // 根菜单提供的上下文
     let menuRootCtx = inject(bsMenuRootInjectKey) as any;
+    // 父级<bs-submenu>提供的上下文
+    let submenuCtx = inject(bsSubMenuInjectKey) as any;
 
     let isCollapsed = computed(function () {
       return menuRootCtx?.props.collapse;
@@ -165,6 +167,7 @@ export default defineComponent({
       };
       menuRootCtx?.emit('itemClick', emitParams, evt);
       menuRootCtx?.handleMenuItemSelect(currentKeyIndex.value, keyIndexPath.value, !isSelected.value);
+      submenuCtx?.handleMenuItemClick(emitParams);
       ctx.emit('click', emitParams, evt);
     };
 
