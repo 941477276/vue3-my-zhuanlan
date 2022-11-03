@@ -70,18 +70,19 @@ export function useMenuLevel (currentInstance: ComponentInternalInstance, props:
   });
   // 计算dom元素的padding-left值
   let paddingLeft = computed(function () {
+    let result = {
+      value: '',
+      unit: ''
+    };
     if (!menuRootCtx) {
-      return '';
+      return result;
     }
     let {
       indent,
       indentUnit,
       collapse
     } = menuRootCtx.props;
-    let result = {
-      value: '',
-      unit: indentUnit
-    };
+    result.unit = indentUnit;
     let currentComponentName = currentInstance.type.name;
     let keyIndexPathValue = keyIndexPath.value.slice(0);
     let subMenuDisplayMode = menuRootCtx.subMenuDisplayModeInner.value;

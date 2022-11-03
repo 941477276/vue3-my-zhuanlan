@@ -2,7 +2,7 @@ import {
   App
 } from 'vue';
 import BsMenu from './BsMenu.vue';
-import BsSubMenu from './widgets/BsSubMenu.vue';
+import BsSubMenu from './widgets/BsSubMenu';
 import BsMenuItemGroup from './widgets/BsMenuItemGroup.vue';
 import BsMenuItem from './widgets/BsMenuItem.vue';
 

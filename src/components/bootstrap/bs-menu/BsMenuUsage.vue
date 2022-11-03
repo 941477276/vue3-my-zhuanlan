@@ -67,14 +67,14 @@
       </BsMenu>
     </div>-->
 
-    <!--<div>
+    <div>
       <hr>
       <h3>垂直菜单(折叠展开子菜单)</h3>
       <BsMenu
         mode="vertical"
         subMenuDisplayMode="collapse"
         :selected-keys="['kgc3']"
-        :opened-keys="['vpnPolicyGroup3', 'secretManageSub']"
+        :opened-keys="['vpnPolicyGroup3'/* , 'secretManageSub' */]"
         data-sub-menu-trigger="click">
         <bs-menu-item data-keyIndex="dashboard" title="仪表盘">
           <template #icon>
@@ -135,9 +135,9 @@
           </bs-menu-item-group>
         </bs-sub-menu>
       </BsMenu>
-    </div>-->
+    </div>
 
-    <div>
+    <!--<div>
       <hr>
       <h3>垂直菜单（下拉展开子菜单）</h3>
       <BsMenu
@@ -205,7 +205,7 @@
           </bs-menu-item-group>
         </bs-sub-menu>
       </BsMenu>
-    </div>
+    </div>-->
 
     <!--<div>
       <hr>
@@ -582,7 +582,7 @@ import {
 import BsMenu from './BsMenu.vue';
 // import { AppstoreOutlined, MailOutlined, QqOutlined, SettingOutlined } from '@ant-design/icons-vue';
 import { MenuProps } from 'ant-design-vue';
-import BsSubMenu from '@/components/bootstrap/bs-menu/widgets/BsSubMenu.vue';
+import BsSubMenu from '@/components/bootstrap/bs-menu/widgets/BsSubMenu';
 import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons-vue';
 
 export default defineComponent({

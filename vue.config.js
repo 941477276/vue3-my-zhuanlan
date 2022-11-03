@@ -43,6 +43,32 @@ module.exports = {
       .end();
   },
   configureWebpack: config => {
-
+    config.module.rules.push({ // 解析jsx、tsx
+      test: /\.(js|ts|jsx|tsx)$/,
+      // loader: 'babel-loader'
+      use: [{
+        loader: 'babel-loader',
+        options: {
+          // prefix: false
+          presets: [
+            [
+              '@babel/preset-typescript',
+              {
+                allExtensions: true,
+                isTSX: true,
+                jsx: 'preserve',
+                // jsxFragmentFactory: 'h',
+                // jsxFactory: 'h'
+              }
+            ],
+            [
+              '@vue/babel-preset-jsx',
+              { compositionAPI: true }
+            ]
+          ]
+        }
+      }]
+    });
+    // console.dir(config.module.rules);
   }
 };
