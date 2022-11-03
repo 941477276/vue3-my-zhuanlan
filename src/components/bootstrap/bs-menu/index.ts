@@ -4,7 +4,7 @@ import {
 import BsMenu from './BsMenu.vue';
 import BsSubMenu from './widgets/BsSubMenu';
 import BsMenuItemGroup from './widgets/BsMenuItemGroup.vue';
-import BsMenuItem from './widgets/BsMenuItem.vue';
+import BsMenuItem from './widgets/BsMenuItem';
 
 BsMenu.install = function (vueApp: App) {
   vueApp.component(BsMenu.name, BsMenu);
