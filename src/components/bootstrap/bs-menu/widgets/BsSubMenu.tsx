@@ -29,6 +29,7 @@ import {
   util,
   isUndefined
 } from '@/common/util';
+import { NumberDecimal } from 'ant-design-vue/lib/input-number/src/utils/MiniDecimal';
 
 let subMenuCount = 0;
 let componentName = 'BsSubMenu';
@@ -372,6 +373,7 @@ export default defineComponent({
       flush: 'post'
     });
 
+    let handleCollapseExpandTimer: number;
     // 给子孙组件提供上下文
     provide(bsSubMenuInjectKey, {
       handleChildSubmenuExpand (submenu: ExpandedSubmenu) {
@@ -404,7 +406,15 @@ export default defineComponent({
         // 如果组件已经是最顶层的，则展开自己。否则再通知自己的父组件
         if (keyIndexPath.value.length == 1) {
           console.log('处理子组件的展开请求通知，展开自己', subMenuId, [...needExpandSubmenus]);
-          expandSubmenu(true);
+          if (submenuVisible.value) { // 如果菜单已经展开了，直接调用子组件的展开函数
+            clearTimeout(handleCollapseExpandTimer);
+            handleCollapseExpandTimer = setTimeout(() => {
+              clearTimeout(handleCollapseExpandTimer);
+              handleCollapseExpand();
+            }, 0);
+          } else {
+            expandSubmenu(true);
+          }
         } else {
           console.log('处理子组件的展开请求通知，自己也需要通知父组件', subMenuId);
           parentSubmenuCtx?.notifyParentExpand(subMenuId, () => {
