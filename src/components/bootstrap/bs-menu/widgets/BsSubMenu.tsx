@@ -84,6 +84,9 @@ export default defineComponent({
       paddingLeft
     } = useMenuLevel(currentIns, props, subMenuId);
 
+    // 待展开的子组件
+    let needExpandSubmenus: {submenuId: string; expand: () => void}[] = [];
+
     /* console.log('submenu currentKeyIndex信息：', currentKeyIndex);
     console.log('submenu keyIndexPath信息：', keyIndexPath);
     console.log('submenu parentsIdPath信息：', parentsIdPath);
@@ -318,6 +321,19 @@ export default defineComponent({
       }
     };
 
+    // 处理展开事件
+    let handleCollapseExpand = function () {
+      let processedSubmenus: {[key: string]: number} = {};
+      while (needExpandSubmenus.length > 0) {
+        let submenuInfo = needExpandSubmenus.shift()!;
+        if (processedSubmenus[submenuInfo.submenuId]) {
+          continue;
+        }
+        submenuInfo.expand();
+        processedSubmenus[submenuInfo.submenuId] = 1;
+      }
+    };
+
     menuRootCtx?.addSubMenu({
       keyIndex: currentKeyIndex,
       id: subMenuId,
@@ -338,8 +354,17 @@ export default defineComponent({
       let currentKey = currentKeyIndex.value;
       if (openedKeys.includes(currentKey)) {
         nextTick(function () {
-          console.log('自动展开子菜单', subMenuId);
-          expandSubmenu(true);
+          // 如果是最顶层的submenu则直接展开，否则通知其父级submenu
+          if (keyIndexPath.value.length == 1) {
+            console.log('自动展开菜单', subMenuId);
+            expandSubmenu(true);
+          } else {
+            console.log('自动展开菜单, 通知父组件展开', subMenuId);
+            // 通知父组件展开，如果父组件没有展开，组件自己就展开了会导致折叠效果失效（计算不了元素高度）
+            parentSubmenuCtx?.notifyParentExpand(subMenuId, () => {
+              expandSubmenu(true);
+            });
+          }
         });
       }
     }, {
@@ -370,6 +395,22 @@ export default defineComponent({
         }
         expandSubmenu(false);
         parentSubmenuCtx?.handleMenuItemClick(menuItem);
+      },
+      notifyParentExpand (submenuId: string, expand: () => void) {
+        needExpandSubmenus.push({
+          submenuId,
+          expand
+        });
+        // 如果组件已经是最顶层的，则展开自己。否则再通知自己的父组件
+        if (keyIndexPath.value.length == 1) {
+          console.log('处理子组件的展开请求通知，展开自己', subMenuId, [...needExpandSubmenus]);
+          expandSubmenu(true);
+        } else {
+          console.log('处理子组件的展开请求通知，自己也需要通知父组件', subMenuId);
+          parentSubmenuCtx?.notifyParentExpand(subMenuId, () => {
+            expandSubmenu(true);
+          });
+        }
       }
     });
 
@@ -408,14 +449,16 @@ export default defineComponent({
 
       expandSubmenu,
       handleSubmenuTitleClick,
-      handleSubmenuTitleMouseenter
+      handleSubmenuTitleMouseenter,
+      handleCollapseExpand
     };
   },
   render () {
     let slots = this.$slots;
     // 折叠展开子菜单
     let createCollapseTransition = () => {
-      return <BsCollapseTransition>
+      // @ts-ignore
+      return <BsCollapseTransition onAfterEnter={ this.handleCollapseExpand }>
         <ul
           v-show={this.submenuVisible}
           class="bs-submenu-content"
