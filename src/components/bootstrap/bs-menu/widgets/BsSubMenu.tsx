@@ -64,6 +64,7 @@ export default defineComponent({
       default: ''
     }
   },
+  emits: ['expand'],
   setup (props: any, ctx: any) {
     let currentIns = getCurrentInstance()!;
     let currentSubMenuCount = ++subMenuCount;
@@ -184,7 +185,7 @@ export default defineComponent({
           break;
         }
       }
-      console.log('hasMenuItemSelected', flag, selectedMnu?.keyIndex, subMenuId);
+      // console.log('hasMenuItemSelected', flag, selectedMnu?.keyIndex, subMenuId);
       hasMenuItemSelected.value = flag;
     }
 
@@ -325,6 +326,7 @@ export default defineComponent({
     // 处理展开事件
     let handleCollapseExpand = function () {
       let processedSubmenus: {[key: string]: number} = {};
+      ctx.emit('expand', subMenuId);
       while (needExpandSubmenus.length > 0) {
         let submenuInfo = needExpandSubmenus.shift()!;
         if (processedSubmenus[submenuInfo.submenuId]) {
@@ -486,7 +488,9 @@ export default defineComponent({
           reference-ref={this.bsSubmenuTitleRef}
           try-all-placement={false}
           set-width={this.menuRootProps.mode == 'horizontal'}
-          set-min-width={false}>
+          set-min-width={false}
+          // @ts-ignore
+          onAfterEnter={ () => { this.$emit('expand', this.comId); } }>
           <ul
             v-show={this.submenuVisible}
             id={this.comId + '--content'}
