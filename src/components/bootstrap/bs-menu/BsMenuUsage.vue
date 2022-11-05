@@ -1,6 +1,6 @@
 <template>
   <div class="component-usage">
-    <!--<div>
+    <div>
       <hr>
       <h3>水平菜单</h3>
       <BsMenu
@@ -65,7 +65,7 @@
           </bs-menu-item-group>
         </bs-sub-menu>
       </BsMenu>
-    </div>-->
+    </div>
 
     <div>
       <hr>
@@ -137,7 +137,7 @@
       </BsMenu>
     </div>
 
-    <!--<div>
+    <div>
       <hr>
       <h3>垂直菜单（下拉展开子菜单）</h3>
       <BsMenu
@@ -205,9 +205,9 @@
           </bs-menu-item-group>
         </bs-sub-menu>
       </BsMenu>
-    </div>-->
+    </div>
 
-    <!--<div>
+    <div>
       <hr>
       <h3>垂直菜单(手风琴式菜单)</h3>
       <BsMenu
@@ -274,9 +274,9 @@
           </bs-menu-item-group>
         </bs-sub-menu>
       </BsMenu>
-    </div>-->
+    </div>
 
-    <!--<div>
+    <div>
       <hr>
       <h3>垂直菜单&#45;&#45;默认有选中项</h3>
       <BsMenu
@@ -347,41 +347,7 @@
       </BsMenu>
     </div>
 
-    <a-menu v-model:selectedKeys="current" mode="horizontal">
-      <a-menu-item key="mail">
-        <template #icon>
-          <mail-outlined />
-        </template>
-        Navigation One
-      </a-menu-item>
-      <a-menu-item key="app" disabled>
-        <template #icon>
-          <appstore-outlined />
-        </template>
-        Navigation Two
-      </a-menu-item>
-      <a-sub-menu key="sub1">
-        <template #icon>
-          <setting-outlined />
-        </template>
-        <template #title>Navigation Three - Submenu</template>
-        <a-menu-item-group title="Item 1">
-          <a-menu-item key="setting:1">Option 1</a-menu-item>
-          <a-menu-item key="setting:2">Option 2</a-menu-item>
-        </a-menu-item-group>
-        <a-menu-item-group title="Item 2">
-          <a-menu-item key="setting:3">Option 3</a-menu-item>
-          <a-menu-item key="setting:4">Option 4</a-menu-item>
-        </a-menu-item-group>
-      </a-sub-menu>
-      <a-menu-item key="alipay">
-        <a href="https://antdv.com" target="_blank" rel="noopener noreferrer">
-          Navigation Four - Link
-        </a>
-      </a-menu-item>
-    </a-menu>-->
-
-    <!--<div>
+    <div>
       <hr>
       <h3>垂直菜单（点击方式展开下拉子菜单）</h3>
       <BsMenu
@@ -447,9 +413,9 @@
           </bs-menu-item-group>
         </bs-sub-menu>
       </BsMenu>
-    </div>-->
+    </div>
 
-    <!--<div>
+    <div>
       <hr>
       <h3>垂直菜单(收起菜单)</h3>
       <div style="margin-bottom: 1rem">
@@ -521,57 +487,7 @@
           </bs-menu-item-group>
         </bs-sub-menu>
       </BsMenu>
-    </div>-->
-    <!--<a-menu
-      id="dddddd"
-      v-model:openKeys="openKeys"
-      v-model:selectedKeys="selectedKeys"
-      style="width: 256px"
-      mode="inline"
-      inline-collapsed
-      @click="handleClick"
-    >
-      <a-sub-menu key="sub1" @titleClick="titleClick">
-        <template #icon>
-          <MailOutlined/>
-        </template>
-        <template #title>Navigation One</template>
-        <a-menu-item-group key="g1">
-          <template #icon>
-            <QqOutlined/>
-          </template>
-          <template #title>Item 1</template>
-          <a-menu-item key="1">Option 1</a-menu-item>
-          <a-menu-item key="2">Option 2</a-menu-item>
-        </a-menu-item-group>
-        <a-menu-item-group key="g2" title="Item 2">
-          <a-menu-item key="3">Option 3</a-menu-item>
-          <a-menu-item key="4">Option 4</a-menu-item>
-        </a-menu-item-group>
-      </a-sub-menu>
-      <a-sub-menu key="sub2" @titleClick="titleClick">
-        <template #icon>
-          <AppstoreOutlined/>
-        </template>
-        <template #title>Navigation Two</template>
-        <a-menu-item key="5">Option 5</a-menu-item>
-        <a-menu-item key="6">Option 6</a-menu-item>
-        <a-sub-menu key="sub3" title="Submenu">
-          <a-menu-item key="7">Option 7</a-menu-item>
-          <a-menu-item key="8">Option 8</a-menu-item>
-        </a-sub-menu>
-      </a-sub-menu>
-      <a-sub-menu key="sub4">
-        <template #icon>
-          <SettingOutlined/>
-        </template>
-        <template #title>Navigation Three</template>
-        <a-menu-item key="9">Option 9</a-menu-item>
-        <a-menu-item key="10">Option 10</a-menu-item>
-        <a-menu-item key="11">Option 11</a-menu-item>
-        <a-menu-item key="12">Option 12</a-menu-item>
-      </a-sub-menu>
-    </a-menu>-->
+    </div>
   </div>
 </template>
 
@@ -583,7 +499,7 @@ import BsMenu from './BsMenu.vue';
 // import { AppstoreOutlined, MailOutlined, QqOutlined, SettingOutlined } from '@ant-design/icons-vue';
 import { MenuProps } from 'ant-design-vue';
 import BsSubMenu from '@/components/bootstrap/bs-menu/widgets/BsSubMenu';
-import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons-vue';
+// import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons-vue';
 
 export default defineComponent({
   name: 'BsMenuUsage',
