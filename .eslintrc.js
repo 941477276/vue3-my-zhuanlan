@@ -31,6 +31,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-extra-semi': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
-    'vue/no-setup-props-destructure': 'off'
+    'vue/no-setup-props-destructure': 'off',
+    'eol-last': 'off' // 文件最后一行是否需添加一行空行
   }
 }

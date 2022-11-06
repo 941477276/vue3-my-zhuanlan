@@ -10,11 +10,15 @@
       <button
         type="button"
         tabindex="-1"
-        class="bs-picker-header-year-btn">{{ currentDateInfo.yearName }}</button>
+        class="bs-picker-header-year-btn"
+        :disabled="yearButtonDisabled"
+        @click="onYearClick">{{ currentDateInfo.yearName }}</button>
       <button
         type="button"
         tabindex="-1"
-        class="bs-picker-header-month-btn">{{ currentDateInfo.monthName }}</button>
+        class="bs-picker-header-month-btn"
+        :disabled="monthButtonDisabled"
+        @click="onMonthClick">{{ currentDateInfo.monthName }}</button>
     </PanelHeader>
     <PanelBody
       :header-cells="tableHeader"
@@ -38,6 +42,9 @@ import {
   provide,
   PropType
 } from 'vue';
+import {
+  NOOP
+} from '@vue/shared';
 import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil, isLeapYear, getMonthDays } from '@/common/dayjsUtil';
 import PanelHeader from '../panel-header/PanelHeader.vue';
@@ -126,10 +133,30 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
+    yearButtonDisabled: { // 是否禁用年份按钮
+      type: Boolean,
+      default: false
+    },
+    monthButtonDisabled: { // 是否禁用月份按钮
+      type: Boolean,
+      default: false
+    },
     getRowClassname: { // 自定义表格行classname
       type: Function,
       default () {
         return () => [];
+      }
+    },
+    onYearClick: { // 年份按钮点击事件
+      type: Function,
+      default () {
+        return NOOP;
+      }
+    },
+    onMonthClick: { // 月份按钮点击事件
+      type: Function,
+      default () {
+        return NOOP;
       }
     }
   },
@@ -239,9 +266,10 @@ export default defineComponent({
         return;
       }
       // 选择的是已经选中的日期则不进行后续操作
-      if (modelValue && (modelValue.format(defaultFormat) === cellData.dayjsIns.format(defaultFormat))) {
+      // 不阻止已选中的日期再次被选中，如果这里阻止了，当用户切换面板后就无法切换回去了
+      /* if (modelValue && (modelValue.format(defaultFormat) === cellData.dayjsIns.format(defaultFormat))) {
         return;
-      }
+      } */
       ctx.emit('update:modelValue', cellData.dayjsIns);
     };
 

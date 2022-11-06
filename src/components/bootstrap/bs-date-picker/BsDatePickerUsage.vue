@@ -19,7 +19,7 @@
       </BsDatePicker>
     </div>
 
-    <div>
+    <!-- <div>
       <hr>
       <h3>选择时间</h3>
       <BsDatePicker v-model="date5" picker-type="dateTime"></BsDatePicker>
@@ -129,7 +129,7 @@
       <BsDatePicker
         v-model="decade"
         picker-type="decade"></BsDatePicker>
-    </div>
+    </div> -->
   </div>
 </template>
 

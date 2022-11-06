@@ -7,7 +7,8 @@
     <button
       type="button"
       tabindex="-1"
-      class="bs-picker-header-year-btn">{{ yearNumberInfo.startYear }}-{{ yearNumberInfo.endYear }}</button>
+      class="bs-picker-header-year-btn"
+      @click="onDecadeClick">{{ yearNumberInfo.startYear }}-{{ yearNumberInfo.endYear }}</button>
   </PanelHeader>
   <PanelBody
     :show-header="false"
@@ -23,8 +24,12 @@
 <script lang="ts">
 import {
   computed,
-  defineComponent, PropType, ref, watch
+  defineComponent,
+  PropType,
+  ref,
+  watch
 } from 'vue';
+import { NOOP } from '@vue/shared';
 import PanelHeader from '../panel-header/PanelHeader.vue';
 import PanelBody from '../panel-body/PanelBody.vue';
 import dayjs, { Dayjs } from 'dayjs';
@@ -55,6 +60,12 @@ export default defineComponent({
     showHeader: { // 是否显头部
       type: Boolean,
       default: true
+    },
+    onDecadeClick: {
+      type: Function,
+      default () {
+        return NOOP;
+      }
     }
   },
   emits: ['update:modelValue'],
@@ -116,9 +127,10 @@ export default defineComponent({
         return;
       }
       // 选择的是已经选中的日期则不进行后续操作
-      if (modelValue && (modelValue.year() === cellData.dayjsIns.year())) {
+      // 不阻止已选中的日期再次被选中，如果这里阻止了，当用户切换面板后就无法切换回去了
+      /* if (modelValue && (modelValue.year() === cellData.dayjsIns.year())) {
         return;
-      }
+      } */
       ctx.emit('update:modelValue', cellData.dayjsIns);
     };
 

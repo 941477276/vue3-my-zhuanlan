@@ -7,9 +7,14 @@ import {
   watch,
   provide,
   computed,
-  VNode
+  VNode,
+  nextTick
 } from 'vue';
-import { PickerType, datePickerCtx } from '@/ts-tokens/bootstrap/date-picker';
+import { 
+  PickerType, 
+  datePickerCtx,
+  allowedPickerType
+} from '@/ts-tokens/bootstrap/date-picker';
 import BsCommonPicker from '../bs-common-picker/BsCommonPicker.vue';
 import { bsDatePickerProps } from './bsDatePickerProps';
 import BsDatePanel from './panels/bs-date-panel/BsDatePanel.vue';
@@ -77,7 +82,20 @@ export default defineComponent({
       return formatValue;
     });
 
+    // 面板当前状态
+    let currentMode = ref('');
+    let prevMode = ref(''); // 上一步的面板状态
+    let setCurrentMode = function (mode: string) {
+      // 在宏任务中切换面板状态，防止错误的判断鼠标点击到了面板外面
+      let timer = setTimeout(function () {
+        clearTimeout(timer);
+        prevMode.value = currentMode.value;
+        currentMode.value = mode;
+      }, 0); 
+    };
+
     let date = ref<Dayjs|null>();
+    // 显示的文本
     let viewDateText = ref('');
     let setViewDateTxt = function (modelValue: Dayjs|string) {
       if (!modelValue) {
@@ -324,8 +342,45 @@ export default defineComponent({
       setDate(dayjs());
     };
 
+    // 面板状态变换事件处理函数
+    let pickerModeChangeHandlers: { [key: string]: any } = {
+      'date': (mode: string, newDate: Dayjs) => {
+        let clonedDate = date.value?.clone();
+        let prevModeValue = prevMode.value;
+        let nextMode = '';
+        console.log('mode, prevModeValue', mode, prevModeValue);
+        switch (mode) {
+          case 'decade':
+            setDate(clonedDate?.year(newDate.year()));
+            nextMode = 'year';
+            break;
+          case 'year':
+            setDate(clonedDate?.year(newDate.year()));
+            if (['decade', 'month'].includes(prevModeValue)) {
+              nextMode = 'month';
+            } else {
+              nextMode = 'date';
+            }
+            break;
+          case 'month':
+            setDate(clonedDate?.month(newDate.month()));
+            nextMode = 'date';
+            break;
+        }
+        setCurrentMode(nextMode);
+      }
+    };
     //  日期控件model-value值改变事件
     let onDatePanelModelValueChange = function (newDate: Dayjs, hideDropdown: boolean) {
+      console.log('onDatePanelModelValueChange事件触发了');
+      let pickerType = props.pickerType;
+      let mode = currentMode.value;
+      // 如果面板状态有值且面板状态不等于面板类型，此时用户只是在切换面板，并非在赋值
+      if (mode && (pickerType != mode)) {
+        console.log('切换回原来的面板');
+        pickerModeChangeHandlers[pickerType]?.(mode, newDate);
+        return;
+      }
       setDate(newDate);
       if (typeof hideDropdown === 'boolean' && !hideDropdown) { // 判断是否隐藏下拉面板
         return;
@@ -419,12 +474,14 @@ export default defineComponent({
       inputPlaceholder,
       todayIsDisabled,
       footerVisible,
+      currentMode,
 
       clear,
       hide,
       show,
       setNow,
       setValidateStatus,
+      setCurrentMode,
 
       onDatePanelModelValueChange,
       onNowBtnClick () {
@@ -444,6 +501,10 @@ export default defineComponent({
       onInput,
       onInputBlur,
       onShow () {
+        let mode = props.mode;
+        if (mode) {
+          currentMode.value = allowedPickerType.includes(mode) ? mode : props.pickerType;
+        }
         visible.value = true;
         ctx.emit('open');
       },
@@ -455,11 +516,16 @@ export default defineComponent({
   },
   render () {
     let $slots = this.$slots;
+    let { 
+      pickerType,
+      currentMode
+    } = this;
 
     let commonPickerSlots = {
       trigger: $slots.default
     };
    
+    // 面板公共属性
     let panelcommonProps = {
       'model-value': this.date, 
       'date-render': this.dateRender,
@@ -467,10 +533,26 @@ export default defineComponent({
       'show-header': this.showHeader,
       'onUpdate:modelValue': this.onDatePanelModelValueChange
     };
+
+    // 年份按钮点击事件
+    let onYearButtonClick = () => { 
+      this.setCurrentMode('year');
+    };
+    // 月份按钮点击事件
+    let onMonthButtonClick = () => { 
+      this.setCurrentMode('month');
+    };
+    // 十年按钮点击事件
+    let onDecadeClick = () => {
+      this.setCurrentMode('decade');
+    };
+
     let panels: {[key: string]: () => VNode} = {
       datePanel: () => {
         return <BsDatePanel
-          { ...panelcommonProps }></BsDatePanel>;
+          { ...panelcommonProps }
+          onYearClick={ onYearButtonClick }
+          onMonthClick={ onMonthButtonClick }></BsDatePanel>;
       },
       weekPanel: () => {
         return <BsWeekPanel
@@ -478,11 +560,13 @@ export default defineComponent({
       },
       monthPanel: () => {
         return <BsMonthPanel
-          { ...panelcommonProps }></BsMonthPanel>;
+          { ...panelcommonProps }
+          onYearClick={ onYearButtonClick }></BsMonthPanel>;
       },
       yearPanel: () => {
         return <BsYearPanel
-          { ...panelcommonProps }></BsYearPanel>;
+          { ...panelcommonProps }
+          onDecadeClick={ onDecadeClick }></BsYearPanel>;
       },
       quarterPanel: () => {
         return <BsQuarterPanel
@@ -501,7 +585,9 @@ export default defineComponent({
           { ...panelcommonProps }></BsDateTimePanel>;
       }
     };
-    
+    let currentModePanel = panels[currentMode + 'Panel'];
+    let pickerContent = currentModePanel || panels[pickerType + 'Panel'];
+
     return (<BsCommonPicker
       class="bs-date-editor"
       ref="bsCommonPicker"
@@ -535,13 +621,14 @@ export default defineComponent({
         <div class="bs-panel-sidebar">
           { $slots.sidebar ? $slots.sidebar({ date: this.date }) : null }
         </div>
-        { panels[(this.pickerType + 'Panel')]?.() }
+        {/* { panels[(this.pickerType + 'Panel')]?.() } */}
+        { pickerContent?.() }
       </div>
-      {this.footerVisible ? <div class="bs-picker-footer">
+      {(this.footerVisible && (!currentMode || pickerType == currentMode)) ? <div class="bs-picker-footer">
         <div class="bs-picker-btns">
           {/* <!--TODO 按钮的禁用问题--> */}
-          {this.pickerType == 'date' ? <BsButton class="bs-picker-today" size="sm" disabled={ this.todayIsDisabled } onClick={ this.onNowBtnClick }>今天</BsButton> : null}
-          {this.pickerType == 'dateTime' ? (
+          {pickerType == 'date' && (!currentMode || currentMode == 'date') ? <BsButton class="bs-picker-today" size="sm" disabled={ this.todayIsDisabled } onClick={ this.onNowBtnClick }>今天</BsButton> : null}
+          {pickerType == 'dateTime' ? (
             <>
               <BsButton type="link" size="sm" disabled={ this.todayIsDisabled } onClick={ this.onNowBtnClick }>此刻</BsButton>
               <BsButton class="bs-picker-ok" type="primary" size="sm" onClick={ this.onConfirmBtnClick }>确定</BsButton>

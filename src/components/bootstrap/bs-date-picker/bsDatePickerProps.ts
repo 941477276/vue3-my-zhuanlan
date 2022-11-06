@@ -11,6 +11,10 @@ export const bsDatePickerProps = {
     type: String as PropType<PickerType>,
     default: 'date'
   },
+  mode: { // 面板的状态
+    type: String as PropType<PickerType>,
+    default: ''
+  },
   format: { // 日期显示的格式
     type: String,
     default: ''

@@ -7,3 +7,4 @@ export type DatePickerCtx = {
 }
 export const datePickerCtx: InjectionKey<DatePickerCtx> = Symbol('datePickerCtx');
 export const datePickerPrefixColumnSlotCtx = Symbol('prefixColumnSlotCtx');
+export const allowedPickerType = ['date', 'dateTime', 'week', 'month', 'quarter', 'year'];

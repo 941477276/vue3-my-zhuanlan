@@ -103,9 +103,10 @@ export default defineComponent({
         return;
       }
       // 选择的是已经选中的日期则不进行后续操作
-      if (modelValue && (modelValue.quarter() === cellData.quarter.quarter())) {
+      // 不阻止已选中的日期再次被选中，如果这里阻止了，当用户切换面板后就无法切换回去了
+      /* if (modelValue && (modelValue.quarter() === cellData.quarter.quarter())) {
         return;
-      }
+      } */
       ctx.emit('update:modelValue', cellData.quarter);
     };
 
