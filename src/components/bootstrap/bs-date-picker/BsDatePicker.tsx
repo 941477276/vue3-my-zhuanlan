@@ -474,63 +474,23 @@ export default defineComponent({
       },
       weekPanel: () => {
         return <BsWeekPanel
-          model-value={ this.date } 
-          date-render={ this.dateRender }
-          disabled-date={ this.disabledDate }
-          show-header={ this.showHeader }
-          {
-            ...{
-              'onUpdate:modelValue': this.onDatePanelModelValueChange
-            }
-          }></BsWeekPanel>;
+          { ...panelcommonProps }></BsWeekPanel>;
       },
       monthPanel: () => {
         return <BsMonthPanel
-          model-value={ this.date } 
-          date-render={ this.dateRender }
-          disabled-date={ this.disabledDate }
-          show-header={ this.showHeader }
-          {
-            ...{
-              'onUpdate:modelValue': this.onDatePanelModelValueChange
-            }
-          }></BsMonthPanel>;
+          { ...panelcommonProps }></BsMonthPanel>;
       },
       yearPanel: () => {
         return <BsYearPanel
-          model-value={ this.date } 
-          date-render={ this.dateRender }
-          disabled-date={ this.disabledDate }
-          show-header={ this.showHeader }
-          {
-            ...{
-              'onUpdate:modelValue': this.onDatePanelModelValueChange
-            }
-          }></BsYearPanel>;
+          { ...panelcommonProps }></BsYearPanel>;
       },
       quarterPanel: () => {
         return <BsQuarterPanel
-          model-value={ this.date } 
-          date-render={ this.dateRender }
-          disabled-date={ this.disabledDate }
-          show-header={ this.showHeader }
-          {
-            ...{
-              'onUpdate:modelValue': this.onDatePanelModelValueChange
-            }
-          }></BsQuarterPanel>;
+          { ...panelcommonProps }></BsQuarterPanel>;
       },
       decadePanel: () => {
         return <BsDecadePanel
-          model-value={ this.date } 
-          date-render={ this.dateRender }
-          disabled-date={ this.disabledDate }
-          show-header={ this.showHeader }
-          {
-            ...{
-              'onUpdate:modelValue': this.onDatePanelModelValueChange
-            }
-          }></BsDecadePanel>;
+          { ...panelcommonProps }></BsDecadePanel>;
       },
       dateTimePanel: () => {
         return <BsDateTimePanel
@@ -538,15 +498,7 @@ export default defineComponent({
           date-panel-props={ this.datePanelProps }
           time-panel-props={ this.timePanelProps }
 
-          model-value={ this.date } 
-          date-render={ this.dateRender }
-          disabled-date={ this.disabledDate }
-          show-header={ this.showHeader }
-          {
-            ...{
-              'onUpdate:modelValue': this.onDatePanelModelValueChange
-            }
-          }></BsDateTimePanel>;
+          { ...panelcommonProps }></BsDateTimePanel>;
       }
     };
     
