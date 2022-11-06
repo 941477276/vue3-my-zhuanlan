@@ -4,6 +4,8 @@
       v-bind="datePanelProps"
       value-format=""
       :model-value="modelValue"
+      :on-year-click="onYearClick"
+      :on-month-click="onMonthClick"
       @update:modelValue="onDateChange"></BsDatePanel>
     <BsPickerTimePanel
       v-bind="timePanelProps"
@@ -30,6 +32,9 @@ import {
   provide,
   PropType
 } from 'vue';
+import {
+  NOOP
+} from '@vue/shared';
 import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil, isLeapYear, getMonthDays } from '@/common/dayjsUtil';
 import BsDatePanel from '../bs-date-panel/BsDatePanel.vue';
@@ -61,6 +66,18 @@ export default defineComponent({
     visible: { // 组件是否可见
       type: Boolean,
       default: false
+    },
+    onYearClick: { // 年份按钮点击事件
+      type: Function,
+      default () {
+        return NOOP;
+      }
+    },
+    onMonthClick: { // 月份按钮点击事件
+      type: Function,
+      default () {
+        return NOOP;
+      }
     }
   },
   emits: ['update:modelValue'],
