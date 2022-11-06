@@ -108,9 +108,9 @@
   <!--<div class="box">
     <BsTimePickerUsage></BsTimePickerUsage>
   </div>-->
-  <!--<div class="box">
+  <div class="box">
     <BsDatePickerUsage></BsDatePickerUsage>
-  </div>-->
+  </div>
   <!--<div class="box">
     <BsBackTopUsage></BsBackTopUsage>
   </div>-->
@@ -126,9 +126,9 @@
   <!--<div class="box">
     <BsToastUsage></BsToastUsage>
   </div>-->
-  <div class="box">
+  <!-- <div class="box">
     <BsMenuUsage></BsMenuUsage>
-  </div>
+  </div> -->
 </template>
 
 <script lang="ts">

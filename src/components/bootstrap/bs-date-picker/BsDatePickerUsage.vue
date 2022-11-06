@@ -14,7 +14,9 @@
     </a-space>
     <div>
       <h3>基本使用</h3>
-      <BsDatePicker name="startDate" v-model="date1"></BsDatePicker>
+      <BsDatePicker name="startDate" v-model="date1">
+        <!-- <bs-button>触发按钮</bs-button> -->
+      </BsDatePicker>
     </div>
 
     <div>
@@ -137,7 +139,7 @@ import {
   h,
   defineComponent
 } from 'vue';
-import BsDatePicker from './BsDatePicker.vue';
+import BsDatePicker from './BsDatePicker';
 import dayjs, { Dayjs } from 'dayjs';
 
 export default defineComponent({

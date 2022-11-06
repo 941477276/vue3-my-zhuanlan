@@ -1,4 +1,4 @@
-import BsDatePicker from './BsDatePicker.vue';
+import BsDatePicker from './BsDatePicker';
 
 BsDatePicker.install = function (vueApp: any) {
   vueApp.component(BsDatePicker.name, BsDatePicker);

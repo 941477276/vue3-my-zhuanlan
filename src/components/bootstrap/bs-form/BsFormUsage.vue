@@ -87,7 +87,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, ref, ComponentInternalInstance } from 'vue';
-import BsDatePicker from '@/components/bootstrap/bs-date-picker/BsDatePicker.vue';
+import BsDatePicker from '@/components/bootstrap/bs-date-picker/BsDatePicker';
 
 export default defineComponent({
   name: 'BsFormUsage',
