@@ -7,7 +7,8 @@
       <button
         type="button"
         tabindex="-1"
-        class="bs-picker-header-year-btn">{{ yearName }}</button>
+        class="bs-picker-header-year-btn"
+        @click="onYearClick">{{ yearName }}</button>
     </PanelHeader>
     <PanelBody
       :show-header="false"
@@ -23,8 +24,14 @@
 <script lang="ts">
 import {
   computed,
-  defineComponent, PropType, ref, watch
+  defineComponent,
+  PropType,
+  ref,
+  watch
 } from 'vue';
+import {
+  NOOP
+} from '@vue/shared';
 import PanelHeader from '../panel-header/PanelHeader.vue';
 import PanelBody from '../panel-body/PanelBody.vue';
 import dayjs, { Dayjs } from 'dayjs';
@@ -53,6 +60,12 @@ export default defineComponent({
     showHeader: { // 是否显头部
       type: Boolean,
       default: true
+    },
+    onYearClick: {
+      type: Function,
+      default () {
+        return NOOP;
+      }
     }
   },
   emits: ['update:modelValue'],

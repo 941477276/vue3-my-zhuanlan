@@ -343,36 +343,35 @@ export default defineComponent({
     };
 
     // 面板状态变换事件处理函数
-    let pickerModeChangeHandlers: { [key: string]: any } = {
-      'date': (mode: string, pickerType: string, newDate: Dayjs) => {
-        let clonedDate = date.value?.clone();
-        let prevModeValue = prevMode.value;
-        let nextMode = pickerType;
-        console.log('mode, prevModeValue', mode, prevModeValue, clonedDate);
-        switch (mode) {
-          case 'decade':
-            setDate(clonedDate ? clonedDate.year(newDate.year()) : newDate);
-            nextMode = 'year';
-            // console.log('11111', newDate);
-            break;
-          case 'year':
-            setDate(clonedDate ? clonedDate.year(newDate.year()) : newDate);
-            if (['decade', 'month'].includes(prevModeValue)) {
-              nextMode = 'month';
-            }
-            // console.log('222222');
-            /*  else {
-              nextMode = 'date';
-            } */
-            break;
-          case 'month':
-            setDate(clonedDate ? clonedDate.month(newDate.month()) : newDate);
-            // console.log('3333');
-            break;
-        }
-        setCurrentMode(nextMode);
+    let handlePickerModeChange = (mode: string, pickerType: string, newDate: Dayjs) => {
+      let clonedDate = date.value?.clone();
+      let prevModeValue = prevMode.value;
+      let nextMode = pickerType;
+      console.log('mode, prevModeValue', mode, prevModeValue, clonedDate);
+      switch (mode) {
+        case 'decade':
+          setDate(clonedDate ? clonedDate.year(newDate.year()) : newDate);
+          nextMode = 'year';
+          // console.log('11111', newDate);
+          break;
+        case 'year':
+          setDate(clonedDate ? clonedDate.year(newDate.year()) : newDate);
+          if (['decade', 'month'].includes(prevModeValue) && pickerType !== 'quarter') {
+            nextMode = 'month';
+          }
+          // console.log('222222');
+          /*  else {
+            nextMode = 'date';
+          } */
+          break;
+        case 'month':
+          setDate(clonedDate ? clonedDate.month(newDate.month()) : newDate);
+          // console.log('3333');
+          break;
       }
+      setCurrentMode(nextMode);
     };
+  
     //  日期控件model-value值改变事件
     let onDatePanelModelValueChange = function (newDate: Dayjs, hideDropdown: boolean) {
       console.log('onDatePanelModelValueChange事件触发了');
@@ -381,11 +380,7 @@ export default defineComponent({
       // 如果面板状态有值且面板状态不等于面板类型，此时用户只是在切换面板，并非在赋值
       if (mode && (pickerType != mode)) {
         console.log('切换回原来的面板');
-        if (['date', 'dateTime'].includes(pickerType)) {
-          pickerModeChangeHandlers.date(mode, pickerType, newDate);  
-        } else {
-          pickerModeChangeHandlers[pickerType]?.(mode, newDate);
-        }
+        handlePickerModeChange(mode, pickerType, newDate);
         return;
       }
       setDate(newDate);
@@ -563,7 +558,9 @@ export default defineComponent({
       },
       weekPanel: () => {
         return <BsWeekPanel
-          { ...panelcommonProps }></BsWeekPanel>;
+          { ...panelcommonProps }
+          onYearClick={ onYearButtonClick }
+          onMonthClick={ onMonthButtonClick }></BsWeekPanel>;
       },
       monthPanel: () => {
         return <BsMonthPanel
@@ -577,7 +574,8 @@ export default defineComponent({
       },
       quarterPanel: () => {
         return <BsQuarterPanel
-          { ...panelcommonProps }></BsQuarterPanel>;
+          { ...panelcommonProps }
+          onYearClick={ onYearButtonClick }></BsQuarterPanel>;
       },
       decadePanel: () => {
         return <BsDecadePanel

@@ -5,6 +5,8 @@
       :has-prefix-column="true"
       :get-row-classname="setRowClassname"
       :model-value="modelValue"
+      :on-month-click="onMonthClick"
+      :on-year-click="onYearClick"
       @update:modelValue="$emit('update:modelValue', $event)">
       <template #prefixColumn="cellData">
         <td class="bs-picker-cell bs-picker-week-cell">{{ getWeek(cellData.dayjsIns) }}</td>
@@ -23,6 +25,9 @@ import {
   provide,
   inject
 } from 'vue';
+import {
+  NOOP
+} from '@vue/shared';
 import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil } from '@/common/dayjsUtil';
 import BsDatePanel from '../bs-date-panel/BsDatePanel.vue';
@@ -53,6 +58,18 @@ export default defineComponent({
     hasPrefixColumn: { // 是否有前置列
       type: Boolean,
       default: false
+    },
+    onYearClick: { // 年份按钮点击事件
+      type: Function,
+      default () {
+        return NOOP;
+      }
+    },
+    onMonthClick: { // 月份按钮点击事件
+      type: Function,
+      default () {
+        return NOOP;
+      }
     }
   },
   emits: ['update:modelValue'],

@@ -12,12 +12,12 @@
       <a-date-picker v-model:value="value4" picker="quarter" data-value-format="YYYY-[Q]Q" />
       <a-date-picker v-model:value="value5" picker="year" />
     </a-space>
-    <!-- <div>
+    <div>
       <h3>基本使用</h3>
       <BsDatePicker name="startDate" v-model="date1">
-        <!!-- <bs-button>触发按钮</bs-button> --！>
+        <!-- <bs-button>触发按钮</bs-button> -->
       </BsDatePicker>
-    </div> -->
+    </div>
 
     <div>
       <hr>
@@ -29,9 +29,9 @@
       <hr>
       <h3>选择时间（12小时值）</h3>
       <BsDatePicker v-model="date6" picker-type="dateTime" value-format="YYYY-MM-DD hh:mm:ss a" :time-panel-props="{ use12Hours: true, }"></BsDatePicker>
-    </div>
+    </div> -->
 
-    <div>
+    <!-- <div>
       <hr>
       <h3>自定义渲染</h3>
       <h6 style="margin: 0.5rem 0;">使用 <code>dateRender</code> 函数</h6>
@@ -65,7 +65,7 @@
           </div>
         </template>
       </BsDatePicker>
-    </div>
+    </div> -->
 
     <div>
       <hr>
@@ -85,7 +85,7 @@
       <BsDatePicker
         v-model="date3"
         picker-type="month"
-        :disabled-date="(date) => {return date.month() < 7}"></BsDatePicker>
+        data-disabled-date="(date) => {return date.month() < 7}"></BsDatePicker>
     </div>
 
     <div>
@@ -129,7 +129,7 @@
       <BsDatePicker
         v-model="decade"
         picker-type="decade"></BsDatePicker>
-    </div> -->
+    </div>
   </div>
 </template>
 
