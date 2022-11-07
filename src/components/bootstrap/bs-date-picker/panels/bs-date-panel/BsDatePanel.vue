@@ -163,10 +163,11 @@ export default defineComponent({
   emits: ['update:modelValue'],
   setup (props: any, ctx: any) {
     let now = dayjs(); // 今天
+    console.log('now construct', now instanceof dayjs);
 
     let panelViewDate = ref(dayjs(props.modelValue ? props.modelValue : undefined));
     let setPanelViewDate = (date: Dayjs) => {
-      if (!date) {
+      if (!date || !(date instanceof dayjs)) {
         return;
       }
       panelViewDate.value = date;
@@ -325,7 +326,8 @@ export default defineComponent({
       onSuperNext () {
         setPanelViewDate(dayjsUtil.addYear(panelViewDate.value, 1));
       },
-      onCellClick
+      onCellClick,
+      setPanelViewDate
     };
   }
 });

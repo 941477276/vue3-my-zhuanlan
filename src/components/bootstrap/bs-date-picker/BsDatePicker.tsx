@@ -265,6 +265,15 @@ export default defineComponent({
       return !!showFooter;
     });
 
+    // 组件ref
+    let dateRef = ref<any>(null);
+    let weekRef = ref<any>(null);
+    let monthRef = ref<any>(null);
+    let yearRef = ref<any>(null);
+    let quarterRef = ref<any>(null);
+    let decadeRef = ref<any>(null);
+    let dateTimeRef = ref<any>(null);
+
     // 设置值
     let setDate = function (newDate?: Dayjs) {
       if (!newDate) {
@@ -485,6 +494,14 @@ export default defineComponent({
       setValidateStatus,
       setCurrentMode,
 
+      dateRef,
+      weekRef,
+      monthRef,
+      yearRef,
+      quarterRef,
+      decadeRef,
+      dateTimeRef,
+
       onDatePanelModelValueChange,
       onNowBtnClick () {
         setNow();
@@ -552,37 +569,44 @@ export default defineComponent({
     let panels: {[key: string]: () => VNode} = {
       datePanel: () => {
         return <BsDatePanel
+          ref={ this.dateRef }
           { ...panelcommonProps }
           onYearClick={ onYearButtonClick }
           onMonthClick={ onMonthButtonClick }></BsDatePanel>;
       },
       weekPanel: () => {
         return <BsWeekPanel
+          ref={ this.weekRef }
           { ...panelcommonProps }
           onYearClick={ onYearButtonClick }
           onMonthClick={ onMonthButtonClick }></BsWeekPanel>;
       },
       monthPanel: () => {
         return <BsMonthPanel
+          ref={ this.monthRef }
           { ...panelcommonProps }
           onYearClick={ onYearButtonClick }></BsMonthPanel>;
       },
       yearPanel: () => {
         return <BsYearPanel
+          ref={ this.yearRef }
           { ...panelcommonProps }
           onDecadeClick={ onDecadeClick }></BsYearPanel>;
       },
       quarterPanel: () => {
         return <BsQuarterPanel
+          ref={ this.quarterRef }
           { ...panelcommonProps }
           onYearClick={ onYearButtonClick }></BsQuarterPanel>;
       },
       decadePanel: () => {
         return <BsDecadePanel
+          ref={ this.decadeRef }
           { ...panelcommonProps }></BsDecadePanel>;
       },
       dateTimePanel: () => {
         return <BsDateTimePanel
+          ref={ this.dateTimeRef }
           visible={ this.visible }
           date-panel-props={ this.datePanelProps }
           time-panel-props={ this.timePanelProps }

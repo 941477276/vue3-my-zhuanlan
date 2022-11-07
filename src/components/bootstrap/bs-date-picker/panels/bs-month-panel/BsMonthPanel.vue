@@ -72,7 +72,7 @@ export default defineComponent({
     let monthValueNow = dayjs().format(defaultFormat);
     let panelViewDate = ref(dayjs(props.modelValue ? props.modelValue : undefined));
     let setPanelViewDate = (date: Dayjs) => {
-      if (!date) {
+      if (!date || !(date instanceof dayjs)) {
         return;
       }
       panelViewDate.value = date;
@@ -163,7 +163,8 @@ export default defineComponent({
         console.log('onSuperPrev');
         setPanelViewDate(dayjsUtil.addYear(panelViewDate.value, 1));
       },
-      onCellClick
+      onCellClick,
+      setPanelViewDate
     };
   }
 });

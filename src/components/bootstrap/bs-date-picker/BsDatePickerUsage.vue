@@ -19,11 +19,11 @@
       </BsDatePicker>
     </div>
 
-    <div>
+    <!-- <div>
       <hr>
       <h3>选择时间</h3>
       <BsDatePicker v-model="date5" picker-type="dateTime"></BsDatePicker>
-    </div>
+    </div> -->
 
     <!-- <div>
       <hr>
@@ -67,7 +67,7 @@
       </BsDatePicker>
     </div> -->
 
-    <div>
+    <!-- <div>
       <hr>
       <h3>选择周</h3>
       <BsDatePicker picker-type="week" v-model="week1"></BsDatePicker>
@@ -129,7 +129,7 @@
       <BsDatePicker
         v-model="decade"
         picker-type="decade"></BsDatePicker>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -153,7 +153,8 @@ export default defineComponent({
       // console.log('day', day);
       return day >= 1 && day <= 10;
     };
-    let date1 = ref('2022-08-10');
+    // let date1 = ref('2022-08-10');
+    let date1 = ref('');
     let date2 = ref();
     let date3 = ref();
     let date4 = ref();
