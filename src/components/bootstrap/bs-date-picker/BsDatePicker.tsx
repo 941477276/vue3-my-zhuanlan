@@ -61,6 +61,7 @@ export default defineComponent({
     let pickerId = ref(props.id || `bs-${props.pickerType}-picker_${++pickerCounts[props.pickerType]}`);
     let visible = ref(false);
     let now = dayjs();
+    console.log('copy now', now, now.year(2019));
 
     // 格式模板
     let formatInner = computed(function () {
@@ -95,6 +96,7 @@ export default defineComponent({
     };
 
     let date = ref<Dayjs|null>();
+    let viewDate = ref<Dayjs|null>();
     // 显示的文本
     let viewDateText = ref('');
     let setViewDateTxt = function (modelValue: Dayjs|string) {
@@ -207,6 +209,7 @@ export default defineComponent({
       }
 
       setViewDateTxt(date.value as Dayjs);
+      viewDate.value = date.value;
     }, { immediate: true });
 
     // 输入框提示文字
@@ -353,18 +356,22 @@ export default defineComponent({
 
     // 面板状态变换事件处理函数
     let handlePickerModeChange = (mode: string, pickerType: string, newDate: Dayjs) => {
-      let clonedDate = date.value?.clone();
+      // 当日期有选中时以选中的日期为基础进行变换，没有则以当前面板中的日期为基础进行变换，否则以当前日期为基础进行变换
+      let clonedDate = date.value?.clone() || viewDate.value?.clone() || dayjs();
       let prevModeValue = prevMode.value;
       let nextMode = pickerType;
+      let panelViewDate: Dayjs;
       console.log('mode, prevModeValue', mode, prevModeValue, clonedDate);
       switch (mode) {
         case 'decade':
-          setDate(clonedDate ? clonedDate.year(newDate.year()) : newDate);
+          // setDate(clonedDate ? clonedDate.year(newDate.year()) : newDate);
+          panelViewDate = clonedDate ? clonedDate.year(newDate.year()) : newDate;
           nextMode = 'year';
           // console.log('11111', newDate);
           break;
         case 'year':
-          setDate(clonedDate ? clonedDate.year(newDate.year()) : newDate);
+          // setDate(clonedDate ? clonedDate.year(newDate.year()) : newDate);
+          panelViewDate = clonedDate ? clonedDate.year(newDate.year()) : newDate;
           if (['decade', 'month'].includes(prevModeValue) && pickerType !== 'quarter') {
             nextMode = 'month';
           }
@@ -374,11 +381,29 @@ export default defineComponent({
           } */
           break;
         case 'month':
-          setDate(clonedDate ? clonedDate.month(newDate.month()) : newDate);
+          // setDate(clonedDate ? clonedDate.month(newDate.month()) : newDate);
+          panelViewDate = clonedDate ? clonedDate.month(newDate.month()) : newDate;
           // console.log('3333');
           break;
       }
+      let refs: { [key: string]: Ref<any> } = {
+        dateRef,
+        weekRef,
+        monthRef,
+        yearRef,
+        quarterRef,
+        decadeRef,
+        dateTimeRef
+      };
       setCurrentMode(nextMode);
+      let timer = setTimeout(() => {
+        clearTimeout(timer);
+        // console.log('refs[nextMode]', refs[nextMode + 'Ref'], refs[nextMode + 'Ref']?.value);
+        console.log('setPanelViewDate', panelViewDate);
+        // viewDate
+        viewDate.value = panelViewDate;
+        refs[nextMode + 'Ref']?.value?.setPanelViewDate(panelViewDate);
+      }, 0);
     };
   
     //  日期控件model-value值改变事件
@@ -482,6 +507,7 @@ export default defineComponent({
       visible,
       viewDateText,
       date,
+      viewDate,
       inputPlaceholder,
       todayIsDisabled,
       footerVisible,
@@ -556,62 +582,93 @@ export default defineComponent({
     // 年份按钮点击事件
     let onYearButtonClick = () => { 
       this.setCurrentMode('year');
+      let timer = setTimeout(() => {
+        clearTimeout(timer);
+        (this.$refs.yearRef as any)?.setPanelViewDate(this.viewDate);
+      }, 0);
     };
     // 月份按钮点击事件
     let onMonthButtonClick = () => { 
       this.setCurrentMode('month');
+      let timer = setTimeout(() => {
+        clearTimeout(timer);
+        console.log('onMonthButtonClick', this.viewDate);
+        
+        (this.$refs.monthRef as any)?.setPanelViewDate(this.viewDate);
+      }, 0);
     };
     // 十年按钮点击事件
     let onDecadeClick = () => {
       this.setCurrentMode('decade');
+      let timer = setTimeout(() => {
+        clearTimeout(timer);
+        (this.$refs.decadeRef as any)?.setPanelViewDate(this.viewDate);
+      }, 0);
+    };
+    let onViewDateChange = (viewDate: Dayjs) => {
+      this.viewDate = viewDate;
+    };
+    let onYearViewDateChange = (viewDate: Dayjs) => {
+      this.viewDate = this.viewDate?.year(viewDate.year());
+      console.log('设置年份', viewDate);
+    };
+    let onMonthViewDateChange = (viewDate: Dayjs) => {
+      this.viewDate = this.viewDate?.month(viewDate.month());
     };
 
     let panels: {[key: string]: () => VNode} = {
       datePanel: () => {
         return <BsDatePanel
-          ref={ this.dateRef }
+          ref="dateRef"
           { ...panelcommonProps }
           onYearClick={ onYearButtonClick }
-          onMonthClick={ onMonthButtonClick }></BsDatePanel>;
+          onMonthClick={ onMonthButtonClick }
+          onViewDateChange={ onViewDateChange }></BsDatePanel>;
       },
       weekPanel: () => {
         return <BsWeekPanel
-          ref={ this.weekRef }
+          ref="weekRef"
           { ...panelcommonProps }
           onYearClick={ onYearButtonClick }
-          onMonthClick={ onMonthButtonClick }></BsWeekPanel>;
+          onMonthClick={ onMonthButtonClick }
+          onViewDateChange={ onViewDateChange }></BsWeekPanel>;
       },
       monthPanel: () => {
         return <BsMonthPanel
-          ref={ this.monthRef }
+          ref="monthRef"
           { ...panelcommonProps }
-          onYearClick={ onYearButtonClick }></BsMonthPanel>;
+          onYearClick={ onYearButtonClick }
+          onViewDateChange={ onViewDateChange }></BsMonthPanel>;
       },
       yearPanel: () => {
         return <BsYearPanel
-          ref={ this.yearRef }
+          ref="yearRef"
           { ...panelcommonProps }
-          onDecadeClick={ onDecadeClick }></BsYearPanel>;
+          onDecadeClick={ onDecadeClick }
+          onViewDateChange={ onYearViewDateChange }></BsYearPanel>;
       },
       quarterPanel: () => {
         return <BsQuarterPanel
-          ref={ this.quarterRef }
+          ref="quarterRef"
           { ...panelcommonProps }
-          onYearClick={ onYearButtonClick }></BsQuarterPanel>;
+          onYearClick={ onYearButtonClick }
+          onViewDateChange={ onViewDateChange }></BsQuarterPanel>;
       },
       decadePanel: () => {
         return <BsDecadePanel
-          ref={ this.decadeRef }
-          { ...panelcommonProps }></BsDecadePanel>;
+          ref="decadeRef"
+          { ...panelcommonProps }
+          onViewDateChange={ onViewDateChange }></BsDecadePanel>;
       },
       dateTimePanel: () => {
         return <BsDateTimePanel
-          ref={ this.dateTimeRef }
+          ref="dateTimeRef"
           visible={ this.visible }
           date-panel-props={ this.datePanelProps }
           time-panel-props={ this.timePanelProps }
           onYearClick={ onYearButtonClick }
           onMonthClick={ onMonthButtonClick }
+          onViewDateChange={ onViewDateChange }
 
           { ...panelcommonProps }></BsDateTimePanel>;
       }

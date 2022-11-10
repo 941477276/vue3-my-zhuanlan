@@ -1,13 +1,15 @@
 <template>
   <div class="bs-picker-week-panel">
     <BsDatePanel
+      ref="datePanelRef"
       v-bind="$props"
       :has-prefix-column="true"
       :get-row-classname="setRowClassname"
       :model-value="modelValue"
       :on-month-click="onMonthClick"
       :on-year-click="onYearClick"
-      @update:modelValue="$emit('update:modelValue', $event)">
+      @update:modelValue="$emit('update:modelValue', $event)"
+      @view-date-change="onViewDateChange">
       <template #prefixColumn="cellData">
         <td class="bs-picker-cell bs-picker-week-cell">{{ getWeek(cellData.dayjsIns) }}</td>
       </template>
@@ -72,13 +74,15 @@ export default defineComponent({
       }
     }
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'viewDateChange'],
   setup (props: any, ctx: any) {
     let getWeek = function (date: Dayjs) {
       return dayjsUtil.locale.getWeek(date, 'zh-cn');
     };
+    let datePanelRef = ref(null);
     return {
       getWeek,
+      datePanelRef,
 
       setRowClassname (rowCells: any[]) {
         let classnames: string[] = ['bs-picker-week-panel-row'];
@@ -97,6 +101,12 @@ export default defineComponent({
           }
         }
         return classnames;
+      },
+      onViewDateChange (date: Dayjs) {
+        ctx.emit('viewDateChange', date);
+      },
+      setPanelViewDate (date: Dayjs) {
+        (datePanelRef.value as any)?.setPanelViewDate(date);
       }
     };
   }

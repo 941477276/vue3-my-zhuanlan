@@ -1,12 +1,14 @@
 <template>
   <div class="bs-picker-date-time-panel">
     <BsDatePanel
+      ref="datePanelRef"
       v-bind="datePanelProps"
       value-format=""
       :model-value="modelValue"
       :on-year-click="onYearClick"
       :on-month-click="onMonthClick"
-      @update:modelValue="onDateChange"></BsDatePanel>
+      @update:modelValue="onDateChange"
+      @view-date-change="onViewDateChange"></BsDatePanel>
     <BsPickerTimePanel
       v-bind="timePanelProps"
       value-format=""
@@ -80,9 +82,10 @@ export default defineComponent({
       }
     }
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'viewDateChange'],
   setup (props: any, ctx: any) {
-    let now = dayjs(); // 今天
+    // let now = dayjs(); // 今天
+    let datePanelRef = ref(null);
 
     let onInternalDateChange = function (newDate: Dayjs, type: 'date' | 'time') {
       let originDate = props.modelValue;
@@ -107,11 +110,19 @@ export default defineComponent({
       onInternalDateChange(newTime, 'time');
     };
     return {
+      datePanelRef,
+      
       onDateChange,
       onTimeChange,
-      calcViewTime (times: any) {
-        let { hour, minute, second } = times;
+      onViewDateChange (date: Dayjs) {
+        ctx.emit('viewDateChange', date);
+      },
+      setPanelViewDate (date: Dayjs) {
+        (datePanelRef.value as any)?.setPanelViewDate(date);
       }
+      /* calcViewTime (times: any) {
+        let { hour, minute, second } = times;
+      } */
     };
   }
 });

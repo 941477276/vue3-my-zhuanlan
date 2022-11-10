@@ -160,17 +160,24 @@ export default defineComponent({
       }
     }
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'viewDateChange'],
   setup (props: any, ctx: any) {
     let now = dayjs(); // 今天
     console.log('now construct', now instanceof dayjs);
 
     let panelViewDate = ref(dayjs(props.modelValue ? props.modelValue : undefined));
-    let setPanelViewDate = (date: Dayjs) => {
+    let setPanelViewDate = (date: Dayjs, emitEvents = true) => {
+      console.log('date panel, setPanelViewDate111', date);
+
       if (!date || !(date instanceof dayjs)) {
         return;
       }
+      console.log('date panel, setPanelViewDate', date);
+
       panelViewDate.value = date;
+      if (emitEvents) {
+        ctx.emit('viewDateChange', date);
+      }
     };
     watch(() => props.modelValue, function (modelValue) {
       setPanelViewDate(modelValue || dayjs());
@@ -327,7 +334,9 @@ export default defineComponent({
         setPanelViewDate(dayjsUtil.addYear(panelViewDate.value, 1));
       },
       onCellClick,
-      setPanelViewDate
+      setPanelViewDate (date: Dayjs) {
+        setPanelViewDate(date, false);
+      }
     };
   }
 });

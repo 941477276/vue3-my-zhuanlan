@@ -66,16 +66,20 @@ export default defineComponent({
       }
     }
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'viewDateChange'],
   setup (props: any, ctx: any) {
     let now = dayjs();
     let monthValueNow = dayjs().format(defaultFormat);
     let panelViewDate = ref(dayjs(props.modelValue ? props.modelValue : undefined));
-    let setPanelViewDate = (date: Dayjs) => {
+    let setPanelViewDate = (date: Dayjs, emitEvents = true) => {
       if (!date || !(date instanceof dayjs)) {
         return;
       }
+      // panelViewDate.value = date.year(panelViewDate.value.year());
       panelViewDate.value = date;
+      if (emitEvents) {
+        ctx.emit('viewDateChange', date);
+      }
     };
     watch(() => props.modelValue, function (modelValue) {
       setPanelViewDate(modelValue || dayjs());
@@ -164,7 +168,9 @@ export default defineComponent({
         setPanelViewDate(dayjsUtil.addYear(panelViewDate.value, 1));
       },
       onCellClick,
-      setPanelViewDate
+      setPanelViewDate (date: Dayjs) {
+        setPanelViewDate(date, false);
+      }
     };
   }
 });
