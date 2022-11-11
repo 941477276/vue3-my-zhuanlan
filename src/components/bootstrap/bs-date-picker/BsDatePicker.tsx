@@ -10,8 +10,8 @@ import {
   VNode,
   nextTick
 } from 'vue';
-import { 
-  PickerType, 
+import {
+  PickerType,
   datePickerCtx,
   allowedPickerType
 } from '@/ts-tokens/bootstrap/date-picker';
@@ -92,7 +92,7 @@ export default defineComponent({
         clearTimeout(timer);
         prevMode.value = currentMode.value;
         currentMode.value = mode;
-      }, 0); 
+      }, 0);
     };
 
     let date = ref<Dayjs|null>();
@@ -356,8 +356,8 @@ export default defineComponent({
 
     // 面板状态变换事件处理函数
     let handlePickerModeChange = (mode: string, pickerType: string, newDate: Dayjs) => {
-      // 当日期有选中时以选中的日期为基础进行变换，没有则以当前面板中的日期为基础进行变换，否则以当前日期为基础进行变换
-      let clonedDate = date.value?.clone() || viewDate.value?.clone() || dayjs();
+      // 以当前面板中的日期为基础进行变换，没有则以选中的日期为基础进行变换，否则以当前日期为基础进行变换
+      let clonedDate = viewDate.value?.clone() || date.value?.clone() || dayjs();
       let prevModeValue = prevMode.value;
       let nextMode = pickerType;
       let panelViewDate: Dayjs;
@@ -405,7 +405,7 @@ export default defineComponent({
         refs[nextMode + 'Ref']?.value?.setPanelViewDate(panelViewDate);
       }, 0);
     };
-  
+
     //  日期控件model-value值改变事件
     let onDatePanelModelValueChange = function (newDate: Dayjs, hideDropdown: boolean) {
       console.log('onDatePanelModelValueChange事件触发了');
@@ -561,7 +561,7 @@ export default defineComponent({
   },
   render () {
     let $slots = this.$slots;
-    let { 
+    let {
       pickerType,
       currentMode
     } = this;
@@ -569,10 +569,10 @@ export default defineComponent({
     let commonPickerSlots = {
       trigger: $slots.default
     };
-   
+
     // 面板公共属性
     let panelcommonProps = {
-      'model-value': this.date, 
+      'model-value': this.date,
       'date-render': this.dateRender,
       'disabled-date': this.disabledDate,
       'show-header': this.showHeader,
@@ -580,7 +580,7 @@ export default defineComponent({
     };
 
     // 年份按钮点击事件
-    let onYearButtonClick = () => { 
+    let onYearButtonClick = () => {
       this.setCurrentMode('year');
       let timer = setTimeout(() => {
         clearTimeout(timer);
@@ -588,12 +588,12 @@ export default defineComponent({
       }, 0);
     };
     // 月份按钮点击事件
-    let onMonthButtonClick = () => { 
+    let onMonthButtonClick = () => {
       this.setCurrentMode('month');
       let timer = setTimeout(() => {
         clearTimeout(timer);
         console.log('onMonthButtonClick', this.viewDate);
-        
+
         (this.$refs.monthRef as any)?.setPanelViewDate(this.viewDate);
       }, 0);
     };
