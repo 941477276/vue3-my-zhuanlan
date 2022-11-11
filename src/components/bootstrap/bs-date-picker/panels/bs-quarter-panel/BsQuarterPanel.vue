@@ -36,6 +36,7 @@ import PanelHeader from '../panel-header/PanelHeader.vue';
 import PanelBody from '../panel-body/PanelBody.vue';
 import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil, getMonthDays } from '@/common/dayjsUtil';
+import { usePanelViewDate } from '../../hooks/usePanelViewDate';
 
 let defaultFormat = 'YYYY-[Q]Q';
 export default defineComponent({
@@ -73,7 +74,7 @@ export default defineComponent({
     let now = dayjs();
     let quarterValueNow = dayjs().format(defaultFormat);
     console.log('quarterValueNow', quarterValueNow);
-    let panelViewDate = ref(dayjs(props.modelValue ? props.modelValue : undefined));
+    /* let panelViewDate = ref(dayjs(props.modelValue ? props.modelValue : undefined));
     let setPanelViewDate = (date: Dayjs, emitEvents = true) => {
       if (!date || !(date instanceof dayjs)) {
         return;
@@ -85,7 +86,11 @@ export default defineComponent({
     };
     watch(() => props.modelValue, function (modelValue) {
       setPanelViewDate(modelValue || dayjs());
-    });
+    }); */
+    let {
+      panelViewDate,
+      setPanelViewDate
+    } = usePanelViewDate(props, ctx);
 
     let yearName = computed(function () {
       let lang = 'zh-cn';

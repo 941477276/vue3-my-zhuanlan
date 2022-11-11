@@ -34,6 +34,7 @@ import PanelHeader from '../panel-header/PanelHeader.vue';
 import PanelBody from '../panel-body/PanelBody.vue';
 import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil, getMonthDays } from '@/common/dayjsUtil';
+import { usePanelViewDate } from '../../hooks/usePanelViewDate';
 
 let defaultFormat = 'YYYY';
 let yearDecadeCount = 10;
@@ -72,23 +73,11 @@ export default defineComponent({
   setup (props: any, ctx: any) {
     let now = dayjs();
     let yearValueNow = dayjs().format(defaultFormat);
-    let panelViewDate = ref(dayjs(props.modelValue ? props.modelValue : undefined));
-    let setPanelViewDate = (date: Dayjs, emitEvents = true) => {
-      if (!date || !(date instanceof dayjs)) {
-        return;
-      }
-      console.log('year panel, setPanelViewDate', date, panelViewDate.value.month());
-      
-      // panelViewDate.value = date.month(panelViewDate.value.month());
-      panelViewDate.value = date;
-
-      if (emitEvents) {
-        ctx.emit('viewDateChange', date);
-      }
-    };
-    watch(() => props.modelValue, function (modelValue) {
-      setPanelViewDate(modelValue || dayjs());
-    });
+    // 用于面板展示的日期
+    let {
+      panelViewDate,
+      setPanelViewDate
+    } = usePanelViewDate(props, ctx);
 
     // 年份信息
     let yearNumberInfo = computed(function () {

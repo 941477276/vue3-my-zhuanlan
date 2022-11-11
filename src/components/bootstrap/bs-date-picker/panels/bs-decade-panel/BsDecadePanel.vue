@@ -27,6 +27,7 @@ import {
 import PanelBody from '../panel-body/PanelBody.vue';
 import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil, getMonthDays } from '@/common/dayjsUtil';
+import { usePanelViewDate } from '../../hooks/usePanelViewDate';
 
 let yearDecadeCount = 10;
 let panelDecadeCount = 12;
@@ -58,20 +59,11 @@ export default defineComponent({
   emits: ['update:modelValue', 'change', 'viewDateChange'],
   setup (props: any, ctx: any) {
     let now = dayjs();
-    let panelViewDate = ref(dayjs(props.modelValue ? props.modelValue : undefined));
-    let setPanelViewDate = (date: Dayjs, emitEvents = true) => {
-      if (!date || !(date instanceof dayjs)) {
-        return;
-      }
-      // panelViewDate.value = date.month(panelViewDate.value.month());
-      panelViewDate.value = date;
-      if (emitEvents) {
-        ctx.emit('viewDateChange', date);
-      }
-    };
-    watch(() => props.modelValue, function (modelValue) {
-      setPanelViewDate(modelValue || dayjs());
-    });
+    // 用于面板展示的日期
+    let {
+      panelViewDate,
+      setPanelViewDate
+    } = usePanelViewDate(props, ctx);
 
     // 年份区间信息
     let decadeNumberInfo = computed(function () {

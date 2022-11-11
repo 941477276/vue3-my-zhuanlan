@@ -50,6 +50,7 @@ import { dayjsUtil, isLeapYear, getMonthDays } from '@/common/dayjsUtil';
 import PanelHeader from '../panel-header/PanelHeader.vue';
 import PanelBody from '../panel-body/PanelBody.vue';
 import { datePickerPrefixColumnSlotCtx } from '@/ts-tokens/bootstrap/date-picker';
+import { usePanelViewDate } from '../../hooks/usePanelViewDate';
 
 const totalCell = 42; // 单元格总数, 6行 * 7天（一周）
 const weekDayCount = 7;
@@ -165,23 +166,12 @@ export default defineComponent({
     let now = dayjs(); // 今天
     console.log('now construct', now instanceof dayjs);
 
-    let panelViewDate = ref(dayjs(props.modelValue ? props.modelValue : undefined));
-    let setPanelViewDate = (date: Dayjs, emitEvents = true) => {
-      console.log('date panel, setPanelViewDate111', date);
+    // 用于面板展示的日期
+    let {
+      panelViewDate,
+      setPanelViewDate
+    } = usePanelViewDate(props, ctx);
 
-      if (!date || !(date instanceof dayjs)) {
-        return;
-      }
-      console.log('date panel, setPanelViewDate', date);
-
-      panelViewDate.value = date;
-      if (emitEvents) {
-        ctx.emit('viewDateChange', date);
-      }
-    };
-    watch(() => props.modelValue, function (modelValue) {
-      setPanelViewDate(modelValue || dayjs());
-    });
     // date.value = dayjs('2022-02-01');
     // 周的第一天
     let weekFirstDay = computed(function () {
