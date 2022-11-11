@@ -8,7 +8,8 @@ import {
   provide,
   computed,
   VNode,
-  nextTick
+  nextTick,
+  toRef
 } from 'vue';
 import {
   PickerType,
@@ -498,7 +499,11 @@ export default defineComponent({
     });
 
     // 向子孙组件提供当前组件的上下问
-    provide(datePickerCtx, { ctx });
+    provide(datePickerCtx, {
+      ctx,
+      pickerType: toRef(props, 'pickerType'),
+      currentMode
+    });
 
     return {
       bsCommonPicker,
@@ -570,6 +575,7 @@ export default defineComponent({
       trigger: $slots.default
     };
 
+    // console.log('currentMode === pickerType', currentMode === pickerType, currentMode, pickerType);
     // 面板公共属性
     let panelcommonProps = {
       'model-value': this.date,

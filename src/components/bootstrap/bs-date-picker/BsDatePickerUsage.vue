@@ -12,10 +12,10 @@
       <a-date-picker v-model:value="value4" picker="quarter" data-value-format="YYYY-[Q]Q" />
       <a-date-picker v-model:value="value5" picker="year" />
     </a-space>
-    <div>
+    <!--<div>
       <h3>基本使用</h3>
       <BsDatePicker name="startDate" v-model="date1">
-        <!-- <bs-button>触发按钮</bs-button> -->
+        &lt;!&ndash; <bs-button>触发按钮</bs-button> &ndash;&gt;
       </BsDatePicker>
     </div>
 
@@ -23,7 +23,7 @@
       <hr>
       <h3>选择时间</h3>
       <BsDatePicker v-model="date5" picker-type="dateTime"></BsDatePicker>
-    </div>
+    </div>-->
 
     <!-- <div>
       <hr>
@@ -31,7 +31,7 @@
       <BsDatePicker v-model="date6" picker-type="dateTime" value-format="YYYY-MM-DD hh:mm:ss a" :time-panel-props="{ use12Hours: true, }"></BsDatePicker>
     </div> -->
 
-    <!-- <div>
+    <div>
       <hr>
       <h3>自定义渲染</h3>
       <h6 style="margin: 0.5rem 0;">使用 <code>dateRender</code> 函数</h6>
@@ -44,12 +44,12 @@
         name="startDate"
         v-model="date1">
         <template #dateRender="cell">
-          {{ cell.current.date() }}<small style="color: #f60;margin-left: 2px; opacity: 0.6;">cn</small>
+          {{ cell.dayjsIns.date() }}<small style="color: #f60;margin-left: 2px; opacity: 0.6;">cn</small>
         </template>
       </BsDatePicker>
     </div>
 
-    <div>
+    <!--<div>
       <hr>
       <h3>禁用</h3>
       <BsDatePicker v-model="date2" :disabled-date="disabledDate2"></BsDatePicker>
@@ -65,9 +65,9 @@
           </div>
         </template>
       </BsDatePicker>
-    </div> -->
+    </div>
 
-    <!-- <div>
+    <div>
       <hr>
       <h3>选择周</h3>
       <BsDatePicker picker-type="week" v-model="week1"></BsDatePicker>
@@ -79,22 +79,22 @@
       <BsDatePicker picker-type="week" v-model="week2" :disabled-date="disabledWeek"></BsDatePicker>
     </div>
 
-    <div>
-      <hr>
-      <h3>选择月份</h3>
-      <BsDatePicker
-        v-model="date3"
-        picker-type="month"
-        data-disabled-date="(date) => {return date.month() < 7}"></BsDatePicker>
-    </div>
+     <div>
+       <hr>
+       <h3>选择月份</h3>
+       <BsDatePicker
+         v-model="date3"
+         picker-type="month"
+         data-disabled-date="(date) => {return date.month() < 7}"></BsDatePicker>
+     </div>
 
-    <div>
-      <hr>
-      <h3>选择季度</h3>
-      <BsDatePicker
-        v-model="quarterDate"
-        picker-type="quarter"></BsDatePicker>
-    </div>
+     <div>
+       <hr>
+       <h3>选择季度</h3>
+       <BsDatePicker
+         v-model="quarterDate"
+         picker-type="quarter"></BsDatePicker>
+     </div>
 
     <div>
       <hr>
@@ -129,7 +129,7 @@
       <BsDatePicker
         v-model="decade"
         picker-type="decade"></BsDatePicker>
-    </div> -->
+    </div>-->
   </div>
 </template>
 
@@ -153,8 +153,8 @@ export default defineComponent({
       // console.log('day', day);
       return day >= 1 && day <= 10;
     };
-    // let date1 = ref('2022-08-10');
-    let date1 = ref('');
+    let date1 = ref('2022-08-10');
+    // let date1 = ref('');
     let date2 = ref();
     let date3 = ref();
     let date4 = ref();
@@ -203,13 +203,14 @@ export default defineComponent({
 
       disabledDate,
       dateRender (data: any) {
-        // console.log(current, today);
+        console.log('data', data);
         return data.current.date();
       },
-      dateRender2 (current: Dayjs) {
-        console.log('current', current);
+      dateRender2 (cellData: any) {
+        let current = cellData.dayjsIns;
+        console.log('cellData', cellData);
         return h('div', [
-          current.date(),
+          current.date?.(),
           h('small', {
             style: {
               color: '#f60',

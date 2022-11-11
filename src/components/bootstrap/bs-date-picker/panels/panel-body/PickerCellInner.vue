@@ -1,5 +1,6 @@
 <script lang="ts">
 import {
+  ref,
   inject,
   h,
   defineComponent
@@ -20,31 +21,44 @@ export default defineComponent({
         return {};
       }
     },
+    rowIndex: {
+      type: Number
+    },
     cellIndex: {
       type: Number
     }
   },
   setup (props: any, ctx: any) {
-    let datePicker = inject<DatePickerCtx>(datePickerCtx)!;
+    let datePicker = inject<DatePickerCtx>(datePickerCtx, {
+      ctx: {}
+    })!;
     let now = dayjs();
     // console.log('datePicker', datePicker);
     return function () {
       let cellData = props.cellData;
       let getCellNode = props.getCellNode;
       let slot;
+      let pickerType = datePicker.pickerType?.value;
+      let currentMode = datePicker.currentMode?.value;
+      console.log('currentMode--------pickerType', currentMode, pickerType);
+      // 当前展示的面板与面板类型一致时才允许自定义渲染，否则会导致所有面板都自定义渲染了
+      let useCustomRender = (!currentMode) || pickerType == currentMode;
+      let defaultSlot = ctx.slots.default;
       if (typeof getCellNode === 'function') {
-        slot = getCellNode;
+        slot = useCustomRender ? getCellNode : defaultSlot;
       } else {
         let dateRenderSlot = datePicker.ctx.slots.dateRender;
-        slot = dateRenderSlot || ctx.slots.default;
+        slot = useCustomRender ? (dateRenderSlot || defaultSlot) : defaultSlot;
       }
 
       return h('div', {
         'class': 'bs-picker-cell-inner'
       }, slot({
-        current: cellData.dayjsIns,
+        dayjsIns: cellData.dayjsIns,
+        ...cellData,
         now,
-        cellIndex: cellData.cellIndex
+        cellIndex: props.cellIndex,
+        rowIndex: props.rowIndex
       }));
     };
   }

@@ -156,7 +156,7 @@ export default defineComponent({
         return classnames;
       },
       setCellNode: props.dateRender ? (cellData: any) => {
-        return dateRender(cellData.current, now, cellData.cellIndex);
+        return dateRender(cellData);
       } : undefined,
       setCellText (cellData: any) {
         return cellData.quarterName;
