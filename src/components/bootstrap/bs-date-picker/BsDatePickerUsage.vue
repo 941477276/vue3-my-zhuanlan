@@ -31,7 +31,7 @@
       <BsDatePicker v-model="date6" picker-type="dateTime" value-format="YYYY-MM-DD hh:mm:ss a" :time-panel-props="{ use12Hours: true, }"></BsDatePicker>
     </div> -->
 
-    <div>
+    <!--<div>
       <hr>
       <h3>自定义渲染</h3>
       <h6 style="margin: 0.5rem 0;">使用 <code>dateRender</code> 函数</h6>
@@ -47,18 +47,28 @@
           {{ cell.dayjsIns.date() }}<small style="color: #f60;margin-left: 2px; opacity: 0.6;">cn</small>
         </template>
       </BsDatePicker>
-    </div>
+    </div>-->
 
     <!--<div>
       <hr>
       <h3>禁用</h3>
       <BsDatePicker v-model="date2" :disabled-date="disabledDate2"></BsDatePicker>
-    </div>
+    </div> -->
 
     <div>
       <hr>
       <h3>带快捷按钮</h3>
+      <h6>快捷按钮在左边</h6>
       <BsDatePicker v-model="date4" show-sidebar>
+        <template #sidebar="{date}">
+          <div>
+            <bs-button type="">今天{{ date && date.format('YYYY-MM-DD') }}</bs-button>
+          </div>
+        </template>
+      </BsDatePicker>
+
+      <h6 style="margin-top: 1rem;">快捷按钮在右边</h6>
+      <BsDatePicker v-model="date4" show-sidebar sidebar-in-right>
         <template #sidebar="{date}">
           <div>
             <bs-button type="">今天{{ date && date.format('YYYY-MM-DD') }}</bs-button>
@@ -67,7 +77,7 @@
       </BsDatePicker>
     </div>
 
-    <div>
+    <!-- <div>
       <hr>
       <h3>选择周</h3>
       <BsDatePicker picker-type="week" v-model="week1"></BsDatePicker>
@@ -176,7 +186,7 @@ export default defineComponent({
     // console.log('year date', dayjs('2022', 'YYYY'));
     // console.log('week date', dayjs('2022-32周', 'YYYY-wo'));
     // console.log('week date2', dayjs('2022-01-01').week(33));
-    console.log('aaAaaaaaa', dayjs('2022-08-20 19:37:50 AM', 'YYYY-MM-DD hh:mm:ss am', true).isValid());
+    // console.log('aaAaaaaaa', dayjs('2022-08-20 19:37:50 AM', 'YYYY-MM-DD hh:mm:ss am', true).isValid());
     return {
       value1: ref<Dayjs>(),
       value2: ref<Dayjs>(),

@@ -62,7 +62,6 @@ export default defineComponent({
     let pickerId = ref(props.id || `bs-${props.pickerType}-picker_${++pickerCounts[props.pickerType]}`);
     let visible = ref(false);
     let now = dayjs();
-    console.log('copy now', now, now.year(2019));
 
     // 格式模板
     let formatInner = computed(function () {
@@ -158,7 +157,7 @@ export default defineComponent({
         } else if (pickerType == 'week') {
           dayjsIns = dayjsUtil.parseWeek(modelValue, valueFormat || format, 'zh-cn');
         } else {
-          console.log('modelValue1111111', modelValue);
+          // console.log('modelValue1111111', modelValue);
           if (pickerType == 'dateTime' && typeof modelValue == 'string') {
             let upperCaseValue = modelValue.toUpperCase();
             let { timePanelProps, datePanelProps } = props;
@@ -171,7 +170,7 @@ export default defineComponent({
             }
             let dateTemp = dayjsUtil.parseToDayjs(modelValue, tempFormat || format);
             // let dateTemp2 = dateTemp;
-            console.log('================', modelValue, dateTemp, tempFormat || format);
+            // console.log('================', modelValue, dateTemp, tempFormat || format);
             let hour = dateTemp.hour();
             let periods = '';
             if (upperCaseValue.endsWith('PM')) {
@@ -598,7 +597,7 @@ export default defineComponent({
       this.setCurrentMode('month');
       let timer = setTimeout(() => {
         clearTimeout(timer);
-        console.log('onMonthButtonClick', this.viewDate);
+        // console.log('onMonthButtonClick', this.viewDate);
 
         (this.$refs.monthRef as any)?.setPanelViewDate(this.viewDate);
       }, 0);
@@ -616,7 +615,7 @@ export default defineComponent({
     };
     let onYearViewDateChange = (viewDate: Dayjs) => {
       this.viewDate = this.viewDate?.year(viewDate.year());
-      console.log('设置年份', viewDate);
+      // console.log('设置年份', viewDate);
     };
     let onMonthViewDateChange = (viewDate: Dayjs) => {
       this.viewDate = this.viewDate?.month(viewDate.month());
@@ -682,6 +681,23 @@ export default defineComponent({
     let currentModePanel = panels[currentMode + 'Panel'];
     let pickerContent = currentModePanel || panels[pickerType + 'Panel'];
 
+    // 侧边栏
+    let sideBar = () => {
+      return (<div
+        class={[
+          'bs-panel-sidebar',
+          {
+            'sidebar-in-right': this.sidebarInRight
+          }
+        ]}>
+        {$slots.sidebar ? $slots.sidebar({
+          date: this.date,
+          show: this.show,
+          hide: this.hide
+        }) : null}
+      </div>);
+    };
+
     return (<BsCommonPicker
       class="bs-date-editor"
       ref="bsCommonPicker"
@@ -709,14 +725,17 @@ export default defineComponent({
       v-slots={ commonPickerSlots }>
       <div
         class={['bs-picker-panel', {
-          'has-panel-sidebar': this.showSidebar
+          'has-panel-sidebar': this.showSidebar,
+          'sidebar-in-right': this.sidebarInRight
         }]}>
         {/* <!--<PanelSidebar v-if="showSidebar"></PanelSidebar>--> */}
-        <div class="bs-panel-sidebar">
+        {/* <div class="bs-panel-sidebar">
           { $slots.sidebar ? $slots.sidebar({ date: this.date }) : null }
-        </div>
+        </div> */}
+        { this.showSidebar && !this.sidebarInRight ? sideBar() : null }
         {/* { panels[(this.pickerType + 'Panel')]?.() } */}
         { pickerContent?.() }
+        { this.showSidebar && this.sidebarInRight ? sideBar() : null }
       </div>
       {(this.footerVisible && (!currentMode || pickerType == currentMode)) ? <div class="bs-picker-footer">
         <div class="bs-picker-btns">

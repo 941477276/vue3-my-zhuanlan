@@ -66,6 +66,10 @@ export const bsDatePickerProps = {
     type: Boolean,
     default: false
   },
+  sidebarInRight: { // 侧边栏是否在右边
+    type: Boolean,
+    default: false
+  },
   /* showTime: { // 是否开启选择时间功能
     type: [Boolean, Object],
     default: false
