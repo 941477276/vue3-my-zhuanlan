@@ -1,134 +1,136 @@
 <template>
-  <!--<div class="box">
-    <BsButtonUsage></BsButtonUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsButtonGroupUsage></BsButtonGroupUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsInputUsage></BsInputUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsRadioUsage></BsRadioUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsRadioGroupUsage></BsRadioGroupUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsCheckboxUsage></BsCheckboxUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsCheckboxGroupUsage></BsCheckboxGroupUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsSelectUsage></BsSelectUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsFormUsage></BsFormUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsDropdownUsage></BsDropdownUsage>
-  </div>-->
-  <!--<router-view></router-view>-->
-  <!--<div class="box">
-    <BsPaginationUsage></BsPaginationUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsBadgeUsage></BsBadgeUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsMessageUsage></BsMessageUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsBreadcrumbUsage></BsBreadcrumbUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsTagUsage></BsTagUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsProgressUsage></BsProgressUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsTabsUsage></BsTabsUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsSwitchUsage></BsSwitchUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsMessageBoxUsage></BsMessageBoxUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsMaskUsage></BsMaskUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsAlertUsage></BsAlertUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsInputNumberUsage></BsInputNumberUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsPopperUsage></BsPopperUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsTooltipUsage></BsTooltipUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsSliderUsage></BsSliderUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsModalUsage></BsModalUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsDrawerUsage></BsDrawerUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsPopoverUsage></BsPopoverUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsSpinnerUsage></BsSpinnerUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsPopConfirmUsage></BsPopConfirmUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsCollapseUsage></BsCollapseUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsTreeUsage></BsTreeUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsTreeSelectUsage></BsTreeSelectUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsInputTagsUsage></BsInputTagsUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsSelectInputUsage></BsSelectInputUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsTimePickerUsage></BsTimePickerUsage>
-  </div>-->
-  <div class="box">
-    <BsDatePickerUsage></BsDatePickerUsage>
-  </div>
-  <!--<div class="box">
-    <BsBackTopUsage></BsBackTopUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsRelativeTimeUsage></BsRelativeTimeUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsLoadingUsage></BsLoadingUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsCascaderUsage></BsCascaderUsage>
-  </div>-->
-  <!--<div class="box">
-    <BsToastUsage></BsToastUsage>
-  </div>-->
-  <!-- <div class="box">
-    <BsMenuUsage></BsMenuUsage>
-  </div> -->
+  <bs-config-provider size="sm">
+    <!--<div class="box">
+      <BsButtonUsage></BsButtonUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsButtonGroupUsage></BsButtonGroupUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsInputUsage></BsInputUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsRadioUsage></BsRadioUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsRadioGroupUsage></BsRadioGroupUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsCheckboxUsage></BsCheckboxUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsCheckboxGroupUsage></BsCheckboxGroupUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsSelectUsage></BsSelectUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsFormUsage></BsFormUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsDropdownUsage></BsDropdownUsage>
+    </div>-->
+    <!--<router-view></router-view>-->
+    <!--<div class="box">
+      <BsPaginationUsage></BsPaginationUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsBadgeUsage></BsBadgeUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsMessageUsage></BsMessageUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsBreadcrumbUsage></BsBreadcrumbUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsTagUsage></BsTagUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsProgressUsage></BsProgressUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsTabsUsage></BsTabsUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsSwitchUsage></BsSwitchUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsMessageBoxUsage></BsMessageBoxUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsMaskUsage></BsMaskUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsAlertUsage></BsAlertUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsInputNumberUsage></BsInputNumberUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsPopperUsage></BsPopperUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsTooltipUsage></BsTooltipUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsSliderUsage></BsSliderUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsModalUsage></BsModalUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsDrawerUsage></BsDrawerUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsPopoverUsage></BsPopoverUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsSpinnerUsage></BsSpinnerUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsPopConfirmUsage></BsPopConfirmUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsCollapseUsage></BsCollapseUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsTreeUsage></BsTreeUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsTreeSelectUsage></BsTreeSelectUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsInputTagsUsage></BsInputTagsUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsSelectInputUsage></BsSelectInputUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsTimePickerUsage></BsTimePickerUsage>
+    </div>-->
+    <div class="box">
+      <BsDatePickerUsage></BsDatePickerUsage>
+    </div>
+    <!--<div class="box">
+      <BsBackTopUsage></BsBackTopUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsRelativeTimeUsage></BsRelativeTimeUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsLoadingUsage></BsLoadingUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsCascaderUsage></BsCascaderUsage>
+    </div>-->
+    <!--<div class="box">
+      <BsToastUsage></BsToastUsage>
+    </div>-->
+    <!-- <div class="box">
+      <BsMenuUsage></BsMenuUsage>
+    </div> -->
+  </bs-config-provider>
 </template>
 
 <script lang="ts">

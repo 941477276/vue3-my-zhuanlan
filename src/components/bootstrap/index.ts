@@ -39,6 +39,7 @@ import BsLoading from '@/components/bootstrap/bs-loading';
 import BsCascader from '@/components/bootstrap/bs-cascader';
 import BsToast from '@/components/bootstrap/bs-toast';
 import BsMenu from '@/components/bootstrap/bs-menu';
+import BsConfigProvider from '@/components/bootstrap/bs-config-provider';
 
 export default function (vueApp: any) {
   vueApp.component(BsButton.name, BsButton);
@@ -83,4 +84,5 @@ export default function (vueApp: any) {
   vueApp.use(BsButtonGroup);
   vueApp.use(BsToast);
   vueApp.use(BsMenu);
+  vueApp.use(BsConfigProvider);
 }

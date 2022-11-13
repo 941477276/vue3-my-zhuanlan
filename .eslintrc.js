@@ -32,6 +32,7 @@ module.exports = {
     '@typescript-eslint/no-extra-semi': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
     'vue/no-setup-props-destructure': 'off',
+    'no-template-curly-in-string': 'off', // 关闭不允许在普通字符串中使用字符串模板
     'eol-last': 'off' // 文件最后一行是否需添加一行空行
   }
 }
