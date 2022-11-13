@@ -12,10 +12,10 @@
       <a-date-picker v-model:value="value4" picker="quarter" data-value-format="YYYY-[Q]Q" />
       <a-date-picker v-model:value="value5" picker="year" />
     </a-space>
-    <!--<div>
+    <div>
       <h3>基本使用</h3>
       <BsDatePicker name="startDate" v-model="date1">
-        &lt;!&ndash; <bs-button>触发按钮</bs-button> &ndash;&gt;
+        <!-- <bs-button>触发按钮</bs-button> -->
       </BsDatePicker>
     </div>
 
@@ -23,15 +23,15 @@
       <hr>
       <h3>选择时间</h3>
       <BsDatePicker v-model="date5" picker-type="dateTime"></BsDatePicker>
-    </div>-->
+    </div>
 
-    <!-- <div>
+     <div>
       <hr>
       <h3>选择时间（12小时值）</h3>
       <BsDatePicker v-model="date6" picker-type="dateTime" value-format="YYYY-MM-DD hh:mm:ss a" :time-panel-props="{ use12Hours: true, }"></BsDatePicker>
-    </div> -->
+    </div>
 
-    <!--<div>
+    <div>
       <hr>
       <h3>自定义渲染</h3>
       <h6 style="margin: 0.5rem 0;">使用 <code>dateRender</code> 函数</h6>
@@ -47,7 +47,7 @@
           {{ cell.dayjsIns.date() }}<small style="color: #f60;margin-left: 2px; opacity: 0.6;">cn</small>
         </template>
       </BsDatePicker>
-    </div>-->
+    </div>
 
     <div>
       <hr>
@@ -55,7 +55,7 @@
       <BsDatePicker v-model="date2" :disabled-date="disabledDate2"></BsDatePicker>
     </div>
 
-    <!--<div>
+    <div>
       <hr>
       <h3>带快捷按钮</h3>
       <h6>快捷按钮在左边</h6>
@@ -75,7 +75,7 @@
           </div>
         </template>
       </BsDatePicker>
-    </div>-->
+    </div>
 
     <div>
       <hr>
@@ -89,7 +89,7 @@
       <BsDatePicker picker-type="week" v-model="week2" :disabled-date="disabledWeek"></BsDatePicker>
     </div>
 
-    <!-- <div>
+     <div>
       <hr>
       <h3>选择月份</h3>
       <BsDatePicker
@@ -139,7 +139,7 @@
      <BsDatePicker
        v-model="decade"
        picker-type="decade"></BsDatePicker>
-   </div>-->
+   </div>
   </div>
 </template>
 
@@ -232,8 +232,9 @@ export default defineComponent({
       },
       disabledDate2 (current: Dayjs) {
         let now = dayjs();
+        console.log('current', current);
         // console.log('disabledDate2', current);
-        return (current.valueOf() < now.valueOf()) || (current.endOf('month').valueOf() > now.endOf('month').valueOf());
+        return (current.valueOf() < now.valueOf()) || (current.endOf?.('month').valueOf() > now.endOf('month').valueOf());
       },
       disabledYear (current: Dayjs) {
         let now = new Date().getFullYear();
