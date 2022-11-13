@@ -12,6 +12,9 @@ import {
   toRef
 } from 'vue';
 import {
+  isFunction
+} from '@vue/shared';
+import {
   PickerType,
   datePickerCtx,
   allowedPickerType
@@ -30,6 +33,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil } from '@/common/dayjsUtil';
 import { getUpdateModelValue } from '@/components/bootstrap/bs-time-picker/useTimePicker';
 import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
+import floatFn from 'async-validator/dist-types/validator/float';
 
 let pickerCounts: any = {
   date: 0,
@@ -253,7 +257,16 @@ export default defineComponent({
       if (typeof disabledDate !== 'function') {
         return false;
       }
-      return !!disabledDate(dayjs());
+      let now = dayjs();
+      let flag = false;
+      if (pickerType == 'quarter') {
+        let quarterName = dayjsUtil.locale.format(now, 'zh-cn', '[Q]Q');
+        flag = disabledDate(now.quarter(), quarterName);
+      } else {
+        flag = disabledDate(now);
+      }
+
+      return flag;
     });
 
     // 是否显示footer
@@ -435,11 +448,25 @@ export default defineComponent({
       }
       let format = formatInner.value;
       let pickerType = props.pickerType;
+      let disabledDate = props.disabledDate;
+      isInputTextValid = false;
       if (pickerType == 'quarter' || pickerType == 'week') {
         let dayjsIns = pickerType == 'quarter' ? dayjsUtil.parseQuarter(value, format) : dayjsUtil.parseWeek(value, format, 'zh-cn');
         console.log('onInput', value, format, dayjsIns);
         if (!dayjsIns) {
           return;
+        }
+        if (isFunction(disabledDate)) {
+          let flag = false;
+          if (pickerType == 'quarter') {
+            let quarterName = dayjsUtil.locale.format(dayjsIns, 'zh-cn', '[Q]Q');
+            flag = disabledDate(dayjsIns.quarter(), quarterName);
+          } else {
+            flag = disabledDate(dayjsIns);
+          }
+          if (flag) {
+            return;
+          }
         }
         setDate(dayjsIns);
         isInputTextValid = true;
@@ -469,6 +496,9 @@ export default defineComponent({
       }
       console.log('onInput', value, format, dayjsIns.isValid(), dayjsIns);
       if (dayjsIns.isValid()) {
+        if (isFunction(disabledDate) && disabledDate(dayjsIns)) {
+          return;
+        }
         let hour = dayjsIns.hour();
         if (periods == 'AM' && hour > 12) {
           dayjsIns = dayjsIns.hour(hour - 12);

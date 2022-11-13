@@ -49,13 +49,13 @@
       </BsDatePicker>
     </div>-->
 
-    <!--<div>
+    <div>
       <hr>
       <h3>禁用</h3>
       <BsDatePicker v-model="date2" :disabled-date="disabledDate2"></BsDatePicker>
-    </div> -->
+    </div>
 
-    <div>
+    <!--<div>
       <hr>
       <h3>带快捷按钮</h3>
       <h6>快捷按钮在左边</h6>
@@ -75,9 +75,9 @@
           </div>
         </template>
       </BsDatePicker>
-    </div>
+    </div>-->
 
-    <!-- <div>
+    <div>
       <hr>
       <h3>选择周</h3>
       <BsDatePicker picker-type="week" v-model="week1"></BsDatePicker>
@@ -89,57 +89,57 @@
       <BsDatePicker picker-type="week" v-model="week2" :disabled-date="disabledWeek"></BsDatePicker>
     </div>
 
-     <div>
-       <hr>
-       <h3>选择月份</h3>
-       <BsDatePicker
-         v-model="date3"
-         picker-type="month"
-         data-disabled-date="(date) => {return date.month() < 7}"></BsDatePicker>
-     </div>
-
-     <div>
-       <hr>
-       <h3>选择季度</h3>
-       <BsDatePicker
-         v-model="quarterDate"
-         picker-type="quarter"></BsDatePicker>
-     </div>
-
-    <div>
+    <!-- <div>
       <hr>
-      <h3>选择季度(默认有值)</h3>
+      <h3>选择月份</h3>
       <BsDatePicker
-        v-model="quarterDate2"
-        picker-type="quarter"
-        value-format="YYYY-[Q]Q"></BsDatePicker>
+        v-model="date3"
+        picker-type="month"
+        data-disabled-date="(date) => {return date.month() < 7}"></BsDatePicker>
     </div>
 
     <div>
       <hr>
-      <h3>选择年份</h3>
+      <h3>选择季度</h3>
       <BsDatePicker
-        v-model="year"
-        picker-type="year"></BsDatePicker>
+        v-model="quarterDate"
+        picker-type="quarter"></BsDatePicker>
     </div>
 
-    <div>
-      <hr>
-      <h3>选择年份(默认有值)</h3>
-      <BsDatePicker
-        v-model="year2"
-        format="YYYY年"
-        picker-type="year"
-        :disabled-date="disabledYear"></BsDatePicker>
-    </div>
+   <div>
+     <hr>
+     <h3>选择季度(默认有值)</h3>
+     <BsDatePicker
+       v-model="quarterDate2"
+       picker-type="quarter"
+       value-format="YYYY-[Q]Q"></BsDatePicker>
+   </div>
 
-    <div>
-      <hr>
-      <h3>选择年份区间</h3>
-      <BsDatePicker
-        v-model="decade"
-        picker-type="decade"></BsDatePicker>
-    </div>-->
+   <div>
+     <hr>
+     <h3>选择年份</h3>
+     <BsDatePicker
+       v-model="year"
+       picker-type="year"></BsDatePicker>
+   </div>
+
+   <div>
+     <hr>
+     <h3>选择年份(默认有值)</h3>
+     <BsDatePicker
+       v-model="year2"
+       format="YYYY年"
+       picker-type="year"
+       :disabled-date="disabledYear"></BsDatePicker>
+   </div>
+
+   <div>
+     <hr>
+     <h3>选择年份区间</h3>
+     <BsDatePicker
+       v-model="decade"
+       picker-type="decade"></BsDatePicker>
+   </div>-->
   </div>
 </template>
 
