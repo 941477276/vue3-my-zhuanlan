@@ -19,13 +19,14 @@ export function getPropValueByPath (obj: { [key: string]: any }, path: string): 
   let value;
   let key = '';
   while (pathArr.length > 1) {
-    key = pathArr.shift()!;
+    // @ts-ignore
+    key = pathArr.shift();
     tempObj = tempObj[key];
     // console.log('key', key)
     // value = obj[key];
   }
-
-  key = pathArr.shift()!;
+  // @ts-ignore
+  key = pathArr.shift();
   value = tempObj[key];
   return {
     value,
@@ -39,7 +40,7 @@ export function getPropValueByPath (obj: { [key: string]: any }, path: string): 
  * @param variable 变量
  * @returns {boolean}
  */
-function isNoneValue (variable: any): boolean {
+export function isNoneValue (variable: any): boolean {
   return variable === null || typeof variable === 'undefined' || (!Array.isArray(variable) && (variable + '').length === 0);
 }
 

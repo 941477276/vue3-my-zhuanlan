@@ -68,7 +68,9 @@ import {
 } from 'vue';
 import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
 import { useCheckbox } from './useCheckbox';
-import { util } from '@/common/util';
+import {
+  isNoneValue
+} from '@/common/bs-util';
 import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
 
 // 统计复选框数量
@@ -155,9 +157,9 @@ export default defineComponent({
 
       /* let value = '';
       if (isChecked) {
-        value = !util.varIsNone(props.value) ? props.value : (util.varIsNone(props.trueValue) ? true : props.trueValue);
+        value = !isNoneValue(props.value) ? props.value : (isNoneValue(props.trueValue) ? true : props.trueValue);
       } else {
-        value = util.varIsNone(props.value) ? props.value : (util.varIsNone(props.falseValue) ? true : props.falseValue);
+        value = isNoneValue(props.value) ? props.value : (isNoneValue(props.falseValue) ? true : props.falseValue);
       }
       ctx.emit('change', value); */
       ctx.emit('change', evt);
@@ -200,7 +202,7 @@ export default defineComponent({
           if (Array.isArray(checkboxValue) && !checkboxValue.includes(props.value)) {
             checkboxValue.push(props.value);
           } else {
-            checkboxVal.value = util.varIsNone(props.trueValue) ? true : props.trueValue;
+            checkboxVal.value = isNoneValue(props.trueValue) ? true : props.trueValue;
           }
         }, 60);
       }

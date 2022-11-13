@@ -15,9 +15,9 @@
     <!--<div class="box">
       <BsRadioGroupUsage></BsRadioGroupUsage>
     </div>-->
-    <!--<div class="box">
+    <div class="box">
       <BsCheckboxUsage></BsCheckboxUsage>
-    </div>-->
+    </div>
     <!--<div class="box">
       <BsCheckboxGroupUsage></BsCheckboxGroupUsage>
     </div>-->
@@ -109,9 +109,9 @@
     <!--<div class="box">
       <BsTimePickerUsage></BsTimePickerUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsDatePickerUsage></BsDatePickerUsage>
-    </div>
+    </div>-->
     <!--<div class="box">
       <BsBackTopUsage></BsBackTopUsage>
     </div>-->

@@ -5,7 +5,9 @@ import {
   ref,
   inject
 } from 'vue';
-import { util } from '@/common/util';
+import {
+  isNoneValue
+} from '@/common/bs-util';
 import {
   checkboxGroupContextKey,
   CheckboxGroupContext
@@ -22,10 +24,10 @@ export function useCheckbox (props: any, ctx: any, checkboxRef: Ref<HTMLInputEle
     get () {
       // console.log('checkbox checkboxVal get', checkboxId.value);
       if (checkboxGroupCtx) {
-        return util.varIsNone(checkboxGroupCtx.props.modelValue) ? checkboxGroupCtx.props.value : checkboxGroupCtx.props.modelValue;
+        return isNoneValue(checkboxGroupCtx.props.modelValue) ? checkboxGroupCtx.props.value : checkboxGroupCtx.props.modelValue;
       } else {
-        // return util.varIsNone(props.modelValue) ? (props.value || selfModelVal.value) : props.modelValue;
-        return util.varIsNone(props.modelValue) ? selfModelVal.value : props.modelValue;
+        // return isNoneValue(props.modelValue) ? (props.value || selfModelVal.value) : props.modelValue;
+        return isNoneValue(props.modelValue) ? selfModelVal.value : props.modelValue;
       }
     },
     set (newVal: any) {
@@ -58,10 +60,10 @@ export function useCheckbox (props: any, ctx: any, checkboxRef: Ref<HTMLInputEle
     if (checkboxGroupCtx) {
       flag = (Array.isArray(value) ? value : []).includes(props.value);
     } else {
-      if (util.varIsNone(props.modelValue)) {
+      if (isNoneValue(props.modelValue)) {
         // flag = value === props.trueValue || value === props.falseValue;
         // 如果没有传递model值，但设置了trueValue则将当前值和trueValue进行比较
-        if (!util.varIsNone(trueValue)) {
+        if (!isNoneValue(trueValue)) {
           flag = value === trueValue;
         } else {
           return value === 0 || !!value;
@@ -71,7 +73,7 @@ export function useCheckbox (props: any, ctx: any, checkboxRef: Ref<HTMLInputEle
         if (typeof value === 'boolean') {
           return value;
         }
-        if (!util.varIsNone(trueValue)) {
+        if (!isNoneValue(trueValue)) {
           return value === trueValue;
         }
         flag = Array.isArray(value) ? value.includes(props.value) : value === props.modelValue;
