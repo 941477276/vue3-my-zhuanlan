@@ -31,7 +31,8 @@
     <li
       v-show="showPrevMore"
       class="page-item prev-more"
-      role="presentation">
+      role="presentation"
+      :title="`向前${supperOffset}页`">
       <button type="button" class="page-link">
         <bs-icon class="three-dots" name="three-dots"></bs-icon>
         <bs-icon class="chevron-double-left" name="chevron-double-left"></bs-icon>
@@ -52,7 +53,8 @@
     <li
       v-show="showNextMore"
       class="page-item next-more"
-      role="presentation">
+      role="presentation"
+      :title="`向后${supperOffset}页`">
       <button type="button" class="page-link">
         <bs-icon class="three-dots" name="three-dots"></bs-icon>
         <bs-icon class="chevron-double-right" name="chevron-double-right"></bs-icon>
@@ -95,7 +97,10 @@ import {
   watchEffect
 } from 'vue';
 import { BsSize } from '@/ts-tokens/bootstrap';
-import { util } from '@/common/util';
+import {
+  hasClass,
+  parents
+} from '@/common/bs-util';
 import BsIcon from '../../../bs-icon/BsIcon.vue';
 
 export default defineComponent({
@@ -207,6 +212,11 @@ export default defineComponent({
       return pagersArr;
     });
 
+    // 快速跳转页码的偏移量
+    let supperOffset = computed(function () {
+      return props.pagerCount - 2;
+    });
+
     watchEffect(function () {
       const halfPagerCount = (props.pagerCount - 1) / 2;
       const totalPagesVal = props.totalPages;
@@ -245,28 +255,31 @@ export default defineComponent({
       let target = evt.target as HTMLElement;
       let pageNumber = Number(target.innerText);
       let pageItem;
-      let pagerCountOffset = props.pagerCount - 2;
-      if (util.hasClass(target, 'page-item')) {
+      let pagerCountOffset = supperOffset.value;
+      if (hasClass(target, 'page-item')) {
         pageItem = target;
       } else {
-        pageItem = util.parents(target, 'page-item');
+        pageItem = parents(target, 'page-item');
+      }
+      if (!pageItem) {
+        return;
       }
       // console.log('target', target, pageNumber);
       let newPage;
       let currentPage = props.currentPage;
       let isNewPageDisabled = false;
-      if (util.hasClass(pageItem, 'prev')) {
+      if (hasClass(pageItem, 'prev')) {
         if (currentPage != 1) {
           newPage = findNotDisabledPage(currentPage - 1, true);
         }
-      } else if (util.hasClass(pageItem, 'next')) {
+      } else if (hasClass(pageItem, 'next')) {
         if (currentPage != props.totalPages) {
           newPage = findNotDisabledPage(currentPage + 1, false);
         }
-      } else if (util.hasClass(pageItem, 'prev-more')) {
+      } else if (hasClass(pageItem, 'prev-more')) {
         newPage = currentPage - pagerCountOffset;
         newPage = findNotDisabledPage(newPage <= 0 ? 1 : newPage, true);
-      } else if (util.hasClass(pageItem, 'next-more')) {
+      } else if (hasClass(pageItem, 'next-more')) {
         newPage = findNotDisabledPage(currentPage + pagerCountOffset, false);
       } else {
         newPage = isNaN(pageNumber) ? 1 : pageNumber;
@@ -282,6 +295,7 @@ export default defineComponent({
       pagers,
       showPrevMore,
       showNextMore,
+      supperOffset,
 
       onPaginationClick
     };
