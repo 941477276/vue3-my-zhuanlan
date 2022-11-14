@@ -17,7 +17,9 @@ import {
   MessageBoxFn,
   supportMessageBoxTypes
 } from '@/ts-tokens/bootstrap/message';
-import { util } from '@/common/util';
+import {
+  offset
+} from '@/common/bs-util';
 import { useZIndex } from '@/hooks/useZIndex';
 import { useGetContentInfo } from '@/hooks/useGetContentInfo';
 import { useLockScroll } from '@/hooks/useLockScroll';
@@ -120,10 +122,10 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
       nextTick(function () {
         let messageBoxRef = (vm.component?.proxy as any).messageBoxRef;
         // let messageBoxRect = messageBoxRef.getBoundingClientRect();
-        let offset = util.offset(messageBoxRef);
+        let elOffset = offset(messageBoxRef);
         // console.log('messageBoxRef', messageBoxRef.getBoundingClientRect());
-        let x = mouseX - offset.left;
-        let y = mouseY - offset.top;
+        let x = mouseX - elOffset.left;
+        let y = mouseY - elOffset.top;
         // console.log('x, y', x, y);
         (vm.component?.proxy as any).setTransformOrigin(x, y);
       });

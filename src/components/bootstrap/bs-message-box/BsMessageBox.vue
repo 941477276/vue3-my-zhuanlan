@@ -133,7 +133,7 @@ import { MessageType } from '@/ts-tokens/bootstrap/message';
 // import { useVisible } from './useVisible';
 import { useButtonClick } from './useButtonClick';
 import { useGlobalEvent } from '@/hooks/useGlobalEvent';
-import { util } from '@/common/util';
+import { isPromise } from '@/common/bs-util';
 
 const defaultIconMap: Record<MessageType, string> = {
   info: 'info-circle-fill',
@@ -206,7 +206,7 @@ export default defineComponent({
       if (okCloseResult === false) {
         return;
       }
-      if (util.isPromise(okCloseResult)) {
+      if (isPromise(okCloseResult)) {
         okCloseResult.then(() => {
           visible.value = false;
           console.log('关闭message box！');
