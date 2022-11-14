@@ -2,7 +2,9 @@ import {
   Ref,
   ComputedRef
 } from 'vue';
-import { util } from '@/common/util';
+import {
+  hasClass
+} from '@/common/bs-util';
 import { calcValueByPosition, convertValue, getSliderHandlerNameByValue } from './bsSliderUitl';
 
 type SetValueFunction = (value: string|number) => void;
@@ -12,8 +14,8 @@ export function useSliderRail (value1: Ref<string|number>, value2: Ref<string|nu
       return;
     }
     evt = evt || window.event;
-    let target = evt.target;
-    if (util.hasClass(target, 'bs-slider-handler')) {
+    let target = evt.target! as HTMLElement;
+    if (hasClass(target, 'bs-slider-handler')) {
       return;
     }
     let sliderRect = sliderRef.value?.getBoundingClientRect();

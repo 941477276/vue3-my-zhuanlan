@@ -61,9 +61,9 @@
     <!--<div class="box">
       <BsMaskUsage></BsMaskUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsAlertUsage></BsAlertUsage>
-    </div>
+    </div>-->
     <!--<div class="box">
       <BsInputNumberUsage></BsInputNumberUsage>
     </div>-->
@@ -73,9 +73,9 @@
     <!--<div class="box">
       <BsTooltipUsage></BsTooltipUsage>
     </div>-->
-    <!--<div class="box">
+    <div class="box">
       <BsSliderUsage></BsSliderUsage>
-    </div>-->
+    </div>
     <!--<div class="box">
       <BsModalUsage></BsModalUsage>
     </div>-->
