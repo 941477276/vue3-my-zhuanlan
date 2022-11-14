@@ -6,7 +6,12 @@ import {
   onMounted,
   onUnmounted
 } from 'vue';
-import { util } from '@/common/util';
+import {
+  offset,
+  hasClass,
+  getEleTranslateValue,
+  getStyle
+} from '@/common/bs-util';
 import {
   HiddenTabInfo
 } from '@/ts-tokens/bootstrap/tabs';
@@ -25,12 +30,12 @@ function getHiddenTabs (navScrollerRef: Ref<HTMLElement|null>, tabsNavRef: Ref<H
   if (!navScrollerEl || !tabsNavEl) {
     return result;
   }
-  let navScrollerOffset = util.offset(navScrollerEl);
+  let navScrollerOffset = offset(navScrollerEl);
   // let navScrollerOffsetLeft = 0;
   let convertHiddenTabs = (ele: HTMLElement) => {
     return {
       id: ele.getAttribute('data-tabs-nav-item-id') as string,
-      disabled: util.hasClass(ele, 'is-disabled'),
+      disabled: hasClass(ele, 'is-disabled'),
       text: (ele.innerText || ele.textContent) as string
     };
   };
@@ -44,7 +49,7 @@ function getHiddenTabs (navScrollerRef: Ref<HTMLElement|null>, tabsNavRef: Ref<H
     if (result.isOverflow) {
       // let offsetRight = navScrollerOffset.left + navScrollerWidth;
       let navScrollerOffsetRight = navScrollerWidth;
-      let tabsNavTranslateValue = util.getEleTranslateValue(util.getStyle(tabsNavEl, 'transform')) as {x: number; y: number; z: number; rotate: number};
+      let tabsNavTranslateValue = getEleTranslateValue(getStyle(tabsNavEl, 'transform')) as {x: number; y: number; z: number; rotate: number};
       // console.log('tabsNavTranslateX', tabsNavTranslateValue);
       let leftHiddenTabs: HTMLElement[] = [];
       let rightHiddenTabs: HTMLElement[] = [];
@@ -101,7 +106,7 @@ function getHiddenTabs (navScrollerRef: Ref<HTMLElement|null>, tabsNavRef: Ref<H
     if (result.isOverflow) {
       // let offsetBottom = navScrollerOffset.top + navScrollerEl.offsetHeight;
       let navScrollerOffsetBottom = navScrollerEl.offsetHeight;
-      let tabsNavTranslateValue = util.getEleTranslateValue(util.getStyle(tabsNavEl, 'transform')) as {x: number; y: number; z: number; rotate: number};
+      let tabsNavTranslateValue = getEleTranslateValue(getStyle(tabsNavEl, 'transform')) as {x: number; y: number; z: number; rotate: number};
       let topHiddenTabs: HTMLElement[] = [];
       let bottomHiddenTabs: HTMLElement[] = [];
       // 底部是否有完全隐藏的元素
