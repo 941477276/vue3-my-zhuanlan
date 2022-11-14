@@ -52,7 +52,9 @@ import {
   BsColorType
 } from '@/ts-tokens/bootstrap';
 import BsIcon from '@/components/bootstrap/bs-icon/BsIcon.vue';
-import { util } from '@/common/util';
+import {
+  isPromise
+} from '@/common/bs-util';
 
 export default defineComponent({
   name: 'BsAlert',
@@ -99,7 +101,7 @@ export default defineComponent({
         let result = beforeClose();
         if (result === false) {
           return;
-        } else if (util.isPromise(result)) {
+        } else if (isPromise(result)) {
           result.then(function () {
             visible.value = false;
             ctx.emit('close');
