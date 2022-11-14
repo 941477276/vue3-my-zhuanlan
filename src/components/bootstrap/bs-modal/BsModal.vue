@@ -91,7 +91,9 @@ import { bsModalProps } from './props';
 import { useZIndex } from '@/hooks/useZIndex';
 import { useLockScroll } from '@/hooks/useLockScroll';
 import { useGlobalEvent } from '@/hooks/useGlobalEvent';
-import { util } from '@/common/util';
+import {
+  isPromise
+} from '@/common/bs-util';
 import drag from '@/hooks/useDrag';
 
 let modalCount = 0;
@@ -231,7 +233,7 @@ export default defineComponent({
         if (result === false) {
           return;
         }
-        if (util.isPromise(result)) {
+        if (isPromise(result)) {
           result.then(function (canClose?: boolean) {
             if (canClose === false) {
               return;
