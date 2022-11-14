@@ -73,4 +73,9 @@
 .bs-pop-confirm-buttons{
   margin-top: 0.625rem;
   text-align: right;
+  .bs-button{
+    & + .bs-button{
+      margin-left: 0.5rem;
+    }
+  }
 }

@@ -74,8 +74,9 @@ import { bsPopperContentProps } from '../bs-popper/bs-popper-content-props';
 import { bsTooltipContentProps } from '../bs-tooltip/bs-tooltip-content-props';
 import { bsTooltipTriggerProps } from '../bs-tooltip/bs-tooltip-trigger-props';
 import { bsTooltipProps } from '../bs-tooltip/bs-tooltip-props';
-
-import { util } from '@/common/util';
+import {
+  isPromise
+} from '@/common/bs-util';
 
 let popConfirmCount = 0;
 export default defineComponent({
@@ -164,7 +165,7 @@ export default defineComponent({
       if (result === false) {
         return;
       }
-      if (util.isPromise(result)) {
+      if (isPromise(result)) {
         loading.value = true;
         result.then(function () {
           loading.value = false;
