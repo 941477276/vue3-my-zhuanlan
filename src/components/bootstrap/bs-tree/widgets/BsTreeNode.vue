@@ -112,7 +112,11 @@ import { bsTreeContextKey, TreeContext } from '@/ts-tokens/bootstrap/tree';
 import { useTreePagination } from '../useTreePagination';
 import { bsTreeProps } from '../bs-tree-props';
 import { bsTreeNodeProps } from './bs-tree-node-props';
-import { util } from '@/common/util';
+import {
+  isPromise,
+  hasClass,
+  parents
+} from '@/common/bs-util';
 import { useTreeNode } from './useTreeNode';
 
 export default defineComponent({
@@ -254,7 +258,7 @@ export default defineComponent({
         // console.log('lazyLoadChildren 222');
         loadingData.value = true;
         let result = props.loadDataFn(props.nodeData, nodeState.value);
-        if (util.isPromise(result)) {
+        if (isPromise(result)) {
           // console.log('lazyLoadChildren 333');
           result.then(function (isLoaded: boolean) {
             // console.log('lazyLoadChildren 444');
@@ -296,7 +300,7 @@ export default defineComponent({
       if (target?.nodeName === 'INPUT') {
         return;
       }
-      if (util.hasClass(target, 'bs-checkbox') || util.parents(target, 'bs-checkbox') || util.hasClass(target, 'bs-radio') || util.parents(target, 'bs-radio')) {
+      if (hasClass(target, 'bs-checkbox') || parents(target, 'bs-checkbox') || hasClass(target, 'bs-radio') || parents(target, 'bs-radio')) {
         return;
       }
       // 点击节点可以选中
