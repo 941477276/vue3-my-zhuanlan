@@ -75,7 +75,9 @@ import {
   ValidateStatus,
   StringKeyObject
 } from '@/ts-tokens/bootstrap';
-import { util } from '@/common/util';
+import {
+  elementContains
+} from '@/common/bs-util';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import BsInput from '../bs-input/BsInput.vue';
 import BsTree from '../bs-tree/BsTree.vue';
@@ -209,8 +211,8 @@ export default defineComponent({
       if (props.disabled || props.loading) {
         return;
       }
-      let target = evt.target;
-      if (treeRef.value && (util.elementContains((treeRef.value as any).$el, target) || (treeRef.value as any).$el === target)) {
+      let target = evt.target! as HTMLElement;
+      if (treeRef.value && (elementContains((treeRef.value as any).$el, target) || (treeRef.value as any).$el === target)) {
         return;
       }
       if (dropdownVisible.value) {
