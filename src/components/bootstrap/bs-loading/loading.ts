@@ -5,7 +5,9 @@ import {
 } from '@vue/shared';
 import { createLoadingComponent, LoadingInstance } from './createLoadingComponent';
 import { CreateLoadingOptions } from '@/ts-tokens/bootstrap/loading';
-import { util } from '@/common/util';
+import {
+  getStyle
+} from '@/common/bs-util';
 import { useLockScroll } from '@/hooks/useLockScroll';
 import { bsLoadingProps } from './bs-loading-props';
 
@@ -85,7 +87,7 @@ export function BsLoading (options: BsLoadingOptions = {} as BsLoadingOptions) {
       let containerIsBody = container.nodeName == 'BODY';
       if (visible) {
         if (!fullscreen && !containerIsBody) { // 设置包裹loading的父级元素的定位
-          let isStaticPosition = util.getStyle(container, 'position') == 'static';
+          let isStaticPosition = getStyle(container, 'position') == 'static';
           containerOriginStylePosition = container.style.position || '';
           if (isStaticPosition) {
             container.style.position = 'relative';
@@ -97,7 +99,7 @@ export function BsLoading (options: BsLoadingOptions = {} as BsLoadingOptions) {
             unlockScroll = useLockScroll();
           } else {
             let containerOriginStyleOverflow = container.style.overflow;
-            let isLocked = util.getStyle(container, 'overflow') == 'hidden';
+            let isLocked = getStyle(container, 'overflow') == 'hidden';
             if (!isLocked) {
               container.style.overflow = 'hidden';
               unlockScroll = function () {
