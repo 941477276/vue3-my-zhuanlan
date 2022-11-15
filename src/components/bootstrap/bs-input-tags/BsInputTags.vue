@@ -83,8 +83,10 @@ import BsTag from '../bs-tag/BsTag.vue';
 import InputTagSlot from './widgets/InputTagsSlot.vue';
 import { bsInputTagsProps, ValueItem } from './bs-input-tags-props';
 import { useClickOutside } from '@/hooks/useClickOutside';
-import { FormItemContext, formItemContextKey } from '@/ts-tokens/bootstrap';
-import { util } from '@/common/util';
+import {
+  getStyle,
+  offset
+} from '@/common/bs-util';
 import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
 import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
 
@@ -147,9 +149,9 @@ export default defineComponent({
           let lastTagEl = tags[tags.length - 1] as HTMLElement;
           let lastTagOffsetLeft = lastTagEl.offsetLeft;
           let lastTagWidth = lastTagEl.offsetWidth;
-          let lastTagMarginRight: any = util.getStyle(lastTagEl, 'margin-right');
-          let inputWrapMarginLeft: any = util.getStyle(inputWrapEl, 'margin-left');
-          let inputWrapMarginRight: any = util.getStyle(inputWrapEl, 'margin-right');
+          let lastTagMarginRight: any = getStyle(lastTagEl, 'margin-right');
+          let inputWrapMarginLeft: any = getStyle(inputWrapEl, 'margin-left');
+          let inputWrapMarginRight: any = getStyle(inputWrapEl, 'margin-right');
 
           let width = inputTagsWidth - (lastTagOffsetLeft + lastTagWidth + lastTagMarginRight) - inputWrapMarginLeft - inputWrapMarginRight - 1;
           let minWidth = props.minWidth;
@@ -189,8 +191,8 @@ export default defineComponent({
         }
         addBtnEl.style.opacity = '0';
         addBtnEl.style.display = 'block';
-        let offsetRight = util.offset(addBtnEl).left + addBtnEl.offsetWidth;
-        let bsInputTagsRootOffsetRight = util.offset(bsInputTagsRootEl).left + bsInputTagsRootEl.offsetWidth;
+        let offsetRight = offset(addBtnEl).left + addBtnEl.offsetWidth;
+        let bsInputTagsRootOffsetRight = offset(bsInputTagsRootEl).left + bsInputTagsRootEl.offsetWidth;
         if (offsetRight > bsInputTagsRootOffsetRight) {
           addBtnVisible.value = false;
         } else {

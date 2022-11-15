@@ -139,6 +139,6 @@ export default defineComponent({
       return renderSlot(ctx.slots, 'default', {
         config: props
       });
-    }
+    };
   }
 });
