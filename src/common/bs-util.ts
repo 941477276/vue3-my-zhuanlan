@@ -104,6 +104,30 @@ export function isEmptyObject (obj: any): boolean {
 }
 
 /**
+ * 判断传入的参数是否为字符串
+ * @param val
+ */
+export function isString (val: any): boolean {
+  return typeof val === 'string';
+}
+
+/**
+ * 判断传入的参数是否为symbol
+ * @param val
+ */
+export function isSymbol (val: any): boolean {
+  return typeof val === 'symbol';
+}
+
+/**
+ * 判断传入的参数是否为普通对象
+ * @param val
+ */
+export function isObject (val: any): boolean {
+  return val !== null && typeof val === 'object';
+}
+
+/**
  * 获取两个数之间的随机值
  * @param min 最小值
  * @param max 最大值
