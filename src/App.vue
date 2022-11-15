@@ -121,15 +121,15 @@
     <!--<div class="box">
       <BsLoadingUsage></BsLoadingUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsCascaderUsage></BsCascaderUsage>
-    </div>
+    </div>-->
     <!--<div class="box">
       <BsToastUsage></BsToastUsage>
     </div>-->
-    <!-- <div class="box">
+     <div class="box">
       <BsMenuUsage></BsMenuUsage>
-    </div> -->
+    </div>
   </bs-config-provider>
 </template>
 

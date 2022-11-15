@@ -26,10 +26,10 @@ import {
   ExpandedSubmenu
 } from '@/ts-tokens/bootstrap/menu';
 import {
-  util,
-  isUndefined
-} from '@/common/util';
-import { NumberDecimal } from 'ant-design-vue/lib/input-number/src/utils/MiniDecimal';
+  isUndefined,
+  elementContains,
+  parents
+} from '@/common/bs-util';
 
 let subMenuCount = 0;
 let componentName = 'BsSubMenu';
@@ -275,15 +275,15 @@ export default defineComponent({
       if (!target) {
         return true;
       }
-      let bsSubmenuTitleEle = bsSubmenuTitleRef.value;
+      let bsSubmenuTitleEle = bsSubmenuTitleRef.value as HTMLElement;
       let submenuPathVale = submenuPath.value;
       // console.log('handleMouseleave', target, util.elementContains(bsSubmenuTitleEle, target));
       // 如果鼠标是在当前submenu的标题上，则不处理任何事情
-      if (target === bsSubmenuTitleEle || util.elementContains(bsSubmenuTitleEle, target)) {
+      if (target === bsSubmenuTitleEle || elementContains(bsSubmenuTitleEle, target)) {
         return false;
       }
       // 获取子下拉菜单的根元素
-      let childSubmenuDropdownRootEl = util.parents(target, 'bs-submenu-content');
+      let childSubmenuDropdownRootEl = parents(target, 'bs-submenu-content');
       // console.log('childSubmenuDropdownRootEl', childSubmenuDropdownRootEl);
       if (childSubmenuDropdownRootEl) {
         let childSubmenuPath = childSubmenuDropdownRootEl.dataset.submenuPath || '';
