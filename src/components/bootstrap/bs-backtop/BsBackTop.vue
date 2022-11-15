@@ -40,7 +40,12 @@ import {
   isObject
 } from '@vue/shared';
 import { useGlobalEvent } from '@/hooks/useGlobalEvent';
-import { util } from '@/common/util';
+import {
+  scrollTo,
+  getStyle,
+  scrollLeft,
+  scrollTop
+} from '@/common/bs-util';
 
 const defaultTop = '80%';
 const defaultRight = '30px';
@@ -106,18 +111,19 @@ export default defineComponent({
     let lastTime = 0;
     let onScroll = function () {
       let triggerEl = triggerRef.value;
-      let target = currentTarget.value;
-      let scrollTop = util.scrollTop(target);
+      let target = currentTarget.value as HTMLElement;
+      let targetScrollTop = scrollTop(target);
       let now = new Date().getTime();
 
       // 如果isScrolling=true则是通过代码在滚动滚动条，在代码滚动过程中会调用calcTriggerStyle函数计算dom位置，因此这里就不再需要调了
       if (!isScrolling) {
+        // @ts-ignore
         calcTriggerStyle(target !== window ? (target as HTMLElement) : null);
       }
 
       // 经测试，节流时间控制在35毫秒是最为恰当的，节流时间设置为大于35毫秒，当滚动滚动条的速度较快时会导致按钮不能及时显示或隐藏
       if (now > 0 && (now - lastTime < 35)) {
-        if (scrollTop == 0) {
+        if (targetScrollTop == 0) {
           visible.value = false;
         }
         console.log('最近更新时间少于35毫秒');
@@ -130,10 +136,11 @@ export default defineComponent({
       lastTime = now;
       let visibleHeight = props.visibilityHeight;
       // let targetClientHeight = target === window ? window.innerHeight : (target as HTMLElement).clientHeight;
+      // @ts-ignore
       let targetHeight = target === window ? document.documentElement.offsetHeight : (target as HTMLElement).clientHeight;
       visibleHeight = parseNumber(visibleHeight, targetHeight);
       // console.log('new visibleHeight', visibleHeight);
-      let flag = scrollTop >= visibleHeight;
+      let flag = targetScrollTop >= visibleHeight;
       visible.value = flag;
     };
 
@@ -214,25 +221,25 @@ export default defineComponent({
         return;
       }
 
-      let isTriggerFixed = util.getStyle(targetEl, 'position') === 'fixed';
+      let isTriggerFixed = getStyle(targetEl, 'position') === 'fixed';
       if ((targetEl as any) === window || isTriggerFixed) {
         return style;
       }
       let clientHeight = targetEl.clientHeight;
       let clientLeft = targetEl.clientLeft;
-      let scrollTop = util.scrollTop(targetEl);
-      let scrollLeft = util.scrollLeft(targetEl);
+      let targetScrollTop = scrollTop(targetEl);
+      let targetScrollLeft = scrollLeft(targetEl);
       if (!top && top !== 0) { // 未传递top属性则使用默认的top值
         top = defaultTop;
       }
       top = parseNumber(top, clientHeight);
-      top += scrollTop;
+      top += targetScrollTop;
 
       if (!right && right !== 0) {
         right = defaultRight;
       }
       right = parseNumber(right, clientLeft);
-      right += scrollLeft;
+      right += targetScrollLeft;
 
       console.log('top, right', top, right);
       triggerElStyle.top = top;
@@ -254,17 +261,18 @@ export default defineComponent({
 
     let doBackTop = function () {
       console.log('返回顶部');
-      let target = currentTarget.value;
+      let target = currentTarget.value as HTMLElement;
       if (!target || isScrolling) {
         return;
       }
       isScrolling = true;
-      util.scrollTo(target, 'y', 0, props.duration || 150, function () {
+      scrollTo(target, 'y', 0, props.duration || 150, function () {
         // console.log('滚动至顶完毕');
         isScrolling = false;
         visible.value = false;
         ctx.emit('complete');
       }, function () {
+        // @ts-ignore
         if (target !== window) {
           calcTriggerStyle(target as HTMLElement);
         }
