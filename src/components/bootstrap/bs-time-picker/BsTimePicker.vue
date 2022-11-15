@@ -11,7 +11,7 @@
     :id="bsTimePickerId"
     :set-min-width="true"
     :dropdown-class-name="dropdownClassName"
-    @update:inputModelValue="viewDateText = $event"
+    @update:inputModelValue="hanleInputModelValueChange"
     @input="onInput"
     @blur="onInputBlur"
     @clear="clear"
@@ -64,6 +64,9 @@ import { useTimePicker, getUpdateModelValue } from './useTimePicker';
 import { BsSize } from '@/ts-tokens/bootstrap';
 import { dayjsUtil } from '@/common/dayjsUtil';
 import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
+import {
+  isString
+} from '@vue/shared';
 
 dayjs.extend(customParseFormat);
 let bsTimePickerCount = 0;
@@ -127,7 +130,7 @@ export default defineComponent({
       if (!date) {
         return '';
       }
-      console.log('getViewDateText', date);
+      // console.log('getViewDateText', date);
 
       if (!format) {
         if (props.use12Hours) {
@@ -162,8 +165,8 @@ export default defineComponent({
     let isInputTextValid = true;
     // 输入框输入事件
     let onInput = function (value: string) {
+      isInputTextValid = false;
       if (!value) {
-        isInputTextValid = false;
         return;
       }
       let format = formatInner.value;
@@ -217,20 +220,40 @@ export default defineComponent({
             result = result.hour
           }
         } */
+        let resultText = '';
+        if (!isString(result)) {
+          resultText = dayjsUtil.locale.format(result, 'en', format);
+        } else {
+          resultText = result as string;
+        }
+
+        let modelValue = props.modelValue;
+        let modelValueText = '';
+        if (!isString(modelValue)) {
+          modelValueText = dayjsUtil.locale.format(modelValue as Dayjs, 'en', format);
+        } else {
+          modelValueText = modelValue;
+        }
+        // console.log('resultText, modelValueText', resultText, modelValueText);
+        if (resultText === modelValueText) {
+          console.log('新的结果与旧的一致，不执行更新');
+          return;
+        }
         console.log('即将更新的modelValue：', result);
         ctx.emit('update:modelValue', result);
         ctx.emit('change', result);
         callFormItem('validate', 'change');
         // viewDateText.value = getViewDateText();
         isInputTextValid = true;
-      } else {
-        isInputTextValid = false;
       }
     };
     let onInputBlur = function () {
-      // if (!isInputTextValid) {
-      viewDateText.value = getViewDateText();
-      // }
+      if (!isInputTextValid) {
+        // console.log('before -----onInputBlur', viewDateText.value);
+        // viewDate.value = props.modelValue;
+        viewDateText.value = getViewDateText();
+        // console.log('onInputBlur', viewDateText.value);
+      }
     };
 
     let clear = function () {
@@ -285,6 +308,11 @@ export default defineComponent({
       onHidden () {
         visible.value = false;
         ctx.emit('hidden');
+      },
+      hanleInputModelValueChange (newViewText: string) {
+        console.log('hanleInputModelValueChange', newViewText);
+        viewDateText.value = newViewText;
+        console.log('hanleInputModelValueChange，viewDateText.value', viewDateText.value);
       },
 
       clear,

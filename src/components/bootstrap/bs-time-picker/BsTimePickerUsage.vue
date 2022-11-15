@@ -112,12 +112,12 @@ export default defineComponent({
     let value = ref(dayjs(new Date()));
 
     let disabledHours = function (hour: number, use12Hourss: boolean) {
-      console.log('disabledHours', hour);
+      // console.log('disabledHours', hour);
       return hour > 20;
     };
     let disabledMinutes = function (hour: number, minute: number, use12Hourss: boolean) {
-      console.log('disabledHours', hour, minute);
-      return minute < 30;
+      // console.log('disabledHours', hour, minute);
+      return minute < 50;
     };
     let disabledSeconds = function (hour: number, minute: number, second: number, use12Hourss: boolean) {
       return second > 20 && second < 35;
