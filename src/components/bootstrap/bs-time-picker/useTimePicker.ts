@@ -3,6 +3,9 @@ import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { dayjsUtil } from '@/common/dayjsUtil';
 import { util } from '@/common/util';
+import {
+  isFunction
+} from '@/common/bs-util';
 
 dayjs.extend(customParseFormat);
 export function useTimePicker (props: any) {
@@ -156,13 +159,13 @@ export function getUpdateModelValue (options = {} as GetUpdateModelValueParams) 
     }
   }
   // 如果时分秒被禁用，则用来的时分秒
-  if (util.isFunction(disabledHours) && !!disabledHours(hour, use12Hours)) {
+  if (isFunction(disabledHours) && !!disabledHours(hour, use12Hours)) {
     hour = originDate.hour();
   }
-  if (util.isFunction(disabledMinutes) && !!disabledMinutes(hour, minute, use12Hours)) {
+  if (isFunction(disabledMinutes) && !!disabledMinutes(hour, minute, use12Hours)) {
     minute = originDate.minute();
   }
-  if (util.isFunction(disabledSeconds) && !!disabledSeconds(hour, minute, second, use12Hours)) {
+  if (isFunction(disabledSeconds) && !!disabledSeconds(hour, minute, second, use12Hours)) {
     second = originDate.second();
   }
   if (!valueFormat) {

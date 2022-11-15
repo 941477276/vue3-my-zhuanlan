@@ -25,7 +25,9 @@ import {
   defineComponent
 } from 'vue';
 import { TimeDataUnit } from '@/ts-tokens/bootstrap/time-picker';
-import { util } from '@/common/util';
+import {
+  scrollTo
+} from '@/common/bs-util';
 
 export default defineComponent({
   name: 'BsTimeUnitColumn',
@@ -91,7 +93,7 @@ export default defineComponent({
           return;
         }
         // @ts-ignore
-        util.scrollTo(ulEl, 'y', activeLi.offsetTop, duration);
+        scrollTo(ulEl, 'y', activeLi.offsetTop, duration);
       });
     };
 
