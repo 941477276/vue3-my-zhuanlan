@@ -80,7 +80,9 @@ import {
   CascaderExpandedMenuItem,
   CascaderFieldNames
 } from '@/ts-tokens/bootstrap/cascader';
-import { util } from '@/common/util';
+import {
+  hasClass
+} from '@/common/bs-util';
 
 type LazyLoadingStatus = 'loading' | 'fail' | 'success';
 
@@ -308,7 +310,7 @@ export default defineComponent({
       let target = evt.target as HTMLElement;
       console.log('handlerItemClick');
       // 防止点击复选框、单选框后造成重复点击！
-      if (target.nodeName === 'INPUT' && util.hasClass(target, 'form-check-input')) {
+      if (target.nodeName === 'INPUT' && hasClass(target, 'form-check-input')) {
         return;
       }
       if (optionItem[disabledKey]) {

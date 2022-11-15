@@ -118,12 +118,12 @@
     <!--<div class="box">
       <BsRelativeTimeUsage></BsRelativeTimeUsage>
     </div>-->
-    <div class="box">
-      <BsLoadingUsage></BsLoadingUsage>
-    </div>
     <!--<div class="box">
-      <BsCascaderUsage></BsCascaderUsage>
+      <BsLoadingUsage></BsLoadingUsage>
     </div>-->
+    <div class="box">
+      <BsCascaderUsage></BsCascaderUsage>
+    </div>
     <!--<div class="box">
       <BsToastUsage></BsToastUsage>
     </div>-->

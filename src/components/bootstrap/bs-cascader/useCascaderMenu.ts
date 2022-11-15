@@ -26,7 +26,9 @@ import {
 import {
   useCascaderMultiple
 } from './useCascaderMultiple';
-import { util } from '@/common/util';
+import {
+  scrollTo
+} from '@/common/bs-util';
 
 export function useCascaderMenu (options: any) {
   let {
@@ -89,7 +91,7 @@ export function useCascaderMenu (options: any) {
         console.log('滚动滚动条');
         nextTick(function () {
           // @ts-ignore
-          util.scrollTo(cascaderMenusEl, 'x', cascaderMenusEl?.scrollWidth || 0, 200);
+          scrollTo(cascaderMenusEl, 'x', cascaderMenusEl?.scrollWidth || 0, 200);
         });
       }
     }
