@@ -165,11 +165,9 @@ export default defineComponent({
         return cellData.monthName;
       },
       onSuperPrev () {
-        console.log('onSuperPrev');
         setPanelViewDate(dayjsUtil.addYear(panelViewDate.value, -1));
       },
       onSuperNext () {
-        console.log('onSuperPrev');
         setPanelViewDate(dayjsUtil.addYear(panelViewDate.value, 1));
       },
       onCellClick,

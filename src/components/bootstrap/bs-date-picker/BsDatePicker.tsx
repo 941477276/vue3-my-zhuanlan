@@ -33,7 +33,6 @@ import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil } from '@/common/dayjsUtil';
 import { getUpdateModelValue } from '@/components/bootstrap/bs-time-picker/useTimePicker';
 import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
-import floatFn from 'async-validator/dist-types/validator/float';
 
 let pickerCounts: any = {
   date: 0,
@@ -199,8 +198,8 @@ export default defineComponent({
                 dateTemp = dateTemp.hour(newHour - 12);
               }
             }
-            let viewText = dateTemp.format(tempFormat) + ' ' + periods;
-            console.log('dateTime hour', dateTemp, hour, viewText);
+            // let viewText = dateTemp.format(tempFormat) + ' ' + periods;
+            // console.log('dateTime hour', dateTemp, hour, viewText);
             // console.log('dateTemp2', dateTemp2);
             dayjsIns = dateTemp;
           }

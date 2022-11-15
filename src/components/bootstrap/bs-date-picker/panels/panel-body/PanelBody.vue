@@ -60,7 +60,9 @@
 import {
   defineComponent
 } from 'vue';
-import { util } from '@/common/util';
+import {
+  parents
+} from '@/common/bs-util';
 import PickerCellInner from './PickerCellInner.vue';
 import { PrefixColumn } from './PrefixColumn';
 /**
@@ -135,15 +137,15 @@ export default defineComponent({
     let onCellClick = function (evt: MouseEvent) {
       let target = evt.target as HTMLElement;
 
-      let tdEl = target.nodeName === 'TD' ? target : util.parents(target, 'bs-picker-cell');
+      let tdEl = target.nodeName === 'TD' ? target : parents(target, 'bs-picker-cell');
       // console.log('target', target, tdEl);
       if (!tdEl) {
         return;
       }
-      let rowIndex = tdEl.dataset.rowIndex * 1;
-      let cellIndex = tdEl.dataset.cellIndex * 1;
+      let rowIndex = (tdEl.dataset.rowIndex as any) * 1;
+      let cellIndex = (tdEl.dataset.cellIndex as any) * 1;
       let cellData = findCellData(props.bodyCells, rowIndex, cellIndex);
-      console.log('cell-data', cellData, rowIndex, cellData);
+      // console.log('cell-data', cellData, rowIndex, cellData);
       if (cellData.disabled) {
         return;
       }

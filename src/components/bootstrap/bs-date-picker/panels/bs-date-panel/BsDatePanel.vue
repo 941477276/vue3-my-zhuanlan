@@ -164,7 +164,7 @@ export default defineComponent({
   emits: ['update:modelValue', 'viewDateChange'],
   setup (props: any, ctx: any) {
     let now = dayjs(); // 今天
-    console.log('now construct', now instanceof dayjs);
+    // console.log('now construct', now instanceof dayjs);
 
     // 用于面板展示的日期
     let {

@@ -73,7 +73,7 @@ export default defineComponent({
   setup (props: any, ctx: any) {
     let now = dayjs();
     let quarterValueNow = dayjs().format(defaultFormat);
-    console.log('quarterValueNow', quarterValueNow);
+    // console.log('quarterValueNow', quarterValueNow);
     /* let panelViewDate = ref(dayjs(props.modelValue ? props.modelValue : undefined));
     let setPanelViewDate = (date: Dayjs, emitEvents = true) => {
       if (!date || !(date instanceof dayjs)) {
@@ -131,7 +131,7 @@ export default defineComponent({
       ctx.emit('update:modelValue', cellData.quarter);
     };
 
-    console.log('2022-08', dayjs('2022-Q3', 'YYYY-[Q]Q'));
+    // console.log('2022-08', dayjs('2022-Q3', 'YYYY-[Q]Q'));
     let dateRender = props.dateRender;
     return {
       yearName,

@@ -82,7 +82,7 @@ export default defineComponent({
       let yearDecadeArr: any = [];
       let { currentYear, startDecadeYear, endDecadeYear } = decadeNumberInfo.value;
       let baseDecadeYearDate = dayjsUtil.addYear(dayjs(startDecadeYear + '', 'YYYY'), -10);
-      console.log('year', currentYear, startDecadeYear, endDecadeYear, baseDecadeYearDate);
+      // console.log('year', currentYear, startDecadeYear, endDecadeYear, baseDecadeYearDate);
       let tempYearArr = [];
       let disabledDate = props.disabledDate;
       let lastDecadeEndDate = null;
@@ -106,7 +106,7 @@ export default defineComponent({
 
     // 单元格点击事件
     let onCellClick = function (cellData: any) {
-      let modelValue = props.modelValue;
+      // let modelValue = props.modelValue;
       if (cellData.disabled) {
         return;
       }

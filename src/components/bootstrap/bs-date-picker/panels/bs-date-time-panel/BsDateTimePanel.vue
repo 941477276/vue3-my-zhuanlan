@@ -38,7 +38,6 @@ import {
   NOOP
 } from '@vue/shared';
 import dayjs, { Dayjs } from 'dayjs';
-import { dayjsUtil, isLeapYear, getMonthDays } from '@/common/dayjsUtil';
 import BsDatePanel from '../bs-date-panel/BsDatePanel.vue';
 import BsPickerTimePanel from '../../../bs-time-picker/widgets/BsPickerTimePanel.vue';
 
@@ -111,7 +110,7 @@ export default defineComponent({
     };
     return {
       datePanelRef,
-      
+
       onDateChange,
       onTimeChange,
       onViewDateChange (date: Dayjs) {
