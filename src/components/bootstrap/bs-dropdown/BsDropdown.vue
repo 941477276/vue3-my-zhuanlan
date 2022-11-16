@@ -47,7 +47,6 @@ import {
 } from 'vue';
 import BsOnlyChild from '../bs-slot/BsOnlyChild.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
-import { util } from '@/common/util';
 import {
   addClass,
   eleIsInFixedParents

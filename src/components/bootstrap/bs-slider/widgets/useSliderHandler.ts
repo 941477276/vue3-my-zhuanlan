@@ -5,7 +5,9 @@ import {
   watch
 } from 'vue';
 import { BigNumber } from 'bignumber.js';
-import { util } from '@/common/util';
+import {
+  elementContains
+} from '@/common/bs-util';
 import {
   calcValueByPosition,
   convertValue
@@ -150,8 +152,8 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
     // console.log('documentMouseup');
     // tooltipVisible.value = false;
     isDragging = false;
-    let target = evt.target;
-    if (target != sliderHandlerRef.value && !util.elementContains(sliderHandlerRef.value, target)) {
+    let target = evt.target as HTMLElement;
+    if (target != sliderHandlerRef.value && !elementContains(sliderHandlerRef.value as HTMLElement, target)) {
       tooltipVisible.value = false;
     }
   };

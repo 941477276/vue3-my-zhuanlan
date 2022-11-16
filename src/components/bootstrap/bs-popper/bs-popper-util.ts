@@ -1,9 +1,11 @@
 import { Options as PopperOptions } from '@popperjs/core';
-import { util } from '@/common/util';
+import {
+  eleIsInFixedParents
+} from '@/common/bs-util';
 
-export function buildPopperOptions (props: any, triggerEl: Element): PopperOptions {
+export function buildPopperOptions (props: any, triggerEl: HTMLElement): PopperOptions {
   let popperOptions = props.popperOptions || {};
-  let triggerInFixedContainer = util.eleIsInFixedParents(triggerEl);
+  let triggerInFixedContainer = eleIsInFixedParents(triggerEl);
   // let offset = props.offset || [];
   let options = {
     placement: props.placement,

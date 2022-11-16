@@ -10,9 +10,8 @@ import {
 } from '@vue/shared';
 import BsToastComponent from './BsToast.vue';
 import {
-  isUndefined,
   isBoolean
-} from '@/common/util';
+} from '@/common/bs-util';
 import { useGetContentInfo } from '@/hooks/useGetContentInfo';
 import {
   ToastCtx,

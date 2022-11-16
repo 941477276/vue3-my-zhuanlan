@@ -16,7 +16,11 @@
 
 <script lang="ts">
 import { ref, PropType, defineComponent, onMounted, nextTick, onBeforeUnmount, watch, Ref } from 'vue';
-import { util } from '@/common/util';
+import {
+  offset,
+  eleIsInView,
+  addClass
+} from '@/common/bs-util';
 import { useClickOutside } from '@/hooks/useClickOutside';
 
 // 下来菜单显示方向
@@ -81,7 +85,7 @@ export default defineComponent({
     // 计算显示方向
     let calcDirection = function (currentDirection: directions): calcDirection {
       let toggleElReact: DOMRect = toggleEl.getBoundingClientRect();
-      let dropdownMenuOffset = util.offset(dropdownMenuRef.value);
+      let dropdownMenuOffset = offset(dropdownMenuRef.value);
       let dropdownMenuWidth = (dropdownMenuRef.value as HTMLElement).offsetWidth;
       let dropdownMenuHeight = (dropdownMenuRef.value as HTMLElement).offsetHeight;
 
@@ -92,7 +96,7 @@ export default defineComponent({
       let handleBottom = function (): calcDirection {
         let offsetTop = dropdownMenuOffset.top + dropdownMenuHeight;
         let offsetLeft = dropdownMenuOffset.left + dropdownMenuWidth;
-        let isInView = util.eleInView(dropdownMenuRef.value, offsetTop, offsetLeft);
+        let isInView = eleInView(dropdownMenuRef.value, offsetTop, offsetLeft);
         // console.log('handleBottom isInView', isInView);
         return {
           vertical: isInView.vertical,
@@ -105,7 +109,7 @@ export default defineComponent({
       let handleTop = function (): calcDirection {
         let offsetTop = dropdownMenuOffset.top - (toggleElReact.height + dropdownMenuHeight);
         let offsetLeft = dropdownMenuOffset.left + dropdownMenuWidth;
-        let isInView = util.eleInView(dropdownMenuRef.value, offsetTop, offsetLeft);
+        let isInView = eleInView(dropdownMenuRef.value, offsetTop, offsetLeft);
         // console.log('handleTop isInView', isInView);
         return {
           vertical: isInView.vertical,
@@ -118,7 +122,7 @@ export default defineComponent({
       let handleLeft = function (): calcDirection {
         let offsetTop = dropdownMenuOffset.top;
         let offsetLeft = dropdownMenuOffset.left - dropdownMenuWidth;
-        let isInView = util.eleInView(dropdownMenuRef.value, offsetTop, offsetLeft);
+        let isInView = eleInView(dropdownMenuRef.value, offsetTop, offsetLeft);
         // console.log('handleTop handleLeft', isInView);
         return {
           vertical: isInView.vertical,
@@ -131,7 +135,7 @@ export default defineComponent({
       let handleRight = function (): calcDirection {
         let newTop = dropdownMenuOffset.top;
         let newLeft = dropdownMenuOffset.left + dropdownMenuWidth;
-        let isInView = util.eleInView(dropdownMenuRef.value, newTop, newLeft);
+        let isInView = eleInView(dropdownMenuRef.value, newTop, newLeft);
         // console.log('handleTop handleRight', isInView);
         return {
           vertical: isInView.vertical,
@@ -311,7 +315,7 @@ export default defineComponent({
     onMounted(() => {
       toggleEl = (dropdownRef.value as HTMLElement).firstElementChild as HTMLElement;
       if (toggleEl) {
-        util.addClass(toggleEl, 'dropdown-toggle');
+        addClass(toggleEl, 'dropdown-toggle');
       }
       if (!toggleEl && props.trigger === 'click') {
         return;

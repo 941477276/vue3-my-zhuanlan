@@ -81,7 +81,7 @@ import {
 } from '@/ts-tokens/bootstrap';
 import {
   getRandomNumber
-} from '@/common/util';
+} from '@/common/bs-util';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const imgSrc = require('@/assets/imgs/icons-hero.png');
 

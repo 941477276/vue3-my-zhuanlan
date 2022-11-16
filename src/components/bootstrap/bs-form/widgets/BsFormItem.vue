@@ -46,7 +46,9 @@ import {
 import {
   isObject
 } from '@vue/shared';
-import { util } from '@/common/util';
+import {
+  getPropValueByPath
+} from '@/common/bs-util';
 import Schema from 'async-validator';
 import {
   FormContext,
@@ -114,7 +116,7 @@ export default defineComponent({
     // 存储初始值，以遍在重置表单值时使用
     let initialVal:any = {};
     if (formContext) {
-      initialVal = util.getPropValueByPath(formContext.props.model, props.fieldPropName);
+      initialVal = getPropValueByPath(formContext.props.model, props.fieldPropName);
     }
     // console.log('初始值: ', initialVal);
 
@@ -240,7 +242,7 @@ export default defineComponent({
       let fieldVal;
       if (props.fieldPropName) {
         // 根据fieldPropName从<bs-form>组件中传递下来的model对象中查找字段值
-        fieldVal = util.getPropValueByPath(formContext?.props.model, props.fieldPropName).value;
+        fieldVal = getPropValueByPath(formContext?.props.model, props.fieldPropName).value;
       } else {
         fieldVal = props.value;
       }
@@ -291,7 +293,7 @@ export default defineComponent({
      */
     let resetField = function () {
       console.log('重置表单：', initialVal.parentObj, initialVal.lastKey, initialVal.value);
-      let currentVal = util.getPropValueByPath(formContext?.props.model, props.fieldPropName);
+      let currentVal = getPropValueByPath(formContext?.props.model, props.fieldPropName);
       // 根据fieldPropName查找到该属性目前最新的父对象，因为业务组件在使用时可能会替换掉父对象
       currentVal.parentObj[initialVal.lastKey] = initialVal.value;
       clearValidate();
