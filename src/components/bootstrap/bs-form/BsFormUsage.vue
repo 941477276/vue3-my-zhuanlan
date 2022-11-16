@@ -4,7 +4,7 @@
       ref="formRef"
       :model="formData"
       :rules="rules">
-      <bs-form-item label="用户名" field-prop-name="username">
+      <bs-form-item label="用户名" name="username">
         <bs-input v-model="formData.username"></bs-input>
         <template #hint>
           <p>用户名不能以数字开头</p>
@@ -12,7 +12,7 @@
       </bs-form-item>
       <bs-form-item
         label="性别"
-        field-prop-name="gender"
+        name="gender"
         :hide-required-asterisk="true"
         :rules="[{ required: true, trigger: 'change', message: '请输选择性别' }]">
         <bs-select v-model="formData.gender">
@@ -23,7 +23,7 @@
       </bs-form-item>
       <bs-form-item
         label="入职日期"
-        field-prop-name="joinDate">
+        name="joinDate">
         <bs-date-picker
           v-model="formData.joinDate"
           value-format="YYYY-MM-DD"
@@ -31,7 +31,7 @@
       </bs-form-item>
       <bs-form-item
         label="上班开始时间"
-        field-prop-name="workStartTime">
+        name="workStartTime">
         <bs-time-picker
           v-model="formData.workStartTime"
           show-footer
@@ -40,14 +40,14 @@
       </bs-form-item>
       <bs-form-item
         label="工作时长"
-        field-prop-name="workTimer">
+        name="workTimer">
         <bs-input-number
           v-model="formData.workTimer"
           placeholder="请填写工作时长"></bs-input-number>
       </bs-form-item>
       <bs-form-item
         label="每月发放薪酬时间"
-        field-prop-name="paySalaryTime">
+        name="paySalaryTime">
         <bs-date-picker
           v-model="formData.paySalaryTime"
           :time-panel-props="{valueFormat: 'HH时mm分ss秒'}"
@@ -58,12 +58,12 @@
       </bs-form-item>
       <bs-form-item
         label="标签"
-        field-prop-name="tags">
+        name="tags">
         <bs-input-tags
           v-model="formData.tags"
           placeholder="请填写标签，按回车键确认"></bs-input-tags>
       </bs-form-item>
-      <bs-form-item label="爱好" field-prop-name="hobby">
+      <bs-form-item label="爱好" name="hobby">
         <bs-checkbox v-model="formData.hobby" v-if="show" checked value="yuwen">语文</bs-checkbox>
         <bs-checkbox v-model="formData.hobby" value="shuxue">数学</bs-checkbox>
         <bs-checkbox v-model="formData.hobby" value="yingyu">英语</bs-checkbox>
@@ -71,7 +71,7 @@
         <bs-checkbox v-model="formData.hobby" value="wuli">物理</bs-checkbox>
         <bs-checkbox v-model="formData.hobby" value="shengwu">生物</bs-checkbox>
       </bs-form-item>
-      <bs-form-item label="状态" field-prop-name="status">
+      <bs-form-item label="状态" name="status">
         <bs-radio v-model="formData.status" :value="1">启用</bs-radio>
         <bs-radio v-model="formData.status" :value="0">禁用</bs-radio>
       </bs-form-item>

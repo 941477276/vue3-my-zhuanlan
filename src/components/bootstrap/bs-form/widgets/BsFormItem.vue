@@ -71,7 +71,7 @@ export default defineComponent({
       type: String,
       default: ''
     },
-    fieldPropName: { // 字段在model中的key
+    name: { // 字段在model中的key
       type: String,
       default: ''
     },
@@ -116,7 +116,7 @@ export default defineComponent({
     // 存储初始值，以遍在重置表单值时使用
     let initialVal:any = {};
     if (formContext) {
-      initialVal = getPropValueByPath(formContext.props.model, props.fieldPropName);
+      initialVal = getPropValueByPath(formContext.props.model, props.name);
     }
     // console.log('初始值: ', initialVal);
 
@@ -131,7 +131,7 @@ export default defineComponent({
           return [propRules];
         }
       }
-      if (!props.fieldPropName) {
+      if (!props.name) {
         // console.log('rules', 2);
         return [];
       }
@@ -141,7 +141,7 @@ export default defineComponent({
         let parentRules = formContext.props.rules;
         if (parentRules && isObject(parentRules)) {
           // console.log('rules', 4, rule);
-          let itemRule = parentRules[props.fieldPropName];
+          let itemRule = parentRules[props.name];
           if (Array.isArray(itemRule)) {
             return itemRule;
           } else if (isObject(itemRule)) {
@@ -240,9 +240,9 @@ export default defineComponent({
         return;
       }
       let fieldVal;
-      if (props.fieldPropName) {
-        // 根据fieldPropName从<bs-form>组件中传递下来的model对象中查找字段值
-        fieldVal = getPropValueByPath(formContext?.props.model, props.fieldPropName).value;
+      if (props.name) {
+        // 根据name从<bs-form>组件中传递下来的model对象中查找字段值
+        fieldVal = getPropValueByPath(formContext?.props.model, props.name).value;
       } else {
         fieldVal = props.value;
       }
@@ -257,12 +257,12 @@ export default defineComponent({
       }
       validStatus.value = 'validating';
       let descriptor = {
-        [props.fieldPropName || 'unnamed_field']: rule
+        [props.name || 'unnamed_field']: rule
       };
 
       let validator = new Schema(descriptor); // 创建校验器
       // console.log(validator);
-      validator.validate({ [props.fieldPropName || 'unnamed_field']: fieldVal }, { firstFields: true }, (errors, fields) => {
+      validator.validate({ [props.name || 'unnamed_field']: fieldVal }, { firstFields: true }, (errors, fields) => {
         // console.log('字段：', fields);
         if (errors) {
           // console.log('错误：', errors, (errors as Array<any>)[0].message);
@@ -293,8 +293,8 @@ export default defineComponent({
      */
     let resetField = function () {
       console.log('重置表单：', initialVal.parentObj, initialVal.lastKey, initialVal.value);
-      let currentVal = getPropValueByPath(formContext?.props.model, props.fieldPropName);
-      // 根据fieldPropName查找到该属性目前最新的父对象，因为业务组件在使用时可能会替换掉父对象
+      let currentVal = getPropValueByPath(formContext?.props.model, props.name);
+      // 根据name查找到该属性目前最新的父对象，因为业务组件在使用时可能会替换掉父对象
       currentVal.parentObj[initialVal.lastKey] = initialVal.value;
       clearValidate();
     };
@@ -335,46 +335,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style lang="scss">
-.bs-form-item{
-  &.is-required{
-    &>.bs-form-label{
-      &::before{
-        display: inline-block;
-        vertical-align: top;
-        content: '*';
-        margin-right: 0.3rem;
-        font-size: 1.2em;
-        color: #dc3545;
-      }
-    }
-    &.hide-required-asterisk{
-      &>.bs-form-label{
-        &::before{
-          display: none;
-        }
-      }
-    }
-  }
-}
-.bs-form-item-valid{
-  &>.bs-form-item-content{
-    &>.valid-feedback,
-    &>.valid-tooltip{
-      display: block;
-    }
-  }
-}
-.bs-form-item-invalid{
-  &>.bs-form-item-content {
-    & > .invalid-feedback,
-    & > .invalid-tooltip {
-      display: block;
-    }
-  }
-}
-.bs-form-label{
-  margin-bottom: 0.5rem;
-}
-</style>

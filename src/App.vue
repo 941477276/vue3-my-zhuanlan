@@ -21,12 +21,12 @@
     <!--<div class="box">
       <BsCheckboxGroupUsage></BsCheckboxGroupUsage>
     </div>-->
-    <div class="box">
-      <BsSelectUsage></BsSelectUsage>
-    </div>
     <!--<div class="box">
-      <BsFormUsage></BsFormUsage>
+      <BsSelectUsage></BsSelectUsage>
     </div>-->
+    <div class="box">
+      <BsFormUsage></BsFormUsage>
+    </div>
     <!--<div class="box">
       <BsDropdownUsage></BsDropdownUsage>
     </div>-->

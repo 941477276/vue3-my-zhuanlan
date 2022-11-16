@@ -210,14 +210,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style lang="scss">
-.bs-form{
-  &.bs-form-hide-error-message{
-    .bs-form-item-invalid > .bs-form-item-content > .invalid-feedback,
-    .bs-form-item-invalid > .bs-form-item-content > .invalid-tooltip{
-      display: none;;
-    }
-  }
-}
-</style>
