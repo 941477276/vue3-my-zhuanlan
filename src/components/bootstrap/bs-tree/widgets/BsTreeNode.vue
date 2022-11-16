@@ -8,16 +8,16 @@
       'is-checked': isChecked,
       'is-current': isCurrent
     }"
-    :data-node-leave="nodeLeave">
+    :data-node-level="nodeLevel">
     <div
       ref="bsTreeNodeContentRef"
       class="bs-tree-node-content"
       @click="onNodeClick">
       <span class="bs-tree-node-indent" aria-hidden="true">
-        <template v-if="(nodeLeave - 1) > 0">
+        <template v-if="(nodeLevel - 1) > 0">
           <span
             class="bs-tree-node-indent-item"
-            v-for="item in (nodeLeave - 1)"
+            v-for="item in (nodeLevel - 1)"
             :key="`indent_item-${item}`"></span>
         </template>
       </span>
@@ -72,15 +72,15 @@
             v-show="typeof childNode._nodeShow == 'boolean' ? childNode._nodeShow : true"
             :key="childNode[nodeKey]"
             :tree-id="treeId"
-            :node-leave="nodeLeave + 1"
+            :node-level="nodeLevel + 1"
             :node-data="childNode"
-            :node-leave-path="`${nodeLeavePath}_${index + 1}`"
-            :parent-node-leave-path="nodeLeavePath"></BsTreeNode>
+            :node-level-path="`${nodeLevelPath}_${index + 1}`"
+            :parent-node-level-path="nodeLevelPath"></BsTreeNode>
           <BsTreeNodeOperate
             v-if="pageSize > 0 && totalPage > 0"
             :disabled="pageCount >= totalPage"
             :node-data="nodeData"
-            :node-level="nodeLeave"
+            :node-level="nodeLevel"
             :load-more-child-button-text="loadMoreChildButtonText"
             :load-all-child-button-text="loadAllChildButtonText"
             @show-more="showMoreChildNode"
@@ -232,8 +232,8 @@ export default defineComponent({
         isLeafByUser: false,
         isLeaf: false,
         // canFocus: boolean,
-        level: props.nodeLeave,
-        levelPath: props.nodeLeavePath
+        level: props.nodeLevel,
+        levelPath: props.nodeLevelPath
         // loaded: false,
         // childNodes: Node[],
         // loading: loadingData.value
@@ -337,9 +337,9 @@ export default defineComponent({
           if (defaultExpandAll) {
             let defaultExpandNodeLevelMax = props.defaultExpandNodeLevelMax;
             defaultExpandNodeLevelMax = defaultExpandNodeLevelMax <= 0 ? 0 : defaultExpandNodeLevelMax;
-            let nodeLeave = props.nodeLeave;
+            let nodeLevel = props.nodeLevel;
             // 如果设置了默认展开节点级别的最大值并且当前组件的级别比最大值大，则不展开
-            if (defaultExpandNodeLevelMax != 0 && (nodeLeave > defaultExpandNodeLevelMax)) {
+            if (defaultExpandNodeLevelMax != 0 && (nodeLevel > defaultExpandNodeLevelMax)) {
               return;
             }
           }

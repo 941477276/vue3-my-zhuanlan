@@ -1,13 +1,13 @@
 export const bsTreeNodeProps = {
-  nodeLeave: { // 节点层级，从1开始
+  nodeLevel: { // 节点层级，从1开始
     type: Number,
     default: 1
   },
-  nodeLeavePath: { // 节点层级路径
+  nodeLevelPath: { // 节点层级路径
     type: String,
     default: ''
   },
-  parentNodeLeavePath: { // 父级节点层级路径
+  parentNodeLevelPath: { // 父级节点层级路径
     type: String,
     default: ''
   },
