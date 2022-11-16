@@ -689,7 +689,7 @@ export function scrollLeft (ele?: HTMLElement): number {
  * @param ele dom元素
  * @returns {{horizontal: number, vertical: number}}
  */
-export function scrollWidth (ele: HTMLElement):{
+export function scrollWidth (ele?: HTMLElement):{
   vertical: number;
   horizontal: number;
 } {
@@ -816,6 +816,195 @@ export function scrollTo (ele: HTMLElement, direction = 'y', to: number, duratio
     }
   });
   return true;
+}
+
+/**
+ * 判断元素是否完全出现在视口中
+ * @param ele dom元素
+ * @param top dom元素距浏览器最顶端的距离
+ * @param left dom元素距浏览器最左端的距离
+ * @param needSubtractScrollOffset 判断元素是否处于滚动容器视口时是否需要减去浏览器滚动条滚动的距离
+ * @returns {{horizontal: boolean, vertical: boolean}}
+ */
+export function eleIsInView (ele: HTMLElement, top: number, left: number, needSubtractScrollOffset = true) {
+  var documentHasScroll = hasScroll();
+  // 元素有滚动条的父级元素的滚动条高度
+  let eleWrapperScrollTop = 0;
+  let eleWrapperScrollLeft = 0;
+
+  // 获取目标元素所处有滚动条的父级容器
+  let scrollParent = getScrollParent(ele);
+  let scrollParentVertical = true;
+  let scrollParentHorizontal = true;
+  // 如果当前元素有滚动条的父级元素并且不是body，则判断元素在有滚动条的父级元素中是否可见
+  if (scrollParent && scrollParent.nodeName != 'HTML' && scrollParent.nodeName != 'BODY') {
+    eleWrapperScrollTop = scrollTop(scrollParent);
+    eleWrapperScrollLeft = scrollLeft(scrollParent);
+    let scroll = eleIsInScrollParentView(ele, scrollParent, top, left, needSubtractScrollOffset);
+    // console.log('scrollParent scroll', scroll);
+    scrollParentHorizontal = scroll.horizontal;
+    scrollParentVertical = scroll.vertical;
+  }
+  // console.log('scrollTop/scrollLeft', scrollTop, scrollLeft);
+  if (!top || !left) {
+    var offsetValue = offset(ele);
+    if (!top) {
+      top = offsetValue.top;
+    }
+    if (!left) {
+      left = offsetValue.left;
+    }
+  }
+
+  if (documentHasScroll.vertical) {
+    top -= scrollTop();
+  }
+  if (documentHasScroll.horizontal) {
+    left -= scrollLeft();
+  }
+  top = top - eleWrapperScrollTop;
+  left = left - eleWrapperScrollLeft;
+
+  let bottom = ele.offsetHeight + top;
+  let right = ele.offsetWidth + left;
+  let windowWH = getDocumentWidthHeight();
+  // 如果有浏览器有滚动条，则需减去滚动条的宽度
+  if (documentHasScroll.vertical) {
+    windowWH.width = windowWH.width - scrollWidth().vertical;
+  }
+  if (documentHasScroll.horizontal) {
+    windowWH.height = windowWH.height - scrollWidth().horizontal;
+  }
+  // console.log('left', left, right, scrollLeft);
+  // console.log('top', top, bottom, scrollTop);
+  return {
+    scrollParentHorizontal,
+    scrollParentVertical,
+    vertical: top > 0 && top < windowWH.height && bottom > 0 && bottom <= windowWH.height,
+    horizontal: left > 0 && left < windowWH.width && right > 0 && right <= windowWH.width
+  };
+}
+
+/**
+ * 判断元素是否完全出现在父级容器的可视区域中
+ * @param ele
+ * @param referenceEl
+ * @param eleOffsetX 元素x轴坐标的偏移量
+ * @param eleOffsetY 元素y轴坐标的偏移量
+ * @returns {{horizontal: boolean, vertical: boolean}}
+ */
+export function eleIsInParentView (ele: HTMLElement, referenceEl: HTMLElement, eleOffsetX = 0, eleOffsetY = 0): {
+  horizontal: boolean;
+  vertical: boolean
+} {
+  var result = {
+    horizontal: true,
+    vertical: true
+  };
+  if (!ele || !referenceEl) {
+    return result;
+  }
+  var referenceOffset = offset(referenceEl);
+  var elOffset = offset(ele);
+  elOffset.left += eleOffsetX;
+  elOffset.top += eleOffsetY;
+
+  var referenceOffsetRight = referenceOffset.left + referenceEl.offsetWidth;
+  var referenceOffsetBottom = referenceOffset.top + referenceEl.offsetHeight;
+  var eleOffsetRight = elOffset.left + ele.offsetWidth;
+  var eleOffsetBottom = elOffset.top + ele.offsetHeight;
+
+  // console.log('eleInParentFullView, el.offset', offset, eleOffsetRight, eleOffsetBottom);
+  // console.log('eleInParentFullView, el.reference', referenceOffset, referenceOffsetRight, referenceOffsetBottom);
+
+  // 元素的水平方向完全在可视区域中
+  var offsetStartInView = elOffset.left >= referenceOffset.left && elOffset.left < referenceOffsetRight;
+  var offsetEndInView = eleOffsetRight > referenceOffset.left && eleOffsetRight < referenceOffsetRight;
+  // console.log('offsetEndInView', offsetEndInView, eleOffsetRight, referenceOffsetRight);
+
+  // 元素的垂直方向完全在可视区域中
+  var offsetStartInView2 = elOffset.top >= referenceOffset.top && elOffset.top < referenceOffsetBottom;
+  var offsetEndInView2 = eleOffsetBottom > referenceOffset.top && eleOffsetBottom < referenceOffsetBottom;
+
+  result.horizontal = offsetStartInView && offsetEndInView;
+  result.vertical = offsetStartInView2 && offsetEndInView2;
+
+  return result;
+}
+
+/**
+ * 判断元素是否完全出现在有滚动条的父级容器的可视区域中
+ * @param ele dom元素
+ * @param scrollEl 有滚动条的父级容器
+ * @param top ele的top值
+ * @param left ele的left值
+ * @param needSubtractScrollOffset 判断元素是否处于滚动容器视口时是否需要减去浏览器滚动条滚动的距离
+ * @returns {{horizontal: boolean, vertical: boolean}}
+ */
+export function eleIsInScrollParentView (ele: HTMLElement, scrollEl: HTMLElement, top = 0, left = 0, needSubtractScrollOffset = true): {
+  horizontal: boolean;
+  vertical: boolean
+} {
+  var result = {
+    horizontal: true,
+    vertical: true
+  };
+  if (!ele || !scrollEl) {
+    return result;
+  }
+  // var scrollElRect = scrollEl.getBoundingClientRect();
+  var scrollElOffset = offset(scrollEl);
+  var scrollElScrollTop = scrollTop(scrollEl);
+  var scrollElScrollLeft = scrollLeft(scrollEl);
+  var elOffset = {
+    top,
+    left
+  };
+  if (!top || !left) {
+    var offsetValue = offset(ele);
+    if (!top) {
+      elOffset.top = offsetValue.top;
+    }
+    if (!left) {
+      elOffset.left = offsetValue.left;
+    }
+  }
+
+  // console.log('--------elOffset: ', {...elOffset});
+  elOffset.top -= scrollElScrollTop;
+  elOffset.left -= scrollElScrollLeft;
+  if (needSubtractScrollOffset) {
+    // console.log('eleInScrollParentFullView 需要减去浏览器滚动条的距离');
+    var documentScrollTop = scrollTop();
+    var documentScrollLeft = scrollLeft();
+    elOffset.top -= documentScrollTop;
+    elOffset.left -= documentScrollLeft;
+
+    scrollElOffset.top -= documentScrollTop;
+    scrollElOffset.left -= documentScrollLeft;
+  }
+  // console.log('--------elOffset: ', {...elOffset}, scrollElScrollTop, scrollElScrollLeft);
+
+  var scrollElOffsetRight = scrollElOffset.left + scrollEl.offsetWidth;
+  var scrollElOffsetBottom = scrollElOffset.top + scrollEl.offsetHeight;
+  var eleOffsetRight = elOffset.left + ele.offsetWidth;
+  var eleOffsetBottom = elOffset.top + ele.offsetHeight;
+
+  // console.log('eleInParentFullView, el.offset', offset, eleOffsetRight, eleOffsetBottom);
+  // console.log('eleInParentFullView, el.reference', scrollElOffset, scrollElOffsetRight, scrollElOffsetBottom);
+
+  // 元素的水平方向完全在可视区域中
+  var offsetStartInView = elOffset.left >= scrollElOffset.left && elOffset.left < scrollElOffsetRight;
+  var offsetEndInView = eleOffsetRight > scrollElOffset.left && eleOffsetRight < scrollElOffsetRight;
+
+  // 元素的垂直方向完全在可视区域中
+  var offsetStartInView2 = elOffset.top >= scrollElOffset.top && elOffset.top < scrollElOffsetBottom;
+  var offsetEndInView2 = eleOffsetBottom > scrollElOffset.top && eleOffsetBottom < scrollElOffsetBottom;
+
+  result.horizontal = offsetStartInView && offsetEndInView;
+  result.vertical = offsetStartInView2 && offsetEndInView2;
+
+  return result;
 }
 
 /* **************************** DOM utils end ************************************* */
