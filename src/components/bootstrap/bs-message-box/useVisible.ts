@@ -1,7 +1,10 @@
 import {
   ref
 } from 'vue';
-import { util } from '@/common/util';
+import {
+  isPromise
+} from '@/common/bs-util';
+
 /**
  * 处理message box显示或隐藏
  */
@@ -17,7 +20,7 @@ export function useVisible (props: any) {
     if (okCloseResult === false) {
       return;
     }
-    if (util.isPromise(okCloseResult)) {
+    if (isPromise(okCloseResult)) {
       okCloseResult.then(() => {
         visible.value = false;
         console.log('关闭message box！');

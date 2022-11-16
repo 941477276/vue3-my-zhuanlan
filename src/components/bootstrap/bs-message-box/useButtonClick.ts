@@ -5,7 +5,9 @@ import {
   ref,
   isRef
 } from 'vue';
-import { util } from '@/common/util';
+import {
+  isPromise
+} from '@/common/bs-util';
 
 /**
  * 处理确定、取消按钮的点击事件
@@ -35,7 +37,7 @@ export function useButtonClick (props: any, formItemRef: Ref<Component|null>, hi
         return;
       }
       // 如果确定按钮的回调执行后的返回为promise，则等promise状态为fulfilled后再关闭
-      if (util.isPromise(okCbResult)) {
+      if (isPromise(okCbResult)) {
         okPromiseResolve.value = true;
         okCbResult.then(() => {
           okPromiseResolve.value = false;
@@ -72,7 +74,7 @@ export function useButtonClick (props: any, formItemRef: Ref<Component|null>, hi
     if (okCancelResult === false) {
       return;
     }
-    if (util.isPromise(okCancelResult)) {
+    if (isPromise(okCancelResult)) {
       okCancelResult.then(() => {
         hideFn();
       });
