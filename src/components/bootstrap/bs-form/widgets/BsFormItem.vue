@@ -240,9 +240,10 @@ export default defineComponent({
         return;
       }
       let fieldVal;
+      let fieldName = props.name;
       if (props.name) {
         // 根据name从<bs-form>组件中传递下来的model对象中查找字段值
-        fieldVal = getPropValueByPath(formContext?.props.model, props.name).value;
+        fieldVal = getPropValueByPath(formContext?.props.model, fieldName).value;
       } else {
         fieldVal = props.value;
       }
@@ -257,12 +258,12 @@ export default defineComponent({
       }
       validStatus.value = 'validating';
       let descriptor = {
-        [props.name || 'unnamed_field']: rule
+        [fieldName || 'unnamed_field']: rule
       };
 
       let validator = new Schema(descriptor); // 创建校验器
       // console.log(validator);
-      validator.validate({ [props.name || 'unnamed_field']: fieldVal }, { firstFields: true }, (errors, fields) => {
+      validator.validate({ [fieldName || 'unnamed_field']: fieldVal }, { firstFields: true }, (errors, fields) => {
         // console.log('字段：', fields);
         if (errors) {
           // console.log('错误：', errors, (errors as Array<any>)[0].message);

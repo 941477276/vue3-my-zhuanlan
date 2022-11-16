@@ -14,8 +14,7 @@ import {
   defineComponent,
   provide,
   ref,
-  reactive,
-  ComponentInternalInstance
+  reactive
 } from 'vue';
 import {
   FormContext,
@@ -135,7 +134,7 @@ export default defineComponent({
       fieldPropNames = typeof fieldPropNames === 'string' ? [fieldPropNames] : fieldPropNames;
       let validateResult = true;
       formItemsArr.forEach(formIteCtx => {
-        if (fieldPropNames.includes(formIteCtx.props.fieldPropName as string)) {
+        if (fieldPropNames.includes(formIteCtx.props.name)) {
           // 调用<bs-form-item>子组件的validate方法获取校验结果
           /* eslint-disable */
           formIteCtx.validate?.('', (errorMsg: string|undefined) => {
@@ -169,7 +168,7 @@ export default defineComponent({
       }
       fieldPropNames = typeof fieldPropNames === 'string' ? [fieldPropNames] : fieldPropNames;
       formItemsArr.forEach(formItemCtx => {
-        if (fieldPropNames.includes(formItemCtx.props.fieldPropName as string)) {
+        if (fieldPropNames.includes(formItemCtx.props.name as string)) {
           /* eslint-disable */
           formItemCtx.clearValidate?.();
         }
@@ -210,3 +209,6 @@ export default defineComponent({
   }
 });
 </script>
+<style lang="scss">
+@import "bs-form";
+</style>
