@@ -21,15 +21,15 @@
     <!--<div class="box">
       <BsCheckboxGroupUsage></BsCheckboxGroupUsage>
     </div>-->
-    <!--<div class="box">
+    <div class="box">
       <BsSelectUsage></BsSelectUsage>
-    </div>-->
+    </div>
     <!--<div class="box">
       <BsFormUsage></BsFormUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsDropdownUsage></BsDropdownUsage>
-    </div>
+    </div>-->
     <!--<router-view></router-view>-->
     <!--<div class="box">
       <BsPaginationUsage></BsPaginationUsage>

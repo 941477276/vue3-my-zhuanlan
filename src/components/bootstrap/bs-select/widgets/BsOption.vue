@@ -36,6 +36,9 @@ import {
 } from '@/ts-tokens/bootstrap/select';
 import BsIcon from '../../bs-icon/BsIcon.vue';
 import { BsColorType } from '@/ts-tokens/bootstrap';
+import {
+  isFunction
+} from '@/common/bs-util';
 
 let selectOptionCount = 0;
 export default defineComponent({
@@ -73,7 +76,7 @@ export default defineComponent({
 
     let visible = computed(function () {
       let filterMethod = selectCtx?.filterMethod;
-      if (!filterMethod) {
+      if (!filterMethod || !isFunction(filterMethod)) {
         return true;
       }
       let label = props.label || (bsOptionRef.value as HTMLElement)?.innerText;
@@ -143,54 +146,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style lang="scss">
-.bs-option{
-  position: relative;
-  padding: 0.3rem 1.2rem;
-  color: #212529;
-  transition: background-color .1s, color .1s;
-  cursor: pointer;
-  background-color: #fff;
-  &:not(.is-disabled,.is-checked):hover{
-    background-color: #E9ECEF;
-  }
-  &.is-disabled{
-    cursor: not-allowed;
-    //opacity: 0.6;
-    color: #a1a1a1;
-  }
-  &.is-checked{
-    color: #fff;
-    background-color: #007BFF;
-  }
-  .bs-option-label{
-    display: inline-block;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .bs-option-check-icon{
-    display: none;
-    position: absolute;
-    z-index: 5;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 1.1rem;
-    font-size: 1.5rem;
-  }
-}
-.bs-select-dropdown.is-multiple{
-  .bs-option{
-    padding-right: 2.4rem;
-    &.is-checked{
-      color: #007BFF;
-      background-color: #fff;
-      .bs-option-check-icon{
-        display: block;
-      }
-    }
-  }
-}
-</style>
