@@ -1,7 +1,7 @@
 <template>
   <div class="component-usage">
     <div class="container">
-      <div>
+      <!--<div>
         <h3>基本使用</h3>
         <bs-tree
           v-if="show"
@@ -25,6 +25,21 @@
         <br>
         <bs-button type="primary" @click="addCheckedKeys" style="margin-top: 1rem">选中项</bs-button>
         <bs-button type="primary" @click="show = !show" style="margin-top: 1rem">显示/销毁树</bs-button>
+      </div>-->
+      <div>
+        <h3>默认展开（只展开前3级）</h3>
+        <bs-tree
+          :tree-data="treeData1"
+          node-key="id"
+          :show-checkbox="true"
+          :highlightCurrent="true"
+          :autoExpandParent="true"
+          :check-on-click-node="true"
+          :page-size="0"
+          :default-expand-all="true"
+          :default-expand-node-level-max="2"
+          v-model:checkedKeys="checkedKeys1">
+        </bs-tree>
       </div>
       <!--<div>
         <h3>大量数据</h3>
@@ -209,7 +224,17 @@ export default defineComponent({
                       },
                       {
                         label: '五级 2-1-1-2-3',
-                        id: '2_1_1_2_3'
+                        id: '2_1_1_2_3',
+                        children: [
+                          {
+                            label: '六级 2-1-1-2-3-1',
+                            id: '2_1_1_2_3_1'
+                          },
+                          {
+                            label: '六级 2-1-1-2-3-2',
+                            id: '2_1_1_2_3_2'
+                          }
+                        ]
                       },
                       {
                         label: '五级 2-1-1-2-4',
@@ -239,7 +264,17 @@ export default defineComponent({
             children: [
               {
                 label: '三级 2-2-1',
-                id: '2_2_1'
+                id: '2_2_1',
+                children: [
+                  {
+                    label: '4级 2-2-1-1',
+                    id: '2_2_1_-1'
+                  }
+                ]
+              },
+              {
+                label: '三级 2-2-2',
+                id: '2_2_2'
               }
             ]
           },

@@ -332,19 +332,37 @@ export default defineComponent({
       let nodeKey = nodeValue.value;
 
       if (!isManualExpanded.value) { // 在没有手动操作过的情况下才可以展开/收起
-        if (expandedKeys?.includes(nodeKey) || props.defaultExpandAll) {
+        let defaultExpandAll = props.defaultExpandAll;
+        if (expandedKeys?.includes(nodeKey) || defaultExpandAll) {
+          if (defaultExpandAll) {
+            let defaultExpandNodeLevelMax = props.defaultExpandNodeLevelMax;
+            defaultExpandNodeLevelMax = defaultExpandNodeLevelMax <= 0 ? 0 : defaultExpandNodeLevelMax;
+            let nodeLeave = props.nodeLeave;
+            // 如果设置了默认展开节点级别的最大值并且当前组件的级别比最大值大，则不展开
+            if (defaultExpandNodeLevelMax != 0 && (nodeLeave > defaultExpandNodeLevelMax)) {
+              return;
+            }
+          }
           if (props.lazy) {
             lazyLoadChildren()
               .then(function () {
                 toggleExpand(true, false);
               });
           } else {
-            toggleExpand(true, false);
+            // 加setTimeout是为了解决默认展开时丢失了展开效果问题
+            let timer = setTimeout(function () {
+              clearTimeout(timer);
+              toggleExpand(true, false);
+            }, 0);
           }
         } else {
           if (isExpand.value) {
             // isExpand.value = false;
-            toggleExpand(false, false);
+            // 加setTimeout是为了解决默认展开时丢失了展开效果问题
+            let timer = setTimeout(function () {
+              clearTimeout(timer);
+              toggleExpand(false, false);
+            }, 0);
           }
         }
       }

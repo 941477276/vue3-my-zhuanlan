@@ -43,6 +43,10 @@ export const bsTreeProps = {
     type: Boolean,
     default: false
   },
+  defaultExpandNodeLevelMax: { // 默认展开节点级别的最大值
+    type: Number,
+    default: 0
+  },
   expandOnClickNode: { // 点击节点的时候展开或者收缩节点
     type: Boolean,
     default: true
