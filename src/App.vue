@@ -94,9 +94,9 @@
     <!--<div class="box">
       <BsCollapseUsage></BsCollapseUsage>
     </div>-->
-    <!--<div class="box">
+    <div class="box">
       <BsTreeUsage></BsTreeUsage>
-    </div>-->
+    </div>
     <!--<div class="box">
       <BsTreeSelectUsage></BsTreeSelectUsage>
     </div>-->
@@ -127,9 +127,9 @@
     <!--<div class="box">
       <BsToastUsage></BsToastUsage>
     </div>-->
-     <div class="box">
+     <!--<div class="box">
       <BsMenuUsage></BsMenuUsage>
-    </div>
+    </div>-->
   </bs-config-provider>
 </template>
 

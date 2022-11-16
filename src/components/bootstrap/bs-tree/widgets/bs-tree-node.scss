@@ -4,6 +4,7 @@
   //background-color: #ccc;
   cursor: pointer;
   transition: all .3s;
+  white-space: nowrap;
   &:hover{
     background-color: #f5f7f7;
   }
