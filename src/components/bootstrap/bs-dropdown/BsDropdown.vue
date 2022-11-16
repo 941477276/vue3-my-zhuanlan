@@ -48,6 +48,10 @@ import {
 import BsOnlyChild from '../bs-slot/BsOnlyChild.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
 import { util } from '@/common/util';
+import {
+  addClass,
+  eleIsInFixedParents
+} from '@/common/bs-util';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import {
   bsDropdownProps
@@ -117,7 +121,7 @@ export default defineComponent({
             dropdownMenuStyle.zIndex = nextZIndex() + '';
           }
 
-          let toggleElIsInFixedContainer = util.eleIsInFixedParents(toggleEl);
+          let toggleElIsInFixedContainer = eleIsInFixedParents(toggleEl as HTMLElement);
           if (toggleElIsInFixedContainer && props.teleported) {
             dropdownMenuStyle.position = 'fixed';
           } else {
@@ -186,7 +190,7 @@ export default defineComponent({
         toggleEl = triggerEl;
         if (triggerEl) {
           if (props.addDropdownToggleClass) {
-            util.addClass(triggerEl, 'dropdown-toggle');
+            addClass(triggerEl, 'dropdown-toggle');
           }
           triggerEl.addEventListener('click', clickEvent, false);
           triggerEl.addEventListener('mouseenter', onMouseEnter, false);
