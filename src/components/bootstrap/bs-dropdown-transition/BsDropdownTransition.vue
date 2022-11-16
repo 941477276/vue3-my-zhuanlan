@@ -19,8 +19,8 @@
       ...(setWidth ? { width: dropdownStyle.width + 'px' } : {}),
       ...(setMinWidth ? { minWidth: dropdownStyle.width + 'px' } : {}),
       left: dropdownStyle.left + 'px',
-      top: dropdownStyle.bottom == null ? (dropdownStyle.top + 'px') : 'auto',
-      bottom: dropdownStyle.bottom != null ? (dropdownStyle.bottom + 'px') : ''
+      top: dropdownStyle.bottom == (void 0) ? (dropdownStyle.top + 'px') : 'auto',
+      bottom: dropdownStyle.bottom != (void 0) ? (dropdownStyle.bottom + 'px') : ''
     }">
     <slot></slot>
   </transition>
@@ -34,7 +34,11 @@ import {
   onUnmounted, ref
 } from 'vue';
 import { NOOP } from '@vue/shared';
-import { util } from '@/common/util';
+import {
+  isUndefined,
+  getStyle
+} from '@/common/bs-util';
+import { getDropdownDirection } from './useDropdownDirection';
 import { useGlobalEvent } from '@/hooks/useGlobalEvent';
 
 export default defineComponent({
@@ -75,7 +79,7 @@ export default defineComponent({
       direction: 'bottom',
       width: 0,
       left: 0,
-      top: -1,
+      top: 0,
       bottom: null
     });
     let targetEl: HTMLElement|null = null;
@@ -90,12 +94,13 @@ export default defineComponent({
       let referenceElRect = referenceEl.getBoundingClientRect();
       // console.log('referenceElRect', referenceElRect);
 
-      let displayDirection: any = util.calcAbsoluteElementDisplayDirection(referenceEl, targetEl, props.placement, props.tryAllPlacement);
+      let displayDirection: any = getDropdownDirection(referenceEl, targetEl, props.placement, props.tryAllPlacement);
+      let bottom = displayDirection.bottom;
       dropdownStyle.direction = displayDirection.direction;
       dropdownStyle.width = referenceElRect.width;
-      dropdownStyle.top = displayDirection.top;
+      dropdownStyle.top = isUndefined(bottom) ? displayDirection.top : null;
       dropdownStyle.left = displayDirection.left;
-      dropdownStyle.bottom = typeof displayDirection.bottom == 'undefined' ? null : displayDirection.bottom;
+      dropdownStyle.bottom = isUndefined(bottom) ? null : displayDirection.bottom;
     };
 
     let onEnter = function (el:HTMLElement, done: () => void) {
@@ -103,7 +108,7 @@ export default defineComponent({
       // let timer = setTimeout(function () {
       //   clearTimeout(timer);
       let referenceEl = props.referenceRef as HTMLElement;
-      // console.log('onEnter执行了', referenceEl.nodeName, el);
+      console.log('onEnter执行了', referenceEl.nodeName, el);
       if (!referenceEl) {
         console.log('参照元素不存在!-----------------------');
         return;
@@ -153,7 +158,7 @@ export default defineComponent({
       if (!isVisible.value || !targetEl) {
         return;
       }
-      let targetElPosition = util.getStyle(targetEl, 'position');
+      let targetElPosition = getStyle(targetEl, 'position');
       if (targetElPosition == 'fixed') {
         return;
       }
