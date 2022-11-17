@@ -61,9 +61,9 @@
     <!--<div class="box">
       <BsMaskUsage></BsMaskUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsAlertUsage></BsAlertUsage>
-    </div>
+    </div>-->
     <!--<div class="box">
       <BsInputNumberUsage></BsInputNumberUsage>
     </div>-->
@@ -112,9 +112,9 @@
     <!--<div class="box">
       <BsDatePickerUsage></BsDatePickerUsage>
     </div>-->
-    <!--<div class="box">
+    <div class="box">
       <BsBackTopUsage></BsBackTopUsage>
-    </div>-->
+    </div>
     <!--<div class="box">
       <BsRelativeTimeUsage></BsRelativeTimeUsage>
     </div>-->
