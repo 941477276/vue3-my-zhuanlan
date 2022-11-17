@@ -104,17 +104,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.bs-collapse{
-  border: 1px solid #eee;
-  border-radius: 0.25rem;
-  background-color: #f7f7f7;
-  &.bs-collapse-simple{
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #eee;
-    border-left: none;
-    border-right: none;
-    border-radius: 0;
-    background-color: #fff;
-  }
-}
+@import "bs-collapse";
 </style>
