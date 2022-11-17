@@ -1,9 +1,12 @@
+import {
+  App
+} from 'vue';
 import BsBreadcrumb from './BsBreadcrumb.vue';
 import BreadcrumbItem from './widgets/Breadcrumb-item.vue';
 
 export default {
   installed: false,
-  install (vueApp: any) {
+  install (vueApp: App) {
     if (this.installed) {
       return;
     }
