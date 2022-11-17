@@ -150,5 +150,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import "button";
+@import "bs-button";
 </style>
