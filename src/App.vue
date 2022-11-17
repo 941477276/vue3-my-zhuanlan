@@ -1,8 +1,8 @@
 <template>
   <bs-config-provider size="sm">
-    <!--<div class="box">
+    <div class="box">
       <BsButtonUsage></BsButtonUsage>
-    </div>-->
+    </div>
     <!--<div class="box">
       <BsButtonGroupUsage></BsButtonGroupUsage>
     </div>-->
@@ -24,9 +24,9 @@
     <!--<div class="box">
       <BsSelectUsage></BsSelectUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsFormUsage></BsFormUsage>
-    </div>
+    </div>-->
     <!--<div class="box">
       <BsDropdownUsage></BsDropdownUsage>
     </div>-->
