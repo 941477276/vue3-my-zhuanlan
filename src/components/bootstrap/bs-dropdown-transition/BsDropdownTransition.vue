@@ -192,31 +192,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import "../../../scss/slide-transition.mixin";
-.bs-dropdown-transition{
-  &.bs-placement-top,
-  &.bs-placement-topRight{
-    margin-top: -.35rem;
-    &.use-bottom{
-      margin-top: auto;
-      margin-bottom: .35rem;
-    }
-    @include slide-top;
-  }
-  &.bs-placement-bottom,
-  &.bs-placement-bottomRight{
-    margin-top: .35rem;
-    @include slide-down;
-  }
-  &.bs-placement-left,
-  &.bs-placement-leftBottom{
-    margin-left: -.35rem;
-    @include slide-left;
-  }
-  &.bs-placement-right,
-  &.bs-placement-rightBottom{
-    margin-left: .35rem;
-    @include slide-right;
-  }
-}
+@import "bs-dropdown-transition";
 </style>
