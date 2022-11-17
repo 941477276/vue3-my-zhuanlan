@@ -34,9 +34,9 @@
     <!--<div class="box">
       <BsPaginationUsage></BsPaginationUsage>
     </div>-->
-    <!--<div class="box">
+    <div class="box">
       <BsBadgeUsage></BsBadgeUsage>
-    </div>-->
+    </div>
     <!--<div class="box">
       <BsMessageUsage></BsMessageUsage>
     </div>-->
@@ -112,9 +112,9 @@
     <!--<div class="box">
       <BsDatePickerUsage></BsDatePickerUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsBackTopUsage></BsBackTopUsage>
-    </div>
+    </div>-->
     <!--<div class="box">
       <BsRelativeTimeUsage></BsRelativeTimeUsage>
     </div>-->

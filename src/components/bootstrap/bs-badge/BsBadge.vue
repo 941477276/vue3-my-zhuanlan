@@ -65,17 +65,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.bs-badge{
-  &.badge-circle{
-    display: inline-block;
-    width: 0.85rem;
-    height: 0.85rem;
-    line-height: 0;
-    border: 1px solid #f8f9fa;
-    border-radius: 50%;
-    overflow: hidden;
-    font-size: 0;
-    color: transparent;
-  }
-}
+@import "bs-badge";
 </style>
