@@ -37,8 +37,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.collapse-transition-enter-active,
-.collapse-transition-leave-active{
-  transition: height .3s ease-in-out, padding .3s ease-in-out, max-height .3s ease-in-out;
-}
+@import "bs-collapse-transition";
 </style>
