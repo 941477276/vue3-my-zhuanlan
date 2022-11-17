@@ -63,9 +63,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.bs-checkbox-group{
-  display: inline-block;
-  vertical-align: middle;
-  line-height: 1;
-}
+@import "bs-checkbox-group";
 </style>

@@ -18,9 +18,9 @@
     <!--<div class="box">
       <BsCheckboxUsage></BsCheckboxUsage>
     </div>-->
-    <!--<div class="box">
+    <div class="box">
       <BsCheckboxGroupUsage></BsCheckboxGroupUsage>
-    </div>-->
+    </div>
     <!--<div class="box">
       <BsSelectUsage></BsSelectUsage>
     </div>-->
@@ -40,9 +40,9 @@
     <!--<div class="box">
       <BsMessageUsage></BsMessageUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsBreadcrumbUsage></BsBreadcrumbUsage>
-    </div>
+    </div>-->
     <!--<div class="box">
       <BsTagUsage></BsTagUsage>
     </div>-->
