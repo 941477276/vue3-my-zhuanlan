@@ -28,11 +28,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.bs-svg-icon{
-  width: 1em;
-  height: 1em;
-  vertical-align: -3px;
-  fill: currentColor;
-  overflow: hidden;
-}
+@import "bs-icon";
 </style>
