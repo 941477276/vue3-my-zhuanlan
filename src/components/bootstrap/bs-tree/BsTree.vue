@@ -537,14 +537,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.bs-tree {
-  background-color: #fff;
-}
-
-.bs-tree-empty,
-.bs-tree-loading{
-  padding: 2rem 1rem;
-  text-align: center;
-  color: #999;
-}
+@import "bs-tree";
 </style>

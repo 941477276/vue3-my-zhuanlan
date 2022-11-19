@@ -49,9 +49,9 @@
     <!--<div class="box">
       <BsProgressUsage></BsProgressUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsTabsUsage></BsTabsUsage>
-    </div>
+    </div>-->
     <!--<div class="box">
       <BsSwitchUsage></BsSwitchUsage>
     </div>-->
@@ -94,9 +94,9 @@
     <!--<div class="box">
       <BsCollapseUsage></BsCollapseUsage>
     </div>-->
-    <!--<div class="box">
+    <div class="box">
       <BsTreeUsage></BsTreeUsage>
-    </div>-->
+    </div>
     <!--<div class="box">
       <BsTreeSelectUsage></BsTreeSelectUsage>
     </div>-->

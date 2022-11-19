@@ -1,3 +1,13 @@
+.bs-tree {
+  background-color: #fff;
+}
+
+.bs-tree-empty,
+.bs-tree-loading{
+  padding: 2rem 1rem;
+  text-align: center;
+  color: #999;
+}
 .bs-tree-node-content{
   display: flex;
   align-items: center;
@@ -103,3 +113,4 @@
 .tree-node-split-line{
   margin: 0 0.25rem;
 }
+
