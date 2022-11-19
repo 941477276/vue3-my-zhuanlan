@@ -60,9 +60,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.bs-radio-group{
-  display: inline-block;
-  vertical-align: middle;
-  line-height: 1;
-}
+@import "bs-radio-group";
 </style>
