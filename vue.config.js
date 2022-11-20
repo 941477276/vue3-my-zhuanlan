@@ -3,16 +3,6 @@ function resolve(dirPath) {
   return path.resolve(__dirname, dirPath);
 }
 module.exports = {
-  devServer: {
-    open: true, // 默认打开浏览器
-    proxy: {
-      '/viking': {
-        target: 'http://api.vikingship.xyz',
-        pathRewrite: { '^/viking': '' },
-        changeOrigin: true
-      }
-    }
-  },
   publicPath: './',
   chainWebpack: config => {
     // 获取svg文件名称正则
