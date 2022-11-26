@@ -7,6 +7,7 @@ import {
   SetupContext
 } from 'vue';
 import IconBase from './IconBase';
+import './bs-icon.css';
 
 export default defineComponent({
   name: 'BsIcon',
@@ -42,14 +43,16 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
-    svgContent: {
-      type: String,
-      default: ''
+    svgVDom: {
+      type: Array,
+      default () {
+        return [];
+      }
     }
   },
   setup (props: any, ctx: SetupContext) {
     return () => {
-      let iconName = props.iconNamel;
+      let iconName = props.iconName;
       return h('span', {
         role: 'img',
         'class': [
@@ -63,7 +66,10 @@ export default defineComponent({
         onClick (evt: MouseEvent) {
           ctx.emit('click', evt);
         }
-      }, createVNode(IconBase, props));
+      }, createVNode(IconBase, {
+        ...props,
+        svgVDom: props.svgVDom[0]
+      }));
     };
   }
 });

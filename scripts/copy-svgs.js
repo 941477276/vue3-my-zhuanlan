@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const html2vDom = require('./html2vDom');
 
 function writeFileSync (targetPath, content) {
   let targetDirname = path.dirname(targetPath);
@@ -30,6 +31,23 @@ function mkdir (targetPath) {
   fs.mkdirSync(targetPath, { recursive: true });
 }
 
+// 递归删除文件夹
+function deleteFolder(path) {
+  var files = [];
+  if (fs.existsSync(path)) {
+    files = fs.readdirSync(path);
+    files.forEach(function(file, index){
+      var curPath = path + "/" + file;
+      if (fs.statSync(curPath).isDirectory()) { // recurse
+        deleteFolder(curPath);
+      } else { // delete file
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(path);
+  }
+}
+
 // 目标存放svg根目录
 const targetSvgRootDir = path.resolve(__dirname, '../svg');
 function copySvgs () {
@@ -40,6 +58,8 @@ function copySvgs () {
     console.warn('[Tip]: The old and new bootstrap icons are consistent and will not be updated');
     return;
   }
+  // 清空原来的svg
+  deleteFolder(targetSvgRootDir);
   // console.log('bootstrapIconsVersion', bootstrapIconsVersion);
   let bootstrapIconsDir = 'node_modules/bootstrap-icons/icons';
   let bootstrapIconNames = fs.readdirSync(bootstrapIconsDir);
@@ -48,13 +68,17 @@ function copySvgs () {
     let svgName = path.parse(svgFullName).name;
     let isFilled = svgName.endsWith('-fill');
     let svgContent = fs.readFileSync(bootstrapIconsDir + '/' + svgFullName, 'utf-8');
+    let svgVDom = html2vDom(svgContent);
+    // console.log('解析后的svg', svgVDom);
+    if (/^\d+/.test(svgName)) { // html标准中标签名不允许以数字开头
+      svgName = 'number-' + svgName;
+    }
     let svgJson = {
       name: svgName,
       isFilled,
-      fullContent: svgContent,
-      childrenContent: ''
+      svgVDom
     };
-    // 移除svg内容中的 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="xxx" viewBox="0 0 16 16"> 部分
+    /* // 移除svg内容中的 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="xxx" viewBox="0 0 16 16"> 部分
     let childrenContent = svgContent.replace(/<svg .+>?/, '');
     // 移除svg内容中的 </svg> 部分
     childrenContent = childrenContent.replace('</svg>', '');
@@ -62,7 +86,7 @@ function copySvgs () {
     childrenContent = childrenContent.replace('\r\n', '');
     // 移除两端空格
     childrenContent = childrenContent.trim();
-    svgJson.childrenContent = childrenContent;
+    svgJson.childrenContent = childrenContent; */
 
     let writeToTargetDir = path.resolve(targetSvgRootDir, isFilled ? 'filled' : 'outlined');
     let jsFileContent = `module.exports = ${JSON.stringify(svgJson, null, 2)};`;
@@ -76,5 +100,3 @@ function copySvgs () {
 }
 
 copySvgs();
-
-// console.log(path.parse('0-circle.svg').name);
