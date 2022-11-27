@@ -4,15 +4,22 @@
       <button type="button" @click="visibledIconType = 'outlined'">线框图标</button>
       <button type="button" @click="visibledIconType = 'filled'">填充图标</button>
       <ul class="icon-list">
-        <li
+        <!--<li
           class="icon-item"
           v-for="iconInfo in (visibledIconType === 'outlined' ? outlinedIcons : filledIcons)"
           :key="iconInfo.name">
           <bs-icon
             :icon-name="iconInfo.name"
             :is-filled="iconInfo.isFilled"
-            :svg-v-dom="iconInfo.svgVDom"></bs-icon>
+            :svg-v-dom="iconInfo.svgVDom[0]"></bs-icon>
           <p class="icon-name">{{ iconInfo.name }}</p>
+        </li>-->
+        <li
+          class="icon-item"
+          v-for="iconName in (visibledIconType === 'outlined' ? outlinedIconsKey : filledIconsKey)"
+          :key="iconName">
+          <component :is="iconName" @click="onIconClick"></component>
+          <p class="icon-name">{{ iconName }}</p>
         </li>
       </ul>
     </div>
@@ -25,16 +32,21 @@ import {
   ref,
   defineComponent
 } from 'vue';
-import BsIcon from '@/components/BsIcon';
+// import BsIcon from '@/components/BsIcon';
+// import BsiActivity from '@/icons/BsiActivity';
+import * as bsiIcons from '@/icons';
+
+console.log(bsiIcons);
 
 export default defineComponent({
   name: 'App',
   /* eslint-disable */
   components: {
-    BsIcon
+    // BsIcon,
+    ...bsiIcons
   },
   setup () {
-    const filledIconContext = require.context('../svg/filled', true, /\.js$/);
+    /* const filledIconContext = require.context('../svg/filled', true, /\.js$/);
     let filledIconInfos = filledIconContext.keys().reduce((result, path: string) => {
       // console.log(filledIconContext(path));
       result.push(filledIconContext(path));
@@ -51,12 +63,27 @@ export default defineComponent({
     // console.log('filledIconInfos', filledIconInfos);
     // console.log('outlinedIconInfos', outlinedIconInfos);
     let filledIcons = ref([...filledIconInfos]);
-    let outlinedIcons = ref([...outlinedIconInfos]);
+    let outlinedIcons = ref([...outlinedIconInfos]); */
+    let filledIconsKey: string[] = [];
+    let outlinedIconsKey: string[] = [];
+    Object.keys(bsiIcons).forEach(key => {
+      if (key.endsWith('Fill')) {
+        filledIconsKey.push(key);
+      } else {
+        outlinedIconsKey.push(key);
+      }
+    });
     let visibledIconType = ref('outlined');
     return {
-      filledIcons,
-      outlinedIcons,
-      visibledIconType
+      // filledIcons,
+      // outlinedIcons,
+      filledIconsKey,
+      outlinedIconsKey,
+      visibledIconType,
+
+      onIconClick (evt: MouseEvent) {
+        console.log('组件点击了', evt);
+      }
     };
   }
 });

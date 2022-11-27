@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "npm run copy-svgs && vue-cli-service serve",
+    "serve": "npm run copy-svgs && npm run generate-icons && vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "copy-svgs": "node ./scripts/copy-svgs.js"
+    "copy-svgs": "node ./scripts/copy-svgs.js",
+    "generate-icons": "node ./scripts/generate-icons.js"
   },
-  "dependencies": {
-    "@vue/babel-plugin-jsx": "^1.1.1",
+  "peerDependencies": {
     "bootstrap-icons": "^1.10.2",
     "vue": "^3.2.31"
   },

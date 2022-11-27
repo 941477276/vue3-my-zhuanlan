@@ -6,7 +6,7 @@ import {
   createVNode,
   SetupContext
 } from 'vue';
-import IconBase from './IconBase';
+import IconBase, { IconProps } from './IconBase';
 import './bs-icon.css';
 
 export default defineComponent({
@@ -43,13 +43,14 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
-    svgVDom: {
+    svgChildrenVDom: {
       type: Array,
       default () {
         return [];
       }
     }
   },
+  emits: ['click', 'dblclick'],
   setup (props: any, ctx: SetupContext) {
     return () => {
       let iconName = props.iconName;
@@ -62,14 +63,18 @@ export default defineComponent({
             'bs-icon-filled': props.isFilled
           }
         ],
-        'area-label': iconName,
+        'area-label': 'bs-icon-' + iconName,
         onClick (evt: MouseEvent) {
           ctx.emit('click', evt);
+        },
+        onDblclick (evt: MouseEvent) {
+          ctx.emit('dblclick', evt);
         }
       }, createVNode(IconBase, {
-        ...props,
-        svgVDom: props.svgVDom[0]
+        ...props
       }));
     };
   }
 });
+
+export { IconProps as BsIconProps };

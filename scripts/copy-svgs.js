@@ -1,52 +1,10 @@
 const path = require('path');
 const fs = require('fs');
 const html2vDom = require('./html2vDom');
-
-function writeFileSync (targetPath, content) {
-  let targetDirname = path.dirname(targetPath);
-  // 如果目标文件所在文件夹不存在，则先创建文件夹
-  if (!fs.existsSync(targetDirname)) {
-    mkdir(targetDirname);
-  }
-  fs.writeFileSync(targetPath, content);
-}
-
-function copy (sourcePath, targetPath) {
-  if (!fs.existsSync(sourcePath)) {
-    console.error(`[copy failed]: "${sourcePath}" not exist!`);
-    return;
-  }
-  let targetDirname = path.dirname(targetPath);
-  // 如果目标文件所在文件夹不存在，则先创建文件夹
-  if (!fs.existsSync(targetDirname)) {
-    mkdir(targetDirname);
-  }
-  fs.writeFileSync(targetPath, fs.readFileSync(sourcePath, 'utf-8'));
-}
-
-function mkdir (targetPath) {
-  if (fs.existsSync(targetPath)) {
-    return;
-  }
-  fs.mkdirSync(targetPath, { recursive: true });
-}
-
-// 递归删除文件夹
-function deleteFolder(path) {
-  var files = [];
-  if (fs.existsSync(path)) {
-    files = fs.readdirSync(path);
-    files.forEach(function(file, index){
-      var curPath = path + "/" + file;
-      if (fs.statSync(curPath).isDirectory()) { // recurse
-        deleteFolder(curPath);
-      } else { // delete file
-        fs.unlinkSync(curPath);
-      }
-    });
-    fs.rmdirSync(path);
-  }
-}
+const {
+  writeFileSync,
+  deleteFolder
+} = require('./utils');
 
 // 目标存放svg根目录
 const targetSvgRootDir = path.resolve(__dirname, '../svg');
@@ -55,9 +13,10 @@ function copySvgs () {
   let oldBootstrapIconsVersionPath = path.resolve(targetSvgRootDir, 'bootstrap-icons-version.json');
   let oldBootstrapIconsVersion = fs.existsSync(oldBootstrapIconsVersionPath) ? require(oldBootstrapIconsVersionPath).version : '';
   if (oldBootstrapIconsVersion === bootstrapIconsVersion) {
-    console.warn('[Tip]: The old and new bootstrap icons are consistent and will not be updated');
+    console.warn('[copy svg Tip]: The old and new bootstrap icons are consistent and will not be updated');
     return;
   }
+  console.log('开始复制svg---------------------');
   // 清空原来的svg
   deleteFolder(targetSvgRootDir);
   // console.log('bootstrapIconsVersion', bootstrapIconsVersion);
@@ -97,6 +56,8 @@ function copySvgs () {
   fs.writeFileSync(oldBootstrapIconsVersionPath, JSON.stringify({
     version: bootstrapIconsVersion
   }, null, 2), 'utf-8');
+
+  console.log('复制svg完成---------------------');
 }
 
 copySvgs();
