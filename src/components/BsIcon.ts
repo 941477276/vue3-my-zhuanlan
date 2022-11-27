@@ -6,7 +6,7 @@ import {
   createVNode,
   SetupContext
 } from 'vue';
-import IconBase, { IconProps } from './IconBase';
+import IconBase from './IconBase';
 import './bs-icon.css';
 
 export default defineComponent({
@@ -52,6 +52,7 @@ export default defineComponent({
   },
   emits: ['click', 'dblclick'],
   setup (props: any, ctx: SetupContext) {
+    console.log('组件名称：', props.iconName);
     return () => {
       let iconName = props.iconName;
       return h('span', {
@@ -77,4 +78,11 @@ export default defineComponent({
   }
 });
 
-export { IconProps as BsIconProps };
+export interface BsIconProps {
+  width: string;
+  height: string;
+  fill: string;
+  viewBox: string;
+  ariaHidden: boolean;
+  focusable: boolean;
+}

@@ -3,15 +3,6 @@ import {
   VNode
 } from 'vue';
 
-interface IconProps {
-  width: string;
-  height: string;
-  fill: string;
-  viewBox: string;
-  ariaHidden: boolean;
-  focusable: boolean;
-}
-
 let buildNode = function (childrens: any[]): VNode[] {
   if (childrens.length == 0) {
     return [];
@@ -48,4 +39,3 @@ IconBase.props = ['width', 'height', 'fill', 'viewBox', 'ariaHidden', 'focusable
 IconBase.inheritAttrs = false;
 
 export default IconBase;
-export { IconProps };
