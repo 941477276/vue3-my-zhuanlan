@@ -7,7 +7,10 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "copy-svgs": "node ./scripts/copy-svgs.js",
-    "generate-icons": "node ./scripts/generate-icons.js"
+    "generate-icons": "node ./scripts/generate-icons.js",
+    "build-icons-all": "node ./scripts/build.js",
+    "build-icons-esm": "node ./scripts/build.js --format esm",
+    "build-icons-cjs": "node ./scripts/build.js --format cjs"
   },
   "dependencies": {
     "bootstrap-icons": "^1.10.2"

@@ -11,7 +11,6 @@ function build (options = {}) {
   let {
     format,
     outdir,
-    useExternalPlugin,
     plugin,
     entryPoints,
     description,
@@ -21,9 +20,6 @@ function build (options = {}) {
   } = options;
   if (!outdir) {
     outdir = targetDir;
-  }
-  if (typeof useExternalPlugin == 'undefined') {
-    useExternalPlugin = true;
   }
   if (!Array.isArray(entryPoints)) {
     entryPoints = [entryPoints];
@@ -109,35 +105,64 @@ function build (options = {}) {
   }
 }
 
-// 构建 /src/components 目录下的组件
-build({
-  format: 'esm',
-  description: 'components组件',
-  outdir: path.resolve(targetDir, 'es/components'),
-  useExternalPlugin: true,
-  entryPoints: path.resolve(__dirname, '../src/components'),
-  plugin: esbuildSetExternalPlugin(function (path, namespace) {
-    // console.log('path', path);
-    // console.log(namespace);
-    // 所有从 components 目录中导入的模块都视为external(除css外)
-    return namespace.importer.includes('/components/') && !path.endsWith('.css') && namespace.kind === 'import-statement';
-  })
-});
-
-// 构建图标目录下的组件
-build({
-  format: 'esm',
-  description: 'icon图标组件',
-  outdir: path.resolve(targetDir, 'es/icons'),
-  useExternalPlugin: true,
-  exclude: ['index.ts'], // index.ts不进行构建，直接复制并改后缀名为 .js 即可
-  entryPoints: path.resolve(__dirname, '../src/icons'),
-  plugin: esbuildSetExternalPlugin(function (path, namespace) {
-    // 所有从 components 目录中导入的模块都视为external(除css外)
-    return (path.includes('/components/') || namespace.importer.includes('/components/')) && namespace.kind === 'import-statement';
-  }),
-  onEnd () {
-    // 将 /src/icons/index.ts 复制到 /lib/es/icons/index.js
-    utils.copy(path.resolve(__dirname, '../src/icons/index.ts'), path.resolve(targetDir, 'es/icons/index.js'));
+function buildIcon (format) {
+  if (!format) {
+    format = 'esm';
   }
-});
+  let allowedFormat = ['cjs', 'esm'];
+  if (!allowedFormat.includes(format)) {
+    console.log(`[${format}] is not allowed!`);
+    return;
+  }
+  let outdirParent = format == 'esm' ? 'es' : 'lib';
+  // 构建 /src/components 目录下的组件
+  build({
+    format: format,
+    description: 'components组件',
+    outdir: path.resolve(targetDir, outdirParent + '/components'),
+    useExternalPlugin: true,
+    entryPoints: path.resolve(__dirname, '../src/components'),
+    plugin: esbuildSetExternalPlugin(function (path, namespace) {
+      // console.log('path', path);
+      // console.log(namespace);
+      // 所有从 components 目录中导入的模块都视为external(除css外)
+      return namespace.importer.includes('/components/') && !path.endsWith('.css') && namespace.kind === 'import-statement';
+    })
+  });
+
+  // 构建图标目录下的组件
+  build({
+    format: format,
+    description: 'icon图标组件',
+    outdir: path.resolve(targetDir, outdirParent + '/icons'),
+    useExternalPlugin: true,
+    exclude: [format === 'esm' ? 'index.ts' : ''], // index.ts不进行构建，直接复制并改后缀名为 .js 即可
+    entryPoints: path.resolve(__dirname, '../src/icons'),
+    plugin: esbuildSetExternalPlugin(function (path, namespace) {
+      // 所有从 components 目录中导入的模块都视为external(除css外)
+      return (path.includes('/components/') || namespace.importer.includes('/components/')) && namespace.kind === 'import-statement';
+    }),
+    onEnd () {
+      if (format === 'esm') {
+        // 将 /src/icons/index.ts 复制到 /lib/es/icons/index.js
+        utils.copy(path.resolve(__dirname, '../src/icons/index.ts'), path.resolve(targetDir, outdirParent + '/icons/index.js'));
+      }
+    }
+  });
+}
+
+// buildIcon('cjs');
+let args = process.argv.slice(2);
+let formatParamNameIndex = args.findIndex(paramName => paramName === '--format');
+let format = '';
+if (formatParamNameIndex > -1) {
+  format = args[formatParamNameIndex + 1];
+}
+if (format) {
+  console.log(`【构建 ${format} 格式图标】`);
+  buildIcon(format);
+} else {
+  console.log('【构建所有格式图标】');
+  buildIcon('esm');
+  buildIcon('cjs');
+}
