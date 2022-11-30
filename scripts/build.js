@@ -11,7 +11,7 @@ function build (options = {}) {
   let {
     format,
     outdir,
-    plugin,
+    plugins,
     entryPoints,
     description,
     loader,
@@ -29,6 +29,9 @@ function build (options = {}) {
   }
   if (!exclude || !Array.isArray(exclude)) {
     exclude = [exclude];
+  }
+  if (plugins && !Array.isArray(plugins)) {
+    plugins = [plugins];
   }
   let extNameIncludes = ['.js', '.ts', '.jsx', '.tsx'];
   let newEntryPoints = [];
@@ -85,7 +88,7 @@ function build (options = {}) {
     // bundle: true,
     // minify: true,
     plugins: [
-      ...(plugin ? [plugin] : []),
+      ...(plugins ? plugins : []),
       esBuildPluginVue,
       {
         name: 'on-build-end-plugin',
@@ -122,7 +125,7 @@ function buildIcon (format) {
     outdir: path.resolve(targetDir, outdirParent + '/components'),
     useExternalPlugin: true,
     entryPoints: path.resolve(__dirname, '../src/components'),
-    plugin: esbuildSetExternalPlugin(function (path, namespace) {
+    plugins: esbuildSetExternalPlugin(function (path, namespace) {
       // console.log('path', path);
       // console.log(namespace);
       // 所有从 components 目录中导入的模块都视为external(除css外)
@@ -138,9 +141,11 @@ function buildIcon (format) {
     useExternalPlugin: true,
     exclude: [format === 'esm' ? 'index.ts' : ''], // index.ts不进行构建，直接复制并改后缀名为 .js 即可
     entryPoints: path.resolve(__dirname, '../src/icons'),
-    plugin: esbuildSetExternalPlugin(function (path, namespace) {
+    plugins: esbuildSetExternalPlugin(function (path, namespace) {
+      let importer = namespace.importer;
       // 所有从 components 目录中导入的模块都视为external(除css外)
-      return (path.includes('/components/') || namespace.importer.includes('/components/')) && namespace.kind === 'import-statement';
+      // 将 icons 目录也排除是因为在打包cjs格式时index.ts中引入了icons目录下的图标，因此也需要将其排除
+      return (path.includes('/components/') || importer.includes('/components/') || importer.includes('/icons/')) && namespace.kind === 'import-statement';
     }),
     onEnd () {
       if (format === 'esm') {
