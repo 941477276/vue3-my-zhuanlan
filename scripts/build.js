@@ -133,6 +133,29 @@ function buildIcon (format) {
     })
   });
 
+  // 生成入口文件
+  let generateEntryIndexFile = function () {
+    let fileContent = `
+    // this file is auto generate by build.js
+    export * from './icons';
+    `;
+    // 生成typescript类型定义文件
+    let typescriptDefineFileContent = `
+    // this file is auto generate by build.js
+    export * from './icons';
+    `;
+    // 打包产物为cjs格式的需要将入口文件编译一下，因此将其后缀改成ts
+    let fileExt = format === 'cjs' ? 'ts' : 'js';
+    utils.writeFileSync(path.resolve(targetDir, outdirParent + `/index.${fileExt}`), fileContent.trim());
+    utils.writeFileSync(path.resolve(targetDir, outdirParent + '/index.d.ts'), typescriptDefineFileContent.trim());
+  };
+
+  let buildIconPlugin = esbuildSetExternalPlugin(function (path, namespace) {
+    let importer = namespace.importer;
+    // 所有从 components 目录中导入的模块都视为external(除css外)
+    // 将 icons 目录也排除是因为在打包cjs格式时index.ts中引入了icons目录下的图标，因此也需要将其排除
+    return (path.includes('/components/') || importer.includes('/components/') || importer.includes('/icons/')) && namespace.kind === 'import-statement';
+  });
   // 构建图标目录下的组件
   build({
     format: format,
@@ -141,16 +164,32 @@ function buildIcon (format) {
     useExternalPlugin: true,
     exclude: [format === 'esm' ? 'index.ts' : ''], // index.ts不进行构建，直接复制并改后缀名为 .js 即可
     entryPoints: path.resolve(__dirname, '../src/icons'),
-    plugins: esbuildSetExternalPlugin(function (path, namespace) {
-      let importer = namespace.importer;
-      // 所有从 components 目录中导入的模块都视为external(除css外)
-      // 将 icons 目录也排除是因为在打包cjs格式时index.ts中引入了icons目录下的图标，因此也需要将其排除
-      return (path.includes('/components/') || importer.includes('/components/') || importer.includes('/icons/')) && namespace.kind === 'import-statement';
-    }),
+    plugins: buildIconPlugin,
     onEnd () {
       if (format === 'esm') {
+        generateEntryIndexFile();
         // 将 /src/icons/index.ts 复制到 /lib/es/icons/index.js
         utils.copy(path.resolve(__dirname, '../src/icons/index.ts'), path.resolve(targetDir, outdirParent + '/icons/index.js'));
+      } else {
+        /* let cjsEntryFile = path.resolve(targetDir, outdirParent + '/index.ts');
+        build({
+          entryPoints: cjsEntryFile,
+          outdir: path.resolve(targetDir, outdirParent),
+          plugins: esbuildSetExternalPlugin(function (path, namespace) {
+            let importer = namespace.importer;
+            if (importer.endsWith('index.js')) {
+              console.log(namespace);
+            }
+            // console.log(namespace);
+            // 所有从 components 目录中导入的模块都视为external(除css外)
+            // 将 icons 目录也排除是因为在打包cjs格式时index.ts中引入了icons目录下的图标，因此也需要将其排除
+            return (path.includes('/components/') || importer.includes('/components/') || importer.includes('/icons/')) && namespace.kind === 'require-call';
+          }),
+          onEnd () {
+            // 删除ts文件
+            fs.unlinkSync(cjsEntryFile);
+          }
+        }); */
       }
     }
   });
