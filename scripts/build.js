@@ -4,27 +4,27 @@ const path = require('path');
 const esbuildSetExternalPlugin = require('./esbuild-set-external-plugin');
 const fs = require('fs');
 const utils = require('./utils');
-// 构建都目标目录
-const targetDir = path.resolve(__dirname, '../lib');
+
 console.log('esBuildPluginVue', esBuildPluginVue);
 function build (options = {}) {
   let {
     format,
     outdir,
     plugins,
+    outfile,
     entryPoints,
     description,
     loader,
     onEnd,
     exclude
   } = options;
-  if (!outdir) {
+  /* if (!outdir && !outfile) {
     outdir = targetDir;
-  }
+  } */
   if (!Array.isArray(entryPoints)) {
     entryPoints = [entryPoints];
   }
-  if (typeof loader !== 'object' || loader ===  null) {
+  if (typeof loader !== 'object' || loader === null) {
     loader = {};
   }
   if (!exclude || !Array.isArray(exclude)) {
@@ -62,6 +62,7 @@ function build (options = {}) {
     bundle: true,
     entryPoints: newEntryPoints,
     // outfile: path.resolve(targetDir, 'es/BsiActivity.js'),
+    outfile,
     outdir: outdir,
     external: ['vue'],
     loader: {
@@ -109,6 +110,8 @@ function build (options = {}) {
 }
 
 function buildIcon (format) {
+  // 构建都目标目录
+  const targetDir = path.resolve(__dirname, '../lib');
   if (!format) {
     format = 'esm';
   }
@@ -142,12 +145,24 @@ function buildIcon (format) {
     // 生成typescript类型定义文件
     let typescriptDefineFileContent = `
     // this file is auto generate by build.js
+    import BsIcon from './components/BsIcon';
     export * from './icons';
+    export { BsIcon };
     `;
     // 打包产物为cjs格式的需要将入口文件编译一下，因此将其后缀改成ts
     let fileExt = format === 'cjs' ? 'ts' : 'js';
     utils.writeFileSync(path.resolve(targetDir, outdirParent + `/index.${fileExt}`), fileContent.trim());
     utils.writeFileSync(path.resolve(targetDir, outdirParent + '/index.d.ts'), typescriptDefineFileContent.trim());
+  };
+
+  // 构建html2vDom工具文件
+  let generateHtml2vDomFile = function () {
+    // var fileContent = utils.
+    build({
+      entryPoints: path.resolve(__dirname, 'html2vDom.js'),
+      format,
+      outfile: path.resolve(targetDir, outdirParent + '/html2vDom.js')
+    });
   };
 
   let buildIconPlugin = esbuildSetExternalPlugin(function (path, namespace) {
@@ -191,6 +206,7 @@ function buildIcon (format) {
           }
         }); */
       }
+      generateHtml2vDomFile();
     }
   });
 }

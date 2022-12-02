@@ -8,7 +8,7 @@ let buildNode = function (childrens: any[]): VNode[] {
     return [];
   }
   return childrens.filter((vdomChild: any) => {
-    return vdomChild.nodeType == 1 || (vdomChild.nodeType == 3 && vdomChild.text != ' ');
+    return (vdomChild.nodeType == 1 && vdomChild.nodeName != 'svg') || (vdomChild.nodeType == 3 && vdomChild.text != ' ');
   }).map((vdomChild: any) => {
     let children = vdomChild.children || [];
     return vdomChild.noteType == 3 ? vdomChild.text : h(

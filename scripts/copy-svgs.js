@@ -29,9 +29,9 @@ function copySvgs () {
     let svgContent = fs.readFileSync(bootstrapIconsDir + '/' + svgFullName, 'utf-8');
     let svgVDom = html2vDom(svgContent);
     // console.log('解析后的svg', svgVDom);
-    if (/^\d+/.test(svgName)) { // html标准中标签名不允许以数字开头
+    /* if (/^\d+/.test(svgName)) { // html标准中标签名不允许以数字开头
       svgName = 'number-' + svgName;
-    }
+    } */
     let svgJson = {
       name: svgName,
       isFilled,

@@ -34,9 +34,16 @@ import {
 } from 'vue';
 // import BsIcon from '@/components/BsIcon';
 // import BsiActivity from '@/icons/BsiActivity';
-import * as bsiIcons from '@/icons';
+// import * as bsiIcons from '@/icons';
+import * as bsiIcons from '../lib/es';
+// import { BsIcon } from '../lib/es/index';
+// import html2vDom from '../lib/es/html2vDom.js';
+// const html2vDom2 = require('../lib/lib/html2vDom.js');
 
 console.log(bsiIcons);
+// console.log('html2vDom', html2vDom, html2vDom2);
+// console.log(html2vDom('<div id="aa">一个地v</div>'));
+// console.log(html2vDom2('<div id="aa">一个地v</div>'));
 
 export default defineComponent({
   name: 'App',
@@ -67,6 +74,9 @@ export default defineComponent({
     let filledIconsKey: string[] = [];
     let outlinedIconsKey: string[] = [];
     Object.keys(bsiIcons).forEach(key => {
+      if (key === 'BsIcon') {
+        return;
+      }
       if (key.endsWith('Fill')) {
         filledIconsKey.push(key);
       } else {

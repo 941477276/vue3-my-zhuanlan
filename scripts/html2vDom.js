@@ -103,7 +103,7 @@ module.exports = function html2vDom (htmlStr) {
       } else {
         currentChars += firstChar;
       }
-    }  else if (firstChar === ' ' && domStackTopStatus == 0 && quotCount == 0) { // 开始标签解析中遇到了空格
+    } else if (firstChar === ' ' && domStackTopStatus == 0 && quotCount == 0) { // 开始标签解析中遇到了空格
       // console.log('遇到了空格', domStackTopStatus, domStackTopStatus, quotCount);
       let nextChar = remainderHtml.charAt(0);
 
@@ -177,4 +177,4 @@ module.exports = function html2vDom (htmlStr) {
   }
   // console.log('vdom解析结果：', vdomResult);
   return vdomResult;
-}
+};
