@@ -24,3 +24,4 @@ const BsiBagPlus: BsiBagPlusType = function (props, ctx) {
 };
 BsiBagPlus.displayName = 'BsiBagPlus';
 export default BsiBagPlus;
+export { BsiBagPlus };

@@ -24,3 +24,4 @@ const BsiArrowDownSquare: BsiArrowDownSquareType = function (props, ctx) {
 };
 BsiArrowDownSquare.displayName = 'BsiArrowDownSquare';
 export default BsiArrowDownSquare;
+export { BsiArrowDownSquare };

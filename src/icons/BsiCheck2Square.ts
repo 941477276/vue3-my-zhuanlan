@@ -24,3 +24,4 @@ const BsiCheck2Square: BsiCheck2SquareType = function (props, ctx) {
 };
 BsiCheck2Square.displayName = 'BsiCheck2Square';
 export default BsiCheck2Square;
+export { BsiCheck2Square };

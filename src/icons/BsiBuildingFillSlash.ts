@@ -24,3 +24,4 @@ const BsiBuildingFillSlash: BsiBuildingFillSlashType = function (props, ctx) {
 };
 BsiBuildingFillSlash.displayName = 'BsiBuildingFillSlash';
 export default BsiBuildingFillSlash;
+export { BsiBuildingFillSlash };

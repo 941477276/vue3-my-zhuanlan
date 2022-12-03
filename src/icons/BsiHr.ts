@@ -24,3 +24,4 @@ const BsiHr: BsiHrType = function (props, ctx) {
 };
 BsiHr.displayName = 'BsiHr';
 export default BsiHr;
+export { BsiHr };

@@ -24,3 +24,4 @@ const BsiBorderAll: BsiBorderAllType = function (props, ctx) {
 };
 BsiBorderAll.displayName = 'BsiBorderAll';
 export default BsiBorderAll;
+export { BsiBorderAll };

@@ -1,1 +1,1 @@
-declare module 'vue3-country-intl'
+declare module 'bootstrap-vue-icons'

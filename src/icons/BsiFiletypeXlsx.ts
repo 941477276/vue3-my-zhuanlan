@@ -24,3 +24,4 @@ const BsiFiletypeXlsx: BsiFiletypeXlsxType = function (props, ctx) {
 };
 BsiFiletypeXlsx.displayName = 'BsiFiletypeXlsx';
 export default BsiFiletypeXlsx;
+export { BsiFiletypeXlsx };

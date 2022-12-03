@@ -24,3 +24,4 @@ const BsiSkipEndCircleFill: BsiSkipEndCircleFillType = function (props, ctx) {
 };
 BsiSkipEndCircleFill.displayName = 'BsiSkipEndCircleFill';
 export default BsiSkipEndCircleFill;
+export { BsiSkipEndCircleFill };

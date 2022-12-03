@@ -24,3 +24,4 @@ const BsiCassetteFill: BsiCassetteFillType = function (props, ctx) {
 };
 BsiCassetteFill.displayName = 'BsiCassetteFill';
 export default BsiCassetteFill;
+export { BsiCassetteFill };

@@ -24,3 +24,4 @@ const BsiSymmetryVertical: BsiSymmetryVerticalType = function (props, ctx) {
 };
 BsiSymmetryVertical.displayName = 'BsiSymmetryVertical';
 export default BsiSymmetryVertical;
+export { BsiSymmetryVertical };

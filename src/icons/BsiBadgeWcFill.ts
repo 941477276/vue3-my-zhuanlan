@@ -24,3 +24,4 @@ const BsiBadgeWcFill: BsiBadgeWcFillType = function (props, ctx) {
 };
 BsiBadgeWcFill.displayName = 'BsiBadgeWcFill';
 export default BsiBadgeWcFill;
+export { BsiBadgeWcFill };

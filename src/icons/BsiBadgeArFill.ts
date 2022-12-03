@@ -24,3 +24,4 @@ const BsiBadgeArFill: BsiBadgeArFillType = function (props, ctx) {
 };
 BsiBadgeArFill.displayName = 'BsiBadgeArFill';
 export default BsiBadgeArFill;
+export { BsiBadgeArFill };

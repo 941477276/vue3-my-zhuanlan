@@ -24,3 +24,4 @@ const BsiWifi: BsiWifiType = function (props, ctx) {
 };
 BsiWifi.displayName = 'BsiWifi';
 export default BsiWifi;
+export { BsiWifi };

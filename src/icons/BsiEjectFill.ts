@@ -24,3 +24,4 @@ const BsiEjectFill: BsiEjectFillType = function (props, ctx) {
 };
 BsiEjectFill.displayName = 'BsiEjectFill';
 export default BsiEjectFill;
+export { BsiEjectFill };

@@ -24,3 +24,4 @@ const BsiDoorClosed: BsiDoorClosedType = function (props, ctx) {
 };
 BsiDoorClosed.displayName = 'BsiDoorClosed';
 export default BsiDoorClosed;
+export { BsiDoorClosed };

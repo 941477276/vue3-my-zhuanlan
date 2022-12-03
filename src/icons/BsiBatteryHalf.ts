@@ -24,3 +24,4 @@ const BsiBatteryHalf: BsiBatteryHalfType = function (props, ctx) {
 };
 BsiBatteryHalf.displayName = 'BsiBatteryHalf';
 export default BsiBatteryHalf;
+export { BsiBatteryHalf };

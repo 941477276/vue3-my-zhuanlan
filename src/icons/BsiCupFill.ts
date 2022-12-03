@@ -24,3 +24,4 @@ const BsiCupFill: BsiCupFillType = function (props, ctx) {
 };
 BsiCupFill.displayName = 'BsiCupFill';
 export default BsiCupFill;
+export { BsiCupFill };

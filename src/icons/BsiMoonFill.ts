@@ -24,3 +24,4 @@ const BsiMoonFill: BsiMoonFillType = function (props, ctx) {
 };
 BsiMoonFill.displayName = 'BsiMoonFill';
 export default BsiMoonFill;
+export { BsiMoonFill };

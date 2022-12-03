@@ -24,3 +24,4 @@ const BsiAspectRatioFill: BsiAspectRatioFillType = function (props, ctx) {
 };
 BsiAspectRatioFill.displayName = 'BsiAspectRatioFill';
 export default BsiAspectRatioFill;
+export { BsiAspectRatioFill };

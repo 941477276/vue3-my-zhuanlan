@@ -24,3 +24,4 @@ const BsiEgg: BsiEggType = function (props, ctx) {
 };
 BsiEgg.displayName = 'BsiEgg';
 export default BsiEgg;
+export { BsiEgg };

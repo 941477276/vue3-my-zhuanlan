@@ -24,3 +24,4 @@ const BsiCircleHalf: BsiCircleHalfType = function (props, ctx) {
 };
 BsiCircleHalf.displayName = 'BsiCircleHalf';
 export default BsiCircleHalf;
+export { BsiCircleHalf };

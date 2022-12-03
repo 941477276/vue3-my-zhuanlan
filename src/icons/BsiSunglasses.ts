@@ -24,3 +24,4 @@ const BsiSunglasses: BsiSunglassesType = function (props, ctx) {
 };
 BsiSunglasses.displayName = 'BsiSunglasses';
 export default BsiSunglasses;
+export { BsiSunglasses };

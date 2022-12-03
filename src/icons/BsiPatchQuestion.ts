@@ -24,3 +24,4 @@ const BsiPatchQuestion: BsiPatchQuestionType = function (props, ctx) {
 };
 BsiPatchQuestion.displayName = 'BsiPatchQuestion';
 export default BsiPatchQuestion;
+export { BsiPatchQuestion };

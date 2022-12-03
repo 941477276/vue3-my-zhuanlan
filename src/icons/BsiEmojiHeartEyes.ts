@@ -24,3 +24,4 @@ const BsiEmojiHeartEyes: BsiEmojiHeartEyesType = function (props, ctx) {
 };
 BsiEmojiHeartEyes.displayName = 'BsiEmojiHeartEyes';
 export default BsiEmojiHeartEyes;
+export { BsiEmojiHeartEyes };

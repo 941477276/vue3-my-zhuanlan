@@ -24,3 +24,4 @@ const BsiTextIndentLeft: BsiTextIndentLeftType = function (props, ctx) {
 };
 BsiTextIndentLeft.displayName = 'BsiTextIndentLeft';
 export default BsiTextIndentLeft;
+export { BsiTextIndentLeft };

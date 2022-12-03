@@ -24,3 +24,4 @@ const BsiPersonLock: BsiPersonLockType = function (props, ctx) {
 };
 BsiPersonLock.displayName = 'BsiPersonLock';
 export default BsiPersonLock;
+export { BsiPersonLock };

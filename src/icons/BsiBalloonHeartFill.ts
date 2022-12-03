@@ -24,3 +24,4 @@ const BsiBalloonHeartFill: BsiBalloonHeartFillType = function (props, ctx) {
 };
 BsiBalloonHeartFill.displayName = 'BsiBalloonHeartFill';
 export default BsiBalloonHeartFill;
+export { BsiBalloonHeartFill };

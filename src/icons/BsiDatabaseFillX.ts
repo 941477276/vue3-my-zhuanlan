@@ -24,3 +24,4 @@ const BsiDatabaseFillX: BsiDatabaseFillXType = function (props, ctx) {
 };
 BsiDatabaseFillX.displayName = 'BsiDatabaseFillX';
 export default BsiDatabaseFillX;
+export { BsiDatabaseFillX };

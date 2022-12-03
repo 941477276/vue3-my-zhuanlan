@@ -24,3 +24,4 @@ const BsiMicMuteFill: BsiMicMuteFillType = function (props, ctx) {
 };
 BsiMicMuteFill.displayName = 'BsiMicMuteFill';
 export default BsiMicMuteFill;
+export { BsiMicMuteFill };

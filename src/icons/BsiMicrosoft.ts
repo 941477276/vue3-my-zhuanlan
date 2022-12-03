@@ -24,3 +24,4 @@ const BsiMicrosoft: BsiMicrosoftType = function (props, ctx) {
 };
 BsiMicrosoft.displayName = 'BsiMicrosoft';
 export default BsiMicrosoft;
+export { BsiMicrosoft };

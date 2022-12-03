@@ -24,3 +24,4 @@ const BsiCreditCard2Back: BsiCreditCard2BackType = function (props, ctx) {
 };
 BsiCreditCard2Back.displayName = 'BsiCreditCard2Back';
 export default BsiCreditCard2Back;
+export { BsiCreditCard2Back };

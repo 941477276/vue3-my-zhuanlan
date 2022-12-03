@@ -24,3 +24,4 @@ const BsiChevronDoubleUp: BsiChevronDoubleUpType = function (props, ctx) {
 };
 BsiChevronDoubleUp.displayName = 'BsiChevronDoubleUp';
 export default BsiChevronDoubleUp;
+export { BsiChevronDoubleUp };

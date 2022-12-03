@@ -24,3 +24,4 @@ const BsiCurrencyBitcoin: BsiCurrencyBitcoinType = function (props, ctx) {
 };
 BsiCurrencyBitcoin.displayName = 'BsiCurrencyBitcoin';
 export default BsiCurrencyBitcoin;
+export { BsiCurrencyBitcoin };

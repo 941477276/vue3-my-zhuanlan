@@ -24,3 +24,4 @@ const BsiEasel: BsiEaselType = function (props, ctx) {
 };
 BsiEasel.displayName = 'BsiEasel';
 export default BsiEasel;
+export { BsiEasel };

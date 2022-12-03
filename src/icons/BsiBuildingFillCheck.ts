@@ -24,3 +24,4 @@ const BsiBuildingFillCheck: BsiBuildingFillCheckType = function (props, ctx) {
 };
 BsiBuildingFillCheck.displayName = 'BsiBuildingFillCheck';
 export default BsiBuildingFillCheck;
+export { BsiBuildingFillCheck };

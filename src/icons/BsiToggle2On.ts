@@ -24,3 +24,4 @@ const BsiToggle2On: BsiToggle2OnType = function (props, ctx) {
 };
 BsiToggle2On.displayName = 'BsiToggle2On';
 export default BsiToggle2On;
+export { BsiToggle2On };

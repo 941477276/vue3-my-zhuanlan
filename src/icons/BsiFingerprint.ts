@@ -24,3 +24,4 @@ const BsiFingerprint: BsiFingerprintType = function (props, ctx) {
 };
 BsiFingerprint.displayName = 'BsiFingerprint';
 export default BsiFingerprint;
+export { BsiFingerprint };

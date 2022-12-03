@@ -24,3 +24,4 @@ const BsiGlobe2: BsiGlobe2Type = function (props, ctx) {
 };
 BsiGlobe2.displayName = 'BsiGlobe2';
 export default BsiGlobe2;
+export { BsiGlobe2 };

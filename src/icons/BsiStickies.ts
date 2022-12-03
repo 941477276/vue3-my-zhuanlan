@@ -24,3 +24,4 @@ const BsiStickies: BsiStickiesType = function (props, ctx) {
 };
 BsiStickies.displayName = 'BsiStickies';
 export default BsiStickies;
+export { BsiStickies };

@@ -24,3 +24,4 @@ const BsiShieldSlash: BsiShieldSlashType = function (props, ctx) {
 };
 BsiShieldSlash.displayName = 'BsiShieldSlash';
 export default BsiShieldSlash;
+export { BsiShieldSlash };

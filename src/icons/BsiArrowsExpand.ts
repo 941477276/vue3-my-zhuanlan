@@ -24,3 +24,4 @@ const BsiArrowsExpand: BsiArrowsExpandType = function (props, ctx) {
 };
 BsiArrowsExpand.displayName = 'BsiArrowsExpand';
 export default BsiArrowsExpand;
+export { BsiArrowsExpand };

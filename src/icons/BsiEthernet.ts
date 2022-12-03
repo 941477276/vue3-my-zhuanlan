@@ -24,3 +24,4 @@ const BsiEthernet: BsiEthernetType = function (props, ctx) {
 };
 BsiEthernet.displayName = 'BsiEthernet';
 export default BsiEthernet;
+export { BsiEthernet };

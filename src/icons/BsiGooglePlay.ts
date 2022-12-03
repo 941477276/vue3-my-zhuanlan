@@ -24,3 +24,4 @@ const BsiGooglePlay: BsiGooglePlayType = function (props, ctx) {
 };
 BsiGooglePlay.displayName = 'BsiGooglePlay';
 export default BsiGooglePlay;
+export { BsiGooglePlay };

@@ -24,3 +24,4 @@ const BsiChevronBarRight: BsiChevronBarRightType = function (props, ctx) {
 };
 BsiChevronBarRight.displayName = 'BsiChevronBarRight';
 export default BsiChevronBarRight;
+export { BsiChevronBarRight };

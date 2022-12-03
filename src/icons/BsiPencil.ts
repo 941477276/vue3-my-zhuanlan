@@ -24,3 +24,4 @@ const BsiPencil: BsiPencilType = function (props, ctx) {
 };
 BsiPencil.displayName = 'BsiPencil';
 export default BsiPencil;
+export { BsiPencil };

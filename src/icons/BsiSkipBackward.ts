@@ -24,3 +24,4 @@ const BsiSkipBackward: BsiSkipBackwardType = function (props, ctx) {
 };
 BsiSkipBackward.displayName = 'BsiSkipBackward';
 export default BsiSkipBackward;
+export { BsiSkipBackward };

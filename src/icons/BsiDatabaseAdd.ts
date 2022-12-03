@@ -24,3 +24,4 @@ const BsiDatabaseAdd: BsiDatabaseAddType = function (props, ctx) {
 };
 BsiDatabaseAdd.displayName = 'BsiDatabaseAdd';
 export default BsiDatabaseAdd;
+export { BsiDatabaseAdd };

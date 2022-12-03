@@ -24,3 +24,4 @@ const BsiMusicNote: BsiMusicNoteType = function (props, ctx) {
 };
 BsiMusicNote.displayName = 'BsiMusicNote';
 export default BsiMusicNote;
+export { BsiMusicNote };

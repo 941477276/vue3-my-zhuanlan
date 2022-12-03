@@ -24,3 +24,4 @@ const BsiPlaystation: BsiPlaystationType = function (props, ctx) {
 };
 BsiPlaystation.displayName = 'BsiPlaystation';
 export default BsiPlaystation;
+export { BsiPlaystation };

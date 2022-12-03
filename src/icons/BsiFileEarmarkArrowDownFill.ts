@@ -24,3 +24,4 @@ const BsiFileEarmarkArrowDownFill: BsiFileEarmarkArrowDownFillType = function (p
 };
 BsiFileEarmarkArrowDownFill.displayName = 'BsiFileEarmarkArrowDownFill';
 export default BsiFileEarmarkArrowDownFill;
+export { BsiFileEarmarkArrowDownFill };

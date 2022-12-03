@@ -24,3 +24,4 @@ const BsiWind: BsiWindType = function (props, ctx) {
 };
 BsiWind.displayName = 'BsiWind';
 export default BsiWind;
+export { BsiWind };

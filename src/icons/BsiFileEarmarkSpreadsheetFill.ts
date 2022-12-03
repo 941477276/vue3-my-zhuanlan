@@ -24,3 +24,4 @@ const BsiFileEarmarkSpreadsheetFill: BsiFileEarmarkSpreadsheetFillType = functio
 };
 BsiFileEarmarkSpreadsheetFill.displayName = 'BsiFileEarmarkSpreadsheetFill';
 export default BsiFileEarmarkSpreadsheetFill;
+export { BsiFileEarmarkSpreadsheetFill };

@@ -24,3 +24,4 @@ const BsiInstagram: BsiInstagramType = function (props, ctx) {
 };
 BsiInstagram.displayName = 'BsiInstagram';
 export default BsiInstagram;
+export { BsiInstagram };

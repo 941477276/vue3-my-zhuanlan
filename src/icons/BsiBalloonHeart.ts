@@ -24,3 +24,4 @@ const BsiBalloonHeart: BsiBalloonHeartType = function (props, ctx) {
 };
 BsiBalloonHeart.displayName = 'BsiBalloonHeart';
 export default BsiBalloonHeart;
+export { BsiBalloonHeart };

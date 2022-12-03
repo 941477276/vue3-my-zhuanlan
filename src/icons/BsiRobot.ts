@@ -24,3 +24,4 @@ const BsiRobot: BsiRobotType = function (props, ctx) {
 };
 BsiRobot.displayName = 'BsiRobot';
 export default BsiRobot;
+export { BsiRobot };

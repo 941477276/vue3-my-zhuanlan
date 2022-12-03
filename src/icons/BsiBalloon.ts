@@ -24,3 +24,4 @@ const BsiBalloon: BsiBalloonType = function (props, ctx) {
 };
 BsiBalloon.displayName = 'BsiBalloon';
 export default BsiBalloon;
+export { BsiBalloon };

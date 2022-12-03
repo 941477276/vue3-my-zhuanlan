@@ -24,3 +24,4 @@ const BsiPersonRolodex: BsiPersonRolodexType = function (props, ctx) {
 };
 BsiPersonRolodex.displayName = 'BsiPersonRolodex';
 export default BsiPersonRolodex;
+export { BsiPersonRolodex };

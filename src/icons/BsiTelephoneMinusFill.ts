@@ -24,3 +24,4 @@ const BsiTelephoneMinusFill: BsiTelephoneMinusFillType = function (props, ctx) {
 };
 BsiTelephoneMinusFill.displayName = 'BsiTelephoneMinusFill';
 export default BsiTelephoneMinusFill;
+export { BsiTelephoneMinusFill };

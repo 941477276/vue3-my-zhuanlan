@@ -24,3 +24,4 @@ const BsiBorderCenter: BsiBorderCenterType = function (props, ctx) {
 };
 BsiBorderCenter.displayName = 'BsiBorderCenter';
 export default BsiBorderCenter;
+export { BsiBorderCenter };

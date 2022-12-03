@@ -24,3 +24,4 @@ const BsiWindowDock: BsiWindowDockType = function (props, ctx) {
 };
 BsiWindowDock.displayName = 'BsiWindowDock';
 export default BsiWindowDock;
+export { BsiWindowDock };

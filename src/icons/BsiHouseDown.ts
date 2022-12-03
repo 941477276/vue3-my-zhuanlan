@@ -24,3 +24,4 @@ const BsiHouseDown: BsiHouseDownType = function (props, ctx) {
 };
 BsiHouseDown.displayName = 'BsiHouseDown';
 export default BsiHouseDown;
+export { BsiHouseDown };

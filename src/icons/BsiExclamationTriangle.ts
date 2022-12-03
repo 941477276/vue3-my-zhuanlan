@@ -24,3 +24,4 @@ const BsiExclamationTriangle: BsiExclamationTriangleType = function (props, ctx)
 };
 BsiExclamationTriangle.displayName = 'BsiExclamationTriangle';
 export default BsiExclamationTriangle;
+export { BsiExclamationTriangle };

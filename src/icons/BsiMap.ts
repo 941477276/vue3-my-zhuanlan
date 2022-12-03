@@ -24,3 +24,4 @@ const BsiMap: BsiMapType = function (props, ctx) {
 };
 BsiMap.displayName = 'BsiMap';
 export default BsiMap;
+export { BsiMap };

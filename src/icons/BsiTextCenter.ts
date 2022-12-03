@@ -24,3 +24,4 @@ const BsiTextCenter: BsiTextCenterType = function (props, ctx) {
 };
 BsiTextCenter.displayName = 'BsiTextCenter';
 export default BsiTextCenter;
+export { BsiTextCenter };

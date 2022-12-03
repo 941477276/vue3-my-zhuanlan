@@ -24,3 +24,4 @@ const BsiTelephoneForwardFill: BsiTelephoneForwardFillType = function (props, ct
 };
 BsiTelephoneForwardFill.displayName = 'BsiTelephoneForwardFill';
 export default BsiTelephoneForwardFill;
+export { BsiTelephoneForwardFill };

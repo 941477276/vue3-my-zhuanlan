@@ -24,3 +24,4 @@ const BsiLayoutTextSidebarReverse: BsiLayoutTextSidebarReverseType = function (p
 };
 BsiLayoutTextSidebarReverse.displayName = 'BsiLayoutTextSidebarReverse';
 export default BsiLayoutTextSidebarReverse;
+export { BsiLayoutTextSidebarReverse };

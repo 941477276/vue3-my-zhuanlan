@@ -24,3 +24,4 @@ const BsiDice6Fill: BsiDice6FillType = function (props, ctx) {
 };
 BsiDice6Fill.displayName = 'BsiDice6Fill';
 export default BsiDice6Fill;
+export { BsiDice6Fill };

@@ -24,3 +24,4 @@ const BsiBehance: BsiBehanceType = function (props, ctx) {
 };
 BsiBehance.displayName = 'BsiBehance';
 export default BsiBehance;
+export { BsiBehance };

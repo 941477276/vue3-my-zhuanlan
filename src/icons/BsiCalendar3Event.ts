@@ -24,3 +24,4 @@ const BsiCalendar3Event: BsiCalendar3EventType = function (props, ctx) {
 };
 BsiCalendar3Event.displayName = 'BsiCalendar3Event';
 export default BsiCalendar3Event;
+export { BsiCalendar3Event };

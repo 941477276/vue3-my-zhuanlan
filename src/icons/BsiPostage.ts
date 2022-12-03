@@ -24,3 +24,4 @@ const BsiPostage: BsiPostageType = function (props, ctx) {
 };
 BsiPostage.displayName = 'BsiPostage';
 export default BsiPostage;
+export { BsiPostage };

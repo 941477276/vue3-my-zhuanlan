@@ -24,3 +24,4 @@ const BsiCast: BsiCastType = function (props, ctx) {
 };
 BsiCast.displayName = 'BsiCast';
 export default BsiCast;
+export { BsiCast };

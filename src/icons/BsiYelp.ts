@@ -24,3 +24,4 @@ const BsiYelp: BsiYelpType = function (props, ctx) {
 };
 BsiYelp.displayName = 'BsiYelp';
 export default BsiYelp;
+export { BsiYelp };

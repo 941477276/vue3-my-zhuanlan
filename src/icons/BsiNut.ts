@@ -24,3 +24,4 @@ const BsiNut: BsiNutType = function (props, ctx) {
 };
 BsiNut.displayName = 'BsiNut';
 export default BsiNut;
+export { BsiNut };

@@ -24,3 +24,4 @@ const BsiThermometerHalf: BsiThermometerHalfType = function (props, ctx) {
 };
 BsiThermometerHalf.displayName = 'BsiThermometerHalf';
 export default BsiThermometerHalf;
+export { BsiThermometerHalf };

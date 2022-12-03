@@ -24,3 +24,4 @@ const BsiClockHistory: BsiClockHistoryType = function (props, ctx) {
 };
 BsiClockHistory.displayName = 'BsiClockHistory';
 export default BsiClockHistory;
+export { BsiClockHistory };

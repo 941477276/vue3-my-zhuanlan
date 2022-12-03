@@ -24,3 +24,4 @@ const BsiViewStacked: BsiViewStackedType = function (props, ctx) {
 };
 BsiViewStacked.displayName = 'BsiViewStacked';
 export default BsiViewStacked;
+export { BsiViewStacked };

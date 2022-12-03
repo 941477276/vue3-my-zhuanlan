@@ -24,3 +24,4 @@ const BsiPhoneFill: BsiPhoneFillType = function (props, ctx) {
 };
 BsiPhoneFill.displayName = 'BsiPhoneFill';
 export default BsiPhoneFill;
+export { BsiPhoneFill };

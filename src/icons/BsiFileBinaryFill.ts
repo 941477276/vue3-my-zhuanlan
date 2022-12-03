@@ -24,3 +24,4 @@ const BsiFileBinaryFill: BsiFileBinaryFillType = function (props, ctx) {
 };
 BsiFileBinaryFill.displayName = 'BsiFileBinaryFill';
 export default BsiFileBinaryFill;
+export { BsiFileBinaryFill };

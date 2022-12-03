@@ -24,3 +24,4 @@ const BsiJournalAlbum: BsiJournalAlbumType = function (props, ctx) {
 };
 BsiJournalAlbum.displayName = 'BsiJournalAlbum';
 export default BsiJournalAlbum;
+export { BsiJournalAlbum };

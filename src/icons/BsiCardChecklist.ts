@@ -24,3 +24,4 @@ const BsiCardChecklist: BsiCardChecklistType = function (props, ctx) {
 };
 BsiCardChecklist.displayName = 'BsiCardChecklist';
 export default BsiCardChecklist;
+export { BsiCardChecklist };

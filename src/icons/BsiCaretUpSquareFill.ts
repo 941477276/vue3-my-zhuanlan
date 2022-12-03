@@ -24,3 +24,4 @@ const BsiCaretUpSquareFill: BsiCaretUpSquareFillType = function (props, ctx) {
 };
 BsiCaretUpSquareFill.displayName = 'BsiCaretUpSquareFill';
 export default BsiCaretUpSquareFill;
+export { BsiCaretUpSquareFill };

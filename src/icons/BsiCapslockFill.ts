@@ -24,3 +24,4 @@ const BsiCapslockFill: BsiCapslockFillType = function (props, ctx) {
 };
 BsiCapslockFill.displayName = 'BsiCapslockFill';
 export default BsiCapslockFill;
+export { BsiCapslockFill };

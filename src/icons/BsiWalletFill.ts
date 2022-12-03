@@ -24,3 +24,4 @@ const BsiWalletFill: BsiWalletFillType = function (props, ctx) {
 };
 BsiWalletFill.displayName = 'BsiWalletFill';
 export default BsiWalletFill;
+export { BsiWalletFill };

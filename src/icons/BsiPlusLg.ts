@@ -24,3 +24,4 @@ const BsiPlusLg: BsiPlusLgType = function (props, ctx) {
 };
 BsiPlusLg.displayName = 'BsiPlusLg';
 export default BsiPlusLg;
+export { BsiPlusLg };

@@ -24,3 +24,4 @@ const BsiTagFill: BsiTagFillType = function (props, ctx) {
 };
 BsiTagFill.displayName = 'BsiTagFill';
 export default BsiTagFill;
+export { BsiTagFill };

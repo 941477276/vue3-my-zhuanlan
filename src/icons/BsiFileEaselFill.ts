@@ -24,3 +24,4 @@ const BsiFileEaselFill: BsiFileEaselFillType = function (props, ctx) {
 };
 BsiFileEaselFill.displayName = 'BsiFileEaselFill';
 export default BsiFileEaselFill;
+export { BsiFileEaselFill };

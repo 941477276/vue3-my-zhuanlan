@@ -24,3 +24,4 @@ const BsiFilePlayFill: BsiFilePlayFillType = function (props, ctx) {
 };
 BsiFilePlayFill.displayName = 'BsiFilePlayFill';
 export default BsiFilePlayFill;
+export { BsiFilePlayFill };

@@ -24,3 +24,4 @@ const BsiUpload: BsiUploadType = function (props, ctx) {
 };
 BsiUpload.displayName = 'BsiUpload';
 export default BsiUpload;
+export { BsiUpload };

@@ -24,3 +24,4 @@ const BsiHouseDash: BsiHouseDashType = function (props, ctx) {
 };
 BsiHouseDash.displayName = 'BsiHouseDash';
 export default BsiHouseDash;
+export { BsiHouseDash };

@@ -24,3 +24,4 @@ const BsiGrid1x2Fill: BsiGrid1x2FillType = function (props, ctx) {
 };
 BsiGrid1x2Fill.displayName = 'BsiGrid1x2Fill';
 export default BsiGrid1x2Fill;
+export { BsiGrid1x2Fill };

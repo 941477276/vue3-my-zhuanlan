@@ -24,3 +24,4 @@ const BsiSliders2: BsiSliders2Type = function (props, ctx) {
 };
 BsiSliders2.displayName = 'BsiSliders2';
 export default BsiSliders2;
+export { BsiSliders2 };

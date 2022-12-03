@@ -24,3 +24,4 @@ const BsiCartDash: BsiCartDashType = function (props, ctx) {
 };
 BsiCartDash.displayName = 'BsiCartDash';
 export default BsiCartDash;
+export { BsiCartDash };

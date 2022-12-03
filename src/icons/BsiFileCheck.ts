@@ -24,3 +24,4 @@ const BsiFileCheck: BsiFileCheckType = function (props, ctx) {
 };
 BsiFileCheck.displayName = 'BsiFileCheck';
 export default BsiFileCheck;
+export { BsiFileCheck };

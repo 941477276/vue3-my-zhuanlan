@@ -24,3 +24,4 @@ const BsiLayoutWtf: BsiLayoutWtfType = function (props, ctx) {
 };
 BsiLayoutWtf.displayName = 'BsiLayoutWtf';
 export default BsiLayoutWtf;
+export { BsiLayoutWtf };

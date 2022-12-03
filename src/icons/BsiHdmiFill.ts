@@ -24,3 +24,4 @@ const BsiHdmiFill: BsiHdmiFillType = function (props, ctx) {
 };
 BsiHdmiFill.displayName = 'BsiHdmiFill';
 export default BsiHdmiFill;
+export { BsiHdmiFill };

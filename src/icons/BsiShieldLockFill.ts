@@ -24,3 +24,4 @@ const BsiShieldLockFill: BsiShieldLockFillType = function (props, ctx) {
 };
 BsiShieldLockFill.displayName = 'BsiShieldLockFill';
 export default BsiShieldLockFill;
+export { BsiShieldLockFill };

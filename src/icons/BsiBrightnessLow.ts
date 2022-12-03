@@ -24,3 +24,4 @@ const BsiBrightnessLow: BsiBrightnessLowType = function (props, ctx) {
 };
 BsiBrightnessLow.displayName = 'BsiBrightnessLow';
 export default BsiBrightnessLow;
+export { BsiBrightnessLow };

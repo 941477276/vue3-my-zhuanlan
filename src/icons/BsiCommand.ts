@@ -24,3 +24,4 @@ const BsiCommand: BsiCommandType = function (props, ctx) {
 };
 BsiCommand.displayName = 'BsiCommand';
 export default BsiCommand;
+export { BsiCommand };

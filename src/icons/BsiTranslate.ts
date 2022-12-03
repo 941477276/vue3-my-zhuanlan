@@ -24,3 +24,4 @@ const BsiTranslate: BsiTranslateType = function (props, ctx) {
 };
 BsiTranslate.displayName = 'BsiTranslate';
 export default BsiTranslate;
+export { BsiTranslate };

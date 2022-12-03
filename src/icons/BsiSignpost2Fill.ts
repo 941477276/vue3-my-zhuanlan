@@ -24,3 +24,4 @@ const BsiSignpost2Fill: BsiSignpost2FillType = function (props, ctx) {
 };
 BsiSignpost2Fill.displayName = 'BsiSignpost2Fill';
 export default BsiSignpost2Fill;
+export { BsiSignpost2Fill };

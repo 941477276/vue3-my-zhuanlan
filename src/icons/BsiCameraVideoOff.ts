@@ -24,3 +24,4 @@ const BsiCameraVideoOff: BsiCameraVideoOffType = function (props, ctx) {
 };
 BsiCameraVideoOff.displayName = 'BsiCameraVideoOff';
 export default BsiCameraVideoOff;
+export { BsiCameraVideoOff };

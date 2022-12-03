@@ -24,3 +24,4 @@ const BsiEnvelopeSlash: BsiEnvelopeSlashType = function (props, ctx) {
 };
 BsiEnvelopeSlash.displayName = 'BsiEnvelopeSlash';
 export default BsiEnvelopeSlash;
+export { BsiEnvelopeSlash };

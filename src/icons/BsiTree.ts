@@ -24,3 +24,4 @@ const BsiTree: BsiTreeType = function (props, ctx) {
 };
 BsiTree.displayName = 'BsiTree';
 export default BsiTree;
+export { BsiTree };

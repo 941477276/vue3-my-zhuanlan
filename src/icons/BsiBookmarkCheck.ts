@@ -24,3 +24,4 @@ const BsiBookmarkCheck: BsiBookmarkCheckType = function (props, ctx) {
 };
 BsiBookmarkCheck.displayName = 'BsiBookmarkCheck';
 export default BsiBookmarkCheck;
+export { BsiBookmarkCheck };

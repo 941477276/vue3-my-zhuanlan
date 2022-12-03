@@ -24,3 +24,4 @@ const BsiSendExclamationFill: BsiSendExclamationFillType = function (props, ctx)
 };
 BsiSendExclamationFill.displayName = 'BsiSendExclamationFill';
 export default BsiSendExclamationFill;
+export { BsiSendExclamationFill };

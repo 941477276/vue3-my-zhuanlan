@@ -24,3 +24,4 @@ const BsiBasket2Fill: BsiBasket2FillType = function (props, ctx) {
 };
 BsiBasket2Fill.displayName = 'BsiBasket2Fill';
 export default BsiBasket2Fill;
+export { BsiBasket2Fill };

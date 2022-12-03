@@ -24,3 +24,4 @@ const BsiPencilSquare: BsiPencilSquareType = function (props, ctx) {
 };
 BsiPencilSquare.displayName = 'BsiPencilSquare';
 export default BsiPencilSquare;
+export { BsiPencilSquare };

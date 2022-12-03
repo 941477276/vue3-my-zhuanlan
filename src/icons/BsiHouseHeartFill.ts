@@ -24,3 +24,4 @@ const BsiHouseHeartFill: BsiHouseHeartFillType = function (props, ctx) {
 };
 BsiHouseHeartFill.displayName = 'BsiHouseHeartFill';
 export default BsiHouseHeartFill;
+export { BsiHouseHeartFill };

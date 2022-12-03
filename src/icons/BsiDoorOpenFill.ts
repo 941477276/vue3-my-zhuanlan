@@ -24,3 +24,4 @@ const BsiDoorOpenFill: BsiDoorOpenFillType = function (props, ctx) {
 };
 BsiDoorOpenFill.displayName = 'BsiDoorOpenFill';
 export default BsiDoorOpenFill;
+export { BsiDoorOpenFill };

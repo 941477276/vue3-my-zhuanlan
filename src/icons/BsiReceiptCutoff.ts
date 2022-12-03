@@ -24,3 +24,4 @@ const BsiReceiptCutoff: BsiReceiptCutoffType = function (props, ctx) {
 };
 BsiReceiptCutoff.displayName = 'BsiReceiptCutoff';
 export default BsiReceiptCutoff;
+export { BsiReceiptCutoff };

@@ -24,3 +24,4 @@ const BsiExclamationTriangleFill: BsiExclamationTriangleFillType = function (pro
 };
 BsiExclamationTriangleFill.displayName = 'BsiExclamationTriangleFill';
 export default BsiExclamationTriangleFill;
+export { BsiExclamationTriangleFill };

@@ -24,3 +24,4 @@ const BsiEyedropper: BsiEyedropperType = function (props, ctx) {
 };
 BsiEyedropper.displayName = 'BsiEyedropper';
 export default BsiEyedropper;
+export { BsiEyedropper };

@@ -24,3 +24,4 @@ const BsiCardText: BsiCardTextType = function (props, ctx) {
 };
 BsiCardText.displayName = 'BsiCardText';
 export default BsiCardText;
+export { BsiCardText };

@@ -24,3 +24,4 @@ const BsiInfoLg: BsiInfoLgType = function (props, ctx) {
 };
 BsiInfoLg.displayName = 'BsiInfoLg';
 export default BsiInfoLg;
+export { BsiInfoLg };

@@ -24,3 +24,4 @@ const BsiPersonHeart: BsiPersonHeartType = function (props, ctx) {
 };
 BsiPersonHeart.displayName = 'BsiPersonHeart';
 export default BsiPersonHeart;
+export { BsiPersonHeart };

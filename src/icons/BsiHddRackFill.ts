@@ -24,3 +24,4 @@ const BsiHddRackFill: BsiHddRackFillType = function (props, ctx) {
 };
 BsiHddRackFill.displayName = 'BsiHddRackFill';
 export default BsiHddRackFill;
+export { BsiHddRackFill };

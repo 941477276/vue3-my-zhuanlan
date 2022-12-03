@@ -24,3 +24,4 @@ const BsiAppIndicator: BsiAppIndicatorType = function (props, ctx) {
 };
 BsiAppIndicator.displayName = 'BsiAppIndicator';
 export default BsiAppIndicator;
+export { BsiAppIndicator };

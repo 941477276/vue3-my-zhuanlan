@@ -24,3 +24,4 @@ const BsiDeviceSsdFill: BsiDeviceSsdFillType = function (props, ctx) {
 };
 BsiDeviceSsdFill.displayName = 'BsiDeviceSsdFill';
 export default BsiDeviceSsdFill;
+export { BsiDeviceSsdFill };

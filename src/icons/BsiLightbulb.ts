@@ -24,3 +24,4 @@ const BsiLightbulb: BsiLightbulbType = function (props, ctx) {
 };
 BsiLightbulb.displayName = 'BsiLightbulb';
 export default BsiLightbulb;
+export { BsiLightbulb };

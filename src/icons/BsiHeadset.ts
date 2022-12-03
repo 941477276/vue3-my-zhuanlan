@@ -24,3 +24,4 @@ const BsiHeadset: BsiHeadsetType = function (props, ctx) {
 };
 BsiHeadset.displayName = 'BsiHeadset';
 export default BsiHeadset;
+export { BsiHeadset };

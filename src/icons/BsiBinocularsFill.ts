@@ -24,3 +24,4 @@ const BsiBinocularsFill: BsiBinocularsFillType = function (props, ctx) {
 };
 BsiBinocularsFill.displayName = 'BsiBinocularsFill';
 export default BsiBinocularsFill;
+export { BsiBinocularsFill };

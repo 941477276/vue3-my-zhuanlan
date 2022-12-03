@@ -24,3 +24,4 @@ const BsiVolumeUpFill: BsiVolumeUpFillType = function (props, ctx) {
 };
 BsiVolumeUpFill.displayName = 'BsiVolumeUpFill';
 export default BsiVolumeUpFill;
+export { BsiVolumeUpFill };

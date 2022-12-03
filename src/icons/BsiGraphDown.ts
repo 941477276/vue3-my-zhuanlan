@@ -24,3 +24,4 @@ const BsiGraphDown: BsiGraphDownType = function (props, ctx) {
 };
 BsiGraphDown.displayName = 'BsiGraphDown';
 export default BsiGraphDown;
+export { BsiGraphDown };

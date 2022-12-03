@@ -24,3 +24,4 @@ const BsiStopwatchFill: BsiStopwatchFillType = function (props, ctx) {
 };
 BsiStopwatchFill.displayName = 'BsiStopwatchFill';
 export default BsiStopwatchFill;
+export { BsiStopwatchFill };

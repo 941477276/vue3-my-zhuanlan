@@ -24,3 +24,4 @@ const BsiSubscript: BsiSubscriptType = function (props, ctx) {
 };
 BsiSubscript.displayName = 'BsiSubscript';
 export default BsiSubscript;
+export { BsiSubscript };

@@ -24,3 +24,4 @@ const BsiPostageHeartFill: BsiPostageHeartFillType = function (props, ctx) {
 };
 BsiPostageHeartFill.displayName = 'BsiPostageHeartFill';
 export default BsiPostageHeartFill;
+export { BsiPostageHeartFill };

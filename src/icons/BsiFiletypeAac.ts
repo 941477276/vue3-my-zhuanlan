@@ -24,3 +24,4 @@ const BsiFiletypeAac: BsiFiletypeAacType = function (props, ctx) {
 };
 BsiFiletypeAac.displayName = 'BsiFiletypeAac';
 export default BsiFiletypeAac;
+export { BsiFiletypeAac };

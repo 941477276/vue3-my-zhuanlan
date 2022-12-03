@@ -24,3 +24,4 @@ const BsiApple: BsiAppleType = function (props, ctx) {
 };
 BsiApple.displayName = 'BsiApple';
 export default BsiApple;
+export { BsiApple };

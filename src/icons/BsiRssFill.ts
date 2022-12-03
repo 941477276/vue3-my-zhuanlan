@@ -24,3 +24,4 @@ const BsiRssFill: BsiRssFillType = function (props, ctx) {
 };
 BsiRssFill.displayName = 'BsiRssFill';
 export default BsiRssFill;
+export { BsiRssFill };

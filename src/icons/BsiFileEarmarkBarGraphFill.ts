@@ -24,3 +24,4 @@ const BsiFileEarmarkBarGraphFill: BsiFileEarmarkBarGraphFillType = function (pro
 };
 BsiFileEarmarkBarGraphFill.displayName = 'BsiFileEarmarkBarGraphFill';
 export default BsiFileEarmarkBarGraphFill;
+export { BsiFileEarmarkBarGraphFill };

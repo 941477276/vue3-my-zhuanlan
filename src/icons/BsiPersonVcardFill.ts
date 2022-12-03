@@ -24,3 +24,4 @@ const BsiPersonVcardFill: BsiPersonVcardFillType = function (props, ctx) {
 };
 BsiPersonVcardFill.displayName = 'BsiPersonVcardFill';
 export default BsiPersonVcardFill;
+export { BsiPersonVcardFill };

@@ -24,3 +24,4 @@ const BsiBookmarkDash: BsiBookmarkDashType = function (props, ctx) {
 };
 BsiBookmarkDash.displayName = 'BsiBookmarkDash';
 export default BsiBookmarkDash;
+export { BsiBookmarkDash };

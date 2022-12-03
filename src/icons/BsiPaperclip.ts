@@ -24,3 +24,4 @@ const BsiPaperclip: BsiPaperclipType = function (props, ctx) {
 };
 BsiPaperclip.displayName = 'BsiPaperclip';
 export default BsiPaperclip;
+export { BsiPaperclip };

@@ -24,3 +24,4 @@ const BsiExplicitFill: BsiExplicitFillType = function (props, ctx) {
 };
 BsiExplicitFill.displayName = 'BsiExplicitFill';
 export default BsiExplicitFill;
+export { BsiExplicitFill };

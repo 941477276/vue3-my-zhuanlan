@@ -24,3 +24,4 @@ const BsiPip: BsiPipType = function (props, ctx) {
 };
 BsiPip.displayName = 'BsiPip';
 export default BsiPip;
+export { BsiPip };

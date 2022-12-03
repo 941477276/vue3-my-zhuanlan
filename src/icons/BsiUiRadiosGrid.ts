@@ -24,3 +24,4 @@ const BsiUiRadiosGrid: BsiUiRadiosGridType = function (props, ctx) {
 };
 BsiUiRadiosGrid.displayName = 'BsiUiRadiosGrid';
 export default BsiUiRadiosGrid;
+export { BsiUiRadiosGrid };

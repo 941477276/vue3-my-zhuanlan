@@ -24,3 +24,4 @@ const BsiCursorFill: BsiCursorFillType = function (props, ctx) {
 };
 BsiCursorFill.displayName = 'BsiCursorFill';
 export default BsiCursorFill;
+export { BsiCursorFill };

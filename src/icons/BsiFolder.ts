@@ -24,3 +24,4 @@ const BsiFolder: BsiFolderType = function (props, ctx) {
 };
 BsiFolder.displayName = 'BsiFolder';
 export default BsiFolder;
+export { BsiFolder };

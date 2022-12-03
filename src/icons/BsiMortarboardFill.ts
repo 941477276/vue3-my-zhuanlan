@@ -24,3 +24,4 @@ const BsiMortarboardFill: BsiMortarboardFillType = function (props, ctx) {
 };
 BsiMortarboardFill.displayName = 'BsiMortarboardFill';
 export default BsiMortarboardFill;
+export { BsiMortarboardFill };

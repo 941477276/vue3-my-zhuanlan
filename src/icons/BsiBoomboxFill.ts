@@ -24,3 +24,4 @@ const BsiBoomboxFill: BsiBoomboxFillType = function (props, ctx) {
 };
 BsiBoomboxFill.displayName = 'BsiBoomboxFill';
 export default BsiBoomboxFill;
+export { BsiBoomboxFill };

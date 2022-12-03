@@ -24,3 +24,4 @@ const BsiSkipForwardCircle: BsiSkipForwardCircleType = function (props, ctx) {
 };
 BsiSkipForwardCircle.displayName = 'BsiSkipForwardCircle';
 export default BsiSkipForwardCircle;
+export { BsiSkipForwardCircle };

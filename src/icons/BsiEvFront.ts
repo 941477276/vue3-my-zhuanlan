@@ -24,3 +24,4 @@ const BsiEvFront: BsiEvFrontType = function (props, ctx) {
 };
 BsiEvFront.displayName = 'BsiEvFront';
 export default BsiEvFront;
+export { BsiEvFront };

@@ -24,3 +24,4 @@ const BsiEvFrontFill: BsiEvFrontFillType = function (props, ctx) {
 };
 BsiEvFrontFill.displayName = 'BsiEvFrontFill';
 export default BsiEvFrontFill;
+export { BsiEvFrontFill };

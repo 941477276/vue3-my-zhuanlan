@@ -24,3 +24,4 @@ const BsiDatabaseGear: BsiDatabaseGearType = function (props, ctx) {
 };
 BsiDatabaseGear.displayName = 'BsiDatabaseGear';
 export default BsiDatabaseGear;
+export { BsiDatabaseGear };

@@ -24,3 +24,4 @@ const BsiFileEarmarkBreak: BsiFileEarmarkBreakType = function (props, ctx) {
 };
 BsiFileEarmarkBreak.displayName = 'BsiFileEarmarkBreak';
 export default BsiFileEarmarkBreak;
+export { BsiFileEarmarkBreak };

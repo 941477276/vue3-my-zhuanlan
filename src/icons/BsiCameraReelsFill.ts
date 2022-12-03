@@ -24,3 +24,4 @@ const BsiCameraReelsFill: BsiCameraReelsFillType = function (props, ctx) {
 };
 BsiCameraReelsFill.displayName = 'BsiCameraReelsFill';
 export default BsiCameraReelsFill;
+export { BsiCameraReelsFill };

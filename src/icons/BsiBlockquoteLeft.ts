@@ -24,3 +24,4 @@ const BsiBlockquoteLeft: BsiBlockquoteLeftType = function (props, ctx) {
 };
 BsiBlockquoteLeft.displayName = 'BsiBlockquoteLeft';
 export default BsiBlockquoteLeft;
+export { BsiBlockquoteLeft };

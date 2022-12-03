@@ -24,3 +24,4 @@ const BsiBroadcastPin: BsiBroadcastPinType = function (props, ctx) {
 };
 BsiBroadcastPin.displayName = 'BsiBroadcastPin';
 export default BsiBroadcastPin;
+export { BsiBroadcastPin };

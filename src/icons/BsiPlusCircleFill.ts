@@ -24,3 +24,4 @@ const BsiPlusCircleFill: BsiPlusCircleFillType = function (props, ctx) {
 };
 BsiPlusCircleFill.displayName = 'BsiPlusCircleFill';
 export default BsiPlusCircleFill;
+export { BsiPlusCircleFill };

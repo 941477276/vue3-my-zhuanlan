@@ -24,3 +24,4 @@ const BsiUiChecksGrid: BsiUiChecksGridType = function (props, ctx) {
 };
 BsiUiChecksGrid.displayName = 'BsiUiChecksGrid';
 export default BsiUiChecksGrid;
+export { BsiUiChecksGrid };

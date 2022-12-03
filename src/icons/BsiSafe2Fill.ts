@@ -24,3 +24,4 @@ const BsiSafe2Fill: BsiSafe2FillType = function (props, ctx) {
 };
 BsiSafe2Fill.displayName = 'BsiSafe2Fill';
 export default BsiSafe2Fill;
+export { BsiSafe2Fill };

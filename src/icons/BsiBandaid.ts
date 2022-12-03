@@ -24,3 +24,4 @@ const BsiBandaid: BsiBandaidType = function (props, ctx) {
 };
 BsiBandaid.displayName = 'BsiBandaid';
 export default BsiBandaid;
+export { BsiBandaid };

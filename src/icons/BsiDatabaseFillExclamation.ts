@@ -24,3 +24,4 @@ const BsiDatabaseFillExclamation: BsiDatabaseFillExclamationType = function (pro
 };
 BsiDatabaseFillExclamation.displayName = 'BsiDatabaseFillExclamation';
 export default BsiDatabaseFillExclamation;
+export { BsiDatabaseFillExclamation };

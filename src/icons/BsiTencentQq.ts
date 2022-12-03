@@ -24,3 +24,4 @@ const BsiTencentQq: BsiTencentQqType = function (props, ctx) {
 };
 BsiTencentQq.displayName = 'BsiTencentQq';
 export default BsiTencentQq;
+export { BsiTencentQq };

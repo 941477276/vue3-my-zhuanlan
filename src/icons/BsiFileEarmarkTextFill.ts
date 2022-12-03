@@ -24,3 +24,4 @@ const BsiFileEarmarkTextFill: BsiFileEarmarkTextFillType = function (props, ctx)
 };
 BsiFileEarmarkTextFill.displayName = 'BsiFileEarmarkTextFill';
 export default BsiFileEarmarkTextFill;
+export { BsiFileEarmarkTextFill };

@@ -24,3 +24,4 @@ const BsiTrello: BsiTrelloType = function (props, ctx) {
 };
 BsiTrello.displayName = 'BsiTrello';
 export default BsiTrello;
+export { BsiTrello };

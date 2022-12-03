@@ -24,3 +24,4 @@ const BsiLayoutTextSidebar: BsiLayoutTextSidebarType = function (props, ctx) {
 };
 BsiLayoutTextSidebar.displayName = 'BsiLayoutTextSidebar';
 export default BsiLayoutTextSidebar;
+export { BsiLayoutTextSidebar };

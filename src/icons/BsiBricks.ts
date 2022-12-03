@@ -24,3 +24,4 @@ const BsiBricks: BsiBricksType = function (props, ctx) {
 };
 BsiBricks.displayName = 'BsiBricks';
 export default BsiBricks;
+export { BsiBricks };

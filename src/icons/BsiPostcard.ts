@@ -24,3 +24,4 @@ const BsiPostcard: BsiPostcardType = function (props, ctx) {
 };
 BsiPostcard.displayName = 'BsiPostcard';
 export default BsiPostcard;
+export { BsiPostcard };

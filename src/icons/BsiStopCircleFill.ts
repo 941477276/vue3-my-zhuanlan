@@ -24,3 +24,4 @@ const BsiStopCircleFill: BsiStopCircleFillType = function (props, ctx) {
 };
 BsiStopCircleFill.displayName = 'BsiStopCircleFill';
 export default BsiStopCircleFill;
+export { BsiStopCircleFill };

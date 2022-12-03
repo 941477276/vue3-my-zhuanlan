@@ -24,3 +24,4 @@ const BsiFastForwardBtn: BsiFastForwardBtnType = function (props, ctx) {
 };
 BsiFastForwardBtn.displayName = 'BsiFastForwardBtn';
 export default BsiFastForwardBtn;
+export { BsiFastForwardBtn };

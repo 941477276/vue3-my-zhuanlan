@@ -24,3 +24,4 @@ const BsiUniversalAccess: BsiUniversalAccessType = function (props, ctx) {
 };
 BsiUniversalAccess.displayName = 'BsiUniversalAccess';
 export default BsiUniversalAccess;
+export { BsiUniversalAccess };

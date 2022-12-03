@@ -24,3 +24,4 @@ const BsiFileBreakFill: BsiFileBreakFillType = function (props, ctx) {
 };
 BsiFileBreakFill.displayName = 'BsiFileBreakFill';
 export default BsiFileBreakFill;
+export { BsiFileBreakFill };

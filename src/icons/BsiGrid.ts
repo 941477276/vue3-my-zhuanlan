@@ -24,3 +24,4 @@ const BsiGrid: BsiGridType = function (props, ctx) {
 };
 BsiGrid.displayName = 'BsiGrid';
 export default BsiGrid;
+export { BsiGrid };

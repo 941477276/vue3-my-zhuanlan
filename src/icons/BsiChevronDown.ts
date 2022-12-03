@@ -24,3 +24,4 @@ const BsiChevronDown: BsiChevronDownType = function (props, ctx) {
 };
 BsiChevronDown.displayName = 'BsiChevronDown';
 export default BsiChevronDown;
+export { BsiChevronDown };

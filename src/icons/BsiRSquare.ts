@@ -24,3 +24,4 @@ const BsiRSquare: BsiRSquareType = function (props, ctx) {
 };
 BsiRSquare.displayName = 'BsiRSquare';
 export default BsiRSquare;
+export { BsiRSquare };

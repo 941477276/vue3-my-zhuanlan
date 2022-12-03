@@ -24,3 +24,4 @@ const BsiNodePlus: BsiNodePlusType = function (props, ctx) {
 };
 BsiNodePlus.displayName = 'BsiNodePlus';
 export default BsiNodePlus;
+export { BsiNodePlus };

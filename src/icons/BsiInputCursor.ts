@@ -24,3 +24,4 @@ const BsiInputCursor: BsiInputCursorType = function (props, ctx) {
 };
 BsiInputCursor.displayName = 'BsiInputCursor';
 export default BsiInputCursor;
+export { BsiInputCursor };

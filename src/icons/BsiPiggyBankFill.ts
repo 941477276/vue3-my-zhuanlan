@@ -24,3 +24,4 @@ const BsiPiggyBankFill: BsiPiggyBankFillType = function (props, ctx) {
 };
 BsiPiggyBankFill.displayName = 'BsiPiggyBankFill';
 export default BsiPiggyBankFill;
+export { BsiPiggyBankFill };

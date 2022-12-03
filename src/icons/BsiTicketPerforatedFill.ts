@@ -24,3 +24,4 @@ const BsiTicketPerforatedFill: BsiTicketPerforatedFillType = function (props, ct
 };
 BsiTicketPerforatedFill.displayName = 'BsiTicketPerforatedFill';
 export default BsiTicketPerforatedFill;
+export { BsiTicketPerforatedFill };

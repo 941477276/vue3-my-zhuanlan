@@ -24,3 +24,4 @@ const BsiDatabaseFillGear: BsiDatabaseFillGearType = function (props, ctx) {
 };
 BsiDatabaseFillGear.displayName = 'BsiDatabaseFillGear';
 export default BsiDatabaseFillGear;
+export { BsiDatabaseFillGear };

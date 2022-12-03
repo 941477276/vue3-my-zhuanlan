@@ -24,3 +24,4 @@ const BsiStripe: BsiStripeType = function (props, ctx) {
 };
 BsiStripe.displayName = 'BsiStripe';
 export default BsiStripe;
+export { BsiStripe };

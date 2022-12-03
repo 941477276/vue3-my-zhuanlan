@@ -24,3 +24,4 @@ const BsiHourglass: BsiHourglassType = function (props, ctx) {
 };
 BsiHourglass.displayName = 'BsiHourglass';
 export default BsiHourglass;
+export { BsiHourglass };

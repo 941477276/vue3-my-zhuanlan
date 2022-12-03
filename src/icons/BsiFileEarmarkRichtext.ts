@@ -24,3 +24,4 @@ const BsiFileEarmarkRichtext: BsiFileEarmarkRichtextType = function (props, ctx)
 };
 BsiFileEarmarkRichtext.displayName = 'BsiFileEarmarkRichtext';
 export default BsiFileEarmarkRichtext;
+export { BsiFileEarmarkRichtext };

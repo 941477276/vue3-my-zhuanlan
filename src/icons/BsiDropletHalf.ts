@@ -24,3 +24,4 @@ const BsiDropletHalf: BsiDropletHalfType = function (props, ctx) {
 };
 BsiDropletHalf.displayName = 'BsiDropletHalf';
 export default BsiDropletHalf;
+export { BsiDropletHalf };

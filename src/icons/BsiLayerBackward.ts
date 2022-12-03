@@ -24,3 +24,4 @@ const BsiLayerBackward: BsiLayerBackwardType = function (props, ctx) {
 };
 BsiLayerBackward.displayName = 'BsiLayerBackward';
 export default BsiLayerBackward;
+export { BsiLayerBackward };

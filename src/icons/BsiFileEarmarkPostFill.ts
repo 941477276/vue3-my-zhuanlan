@@ -24,3 +24,4 @@ const BsiFileEarmarkPostFill: BsiFileEarmarkPostFillType = function (props, ctx)
 };
 BsiFileEarmarkPostFill.displayName = 'BsiFileEarmarkPostFill';
 export default BsiFileEarmarkPostFill;
+export { BsiFileEarmarkPostFill };

@@ -24,3 +24,4 @@ const BsiExclamationSquare: BsiExclamationSquareType = function (props, ctx) {
 };
 BsiExclamationSquare.displayName = 'BsiExclamationSquare';
 export default BsiExclamationSquare;
+export { BsiExclamationSquare };

@@ -24,3 +24,4 @@ const BsiLayoutTextWindowReverse: BsiLayoutTextWindowReverseType = function (pro
 };
 BsiLayoutTextWindowReverse.displayName = 'BsiLayoutTextWindowReverse';
 export default BsiLayoutTextWindowReverse;
+export { BsiLayoutTextWindowReverse };

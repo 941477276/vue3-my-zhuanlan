@@ -24,3 +24,4 @@ const BsiBroadcast: BsiBroadcastType = function (props, ctx) {
 };
 BsiBroadcast.displayName = 'BsiBroadcast';
 export default BsiBroadcast;
+export { BsiBroadcast };

@@ -24,3 +24,4 @@ const BsiGit: BsiGitType = function (props, ctx) {
 };
 BsiGit.displayName = 'BsiGit';
 export default BsiGit;
+export { BsiGit };

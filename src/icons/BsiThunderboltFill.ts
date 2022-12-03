@@ -24,3 +24,4 @@ const BsiThunderboltFill: BsiThunderboltFillType = function (props, ctx) {
 };
 BsiThunderboltFill.displayName = 'BsiThunderboltFill';
 export default BsiThunderboltFill;
+export { BsiThunderboltFill };

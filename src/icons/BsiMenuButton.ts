@@ -24,3 +24,4 @@ const BsiMenuButton: BsiMenuButtonType = function (props, ctx) {
 };
 BsiMenuButton.displayName = 'BsiMenuButton';
 export default BsiMenuButton;
+export { BsiMenuButton };

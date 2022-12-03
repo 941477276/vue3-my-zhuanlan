@@ -24,3 +24,4 @@ const BsiAlarmFill: BsiAlarmFillType = function (props, ctx) {
 };
 BsiAlarmFill.displayName = 'BsiAlarmFill';
 export default BsiAlarmFill;
+export { BsiAlarmFill };

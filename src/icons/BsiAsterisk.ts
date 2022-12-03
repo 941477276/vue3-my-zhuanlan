@@ -24,3 +24,4 @@ const BsiAsterisk: BsiAsteriskType = function (props, ctx) {
 };
 BsiAsterisk.displayName = 'BsiAsterisk';
 export default BsiAsterisk;
+export { BsiAsterisk };

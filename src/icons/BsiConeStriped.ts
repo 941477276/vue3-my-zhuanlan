@@ -24,3 +24,4 @@ const BsiConeStriped: BsiConeStripedType = function (props, ctx) {
 };
 BsiConeStriped.displayName = 'BsiConeStriped';
 export default BsiConeStriped;
+export { BsiConeStriped };

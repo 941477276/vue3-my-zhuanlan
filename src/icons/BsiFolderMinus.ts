@@ -24,3 +24,4 @@ const BsiFolderMinus: BsiFolderMinusType = function (props, ctx) {
 };
 BsiFolderMinus.displayName = 'BsiFolderMinus';
 export default BsiFolderMinus;
+export { BsiFolderMinus };

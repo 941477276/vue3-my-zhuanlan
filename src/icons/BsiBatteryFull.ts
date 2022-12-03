@@ -24,3 +24,4 @@ const BsiBatteryFull: BsiBatteryFullType = function (props, ctx) {
 };
 BsiBatteryFull.displayName = 'BsiBatteryFull';
 export default BsiBatteryFull;
+export { BsiBatteryFull };

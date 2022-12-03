@@ -24,3 +24,4 @@ const BsiNodeMinus: BsiNodeMinusType = function (props, ctx) {
 };
 BsiNodeMinus.displayName = 'BsiNodeMinus';
 export default BsiNodeMinus;
+export { BsiNodeMinus };

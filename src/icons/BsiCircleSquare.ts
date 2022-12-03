@@ -24,3 +24,4 @@ const BsiCircleSquare: BsiCircleSquareType = function (props, ctx) {
 };
 BsiCircleSquare.displayName = 'BsiCircleSquare';
 export default BsiCircleSquare;
+export { BsiCircleSquare };

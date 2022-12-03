@@ -24,3 +24,4 @@ const BsiHouseSlash: BsiHouseSlashType = function (props, ctx) {
 };
 BsiHouseSlash.displayName = 'BsiHouseSlash';
 export default BsiHouseSlash;
+export { BsiHouseSlash };

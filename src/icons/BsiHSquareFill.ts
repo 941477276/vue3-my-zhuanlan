@@ -24,3 +24,4 @@ const BsiHSquareFill: BsiHSquareFillType = function (props, ctx) {
 };
 BsiHSquareFill.displayName = 'BsiHSquareFill';
 export default BsiHSquareFill;
+export { BsiHSquareFill };

@@ -24,3 +24,4 @@ const BsiFileEasel: BsiFileEaselType = function (props, ctx) {
 };
 BsiFileEasel.displayName = 'BsiFileEasel';
 export default BsiFileEasel;
+export { BsiFileEasel };

@@ -24,3 +24,4 @@ const BsiBracesAsterisk: BsiBracesAsteriskType = function (props, ctx) {
 };
 BsiBracesAsterisk.displayName = 'BsiBracesAsterisk';
 export default BsiBracesAsterisk;
+export { BsiBracesAsterisk };

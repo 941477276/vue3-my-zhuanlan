@@ -24,3 +24,4 @@ const BsiShare: BsiShareType = function (props, ctx) {
 };
 BsiShare.displayName = 'BsiShare';
 export default BsiShare;
+export { BsiShare };

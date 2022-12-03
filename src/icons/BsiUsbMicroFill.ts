@@ -24,3 +24,4 @@ const BsiUsbMicroFill: BsiUsbMicroFillType = function (props, ctx) {
 };
 BsiUsbMicroFill.displayName = 'BsiUsbMicroFill';
 export default BsiUsbMicroFill;
+export { BsiUsbMicroFill };

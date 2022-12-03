@@ -24,3 +24,4 @@ const BsiFilesAlt: BsiFilesAltType = function (props, ctx) {
 };
 BsiFilesAlt.displayName = 'BsiFilesAlt';
 export default BsiFilesAlt;
+export { BsiFilesAlt };

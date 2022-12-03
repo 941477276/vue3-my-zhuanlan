@@ -24,3 +24,4 @@ const BsiTabletFill: BsiTabletFillType = function (props, ctx) {
 };
 BsiTabletFill.displayName = 'BsiTabletFill';
 export default BsiTabletFill;
+export { BsiTabletFill };

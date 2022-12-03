@@ -24,3 +24,4 @@ const BsiXbox: BsiXboxType = function (props, ctx) {
 };
 BsiXbox.displayName = 'BsiXbox';
 export default BsiXbox;
+export { BsiXbox };

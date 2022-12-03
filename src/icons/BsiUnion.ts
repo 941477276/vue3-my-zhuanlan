@@ -24,3 +24,4 @@ const BsiUnion: BsiUnionType = function (props, ctx) {
 };
 BsiUnion.displayName = 'BsiUnion';
 export default BsiUnion;
+export { BsiUnion };

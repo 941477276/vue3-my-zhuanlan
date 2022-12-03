@@ -24,3 +24,4 @@ const BsiArrowClockwise: BsiArrowClockwiseType = function (props, ctx) {
 };
 BsiArrowClockwise.displayName = 'BsiArrowClockwise';
 export default BsiArrowClockwise;
+export { BsiArrowClockwise };

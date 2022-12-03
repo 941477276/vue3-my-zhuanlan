@@ -24,3 +24,4 @@ const BsiCursorText: BsiCursorTextType = function (props, ctx) {
 };
 BsiCursorText.displayName = 'BsiCursorText';
 export default BsiCursorText;
+export { BsiCursorText };

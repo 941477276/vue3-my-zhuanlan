@@ -24,3 +24,4 @@ const BsiFileEarmarkEaselFill: BsiFileEarmarkEaselFillType = function (props, ct
 };
 BsiFileEarmarkEaselFill.displayName = 'BsiFileEarmarkEaselFill';
 export default BsiFileEarmarkEaselFill;
+export { BsiFileEarmarkEaselFill };

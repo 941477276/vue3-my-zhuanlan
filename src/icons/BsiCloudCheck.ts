@@ -24,3 +24,4 @@ const BsiCloudCheck: BsiCloudCheckType = function (props, ctx) {
 };
 BsiCloudCheck.displayName = 'BsiCloudCheck';
 export default BsiCloudCheck;
+export { BsiCloudCheck };

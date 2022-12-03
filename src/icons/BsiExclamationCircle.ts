@@ -24,3 +24,4 @@ const BsiExclamationCircle: BsiExclamationCircleType = function (props, ctx) {
 };
 BsiExclamationCircle.displayName = 'BsiExclamationCircle';
 export default BsiExclamationCircle;
+export { BsiExclamationCircle };

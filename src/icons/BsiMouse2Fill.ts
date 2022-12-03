@@ -24,3 +24,4 @@ const BsiMouse2Fill: BsiMouse2FillType = function (props, ctx) {
 };
 BsiMouse2Fill.displayName = 'BsiMouse2Fill';
 export default BsiMouse2Fill;
+export { BsiMouse2Fill };

@@ -24,3 +24,4 @@ const BsiRocket: BsiRocketType = function (props, ctx) {
 };
 BsiRocket.displayName = 'BsiRocket';
 export default BsiRocket;
+export { BsiRocket };

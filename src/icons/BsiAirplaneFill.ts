@@ -24,3 +24,4 @@ const BsiAirplaneFill: BsiAirplaneFillType = function (props, ctx) {
 };
 BsiAirplaneFill.displayName = 'BsiAirplaneFill';
 export default BsiAirplaneFill;
+export { BsiAirplaneFill };

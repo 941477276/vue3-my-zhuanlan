@@ -24,3 +24,4 @@ const BsiUbuntu: BsiUbuntuType = function (props, ctx) {
 };
 BsiUbuntu.displayName = 'BsiUbuntu';
 export default BsiUbuntu;
+export { BsiUbuntu };

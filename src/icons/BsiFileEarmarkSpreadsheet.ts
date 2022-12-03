@@ -24,3 +24,4 @@ const BsiFileEarmarkSpreadsheet: BsiFileEarmarkSpreadsheetType = function (props
 };
 BsiFileEarmarkSpreadsheet.displayName = 'BsiFileEarmarkSpreadsheet';
 export default BsiFileEarmarkSpreadsheet;
+export { BsiFileEarmarkSpreadsheet };

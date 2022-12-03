@@ -24,3 +24,4 @@ const BsiPatchPlusFill: BsiPatchPlusFillType = function (props, ctx) {
 };
 BsiPatchPlusFill.displayName = 'BsiPatchPlusFill';
 export default BsiPatchPlusFill;
+export { BsiPatchPlusFill };

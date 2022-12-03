@@ -24,3 +24,4 @@ const BsiRadioactive: BsiRadioactiveType = function (props, ctx) {
 };
 BsiRadioactive.displayName = 'BsiRadioactive';
 export default BsiRadioactive;
+export { BsiRadioactive };

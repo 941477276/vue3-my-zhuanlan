@@ -24,3 +24,4 @@ const BsiBorderOuter: BsiBorderOuterType = function (props, ctx) {
 };
 BsiBorderOuter.displayName = 'BsiBorderOuter';
 export default BsiBorderOuter;
+export { BsiBorderOuter };

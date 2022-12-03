@@ -24,3 +24,4 @@ const BsiWrenchAdjustable: BsiWrenchAdjustableType = function (props, ctx) {
 };
 BsiWrenchAdjustable.displayName = 'BsiWrenchAdjustable';
 export default BsiWrenchAdjustable;
+export { BsiWrenchAdjustable };

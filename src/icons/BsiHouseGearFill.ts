@@ -24,3 +24,4 @@ const BsiHouseGearFill: BsiHouseGearFillType = function (props, ctx) {
 };
 BsiHouseGearFill.displayName = 'BsiHouseGearFill';
 export default BsiHouseGearFill;
+export { BsiHouseGearFill };

@@ -24,3 +24,4 @@ const BsiFileEarmarkLock2: BsiFileEarmarkLock2Type = function (props, ctx) {
 };
 BsiFileEarmarkLock2.displayName = 'BsiFileEarmarkLock2';
 export default BsiFileEarmarkLock2;
+export { BsiFileEarmarkLock2 };

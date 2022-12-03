@@ -24,3 +24,4 @@ const BsiFolderFill: BsiFolderFillType = function (props, ctx) {
 };
 BsiFolderFill.displayName = 'BsiFolderFill';
 export default BsiFolderFill;
+export { BsiFolderFill };

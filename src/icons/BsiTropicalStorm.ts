@@ -24,3 +24,4 @@ const BsiTropicalStorm: BsiTropicalStormType = function (props, ctx) {
 };
 BsiTropicalStorm.displayName = 'BsiTropicalStorm';
 export default BsiTropicalStorm;
+export { BsiTropicalStorm };

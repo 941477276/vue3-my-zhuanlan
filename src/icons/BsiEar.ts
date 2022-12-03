@@ -24,3 +24,4 @@ const BsiEar: BsiEarType = function (props, ctx) {
 };
 BsiEar.displayName = 'BsiEar';
 export default BsiEar;
+export { BsiEar };

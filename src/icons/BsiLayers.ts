@@ -24,3 +24,4 @@ const BsiLayers: BsiLayersType = function (props, ctx) {
 };
 BsiLayers.displayName = 'BsiLayers';
 export default BsiLayers;
+export { BsiLayers };

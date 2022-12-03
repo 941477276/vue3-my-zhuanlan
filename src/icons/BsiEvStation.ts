@@ -24,3 +24,4 @@ const BsiEvStation: BsiEvStationType = function (props, ctx) {
 };
 BsiEvStation.displayName = 'BsiEvStation';
 export default BsiEvStation;
+export { BsiEvStation };

@@ -24,3 +24,4 @@ const BsiClipboardCheckFill: BsiClipboardCheckFillType = function (props, ctx) {
 };
 BsiClipboardCheckFill.displayName = 'BsiClipboardCheckFill';
 export default BsiClipboardCheckFill;
+export { BsiClipboardCheckFill };

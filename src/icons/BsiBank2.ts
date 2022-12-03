@@ -24,3 +24,4 @@ const BsiBank2: BsiBank2Type = function (props, ctx) {
 };
 BsiBank2.displayName = 'BsiBank2';
 export default BsiBank2;
+export { BsiBank2 };

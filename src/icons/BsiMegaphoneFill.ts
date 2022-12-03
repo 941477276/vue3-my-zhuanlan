@@ -24,3 +24,4 @@ const BsiMegaphoneFill: BsiMegaphoneFillType = function (props, ctx) {
 };
 BsiMegaphoneFill.displayName = 'BsiMegaphoneFill';
 export default BsiMegaphoneFill;
+export { BsiMegaphoneFill };

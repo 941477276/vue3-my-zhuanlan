@@ -24,3 +24,4 @@ const BsiMinecartLoaded: BsiMinecartLoadedType = function (props, ctx) {
 };
 BsiMinecartLoaded.displayName = 'BsiMinecartLoaded';
 export default BsiMinecartLoaded;
+export { BsiMinecartLoaded };

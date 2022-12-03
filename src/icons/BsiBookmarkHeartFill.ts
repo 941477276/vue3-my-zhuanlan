@@ -24,3 +24,4 @@ const BsiBookmarkHeartFill: BsiBookmarkHeartFillType = function (props, ctx) {
 };
 BsiBookmarkHeartFill.displayName = 'BsiBookmarkHeartFill';
 export default BsiBookmarkHeartFill;
+export { BsiBookmarkHeartFill };

@@ -24,3 +24,4 @@ const BsiShieldCheck: BsiShieldCheckType = function (props, ctx) {
 };
 BsiShieldCheck.displayName = 'BsiShieldCheck';
 export default BsiShieldCheck;
+export { BsiShieldCheck };

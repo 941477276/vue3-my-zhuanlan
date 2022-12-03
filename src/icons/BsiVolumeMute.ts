@@ -24,3 +24,4 @@ const BsiVolumeMute: BsiVolumeMuteType = function (props, ctx) {
 };
 BsiVolumeMute.displayName = 'BsiVolumeMute';
 export default BsiVolumeMute;
+export { BsiVolumeMute };

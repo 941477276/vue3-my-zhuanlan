@@ -24,3 +24,4 @@ const BsiFolder2Open: BsiFolder2OpenType = function (props, ctx) {
 };
 BsiFolder2Open.displayName = 'BsiFolder2Open';
 export default BsiFolder2Open;
+export { BsiFolder2Open };

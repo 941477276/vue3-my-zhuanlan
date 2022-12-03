@@ -24,3 +24,4 @@ const BsiChatSquare: BsiChatSquareType = function (props, ctx) {
 };
 BsiChatSquare.displayName = 'BsiChatSquare';
 export default BsiChatSquare;
+export { BsiChatSquare };

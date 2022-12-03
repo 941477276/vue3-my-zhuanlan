@@ -24,3 +24,4 @@ const BsiHeartHalf: BsiHeartHalfType = function (props, ctx) {
 };
 BsiHeartHalf.displayName = 'BsiHeartHalf';
 export default BsiHeartHalf;
+export { BsiHeartHalf };

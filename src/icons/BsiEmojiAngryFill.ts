@@ -24,3 +24,4 @@ const BsiEmojiAngryFill: BsiEmojiAngryFillType = function (props, ctx) {
 };
 BsiEmojiAngryFill.displayName = 'BsiEmojiAngryFill';
 export default BsiEmojiAngryFill;
+export { BsiEmojiAngryFill };

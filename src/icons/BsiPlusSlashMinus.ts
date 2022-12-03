@@ -24,3 +24,4 @@ const BsiPlusSlashMinus: BsiPlusSlashMinusType = function (props, ctx) {
 };
 BsiPlusSlashMinus.displayName = 'BsiPlusSlashMinus';
 export default BsiPlusSlashMinus;
+export { BsiPlusSlashMinus };

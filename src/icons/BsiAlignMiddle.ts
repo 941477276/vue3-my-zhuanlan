@@ -24,3 +24,4 @@ const BsiAlignMiddle: BsiAlignMiddleType = function (props, ctx) {
 };
 BsiAlignMiddle.displayName = 'BsiAlignMiddle';
 export default BsiAlignMiddle;
+export { BsiAlignMiddle };

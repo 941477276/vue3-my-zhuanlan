@@ -24,3 +24,4 @@ const BsiExclamationOctagonFill: BsiExclamationOctagonFillType = function (props
 };
 BsiExclamationOctagonFill.displayName = 'BsiExclamationOctagonFill';
 export default BsiExclamationOctagonFill;
+export { BsiExclamationOctagonFill };

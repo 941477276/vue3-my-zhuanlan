@@ -24,3 +24,4 @@ const BsiFiletypeSh: BsiFiletypeShType = function (props, ctx) {
 };
 BsiFiletypeSh.displayName = 'BsiFiletypeSh';
 export default BsiFiletypeSh;
+export { BsiFiletypeSh };

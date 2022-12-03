@@ -24,3 +24,4 @@ const BsiNodePlusFill: BsiNodePlusFillType = function (props, ctx) {
 };
 BsiNodePlusFill.displayName = 'BsiNodePlusFill';
 export default BsiNodePlusFill;
+export { BsiNodePlusFill };

@@ -24,3 +24,4 @@ const BsiHexagon: BsiHexagonType = function (props, ctx) {
 };
 BsiHexagon.displayName = 'BsiHexagon';
 export default BsiHexagon;
+export { BsiHexagon };

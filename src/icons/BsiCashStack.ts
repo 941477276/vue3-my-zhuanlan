@@ -24,3 +24,4 @@ const BsiCashStack: BsiCashStackType = function (props, ctx) {
 };
 BsiCashStack.displayName = 'BsiCashStack';
 export default BsiCashStack;
+export { BsiCashStack };

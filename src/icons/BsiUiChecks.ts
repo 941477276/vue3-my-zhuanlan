@@ -24,3 +24,4 @@ const BsiUiChecks: BsiUiChecksType = function (props, ctx) {
 };
 BsiUiChecks.displayName = 'BsiUiChecks';
 export default BsiUiChecks;
+export { BsiUiChecks };

@@ -24,3 +24,4 @@ const BsiPiggyBank: BsiPiggyBankType = function (props, ctx) {
 };
 BsiPiggyBank.displayName = 'BsiPiggyBank';
 export default BsiPiggyBank;
+export { BsiPiggyBank };

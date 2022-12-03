@@ -24,3 +24,4 @@ const BsiLayoutSidebar: BsiLayoutSidebarType = function (props, ctx) {
 };
 BsiLayoutSidebar.displayName = 'BsiLayoutSidebar';
 export default BsiLayoutSidebar;
+export { BsiLayoutSidebar };

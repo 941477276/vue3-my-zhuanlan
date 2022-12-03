@@ -24,3 +24,4 @@ const BsiFiletypeJava: BsiFiletypeJavaType = function (props, ctx) {
 };
 BsiFiletypeJava.displayName = 'BsiFiletypeJava';
 export default BsiFiletypeJava;
+export { BsiFiletypeJava };

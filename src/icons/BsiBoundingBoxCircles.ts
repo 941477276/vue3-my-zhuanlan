@@ -24,3 +24,4 @@ const BsiBoundingBoxCircles: BsiBoundingBoxCirclesType = function (props, ctx) {
 };
 BsiBoundingBoxCircles.displayName = 'BsiBoundingBoxCircles';
 export default BsiBoundingBoxCircles;
+export { BsiBoundingBoxCircles };

@@ -24,3 +24,4 @@ const BsiMicFill: BsiMicFillType = function (props, ctx) {
 };
 BsiMicFill.displayName = 'BsiMicFill';
 export default BsiMicFill;
+export { BsiMicFill };

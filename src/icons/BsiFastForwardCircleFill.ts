@@ -24,3 +24,4 @@ const BsiFastForwardCircleFill: BsiFastForwardCircleFillType = function (props, 
 };
 BsiFastForwardCircleFill.displayName = 'BsiFastForwardCircleFill';
 export default BsiFastForwardCircleFill;
+export { BsiFastForwardCircleFill };

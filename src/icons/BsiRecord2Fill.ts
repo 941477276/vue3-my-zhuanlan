@@ -24,3 +24,4 @@ const BsiRecord2Fill: BsiRecord2FillType = function (props, ctx) {
 };
 BsiRecord2Fill.displayName = 'BsiRecord2Fill';
 export default BsiRecord2Fill;
+export { BsiRecord2Fill };

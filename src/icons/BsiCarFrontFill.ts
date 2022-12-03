@@ -24,3 +24,4 @@ const BsiCarFrontFill: BsiCarFrontFillType = function (props, ctx) {
 };
 BsiCarFrontFill.displayName = 'BsiCarFrontFill';
 export default BsiCarFrontFill;
+export { BsiCarFrontFill };

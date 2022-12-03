@@ -24,3 +24,4 @@ const BsiMenuButtonWide: BsiMenuButtonWideType = function (props, ctx) {
 };
 BsiMenuButtonWide.displayName = 'BsiMenuButtonWide';
 export default BsiMenuButtonWide;
+export { BsiMenuButtonWide };

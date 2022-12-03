@@ -24,3 +24,4 @@ const BsiTrashFill: BsiTrashFillType = function (props, ctx) {
 };
 BsiTrashFill.displayName = 'BsiTrashFill';
 export default BsiTrashFill;
+export { BsiTrashFill };

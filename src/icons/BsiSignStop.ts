@@ -24,3 +24,4 @@ const BsiSignStop: BsiSignStopType = function (props, ctx) {
 };
 BsiSignStop.displayName = 'BsiSignStop';
 export default BsiSignStop;
+export { BsiSignStop };

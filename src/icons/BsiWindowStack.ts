@@ -24,3 +24,4 @@ const BsiWindowStack: BsiWindowStackType = function (props, ctx) {
 };
 BsiWindowStack.displayName = 'BsiWindowStack';
 export default BsiWindowStack;
+export { BsiWindowStack };

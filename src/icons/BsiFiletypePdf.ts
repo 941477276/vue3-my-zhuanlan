@@ -24,3 +24,4 @@ const BsiFiletypePdf: BsiFiletypePdfType = function (props, ctx) {
 };
 BsiFiletypePdf.displayName = 'BsiFiletypePdf';
 export default BsiFiletypePdf;
+export { BsiFiletypePdf };

@@ -24,3 +24,4 @@ const BsiRocketTakeoffFill: BsiRocketTakeoffFillType = function (props, ctx) {
 };
 BsiRocketTakeoffFill.displayName = 'BsiRocketTakeoffFill';
 export default BsiRocketTakeoffFill;
+export { BsiRocketTakeoffFill };

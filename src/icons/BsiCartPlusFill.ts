@@ -24,3 +24,4 @@ const BsiCartPlusFill: BsiCartPlusFillType = function (props, ctx) {
 };
 BsiCartPlusFill.displayName = 'BsiCartPlusFill';
 export default BsiCartPlusFill;
+export { BsiCartPlusFill };

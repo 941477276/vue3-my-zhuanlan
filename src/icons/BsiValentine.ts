@@ -24,3 +24,4 @@ const BsiValentine: BsiValentineType = function (props, ctx) {
 };
 BsiValentine.displayName = 'BsiValentine';
 export default BsiValentine;
+export { BsiValentine };

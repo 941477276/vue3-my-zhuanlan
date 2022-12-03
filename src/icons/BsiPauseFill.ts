@@ -24,3 +24,4 @@ const BsiPauseFill: BsiPauseFillType = function (props, ctx) {
 };
 BsiPauseFill.displayName = 'BsiPauseFill';
 export default BsiPauseFill;
+export { BsiPauseFill };

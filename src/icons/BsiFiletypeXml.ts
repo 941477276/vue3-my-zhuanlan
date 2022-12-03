@@ -24,3 +24,4 @@ const BsiFiletypeXml: BsiFiletypeXmlType = function (props, ctx) {
 };
 BsiFiletypeXml.displayName = 'BsiFiletypeXml';
 export default BsiFiletypeXml;
+export { BsiFiletypeXml };

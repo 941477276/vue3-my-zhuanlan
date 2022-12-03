@@ -24,3 +24,4 @@ const BsiBadge4k: BsiBadge4kType = function (props, ctx) {
 };
 BsiBadge4k.displayName = 'BsiBadge4k';
 export default BsiBadge4k;
+export { BsiBadge4k };

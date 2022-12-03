@@ -24,3 +24,4 @@ const BsiLockFill: BsiLockFillType = function (props, ctx) {
 };
 BsiLockFill.displayName = 'BsiLockFill';
 export default BsiLockFill;
+export { BsiLockFill };

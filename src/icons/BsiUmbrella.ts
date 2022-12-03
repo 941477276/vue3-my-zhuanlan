@@ -24,3 +24,4 @@ const BsiUmbrella: BsiUmbrellaType = function (props, ctx) {
 };
 BsiUmbrella.displayName = 'BsiUmbrella';
 export default BsiUmbrella;
+export { BsiUmbrella };

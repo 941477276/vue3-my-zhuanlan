@@ -24,3 +24,4 @@ const BsiCaretUp: BsiCaretUpType = function (props, ctx) {
 };
 BsiCaretUp.displayName = 'BsiCaretUp';
 export default BsiCaretUp;
+export { BsiCaretUp };

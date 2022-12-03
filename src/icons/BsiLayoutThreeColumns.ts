@@ -24,3 +24,4 @@ const BsiLayoutThreeColumns: BsiLayoutThreeColumnsType = function (props, ctx) {
 };
 BsiLayoutThreeColumns.displayName = 'BsiLayoutThreeColumns';
 export default BsiLayoutThreeColumns;
+export { BsiLayoutThreeColumns };

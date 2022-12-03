@@ -24,3 +24,4 @@ const BsiScooter: BsiScooterType = function (props, ctx) {
 };
 BsiScooter.displayName = 'BsiScooter';
 export default BsiScooter;
+export { BsiScooter };

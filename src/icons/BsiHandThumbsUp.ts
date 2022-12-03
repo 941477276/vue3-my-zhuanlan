@@ -24,3 +24,4 @@ const BsiHandThumbsUp: BsiHandThumbsUpType = function (props, ctx) {
 };
 BsiHandThumbsUp.displayName = 'BsiHandThumbsUp';
 export default BsiHandThumbsUp;
+export { BsiHandThumbsUp };

@@ -24,3 +24,4 @@ const BsiFiletypeMp3: BsiFiletypeMp3Type = function (props, ctx) {
 };
 BsiFiletypeMp3.displayName = 'BsiFiletypeMp3';
 export default BsiFiletypeMp3;
+export { BsiFiletypeMp3 };

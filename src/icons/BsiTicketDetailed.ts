@@ -24,3 +24,4 @@ const BsiTicketDetailed: BsiTicketDetailedType = function (props, ctx) {
 };
 BsiTicketDetailed.displayName = 'BsiTicketDetailed';
 export default BsiTicketDetailed;
+export { BsiTicketDetailed };

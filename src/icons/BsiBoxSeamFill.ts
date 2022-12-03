@@ -24,3 +24,4 @@ const BsiBoxSeamFill: BsiBoxSeamFillType = function (props, ctx) {
 };
 BsiBoxSeamFill.displayName = 'BsiBoxSeamFill';
 export default BsiBoxSeamFill;
+export { BsiBoxSeamFill };

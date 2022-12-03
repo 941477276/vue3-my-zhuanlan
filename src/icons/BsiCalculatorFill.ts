@@ -24,3 +24,4 @@ const BsiCalculatorFill: BsiCalculatorFillType = function (props, ctx) {
 };
 BsiCalculatorFill.displayName = 'BsiCalculatorFill';
 export default BsiCalculatorFill;
+export { BsiCalculatorFill };

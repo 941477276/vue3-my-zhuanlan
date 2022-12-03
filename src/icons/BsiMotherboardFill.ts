@@ -24,3 +24,4 @@ const BsiMotherboardFill: BsiMotherboardFillType = function (props, ctx) {
 };
 BsiMotherboardFill.displayName = 'BsiMotherboardFill';
 export default BsiMotherboardFill;
+export { BsiMotherboardFill };

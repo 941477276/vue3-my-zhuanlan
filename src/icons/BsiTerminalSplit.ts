@@ -24,3 +24,4 @@ const BsiTerminalSplit: BsiTerminalSplitType = function (props, ctx) {
 };
 BsiTerminalSplit.displayName = 'BsiTerminalSplit';
 export default BsiTerminalSplit;
+export { BsiTerminalSplit };

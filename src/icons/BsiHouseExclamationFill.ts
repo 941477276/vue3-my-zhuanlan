@@ -24,3 +24,4 @@ const BsiHouseExclamationFill: BsiHouseExclamationFillType = function (props, ct
 };
 BsiHouseExclamationFill.displayName = 'BsiHouseExclamationFill';
 export default BsiHouseExclamationFill;
+export { BsiHouseExclamationFill };

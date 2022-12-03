@@ -24,3 +24,4 @@ const BsiChatSquareHeartFill: BsiChatSquareHeartFillType = function (props, ctx)
 };
 BsiChatSquareHeartFill.displayName = 'BsiChatSquareHeartFill';
 export default BsiChatSquareHeartFill;
+export { BsiChatSquareHeartFill };

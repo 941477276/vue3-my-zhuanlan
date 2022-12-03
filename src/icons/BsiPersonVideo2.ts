@@ -24,3 +24,4 @@ const BsiPersonVideo2: BsiPersonVideo2Type = function (props, ctx) {
 };
 BsiPersonVideo2.displayName = 'BsiPersonVideo2';
 export default BsiPersonVideo2;
+export { BsiPersonVideo2 };

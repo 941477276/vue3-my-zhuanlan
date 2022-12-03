@@ -24,3 +24,4 @@ const BsiCaretDownSquare: BsiCaretDownSquareType = function (props, ctx) {
 };
 BsiCaretDownSquare.displayName = 'BsiCaretDownSquare';
 export default BsiCaretDownSquare;
+export { BsiCaretDownSquare };

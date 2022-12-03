@@ -24,3 +24,4 @@ const BsiCloudFog: BsiCloudFogType = function (props, ctx) {
 };
 BsiCloudFog.displayName = 'BsiCloudFog';
 export default BsiCloudFog;
+export { BsiCloudFog };

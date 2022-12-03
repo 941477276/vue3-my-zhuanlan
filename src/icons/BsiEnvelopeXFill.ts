@@ -24,3 +24,4 @@ const BsiEnvelopeXFill: BsiEnvelopeXFillType = function (props, ctx) {
 };
 BsiEnvelopeXFill.displayName = 'BsiEnvelopeXFill';
 export default BsiEnvelopeXFill;
+export { BsiEnvelopeXFill };

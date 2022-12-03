@@ -24,3 +24,4 @@ const BsiFiletypeJsx: BsiFiletypeJsxType = function (props, ctx) {
 };
 BsiFiletypeJsx.displayName = 'BsiFiletypeJsx';
 export default BsiFiletypeJsx;
+export { BsiFiletypeJsx };

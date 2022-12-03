@@ -24,3 +24,4 @@ const BsiPaintBucket: BsiPaintBucketType = function (props, ctx) {
 };
 BsiPaintBucket.displayName = 'BsiPaintBucket';
 export default BsiPaintBucket;
+export { BsiPaintBucket };

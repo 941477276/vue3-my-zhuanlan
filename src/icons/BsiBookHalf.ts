@@ -24,3 +24,4 @@ const BsiBookHalf: BsiBookHalfType = function (props, ctx) {
 };
 BsiBookHalf.displayName = 'BsiBookHalf';
 export default BsiBookHalf;
+export { BsiBookHalf };

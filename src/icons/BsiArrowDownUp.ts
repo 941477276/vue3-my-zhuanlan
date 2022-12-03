@@ -24,3 +24,4 @@ const BsiArrowDownUp: BsiArrowDownUpType = function (props, ctx) {
 };
 BsiArrowDownUp.displayName = 'BsiArrowDownUp';
 export default BsiArrowDownUp;
+export { BsiArrowDownUp };

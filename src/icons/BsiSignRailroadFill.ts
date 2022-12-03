@@ -24,3 +24,4 @@ const BsiSignRailroadFill: BsiSignRailroadFillType = function (props, ctx) {
 };
 BsiSignRailroadFill.displayName = 'BsiSignRailroadFill';
 export default BsiSignRailroadFill;
+export { BsiSignRailroadFill };

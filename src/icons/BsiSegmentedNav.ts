@@ -24,3 +24,4 @@ const BsiSegmentedNav: BsiSegmentedNavType = function (props, ctx) {
 };
 BsiSegmentedNav.displayName = 'BsiSegmentedNav';
 export default BsiSegmentedNav;
+export { BsiSegmentedNav };

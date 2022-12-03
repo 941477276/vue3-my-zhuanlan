@@ -24,3 +24,4 @@ const BsiUnlock: BsiUnlockType = function (props, ctx) {
 };
 BsiUnlock.displayName = 'BsiUnlock';
 export default BsiUnlock;
+export { BsiUnlock };

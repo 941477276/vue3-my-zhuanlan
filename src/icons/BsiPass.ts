@@ -24,3 +24,4 @@ const BsiPass: BsiPassType = function (props, ctx) {
 };
 BsiPass.displayName = 'BsiPass';
 export default BsiPass;
+export { BsiPass };

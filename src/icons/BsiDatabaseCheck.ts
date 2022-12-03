@@ -24,3 +24,4 @@ const BsiDatabaseCheck: BsiDatabaseCheckType = function (props, ctx) {
 };
 BsiDatabaseCheck.displayName = 'BsiDatabaseCheck';
 export default BsiDatabaseCheck;
+export { BsiDatabaseCheck };

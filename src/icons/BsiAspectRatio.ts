@@ -24,3 +24,4 @@ const BsiAspectRatio: BsiAspectRatioType = function (props, ctx) {
 };
 BsiAspectRatio.displayName = 'BsiAspectRatio';
 export default BsiAspectRatio;
+export { BsiAspectRatio };

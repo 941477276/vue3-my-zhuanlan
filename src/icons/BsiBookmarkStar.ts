@@ -24,3 +24,4 @@ const BsiBookmarkStar: BsiBookmarkStarType = function (props, ctx) {
 };
 BsiBookmarkStar.displayName = 'BsiBookmarkStar';
 export default BsiBookmarkStar;
+export { BsiBookmarkStar };

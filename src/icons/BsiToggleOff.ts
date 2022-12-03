@@ -24,3 +24,4 @@ const BsiToggleOff: BsiToggleOffType = function (props, ctx) {
 };
 BsiToggleOff.displayName = 'BsiToggleOff';
 export default BsiToggleOff;
+export { BsiToggleOff };

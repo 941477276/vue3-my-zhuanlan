@@ -24,3 +24,4 @@ const BsiSpeaker: BsiSpeakerType = function (props, ctx) {
 };
 BsiSpeaker.displayName = 'BsiSpeaker';
 export default BsiSpeaker;
+export { BsiSpeaker };

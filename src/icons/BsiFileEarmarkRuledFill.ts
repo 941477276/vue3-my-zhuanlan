@@ -24,3 +24,4 @@ const BsiFileEarmarkRuledFill: BsiFileEarmarkRuledFillType = function (props, ct
 };
 BsiFileEarmarkRuledFill.displayName = 'BsiFileEarmarkRuledFill';
 export default BsiFileEarmarkRuledFill;
+export { BsiFileEarmarkRuledFill };

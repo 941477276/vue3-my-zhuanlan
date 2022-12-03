@@ -24,3 +24,4 @@ const BsiHeartPulseFill: BsiHeartPulseFillType = function (props, ctx) {
 };
 BsiHeartPulseFill.displayName = 'BsiHeartPulseFill';
 export default BsiHeartPulseFill;
+export { BsiHeartPulseFill };

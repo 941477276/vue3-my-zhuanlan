@@ -24,3 +24,4 @@ const BsiPuzzle: BsiPuzzleType = function (props, ctx) {
 };
 BsiPuzzle.displayName = 'BsiPuzzle';
 export default BsiPuzzle;
+export { BsiPuzzle };

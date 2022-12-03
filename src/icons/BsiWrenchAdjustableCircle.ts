@@ -24,3 +24,4 @@ const BsiWrenchAdjustableCircle: BsiWrenchAdjustableCircleType = function (props
 };
 BsiWrenchAdjustableCircle.displayName = 'BsiWrenchAdjustableCircle';
 export default BsiWrenchAdjustableCircle;
+export { BsiWrenchAdjustableCircle };

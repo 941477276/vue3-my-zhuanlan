@@ -24,3 +24,4 @@ const BsiCursor: BsiCursorType = function (props, ctx) {
 };
 BsiCursor.displayName = 'BsiCursor';
 export default BsiCursor;
+export { BsiCursor };

@@ -24,3 +24,4 @@ const BsiSaveFill: BsiSaveFillType = function (props, ctx) {
 };
 BsiSaveFill.displayName = 'BsiSaveFill';
 export default BsiSaveFill;
+export { BsiSaveFill };

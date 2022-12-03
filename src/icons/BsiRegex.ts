@@ -24,3 +24,4 @@ const BsiRegex: BsiRegexType = function (props, ctx) {
 };
 BsiRegex.displayName = 'BsiRegex';
 export default BsiRegex;
+export { BsiRegex };

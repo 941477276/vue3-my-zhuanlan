@@ -24,3 +24,4 @@ const BsiAirplaneEnginesFill: BsiAirplaneEnginesFillType = function (props, ctx)
 };
 BsiAirplaneEnginesFill.displayName = 'BsiAirplaneEnginesFill';
 export default BsiAirplaneEnginesFill;
+export { BsiAirplaneEnginesFill };

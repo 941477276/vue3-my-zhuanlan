@@ -24,3 +24,4 @@ const BsiFileCode: BsiFileCodeType = function (props, ctx) {
 };
 BsiFileCode.displayName = 'BsiFileCode';
 export default BsiFileCode;
+export { BsiFileCode };

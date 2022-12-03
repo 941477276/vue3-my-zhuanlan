@@ -24,3 +24,4 @@ const BsiBezier2: BsiBezier2Type = function (props, ctx) {
 };
 BsiBezier2.displayName = 'BsiBezier2';
 export default BsiBezier2;
+export { BsiBezier2 };

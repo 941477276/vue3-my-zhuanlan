@@ -24,3 +24,4 @@ const BsiFilePerson: BsiFilePersonType = function (props, ctx) {
 };
 BsiFilePerson.displayName = 'BsiFilePerson';
 export default BsiFilePerson;
+export { BsiFilePerson };

@@ -24,3 +24,4 @@ const BsiCloudRainFill: BsiCloudRainFillType = function (props, ctx) {
 };
 BsiCloudRainFill.displayName = 'BsiCloudRainFill';
 export default BsiCloudRainFill;
+export { BsiCloudRainFill };

@@ -24,3 +24,4 @@ const BsiGift: BsiGiftType = function (props, ctx) {
 };
 BsiGift.displayName = 'BsiGift';
 export default BsiGift;
+export { BsiGift };

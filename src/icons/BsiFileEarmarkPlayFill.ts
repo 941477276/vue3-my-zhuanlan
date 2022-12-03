@@ -24,3 +24,4 @@ const BsiFileEarmarkPlayFill: BsiFileEarmarkPlayFillType = function (props, ctx)
 };
 BsiFileEarmarkPlayFill.displayName = 'BsiFileEarmarkPlayFill';
 export default BsiFileEarmarkPlayFill;
+export { BsiFileEarmarkPlayFill };

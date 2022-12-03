@@ -24,3 +24,4 @@ const BsiVimeo: BsiVimeoType = function (props, ctx) {
 };
 BsiVimeo.displayName = 'BsiVimeo';
 export default BsiVimeo;
+export { BsiVimeo };

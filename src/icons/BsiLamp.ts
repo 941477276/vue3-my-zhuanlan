@@ -24,3 +24,4 @@ const BsiLamp: BsiLampType = function (props, ctx) {
 };
 BsiLamp.displayName = 'BsiLamp';
 export default BsiLamp;
+export { BsiLamp };

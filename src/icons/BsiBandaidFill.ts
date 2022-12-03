@@ -24,3 +24,4 @@ const BsiBandaidFill: BsiBandaidFillType = function (props, ctx) {
 };
 BsiBandaidFill.displayName = 'BsiBandaidFill';
 export default BsiBandaidFill;
+export { BsiBandaidFill };

@@ -24,3 +24,4 @@ const BsiPrescription: BsiPrescriptionType = function (props, ctx) {
 };
 BsiPrescription.displayName = 'BsiPrescription';
 export default BsiPrescription;
+export { BsiPrescription };

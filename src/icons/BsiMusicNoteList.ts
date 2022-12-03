@@ -24,3 +24,4 @@ const BsiMusicNoteList: BsiMusicNoteListType = function (props, ctx) {
 };
 BsiMusicNoteList.displayName = 'BsiMusicNoteList';
 export default BsiMusicNoteList;
+export { BsiMusicNoteList };

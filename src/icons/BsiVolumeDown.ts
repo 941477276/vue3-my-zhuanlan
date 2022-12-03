@@ -24,3 +24,4 @@ const BsiVolumeDown: BsiVolumeDownType = function (props, ctx) {
 };
 BsiVolumeDown.displayName = 'BsiVolumeDown';
 export default BsiVolumeDown;
+export { BsiVolumeDown };

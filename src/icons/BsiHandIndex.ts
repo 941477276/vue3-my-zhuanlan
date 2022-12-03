@@ -24,3 +24,4 @@ const BsiHandIndex: BsiHandIndexType = function (props, ctx) {
 };
 BsiHandIndex.displayName = 'BsiHandIndex';
 export default BsiHandIndex;
+export { BsiHandIndex };

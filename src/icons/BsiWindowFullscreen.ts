@@ -24,3 +24,4 @@ const BsiWindowFullscreen: BsiWindowFullscreenType = function (props, ctx) {
 };
 BsiWindowFullscreen.displayName = 'BsiWindowFullscreen';
 export default BsiWindowFullscreen;
+export { BsiWindowFullscreen };

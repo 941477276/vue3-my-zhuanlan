@@ -24,3 +24,4 @@ const BsiAndroid2: BsiAndroid2Type = function (props, ctx) {
 };
 BsiAndroid2.displayName = 'BsiAndroid2';
 export default BsiAndroid2;
+export { BsiAndroid2 };

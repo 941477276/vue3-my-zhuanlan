@@ -24,3 +24,4 @@ const BsiFilterLeft: BsiFilterLeftType = function (props, ctx) {
 };
 BsiFilterLeft.displayName = 'BsiFilterLeft';
 export default BsiFilterLeft;
+export { BsiFilterLeft };

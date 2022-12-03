@@ -24,3 +24,4 @@ const BsiCloudLightningRainFill: BsiCloudLightningRainFillType = function (props
 };
 BsiCloudLightningRainFill.displayName = 'BsiCloudLightningRainFill';
 export default BsiCloudLightningRainFill;
+export { BsiCloudLightningRainFill };

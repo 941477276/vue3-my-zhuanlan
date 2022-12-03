@@ -24,3 +24,4 @@ const BsiListCheck: BsiListCheckType = function (props, ctx) {
 };
 BsiListCheck.displayName = 'BsiListCheck';
 export default BsiListCheck;
+export { BsiListCheck };

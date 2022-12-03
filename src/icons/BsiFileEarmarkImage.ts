@@ -24,3 +24,4 @@ const BsiFileEarmarkImage: BsiFileEarmarkImageType = function (props, ctx) {
 };
 BsiFileEarmarkImage.displayName = 'BsiFileEarmarkImage';
 export default BsiFileEarmarkImage;
+export { BsiFileEarmarkImage };

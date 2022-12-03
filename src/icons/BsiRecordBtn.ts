@@ -24,3 +24,4 @@ const BsiRecordBtn: BsiRecordBtnType = function (props, ctx) {
 };
 BsiRecordBtn.displayName = 'BsiRecordBtn';
 export default BsiRecordBtn;
+export { BsiRecordBtn };

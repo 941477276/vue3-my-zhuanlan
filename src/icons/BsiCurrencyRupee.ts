@@ -24,3 +24,4 @@ const BsiCurrencyRupee: BsiCurrencyRupeeType = function (props, ctx) {
 };
 BsiCurrencyRupee.displayName = 'BsiCurrencyRupee';
 export default BsiCurrencyRupee;
+export { BsiCurrencyRupee };

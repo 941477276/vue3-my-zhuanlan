@@ -24,3 +24,4 @@ const BsiMegaphone: BsiMegaphoneType = function (props, ctx) {
 };
 BsiMegaphone.displayName = 'BsiMegaphone';
 export default BsiMegaphone;
+export { BsiMegaphone };

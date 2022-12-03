@@ -24,3 +24,4 @@ const BsiForward: BsiForwardType = function (props, ctx) {
 };
 BsiForward.displayName = 'BsiForward';
 export default BsiForward;
+export { BsiForward };

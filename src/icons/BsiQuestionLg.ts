@@ -24,3 +24,4 @@ const BsiQuestionLg: BsiQuestionLgType = function (props, ctx) {
 };
 BsiQuestionLg.displayName = 'BsiQuestionLg';
 export default BsiQuestionLg;
+export { BsiQuestionLg };

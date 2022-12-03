@@ -24,3 +24,4 @@ const BsiLink: BsiLinkType = function (props, ctx) {
 };
 BsiLink.displayName = 'BsiLink';
 export default BsiLink;
+export { BsiLink };

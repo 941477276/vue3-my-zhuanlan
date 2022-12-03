@@ -24,3 +24,4 @@ const BsiLayoutTextWindow: BsiLayoutTextWindowType = function (props, ctx) {
 };
 BsiLayoutTextWindow.displayName = 'BsiLayoutTextWindow';
 export default BsiLayoutTextWindow;
+export { BsiLayoutTextWindow };

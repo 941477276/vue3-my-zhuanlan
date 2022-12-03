@@ -24,3 +24,4 @@ const BsiExclamationDiamondFill: BsiExclamationDiamondFillType = function (props
 };
 BsiExclamationDiamondFill.displayName = 'BsiExclamationDiamondFill';
 export default BsiExclamationDiamondFill;
+export { BsiExclamationDiamondFill };

@@ -24,3 +24,4 @@ const BsiJustify: BsiJustifyType = function (props, ctx) {
 };
 BsiJustify.displayName = 'BsiJustify';
 export default BsiJustify;
+export { BsiJustify };

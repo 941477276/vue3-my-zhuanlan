@@ -24,3 +24,4 @@ const BsiTextareaResize: BsiTextareaResizeType = function (props, ctx) {
 };
 BsiTextareaResize.displayName = 'BsiTextareaResize';
 export default BsiTextareaResize;
+export { BsiTextareaResize };

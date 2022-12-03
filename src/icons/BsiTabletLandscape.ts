@@ -24,3 +24,4 @@ const BsiTabletLandscape: BsiTabletLandscapeType = function (props, ctx) {
 };
 BsiTabletLandscape.displayName = 'BsiTabletLandscape';
 export default BsiTabletLandscape;
+export { BsiTabletLandscape };

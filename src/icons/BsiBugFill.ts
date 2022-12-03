@@ -24,3 +24,4 @@ const BsiBugFill: BsiBugFillType = function (props, ctx) {
 };
 BsiBugFill.displayName = 'BsiBugFill';
 export default BsiBugFill;
+export { BsiBugFill };

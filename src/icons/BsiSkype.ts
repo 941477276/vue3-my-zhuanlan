@@ -24,3 +24,4 @@ const BsiSkype: BsiSkypeType = function (props, ctx) {
 };
 BsiSkype.displayName = 'BsiSkype';
 export default BsiSkype;
+export { BsiSkype };

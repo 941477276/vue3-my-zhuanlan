@@ -24,3 +24,4 @@ const BsiDatabaseFillDash: BsiDatabaseFillDashType = function (props, ctx) {
 };
 BsiDatabaseFillDash.displayName = 'BsiDatabaseFillDash';
 export default BsiDatabaseFillDash;
+export { BsiDatabaseFillDash };

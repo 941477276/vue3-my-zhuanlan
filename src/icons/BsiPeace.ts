@@ -24,3 +24,4 @@ const BsiPeace: BsiPeaceType = function (props, ctx) {
 };
 BsiPeace.displayName = 'BsiPeace';
 export default BsiPeace;
+export { BsiPeace };

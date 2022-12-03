@@ -24,3 +24,4 @@ const BsiMenuUp: BsiMenuUpType = function (props, ctx) {
 };
 BsiMenuUp.displayName = 'BsiMenuUp';
 export default BsiMenuUp;
+export { BsiMenuUp };

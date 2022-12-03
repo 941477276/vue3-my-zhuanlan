@@ -24,3 +24,4 @@ const BsiDropletFill: BsiDropletFillType = function (props, ctx) {
 };
 BsiDropletFill.displayName = 'BsiDropletFill';
 export default BsiDropletFill;
+export { BsiDropletFill };

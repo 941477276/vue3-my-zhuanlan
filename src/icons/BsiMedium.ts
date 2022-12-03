@@ -24,3 +24,4 @@ const BsiMedium: BsiMediumType = function (props, ctx) {
 };
 BsiMedium.displayName = 'BsiMedium';
 export default BsiMedium;
+export { BsiMedium };

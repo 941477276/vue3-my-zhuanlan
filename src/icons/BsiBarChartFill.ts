@@ -24,3 +24,4 @@ const BsiBarChartFill: BsiBarChartFillType = function (props, ctx) {
 };
 BsiBarChartFill.displayName = 'BsiBarChartFill';
 export default BsiBarChartFill;
+export { BsiBarChartFill };

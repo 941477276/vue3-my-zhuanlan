@@ -24,3 +24,4 @@ const BsiMenuDown: BsiMenuDownType = function (props, ctx) {
 };
 BsiMenuDown.displayName = 'BsiMenuDown';
 export default BsiMenuDown;
+export { BsiMenuDown };

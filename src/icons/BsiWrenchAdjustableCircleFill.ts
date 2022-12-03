@@ -24,3 +24,4 @@ const BsiWrenchAdjustableCircleFill: BsiWrenchAdjustableCircleFillType = functio
 };
 BsiWrenchAdjustableCircleFill.displayName = 'BsiWrenchAdjustableCircleFill';
 export default BsiWrenchAdjustableCircleFill;
+export { BsiWrenchAdjustableCircleFill };

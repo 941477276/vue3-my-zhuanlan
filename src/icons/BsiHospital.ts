@@ -24,3 +24,4 @@ const BsiHospital: BsiHospitalType = function (props, ctx) {
 };
 BsiHospital.displayName = 'BsiHospital';
 export default BsiHospital;
+export { BsiHospital };

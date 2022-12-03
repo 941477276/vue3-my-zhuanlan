@@ -24,3 +24,4 @@ const BsiBookmarkDashFill: BsiBookmarkDashFillType = function (props, ctx) {
 };
 BsiBookmarkDashFill.displayName = 'BsiBookmarkDashFill';
 export default BsiBookmarkDashFill;
+export { BsiBookmarkDashFill };

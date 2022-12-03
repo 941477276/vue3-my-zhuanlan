@@ -24,3 +24,4 @@ const BsiEmojiSunglasses: BsiEmojiSunglassesType = function (props, ctx) {
 };
 BsiEmojiSunglasses.displayName = 'BsiEmojiSunglasses';
 export default BsiEmojiSunglasses;
+export { BsiEmojiSunglasses };

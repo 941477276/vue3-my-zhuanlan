@@ -24,3 +24,4 @@ const BsiSignMergeRight: BsiSignMergeRightType = function (props, ctx) {
 };
 BsiSignMergeRight.displayName = 'BsiSignMergeRight';
 export default BsiSignMergeRight;
+export { BsiSignMergeRight };

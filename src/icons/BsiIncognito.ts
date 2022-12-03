@@ -24,3 +24,4 @@ const BsiIncognito: BsiIncognitoType = function (props, ctx) {
 };
 BsiIncognito.displayName = 'BsiIncognito';
 export default BsiIncognito;
+export { BsiIncognito };

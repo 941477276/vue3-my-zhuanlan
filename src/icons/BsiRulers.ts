@@ -24,3 +24,4 @@ const BsiRulers: BsiRulersType = function (props, ctx) {
 };
 BsiRulers.displayName = 'BsiRulers';
 export default BsiRulers;
+export { BsiRulers };

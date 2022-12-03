@@ -24,3 +24,4 @@ const BsiCalendarPlusFill: BsiCalendarPlusFillType = function (props, ctx) {
 };
 BsiCalendarPlusFill.displayName = 'BsiCalendarPlusFill';
 export default BsiCalendarPlusFill;
+export { BsiCalendarPlusFill };

@@ -24,3 +24,4 @@ const BsiSendSlash: BsiSendSlashType = function (props, ctx) {
 };
 BsiSendSlash.displayName = 'BsiSendSlash';
 export default BsiSendSlash;
+export { BsiSendSlash };

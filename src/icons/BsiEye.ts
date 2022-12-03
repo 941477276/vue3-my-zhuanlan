@@ -24,3 +24,4 @@ const BsiEye: BsiEyeType = function (props, ctx) {
 };
 BsiEye.displayName = 'BsiEye';
 export default BsiEye;
+export { BsiEye };

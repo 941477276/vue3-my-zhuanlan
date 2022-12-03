@@ -24,3 +24,4 @@ const BsiHCircle: BsiHCircleType = function (props, ctx) {
 };
 BsiHCircle.displayName = 'BsiHCircle';
 export default BsiHCircle;
+export { BsiHCircle };

@@ -24,3 +24,4 @@ const BsiPassFill: BsiPassFillType = function (props, ctx) {
 };
 BsiPassFill.displayName = 'BsiPassFill';
 export default BsiPassFill;
+export { BsiPassFill };

@@ -24,3 +24,4 @@ const BsiLadder: BsiLadderType = function (props, ctx) {
 };
 BsiLadder.displayName = 'BsiLadder';
 export default BsiLadder;
+export { BsiLadder };

@@ -24,3 +24,4 @@ const BsiPieChart: BsiPieChartType = function (props, ctx) {
 };
 BsiPieChart.displayName = 'BsiPieChart';
 export default BsiPieChart;
+export { BsiPieChart };

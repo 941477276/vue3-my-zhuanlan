@@ -24,3 +24,4 @@ const BsiBorderWidth: BsiBorderWidthType = function (props, ctx) {
 };
 BsiBorderWidth.displayName = 'BsiBorderWidth';
 export default BsiBorderWidth;
+export { BsiBorderWidth };

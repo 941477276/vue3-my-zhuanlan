@@ -24,3 +24,4 @@ const BsiBrowserEdge: BsiBrowserEdgeType = function (props, ctx) {
 };
 BsiBrowserEdge.displayName = 'BsiBrowserEdge';
 export default BsiBrowserEdge;
+export { BsiBrowserEdge };

@@ -24,3 +24,4 @@ const BsiThermometerLow: BsiThermometerLowType = function (props, ctx) {
 };
 BsiThermometerLow.displayName = 'BsiThermometerLow';
 export default BsiThermometerLow;
+export { BsiThermometerLow };

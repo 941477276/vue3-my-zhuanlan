@@ -24,3 +24,4 @@ const BsiBug: BsiBugType = function (props, ctx) {
 };
 BsiBug.displayName = 'BsiBug';
 export default BsiBug;
+export { BsiBug };

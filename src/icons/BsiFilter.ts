@@ -24,3 +24,4 @@ const BsiFilter: BsiFilterType = function (props, ctx) {
 };
 BsiFilter.displayName = 'BsiFilter';
 export default BsiFilter;
+export { BsiFilter };

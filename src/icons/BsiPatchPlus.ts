@@ -24,3 +24,4 @@ const BsiPatchPlus: BsiPatchPlusType = function (props, ctx) {
 };
 BsiPatchPlus.displayName = 'BsiPatchPlus';
 export default BsiPatchPlus;
+export { BsiPatchPlus };

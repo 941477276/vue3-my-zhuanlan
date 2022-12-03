@@ -24,3 +24,4 @@ const BsiShieldFillMinus: BsiShieldFillMinusType = function (props, ctx) {
 };
 BsiShieldFillMinus.displayName = 'BsiShieldFillMinus';
 export default BsiShieldFillMinus;
+export { BsiShieldFillMinus };

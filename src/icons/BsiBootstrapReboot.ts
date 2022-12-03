@@ -24,3 +24,4 @@ const BsiBootstrapReboot: BsiBootstrapRebootType = function (props, ctx) {
 };
 BsiBootstrapReboot.displayName = 'BsiBootstrapReboot';
 export default BsiBootstrapReboot;
+export { BsiBootstrapReboot };

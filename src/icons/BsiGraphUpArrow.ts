@@ -24,3 +24,4 @@ const BsiGraphUpArrow: BsiGraphUpArrowType = function (props, ctx) {
 };
 BsiGraphUpArrow.displayName = 'BsiGraphUpArrow';
 export default BsiGraphUpArrow;
+export { BsiGraphUpArrow };

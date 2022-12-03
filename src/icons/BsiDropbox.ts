@@ -24,3 +24,4 @@ const BsiDropbox: BsiDropboxType = function (props, ctx) {
 };
 BsiDropbox.displayName = 'BsiDropbox';
 export default BsiDropbox;
+export { BsiDropbox };

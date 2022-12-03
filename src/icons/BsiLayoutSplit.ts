@@ -24,3 +24,4 @@ const BsiLayoutSplit: BsiLayoutSplitType = function (props, ctx) {
 };
 BsiLayoutSplit.displayName = 'BsiLayoutSplit';
 export default BsiLayoutSplit;
+export { BsiLayoutSplit };

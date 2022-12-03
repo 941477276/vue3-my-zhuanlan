@@ -24,3 +24,4 @@ const BsiFacebook: BsiFacebookType = function (props, ctx) {
 };
 BsiFacebook.displayName = 'BsiFacebook';
 export default BsiFacebook;
+export { BsiFacebook };

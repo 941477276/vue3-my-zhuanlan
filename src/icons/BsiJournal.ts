@@ -24,3 +24,4 @@ const BsiJournal: BsiJournalType = function (props, ctx) {
 };
 BsiJournal.displayName = 'BsiJournal';
 export default BsiJournal;
+export { BsiJournal };

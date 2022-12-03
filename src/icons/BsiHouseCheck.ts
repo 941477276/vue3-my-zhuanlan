@@ -24,3 +24,4 @@ const BsiHouseCheck: BsiHouseCheckType = function (props, ctx) {
 };
 BsiHouseCheck.displayName = 'BsiHouseCheck';
 export default BsiHouseCheck;
+export { BsiHouseCheck };

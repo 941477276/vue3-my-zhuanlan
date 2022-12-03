@@ -24,3 +24,4 @@ const BsiHeptagonHalf: BsiHeptagonHalfType = function (props, ctx) {
 };
 BsiHeptagonHalf.displayName = 'BsiHeptagonHalf';
 export default BsiHeptagonHalf;
+export { BsiHeptagonHalf };

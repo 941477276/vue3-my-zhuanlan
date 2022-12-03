@@ -24,3 +24,4 @@ const BsiMic: BsiMicType = function (props, ctx) {
 };
 BsiMic.displayName = 'BsiMic';
 export default BsiMic;
+export { BsiMic };

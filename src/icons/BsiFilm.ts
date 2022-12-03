@@ -24,3 +24,4 @@ const BsiFilm: BsiFilmType = function (props, ctx) {
 };
 BsiFilm.displayName = 'BsiFilm';
 export default BsiFilm;
+export { BsiFilm };

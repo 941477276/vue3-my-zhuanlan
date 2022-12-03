@@ -24,3 +24,4 @@ const BsiModem: BsiModemType = function (props, ctx) {
 };
 BsiModem.displayName = 'BsiModem';
 export default BsiModem;
+export { BsiModem };

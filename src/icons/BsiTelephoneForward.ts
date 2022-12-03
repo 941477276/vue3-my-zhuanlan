@@ -24,3 +24,4 @@ const BsiTelephoneForward: BsiTelephoneForwardType = function (props, ctx) {
 };
 BsiTelephoneForward.displayName = 'BsiTelephoneForward';
 export default BsiTelephoneForward;
+export { BsiTelephoneForward };

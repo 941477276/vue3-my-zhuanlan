@@ -24,3 +24,4 @@ const BsiCheckAll: BsiCheckAllType = function (props, ctx) {
 };
 BsiCheckAll.displayName = 'BsiCheckAll';
 export default BsiCheckAll;
+export { BsiCheckAll };

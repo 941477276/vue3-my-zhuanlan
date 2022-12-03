@@ -24,3 +24,4 @@ const BsiEmojiExpressionlessFill: BsiEmojiExpressionlessFillType = function (pro
 };
 BsiEmojiExpressionlessFill.displayName = 'BsiEmojiExpressionlessFill';
 export default BsiEmojiExpressionlessFill;
+export { BsiEmojiExpressionlessFill };

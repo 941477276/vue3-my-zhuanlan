@@ -24,3 +24,4 @@ const BsiFront: BsiFrontType = function (props, ctx) {
 };
 BsiFront.displayName = 'BsiFront';
 export default BsiFront;
+export { BsiFront };

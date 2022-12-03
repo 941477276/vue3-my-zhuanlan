@@ -24,3 +24,4 @@ const BsiMouse: BsiMouseType = function (props, ctx) {
 };
 BsiMouse.displayName = 'BsiMouse';
 export default BsiMouse;
+export { BsiMouse };

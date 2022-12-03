@@ -24,3 +24,4 @@ const BsiFiletypeSql: BsiFiletypeSqlType = function (props, ctx) {
 };
 BsiFiletypeSql.displayName = 'BsiFiletypeSql';
 export default BsiFiletypeSql;
+export { BsiFiletypeSql };

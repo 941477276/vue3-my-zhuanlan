@@ -24,3 +24,4 @@ const BsiVolumeOff: BsiVolumeOffType = function (props, ctx) {
 };
 BsiVolumeOff.displayName = 'BsiVolumeOff';
 export default BsiVolumeOff;
+export { BsiVolumeOff };

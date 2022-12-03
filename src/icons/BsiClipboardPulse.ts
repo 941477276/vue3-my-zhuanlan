@@ -24,3 +24,4 @@ const BsiClipboardPulse: BsiClipboardPulseType = function (props, ctx) {
 };
 BsiClipboardPulse.displayName = 'BsiClipboardPulse';
 export default BsiClipboardPulse;
+export { BsiClipboardPulse };

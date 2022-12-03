@@ -24,3 +24,4 @@ const BsiMeta: BsiMetaType = function (props, ctx) {
 };
 BsiMeta.displayName = 'BsiMeta';
 export default BsiMeta;
+export { BsiMeta };

@@ -24,3 +24,4 @@ const BsiBrowserFirefox: BsiBrowserFirefoxType = function (props, ctx) {
 };
 BsiBrowserFirefox.displayName = 'BsiBrowserFirefox';
 export default BsiBrowserFirefox;
+export { BsiBrowserFirefox };

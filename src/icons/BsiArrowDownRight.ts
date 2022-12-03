@@ -24,3 +24,4 @@ const BsiArrowDownRight: BsiArrowDownRightType = function (props, ctx) {
 };
 BsiArrowDownRight.displayName = 'BsiArrowDownRight';
 export default BsiArrowDownRight;
+export { BsiArrowDownRight };

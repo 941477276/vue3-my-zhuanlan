@@ -24,3 +24,4 @@ const BsiTruckFlatbed: BsiTruckFlatbedType = function (props, ctx) {
 };
 BsiTruckFlatbed.displayName = 'BsiTruckFlatbed';
 export default BsiTruckFlatbed;
+export { BsiTruckFlatbed };

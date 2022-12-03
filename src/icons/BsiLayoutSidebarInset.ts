@@ -24,3 +24,4 @@ const BsiLayoutSidebarInset: BsiLayoutSidebarInsetType = function (props, ctx) {
 };
 BsiLayoutSidebarInset.displayName = 'BsiLayoutSidebarInset';
 export default BsiLayoutSidebarInset;
+export { BsiLayoutSidebarInset };

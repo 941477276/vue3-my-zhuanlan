@@ -24,3 +24,4 @@ const BsiFiletypePptx: BsiFiletypePptxType = function (props, ctx) {
 };
 BsiFiletypePptx.displayName = 'BsiFiletypePptx';
 export default BsiFiletypePptx;
+export { BsiFiletypePptx };

@@ -24,3 +24,4 @@ const BsiBuildingExclamation: BsiBuildingExclamationType = function (props, ctx)
 };
 BsiBuildingExclamation.displayName = 'BsiBuildingExclamation';
 export default BsiBuildingExclamation;
+export { BsiBuildingExclamation };

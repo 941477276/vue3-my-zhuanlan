@@ -24,3 +24,4 @@ const BsiRss: BsiRssType = function (props, ctx) {
 };
 BsiRss.displayName = 'BsiRss';
 export default BsiRss;
+export { BsiRss };

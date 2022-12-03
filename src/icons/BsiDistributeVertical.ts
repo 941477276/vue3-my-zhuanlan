@@ -24,3 +24,4 @@ const BsiDistributeVertical: BsiDistributeVerticalType = function (props, ctx) {
 };
 BsiDistributeVertical.displayName = 'BsiDistributeVertical';
 export default BsiDistributeVertical;
+export { BsiDistributeVertical };

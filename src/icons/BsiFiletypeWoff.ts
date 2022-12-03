@@ -24,3 +24,4 @@ const BsiFiletypeWoff: BsiFiletypeWoffType = function (props, ctx) {
 };
 BsiFiletypeWoff.displayName = 'BsiFiletypeWoff';
 export default BsiFiletypeWoff;
+export { BsiFiletypeWoff };

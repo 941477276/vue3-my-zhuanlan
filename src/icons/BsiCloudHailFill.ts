@@ -24,3 +24,4 @@ const BsiCloudHailFill: BsiCloudHailFillType = function (props, ctx) {
 };
 BsiCloudHailFill.displayName = 'BsiCloudHailFill';
 export default BsiCloudHailFill;
+export { BsiCloudHailFill };

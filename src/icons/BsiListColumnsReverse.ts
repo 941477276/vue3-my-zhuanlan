@@ -24,3 +24,4 @@ const BsiListColumnsReverse: BsiListColumnsReverseType = function (props, ctx) {
 };
 BsiListColumnsReverse.displayName = 'BsiListColumnsReverse';
 export default BsiListColumnsReverse;
+export { BsiListColumnsReverse };

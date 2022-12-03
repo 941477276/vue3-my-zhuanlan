@@ -24,3 +24,4 @@ const BsiEggFried: BsiEggFriedType = function (props, ctx) {
 };
 BsiEggFried.displayName = 'BsiEggFried';
 export default BsiEggFried;
+export { BsiEggFried };

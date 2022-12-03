@@ -24,3 +24,4 @@ const BsiCloudyFill: BsiCloudyFillType = function (props, ctx) {
 };
 BsiCloudyFill.displayName = 'BsiCloudyFill';
 export default BsiCloudyFill;
+export { BsiCloudyFill };

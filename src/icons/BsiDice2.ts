@@ -24,3 +24,4 @@ const BsiDice2: BsiDice2Type = function (props, ctx) {
 };
 BsiDice2.displayName = 'BsiDice2';
 export default BsiDice2;
+export { BsiDice2 };

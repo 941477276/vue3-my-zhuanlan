@@ -24,3 +24,4 @@ const BsiFiletypeRb: BsiFiletypeRbType = function (props, ctx) {
 };
 BsiFiletypeRb.displayName = 'BsiFiletypeRb';
 export default BsiFiletypeRb;
+export { BsiFiletypeRb };

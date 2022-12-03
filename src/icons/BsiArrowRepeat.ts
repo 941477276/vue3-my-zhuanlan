@@ -24,3 +24,4 @@ const BsiArrowRepeat: BsiArrowRepeatType = function (props, ctx) {
 };
 BsiArrowRepeat.displayName = 'BsiArrowRepeat';
 export default BsiArrowRepeat;
+export { BsiArrowRepeat };

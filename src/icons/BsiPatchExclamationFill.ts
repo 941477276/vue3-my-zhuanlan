@@ -24,3 +24,4 @@ const BsiPatchExclamationFill: BsiPatchExclamationFillType = function (props, ct
 };
 BsiPatchExclamationFill.displayName = 'BsiPatchExclamationFill';
 export default BsiPatchExclamationFill;
+export { BsiPatchExclamationFill };

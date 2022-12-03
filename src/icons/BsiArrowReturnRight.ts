@@ -24,3 +24,4 @@ const BsiArrowReturnRight: BsiArrowReturnRightType = function (props, ctx) {
 };
 BsiArrowReturnRight.displayName = 'BsiArrowReturnRight';
 export default BsiArrowReturnRight;
+export { BsiArrowReturnRight };

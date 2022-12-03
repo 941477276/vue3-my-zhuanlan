@@ -24,3 +24,4 @@ const BsiOctagonHalf: BsiOctagonHalfType = function (props, ctx) {
 };
 BsiOctagonHalf.displayName = 'BsiOctagonHalf';
 export default BsiOctagonHalf;
+export { BsiOctagonHalf };

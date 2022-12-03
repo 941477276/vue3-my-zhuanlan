@@ -24,3 +24,4 @@ const BsiFileEarmarkDiffFill: BsiFileEarmarkDiffFillType = function (props, ctx)
 };
 BsiFileEarmarkDiffFill.displayName = 'BsiFileEarmarkDiffFill';
 export default BsiFileEarmarkDiffFill;
+export { BsiFileEarmarkDiffFill };

@@ -24,3 +24,4 @@ const BsiFlower2: BsiFlower2Type = function (props, ctx) {
 };
 BsiFlower2.displayName = 'BsiFlower2';
 export default BsiFlower2;
+export { BsiFlower2 };

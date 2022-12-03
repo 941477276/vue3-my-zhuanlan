@@ -24,3 +24,4 @@ const BsiHammer: BsiHammerType = function (props, ctx) {
 };
 BsiHammer.displayName = 'BsiHammer';
 export default BsiHammer;
+export { BsiHammer };

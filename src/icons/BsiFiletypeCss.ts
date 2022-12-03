@@ -24,3 +24,4 @@ const BsiFiletypeCss: BsiFiletypeCssType = function (props, ctx) {
 };
 BsiFiletypeCss.displayName = 'BsiFiletypeCss';
 export default BsiFiletypeCss;
+export { BsiFiletypeCss };

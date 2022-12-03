@@ -24,3 +24,4 @@ const BsiStoplights: BsiStoplightsType = function (props, ctx) {
 };
 BsiStoplights.displayName = 'BsiStoplights';
 export default BsiStoplights;
+export { BsiStoplights };

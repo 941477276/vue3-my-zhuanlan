@@ -24,3 +24,4 @@ const BsiLink45deg: BsiLink45degType = function (props, ctx) {
 };
 BsiLink45deg.displayName = 'BsiLink45deg';
 export default BsiLink45deg;
+export { BsiLink45deg };

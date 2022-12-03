@@ -24,3 +24,4 @@ const BsiHeartArrow: BsiHeartArrowType = function (props, ctx) {
 };
 BsiHeartArrow.displayName = 'BsiHeartArrow';
 export default BsiHeartArrow;
+export { BsiHeartArrow };

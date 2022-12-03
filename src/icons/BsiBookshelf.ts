@@ -24,3 +24,4 @@ const BsiBookshelf: BsiBookshelfType = function (props, ctx) {
 };
 BsiBookshelf.displayName = 'BsiBookshelf';
 export default BsiBookshelf;
+export { BsiBookshelf };

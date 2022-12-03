@@ -24,3 +24,4 @@ const BsiEmojiExpressionless: BsiEmojiExpressionlessType = function (props, ctx)
 };
 BsiEmojiExpressionless.displayName = 'BsiEmojiExpressionless';
 export default BsiEmojiExpressionless;
+export { BsiEmojiExpressionless };

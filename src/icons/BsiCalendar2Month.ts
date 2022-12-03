@@ -24,3 +24,4 @@ const BsiCalendar2Month: BsiCalendar2MonthType = function (props, ctx) {
 };
 BsiCalendar2Month.displayName = 'BsiCalendar2Month';
 export default BsiCalendar2Month;
+export { BsiCalendar2Month };

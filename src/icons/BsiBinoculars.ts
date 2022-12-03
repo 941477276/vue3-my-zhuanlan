@@ -24,3 +24,4 @@ const BsiBinoculars: BsiBinocularsType = function (props, ctx) {
 };
 BsiBinoculars.displayName = 'BsiBinoculars';
 export default BsiBinoculars;
+export { BsiBinoculars };

@@ -24,3 +24,4 @@ const BsiBriefcase: BsiBriefcaseType = function (props, ctx) {
 };
 BsiBriefcase.displayName = 'BsiBriefcase';
 export default BsiBriefcase;
+export { BsiBriefcase };

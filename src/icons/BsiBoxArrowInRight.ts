@@ -24,3 +24,4 @@ const BsiBoxArrowInRight: BsiBoxArrowInRightType = function (props, ctx) {
 };
 BsiBoxArrowInRight.displayName = 'BsiBoxArrowInRight';
 export default BsiBoxArrowInRight;
+export { BsiBoxArrowInRight };

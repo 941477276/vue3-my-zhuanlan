@@ -24,3 +24,4 @@ const BsiBox2Fill: BsiBox2FillType = function (props, ctx) {
 };
 BsiBox2Fill.displayName = 'BsiBox2Fill';
 export default BsiBox2Fill;
+export { BsiBox2Fill };

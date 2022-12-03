@@ -24,3 +24,4 @@ const BsiSafe: BsiSafeType = function (props, ctx) {
 };
 BsiSafe.displayName = 'BsiSafe';
 export default BsiSafe;
+export { BsiSafe };

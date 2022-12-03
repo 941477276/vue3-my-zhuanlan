@@ -24,3 +24,4 @@ const BsiMagic: BsiMagicType = function (props, ctx) {
 };
 BsiMagic.displayName = 'BsiMagic';
 export default BsiMagic;
+export { BsiMagic };

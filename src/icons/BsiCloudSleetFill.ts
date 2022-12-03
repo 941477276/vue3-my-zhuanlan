@@ -24,3 +24,4 @@ const BsiCloudSleetFill: BsiCloudSleetFillType = function (props, ctx) {
 };
 BsiCloudSleetFill.displayName = 'BsiCloudSleetFill';
 export default BsiCloudSleetFill;
+export { BsiCloudSleetFill };

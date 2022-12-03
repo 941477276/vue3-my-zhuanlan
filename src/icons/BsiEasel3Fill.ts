@@ -24,3 +24,4 @@ const BsiEasel3Fill: BsiEasel3FillType = function (props, ctx) {
 };
 BsiEasel3Fill.displayName = 'BsiEasel3Fill';
 export default BsiEasel3Fill;
+export { BsiEasel3Fill };

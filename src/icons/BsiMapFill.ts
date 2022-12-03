@@ -24,3 +24,4 @@ const BsiMapFill: BsiMapFillType = function (props, ctx) {
 };
 BsiMapFill.displayName = 'BsiMapFill';
 export default BsiMapFill;
+export { BsiMapFill };

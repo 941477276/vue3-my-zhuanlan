@@ -24,3 +24,4 @@ const BsiJournalBookmarkFill: BsiJournalBookmarkFillType = function (props, ctx)
 };
 BsiJournalBookmarkFill.displayName = 'BsiJournalBookmarkFill';
 export default BsiJournalBookmarkFill;
+export { BsiJournalBookmarkFill };

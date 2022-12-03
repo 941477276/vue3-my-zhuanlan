@@ -24,3 +24,4 @@ const BsiFileEarmarkCheck: BsiFileEarmarkCheckType = function (props, ctx) {
 };
 BsiFileEarmarkCheck.displayName = 'BsiFileEarmarkCheck';
 export default BsiFileEarmarkCheck;
+export { BsiFileEarmarkCheck };

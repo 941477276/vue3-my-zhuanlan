@@ -24,3 +24,4 @@ const BsiPower: BsiPowerType = function (props, ctx) {
 };
 BsiPower.displayName = 'BsiPower';
 export default BsiPower;
+export { BsiPower };

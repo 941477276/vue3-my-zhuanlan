@@ -24,3 +24,4 @@ const BsiThermometerSnow: BsiThermometerSnowType = function (props, ctx) {
 };
 BsiThermometerSnow.displayName = 'BsiThermometerSnow';
 export default BsiThermometerSnow;
+export { BsiThermometerSnow };

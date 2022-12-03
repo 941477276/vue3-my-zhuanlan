@@ -24,3 +24,4 @@ const BsiStarFill: BsiStarFillType = function (props, ctx) {
 };
 BsiStarFill.displayName = 'BsiStarFill';
 export default BsiStarFill;
+export { BsiStarFill };

@@ -24,3 +24,4 @@ const BsiArrowsFullscreen: BsiArrowsFullscreenType = function (props, ctx) {
 };
 BsiArrowsFullscreen.displayName = 'BsiArrowsFullscreen';
 export default BsiArrowsFullscreen;
+export { BsiArrowsFullscreen };

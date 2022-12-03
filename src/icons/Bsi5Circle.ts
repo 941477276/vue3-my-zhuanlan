@@ -24,3 +24,4 @@ const Bsi5Circle: Bsi5CircleType = function (props, ctx) {
 };
 Bsi5Circle.displayName = 'Bsi5Circle';
 export default Bsi5Circle;
+export { Bsi5Circle };

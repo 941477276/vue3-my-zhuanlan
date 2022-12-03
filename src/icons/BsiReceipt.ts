@@ -24,3 +24,4 @@ const BsiReceipt: BsiReceiptType = function (props, ctx) {
 };
 BsiReceipt.displayName = 'BsiReceipt';
 export default BsiReceipt;
+export { BsiReceipt };

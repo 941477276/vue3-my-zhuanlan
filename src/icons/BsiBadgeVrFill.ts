@@ -24,3 +24,4 @@ const BsiBadgeVrFill: BsiBadgeVrFillType = function (props, ctx) {
 };
 BsiBadgeVrFill.displayName = 'BsiBadgeVrFill';
 export default BsiBadgeVrFill;
+export { BsiBadgeVrFill };

@@ -24,3 +24,4 @@ const BsiBookmarkCheckFill: BsiBookmarkCheckFillType = function (props, ctx) {
 };
 BsiBookmarkCheckFill.displayName = 'BsiBookmarkCheckFill';
 export default BsiBookmarkCheckFill;
+export { BsiBookmarkCheckFill };

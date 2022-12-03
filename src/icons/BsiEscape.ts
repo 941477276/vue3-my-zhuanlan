@@ -24,3 +24,4 @@ const BsiEscape: BsiEscapeType = function (props, ctx) {
 };
 BsiEscape.displayName = 'BsiEscape';
 export default BsiEscape;
+export { BsiEscape };

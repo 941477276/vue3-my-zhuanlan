@@ -24,3 +24,4 @@ const BsiChatTextFill: BsiChatTextFillType = function (props, ctx) {
 };
 BsiChatTextFill.displayName = 'BsiChatTextFill';
 export default BsiChatTextFill;
+export { BsiChatTextFill };

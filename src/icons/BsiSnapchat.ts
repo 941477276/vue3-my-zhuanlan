@@ -24,3 +24,4 @@ const BsiSnapchat: BsiSnapchatType = function (props, ctx) {
 };
 BsiSnapchat.displayName = 'BsiSnapchat';
 export default BsiSnapchat;
+export { BsiSnapchat };

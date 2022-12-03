@@ -24,3 +24,4 @@ const BsiDatabaseDown: BsiDatabaseDownType = function (props, ctx) {
 };
 BsiDatabaseDown.displayName = 'BsiDatabaseDown';
 export default BsiDatabaseDown;
+export { BsiDatabaseDown };

@@ -24,3 +24,4 @@ const BsiCamera2: BsiCamera2Type = function (props, ctx) {
 };
 BsiCamera2.displayName = 'BsiCamera2';
 export default BsiCamera2;
+export { BsiCamera2 };

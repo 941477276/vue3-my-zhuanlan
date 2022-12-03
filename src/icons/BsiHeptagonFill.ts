@@ -24,3 +24,4 @@ const BsiHeptagonFill: BsiHeptagonFillType = function (props, ctx) {
 };
 BsiHeptagonFill.displayName = 'BsiHeptagonFill';
 export default BsiHeptagonFill;
+export { BsiHeptagonFill };

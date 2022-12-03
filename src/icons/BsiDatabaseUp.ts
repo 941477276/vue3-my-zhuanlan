@@ -24,3 +24,4 @@ const BsiDatabaseUp: BsiDatabaseUpType = function (props, ctx) {
 };
 BsiDatabaseUp.displayName = 'BsiDatabaseUp';
 export default BsiDatabaseUp;
+export { BsiDatabaseUp };

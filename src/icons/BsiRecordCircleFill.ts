@@ -24,3 +24,4 @@ const BsiRecordCircleFill: BsiRecordCircleFillType = function (props, ctx) {
 };
 BsiRecordCircleFill.displayName = 'BsiRecordCircleFill';
 export default BsiRecordCircleFill;
+export { BsiRecordCircleFill };

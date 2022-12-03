@@ -24,3 +24,4 @@ const BsiArrowLeftCircle: BsiArrowLeftCircleType = function (props, ctx) {
 };
 BsiArrowLeftCircle.displayName = 'BsiArrowLeftCircle';
 export default BsiArrowLeftCircle;
+export { BsiArrowLeftCircle };

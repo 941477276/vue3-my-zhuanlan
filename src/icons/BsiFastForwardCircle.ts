@@ -24,3 +24,4 @@ const BsiFastForwardCircle: BsiFastForwardCircleType = function (props, ctx) {
 };
 BsiFastForwardCircle.displayName = 'BsiFastForwardCircle';
 export default BsiFastForwardCircle;
+export { BsiFastForwardCircle };

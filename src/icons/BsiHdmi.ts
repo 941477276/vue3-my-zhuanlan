@@ -24,3 +24,4 @@ const BsiHdmi: BsiHdmiType = function (props, ctx) {
 };
 BsiHdmi.displayName = 'BsiHdmi';
 export default BsiHdmi;
+export { BsiHdmi };

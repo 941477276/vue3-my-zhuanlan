@@ -24,3 +24,4 @@ const BsiInboxes: BsiInboxesType = function (props, ctx) {
 };
 BsiInboxes.displayName = 'BsiInboxes';
 export default BsiInboxes;
+export { BsiInboxes };

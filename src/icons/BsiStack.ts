@@ -24,3 +24,4 @@ const BsiStack: BsiStackType = function (props, ctx) {
 };
 BsiStack.displayName = 'BsiStack';
 export default BsiStack;
+export { BsiStack };

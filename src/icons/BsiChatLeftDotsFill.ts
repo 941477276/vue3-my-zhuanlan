@@ -24,3 +24,4 @@ const BsiChatLeftDotsFill: BsiChatLeftDotsFillType = function (props, ctx) {
 };
 BsiChatLeftDotsFill.displayName = 'BsiChatLeftDotsFill';
 export default BsiChatLeftDotsFill;
+export { BsiChatLeftDotsFill };

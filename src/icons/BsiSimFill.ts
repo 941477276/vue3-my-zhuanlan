@@ -24,3 +24,4 @@ const BsiSimFill: BsiSimFillType = function (props, ctx) {
 };
 BsiSimFill.displayName = 'BsiSimFill';
 export default BsiSimFill;
+export { BsiSimFill };

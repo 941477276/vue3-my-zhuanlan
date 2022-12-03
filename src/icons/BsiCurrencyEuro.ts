@@ -24,3 +24,4 @@ const BsiCurrencyEuro: BsiCurrencyEuroType = function (props, ctx) {
 };
 BsiCurrencyEuro.displayName = 'BsiCurrencyEuro';
 export default BsiCurrencyEuro;
+export { BsiCurrencyEuro };

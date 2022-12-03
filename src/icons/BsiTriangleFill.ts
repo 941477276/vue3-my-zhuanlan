@@ -24,3 +24,4 @@ const BsiTriangleFill: BsiTriangleFillType = function (props, ctx) {
 };
 BsiTriangleFill.displayName = 'BsiTriangleFill';
 export default BsiTriangleFill;
+export { BsiTriangleFill };

@@ -24,3 +24,4 @@ const BsiBadge4kFill: BsiBadge4kFillType = function (props, ctx) {
 };
 BsiBadge4kFill.displayName = 'BsiBadge4kFill';
 export default BsiBadge4kFill;
+export { BsiBadge4kFill };

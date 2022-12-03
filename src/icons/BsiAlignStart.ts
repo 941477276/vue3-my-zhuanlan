@@ -24,3 +24,4 @@ const BsiAlignStart: BsiAlignStartType = function (props, ctx) {
 };
 BsiAlignStart.displayName = 'BsiAlignStart';
 export default BsiAlignStart;
+export { BsiAlignStart };

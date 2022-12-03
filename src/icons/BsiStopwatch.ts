@@ -24,3 +24,4 @@ const BsiStopwatch: BsiStopwatchType = function (props, ctx) {
 };
 BsiStopwatch.displayName = 'BsiStopwatch';
 export default BsiStopwatch;
+export { BsiStopwatch };

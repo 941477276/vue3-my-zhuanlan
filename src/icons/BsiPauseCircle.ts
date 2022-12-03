@@ -24,3 +24,4 @@ const BsiPauseCircle: BsiPauseCircleType = function (props, ctx) {
 };
 BsiPauseCircle.displayName = 'BsiPauseCircle';
 export default BsiPauseCircle;
+export { BsiPauseCircle };

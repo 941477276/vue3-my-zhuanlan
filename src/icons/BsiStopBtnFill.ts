@@ -24,3 +24,4 @@ const BsiStopBtnFill: BsiStopBtnFillType = function (props, ctx) {
 };
 BsiStopBtnFill.displayName = 'BsiStopBtnFill';
 export default BsiStopBtnFill;
+export { BsiStopBtnFill };

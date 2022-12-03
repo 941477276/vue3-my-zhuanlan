@@ -24,3 +24,4 @@ const BsiXOctagon: BsiXOctagonType = function (props, ctx) {
 };
 BsiXOctagon.displayName = 'BsiXOctagon';
 export default BsiXOctagon;
+export { BsiXOctagon };

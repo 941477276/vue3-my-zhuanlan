@@ -24,3 +24,4 @@ const BsiAward: BsiAwardType = function (props, ctx) {
 };
 BsiAward.displayName = 'BsiAward';
 export default BsiAward;
+export { BsiAward };

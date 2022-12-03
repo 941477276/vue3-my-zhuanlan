@@ -24,3 +24,4 @@ const BsiTypeH2: BsiTypeH2Type = function (props, ctx) {
 };
 BsiTypeH2.displayName = 'BsiTypeH2';
 export default BsiTypeH2;
+export { BsiTypeH2 };

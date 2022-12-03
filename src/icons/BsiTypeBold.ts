@@ -24,3 +24,4 @@ const BsiTypeBold: BsiTypeBoldType = function (props, ctx) {
 };
 BsiTypeBold.displayName = 'BsiTypeBold';
 export default BsiTypeBold;
+export { BsiTypeBold };

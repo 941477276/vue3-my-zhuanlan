@@ -24,3 +24,4 @@ const BsiMusicPlayerFill: BsiMusicPlayerFillType = function (props, ctx) {
 };
 BsiMusicPlayerFill.displayName = 'BsiMusicPlayerFill';
 export default BsiMusicPlayerFill;
+export { BsiMusicPlayerFill };

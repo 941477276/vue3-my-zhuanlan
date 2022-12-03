@@ -24,3 +24,4 @@ const BsiDiscord: BsiDiscordType = function (props, ctx) {
 };
 BsiDiscord.displayName = 'BsiDiscord';
 export default BsiDiscord;
+export { BsiDiscord };

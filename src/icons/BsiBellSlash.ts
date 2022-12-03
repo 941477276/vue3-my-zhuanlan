@@ -24,3 +24,4 @@ const BsiBellSlash: BsiBellSlashType = function (props, ctx) {
 };
 BsiBellSlash.displayName = 'BsiBellSlash';
 export default BsiBellSlash;
+export { BsiBellSlash };

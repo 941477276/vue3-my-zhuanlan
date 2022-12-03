@@ -24,3 +24,4 @@ const BsiLayersHalf: BsiLayersHalfType = function (props, ctx) {
 };
 BsiLayersHalf.displayName = 'BsiLayersHalf';
 export default BsiLayersHalf;
+export { BsiLayersHalf };

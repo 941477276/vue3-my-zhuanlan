@@ -24,3 +24,4 @@ const BsiHddNetworkFill: BsiHddNetworkFillType = function (props, ctx) {
 };
 BsiHddNetworkFill.displayName = 'BsiHddNetworkFill';
 export default BsiHddNetworkFill;
+export { BsiHddNetworkFill };

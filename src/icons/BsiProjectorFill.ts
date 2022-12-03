@@ -24,3 +24,4 @@ const BsiProjectorFill: BsiProjectorFillType = function (props, ctx) {
 };
 BsiProjectorFill.displayName = 'BsiProjectorFill';
 export default BsiProjectorFill;
+export { BsiProjectorFill };

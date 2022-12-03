@@ -24,3 +24,4 @@ const BsiAlignEnd: BsiAlignEndType = function (props, ctx) {
 };
 BsiAlignEnd.displayName = 'BsiAlignEnd';
 export default BsiAlignEnd;
+export { BsiAlignEnd };

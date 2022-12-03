@@ -24,3 +24,4 @@ const BsiMoisture: BsiMoistureType = function (props, ctx) {
 };
 BsiMoisture.displayName = 'BsiMoisture';
 export default BsiMoisture;
+export { BsiMoisture };

@@ -24,3 +24,4 @@ const BsiDeviceSsd: BsiDeviceSsdType = function (props, ctx) {
 };
 BsiDeviceSsd.displayName = 'BsiDeviceSsd';
 export default BsiDeviceSsd;
+export { BsiDeviceSsd };

@@ -24,3 +24,4 @@ const BsiWindowSplit: BsiWindowSplitType = function (props, ctx) {
 };
 BsiWindowSplit.displayName = 'BsiWindowSplit';
 export default BsiWindowSplit;
+export { BsiWindowSplit };

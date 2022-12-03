@@ -24,3 +24,4 @@ const BsiHeartbreakFill: BsiHeartbreakFillType = function (props, ctx) {
 };
 BsiHeartbreakFill.displayName = 'BsiHeartbreakFill';
 export default BsiHeartbreakFill;
+export { BsiHeartbreakFill };

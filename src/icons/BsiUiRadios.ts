@@ -24,3 +24,4 @@ const BsiUiRadios: BsiUiRadiosType = function (props, ctx) {
 };
 BsiUiRadios.displayName = 'BsiUiRadios';
 export default BsiUiRadios;
+export { BsiUiRadios };

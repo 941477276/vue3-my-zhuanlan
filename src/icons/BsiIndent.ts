@@ -24,3 +24,4 @@ const BsiIndent: BsiIndentType = function (props, ctx) {
 };
 BsiIndent.displayName = 'BsiIndent';
 export default BsiIndent;
+export { BsiIndent };

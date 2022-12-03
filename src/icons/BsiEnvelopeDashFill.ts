@@ -24,3 +24,4 @@ const BsiEnvelopeDashFill: BsiEnvelopeDashFillType = function (props, ctx) {
 };
 BsiEnvelopeDashFill.displayName = 'BsiEnvelopeDashFill';
 export default BsiEnvelopeDashFill;
+export { BsiEnvelopeDashFill };

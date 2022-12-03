@@ -24,3 +24,4 @@ const BsiFiletypeRaw: BsiFiletypeRawType = function (props, ctx) {
 };
 BsiFiletypeRaw.displayName = 'BsiFiletypeRaw';
 export default BsiFiletypeRaw;
+export { BsiFiletypeRaw };

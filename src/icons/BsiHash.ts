@@ -24,3 +24,4 @@ const BsiHash: BsiHashType = function (props, ctx) {
 };
 BsiHash.displayName = 'BsiHash';
 export default BsiHash;
+export { BsiHash };

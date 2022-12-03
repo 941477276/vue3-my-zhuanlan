@@ -24,3 +24,4 @@ const BsiCloudSnow: BsiCloudSnowType = function (props, ctx) {
 };
 BsiCloudSnow.displayName = 'BsiCloudSnow';
 export default BsiCloudSnow;
+export { BsiCloudSnow };

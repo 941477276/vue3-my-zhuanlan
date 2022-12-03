@@ -24,3 +24,4 @@ const BsiTelephoneOutbound: BsiTelephoneOutboundType = function (props, ctx) {
 };
 BsiTelephoneOutbound.displayName = 'BsiTelephoneOutbound';
 export default BsiTelephoneOutbound;
+export { BsiTelephoneOutbound };

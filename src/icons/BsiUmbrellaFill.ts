@@ -24,3 +24,4 @@ const BsiUmbrellaFill: BsiUmbrellaFillType = function (props, ctx) {
 };
 BsiUmbrellaFill.displayName = 'BsiUmbrellaFill';
 export default BsiUmbrellaFill;
+export { BsiUmbrellaFill };

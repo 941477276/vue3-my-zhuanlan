@@ -24,3 +24,4 @@ const BsiTwitter: BsiTwitterType = function (props, ctx) {
 };
 BsiTwitter.displayName = 'BsiTwitter';
 export default BsiTwitter;
+export { BsiTwitter };

@@ -24,3 +24,4 @@ const BsiX: BsiXType = function (props, ctx) {
 };
 BsiX.displayName = 'BsiX';
 export default BsiX;
+export { BsiX };

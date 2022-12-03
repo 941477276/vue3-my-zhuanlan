@@ -24,3 +24,4 @@ const BsiEarFill: BsiEarFillType = function (props, ctx) {
 };
 BsiEarFill.displayName = 'BsiEarFill';
 export default BsiEarFill;
+export { BsiEarFill };

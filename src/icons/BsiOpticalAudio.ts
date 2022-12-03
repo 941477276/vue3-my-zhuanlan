@@ -24,3 +24,4 @@ const BsiOpticalAudio: BsiOpticalAudioType = function (props, ctx) {
 };
 BsiOpticalAudio.displayName = 'BsiOpticalAudio';
 export default BsiOpticalAudio;
+export { BsiOpticalAudio };

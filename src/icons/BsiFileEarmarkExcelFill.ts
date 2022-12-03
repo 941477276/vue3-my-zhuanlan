@@ -24,3 +24,4 @@ const BsiFileEarmarkExcelFill: BsiFileEarmarkExcelFillType = function (props, ct
 };
 BsiFileEarmarkExcelFill.displayName = 'BsiFileEarmarkExcelFill';
 export default BsiFileEarmarkExcelFill;
+export { BsiFileEarmarkExcelFill };

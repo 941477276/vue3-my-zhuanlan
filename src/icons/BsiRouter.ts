@@ -24,3 +24,4 @@ const BsiRouter: BsiRouterType = function (props, ctx) {
 };
 BsiRouter.displayName = 'BsiRouter';
 export default BsiRouter;
+export { BsiRouter };

@@ -24,3 +24,4 @@ const BsiStickyFill: BsiStickyFillType = function (props, ctx) {
 };
 BsiStickyFill.displayName = 'BsiStickyFill';
 export default BsiStickyFill;
+export { BsiStickyFill };

@@ -24,3 +24,4 @@ const BsiZoomOut: BsiZoomOutType = function (props, ctx) {
 };
 BsiZoomOut.displayName = 'BsiZoomOut';
 export default BsiZoomOut;
+export { BsiZoomOut };

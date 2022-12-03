@@ -24,3 +24,4 @@ const BsiPciCard: BsiPciCardType = function (props, ctx) {
 };
 BsiPciCard.displayName = 'BsiPciCard';
 export default BsiPciCard;
+export { BsiPciCard };

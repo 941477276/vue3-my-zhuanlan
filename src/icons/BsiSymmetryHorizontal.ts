@@ -24,3 +24,4 @@ const BsiSymmetryHorizontal: BsiSymmetryHorizontalType = function (props, ctx) {
 };
 BsiSymmetryHorizontal.displayName = 'BsiSymmetryHorizontal';
 export default BsiSymmetryHorizontal;
+export { BsiSymmetryHorizontal };

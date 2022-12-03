@@ -24,3 +24,4 @@ const BsiFonts: BsiFontsType = function (props, ctx) {
 };
 BsiFonts.displayName = 'BsiFonts';
 export default BsiFonts;
+export { BsiFonts };

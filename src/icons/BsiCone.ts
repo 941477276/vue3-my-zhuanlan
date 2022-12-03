@@ -24,3 +24,4 @@ const BsiCone: BsiConeType = function (props, ctx) {
 };
 BsiCone.displayName = 'BsiCone';
 export default BsiCone;
+export { BsiCone };

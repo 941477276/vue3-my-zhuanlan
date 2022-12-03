@@ -24,3 +24,4 @@ const BsiFan: BsiFanType = function (props, ctx) {
 };
 BsiFan.displayName = 'BsiFan';
 export default BsiFan;
+export { BsiFan };

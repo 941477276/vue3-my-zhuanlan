@@ -24,3 +24,4 @@ const BsiTicket: BsiTicketType = function (props, ctx) {
 };
 BsiTicket.displayName = 'BsiTicket';
 export default BsiTicket;
+export { BsiTicket };

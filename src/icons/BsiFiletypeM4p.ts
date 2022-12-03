@@ -24,3 +24,4 @@ const BsiFiletypeM4p: BsiFiletypeM4pType = function (props, ctx) {
 };
 BsiFiletypeM4p.displayName = 'BsiFiletypeM4p';
 export default BsiFiletypeM4p;
+export { BsiFiletypeM4p };

@@ -24,3 +24,4 @@ const BsiCheckLg: BsiCheckLgType = function (props, ctx) {
 };
 BsiCheckLg.displayName = 'BsiCheckLg';
 export default BsiCheckLg;
+export { BsiCheckLg };

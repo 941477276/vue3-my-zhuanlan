@@ -24,3 +24,4 @@ const BsiSend: BsiSendType = function (props, ctx) {
 };
 BsiSend.displayName = 'BsiSend';
 export default BsiSend;
+export { BsiSend };

@@ -24,3 +24,4 @@ const BsiUsbCFill: BsiUsbCFillType = function (props, ctx) {
 };
 BsiUsbCFill.displayName = 'BsiUsbCFill';
 export default BsiUsbCFill;
+export { BsiUsbCFill };

@@ -24,3 +24,4 @@ const BsiBorderInner: BsiBorderInnerType = function (props, ctx) {
 };
 BsiBorderInner.displayName = 'BsiBorderInner';
 export default BsiBorderInner;
+export { BsiBorderInner };

@@ -24,3 +24,4 @@ const BsiBrowserSafari: BsiBrowserSafariType = function (props, ctx) {
 };
 BsiBrowserSafari.displayName = 'BsiBrowserSafari';
 export default BsiBrowserSafari;
+export { BsiBrowserSafari };

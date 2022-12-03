@@ -24,3 +24,4 @@ const BsiYoutube: BsiYoutubeType = function (props, ctx) {
 };
 BsiYoutube.displayName = 'BsiYoutube';
 export default BsiYoutube;
+export { BsiYoutube };

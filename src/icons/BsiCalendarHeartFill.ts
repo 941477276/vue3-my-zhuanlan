@@ -24,3 +24,4 @@ const BsiCalendarHeartFill: BsiCalendarHeartFillType = function (props, ctx) {
 };
 BsiCalendarHeartFill.displayName = 'BsiCalendarHeartFill';
 export default BsiCalendarHeartFill;
+export { BsiCalendarHeartFill };

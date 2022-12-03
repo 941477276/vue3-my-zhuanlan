@@ -24,3 +24,4 @@ const BsiGripHorizontal: BsiGripHorizontalType = function (props, ctx) {
 };
 BsiGripHorizontal.displayName = 'BsiGripHorizontal';
 export default BsiGripHorizontal;
+export { BsiGripHorizontal };

@@ -24,3 +24,4 @@ const BsiPersonFillExclamation: BsiPersonFillExclamationType = function (props, 
 };
 BsiPersonFillExclamation.displayName = 'BsiPersonFillExclamation';
 export default BsiPersonFillExclamation;
+export { BsiPersonFillExclamation };

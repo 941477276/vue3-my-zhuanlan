@@ -24,3 +24,4 @@ const BsiSkipEndBtnFill: BsiSkipEndBtnFillType = function (props, ctx) {
 };
 BsiSkipEndBtnFill.displayName = 'BsiSkipEndBtnFill';
 export default BsiSkipEndBtnFill;
+export { BsiSkipEndBtnFill };

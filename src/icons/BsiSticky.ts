@@ -24,3 +24,4 @@ const BsiSticky: BsiStickyType = function (props, ctx) {
 };
 BsiSticky.displayName = 'BsiSticky';
 export default BsiSticky;
+export { BsiSticky };

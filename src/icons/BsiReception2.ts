@@ -24,3 +24,4 @@ const BsiReception2: BsiReception2Type = function (props, ctx) {
 };
 BsiReception2.displayName = 'BsiReception2';
 export default BsiReception2;
+export { BsiReception2 };

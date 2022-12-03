@@ -24,3 +24,4 @@ const BsiDatabaseExclamation: BsiDatabaseExclamationType = function (props, ctx)
 };
 BsiDatabaseExclamation.displayName = 'BsiDatabaseExclamation';
 export default BsiDatabaseExclamation;
+export { BsiDatabaseExclamation };

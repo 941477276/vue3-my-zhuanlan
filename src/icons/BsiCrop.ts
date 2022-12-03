@@ -24,3 +24,4 @@ const BsiCrop: BsiCropType = function (props, ctx) {
 };
 BsiCrop.displayName = 'BsiCrop';
 export default BsiCrop;
+export { BsiCrop };

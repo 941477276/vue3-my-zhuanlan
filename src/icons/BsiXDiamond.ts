@@ -24,3 +24,4 @@ const BsiXDiamond: BsiXDiamondType = function (props, ctx) {
 };
 BsiXDiamond.displayName = 'BsiXDiamond';
 export default BsiXDiamond;
+export { BsiXDiamond };

@@ -24,3 +24,4 @@ const BsiLightbulbOffFill: BsiLightbulbOffFillType = function (props, ctx) {
 };
 BsiLightbulbOffFill.displayName = 'BsiLightbulbOffFill';
 export default BsiLightbulbOffFill;
+export { BsiLightbulbOffFill };

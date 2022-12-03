@@ -24,3 +24,4 @@ const BsiWebcamFill: BsiWebcamFillType = function (props, ctx) {
 };
 BsiWebcamFill.displayName = 'BsiWebcamFill';
 export default BsiWebcamFill;
+export { BsiWebcamFill };

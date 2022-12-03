@@ -24,3 +24,4 @@ const BsiImageAlt: BsiImageAltType = function (props, ctx) {
 };
 BsiImageAlt.displayName = 'BsiImageAlt';
 export default BsiImageAlt;
+export { BsiImageAlt };

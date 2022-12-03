@@ -24,3 +24,4 @@ const BsiRSquareFill: BsiRSquareFillType = function (props, ctx) {
 };
 BsiRSquareFill.displayName = 'BsiRSquareFill';
 export default BsiRSquareFill;
+export { BsiRSquareFill };

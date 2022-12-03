@@ -24,3 +24,4 @@ const BsiBrowserChrome: BsiBrowserChromeType = function (props, ctx) {
 };
 BsiBrowserChrome.displayName = 'BsiBrowserChrome';
 export default BsiBrowserChrome;
+export { BsiBrowserChrome };

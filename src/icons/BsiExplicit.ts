@@ -24,3 +24,4 @@ const BsiExplicit: BsiExplicitType = function (props, ctx) {
 };
 BsiExplicit.displayName = 'BsiExplicit';
 export default BsiExplicit;
+export { BsiExplicit };

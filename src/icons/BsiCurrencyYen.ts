@@ -24,3 +24,4 @@ const BsiCurrencyYen: BsiCurrencyYenType = function (props, ctx) {
 };
 BsiCurrencyYen.displayName = 'BsiCurrencyYen';
 export default BsiCurrencyYen;
+export { BsiCurrencyYen };

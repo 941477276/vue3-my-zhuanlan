@@ -24,3 +24,4 @@ const BsiInfinity: BsiInfinityType = function (props, ctx) {
 };
 BsiInfinity.displayName = 'BsiInfinity';
 export default BsiInfinity;
+export { BsiInfinity };

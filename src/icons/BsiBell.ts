@@ -24,3 +24,4 @@ const BsiBell: BsiBellType = function (props, ctx) {
 };
 BsiBell.displayName = 'BsiBell';
 export default BsiBell;
+export { BsiBell };

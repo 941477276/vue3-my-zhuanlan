@@ -24,3 +24,4 @@ const BsiFileEarmarkArrowDown: BsiFileEarmarkArrowDownType = function (props, ct
 };
 BsiFileEarmarkArrowDown.displayName = 'BsiFileEarmarkArrowDown';
 export default BsiFileEarmarkArrowDown;
+export { BsiFileEarmarkArrowDown };

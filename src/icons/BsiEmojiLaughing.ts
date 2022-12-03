@@ -24,3 +24,4 @@ const BsiEmojiLaughing: BsiEmojiLaughingType = function (props, ctx) {
 };
 BsiEmojiLaughing.displayName = 'BsiEmojiLaughing';
 export default BsiEmojiLaughing;
+export { BsiEmojiLaughing };

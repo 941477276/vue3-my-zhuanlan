@@ -24,3 +24,4 @@ const BsiFileArrowDownFill: BsiFileArrowDownFillType = function (props, ctx) {
 };
 BsiFileArrowDownFill.displayName = 'BsiFileArrowDownFill';
 export default BsiFileArrowDownFill;
+export { BsiFileArrowDownFill };

@@ -24,3 +24,4 @@ const BsiSortAlphaUp: BsiSortAlphaUpType = function (props, ctx) {
 };
 BsiSortAlphaUp.displayName = 'BsiSortAlphaUp';
 export default BsiSortAlphaUp;
+export { BsiSortAlphaUp };

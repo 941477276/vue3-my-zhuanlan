@@ -24,3 +24,4 @@ const BsiArrowsAngleExpand: BsiArrowsAngleExpandType = function (props, ctx) {
 };
 BsiArrowsAngleExpand.displayName = 'BsiArrowsAngleExpand';
 export default BsiArrowsAngleExpand;
+export { BsiArrowsAngleExpand };

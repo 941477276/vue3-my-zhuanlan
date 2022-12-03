@@ -24,3 +24,4 @@ const BsiCode: BsiCodeType = function (props, ctx) {
 };
 BsiCode.displayName = 'BsiCode';
 export default BsiCode;
+export { BsiCode };

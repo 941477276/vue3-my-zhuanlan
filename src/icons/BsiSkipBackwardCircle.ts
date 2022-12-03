@@ -24,3 +24,4 @@ const BsiSkipBackwardCircle: BsiSkipBackwardCircleType = function (props, ctx) {
 };
 BsiSkipBackwardCircle.displayName = 'BsiSkipBackwardCircle';
 export default BsiSkipBackwardCircle;
+export { BsiSkipBackwardCircle };

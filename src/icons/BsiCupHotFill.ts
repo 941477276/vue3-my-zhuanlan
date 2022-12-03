@@ -24,3 +24,4 @@ const BsiCupHotFill: BsiCupHotFillType = function (props, ctx) {
 };
 BsiCupHotFill.displayName = 'BsiCupHotFill';
 export default BsiCupHotFill;
+export { BsiCupHotFill };

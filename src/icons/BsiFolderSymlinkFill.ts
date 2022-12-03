@@ -24,3 +24,4 @@ const BsiFolderSymlinkFill: BsiFolderSymlinkFillType = function (props, ctx) {
 };
 BsiFolderSymlinkFill.displayName = 'BsiFolderSymlinkFill';
 export default BsiFolderSymlinkFill;
+export { BsiFolderSymlinkFill };

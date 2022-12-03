@@ -24,3 +24,4 @@ const BsiEraser: BsiEraserType = function (props, ctx) {
 };
 BsiEraser.displayName = 'BsiEraser';
 export default BsiEraser;
+export { BsiEraser };

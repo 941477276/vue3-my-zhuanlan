@@ -24,3 +24,4 @@ const BsiUsbPlug: BsiUsbPlugType = function (props, ctx) {
 };
 BsiUsbPlug.displayName = 'BsiUsbPlug';
 export default BsiUsbPlug;
+export { BsiUsbPlug };

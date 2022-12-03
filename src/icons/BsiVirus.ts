@@ -24,3 +24,4 @@ const BsiVirus: BsiVirusType = function (props, ctx) {
 };
 BsiVirus.displayName = 'BsiVirus';
 export default BsiVirus;
+export { BsiVirus };

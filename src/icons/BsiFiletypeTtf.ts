@@ -24,3 +24,4 @@ const BsiFiletypeTtf: BsiFiletypeTtfType = function (props, ctx) {
 };
 BsiFiletypeTtf.displayName = 'BsiFiletypeTtf';
 export default BsiFiletypeTtf;
+export { BsiFiletypeTtf };

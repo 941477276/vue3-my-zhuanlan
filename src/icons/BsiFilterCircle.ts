@@ -24,3 +24,4 @@ const BsiFilterCircle: BsiFilterCircleType = function (props, ctx) {
 };
 BsiFilterCircle.displayName = 'BsiFilterCircle';
 export default BsiFilterCircle;
+export { BsiFilterCircle };

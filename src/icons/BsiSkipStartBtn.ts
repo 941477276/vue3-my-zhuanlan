@@ -24,3 +24,4 @@ const BsiSkipStartBtn: BsiSkipStartBtnType = function (props, ctx) {
 };
 BsiSkipStartBtn.displayName = 'BsiSkipStartBtn';
 export default BsiSkipStartBtn;
+export { BsiSkipStartBtn };

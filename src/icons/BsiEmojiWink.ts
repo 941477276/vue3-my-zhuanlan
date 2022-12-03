@@ -24,3 +24,4 @@ const BsiEmojiWink: BsiEmojiWinkType = function (props, ctx) {
 };
 BsiEmojiWink.displayName = 'BsiEmojiWink';
 export default BsiEmojiWink;
+export { BsiEmojiWink };

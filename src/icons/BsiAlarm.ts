@@ -24,3 +24,4 @@ const BsiAlarm: BsiAlarmType = function (props, ctx) {
 };
 BsiAlarm.displayName = 'BsiAlarm';
 export default BsiAlarm;
+export { BsiAlarm };

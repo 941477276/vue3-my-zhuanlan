@@ -24,3 +24,4 @@ const BsiLock: BsiLockType = function (props, ctx) {
 };
 BsiLock.displayName = 'BsiLock';
 export default BsiLock;
+export { BsiLock };

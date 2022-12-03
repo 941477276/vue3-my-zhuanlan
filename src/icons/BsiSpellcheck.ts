@@ -24,3 +24,4 @@ const BsiSpellcheck: BsiSpellcheckType = function (props, ctx) {
 };
 BsiSpellcheck.displayName = 'BsiSpellcheck';
 export default BsiSpellcheck;
+export { BsiSpellcheck };

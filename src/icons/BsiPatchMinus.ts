@@ -24,3 +24,4 @@ const BsiPatchMinus: BsiPatchMinusType = function (props, ctx) {
 };
 BsiPatchMinus.displayName = 'BsiPatchMinus';
 export default BsiPatchMinus;
+export { BsiPatchMinus };

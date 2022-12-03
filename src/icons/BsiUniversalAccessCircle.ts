@@ -24,3 +24,4 @@ const BsiUniversalAccessCircle: BsiUniversalAccessCircleType = function (props, 
 };
 BsiUniversalAccessCircle.displayName = 'BsiUniversalAccessCircle';
 export default BsiUniversalAccessCircle;
+export { BsiUniversalAccessCircle };

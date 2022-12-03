@@ -24,3 +24,4 @@ const BsiFilePdfFill: BsiFilePdfFillType = function (props, ctx) {
 };
 BsiFilePdfFill.displayName = 'BsiFilePdfFill';
 export default BsiFilePdfFill;
+export { BsiFilePdfFill };

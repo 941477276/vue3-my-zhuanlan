@@ -24,3 +24,4 @@ const BsiArrowUpCircle: BsiArrowUpCircleType = function (props, ctx) {
 };
 BsiArrowUpCircle.displayName = 'BsiArrowUpCircle';
 export default BsiArrowUpCircle;
+export { BsiArrowUpCircle };

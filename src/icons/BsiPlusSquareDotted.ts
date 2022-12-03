@@ -24,3 +24,4 @@ const BsiPlusSquareDotted: BsiPlusSquareDottedType = function (props, ctx) {
 };
 BsiPlusSquareDotted.displayName = 'BsiPlusSquareDotted';
 export default BsiPlusSquareDotted;
+export { BsiPlusSquareDotted };

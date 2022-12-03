@@ -24,3 +24,4 @@ const BsiTrainFreightFrontFill: BsiTrainFreightFrontFillType = function (props, 
 };
 BsiTrainFreightFrontFill.displayName = 'BsiTrainFreightFrontFill';
 export default BsiTrainFreightFrontFill;
+export { BsiTrainFreightFrontFill };

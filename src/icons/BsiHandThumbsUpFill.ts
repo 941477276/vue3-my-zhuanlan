@@ -24,3 +24,4 @@ const BsiHandThumbsUpFill: BsiHandThumbsUpFillType = function (props, ctx) {
 };
 BsiHandThumbsUpFill.displayName = 'BsiHandThumbsUpFill';
 export default BsiHandThumbsUpFill;
+export { BsiHandThumbsUpFill };

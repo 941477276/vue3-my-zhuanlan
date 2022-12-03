@@ -24,3 +24,4 @@ const BsiHouseSlashFill: BsiHouseSlashFillType = function (props, ctx) {
 };
 BsiHouseSlashFill.displayName = 'BsiHouseSlashFill';
 export default BsiHouseSlashFill;
+export { BsiHouseSlashFill };

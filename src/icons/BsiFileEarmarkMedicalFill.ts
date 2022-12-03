@@ -24,3 +24,4 @@ const BsiFileEarmarkMedicalFill: BsiFileEarmarkMedicalFillType = function (props
 };
 BsiFileEarmarkMedicalFill.displayName = 'BsiFileEarmarkMedicalFill';
 export default BsiFileEarmarkMedicalFill;
+export { BsiFileEarmarkMedicalFill };

@@ -24,3 +24,4 @@ const BsiSignpost: BsiSignpostType = function (props, ctx) {
 };
 BsiSignpost.displayName = 'BsiSignpost';
 export default BsiSignpost;
+export { BsiSignpost };

@@ -24,3 +24,4 @@ const BsiFileMusic: BsiFileMusicType = function (props, ctx) {
 };
 BsiFileMusic.displayName = 'BsiFileMusic';
 export default BsiFileMusic;
+export { BsiFileMusic };

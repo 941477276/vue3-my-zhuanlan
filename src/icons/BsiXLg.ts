@@ -24,3 +24,4 @@ const BsiXLg: BsiXLgType = function (props, ctx) {
 };
 BsiXLg.displayName = 'BsiXLg';
 export default BsiXLg;
+export { BsiXLg };

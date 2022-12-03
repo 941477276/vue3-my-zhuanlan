@@ -24,3 +24,4 @@ const BsiFiletypeHeic: BsiFiletypeHeicType = function (props, ctx) {
 };
 BsiFiletypeHeic.displayName = 'BsiFiletypeHeic';
 export default BsiFiletypeHeic;
+export { BsiFiletypeHeic };

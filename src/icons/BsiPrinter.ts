@@ -24,3 +24,4 @@ const BsiPrinter: BsiPrinterType = function (props, ctx) {
 };
 BsiPrinter.displayName = 'BsiPrinter';
 export default BsiPrinter;
+export { BsiPrinter };

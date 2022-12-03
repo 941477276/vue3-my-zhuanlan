@@ -24,3 +24,4 @@ const BsiTicketPerforated: BsiTicketPerforatedType = function (props, ctx) {
 };
 BsiTicketPerforated.displayName = 'BsiTicketPerforated';
 export default BsiTicketPerforated;
+export { BsiTicketPerforated };

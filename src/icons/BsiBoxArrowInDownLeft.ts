@@ -24,3 +24,4 @@ const BsiBoxArrowInDownLeft: BsiBoxArrowInDownLeftType = function (props, ctx) {
 };
 BsiBoxArrowInDownLeft.displayName = 'BsiBoxArrowInDownLeft';
 export default BsiBoxArrowInDownLeft;
+export { BsiBoxArrowInDownLeft };

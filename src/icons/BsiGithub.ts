@@ -24,3 +24,4 @@ const BsiGithub: BsiGithubType = function (props, ctx) {
 };
 BsiGithub.displayName = 'BsiGithub';
 export default BsiGithub;
+export { BsiGithub };

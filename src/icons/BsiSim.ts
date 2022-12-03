@@ -24,3 +24,4 @@ const BsiSim: BsiSimType = function (props, ctx) {
 };
 BsiSim.displayName = 'BsiSim';
 export default BsiSim;
+export { BsiSim };

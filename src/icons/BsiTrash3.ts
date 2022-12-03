@@ -24,3 +24,4 @@ const BsiTrash3: BsiTrash3Type = function (props, ctx) {
 };
 BsiTrash3.displayName = 'BsiTrash3';
 export default BsiTrash3;
+export { BsiTrash3 };

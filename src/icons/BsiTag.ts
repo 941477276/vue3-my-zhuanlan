@@ -24,3 +24,4 @@ const BsiTag: BsiTagType = function (props, ctx) {
 };
 BsiTag.displayName = 'BsiTag';
 export default BsiTag;
+export { BsiTag };

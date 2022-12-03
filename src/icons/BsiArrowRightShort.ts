@@ -24,3 +24,4 @@ const BsiArrowRightShort: BsiArrowRightShortType = function (props, ctx) {
 };
 BsiArrowRightShort.displayName = 'BsiArrowRightShort';
 export default BsiArrowRightShort;
+export { BsiArrowRightShort };

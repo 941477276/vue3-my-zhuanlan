@@ -24,3 +24,4 @@ const BsiUnity: BsiUnityType = function (props, ctx) {
 };
 BsiUnity.displayName = 'BsiUnity';
 export default BsiUnity;
+export { BsiUnity };

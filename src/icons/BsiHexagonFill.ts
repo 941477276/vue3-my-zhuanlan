@@ -24,3 +24,4 @@ const BsiHexagonFill: BsiHexagonFillType = function (props, ctx) {
 };
 BsiHexagonFill.displayName = 'BsiHexagonFill';
 export default BsiHexagonFill;
+export { BsiHexagonFill };

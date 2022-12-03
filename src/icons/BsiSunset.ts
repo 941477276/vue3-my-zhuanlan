@@ -24,3 +24,4 @@ const BsiSunset: BsiSunsetType = function (props, ctx) {
 };
 BsiSunset.displayName = 'BsiSunset';
 export default BsiSunset;
+export { BsiSunset };

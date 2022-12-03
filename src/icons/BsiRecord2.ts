@@ -24,3 +24,4 @@ const BsiRecord2: BsiRecord2Type = function (props, ctx) {
 };
 BsiRecord2.displayName = 'BsiRecord2';
 export default BsiRecord2;
+export { BsiRecord2 };

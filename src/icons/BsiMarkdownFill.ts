@@ -24,3 +24,4 @@ const BsiMarkdownFill: BsiMarkdownFillType = function (props, ctx) {
 };
 BsiMarkdownFill.displayName = 'BsiMarkdownFill';
 export default BsiMarkdownFill;
+export { BsiMarkdownFill };

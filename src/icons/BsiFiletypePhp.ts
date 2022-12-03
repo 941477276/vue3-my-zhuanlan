@@ -24,3 +24,4 @@ const BsiFiletypePhp: BsiFiletypePhpType = function (props, ctx) {
 };
 BsiFiletypePhp.displayName = 'BsiFiletypePhp';
 export default BsiFiletypePhp;
+export { BsiFiletypePhp };

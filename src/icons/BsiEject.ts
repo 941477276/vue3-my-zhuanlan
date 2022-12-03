@@ -24,3 +24,4 @@ const BsiEject: BsiEjectType = function (props, ctx) {
 };
 BsiEject.displayName = 'BsiEject';
 export default BsiEject;
+export { BsiEject };

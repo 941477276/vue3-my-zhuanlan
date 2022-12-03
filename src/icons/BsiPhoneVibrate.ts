@@ -24,3 +24,4 @@ const BsiPhoneVibrate: BsiPhoneVibrateType = function (props, ctx) {
 };
 BsiPhoneVibrate.displayName = 'BsiPhoneVibrate';
 export default BsiPhoneVibrate;
+export { BsiPhoneVibrate };

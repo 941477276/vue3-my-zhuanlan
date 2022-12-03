@@ -24,3 +24,4 @@ const BsiLayerForward: BsiLayerForwardType = function (props, ctx) {
 };
 BsiLayerForward.displayName = 'BsiLayerForward';
 export default BsiLayerForward;
+export { BsiLayerForward };

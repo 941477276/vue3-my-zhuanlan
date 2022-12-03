@@ -24,3 +24,4 @@ const BsiCollection: BsiCollectionType = function (props, ctx) {
 };
 BsiCollection.displayName = 'BsiCollection';
 export default BsiCollection;
+export { BsiCollection };

@@ -24,3 +24,4 @@ const BsiGoogle: BsiGoogleType = function (props, ctx) {
 };
 BsiGoogle.displayName = 'BsiGoogle';
 export default BsiGoogle;
+export { BsiGoogle };

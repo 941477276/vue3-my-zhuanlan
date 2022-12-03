@@ -24,3 +24,4 @@ const BsiSkipStartCircleFill: BsiSkipStartCircleFillType = function (props, ctx)
 };
 BsiSkipStartCircleFill.displayName = 'BsiSkipStartCircleFill';
 export default BsiSkipStartCircleFill;
+export { BsiSkipStartCircleFill };

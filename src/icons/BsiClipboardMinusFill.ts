@@ -24,3 +24,4 @@ const BsiClipboardMinusFill: BsiClipboardMinusFillType = function (props, ctx) {
 };
 BsiClipboardMinusFill.displayName = 'BsiClipboardMinusFill';
 export default BsiClipboardMinusFill;
+export { BsiClipboardMinusFill };

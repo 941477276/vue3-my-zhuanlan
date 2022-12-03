@@ -24,3 +24,4 @@ const BsiBrightnessAltLow: BsiBrightnessAltLowType = function (props, ctx) {
 };
 BsiBrightnessAltLow.displayName = 'BsiBrightnessAltLow';
 export default BsiBrightnessAltLow;
+export { BsiBrightnessAltLow };

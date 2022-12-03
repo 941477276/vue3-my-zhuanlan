@@ -24,3 +24,4 @@ const BsiPersonWorkspace: BsiPersonWorkspaceType = function (props, ctx) {
 };
 BsiPersonWorkspace.displayName = 'BsiPersonWorkspace';
 export default BsiPersonWorkspace;
+export { BsiPersonWorkspace };

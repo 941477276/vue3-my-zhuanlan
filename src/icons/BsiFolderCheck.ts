@@ -24,3 +24,4 @@ const BsiFolderCheck: BsiFolderCheckType = function (props, ctx) {
 };
 BsiFolderCheck.displayName = 'BsiFolderCheck';
 export default BsiFolderCheck;
+export { BsiFolderCheck };

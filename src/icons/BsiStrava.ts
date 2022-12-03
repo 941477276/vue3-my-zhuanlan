@@ -24,3 +24,4 @@ const BsiStrava: BsiStravaType = function (props, ctx) {
 };
 BsiStrava.displayName = 'BsiStrava';
 export default BsiStrava;
+export { BsiStrava };

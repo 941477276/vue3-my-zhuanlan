@@ -24,3 +24,4 @@ const BsiWindowDesktop: BsiWindowDesktopType = function (props, ctx) {
 };
 BsiWindowDesktop.displayName = 'BsiWindowDesktop';
 export default BsiWindowDesktop;
+export { BsiWindowDesktop };

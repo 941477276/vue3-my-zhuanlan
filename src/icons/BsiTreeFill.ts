@@ -24,3 +24,4 @@ const BsiTreeFill: BsiTreeFillType = function (props, ctx) {
 };
 BsiTreeFill.displayName = 'BsiTreeFill';
 export default BsiTreeFill;
+export { BsiTreeFill };

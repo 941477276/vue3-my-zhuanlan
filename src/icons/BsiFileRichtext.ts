@@ -24,3 +24,4 @@ const BsiFileRichtext: BsiFileRichtextType = function (props, ctx) {
 };
 BsiFileRichtext.displayName = 'BsiFileRichtext';
 export default BsiFileRichtext;
+export { BsiFileRichtext };

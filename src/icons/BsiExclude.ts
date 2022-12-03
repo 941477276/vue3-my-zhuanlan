@@ -24,3 +24,4 @@ const BsiExclude: BsiExcludeType = function (props, ctx) {
 };
 BsiExclude.displayName = 'BsiExclude';
 export default BsiExclude;
+export { BsiExclude };

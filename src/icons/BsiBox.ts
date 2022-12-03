@@ -24,3 +24,4 @@ const BsiBox: BsiBoxType = function (props, ctx) {
 };
 BsiBox.displayName = 'BsiBox';
 export default BsiBox;
+export { BsiBox };

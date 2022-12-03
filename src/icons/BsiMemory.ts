@@ -24,3 +24,4 @@ const BsiMemory: BsiMemoryType = function (props, ctx) {
 };
 BsiMemory.displayName = 'BsiMemory';
 export default BsiMemory;
+export { BsiMemory };

@@ -24,3 +24,4 @@ const BsiTelegram: BsiTelegramType = function (props, ctx) {
 };
 BsiTelegram.displayName = 'BsiTelegram';
 export default BsiTelegram;
+export { BsiTelegram };

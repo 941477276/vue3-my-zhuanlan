@@ -24,3 +24,4 @@ const BsiSearch: BsiSearchType = function (props, ctx) {
 };
 BsiSearch.displayName = 'BsiSearch';
 export default BsiSearch;
+export { BsiSearch };

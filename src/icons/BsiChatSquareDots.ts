@@ -24,3 +24,4 @@ const BsiChatSquareDots: BsiChatSquareDotsType = function (props, ctx) {
 };
 BsiChatSquareDots.displayName = 'BsiChatSquareDots';
 export default BsiChatSquareDots;
+export { BsiChatSquareDots };

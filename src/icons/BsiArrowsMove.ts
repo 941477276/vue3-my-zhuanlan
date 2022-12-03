@@ -24,3 +24,4 @@ const BsiArrowsMove: BsiArrowsMoveType = function (props, ctx) {
 };
 BsiArrowsMove.displayName = 'BsiArrowsMove';
 export default BsiArrowsMove;
+export { BsiArrowsMove };

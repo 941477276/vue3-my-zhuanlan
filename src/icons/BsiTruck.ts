@@ -24,3 +24,4 @@ const BsiTruck: BsiTruckType = function (props, ctx) {
 };
 BsiTruck.displayName = 'BsiTruck';
 export default BsiTruck;
+export { BsiTruck };

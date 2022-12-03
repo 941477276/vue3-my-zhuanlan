@@ -24,3 +24,4 @@ const BsiCapslock: BsiCapslockType = function (props, ctx) {
 };
 BsiCapslock.displayName = 'BsiCapslock';
 export default BsiCapslock;
+export { BsiCapslock };

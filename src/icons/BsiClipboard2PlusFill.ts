@@ -24,3 +24,4 @@ const BsiClipboard2PlusFill: BsiClipboard2PlusFillType = function (props, ctx) {
 };
 BsiClipboard2PlusFill.displayName = 'BsiClipboard2PlusFill';
 export default BsiClipboard2PlusFill;
+export { BsiClipboard2PlusFill };

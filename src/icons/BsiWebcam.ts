@@ -24,3 +24,4 @@ const BsiWebcam: BsiWebcamType = function (props, ctx) {
 };
 BsiWebcam.displayName = 'BsiWebcam';
 export default BsiWebcam;
+export { BsiWebcam };

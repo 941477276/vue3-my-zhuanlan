@@ -24,3 +24,4 @@ const BsiMastodon: BsiMastodonType = function (props, ctx) {
 };
 BsiMastodon.displayName = 'BsiMastodon';
 export default BsiMastodon;
+export { BsiMastodon };

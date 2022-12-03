@@ -24,3 +24,4 @@ const BsiUsbDrive: BsiUsbDriveType = function (props, ctx) {
 };
 BsiUsbDrive.displayName = 'BsiUsbDrive';
 export default BsiUsbDrive;
+export { BsiUsbDrive };

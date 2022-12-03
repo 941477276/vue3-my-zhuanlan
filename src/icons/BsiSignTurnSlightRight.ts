@@ -24,3 +24,4 @@ const BsiSignTurnSlightRight: BsiSignTurnSlightRightType = function (props, ctx)
 };
 BsiSignTurnSlightRight.displayName = 'BsiSignTurnSlightRight';
 export default BsiSignTurnSlightRight;
+export { BsiSignTurnSlightRight };

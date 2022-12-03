@@ -24,3 +24,4 @@ const BsiListNested: BsiListNestedType = function (props, ctx) {
 };
 BsiListNested.displayName = 'BsiListNested';
 export default BsiListNested;
+export { BsiListNested };

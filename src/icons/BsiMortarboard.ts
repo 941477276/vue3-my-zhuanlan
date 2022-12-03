@@ -24,3 +24,4 @@ const BsiMortarboard: BsiMortarboardType = function (props, ctx) {
 };
 BsiMortarboard.displayName = 'BsiMortarboard';
 export default BsiMortarboard;
+export { BsiMortarboard };

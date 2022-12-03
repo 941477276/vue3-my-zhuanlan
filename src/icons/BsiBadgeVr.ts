@@ -24,3 +24,4 @@ const BsiBadgeVr: BsiBadgeVrType = function (props, ctx) {
 };
 BsiBadgeVr.displayName = 'BsiBadgeVr';
 export default BsiBadgeVr;
+export { BsiBadgeVr };

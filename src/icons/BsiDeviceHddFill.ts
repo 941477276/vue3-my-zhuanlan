@@ -24,3 +24,4 @@ const BsiDeviceHddFill: BsiDeviceHddFillType = function (props, ctx) {
 };
 BsiDeviceHddFill.displayName = 'BsiDeviceHddFill';
 export default BsiDeviceHddFill;
+export { BsiDeviceHddFill };

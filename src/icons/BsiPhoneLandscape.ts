@@ -24,3 +24,4 @@ const BsiPhoneLandscape: BsiPhoneLandscapeType = function (props, ctx) {
 };
 BsiPhoneLandscape.displayName = 'BsiPhoneLandscape';
 export default BsiPhoneLandscape;
+export { BsiPhoneLandscape };

@@ -24,3 +24,4 @@ const BsiSnow2: BsiSnow2Type = function (props, ctx) {
 };
 BsiSnow2.displayName = 'BsiSnow2';
 export default BsiSnow2;
+export { BsiSnow2 };

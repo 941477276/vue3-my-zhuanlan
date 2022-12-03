@@ -24,3 +24,4 @@ const BsiDatabaseSlash: BsiDatabaseSlashType = function (props, ctx) {
 };
 BsiDatabaseSlash.displayName = 'BsiDatabaseSlash';
 export default BsiDatabaseSlash;
+export { BsiDatabaseSlash };

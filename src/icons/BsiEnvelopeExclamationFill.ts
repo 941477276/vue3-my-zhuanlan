@@ -24,3 +24,4 @@ const BsiEnvelopeExclamationFill: BsiEnvelopeExclamationFillType = function (pro
 };
 BsiEnvelopeExclamationFill.displayName = 'BsiEnvelopeExclamationFill';
 export default BsiEnvelopeExclamationFill;
+export { BsiEnvelopeExclamationFill };

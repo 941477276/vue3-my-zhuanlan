@@ -24,3 +24,4 @@ const BsiPersonFillGear: BsiPersonFillGearType = function (props, ctx) {
 };
 BsiPersonFillGear.displayName = 'BsiPersonFillGear';
 export default BsiPersonFillGear;
+export { BsiPersonFillGear };

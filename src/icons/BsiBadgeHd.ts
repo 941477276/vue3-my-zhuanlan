@@ -24,3 +24,4 @@ const BsiBadgeHd: BsiBadgeHdType = function (props, ctx) {
 };
 BsiBadgeHd.displayName = 'BsiBadgeHd';
 export default BsiBadgeHd;
+export { BsiBadgeHd };

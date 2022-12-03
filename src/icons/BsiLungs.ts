@@ -24,3 +24,4 @@ const BsiLungs: BsiLungsType = function (props, ctx) {
 };
 BsiLungs.displayName = 'BsiLungs';
 export default BsiLungs;
+export { BsiLungs };

@@ -24,3 +24,4 @@ const BsiOpticalAudioFill: BsiOpticalAudioFillType = function (props, ctx) {
 };
 BsiOpticalAudioFill.displayName = 'BsiOpticalAudioFill';
 export default BsiOpticalAudioFill;
+export { BsiOpticalAudioFill };

@@ -24,3 +24,4 @@ const BsiGlobeAsiaAustralia: BsiGlobeAsiaAustraliaType = function (props, ctx) {
 };
 BsiGlobeAsiaAustralia.displayName = 'BsiGlobeAsiaAustralia';
 export default BsiGlobeAsiaAustralia;
+export { BsiGlobeAsiaAustralia };

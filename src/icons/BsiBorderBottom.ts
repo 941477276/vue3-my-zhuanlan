@@ -24,3 +24,4 @@ const BsiBorderBottom: BsiBorderBottomType = function (props, ctx) {
 };
 BsiBorderBottom.displayName = 'BsiBorderBottom';
 export default BsiBorderBottom;
+export { BsiBorderBottom };

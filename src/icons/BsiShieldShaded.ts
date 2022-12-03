@@ -24,3 +24,4 @@ const BsiShieldShaded: BsiShieldShadedType = function (props, ctx) {
 };
 BsiShieldShaded.displayName = 'BsiShieldShaded';
 export default BsiShieldShaded;
+export { BsiShieldShaded };

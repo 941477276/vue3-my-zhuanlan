@@ -24,3 +24,4 @@ const BsiWater: BsiWaterType = function (props, ctx) {
 };
 BsiWater.displayName = 'BsiWater';
 export default BsiWater;
+export { BsiWater };

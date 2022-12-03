@@ -24,3 +24,4 @@ const BsiSignNoParkingFill: BsiSignNoParkingFillType = function (props, ctx) {
 };
 BsiSignNoParkingFill.displayName = 'BsiSignNoParkingFill';
 export default BsiSignNoParkingFill;
+export { BsiSignNoParkingFill };

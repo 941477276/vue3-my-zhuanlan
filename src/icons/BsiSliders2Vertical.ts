@@ -24,3 +24,4 @@ const BsiSliders2Vertical: BsiSliders2VerticalType = function (props, ctx) {
 };
 BsiSliders2Vertical.displayName = 'BsiSliders2Vertical';
 export default BsiSliders2Vertical;
+export { BsiSliders2Vertical };

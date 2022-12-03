@@ -24,3 +24,4 @@ const BsiChevronExpand: BsiChevronExpandType = function (props, ctx) {
 };
 BsiChevronExpand.displayName = 'BsiChevronExpand';
 export default BsiChevronExpand;
+export { BsiChevronExpand };

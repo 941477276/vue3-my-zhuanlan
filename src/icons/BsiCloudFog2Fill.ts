@@ -24,3 +24,4 @@ const BsiCloudFog2Fill: BsiCloudFog2FillType = function (props, ctx) {
 };
 BsiCloudFog2Fill.displayName = 'BsiCloudFog2Fill';
 export default BsiCloudFog2Fill;
+export { BsiCloudFog2Fill };

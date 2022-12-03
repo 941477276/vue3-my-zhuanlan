@@ -24,3 +24,4 @@ const BsiFiletypeKey: BsiFiletypeKeyType = function (props, ctx) {
 };
 BsiFiletypeKey.displayName = 'BsiFiletypeKey';
 export default BsiFiletypeKey;
+export { BsiFiletypeKey };

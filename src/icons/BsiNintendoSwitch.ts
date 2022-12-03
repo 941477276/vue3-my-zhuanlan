@@ -24,3 +24,4 @@ const BsiNintendoSwitch: BsiNintendoSwitchType = function (props, ctx) {
 };
 BsiNintendoSwitch.displayName = 'BsiNintendoSwitch';
 export default BsiNintendoSwitch;
+export { BsiNintendoSwitch };

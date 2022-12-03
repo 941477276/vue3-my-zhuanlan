@@ -24,3 +24,4 @@ const BsiHurricane: BsiHurricaneType = function (props, ctx) {
 };
 BsiHurricane.displayName = 'BsiHurricane';
 export default BsiHurricane;
+export { BsiHurricane };

@@ -24,3 +24,4 @@ const BsiCloudMinusFill: BsiCloudMinusFillType = function (props, ctx) {
 };
 BsiCloudMinusFill.displayName = 'BsiCloudMinusFill';
 export default BsiCloudMinusFill;
+export { BsiCloudMinusFill };

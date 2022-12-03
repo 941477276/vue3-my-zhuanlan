@@ -24,3 +24,4 @@ const BsiSignal: BsiSignalType = function (props, ctx) {
 };
 BsiSignal.displayName = 'BsiSignal';
 export default BsiSignal;
+export { BsiSignal };

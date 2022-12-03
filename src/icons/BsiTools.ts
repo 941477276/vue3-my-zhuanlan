@@ -24,3 +24,4 @@ const BsiTools: BsiToolsType = function (props, ctx) {
 };
 BsiTools.displayName = 'BsiTools';
 export default BsiTools;
+export { BsiTools };

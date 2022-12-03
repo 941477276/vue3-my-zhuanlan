@@ -24,3 +24,4 @@ const BsiCalendar4Week: BsiCalendar4WeekType = function (props, ctx) {
 };
 BsiCalendar4Week.displayName = 'BsiCalendar4Week';
 export default BsiCalendar4Week;
+export { BsiCalendar4Week };

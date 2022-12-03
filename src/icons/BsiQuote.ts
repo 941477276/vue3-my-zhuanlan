@@ -24,3 +24,4 @@ const BsiQuote: BsiQuoteType = function (props, ctx) {
 };
 BsiQuote.displayName = 'BsiQuote';
 export default BsiQuote;
+export { BsiQuote };

@@ -24,3 +24,4 @@ const BsiChatRightHeart: BsiChatRightHeartType = function (props, ctx) {
 };
 BsiChatRightHeart.displayName = 'BsiChatRightHeart';
 export default BsiChatRightHeart;
+export { BsiChatRightHeart };

@@ -24,3 +24,4 @@ const BsiForwardFill: BsiForwardFillType = function (props, ctx) {
 };
 BsiForwardFill.displayName = 'BsiForwardFill';
 export default BsiForwardFill;
+export { BsiForwardFill };

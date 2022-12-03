@@ -24,3 +24,4 @@ const BsiChatHeartFill: BsiChatHeartFillType = function (props, ctx) {
 };
 BsiChatHeartFill.displayName = 'BsiChatHeartFill';
 export default BsiChatHeartFill;
+export { BsiChatHeartFill };

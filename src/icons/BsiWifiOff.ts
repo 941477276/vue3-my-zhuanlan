@@ -24,3 +24,4 @@ const BsiWifiOff: BsiWifiOffType = function (props, ctx) {
 };
 BsiWifiOff.displayName = 'BsiWifiOff';
 export default BsiWifiOff;
+export { BsiWifiOff };

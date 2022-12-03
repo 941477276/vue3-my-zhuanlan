@@ -24,3 +24,4 @@ const BsiSuitClubFill: BsiSuitClubFillType = function (props, ctx) {
 };
 BsiSuitClubFill.displayName = 'BsiSuitClubFill';
 export default BsiSuitClubFill;
+export { BsiSuitClubFill };

@@ -24,3 +24,4 @@ const BsiCloudHaze2Fill: BsiCloudHaze2FillType = function (props, ctx) {
 };
 BsiCloudHaze2Fill.displayName = 'BsiCloudHaze2Fill';
 export default BsiCloudHaze2Fill;
+export { BsiCloudHaze2Fill };

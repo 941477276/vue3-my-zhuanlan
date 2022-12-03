@@ -24,3 +24,4 @@ const BsiEvStationFill: BsiEvStationFillType = function (props, ctx) {
 };
 BsiEvStationFill.displayName = 'BsiEvStationFill';
 export default BsiEvStationFill;
+export { BsiEvStationFill };

@@ -24,3 +24,4 @@ const BsiTextarea: BsiTextareaType = function (props, ctx) {
 };
 BsiTextarea.displayName = 'BsiTextarea';
 export default BsiTextarea;
+export { BsiTextarea };

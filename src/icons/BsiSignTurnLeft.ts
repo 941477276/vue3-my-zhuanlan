@@ -24,3 +24,4 @@ const BsiSignTurnLeft: BsiSignTurnLeftType = function (props, ctx) {
 };
 BsiSignTurnLeft.displayName = 'BsiSignTurnLeft';
 export default BsiSignTurnLeft;
+export { BsiSignTurnLeft };

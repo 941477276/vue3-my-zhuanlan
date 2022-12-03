@@ -24,3 +24,4 @@ const BsiBattery: BsiBatteryType = function (props, ctx) {
 };
 BsiBattery.displayName = 'BsiBattery';
 export default BsiBattery;
+export { BsiBattery };

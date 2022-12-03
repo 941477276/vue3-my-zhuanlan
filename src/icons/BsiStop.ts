@@ -24,3 +24,4 @@ const BsiStop: BsiStopType = function (props, ctx) {
 };
 BsiStop.displayName = 'BsiStop';
 export default BsiStop;
+export { BsiStop };

@@ -24,3 +24,4 @@ const BsiOutlet: BsiOutletType = function (props, ctx) {
 };
 BsiOutlet.displayName = 'BsiOutlet';
 export default BsiOutlet;
+export { BsiOutlet };

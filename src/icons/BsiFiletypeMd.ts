@@ -24,3 +24,4 @@ const BsiFiletypeMd: BsiFiletypeMdType = function (props, ctx) {
 };
 BsiFiletypeMd.displayName = 'BsiFiletypeMd';
 export default BsiFiletypeMd;
+export { BsiFiletypeMd };

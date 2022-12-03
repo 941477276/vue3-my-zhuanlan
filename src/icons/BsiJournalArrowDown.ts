@@ -24,3 +24,4 @@ const BsiJournalArrowDown: BsiJournalArrowDownType = function (props, ctx) {
 };
 BsiJournalArrowDown.displayName = 'BsiJournalArrowDown';
 export default BsiJournalArrowDown;
+export { BsiJournalArrowDown };

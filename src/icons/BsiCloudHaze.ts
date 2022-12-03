@@ -24,3 +24,4 @@ const BsiCloudHaze: BsiCloudHazeType = function (props, ctx) {
 };
 BsiCloudHaze.displayName = 'BsiCloudHaze';
 export default BsiCloudHaze;
+export { BsiCloudHaze };

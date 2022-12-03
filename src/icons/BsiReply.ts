@@ -24,3 +24,4 @@ const BsiReply: BsiReplyType = function (props, ctx) {
 };
 BsiReply.displayName = 'BsiReply';
 export default BsiReply;
+export { BsiReply };

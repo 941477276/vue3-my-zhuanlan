@@ -24,3 +24,4 @@ const BsiBookFill: BsiBookFillType = function (props, ctx) {
 };
 BsiBookFill.displayName = 'BsiBookFill';
 export default BsiBookFill;
+export { BsiBookFill };

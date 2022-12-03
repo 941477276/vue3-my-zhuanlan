@@ -24,3 +24,4 @@ const BsiTypeStrikethrough: BsiTypeStrikethroughType = function (props, ctx) {
 };
 BsiTypeStrikethrough.displayName = 'BsiTypeStrikethrough';
 export default BsiTypeStrikethrough;
+export { BsiTypeStrikethrough };

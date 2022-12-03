@@ -24,3 +24,4 @@ const BsiSignTurnSlightLeftFill: BsiSignTurnSlightLeftFillType = function (props
 };
 BsiSignTurnSlightLeftFill.displayName = 'BsiSignTurnSlightLeftFill';
 export default BsiSignTurnSlightLeftFill;
+export { BsiSignTurnSlightLeftFill };

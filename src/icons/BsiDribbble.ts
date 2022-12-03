@@ -24,3 +24,4 @@ const BsiDribbble: BsiDribbbleType = function (props, ctx) {
 };
 BsiDribbble.displayName = 'BsiDribbble';
 export default BsiDribbble;
+export { BsiDribbble };

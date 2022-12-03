@@ -24,3 +24,4 @@ const BsiBack: BsiBackType = function (props, ctx) {
 };
 BsiBack.displayName = 'BsiBack';
 export default BsiBack;
+export { BsiBack };

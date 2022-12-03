@@ -24,3 +24,4 @@ const BsiPersonFillCheck: BsiPersonFillCheckType = function (props, ctx) {
 };
 BsiPersonFillCheck.displayName = 'BsiPersonFillCheck';
 export default BsiPersonFillCheck;
+export { BsiPersonFillCheck };

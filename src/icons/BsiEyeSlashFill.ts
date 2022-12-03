@@ -24,3 +24,4 @@ const BsiEyeSlashFill: BsiEyeSlashFillType = function (props, ctx) {
 };
 BsiEyeSlashFill.displayName = 'BsiEyeSlashFill';
 export default BsiEyeSlashFill;
+export { BsiEyeSlashFill };

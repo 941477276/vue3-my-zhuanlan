@@ -24,3 +24,4 @@ const BsiCaretDown: BsiCaretDownType = function (props, ctx) {
 };
 BsiCaretDown.displayName = 'BsiCaretDown';
 export default BsiCaretDown;
+export { BsiCaretDown };

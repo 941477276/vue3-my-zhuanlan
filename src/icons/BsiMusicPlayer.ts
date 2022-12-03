@@ -24,3 +24,4 @@ const BsiMusicPlayer: BsiMusicPlayerType = function (props, ctx) {
 };
 BsiMusicPlayer.displayName = 'BsiMusicPlayer';
 export default BsiMusicPlayer;
+export { BsiMusicPlayer };

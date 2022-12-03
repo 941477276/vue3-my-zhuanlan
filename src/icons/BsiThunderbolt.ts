@@ -24,3 +24,4 @@ const BsiThunderbolt: BsiThunderboltType = function (props, ctx) {
 };
 BsiThunderbolt.displayName = 'BsiThunderbolt';
 export default BsiThunderbolt;
+export { BsiThunderbolt };

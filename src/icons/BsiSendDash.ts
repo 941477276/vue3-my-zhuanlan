@@ -24,3 +24,4 @@ const BsiSendDash: BsiSendDashType = function (props, ctx) {
 };
 BsiSendDash.displayName = 'BsiSendDash';
 export default BsiSendDash;
+export { BsiSendDash };

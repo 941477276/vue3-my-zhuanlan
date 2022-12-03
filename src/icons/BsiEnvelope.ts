@@ -24,3 +24,4 @@ const BsiEnvelope: BsiEnvelopeType = function (props, ctx) {
 };
 BsiEnvelope.displayName = 'BsiEnvelope';
 export default BsiEnvelope;
+export { BsiEnvelope };

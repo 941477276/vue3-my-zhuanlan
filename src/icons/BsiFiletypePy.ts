@@ -24,3 +24,4 @@ const BsiFiletypePy: BsiFiletypePyType = function (props, ctx) {
 };
 BsiFiletypePy.displayName = 'BsiFiletypePy';
 export default BsiFiletypePy;
+export { BsiFiletypePy };

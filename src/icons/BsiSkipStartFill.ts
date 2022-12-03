@@ -24,3 +24,4 @@ const BsiSkipStartFill: BsiSkipStartFillType = function (props, ctx) {
 };
 BsiSkipStartFill.displayName = 'BsiSkipStartFill';
 export default BsiSkipStartFill;
+export { BsiSkipStartFill };

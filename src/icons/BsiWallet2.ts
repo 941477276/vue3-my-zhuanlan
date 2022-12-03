@@ -24,3 +24,4 @@ const BsiWallet2: BsiWallet2Type = function (props, ctx) {
 };
 BsiWallet2.displayName = 'BsiWallet2';
 export default BsiWallet2;
+export { BsiWallet2 };

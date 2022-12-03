@@ -24,3 +24,4 @@ const BsiFolderPlus: BsiFolderPlusType = function (props, ctx) {
 };
 BsiFolderPlus.displayName = 'BsiFolderPlus';
 export default BsiFolderPlus;
+export { BsiFolderPlus };

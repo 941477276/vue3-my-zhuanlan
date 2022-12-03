@@ -24,3 +24,4 @@ const BsiBorderStyle: BsiBorderStyleType = function (props, ctx) {
 };
 BsiBorderStyle.displayName = 'BsiBorderStyle';
 export default BsiBorderStyle;
+export { BsiBorderStyle };

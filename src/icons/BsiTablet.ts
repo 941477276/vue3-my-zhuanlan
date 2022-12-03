@@ -24,3 +24,4 @@ const BsiTablet: BsiTabletType = function (props, ctx) {
 };
 BsiTablet.displayName = 'BsiTablet';
 export default BsiTablet;
+export { BsiTablet };

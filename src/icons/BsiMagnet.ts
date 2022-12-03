@@ -24,3 +24,4 @@ const BsiMagnet: BsiMagnetType = function (props, ctx) {
 };
 BsiMagnet.displayName = 'BsiMagnet';
 export default BsiMagnet;
+export { BsiMagnet };

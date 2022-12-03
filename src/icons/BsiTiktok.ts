@@ -24,3 +24,4 @@ const BsiTiktok: BsiTiktokType = function (props, ctx) {
 };
 BsiTiktok.displayName = 'BsiTiktok';
 export default BsiTiktok;
+export { BsiTiktok };

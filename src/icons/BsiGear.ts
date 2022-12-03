@@ -24,3 +24,4 @@ const BsiGear: BsiGearType = function (props, ctx) {
 };
 BsiGear.displayName = 'BsiGear';
 export default BsiGear;
+export { BsiGear };

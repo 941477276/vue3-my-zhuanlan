@@ -24,3 +24,4 @@ const BsiPercent: BsiPercentType = function (props, ctx) {
 };
 BsiPercent.displayName = 'BsiPercent';
 export default BsiPercent;
+export { BsiPercent };

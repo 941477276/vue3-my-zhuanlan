@@ -24,3 +24,4 @@ const BsiFiletypeJpg: BsiFiletypeJpgType = function (props, ctx) {
 };
 BsiFiletypeJpg.displayName = 'BsiFiletypeJpg';
 export default BsiFiletypeJpg;
+export { BsiFiletypeJpg };

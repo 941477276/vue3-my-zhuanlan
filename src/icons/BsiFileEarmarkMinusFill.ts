@@ -24,3 +24,4 @@ const BsiFileEarmarkMinusFill: BsiFileEarmarkMinusFillType = function (props, ct
 };
 BsiFileEarmarkMinusFill.displayName = 'BsiFileEarmarkMinusFill';
 export default BsiFileEarmarkMinusFill;
+export { BsiFileEarmarkMinusFill };

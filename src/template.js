@@ -26,6 +26,7 @@ const <%= iconDisplayName %>: <%= iconDisplayName %>Type = function (props, ctx)
 };
 <%= iconDisplayName %>.displayName = '<%= iconDisplayName %>';
 export default <%= iconDisplayName %>;
+export { <%= iconDisplayName %> };
 `;
 
 module.exports = iconTemplate;

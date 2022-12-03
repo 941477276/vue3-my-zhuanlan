@@ -24,3 +24,4 @@ const BsiOption: BsiOptionType = function (props, ctx) {
 };
 BsiOption.displayName = 'BsiOption';
 export default BsiOption;
+export { BsiOption };

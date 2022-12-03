@@ -24,3 +24,4 @@ const BsiBarChartLine: BsiBarChartLineType = function (props, ctx) {
 };
 BsiBarChartLine.displayName = 'BsiBarChartLine';
 export default BsiBarChartLine;
+export { BsiBarChartLine };

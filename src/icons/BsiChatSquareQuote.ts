@@ -24,3 +24,4 @@ const BsiChatSquareQuote: BsiChatSquareQuoteType = function (props, ctx) {
 };
 BsiChatSquareQuote.displayName = 'BsiChatSquareQuote';
 export default BsiChatSquareQuote;
+export { BsiChatSquareQuote };

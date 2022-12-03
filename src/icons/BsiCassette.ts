@@ -24,3 +24,4 @@ const BsiCassette: BsiCassetteType = function (props, ctx) {
 };
 BsiCassette.displayName = 'BsiCassette';
 export default BsiCassette;
+export { BsiCassette };

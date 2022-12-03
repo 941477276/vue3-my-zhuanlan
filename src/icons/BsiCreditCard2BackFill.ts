@@ -24,3 +24,4 @@ const BsiCreditCard2BackFill: BsiCreditCard2BackFillType = function (props, ctx)
 };
 BsiCreditCard2BackFill.displayName = 'BsiCreditCard2BackFill';
 export default BsiCreditCard2BackFill;
+export { BsiCreditCard2BackFill };

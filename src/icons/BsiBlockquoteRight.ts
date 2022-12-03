@@ -24,3 +24,4 @@ const BsiBlockquoteRight: BsiBlockquoteRightType = function (props, ctx) {
 };
 BsiBlockquoteRight.displayName = 'BsiBlockquoteRight';
 export default BsiBlockquoteRight;
+export { BsiBlockquoteRight };

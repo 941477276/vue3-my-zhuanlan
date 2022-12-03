@@ -24,3 +24,4 @@ const BsiSpeedometer2: BsiSpeedometer2Type = function (props, ctx) {
 };
 BsiSpeedometer2.displayName = 'BsiSpeedometer2';
 export default BsiSpeedometer2;
+export { BsiSpeedometer2 };

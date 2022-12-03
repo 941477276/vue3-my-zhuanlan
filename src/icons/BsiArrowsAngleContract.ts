@@ -24,3 +24,4 @@ const BsiArrowsAngleContract: BsiArrowsAngleContractType = function (props, ctx)
 };
 BsiArrowsAngleContract.displayName = 'BsiArrowsAngleContract';
 export default BsiArrowsAngleContract;
+export { BsiArrowsAngleContract };

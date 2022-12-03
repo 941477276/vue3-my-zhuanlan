@@ -24,3 +24,4 @@ const BsiWordpress: BsiWordpressType = function (props, ctx) {
 };
 BsiWordpress.displayName = 'BsiWordpress';
 export default BsiWordpress;
+export { BsiWordpress };

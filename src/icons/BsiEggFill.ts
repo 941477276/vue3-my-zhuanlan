@@ -24,3 +24,4 @@ const BsiEggFill: BsiEggFillType = function (props, ctx) {
 };
 BsiEggFill.displayName = 'BsiEggFill';
 export default BsiEggFill;
+export { BsiEggFill };

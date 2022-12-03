@@ -24,3 +24,4 @@ const BsiSignNoRightTurn: BsiSignNoRightTurnType = function (props, ctx) {
 };
 BsiSignNoRightTurn.displayName = 'BsiSignNoRightTurn';
 export default BsiSignNoRightTurn;
+export { BsiSignNoRightTurn };

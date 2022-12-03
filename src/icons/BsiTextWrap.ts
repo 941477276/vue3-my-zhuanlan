@@ -24,3 +24,4 @@ const BsiTextWrap: BsiTextWrapType = function (props, ctx) {
 };
 BsiTextWrap.displayName = 'BsiTextWrap';
 export default BsiTextWrap;
+export { BsiTextWrap };

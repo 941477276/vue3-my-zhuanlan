@@ -24,3 +24,4 @@ const BsiCloudSun: BsiCloudSunType = function (props, ctx) {
 };
 BsiCloudSun.displayName = 'BsiCloudSun';
 export default BsiCloudSun;
+export { BsiCloudSun };

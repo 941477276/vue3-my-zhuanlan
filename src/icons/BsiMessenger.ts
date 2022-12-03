@@ -24,3 +24,4 @@ const BsiMessenger: BsiMessengerType = function (props, ctx) {
 };
 BsiMessenger.displayName = 'BsiMessenger';
 export default BsiMessenger;
+export { BsiMessenger };

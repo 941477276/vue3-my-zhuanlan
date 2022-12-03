@@ -24,3 +24,4 @@ const BsiStarHalf: BsiStarHalfType = function (props, ctx) {
 };
 BsiStarHalf.displayName = 'BsiStarHalf';
 export default BsiStarHalf;
+export { BsiStarHalf };

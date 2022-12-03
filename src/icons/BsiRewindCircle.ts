@@ -24,3 +24,4 @@ const BsiRewindCircle: BsiRewindCircleType = function (props, ctx) {
 };
 BsiRewindCircle.displayName = 'BsiRewindCircle';
 export default BsiRewindCircle;
+export { BsiRewindCircle };

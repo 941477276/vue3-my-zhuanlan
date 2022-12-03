@@ -24,3 +24,4 @@ const BsiMask: BsiMaskType = function (props, ctx) {
 };
 BsiMask.displayName = 'BsiMask';
 export default BsiMask;
+export { BsiMask };

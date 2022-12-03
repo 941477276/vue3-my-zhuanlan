@@ -24,3 +24,4 @@ const BsiFileWord: BsiFileWordType = function (props, ctx) {
 };
 BsiFileWord.displayName = 'BsiFileWord';
 export default BsiFileWord;
+export { BsiFileWord };

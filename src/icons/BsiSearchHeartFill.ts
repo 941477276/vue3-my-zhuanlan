@@ -24,3 +24,4 @@ const BsiSearchHeartFill: BsiSearchHeartFillType = function (props, ctx) {
 };
 BsiSearchHeartFill.displayName = 'BsiSearchHeartFill';
 export default BsiSearchHeartFill;
+export { BsiSearchHeartFill };

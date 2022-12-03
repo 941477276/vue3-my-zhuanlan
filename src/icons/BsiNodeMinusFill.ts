@@ -24,3 +24,4 @@ const BsiNodeMinusFill: BsiNodeMinusFillType = function (props, ctx) {
 };
 BsiNodeMinusFill.displayName = 'BsiNodeMinusFill';
 export default BsiNodeMinusFill;
+export { BsiNodeMinusFill };

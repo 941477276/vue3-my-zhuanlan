@@ -24,3 +24,4 @@ const BsiFire: BsiFireType = function (props, ctx) {
 };
 BsiFire.displayName = 'BsiFire';
 export default BsiFire;
+export { BsiFire };

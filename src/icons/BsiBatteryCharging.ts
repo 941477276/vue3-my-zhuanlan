@@ -24,3 +24,4 @@ const BsiBatteryCharging: BsiBatteryChargingType = function (props, ctx) {
 };
 BsiBatteryCharging.displayName = 'BsiBatteryCharging';
 export default BsiBatteryCharging;
+export { BsiBatteryCharging };

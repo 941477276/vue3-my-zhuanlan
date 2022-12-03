@@ -24,3 +24,4 @@ const BsiArrow90degDown: BsiArrow90degDownType = function (props, ctx) {
 };
 BsiArrow90degDown.displayName = 'BsiArrow90degDown';
 export default BsiArrow90degDown;
+export { BsiArrow90degDown };

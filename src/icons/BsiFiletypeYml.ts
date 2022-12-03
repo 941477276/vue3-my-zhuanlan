@@ -24,3 +24,4 @@ const BsiFiletypeYml: BsiFiletypeYmlType = function (props, ctx) {
 };
 BsiFiletypeYml.displayName = 'BsiFiletypeYml';
 export default BsiFiletypeYml;
+export { BsiFiletypeYml };

@@ -24,3 +24,4 @@ const BsiPostageFill: BsiPostageFillType = function (props, ctx) {
 };
 BsiPostageFill.displayName = 'BsiPostageFill';
 export default BsiPostageFill;
+export { BsiPostageFill };

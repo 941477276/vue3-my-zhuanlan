@@ -24,3 +24,4 @@ const BsiPersonFillDown: BsiPersonFillDownType = function (props, ctx) {
 };
 BsiPersonFillDown.displayName = 'BsiPersonFillDown';
 export default BsiPersonFillDown;
+export { BsiPersonFillDown };

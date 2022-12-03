@@ -24,3 +24,4 @@ const BsiBoundingBox: BsiBoundingBoxType = function (props, ctx) {
 };
 BsiBoundingBox.displayName = 'BsiBoundingBox';
 export default BsiBoundingBox;
+export { BsiBoundingBox };

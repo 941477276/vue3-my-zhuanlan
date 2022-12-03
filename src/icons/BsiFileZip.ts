@@ -24,3 +24,4 @@ const BsiFileZip: BsiFileZipType = function (props, ctx) {
 };
 BsiFileZip.displayName = 'BsiFileZip';
 export default BsiFileZip;
+export { BsiFileZip };

@@ -24,3 +24,4 @@ const BsiHouseCheckFill: BsiHouseCheckFillType = function (props, ctx) {
 };
 BsiHouseCheckFill.displayName = 'BsiHouseCheckFill';
 export default BsiHouseCheckFill;
+export { BsiHouseCheckFill };

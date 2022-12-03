@@ -24,3 +24,4 @@ const BsiOctagon: BsiOctagonType = function (props, ctx) {
 };
 BsiOctagon.displayName = 'BsiOctagon';
 export default BsiOctagon;
+export { BsiOctagon };

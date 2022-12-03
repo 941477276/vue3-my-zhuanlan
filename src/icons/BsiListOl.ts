@@ -24,3 +24,4 @@ const BsiListOl: BsiListOlType = function (props, ctx) {
 };
 BsiListOl.displayName = 'BsiListOl';
 export default BsiListOl;
+export { BsiListOl };

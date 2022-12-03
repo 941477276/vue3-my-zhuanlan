@@ -24,3 +24,4 @@ const BsiSlashLg: BsiSlashLgType = function (props, ctx) {
 };
 BsiSlashLg.displayName = 'BsiSlashLg';
 export default BsiSlashLg;
+export { BsiSlashLg };

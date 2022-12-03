@@ -24,3 +24,4 @@ const BsiChatSquareFill: BsiChatSquareFillType = function (props, ctx) {
 };
 BsiChatSquareFill.displayName = 'BsiChatSquareFill';
 export default BsiChatSquareFill;
+export { BsiChatSquareFill };

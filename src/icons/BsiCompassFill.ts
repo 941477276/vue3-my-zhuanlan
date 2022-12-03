@@ -24,3 +24,4 @@ const BsiCompassFill: BsiCompassFillType = function (props, ctx) {
 };
 BsiCompassFill.displayName = 'BsiCompassFill';
 export default BsiCompassFill;
+export { BsiCompassFill };

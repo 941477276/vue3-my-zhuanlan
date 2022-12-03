@@ -24,3 +24,4 @@ const BsiAlignTop: BsiAlignTopType = function (props, ctx) {
 };
 BsiAlignTop.displayName = 'BsiAlignTop';
 export default BsiAlignTop;
+export { BsiAlignTop };

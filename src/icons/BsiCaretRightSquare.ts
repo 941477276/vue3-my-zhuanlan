@@ -24,3 +24,4 @@ const BsiCaretRightSquare: BsiCaretRightSquareType = function (props, ctx) {
 };
 BsiCaretRightSquare.displayName = 'BsiCaretRightSquare';
 export default BsiCaretRightSquare;
+export { BsiCaretRightSquare };

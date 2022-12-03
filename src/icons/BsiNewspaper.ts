@@ -24,3 +24,4 @@ const BsiNewspaper: BsiNewspaperType = function (props, ctx) {
 };
 BsiNewspaper.displayName = 'BsiNewspaper';
 export default BsiNewspaper;
+export { BsiNewspaper };

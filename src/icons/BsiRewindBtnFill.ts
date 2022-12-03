@@ -24,3 +24,4 @@ const BsiRewindBtnFill: BsiRewindBtnFillType = function (props, ctx) {
 };
 BsiRewindBtnFill.displayName = 'BsiRewindBtnFill';
 export default BsiRewindBtnFill;
+export { BsiRewindBtnFill };

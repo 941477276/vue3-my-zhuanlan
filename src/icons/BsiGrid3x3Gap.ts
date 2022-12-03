@@ -24,3 +24,4 @@ const BsiGrid3x3Gap: BsiGrid3x3GapType = function (props, ctx) {
 };
 BsiGrid3x3Gap.displayName = 'BsiGrid3x3Gap';
 export default BsiGrid3x3Gap;
+export { BsiGrid3x3Gap };

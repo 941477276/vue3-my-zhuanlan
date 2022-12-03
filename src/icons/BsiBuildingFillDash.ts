@@ -24,3 +24,4 @@ const BsiBuildingFillDash: BsiBuildingFillDashType = function (props, ctx) {
 };
 BsiBuildingFillDash.displayName = 'BsiBuildingFillDash';
 export default BsiBuildingFillDash;
+export { BsiBuildingFillDash };

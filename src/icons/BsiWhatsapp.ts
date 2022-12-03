@@ -24,3 +24,4 @@ const BsiWhatsapp: BsiWhatsappType = function (props, ctx) {
 };
 BsiWhatsapp.displayName = 'BsiWhatsapp';
 export default BsiWhatsapp;
+export { BsiWhatsapp };

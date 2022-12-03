@@ -24,3 +24,4 @@ const BsiCaretLeft: BsiCaretLeftType = function (props, ctx) {
 };
 BsiCaretLeft.displayName = 'BsiCaretLeft';
 export default BsiCaretLeft;
+export { BsiCaretLeft };

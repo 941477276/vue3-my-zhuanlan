@@ -24,3 +24,4 @@ const BsiUpcScan: BsiUpcScanType = function (props, ctx) {
 };
 BsiUpcScan.displayName = 'BsiUpcScan';
 export default BsiUpcScan;
+export { BsiUpcScan };

@@ -24,3 +24,4 @@ const BsiFileBarGraphFill: BsiFileBarGraphFillType = function (props, ctx) {
 };
 BsiFileBarGraphFill.displayName = 'BsiFileBarGraphFill';
 export default BsiFileBarGraphFill;
+export { BsiFileBarGraphFill };

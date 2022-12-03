@@ -24,3 +24,4 @@ const BsiWrench: BsiWrenchType = function (props, ctx) {
 };
 BsiWrench.displayName = 'BsiWrench';
 export default BsiWrench;
+export { BsiWrench };

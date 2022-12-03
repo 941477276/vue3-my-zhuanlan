@@ -24,3 +24,4 @@ const BsiPaypal: BsiPaypalType = function (props, ctx) {
 };
 BsiPaypal.displayName = 'BsiPaypal';
 export default BsiPaypal;
+export { BsiPaypal };

@@ -24,3 +24,4 @@ const BsiBuildingFillGear: BsiBuildingFillGearType = function (props, ctx) {
 };
 BsiBuildingFillGear.displayName = 'BsiBuildingFillGear';
 export default BsiBuildingFillGear;
+export { BsiBuildingFillGear };

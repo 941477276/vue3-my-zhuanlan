@@ -24,3 +24,4 @@ const BsiSoundwave: BsiSoundwaveType = function (props, ctx) {
 };
 BsiSoundwave.displayName = 'BsiSoundwave';
 export default BsiSoundwave;
+export { BsiSoundwave };

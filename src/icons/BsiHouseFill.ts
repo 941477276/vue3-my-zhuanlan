@@ -24,3 +24,4 @@ const BsiHouseFill: BsiHouseFillType = function (props, ctx) {
 };
 BsiHouseFill.displayName = 'BsiHouseFill';
 export default BsiHouseFill;
+export { BsiHouseFill };

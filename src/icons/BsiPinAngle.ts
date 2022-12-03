@@ -24,3 +24,4 @@ const BsiPinAngle: BsiPinAngleType = function (props, ctx) {
 };
 BsiPinAngle.displayName = 'BsiPinAngle';
 export default BsiPinAngle;
+export { BsiPinAngle };

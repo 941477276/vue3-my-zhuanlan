@@ -24,3 +24,4 @@ const BsiScissors: BsiScissorsType = function (props, ctx) {
 };
 BsiScissors.displayName = 'BsiScissors';
 export default BsiScissors;
+export { BsiScissors };

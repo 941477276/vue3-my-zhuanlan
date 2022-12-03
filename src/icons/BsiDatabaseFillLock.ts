@@ -24,3 +24,4 @@ const BsiDatabaseFillLock: BsiDatabaseFillLockType = function (props, ctx) {
 };
 BsiDatabaseFillLock.displayName = 'BsiDatabaseFillLock';
 export default BsiDatabaseFillLock;
+export { BsiDatabaseFillLock };

@@ -24,3 +24,4 @@ const BsiBootstrap: BsiBootstrapType = function (props, ctx) {
 };
 BsiBootstrap.displayName = 'BsiBootstrap';
 export default BsiBootstrap;
+export { BsiBootstrap };

@@ -24,3 +24,4 @@ const BsiBuildingFillLock: BsiBuildingFillLockType = function (props, ctx) {
 };
 BsiBuildingFillLock.displayName = 'BsiBuildingFillLock';
 export default BsiBuildingFillLock;
+export { BsiBuildingFillLock };

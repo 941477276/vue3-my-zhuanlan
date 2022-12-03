@@ -24,3 +24,4 @@ const BsiMicMute: BsiMicMuteType = function (props, ctx) {
 };
 BsiMicMute.displayName = 'BsiMicMute';
 export default BsiMicMute;
+export { BsiMicMute };

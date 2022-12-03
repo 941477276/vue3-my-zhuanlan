@@ -24,3 +24,4 @@ const BsiPenFill: BsiPenFillType = function (props, ctx) {
 };
 BsiPenFill.displayName = 'BsiPenFill';
 export default BsiPenFill;
+export { BsiPenFill };

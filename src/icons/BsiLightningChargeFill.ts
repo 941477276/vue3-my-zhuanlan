@@ -24,3 +24,4 @@ const BsiLightningChargeFill: BsiLightningChargeFillType = function (props, ctx)
 };
 BsiLightningChargeFill.displayName = 'BsiLightningChargeFill';
 export default BsiLightningChargeFill;
+export { BsiLightningChargeFill };

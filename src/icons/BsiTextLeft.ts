@@ -24,3 +24,4 @@ const BsiTextLeft: BsiTextLeftType = function (props, ctx) {
 };
 BsiTextLeft.displayName = 'BsiTextLeft';
 export default BsiTextLeft;
+export { BsiTextLeft };

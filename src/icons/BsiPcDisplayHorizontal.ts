@@ -24,3 +24,4 @@ const BsiPcDisplayHorizontal: BsiPcDisplayHorizontalType = function (props, ctx)
 };
 BsiPcDisplayHorizontal.displayName = 'BsiPcDisplayHorizontal';
 export default BsiPcDisplayHorizontal;
+export { BsiPcDisplayHorizontal };

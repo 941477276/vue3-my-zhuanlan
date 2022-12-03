@@ -24,3 +24,4 @@ const BsiTsunami: BsiTsunamiType = function (props, ctx) {
 };
 BsiTsunami.displayName = 'BsiTsunami';
 export default BsiTsunami;
+export { BsiTsunami };

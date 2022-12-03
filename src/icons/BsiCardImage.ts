@@ -24,3 +24,4 @@ const BsiCardImage: BsiCardImageType = function (props, ctx) {
 };
 BsiCardImage.displayName = 'BsiCardImage';
 export default BsiCardImage;
+export { BsiCardImage };

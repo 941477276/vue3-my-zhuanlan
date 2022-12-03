@@ -24,3 +24,4 @@ const BsiBagX: BsiBagXType = function (props, ctx) {
 };
 BsiBagX.displayName = 'BsiBagX';
 export default BsiBagX;
+export { BsiBagX };

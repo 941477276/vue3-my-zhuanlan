@@ -24,3 +24,4 @@ const BsiFiletypeDocx: BsiFiletypeDocxType = function (props, ctx) {
 };
 BsiFiletypeDocx.displayName = 'BsiFiletypeDocx';
 export default BsiFiletypeDocx;
+export { BsiFiletypeDocx };

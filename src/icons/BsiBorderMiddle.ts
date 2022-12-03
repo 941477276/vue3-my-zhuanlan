@@ -24,3 +24,4 @@ const BsiBorderMiddle: BsiBorderMiddleType = function (props, ctx) {
 };
 BsiBorderMiddle.displayName = 'BsiBorderMiddle';
 export default BsiBorderMiddle;
+export { BsiBorderMiddle };

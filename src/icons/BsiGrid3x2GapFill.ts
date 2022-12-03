@@ -24,3 +24,4 @@ const BsiGrid3x2GapFill: BsiGrid3x2GapFillType = function (props, ctx) {
 };
 BsiGrid3x2GapFill.displayName = 'BsiGrid3x2GapFill';
 export default BsiGrid3x2GapFill;
+export { BsiGrid3x2GapFill };

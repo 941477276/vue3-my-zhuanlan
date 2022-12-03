@@ -24,3 +24,4 @@ const BsiPentagonHalf: BsiPentagonHalfType = function (props, ctx) {
 };
 BsiPentagonHalf.displayName = 'BsiPentagonHalf';
 export default BsiPentagonHalf;
+export { BsiPentagonHalf };

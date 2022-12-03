@@ -24,3 +24,4 @@ const BsiSdCardFill: BsiSdCardFillType = function (props, ctx) {
 };
 BsiSdCardFill.displayName = 'BsiSdCardFill';
 export default BsiSdCardFill;
+export { BsiSdCardFill };

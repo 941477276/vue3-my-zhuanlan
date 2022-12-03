@@ -24,3 +24,4 @@ const BsiFilePlusFill: BsiFilePlusFillType = function (props, ctx) {
 };
 BsiFilePlusFill.displayName = 'BsiFilePlusFill';
 export default BsiFilePlusFill;
+export { BsiFilePlusFill };

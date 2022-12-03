@@ -24,3 +24,4 @@ const BsiThreeDots: BsiThreeDotsType = function (props, ctx) {
 };
 BsiThreeDots.displayName = 'BsiThreeDots';
 export default BsiThreeDots;
+export { BsiThreeDots };

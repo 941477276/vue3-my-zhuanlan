@@ -24,3 +24,4 @@ const BsiGraphDownArrow: BsiGraphDownArrowType = function (props, ctx) {
 };
 BsiGraphDownArrow.displayName = 'BsiGraphDownArrow';
 export default BsiGraphDownArrow;
+export { BsiGraphDownArrow };

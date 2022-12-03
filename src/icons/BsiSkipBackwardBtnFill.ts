@@ -24,3 +24,4 @@ const BsiSkipBackwardBtnFill: BsiSkipBackwardBtnFillType = function (props, ctx)
 };
 BsiSkipBackwardBtnFill.displayName = 'BsiSkipBackwardBtnFill';
 export default BsiSkipBackwardBtnFill;
+export { BsiSkipBackwardBtnFill };

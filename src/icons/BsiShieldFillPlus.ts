@@ -24,3 +24,4 @@ const BsiShieldFillPlus: BsiShieldFillPlusType = function (props, ctx) {
 };
 BsiShieldFillPlus.displayName = 'BsiShieldFillPlus';
 export default BsiShieldFillPlus;
+export { BsiShieldFillPlus };

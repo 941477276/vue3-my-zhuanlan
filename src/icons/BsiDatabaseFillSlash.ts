@@ -24,3 +24,4 @@ const BsiDatabaseFillSlash: BsiDatabaseFillSlashType = function (props, ctx) {
 };
 BsiDatabaseFillSlash.displayName = 'BsiDatabaseFillSlash';
 export default BsiDatabaseFillSlash;
+export { BsiDatabaseFillSlash };

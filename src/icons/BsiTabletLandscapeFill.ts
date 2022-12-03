@@ -24,3 +24,4 @@ const BsiTabletLandscapeFill: BsiTabletLandscapeFillType = function (props, ctx)
 };
 BsiTabletLandscapeFill.displayName = 'BsiTabletLandscapeFill';
 export default BsiTabletLandscapeFill;
+export { BsiTabletLandscapeFill };

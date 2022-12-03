@@ -24,3 +24,4 @@ const BsiCloudPlus: BsiCloudPlusType = function (props, ctx) {
 };
 BsiCloudPlus.displayName = 'BsiCloudPlus';
 export default BsiCloudPlus;
+export { BsiCloudPlus };

@@ -24,3 +24,4 @@ const BsiEyeFill: BsiEyeFillType = function (props, ctx) {
 };
 BsiEyeFill.displayName = 'BsiEyeFill';
 export default BsiEyeFill;
+export { BsiEyeFill };

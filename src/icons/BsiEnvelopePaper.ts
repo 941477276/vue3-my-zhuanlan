@@ -24,3 +24,4 @@ const BsiEnvelopePaper: BsiEnvelopePaperType = function (props, ctx) {
 };
 BsiEnvelopePaper.displayName = 'BsiEnvelopePaper';
 export default BsiEnvelopePaper;
+export { BsiEnvelopePaper };

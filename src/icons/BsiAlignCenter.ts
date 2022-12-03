@@ -24,3 +24,4 @@ const BsiAlignCenter: BsiAlignCenterType = function (props, ctx) {
 };
 BsiAlignCenter.displayName = 'BsiAlignCenter';
 export default BsiAlignCenter;
+export { BsiAlignCenter };

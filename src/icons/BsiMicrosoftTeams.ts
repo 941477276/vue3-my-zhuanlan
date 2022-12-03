@@ -24,3 +24,4 @@ const BsiMicrosoftTeams: BsiMicrosoftTeamsType = function (props, ctx) {
 };
 BsiMicrosoftTeams.displayName = 'BsiMicrosoftTeams';
 export default BsiMicrosoftTeams;
+export { BsiMicrosoftTeams };

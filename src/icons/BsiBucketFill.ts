@@ -24,3 +24,4 @@ const BsiBucketFill: BsiBucketFillType = function (props, ctx) {
 };
 BsiBucketFill.displayName = 'BsiBucketFill';
 export default BsiBucketFill;
+export { BsiBucketFill };

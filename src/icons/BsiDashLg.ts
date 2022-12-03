@@ -24,3 +24,4 @@ const BsiDashLg: BsiDashLgType = function (props, ctx) {
 };
 BsiDashLg.displayName = 'BsiDashLg';
 export default BsiDashLg;
+export { BsiDashLg };

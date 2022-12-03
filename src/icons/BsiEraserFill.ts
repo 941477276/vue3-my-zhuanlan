@@ -24,3 +24,4 @@ const BsiEraserFill: BsiEraserFillType = function (props, ctx) {
 };
 BsiEraserFill.displayName = 'BsiEraserFill';
 export default BsiEraserFill;
+export { BsiEraserFill };

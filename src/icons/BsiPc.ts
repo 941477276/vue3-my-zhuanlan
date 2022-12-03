@@ -24,3 +24,4 @@ const BsiPc: BsiPcType = function (props, ctx) {
 };
 BsiPc.displayName = 'BsiPc';
 export default BsiPc;
+export { BsiPc };

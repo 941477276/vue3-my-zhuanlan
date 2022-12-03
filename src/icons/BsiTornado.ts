@@ -24,3 +24,4 @@ const BsiTornado: BsiTornadoType = function (props, ctx) {
 };
 BsiTornado.displayName = 'BsiTornado';
 export default BsiTornado;
+export { BsiTornado };

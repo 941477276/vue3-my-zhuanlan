@@ -24,3 +24,4 @@ const BsiHouseLock: BsiHouseLockType = function (props, ctx) {
 };
 BsiHouseLock.displayName = 'BsiHouseLock';
 export default BsiHouseLock;
+export { BsiHouseLock };

@@ -24,3 +24,4 @@ const BsiPersonFillDash: BsiPersonFillDashType = function (props, ctx) {
 };
 BsiPersonFillDash.displayName = 'BsiPersonFillDash';
 export default BsiPersonFillDash;
+export { BsiPersonFillDash };

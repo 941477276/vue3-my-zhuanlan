@@ -24,3 +24,4 @@ const BsiFiletypeMov: BsiFiletypeMovType = function (props, ctx) {
 };
 BsiFiletypeMov.displayName = 'BsiFiletypeMov';
 export default BsiFiletypeMov;
+export { BsiFiletypeMov };

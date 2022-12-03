@@ -24,3 +24,4 @@ const BsiDisc: BsiDiscType = function (props, ctx) {
 };
 BsiDisc.displayName = 'BsiDisc';
 export default BsiDisc;
+export { BsiDisc };

@@ -24,3 +24,4 @@ const BsiCalendar2Minus: BsiCalendar2MinusType = function (props, ctx) {
 };
 BsiCalendar2Minus.displayName = 'BsiCalendar2Minus';
 export default BsiCalendar2Minus;
+export { BsiCalendar2Minus };

@@ -24,3 +24,4 @@ const BsiMenuButtonFill: BsiMenuButtonFillType = function (props, ctx) {
 };
 BsiMenuButtonFill.displayName = 'BsiMenuButtonFill';
 export default BsiMenuButtonFill;
+export { BsiMenuButtonFill };

@@ -24,3 +24,4 @@ const BsiCpuFill: BsiCpuFillType = function (props, ctx) {
 };
 BsiCpuFill.displayName = 'BsiCpuFill';
 export default BsiCpuFill;
+export { BsiCpuFill };

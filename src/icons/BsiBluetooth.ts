@@ -24,3 +24,4 @@ const BsiBluetooth: BsiBluetoothType = function (props, ctx) {
 };
 BsiBluetooth.displayName = 'BsiBluetooth';
 export default BsiBluetooth;
+export { BsiBluetooth };

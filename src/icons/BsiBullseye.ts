@@ -24,3 +24,4 @@ const BsiBullseye: BsiBullseyeType = function (props, ctx) {
 };
 BsiBullseye.displayName = 'BsiBullseye';
 export default BsiBullseye;
+export { BsiBullseye };

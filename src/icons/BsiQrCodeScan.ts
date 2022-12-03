@@ -24,3 +24,4 @@ const BsiQrCodeScan: BsiQrCodeScanType = function (props, ctx) {
 };
 BsiQrCodeScan.displayName = 'BsiQrCodeScan';
 export default BsiQrCodeScan;
+export { BsiQrCodeScan };

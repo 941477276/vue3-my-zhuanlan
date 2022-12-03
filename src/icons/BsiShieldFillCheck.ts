@@ -24,3 +24,4 @@ const BsiShieldFillCheck: BsiShieldFillCheckType = function (props, ctx) {
 };
 BsiShieldFillCheck.displayName = 'BsiShieldFillCheck';
 export default BsiShieldFillCheck;
+export { BsiShieldFillCheck };

@@ -24,3 +24,4 @@ const BsiTrainLightrailFront: BsiTrainLightrailFrontType = function (props, ctx)
 };
 BsiTrainLightrailFront.displayName = 'BsiTrainLightrailFront';
 export default BsiTrainLightrailFront;
+export { BsiTrainLightrailFront };

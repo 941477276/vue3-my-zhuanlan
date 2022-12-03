@@ -24,3 +24,4 @@ const BsiCapsulePill: BsiCapsulePillType = function (props, ctx) {
 };
 BsiCapsulePill.displayName = 'BsiCapsulePill';
 export default BsiCapsulePill;
+export { BsiCapsulePill };

@@ -24,3 +24,4 @@ const BsiPersonGear: BsiPersonGearType = function (props, ctx) {
 };
 BsiPersonGear.displayName = 'BsiPersonGear';
 export default BsiPersonGear;
+export { BsiPersonGear };

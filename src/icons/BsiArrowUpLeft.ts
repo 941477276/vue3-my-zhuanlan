@@ -24,3 +24,4 @@ const BsiArrowUpLeft: BsiArrowUpLeftType = function (props, ctx) {
 };
 BsiArrowUpLeft.displayName = 'BsiArrowUpLeft';
 export default BsiArrowUpLeft;
+export { BsiArrowUpLeft };

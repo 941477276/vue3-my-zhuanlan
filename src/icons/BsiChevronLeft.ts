@@ -24,3 +24,4 @@ const BsiChevronLeft: BsiChevronLeftType = function (props, ctx) {
 };
 BsiChevronLeft.displayName = 'BsiChevronLeft';
 export default BsiChevronLeft;
+export { BsiChevronLeft };

@@ -24,3 +24,4 @@ const BsiGlobeAmericas: BsiGlobeAmericasType = function (props, ctx) {
 };
 BsiGlobeAmericas.displayName = 'BsiGlobeAmericas';
 export default BsiGlobeAmericas;
+export { BsiGlobeAmericas };

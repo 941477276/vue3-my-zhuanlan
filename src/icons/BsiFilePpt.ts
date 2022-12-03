@@ -24,3 +24,4 @@ const BsiFilePpt: BsiFilePptType = function (props, ctx) {
 };
 BsiFilePpt.displayName = 'BsiFilePpt';
 export default BsiFilePpt;
+export { BsiFilePpt };

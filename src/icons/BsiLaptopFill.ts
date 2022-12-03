@@ -24,3 +24,4 @@ const BsiLaptopFill: BsiLaptopFillType = function (props, ctx) {
 };
 BsiLaptopFill.displayName = 'BsiLaptopFill';
 export default BsiLaptopFill;
+export { BsiLaptopFill };

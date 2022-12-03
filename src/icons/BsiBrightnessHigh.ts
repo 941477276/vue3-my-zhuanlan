@@ -24,3 +24,4 @@ const BsiBrightnessHigh: BsiBrightnessHighType = function (props, ctx) {
 };
 BsiBrightnessHigh.displayName = 'BsiBrightnessHigh';
 export default BsiBrightnessHigh;
+export { BsiBrightnessHigh };

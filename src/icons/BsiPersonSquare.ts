@@ -24,3 +24,4 @@ const BsiPersonSquare: BsiPersonSquareType = function (props, ctx) {
 };
 BsiPersonSquare.displayName = 'BsiPersonSquare';
 export default BsiPersonSquare;
+export { BsiPersonSquare };

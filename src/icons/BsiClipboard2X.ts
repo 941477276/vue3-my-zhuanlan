@@ -24,3 +24,4 @@ const BsiClipboard2X: BsiClipboard2XType = function (props, ctx) {
 };
 BsiClipboard2X.displayName = 'BsiClipboard2X';
 export default BsiClipboard2X;
+export { BsiClipboard2X };

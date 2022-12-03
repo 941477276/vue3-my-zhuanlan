@@ -24,3 +24,4 @@ const BsiSignpostSplit: BsiSignpostSplitType = function (props, ctx) {
 };
 BsiSignpostSplit.displayName = 'BsiSignpostSplit';
 export default BsiSignpostSplit;
+export { BsiSignpostSplit };

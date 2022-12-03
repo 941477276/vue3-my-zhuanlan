@@ -24,3 +24,4 @@ const BsiReddit: BsiRedditType = function (props, ctx) {
 };
 BsiReddit.displayName = 'BsiReddit';
 export default BsiReddit;
+export { BsiReddit };

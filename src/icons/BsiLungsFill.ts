@@ -24,3 +24,4 @@ const BsiLungsFill: BsiLungsFillType = function (props, ctx) {
 };
 BsiLungsFill.displayName = 'BsiLungsFill';
 export default BsiLungsFill;
+export { BsiLungsFill };

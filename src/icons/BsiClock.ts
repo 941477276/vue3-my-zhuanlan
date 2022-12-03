@@ -24,3 +24,4 @@ const BsiClock: BsiClockType = function (props, ctx) {
 };
 BsiClock.displayName = 'BsiClock';
 export default BsiClock;
+export { BsiClock };

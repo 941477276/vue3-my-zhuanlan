@@ -24,3 +24,4 @@ const BsiBadgeAd: BsiBadgeAdType = function (props, ctx) {
 };
 BsiBadgeAd.displayName = 'BsiBadgeAd';
 export default BsiBadgeAd;
+export { BsiBadgeAd };

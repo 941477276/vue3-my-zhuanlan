@@ -24,3 +24,4 @@ const BsiActivity: BsiActivityType = function (props, ctx) {
 };
 BsiActivity.displayName = 'BsiActivity';
 export default BsiActivity;
+export { BsiActivity };

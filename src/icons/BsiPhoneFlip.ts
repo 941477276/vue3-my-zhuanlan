@@ -24,3 +24,4 @@ const BsiPhoneFlip: BsiPhoneFlipType = function (props, ctx) {
 };
 BsiPhoneFlip.displayName = 'BsiPhoneFlip';
 export default BsiPhoneFlip;
+export { BsiPhoneFlip };

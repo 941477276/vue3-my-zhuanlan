@@ -24,3 +24,4 @@ const BsiMoonStarsFill: BsiMoonStarsFillType = function (props, ctx) {
 };
 BsiMoonStarsFill.displayName = 'BsiMoonStarsFill';
 export default BsiMoonStarsFill;
+export { BsiMoonStarsFill };

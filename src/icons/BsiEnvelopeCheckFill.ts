@@ -24,3 +24,4 @@ const BsiEnvelopeCheckFill: BsiEnvelopeCheckFillType = function (props, ctx) {
 };
 BsiEnvelopeCheckFill.displayName = 'BsiEnvelopeCheckFill';
 export default BsiEnvelopeCheckFill;
+export { BsiEnvelopeCheckFill };

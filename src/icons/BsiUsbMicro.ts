@@ -24,3 +24,4 @@ const BsiUsbMicro: BsiUsbMicroType = function (props, ctx) {
 };
 BsiUsbMicro.displayName = 'BsiUsbMicro';
 export default BsiUsbMicro;
+export { BsiUsbMicro };

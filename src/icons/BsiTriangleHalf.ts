@@ -24,3 +24,4 @@ const BsiTriangleHalf: BsiTriangleHalfType = function (props, ctx) {
 };
 BsiTriangleHalf.displayName = 'BsiTriangleHalf';
 export default BsiTriangleHalf;
+export { BsiTriangleHalf };

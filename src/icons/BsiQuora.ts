@@ -24,3 +24,4 @@ const BsiQuora: BsiQuoraType = function (props, ctx) {
 };
 BsiQuora.displayName = 'BsiQuora';
 export default BsiQuora;
+export { BsiQuora };

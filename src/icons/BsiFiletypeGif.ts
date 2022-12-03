@@ -24,3 +24,4 @@ const BsiFiletypeGif: BsiFiletypeGifType = function (props, ctx) {
 };
 BsiFiletypeGif.displayName = 'BsiFiletypeGif';
 export default BsiFiletypeGif;
+export { BsiFiletypeGif };

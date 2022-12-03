@@ -24,3 +24,4 @@ const BsiCalendar2Check: BsiCalendar2CheckType = function (props, ctx) {
 };
 BsiCalendar2Check.displayName = 'BsiCalendar2Check';
 export default BsiCalendar2Check;
+export { BsiCalendar2Check };

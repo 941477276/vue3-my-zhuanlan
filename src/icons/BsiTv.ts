@@ -24,3 +24,4 @@ const BsiTv: BsiTvType = function (props, ctx) {
 };
 BsiTv.displayName = 'BsiTv';
 export default BsiTv;
+export { BsiTv };

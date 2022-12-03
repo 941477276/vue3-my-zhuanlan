@@ -24,3 +24,4 @@ const BsiFlag: BsiFlagType = function (props, ctx) {
 };
 BsiFlag.displayName = 'BsiFlag';
 export default BsiFlag;
+export { BsiFlag };

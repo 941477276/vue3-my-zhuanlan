@@ -24,3 +24,4 @@ const BsiXOctagonFill: BsiXOctagonFillType = function (props, ctx) {
 };
 BsiXOctagonFill.displayName = 'BsiXOctagonFill';
 export default BsiXOctagonFill;
+export { BsiXOctagonFill };

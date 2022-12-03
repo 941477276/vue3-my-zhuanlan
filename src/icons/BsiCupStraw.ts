@@ -24,3 +24,4 @@ const BsiCupStraw: BsiCupStrawType = function (props, ctx) {
 };
 BsiCupStraw.displayName = 'BsiCupStraw';
 export default BsiCupStraw;
+export { BsiCupStraw };

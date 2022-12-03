@@ -24,3 +24,4 @@ const BsiFileEarmarkZipFill: BsiFileEarmarkZipFillType = function (props, ctx) {
 };
 BsiFileEarmarkZipFill.displayName = 'BsiFileEarmarkZipFill';
 export default BsiFileEarmarkZipFill;
+export { BsiFileEarmarkZipFill };

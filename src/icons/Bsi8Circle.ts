@@ -24,3 +24,4 @@ const Bsi8Circle: Bsi8CircleType = function (props, ctx) {
 };
 Bsi8Circle.displayName = 'Bsi8Circle';
 export default Bsi8Circle;
+export { Bsi8Circle };

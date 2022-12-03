@@ -24,3 +24,4 @@ const BsiTypeItalic: BsiTypeItalicType = function (props, ctx) {
 };
 BsiTypeItalic.displayName = 'BsiTypeItalic';
 export default BsiTypeItalic;
+export { BsiTypeItalic };

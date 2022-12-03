@@ -24,3 +24,4 @@ const BsiAlignBottom: BsiAlignBottomType = function (props, ctx) {
 };
 BsiAlignBottom.displayName = 'BsiAlignBottom';
 export default BsiAlignBottom;
+export { BsiAlignBottom };

@@ -24,3 +24,4 @@ const BsiCreditCard2Front: BsiCreditCard2FrontType = function (props, ctx) {
 };
 BsiCreditCard2Front.displayName = 'BsiCreditCard2Front';
 export default BsiCreditCard2Front;
+export { BsiCreditCard2Front };

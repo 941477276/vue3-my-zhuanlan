@@ -24,3 +24,4 @@ const BsiUnindent: BsiUnindentType = function (props, ctx) {
 };
 BsiUnindent.displayName = 'BsiUnindent';
 export default BsiUnindent;
+export { BsiUnindent };

@@ -24,3 +24,4 @@ const BsiCameraVideoFill: BsiCameraVideoFillType = function (props, ctx) {
 };
 BsiCameraVideoFill.displayName = 'BsiCameraVideoFill';
 export default BsiCameraVideoFill;
+export { BsiCameraVideoFill };

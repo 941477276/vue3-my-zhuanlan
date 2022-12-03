@@ -24,3 +24,4 @@ const BsiSkipForwardBtn: BsiSkipForwardBtnType = function (props, ctx) {
 };
 BsiSkipForwardBtn.displayName = 'BsiSkipForwardBtn';
 export default BsiSkipForwardBtn;
+export { BsiSkipForwardBtn };

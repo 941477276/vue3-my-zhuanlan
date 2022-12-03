@@ -24,3 +24,4 @@ const BsiSlashCircle: BsiSlashCircleType = function (props, ctx) {
 };
 BsiSlashCircle.displayName = 'BsiSlashCircle';
 export default BsiSlashCircle;
+export { BsiSlashCircle };

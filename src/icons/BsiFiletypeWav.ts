@@ -24,3 +24,4 @@ const BsiFiletypeWav: BsiFiletypeWavType = function (props, ctx) {
 };
 BsiFiletypeWav.displayName = 'BsiFiletypeWav';
 export default BsiFiletypeWav;
+export { BsiFiletypeWav };

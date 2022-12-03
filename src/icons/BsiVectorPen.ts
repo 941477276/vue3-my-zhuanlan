@@ -24,3 +24,4 @@ const BsiVectorPen: BsiVectorPenType = function (props, ctx) {
 };
 BsiVectorPen.displayName = 'BsiVectorPen';
 export default BsiVectorPen;
+export { BsiVectorPen };

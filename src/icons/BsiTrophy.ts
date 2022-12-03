@@ -24,3 +24,4 @@ const BsiTrophy: BsiTrophyType = function (props, ctx) {
 };
 BsiTrophy.displayName = 'BsiTrophy';
 export default BsiTrophy;
+export { BsiTrophy };

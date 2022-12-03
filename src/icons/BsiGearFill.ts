@@ -24,3 +24,4 @@ const BsiGearFill: BsiGearFillType = function (props, ctx) {
 };
 BsiGearFill.displayName = 'BsiGearFill';
 export default BsiGearFill;
+export { BsiGearFill };

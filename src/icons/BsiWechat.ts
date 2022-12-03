@@ -24,3 +24,4 @@ const BsiWechat: BsiWechatType = function (props, ctx) {
 };
 BsiWechat.displayName = 'BsiWechat';
 export default BsiWechat;
+export { BsiWechat };

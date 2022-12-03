@@ -24,3 +24,4 @@ const BsiSignMergeRightFill: BsiSignMergeRightFillType = function (props, ctx) {
 };
 BsiSignMergeRightFill.displayName = 'BsiSignMergeRightFill';
 export default BsiSignMergeRightFill;
+export { BsiSignMergeRightFill };

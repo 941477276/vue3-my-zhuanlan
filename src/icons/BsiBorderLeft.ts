@@ -24,3 +24,4 @@ const BsiBorderLeft: BsiBorderLeftType = function (props, ctx) {
 };
 BsiBorderLeft.displayName = 'BsiBorderLeft';
 export default BsiBorderLeft;
+export { BsiBorderLeft };

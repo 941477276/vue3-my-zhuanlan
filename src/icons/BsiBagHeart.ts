@@ -24,3 +24,4 @@ const BsiBagHeart: BsiBagHeartType = function (props, ctx) {
 };
 BsiBagHeart.displayName = 'BsiBagHeart';
 export default BsiBagHeart;
+export { BsiBagHeart };

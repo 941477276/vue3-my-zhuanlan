@@ -24,3 +24,4 @@ const BsiBuilding: BsiBuildingType = function (props, ctx) {
 };
 BsiBuilding.displayName = 'BsiBuilding';
 export default BsiBuilding;
+export { BsiBuilding };

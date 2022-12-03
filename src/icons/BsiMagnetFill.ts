@@ -24,3 +24,4 @@ const BsiMagnetFill: BsiMagnetFillType = function (props, ctx) {
 };
 BsiMagnetFill.displayName = 'BsiMagnetFill';
 export default BsiMagnetFill;
+export { BsiMagnetFill };

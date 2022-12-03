@@ -24,3 +24,4 @@ const BsiEmojiNeutral: BsiEmojiNeutralType = function (props, ctx) {
 };
 BsiEmojiNeutral.displayName = 'BsiEmojiNeutral';
 export default BsiEmojiNeutral;
+export { BsiEmojiNeutral };

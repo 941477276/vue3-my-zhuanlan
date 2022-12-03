@@ -24,3 +24,4 @@ const BsiMarkdown: BsiMarkdownType = function (props, ctx) {
 };
 BsiMarkdown.displayName = 'BsiMarkdown';
 export default BsiMarkdown;
+export { BsiMarkdown };

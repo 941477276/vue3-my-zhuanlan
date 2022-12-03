@@ -24,3 +24,4 @@ const BsiSortDownAlt: BsiSortDownAltType = function (props, ctx) {
 };
 BsiSortDownAlt.displayName = 'BsiSortDownAlt';
 export default BsiSortDownAlt;
+export { BsiSortDownAlt };

@@ -24,3 +24,4 @@ const BsiGripVertical: BsiGripVerticalType = function (props, ctx) {
 };
 BsiGripVertical.displayName = 'BsiGripVertical';
 export default BsiGripVertical;
+export { BsiGripVertical };

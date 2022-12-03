@@ -24,3 +24,4 @@ const BsiCpu: BsiCpuType = function (props, ctx) {
 };
 BsiCpu.displayName = 'BsiCpu';
 export default BsiCpu;
+export { BsiCpu };

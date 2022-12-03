@@ -24,3 +24,4 @@ const BsiHypnotize: BsiHypnotizeType = function (props, ctx) {
 };
 BsiHypnotize.displayName = 'BsiHypnotize';
 export default BsiHypnotize;
+export { BsiHypnotize };

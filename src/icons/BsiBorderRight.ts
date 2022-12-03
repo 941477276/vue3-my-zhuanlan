@@ -24,3 +24,4 @@ const BsiBorderRight: BsiBorderRightType = function (props, ctx) {
 };
 BsiBorderRight.displayName = 'BsiBorderRight';
 export default BsiBorderRight;
+export { BsiBorderRight };

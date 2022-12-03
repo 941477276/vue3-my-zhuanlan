@@ -24,3 +24,4 @@ const BsiPaletteFill: BsiPaletteFillType = function (props, ctx) {
 };
 BsiPaletteFill.displayName = 'BsiPaletteFill';
 export default BsiPaletteFill;
+export { BsiPaletteFill };

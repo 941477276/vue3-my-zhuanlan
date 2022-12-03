@@ -24,3 +24,4 @@ const BsiLaptop: BsiLaptopType = function (props, ctx) {
 };
 BsiLaptop.displayName = 'BsiLaptop';
 export default BsiLaptop;
+export { BsiLaptop };

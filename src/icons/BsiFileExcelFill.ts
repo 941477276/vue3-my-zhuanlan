@@ -24,3 +24,4 @@ const BsiFileExcelFill: BsiFileExcelFillType = function (props, ctx) {
 };
 BsiFileExcelFill.displayName = 'BsiFileExcelFill';
 export default BsiFileExcelFill;
+export { BsiFileExcelFill };

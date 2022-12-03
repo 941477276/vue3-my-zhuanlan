@@ -24,3 +24,4 @@ const BsiCardList: BsiCardListType = function (props, ctx) {
 };
 BsiCardList.displayName = 'BsiCardList';
 export default BsiCardList;
+export { BsiCardList };

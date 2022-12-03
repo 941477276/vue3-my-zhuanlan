@@ -24,3 +24,4 @@ const BsiGenderTrans: BsiGenderTransType = function (props, ctx) {
 };
 BsiGenderTrans.displayName = 'BsiGenderTrans';
 export default BsiGenderTrans;
+export { BsiGenderTrans };

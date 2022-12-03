@@ -24,3 +24,4 @@ const BsiRecordCircle: BsiRecordCircleType = function (props, ctx) {
 };
 BsiRecordCircle.displayName = 'BsiRecordCircle';
 export default BsiRecordCircle;
+export { BsiRecordCircle };

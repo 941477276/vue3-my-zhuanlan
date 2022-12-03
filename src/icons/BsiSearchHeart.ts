@@ -24,3 +24,4 @@ const BsiSearchHeart: BsiSearchHeartType = function (props, ctx) {
 };
 BsiSearchHeart.displayName = 'BsiSearchHeart';
 export default BsiSearchHeart;
+export { BsiSearchHeart };

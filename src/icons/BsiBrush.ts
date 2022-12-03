@@ -24,3 +24,4 @@ const BsiBrush: BsiBrushType = function (props, ctx) {
 };
 BsiBrush.displayName = 'BsiBrush';
 export default BsiBrush;
+export { BsiBrush };

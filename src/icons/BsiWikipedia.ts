@@ -24,3 +24,4 @@ const BsiWikipedia: BsiWikipediaType = function (props, ctx) {
 };
 BsiWikipedia.displayName = 'BsiWikipedia';
 export default BsiWikipedia;
+export { BsiWikipedia };

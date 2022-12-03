@@ -24,3 +24,4 @@ const BsiLayoutSidebarInsetReverse: BsiLayoutSidebarInsetReverseType = function 
 };
 BsiLayoutSidebarInsetReverse.displayName = 'BsiLayoutSidebarInsetReverse';
 export default BsiLayoutSidebarInsetReverse;
+export { BsiLayoutSidebarInsetReverse };

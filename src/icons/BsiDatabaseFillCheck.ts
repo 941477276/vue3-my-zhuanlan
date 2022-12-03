@@ -24,3 +24,4 @@ const BsiDatabaseFillCheck: BsiDatabaseFillCheckType = function (props, ctx) {
 };
 BsiDatabaseFillCheck.displayName = 'BsiDatabaseFillCheck';
 export default BsiDatabaseFillCheck;
+export { BsiDatabaseFillCheck };

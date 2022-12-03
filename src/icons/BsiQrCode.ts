@@ -24,3 +24,4 @@ const BsiQrCode: BsiQrCodeType = function (props, ctx) {
 };
 BsiQrCode.displayName = 'BsiQrCode';
 export default BsiQrCode;
+export { BsiQrCode };

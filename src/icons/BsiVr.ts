@@ -24,3 +24,4 @@ const BsiVr: BsiVrType = function (props, ctx) {
 };
 BsiVr.displayName = 'BsiVr';
 export default BsiVr;
+export { BsiVr };

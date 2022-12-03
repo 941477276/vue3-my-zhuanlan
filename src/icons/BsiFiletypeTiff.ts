@@ -24,3 +24,4 @@ const BsiFiletypeTiff: BsiFiletypeTiffType = function (props, ctx) {
 };
 BsiFiletypeTiff.displayName = 'BsiFiletypeTiff';
 export default BsiFiletypeTiff;
+export { BsiFiletypeTiff };

@@ -24,3 +24,4 @@ const BsiCloudSlash: BsiCloudSlashType = function (props, ctx) {
 };
 BsiCloudSlash.displayName = 'BsiCloudSlash';
 export default BsiCloudSlash;
+export { BsiCloudSlash };

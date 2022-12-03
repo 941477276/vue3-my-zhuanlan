@@ -24,3 +24,4 @@ const BsiWindow: BsiWindowType = function (props, ctx) {
 };
 BsiWindow.displayName = 'BsiWindow';
 export default BsiWindow;
+export { BsiWindow };

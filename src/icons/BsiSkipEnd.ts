@@ -24,3 +24,4 @@ const BsiSkipEnd: BsiSkipEndType = function (props, ctx) {
 };
 BsiSkipEnd.displayName = 'BsiSkipEnd';
 export default BsiSkipEnd;
+export { BsiSkipEnd };

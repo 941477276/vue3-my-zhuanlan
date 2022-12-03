@@ -24,3 +24,4 @@ const BsiFileSpreadsheetFill: BsiFileSpreadsheetFillType = function (props, ctx)
 };
 BsiFileSpreadsheetFill.displayName = 'BsiFileSpreadsheetFill';
 export default BsiFileSpreadsheetFill;
+export { BsiFileSpreadsheetFill };

@@ -24,3 +24,4 @@ const BsiFileMinusFill: BsiFileMinusFillType = function (props, ctx) {
 };
 BsiFileMinusFill.displayName = 'BsiFileMinusFill';
 export default BsiFileMinusFill;
+export { BsiFileMinusFill };

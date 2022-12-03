@@ -24,3 +24,4 @@ const BsiCheckCircleFill: BsiCheckCircleFillType = function (props, ctx) {
 };
 BsiCheckCircleFill.displayName = 'BsiCheckCircleFill';
 export default BsiCheckCircleFill;
+export { BsiCheckCircleFill };

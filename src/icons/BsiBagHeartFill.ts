@@ -24,3 +24,4 @@ const BsiBagHeartFill: BsiBagHeartFillType = function (props, ctx) {
 };
 BsiBagHeartFill.displayName = 'BsiBagHeartFill';
 export default BsiBagHeartFill;
+export { BsiBagHeartFill };

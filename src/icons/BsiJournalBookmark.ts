@@ -24,3 +24,4 @@ const BsiJournalBookmark: BsiJournalBookmarkType = function (props, ctx) {
 };
 BsiJournalBookmark.displayName = 'BsiJournalBookmark';
 export default BsiJournalBookmark;
+export { BsiJournalBookmark };

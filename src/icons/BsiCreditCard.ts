@@ -24,3 +24,4 @@ const BsiCreditCard: BsiCreditCardType = function (props, ctx) {
 };
 BsiCreditCard.displayName = 'BsiCreditCard';
 export default BsiCreditCard;
+export { BsiCreditCard };

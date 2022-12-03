@@ -24,3 +24,4 @@ const BsiBraces: BsiBracesType = function (props, ctx) {
 };
 BsiBraces.displayName = 'BsiBraces';
 export default BsiBraces;
+export { BsiBraces };

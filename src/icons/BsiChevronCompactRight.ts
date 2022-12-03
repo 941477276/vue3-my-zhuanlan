@@ -24,3 +24,4 @@ const BsiChevronCompactRight: BsiChevronCompactRightType = function (props, ctx)
 };
 BsiChevronCompactRight.displayName = 'BsiChevronCompactRight';
 export default BsiChevronCompactRight;
+export { BsiChevronCompactRight };

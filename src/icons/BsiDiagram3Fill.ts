@@ -24,3 +24,4 @@ const BsiDiagram3Fill: BsiDiagram3FillType = function (props, ctx) {
 };
 BsiDiagram3Fill.displayName = 'BsiDiagram3Fill';
 export default BsiDiagram3Fill;
+export { BsiDiagram3Fill };

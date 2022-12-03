@@ -24,3 +24,4 @@ const BsiTextParagraph: BsiTextParagraphType = function (props, ctx) {
 };
 BsiTextParagraph.displayName = 'BsiTextParagraph';
 export default BsiTextParagraph;
+export { BsiTextParagraph };

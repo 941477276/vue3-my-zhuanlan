@@ -24,3 +24,4 @@ const BsiSkipForwardFill: BsiSkipForwardFillType = function (props, ctx) {
 };
 BsiSkipForwardFill.displayName = 'BsiSkipForwardFill';
 export default BsiSkipForwardFill;
+export { BsiSkipForwardFill };

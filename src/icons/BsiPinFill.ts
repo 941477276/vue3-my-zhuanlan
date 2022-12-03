@@ -24,3 +24,4 @@ const BsiPinFill: BsiPinFillType = function (props, ctx) {
 };
 BsiPinFill.displayName = 'BsiPinFill';
 export default BsiPinFill;
+export { BsiPinFill };

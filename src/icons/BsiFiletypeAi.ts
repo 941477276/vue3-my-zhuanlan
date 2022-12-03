@@ -24,3 +24,4 @@ const BsiFiletypeAi: BsiFiletypeAiType = function (props, ctx) {
 };
 BsiFiletypeAi.displayName = 'BsiFiletypeAi';
 export default BsiFiletypeAi;
+export { BsiFiletypeAi };

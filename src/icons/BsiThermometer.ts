@@ -24,3 +24,4 @@ const BsiThermometer: BsiThermometerType = function (props, ctx) {
 };
 BsiThermometer.displayName = 'BsiThermometer';
 export default BsiThermometer;
+export { BsiThermometer };

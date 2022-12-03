@@ -24,3 +24,4 @@ const BsiKanbanFill: BsiKanbanFillType = function (props, ctx) {
 };
 BsiKanbanFill.displayName = 'BsiKanbanFill';
 export default BsiKanbanFill;
+export { BsiKanbanFill };

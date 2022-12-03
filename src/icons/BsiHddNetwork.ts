@@ -24,3 +24,4 @@ const BsiHddNetwork: BsiHddNetworkType = function (props, ctx) {
 };
 BsiHddNetwork.displayName = 'BsiHddNetwork';
 export default BsiHddNetwork;
+export { BsiHddNetwork };

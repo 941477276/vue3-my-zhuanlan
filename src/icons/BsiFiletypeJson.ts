@@ -24,3 +24,4 @@ const BsiFiletypeJson: BsiFiletypeJsonType = function (props, ctx) {
 };
 BsiFiletypeJson.displayName = 'BsiFiletypeJson';
 export default BsiFiletypeJson;
+export { BsiFiletypeJson };

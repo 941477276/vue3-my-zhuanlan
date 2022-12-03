@@ -24,3 +24,4 @@ const BsiAwardFill: BsiAwardFillType = function (props, ctx) {
 };
 BsiAwardFill.displayName = 'BsiAwardFill';
 export default BsiAwardFill;
+export { BsiAwardFill };

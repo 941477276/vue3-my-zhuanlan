@@ -24,3 +24,4 @@ const BsiGlobeCentralSouthAsia: BsiGlobeCentralSouthAsiaType = function (props, 
 };
 BsiGlobeCentralSouthAsia.displayName = 'BsiGlobeCentralSouthAsia';
 export default BsiGlobeCentralSouthAsia;
+export { BsiGlobeCentralSouthAsia };

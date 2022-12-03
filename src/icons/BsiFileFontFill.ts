@@ -24,3 +24,4 @@ const BsiFileFontFill: BsiFileFontFillType = function (props, ctx) {
 };
 BsiFileFontFill.displayName = 'BsiFileFontFill';
 export default BsiFileFontFill;
+export { BsiFileFontFill };

@@ -24,3 +24,4 @@ const BsiIntersect: BsiIntersectType = function (props, ctx) {
 };
 BsiIntersect.displayName = 'BsiIntersect';
 export default BsiIntersect;
+export { BsiIntersect };

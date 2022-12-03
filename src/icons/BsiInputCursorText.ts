@@ -24,3 +24,4 @@ const BsiInputCursorText: BsiInputCursorTextType = function (props, ctx) {
 };
 BsiInputCursorText.displayName = 'BsiInputCursorText';
 export default BsiInputCursorText;
+export { BsiInputCursorText };

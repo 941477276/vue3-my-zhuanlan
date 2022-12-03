@@ -24,3 +24,4 @@ const BsiHouseExclamation: BsiHouseExclamationType = function (props, ctx) {
 };
 BsiHouseExclamation.displayName = 'BsiHouseExclamation';
 export default BsiHouseExclamation;
+export { BsiHouseExclamation };

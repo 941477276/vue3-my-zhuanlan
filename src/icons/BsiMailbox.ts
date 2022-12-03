@@ -24,3 +24,4 @@ const BsiMailbox: BsiMailboxType = function (props, ctx) {
 };
 BsiMailbox.displayName = 'BsiMailbox';
 export default BsiMailbox;
+export { BsiMailbox };

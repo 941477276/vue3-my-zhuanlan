@@ -24,3 +24,4 @@ const BsiBuildingSlash: BsiBuildingSlashType = function (props, ctx) {
 };
 BsiBuildingSlash.displayName = 'BsiBuildingSlash';
 export default BsiBuildingSlash;
+export { BsiBuildingSlash };

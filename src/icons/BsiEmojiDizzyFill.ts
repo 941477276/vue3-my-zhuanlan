@@ -24,3 +24,4 @@ const BsiEmojiDizzyFill: BsiEmojiDizzyFillType = function (props, ctx) {
 };
 BsiEmojiDizzyFill.displayName = 'BsiEmojiDizzyFill';
 export default BsiEmojiDizzyFill;
+export { BsiEmojiDizzyFill };

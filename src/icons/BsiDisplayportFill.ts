@@ -24,3 +24,4 @@ const BsiDisplayportFill: BsiDisplayportFillType = function (props, ctx) {
 };
 BsiDisplayportFill.displayName = 'BsiDisplayportFill';
 export default BsiDisplayportFill;
+export { BsiDisplayportFill };

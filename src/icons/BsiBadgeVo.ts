@@ -24,3 +24,4 @@ const BsiBadgeVo: BsiBadgeVoType = function (props, ctx) {
 };
 BsiBadgeVo.displayName = 'BsiBadgeVo';
 export default BsiBadgeVo;
+export { BsiBadgeVo };

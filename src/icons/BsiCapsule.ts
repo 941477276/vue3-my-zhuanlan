@@ -24,3 +24,4 @@ const BsiCapsule: BsiCapsuleType = function (props, ctx) {
 };
 BsiCapsule.displayName = 'BsiCapsule';
 export default BsiCapsule;
+export { BsiCapsule };

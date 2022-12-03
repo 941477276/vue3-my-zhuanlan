@@ -24,3 +24,4 @@ const BsiRecycle: BsiRecycleType = function (props, ctx) {
 };
 BsiRecycle.displayName = 'BsiRecycle';
 export default BsiRecycle;
+export { BsiRecycle };

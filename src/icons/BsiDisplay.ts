@@ -24,3 +24,4 @@ const BsiDisplay: BsiDisplayType = function (props, ctx) {
 };
 BsiDisplay.displayName = 'BsiDisplay';
 export default BsiDisplay;
+export { BsiDisplay };

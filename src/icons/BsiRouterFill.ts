@@ -24,3 +24,4 @@ const BsiRouterFill: BsiRouterFillType = function (props, ctx) {
 };
 BsiRouterFill.displayName = 'BsiRouterFill';
 export default BsiRouterFill;
+export { BsiRouterFill };

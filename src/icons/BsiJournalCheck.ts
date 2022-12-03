@@ -24,3 +24,4 @@ const BsiJournalCheck: BsiJournalCheckType = function (props, ctx) {
 };
 BsiJournalCheck.displayName = 'BsiJournalCheck';
 export default BsiJournalCheck;
+export { BsiJournalCheck };

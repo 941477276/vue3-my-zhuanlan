@@ -24,3 +24,4 @@ const BsiSendXFill: BsiSendXFillType = function (props, ctx) {
 };
 BsiSendXFill.displayName = 'BsiSendXFill';
 export default BsiSendXFill;
+export { BsiSendXFill };

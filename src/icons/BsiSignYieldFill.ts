@@ -24,3 +24,4 @@ const BsiSignYieldFill: BsiSignYieldFillType = function (props, ctx) {
 };
 BsiSignYieldFill.displayName = 'BsiSignYieldFill';
 export default BsiSignYieldFill;
+export { BsiSignYieldFill };

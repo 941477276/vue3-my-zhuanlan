@@ -24,3 +24,4 @@ const BsiTwitch: BsiTwitchType = function (props, ctx) {
 };
 BsiTwitch.displayName = 'BsiTwitch';
 export default BsiTwitch;
+export { BsiTwitch };

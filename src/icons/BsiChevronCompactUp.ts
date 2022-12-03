@@ -24,3 +24,4 @@ const BsiChevronCompactUp: BsiChevronCompactUpType = function (props, ctx) {
 };
 BsiChevronCompactUp.displayName = 'BsiChevronCompactUp';
 export default BsiChevronCompactUp;
+export { BsiChevronCompactUp };

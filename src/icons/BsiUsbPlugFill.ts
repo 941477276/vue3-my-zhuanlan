@@ -24,3 +24,4 @@ const BsiUsbPlugFill: BsiUsbPlugFillType = function (props, ctx) {
 };
 BsiUsbPlugFill.displayName = 'BsiUsbPlugFill';
 export default BsiUsbPlugFill;
+export { BsiUsbPlugFill };

@@ -24,3 +24,4 @@ const BsiWindowDash: BsiWindowDashType = function (props, ctx) {
 };
 BsiWindowDash.displayName = 'BsiWindowDash';
 export default BsiWindowDash;
+export { BsiWindowDash };

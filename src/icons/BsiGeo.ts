@@ -24,3 +24,4 @@ const BsiGeo: BsiGeoType = function (props, ctx) {
 };
 BsiGeo.displayName = 'BsiGeo';
 export default BsiGeo;
+export { BsiGeo };

@@ -24,3 +24,4 @@ const BsiDot: BsiDotType = function (props, ctx) {
 };
 BsiDot.displayName = 'BsiDot';
 export default BsiDot;
+export { BsiDot };

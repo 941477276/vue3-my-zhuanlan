@@ -24,3 +24,4 @@ const BsiBackspaceReverseFill: BsiBackspaceReverseFillType = function (props, ct
 };
 BsiBackspaceReverseFill.displayName = 'BsiBackspaceReverseFill';
 export default BsiBackspaceReverseFill;
+export { BsiBackspaceReverseFill };

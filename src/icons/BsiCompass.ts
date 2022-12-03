@@ -24,3 +24,4 @@ const BsiCompass: BsiCompassType = function (props, ctx) {
 };
 BsiCompass.displayName = 'BsiCompass';
 export default BsiCompass;
+export { BsiCompass };

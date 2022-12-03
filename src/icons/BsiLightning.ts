@@ -24,3 +24,4 @@ const BsiLightning: BsiLightningType = function (props, ctx) {
 };
 BsiLightning.displayName = 'BsiLightning';
 export default BsiLightning;
+export { BsiLightning };

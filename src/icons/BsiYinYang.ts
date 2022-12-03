@@ -24,3 +24,4 @@ const BsiYinYang: BsiYinYangType = function (props, ctx) {
 };
 BsiYinYang.displayName = 'BsiYinYang';
 export default BsiYinYang;
+export { BsiYinYang };

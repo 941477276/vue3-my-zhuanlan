@@ -24,3 +24,4 @@ const BsiUnlockFill: BsiUnlockFillType = function (props, ctx) {
 };
 BsiUnlockFill.displayName = 'BsiUnlockFill';
 export default BsiUnlockFill;
+export { BsiUnlockFill };

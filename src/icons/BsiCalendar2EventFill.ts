@@ -24,3 +24,4 @@ const BsiCalendar2EventFill: BsiCalendar2EventFillType = function (props, ctx) {
 };
 BsiCalendar2EventFill.displayName = 'BsiCalendar2EventFill';
 export default BsiCalendar2EventFill;
+export { BsiCalendar2EventFill };

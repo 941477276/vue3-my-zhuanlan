@@ -24,3 +24,4 @@ const BsiShuffle: BsiShuffleType = function (props, ctx) {
 };
 BsiShuffle.displayName = 'BsiShuffle';
 export default BsiShuffle;
+export { BsiShuffle };

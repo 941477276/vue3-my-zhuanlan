@@ -24,3 +24,4 @@ const BsiHddRack: BsiHddRackType = function (props, ctx) {
 };
 BsiHddRack.displayName = 'BsiHddRack';
 export default BsiHddRack;
+export { BsiHddRack };

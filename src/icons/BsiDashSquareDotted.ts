@@ -24,3 +24,4 @@ const BsiDashSquareDotted: BsiDashSquareDottedType = function (props, ctx) {
 };
 BsiDashSquareDotted.displayName = 'BsiDashSquareDotted';
 export default BsiDashSquareDotted;
+export { BsiDashSquareDotted };

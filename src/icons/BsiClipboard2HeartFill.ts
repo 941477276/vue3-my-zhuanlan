@@ -24,3 +24,4 @@ const BsiClipboard2HeartFill: BsiClipboard2HeartFillType = function (props, ctx)
 };
 BsiClipboard2HeartFill.displayName = 'BsiClipboard2HeartFill';
 export default BsiClipboard2HeartFill;
+export { BsiClipboard2HeartFill };

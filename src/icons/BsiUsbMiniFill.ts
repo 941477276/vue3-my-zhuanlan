@@ -24,3 +24,4 @@ const BsiUsbMiniFill: BsiUsbMiniFillType = function (props, ctx) {
 };
 BsiUsbMiniFill.displayName = 'BsiUsbMiniFill';
 export default BsiUsbMiniFill;
+export { BsiUsbMiniFill };

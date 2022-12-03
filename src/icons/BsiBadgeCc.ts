@@ -24,3 +24,4 @@ const BsiBadgeCc: BsiBadgeCcType = function (props, ctx) {
 };
 BsiBadgeCc.displayName = 'BsiBadgeCc';
 export default BsiBadgeCc;
+export { BsiBadgeCc };

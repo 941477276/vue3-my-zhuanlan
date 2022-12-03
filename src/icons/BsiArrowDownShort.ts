@@ -24,3 +24,4 @@ const BsiArrowDownShort: BsiArrowDownShortType = function (props, ctx) {
 };
 BsiArrowDownShort.displayName = 'BsiArrowDownShort';
 export default BsiArrowDownShort;
+export { BsiArrowDownShort };

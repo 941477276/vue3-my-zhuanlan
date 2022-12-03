@@ -24,3 +24,4 @@ const BsiFunnel: BsiFunnelType = function (props, ctx) {
 };
 BsiFunnel.displayName = 'BsiFunnel';
 export default BsiFunnel;
+export { BsiFunnel };

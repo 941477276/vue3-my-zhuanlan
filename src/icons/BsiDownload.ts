@@ -24,3 +24,4 @@ const BsiDownload: BsiDownloadType = function (props, ctx) {
 };
 BsiDownload.displayName = 'BsiDownload';
 export default BsiDownload;
+export { BsiDownload };

@@ -24,3 +24,4 @@ const BsiSendCheck: BsiSendCheckType = function (props, ctx) {
 };
 BsiSendCheck.displayName = 'BsiSendCheck';
 export default BsiSendCheck;
+export { BsiSendCheck };

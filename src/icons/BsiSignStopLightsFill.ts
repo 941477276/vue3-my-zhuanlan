@@ -24,3 +24,4 @@ const BsiSignStopLightsFill: BsiSignStopLightsFillType = function (props, ctx) {
 };
 BsiSignStopLightsFill.displayName = 'BsiSignStopLightsFill';
 export default BsiSignStopLightsFill;
+export { BsiSignStopLightsFill };

@@ -24,3 +24,4 @@ const BsiSpotify: BsiSpotifyType = function (props, ctx) {
 };
 BsiSpotify.displayName = 'BsiSpotify';
 export default BsiSpotify;
+export { BsiSpotify };

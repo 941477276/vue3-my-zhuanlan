@@ -24,3 +24,4 @@ const BsiCollectionFill: BsiCollectionFillType = function (props, ctx) {
 };
 BsiCollectionFill.displayName = 'BsiCollectionFill';
 export default BsiCollectionFill;
+export { BsiCollectionFill };

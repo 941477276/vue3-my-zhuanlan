@@ -24,3 +24,4 @@ const BsiPause: BsiPauseType = function (props, ctx) {
 };
 BsiPause.displayName = 'BsiPause';
 export default BsiPause;
+export { BsiPause };

@@ -24,3 +24,4 @@ const BsiCardHeading: BsiCardHeadingType = function (props, ctx) {
 };
 BsiCardHeading.displayName = 'BsiCardHeading';
 export default BsiCardHeading;
+export { BsiCardHeading };

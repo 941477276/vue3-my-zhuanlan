@@ -24,3 +24,4 @@ const BsiImageFill: BsiImageFillType = function (props, ctx) {
 };
 BsiImageFill.displayName = 'BsiImageFill';
 export default BsiImageFill;
+export { BsiImageFill };

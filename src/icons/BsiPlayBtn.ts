@@ -24,3 +24,4 @@ const BsiPlayBtn: BsiPlayBtnType = function (props, ctx) {
 };
 BsiPlayBtn.displayName = 'BsiPlayBtn';
 export default BsiPlayBtn;
+export { BsiPlayBtn };

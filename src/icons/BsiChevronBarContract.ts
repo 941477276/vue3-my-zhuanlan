@@ -24,3 +24,4 @@ const BsiChevronBarContract: BsiChevronBarContractType = function (props, ctx) {
 };
 BsiChevronBarContract.displayName = 'BsiChevronBarContract';
 export default BsiChevronBarContract;
+export { BsiChevronBarContract };

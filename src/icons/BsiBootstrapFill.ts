@@ -24,3 +24,4 @@ const BsiBootstrapFill: BsiBootstrapFillType = function (props, ctx) {
 };
 BsiBootstrapFill.displayName = 'BsiBootstrapFill';
 export default BsiBootstrapFill;
+export { BsiBootstrapFill };

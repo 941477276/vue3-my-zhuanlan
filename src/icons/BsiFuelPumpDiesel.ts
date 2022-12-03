@@ -24,3 +24,4 @@ const BsiFuelPumpDiesel: BsiFuelPumpDieselType = function (props, ctx) {
 };
 BsiFuelPumpDiesel.displayName = 'BsiFuelPumpDiesel';
 export default BsiFuelPumpDiesel;
+export { BsiFuelPumpDiesel };

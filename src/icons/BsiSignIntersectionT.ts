@@ -24,3 +24,4 @@ const BsiSignIntersectionT: BsiSignIntersectionTType = function (props, ctx) {
 };
 BsiSignIntersectionT.displayName = 'BsiSignIntersectionT';
 export default BsiSignIntersectionT;
+export { BsiSignIntersectionT };

@@ -24,3 +24,4 @@ const BsiBorder: BsiBorderType = function (props, ctx) {
 };
 BsiBorder.displayName = 'BsiBorder';
 export default BsiBorder;
+export { BsiBorder };

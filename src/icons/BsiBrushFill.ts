@@ -24,3 +24,4 @@ const BsiBrushFill: BsiBrushFillType = function (props, ctx) {
 };
 BsiBrushFill.displayName = 'BsiBrushFill';
 export default BsiBrushFill;
+export { BsiBrushFill };

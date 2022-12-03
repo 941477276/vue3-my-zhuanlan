@@ -24,3 +24,4 @@ const BsiCurrencyExchange: BsiCurrencyExchangeType = function (props, ctx) {
 };
 BsiCurrencyExchange.displayName = 'BsiCurrencyExchange';
 export default BsiCurrencyExchange;
+export { BsiCurrencyExchange };

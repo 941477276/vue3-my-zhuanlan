@@ -24,3 +24,4 @@ const BsiCup: BsiCupType = function (props, ctx) {
 };
 BsiCup.displayName = 'BsiCup';
 export default BsiCup;
+export { BsiCup };

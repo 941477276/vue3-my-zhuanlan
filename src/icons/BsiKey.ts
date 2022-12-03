@@ -24,3 +24,4 @@ const BsiKey: BsiKeyType = function (props, ctx) {
 };
 BsiKey.displayName = 'BsiKey';
 export default BsiKey;
+export { BsiKey };

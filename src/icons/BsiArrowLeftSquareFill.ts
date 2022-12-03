@@ -24,3 +24,4 @@ const BsiArrowLeftSquareFill: BsiArrowLeftSquareFillType = function (props, ctx)
 };
 BsiArrowLeftSquareFill.displayName = 'BsiArrowLeftSquareFill';
 export default BsiArrowLeftSquareFill;
+export { BsiArrowLeftSquareFill };

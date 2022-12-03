@@ -24,3 +24,4 @@ const BsiBasket: BsiBasketType = function (props, ctx) {
 };
 BsiBasket.displayName = 'BsiBasket';
 export default BsiBasket;
+export { BsiBasket };

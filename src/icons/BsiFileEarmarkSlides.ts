@@ -24,3 +24,4 @@ const BsiFileEarmarkSlides: BsiFileEarmarkSlidesType = function (props, ctx) {
 };
 BsiFileEarmarkSlides.displayName = 'BsiFileEarmarkSlides';
 export default BsiFileEarmarkSlides;
+export { BsiFileEarmarkSlides };

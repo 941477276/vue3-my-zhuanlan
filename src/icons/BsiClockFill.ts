@@ -24,3 +24,4 @@ const BsiClockFill: BsiClockFillType = function (props, ctx) {
 };
 BsiClockFill.displayName = 'BsiClockFill';
 export default BsiClockFill;
+export { BsiClockFill };

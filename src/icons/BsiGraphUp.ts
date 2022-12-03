@@ -24,3 +24,4 @@ const BsiGraphUp: BsiGraphUpType = function (props, ctx) {
 };
 BsiGraphUp.displayName = 'BsiGraphUp';
 export default BsiGraphUp;
+export { BsiGraphUp };

@@ -24,3 +24,4 @@ const BsiFiletypePsd: BsiFiletypePsdType = function (props, ctx) {
 };
 BsiFiletypePsd.displayName = 'BsiFiletypePsd';
 export default BsiFiletypePsd;
+export { BsiFiletypePsd };

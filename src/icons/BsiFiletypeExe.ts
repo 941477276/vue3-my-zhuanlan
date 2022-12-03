@@ -24,3 +24,4 @@ const BsiFiletypeExe: BsiFiletypeExeType = function (props, ctx) {
 };
 BsiFiletypeExe.displayName = 'BsiFiletypeExe';
 export default BsiFiletypeExe;
+export { BsiFiletypeExe };

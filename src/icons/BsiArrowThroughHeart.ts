@@ -24,3 +24,4 @@ const BsiArrowThroughHeart: BsiArrowThroughHeartType = function (props, ctx) {
 };
 BsiArrowThroughHeart.displayName = 'BsiArrowThroughHeart';
 export default BsiArrowThroughHeart;
+export { BsiArrowThroughHeart };

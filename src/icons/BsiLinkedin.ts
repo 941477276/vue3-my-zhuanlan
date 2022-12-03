@@ -24,3 +24,4 @@ const BsiLinkedin: BsiLinkedinType = function (props, ctx) {
 };
 BsiLinkedin.displayName = 'BsiLinkedin';
 export default BsiLinkedin;
+export { BsiLinkedin };

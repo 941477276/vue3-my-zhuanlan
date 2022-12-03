@@ -24,3 +24,4 @@ const BsiPentagonFill: BsiPentagonFillType = function (props, ctx) {
 };
 BsiPentagonFill.displayName = 'BsiPentagonFill';
 export default BsiPentagonFill;
+export { BsiPentagonFill };

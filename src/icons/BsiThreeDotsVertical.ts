@@ -24,3 +24,4 @@ const BsiThreeDotsVertical: BsiThreeDotsVerticalType = function (props, ctx) {
 };
 BsiThreeDotsVertical.displayName = 'BsiThreeDotsVertical';
 export default BsiThreeDotsVertical;
+export { BsiThreeDotsVertical };

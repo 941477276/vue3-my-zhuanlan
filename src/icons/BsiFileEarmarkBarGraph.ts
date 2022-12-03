@@ -24,3 +24,4 @@ const BsiFileEarmarkBarGraph: BsiFileEarmarkBarGraphType = function (props, ctx)
 };
 BsiFileEarmarkBarGraph.displayName = 'BsiFileEarmarkBarGraph';
 export default BsiFileEarmarkBarGraph;
+export { BsiFileEarmarkBarGraph };

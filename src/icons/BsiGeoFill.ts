@@ -24,3 +24,4 @@ const BsiGeoFill: BsiGeoFillType = function (props, ctx) {
 };
 BsiGeoFill.displayName = 'BsiGeoFill';
 export default BsiGeoFill;
+export { BsiGeoFill };

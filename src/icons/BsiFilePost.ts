@@ -24,3 +24,4 @@ const BsiFilePost: BsiFilePostType = function (props, ctx) {
 };
 BsiFilePost.displayName = 'BsiFilePost';
 export default BsiFilePost;
+export { BsiFilePost };

@@ -24,3 +24,4 @@ const BsiFileImage: BsiFileImageType = function (props, ctx) {
 };
 BsiFileImage.displayName = 'BsiFileImage';
 export default BsiFileImage;
+export { BsiFileImage };

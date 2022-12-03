@@ -24,3 +24,4 @@ const BsiCcSquare: BsiCcSquareType = function (props, ctx) {
 };
 BsiCcSquare.displayName = 'BsiCcSquare';
 export default BsiCcSquare;
+export { BsiCcSquare };

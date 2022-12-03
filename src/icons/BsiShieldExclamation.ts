@@ -24,3 +24,4 @@ const BsiShieldExclamation: BsiShieldExclamationType = function (props, ctx) {
 };
 BsiShieldExclamation.displayName = 'BsiShieldExclamation';
 export default BsiShieldExclamation;
+export { BsiShieldExclamation };

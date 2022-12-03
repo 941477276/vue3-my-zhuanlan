@@ -24,3 +24,4 @@ const BsiTicketDetailedFill: BsiTicketDetailedFillType = function (props, ctx) {
 };
 BsiTicketDetailedFill.displayName = 'BsiTicketDetailedFill';
 export default BsiTicketDetailedFill;
+export { BsiTicketDetailedFill };

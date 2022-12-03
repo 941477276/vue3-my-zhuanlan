@@ -24,3 +24,4 @@ const BsiCloudRainHeavyFill: BsiCloudRainHeavyFillType = function (props, ctx) {
 };
 BsiCloudRainHeavyFill.displayName = 'BsiCloudRainHeavyFill';
 export default BsiCloudRainHeavyFill;
+export { BsiCloudRainHeavyFill };

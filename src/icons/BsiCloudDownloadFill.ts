@@ -24,3 +24,4 @@ const BsiCloudDownloadFill: BsiCloudDownloadFillType = function (props, ctx) {
 };
 BsiCloudDownloadFill.displayName = 'BsiCloudDownloadFill';
 export default BsiCloudDownloadFill;
+export { BsiCloudDownloadFill };

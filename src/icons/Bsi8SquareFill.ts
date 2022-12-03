@@ -24,3 +24,4 @@ const Bsi8SquareFill: Bsi8SquareFillType = function (props, ctx) {
 };
 Bsi8SquareFill.displayName = 'Bsi8SquareFill';
 export default Bsi8SquareFill;
+export { Bsi8SquareFill };

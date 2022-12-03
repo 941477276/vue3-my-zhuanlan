@@ -24,3 +24,4 @@ const BsiCalendar3Range: BsiCalendar3RangeType = function (props, ctx) {
 };
 BsiCalendar3Range.displayName = 'BsiCalendar3Range';
 export default BsiCalendar3Range;
+export { BsiCalendar3Range };

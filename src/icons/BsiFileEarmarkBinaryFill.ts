@@ -24,3 +24,4 @@ const BsiFileEarmarkBinaryFill: BsiFileEarmarkBinaryFillType = function (props, 
 };
 BsiFileEarmarkBinaryFill.displayName = 'BsiFileEarmarkBinaryFill';
 export default BsiFileEarmarkBinaryFill;
+export { BsiFileEarmarkBinaryFill };

@@ -24,3 +24,4 @@ const BsiKanban: BsiKanbanType = function (props, ctx) {
 };
 BsiKanban.displayName = 'BsiKanban';
 export default BsiKanban;
+export { BsiKanban };

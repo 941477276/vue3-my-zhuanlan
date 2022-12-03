@@ -24,3 +24,4 @@ const BsiBackspace: BsiBackspaceType = function (props, ctx) {
 };
 BsiBackspace.displayName = 'BsiBackspace';
 export default BsiBackspace;
+export { BsiBackspace };

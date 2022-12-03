@@ -24,3 +24,4 @@ const BsiBox2Heart: BsiBox2HeartType = function (props, ctx) {
 };
 BsiBox2Heart.displayName = 'BsiBox2Heart';
 export default BsiBox2Heart;
+export { BsiBox2Heart };

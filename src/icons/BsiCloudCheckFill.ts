@@ -24,3 +24,4 @@ const BsiCloudCheckFill: BsiCloudCheckFillType = function (props, ctx) {
 };
 BsiCloudCheckFill.displayName = 'BsiCloudCheckFill';
 export default BsiCloudCheckFill;
+export { BsiCloudCheckFill };

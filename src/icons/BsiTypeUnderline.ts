@@ -24,3 +24,4 @@ const BsiTypeUnderline: BsiTypeUnderlineType = function (props, ctx) {
 };
 BsiTypeUnderline.displayName = 'BsiTypeUnderline';
 export default BsiTypeUnderline;
+export { BsiTypeUnderline };

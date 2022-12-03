@@ -24,3 +24,4 @@ const BsiLifePreserver: BsiLifePreserverType = function (props, ctx) {
 };
 BsiLifePreserver.displayName = 'BsiLifePreserver';
 export default BsiLifePreserver;
+export { BsiLifePreserver };

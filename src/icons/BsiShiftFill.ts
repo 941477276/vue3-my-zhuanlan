@@ -24,3 +24,4 @@ const BsiShiftFill: BsiShiftFillType = function (props, ctx) {
 };
 BsiShiftFill.displayName = 'BsiShiftFill';
 export default BsiShiftFill;
+export { BsiShiftFill };

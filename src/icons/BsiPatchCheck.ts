@@ -24,3 +24,4 @@ const BsiPatchCheck: BsiPatchCheckType = function (props, ctx) {
 };
 BsiPatchCheck.displayName = 'BsiPatchCheck';
 export default BsiPatchCheck;
+export { BsiPatchCheck };

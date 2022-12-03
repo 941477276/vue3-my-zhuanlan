@@ -24,3 +24,4 @@ const BsiSignIntersectionYFill: BsiSignIntersectionYFillType = function (props, 
 };
 BsiSignIntersectionYFill.displayName = 'BsiSignIntersectionYFill';
 export default BsiSignIntersectionYFill;
+export { BsiSignIntersectionYFill };

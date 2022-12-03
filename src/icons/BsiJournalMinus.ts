@@ -24,3 +24,4 @@ const BsiJournalMinus: BsiJournalMinusType = function (props, ctx) {
 };
 BsiJournalMinus.displayName = 'BsiJournalMinus';
 export default BsiJournalMinus;
+export { BsiJournalMinus };

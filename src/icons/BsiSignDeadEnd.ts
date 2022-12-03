@@ -24,3 +24,4 @@ const BsiSignDeadEnd: BsiSignDeadEndType = function (props, ctx) {
 };
 BsiSignDeadEnd.displayName = 'BsiSignDeadEnd';
 export default BsiSignDeadEnd;
+export { BsiSignDeadEnd };

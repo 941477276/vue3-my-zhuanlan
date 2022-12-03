@@ -24,3 +24,4 @@ const BsiCloudRain: BsiCloudRainType = function (props, ctx) {
 };
 BsiCloudRain.displayName = 'BsiCloudRain';
 export default BsiCloudRain;
+export { BsiCloudRain };

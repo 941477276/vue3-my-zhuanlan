@@ -24,3 +24,4 @@ const BsiBodyText: BsiBodyTextType = function (props, ctx) {
 };
 BsiBodyText.displayName = 'BsiBodyText';
 export default BsiBodyText;
+export { BsiBodyText };

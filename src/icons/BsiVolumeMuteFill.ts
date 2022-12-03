@@ -24,3 +24,4 @@ const BsiVolumeMuteFill: BsiVolumeMuteFillType = function (props, ctx) {
 };
 BsiVolumeMuteFill.displayName = 'BsiVolumeMuteFill';
 export default BsiVolumeMuteFill;
+export { BsiVolumeMuteFill };

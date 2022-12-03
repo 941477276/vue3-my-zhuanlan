@@ -24,3 +24,4 @@ const BsiSmartwatch: BsiSmartwatchType = function (props, ctx) {
 };
 BsiSmartwatch.displayName = 'BsiSmartwatch';
 export default BsiSmartwatch;
+export { BsiSmartwatch };

@@ -24,3 +24,4 @@ const BsiDashCircleFill: BsiDashCircleFillType = function (props, ctx) {
 };
 BsiDashCircleFill.displayName = 'BsiDashCircleFill';
 export default BsiDashCircleFill;
+export { BsiDashCircleFill };

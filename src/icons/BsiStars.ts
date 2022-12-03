@@ -24,3 +24,4 @@ const BsiStars: BsiStarsType = function (props, ctx) {
 };
 BsiStars.displayName = 'BsiStars';
 export default BsiStars;
+export { BsiStars };

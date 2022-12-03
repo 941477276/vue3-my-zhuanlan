@@ -24,3 +24,4 @@ const BsiNutFill: BsiNutFillType = function (props, ctx) {
 };
 BsiNutFill.displayName = 'BsiNutFill';
 export default BsiNutFill;
+export { BsiNutFill };

@@ -24,3 +24,4 @@ const BsiGpuCard: BsiGpuCardType = function (props, ctx) {
 };
 BsiGpuCard.displayName = 'BsiGpuCard';
 export default BsiGpuCard;
+export { BsiGpuCard };

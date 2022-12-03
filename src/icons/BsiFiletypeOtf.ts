@@ -24,3 +24,4 @@ const BsiFiletypeOtf: BsiFiletypeOtfType = function (props, ctx) {
 };
 BsiFiletypeOtf.displayName = 'BsiFiletypeOtf';
 export default BsiFiletypeOtf;
+export { BsiFiletypeOtf };

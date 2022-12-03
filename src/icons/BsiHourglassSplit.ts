@@ -24,3 +24,4 @@ const BsiHourglassSplit: BsiHourglassSplitType = function (props, ctx) {
 };
 BsiHourglassSplit.displayName = 'BsiHourglassSplit';
 export default BsiHourglassSplit;
+export { BsiHourglassSplit };

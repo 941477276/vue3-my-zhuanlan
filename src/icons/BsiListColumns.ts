@@ -24,3 +24,4 @@ const BsiListColumns: BsiListColumnsType = function (props, ctx) {
 };
 BsiListColumns.displayName = 'BsiListColumns';
 export default BsiListColumns;
+export { BsiListColumns };

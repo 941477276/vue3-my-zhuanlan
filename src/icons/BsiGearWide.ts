@@ -24,3 +24,4 @@ const BsiGearWide: BsiGearWideType = function (props, ctx) {
 };
 BsiGearWide.displayName = 'BsiGearWide';
 export default BsiGearWide;
+export { BsiGearWide };

@@ -24,3 +24,4 @@ const BsiEnvelopeHeart: BsiEnvelopeHeartType = function (props, ctx) {
 };
 BsiEnvelopeHeart.displayName = 'BsiEnvelopeHeart';
 export default BsiEnvelopeHeart;
+export { BsiEnvelopeHeart };

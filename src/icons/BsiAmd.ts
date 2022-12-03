@@ -24,3 +24,4 @@ const BsiAmd: BsiAmdType = function (props, ctx) {
 };
 BsiAmd.displayName = 'BsiAmd';
 export default BsiAmd;
+export { BsiAmd };

@@ -24,3 +24,4 @@ const BsiSteam: BsiSteamType = function (props, ctx) {
 };
 BsiSteam.displayName = 'BsiSteam';
 export default BsiSteam;
+export { BsiSteam };

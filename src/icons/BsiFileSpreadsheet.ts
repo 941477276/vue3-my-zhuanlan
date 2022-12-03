@@ -24,3 +24,4 @@ const BsiFileSpreadsheet: BsiFileSpreadsheetType = function (props, ctx) {
 };
 BsiFileSpreadsheet.displayName = 'BsiFileSpreadsheet';
 export default BsiFileSpreadsheet;
+export { BsiFileSpreadsheet };

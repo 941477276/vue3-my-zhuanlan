@@ -24,3 +24,4 @@ const BsiPersonFillLock: BsiPersonFillLockType = function (props, ctx) {
 };
 BsiPersonFillLock.displayName = 'BsiPersonFillLock';
 export default BsiPersonFillLock;
+export { BsiPersonFillLock };

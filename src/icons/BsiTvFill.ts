@@ -24,3 +24,4 @@ const BsiTvFill: BsiTvFillType = function (props, ctx) {
 };
 BsiTvFill.displayName = 'BsiTvFill';
 export default BsiTvFill;
+export { BsiTvFill };

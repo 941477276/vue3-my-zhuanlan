@@ -24,3 +24,4 @@ const BsiBookmarkPlusFill: BsiBookmarkPlusFillType = function (props, ctx) {
 };
 BsiBookmarkPlusFill.displayName = 'BsiBookmarkPlusFill';
 export default BsiBookmarkPlusFill;
+export { BsiBookmarkPlusFill };

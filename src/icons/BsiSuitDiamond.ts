@@ -24,3 +24,4 @@ const BsiSuitDiamond: BsiSuitDiamondType = function (props, ctx) {
 };
 BsiSuitDiamond.displayName = 'BsiSuitDiamond';
 export default BsiSuitDiamond;
+export { BsiSuitDiamond };

@@ -24,3 +24,4 @@ const BsiTextRight: BsiTextRightType = function (props, ctx) {
 };
 BsiTextRight.displayName = 'BsiTextRight';
 export default BsiTextRight;
+export { BsiTextRight };

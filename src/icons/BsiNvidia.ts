@@ -24,3 +24,4 @@ const BsiNvidia: BsiNvidiaType = function (props, ctx) {
 };
 BsiNvidia.displayName = 'BsiNvidia';
 export default BsiNvidia;
+export { BsiNvidia };

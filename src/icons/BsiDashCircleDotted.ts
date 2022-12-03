@@ -24,3 +24,4 @@ const BsiDashCircleDotted: BsiDashCircleDottedType = function (props, ctx) {
 };
 BsiDashCircleDotted.displayName = 'BsiDashCircleDotted';
 export default BsiDashCircleDotted;
+export { BsiDashCircleDotted };

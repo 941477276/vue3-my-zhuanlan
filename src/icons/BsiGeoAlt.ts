@@ -24,3 +24,4 @@ const BsiGeoAlt: BsiGeoAltType = function (props, ctx) {
 };
 BsiGeoAlt.displayName = 'BsiGeoAlt';
 export default BsiGeoAlt;
+export { BsiGeoAlt };

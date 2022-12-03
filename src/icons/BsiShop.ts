@@ -24,3 +24,4 @@ const BsiShop: BsiShopType = function (props, ctx) {
 };
 BsiShop.displayName = 'BsiShop';
 export default BsiShop;
+export { BsiShop };

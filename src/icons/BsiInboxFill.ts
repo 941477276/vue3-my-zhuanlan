@@ -24,3 +24,4 @@ const BsiInboxFill: BsiInboxFillType = function (props, ctx) {
 };
 BsiInboxFill.displayName = 'BsiInboxFill';
 export default BsiInboxFill;
+export { BsiInboxFill };

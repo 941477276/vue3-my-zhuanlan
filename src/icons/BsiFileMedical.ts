@@ -24,3 +24,4 @@ const BsiFileMedical: BsiFileMedicalType = function (props, ctx) {
 };
 BsiFileMedical.displayName = 'BsiFileMedical';
 export default BsiFileMedical;
+export { BsiFileMedical };

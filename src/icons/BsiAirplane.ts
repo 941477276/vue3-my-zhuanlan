@@ -24,3 +24,4 @@ const BsiAirplane: BsiAirplaneType = function (props, ctx) {
 };
 BsiAirplane.displayName = 'BsiAirplane';
 export default BsiAirplane;
+export { BsiAirplane };

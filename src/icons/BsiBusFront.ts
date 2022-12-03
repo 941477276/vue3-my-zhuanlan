@@ -24,3 +24,4 @@ const BsiBusFront: BsiBusFrontType = function (props, ctx) {
 };
 BsiBusFront.displayName = 'BsiBusFront';
 export default BsiBusFront;
+export { BsiBusFront };

@@ -24,3 +24,4 @@ const BsiQuestionDiamondFill: BsiQuestionDiamondFillType = function (props, ctx)
 };
 BsiQuestionDiamondFill.displayName = 'BsiQuestionDiamondFill';
 export default BsiQuestionDiamondFill;
+export { BsiQuestionDiamondFill };

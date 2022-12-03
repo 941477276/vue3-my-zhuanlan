@@ -24,3 +24,4 @@ const BsiClipboardDataFill: BsiClipboardDataFillType = function (props, ctx) {
 };
 BsiClipboardDataFill.displayName = 'BsiClipboardDataFill';
 export default BsiClipboardDataFill;
+export { BsiClipboardDataFill };

@@ -24,3 +24,4 @@ const BsiCloudUploadFill: BsiCloudUploadFillType = function (props, ctx) {
 };
 BsiCloudUploadFill.displayName = 'BsiCloudUploadFill';
 export default BsiCloudUploadFill;
+export { BsiCloudUploadFill };

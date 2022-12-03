@@ -24,3 +24,4 @@ const BsiGearWideConnected: BsiGearWideConnectedType = function (props, ctx) {
 };
 BsiGearWideConnected.displayName = 'BsiGearWideConnected';
 export default BsiGearWideConnected;
+export { BsiGearWideConnected };

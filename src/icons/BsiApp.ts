@@ -24,3 +24,4 @@ const BsiApp: BsiAppType = function (props, ctx) {
 };
 BsiApp.displayName = 'BsiApp';
 export default BsiApp;
+export { BsiApp };

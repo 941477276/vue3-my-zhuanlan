@@ -24,3 +24,4 @@ const BsiCloudy: BsiCloudyType = function (props, ctx) {
 };
 BsiCloudy.displayName = 'BsiCloudy';
 export default BsiCloudy;
+export { BsiCloudy };

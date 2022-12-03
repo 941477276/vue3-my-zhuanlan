@@ -24,3 +24,4 @@ const BsiTerminalDash: BsiTerminalDashType = function (props, ctx) {
 };
 BsiTerminalDash.displayName = 'BsiTerminalDash';
 export default BsiTerminalDash;
+export { BsiTerminalDash };

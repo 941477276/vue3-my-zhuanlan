@@ -24,3 +24,4 @@ const BsiVoicemail: BsiVoicemailType = function (props, ctx) {
 };
 BsiVoicemail.displayName = 'BsiVoicemail';
 export default BsiVoicemail;
+export { BsiVoicemail };

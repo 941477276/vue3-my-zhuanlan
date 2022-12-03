@@ -24,3 +24,4 @@ const BsiPhone: BsiPhoneType = function (props, ctx) {
 };
 BsiPhone.displayName = 'BsiPhone';
 export default BsiPhone;
+export { BsiPhone };

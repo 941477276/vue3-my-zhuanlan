@@ -24,3 +24,4 @@ const BsiFileSlidesFill: BsiFileSlidesFillType = function (props, ctx) {
 };
 BsiFileSlidesFill.displayName = 'BsiFileSlidesFill';
 export default BsiFileSlidesFill;
+export { BsiFileSlidesFill };

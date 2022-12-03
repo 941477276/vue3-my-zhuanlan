@@ -24,3 +24,4 @@ const BsiFiletypeSvg: BsiFiletypeSvgType = function (props, ctx) {
 };
 BsiFiletypeSvg.displayName = 'BsiFiletypeSvg';
 export default BsiFiletypeSvg;
+export { BsiFiletypeSvg };

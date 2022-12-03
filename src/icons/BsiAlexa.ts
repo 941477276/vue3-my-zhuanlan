@@ -24,3 +24,4 @@ const BsiAlexa: BsiAlexaType = function (props, ctx) {
 };
 BsiAlexa.displayName = 'BsiAlexa';
 export default BsiAlexa;
+export { BsiAlexa };

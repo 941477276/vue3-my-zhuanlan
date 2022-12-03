@@ -24,3 +24,4 @@ const BsiSunriseFill: BsiSunriseFillType = function (props, ctx) {
 };
 BsiSunriseFill.displayName = 'BsiSunriseFill';
 export default BsiSunriseFill;
+export { BsiSunriseFill };

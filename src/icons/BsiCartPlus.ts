@@ -24,3 +24,4 @@ const BsiCartPlus: BsiCartPlusType = function (props, ctx) {
 };
 BsiCartPlus.displayName = 'BsiCartPlus';
 export default BsiCartPlus;
+export { BsiCartPlus };

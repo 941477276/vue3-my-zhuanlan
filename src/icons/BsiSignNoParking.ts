@@ -24,3 +24,4 @@ const BsiSignNoParking: BsiSignNoParkingType = function (props, ctx) {
 };
 BsiSignNoParking.displayName = 'BsiSignNoParking';
 export default BsiSignNoParking;
+export { BsiSignNoParking };

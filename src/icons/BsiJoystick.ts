@@ -24,3 +24,4 @@ const BsiJoystick: BsiJoystickType = function (props, ctx) {
 };
 BsiJoystick.displayName = 'BsiJoystick';
 export default BsiJoystick;
+export { BsiJoystick };

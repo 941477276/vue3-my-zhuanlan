@@ -24,3 +24,4 @@ const BsiRepeat1: BsiRepeat1Type = function (props, ctx) {
 };
 BsiRepeat1.displayName = 'BsiRepeat1';
 export default BsiRepeat1;
+export { BsiRepeat1 };

@@ -24,3 +24,4 @@ const BsiEmojiKissFill: BsiEmojiKissFillType = function (props, ctx) {
 };
 BsiEmojiKissFill.displayName = 'BsiEmojiKissFill';
 export default BsiEmojiKissFill;
+export { BsiEmojiKissFill };

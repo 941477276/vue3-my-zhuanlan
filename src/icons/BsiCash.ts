@@ -24,3 +24,4 @@ const BsiCash: BsiCashType = function (props, ctx) {
 };
 BsiCash.displayName = 'BsiCash';
 export default BsiCash;
+export { BsiCash };

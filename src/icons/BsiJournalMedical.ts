@@ -24,3 +24,4 @@ const BsiJournalMedical: BsiJournalMedicalType = function (props, ctx) {
 };
 BsiJournalMedical.displayName = 'BsiJournalMedical';
 export default BsiJournalMedical;
+export { BsiJournalMedical };

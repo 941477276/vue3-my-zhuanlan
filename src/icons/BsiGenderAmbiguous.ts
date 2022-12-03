@@ -24,3 +24,4 @@ const BsiGenderAmbiguous: BsiGenderAmbiguousType = function (props, ctx) {
 };
 BsiGenderAmbiguous.displayName = 'BsiGenderAmbiguous';
 export default BsiGenderAmbiguous;
+export { BsiGenderAmbiguous };

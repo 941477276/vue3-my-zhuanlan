@@ -24,3 +24,4 @@ const BsiDatabaseLock: BsiDatabaseLockType = function (props, ctx) {
 };
 BsiDatabaseLock.displayName = 'BsiDatabaseLock';
 export default BsiDatabaseLock;
+export { BsiDatabaseLock };

@@ -24,3 +24,4 @@ const BsiHouseLockFill: BsiHouseLockFillType = function (props, ctx) {
 };
 BsiHouseLockFill.displayName = 'BsiHouseLockFill';
 export default BsiHouseLockFill;
+export { BsiHouseLockFill };

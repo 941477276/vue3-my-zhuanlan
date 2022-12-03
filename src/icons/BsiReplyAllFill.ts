@@ -24,3 +24,4 @@ const BsiReplyAllFill: BsiReplyAllFillType = function (props, ctx) {
 };
 BsiReplyAllFill.displayName = 'BsiReplyAllFill';
 export default BsiReplyAllFill;
+export { BsiReplyAllFill };

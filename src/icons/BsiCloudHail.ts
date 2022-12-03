@@ -24,3 +24,4 @@ const BsiCloudHail: BsiCloudHailType = function (props, ctx) {
 };
 BsiCloudHail.displayName = 'BsiCloudHail';
 export default BsiCloudHail;
+export { BsiCloudHail };

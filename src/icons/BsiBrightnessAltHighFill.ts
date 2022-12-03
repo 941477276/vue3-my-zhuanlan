@@ -24,3 +24,4 @@ const BsiBrightnessAltHighFill: BsiBrightnessAltHighFillType = function (props, 
 };
 BsiBrightnessAltHighFill.displayName = 'BsiBrightnessAltHighFill';
 export default BsiBrightnessAltHighFill;
+export { BsiBrightnessAltHighFill };

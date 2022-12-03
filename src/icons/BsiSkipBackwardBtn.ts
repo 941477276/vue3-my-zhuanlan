@@ -24,3 +24,4 @@ const BsiSkipBackwardBtn: BsiSkipBackwardBtnType = function (props, ctx) {
 };
 BsiSkipBackwardBtn.displayName = 'BsiSkipBackwardBtn';
 export default BsiSkipBackwardBtn;
+export { BsiSkipBackwardBtn };

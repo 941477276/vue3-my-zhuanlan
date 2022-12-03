@@ -24,3 +24,4 @@ const BsiColumnsGap: BsiColumnsGapType = function (props, ctx) {
 };
 BsiColumnsGap.displayName = 'BsiColumnsGap';
 export default BsiColumnsGap;
+export { BsiColumnsGap };

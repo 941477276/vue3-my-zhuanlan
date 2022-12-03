@@ -24,3 +24,4 @@ const BsiVolumeOffFill: BsiVolumeOffFillType = function (props, ctx) {
 };
 BsiVolumeOffFill.displayName = 'BsiVolumeOffFill';
 export default BsiVolumeOffFill;
+export { BsiVolumeOffFill };

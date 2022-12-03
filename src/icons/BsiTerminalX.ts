@@ -24,3 +24,4 @@ const BsiTerminalX: BsiTerminalXType = function (props, ctx) {
 };
 BsiTerminalX.displayName = 'BsiTerminalX';
 export default BsiTerminalX;
+export { BsiTerminalX };

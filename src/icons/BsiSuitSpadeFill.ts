@@ -24,3 +24,4 @@ const BsiSuitSpadeFill: BsiSuitSpadeFillType = function (props, ctx) {
 };
 BsiSuitSpadeFill.displayName = 'BsiSuitSpadeFill';
 export default BsiSuitSpadeFill;
+export { BsiSuitSpadeFill };

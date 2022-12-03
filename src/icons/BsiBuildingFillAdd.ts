@@ -24,3 +24,4 @@ const BsiBuildingFillAdd: BsiBuildingFillAddType = function (props, ctx) {
 };
 BsiBuildingFillAdd.displayName = 'BsiBuildingFillAdd';
 export default BsiBuildingFillAdd;
+export { BsiBuildingFillAdd };

@@ -24,3 +24,4 @@ const BsiExclamationSquareFill: BsiExclamationSquareFillType = function (props, 
 };
 BsiExclamationSquareFill.displayName = 'BsiExclamationSquareFill';
 export default BsiExclamationSquareFill;
+export { BsiExclamationSquareFill };

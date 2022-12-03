@@ -24,3 +24,4 @@ const BsiFiletypeCsv: BsiFiletypeCsvType = function (props, ctx) {
 };
 BsiFiletypeCsv.displayName = 'BsiFiletypeCsv';
 export default BsiFiletypeCsv;
+export { BsiFiletypeCsv };

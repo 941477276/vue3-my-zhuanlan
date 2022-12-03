@@ -24,3 +24,4 @@ const BsiDpadFill: BsiDpadFillType = function (props, ctx) {
 };
 BsiDpadFill.displayName = 'BsiDpadFill';
 export default BsiDpadFill;
+export { BsiDpadFill };

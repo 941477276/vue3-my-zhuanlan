@@ -24,3 +24,4 @@ const BsiDiscFill: BsiDiscFillType = function (props, ctx) {
 };
 BsiDiscFill.displayName = 'BsiDiscFill';
 export default BsiDiscFill;
+export { BsiDiscFill };

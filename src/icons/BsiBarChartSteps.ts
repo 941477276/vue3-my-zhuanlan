@@ -24,3 +24,4 @@ const BsiBarChartSteps: BsiBarChartStepsType = function (props, ctx) {
 };
 BsiBarChartSteps.displayName = 'BsiBarChartSteps';
 export default BsiBarChartSteps;
+export { BsiBarChartSteps };

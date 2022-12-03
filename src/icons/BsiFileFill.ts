@@ -24,3 +24,4 @@ const BsiFileFill: BsiFileFillType = function (props, ctx) {
 };
 BsiFileFill.displayName = 'BsiFileFill';
 export default BsiFileFill;
+export { BsiFileFill };

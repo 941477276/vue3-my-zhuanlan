@@ -24,3 +24,4 @@ const BsiCalendar2XFill: BsiCalendar2XFillType = function (props, ctx) {
 };
 BsiCalendar2XFill.displayName = 'BsiCalendar2XFill';
 export default BsiCalendar2XFill;
+export { BsiCalendar2XFill };

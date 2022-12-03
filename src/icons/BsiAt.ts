@@ -24,3 +24,4 @@ const BsiAt: BsiAtType = function (props, ctx) {
 };
 BsiAt.displayName = 'BsiAt';
 export default BsiAt;
+export { BsiAt };

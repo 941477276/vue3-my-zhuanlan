@@ -24,3 +24,4 @@ const BsiTable: BsiTableType = function (props, ctx) {
 };
 BsiTable.displayName = 'BsiTable';
 export default BsiTable;
+export { BsiTable };

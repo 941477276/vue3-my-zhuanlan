@@ -24,3 +24,4 @@ const BsiPersonSlash: BsiPersonSlashType = function (props, ctx) {
 };
 BsiPersonSlash.displayName = 'BsiPersonSlash';
 export default BsiPersonSlash;
+export { BsiPersonSlash };

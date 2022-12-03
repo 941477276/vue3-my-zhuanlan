@@ -24,3 +24,4 @@ const BsiWatch: BsiWatchType = function (props, ctx) {
 };
 BsiWatch.displayName = 'BsiWatch';
 export default BsiWatch;
+export { BsiWatch };

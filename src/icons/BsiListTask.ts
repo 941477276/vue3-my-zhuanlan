@@ -24,3 +24,4 @@ const BsiListTask: BsiListTaskType = function (props, ctx) {
 };
 BsiListTask.displayName = 'BsiListTask';
 export default BsiListTask;
+export { BsiListTask };

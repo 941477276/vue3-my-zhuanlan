@@ -24,3 +24,4 @@ const BsiPersonBadge: BsiPersonBadgeType = function (props, ctx) {
 };
 BsiPersonBadge.displayName = 'BsiPersonBadge';
 export default BsiPersonBadge;
+export { BsiPersonBadge };

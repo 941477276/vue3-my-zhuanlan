@@ -24,3 +24,4 @@ const BsiMoonStars: BsiMoonStarsType = function (props, ctx) {
 };
 BsiMoonStars.displayName = 'BsiMoonStars';
 export default BsiMoonStars;
+export { BsiMoonStars };

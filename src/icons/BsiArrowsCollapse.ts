@@ -24,3 +24,4 @@ const BsiArrowsCollapse: BsiArrowsCollapseType = function (props, ctx) {
 };
 BsiArrowsCollapse.displayName = 'BsiArrowsCollapse';
 export default BsiArrowsCollapse;
+export { BsiArrowsCollapse };

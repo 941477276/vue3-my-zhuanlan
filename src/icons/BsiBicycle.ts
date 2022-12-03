@@ -24,3 +24,4 @@ const BsiBicycle: BsiBicycleType = function (props, ctx) {
 };
 BsiBicycle.displayName = 'BsiBicycle';
 export default BsiBicycle;
+export { BsiBicycle };

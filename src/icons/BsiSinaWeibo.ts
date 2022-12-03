@@ -24,3 +24,4 @@ const BsiSinaWeibo: BsiSinaWeiboType = function (props, ctx) {
 };
 BsiSinaWeibo.displayName = 'BsiSinaWeibo';
 export default BsiSinaWeibo;
+export { BsiSinaWeibo };

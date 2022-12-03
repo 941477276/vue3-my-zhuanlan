@@ -24,3 +24,4 @@ const BsiFileDiffFill: BsiFileDiffFillType = function (props, ctx) {
 };
 BsiFileDiffFill.displayName = 'BsiFileDiffFill';
 export default BsiFileDiffFill;
+export { BsiFileDiffFill };

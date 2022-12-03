@@ -24,3 +24,4 @@ const BsiPin: BsiPinType = function (props, ctx) {
 };
 BsiPin.displayName = 'BsiPin';
 export default BsiPin;
+export { BsiPin };

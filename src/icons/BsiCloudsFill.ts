@@ -24,3 +24,4 @@ const BsiCloudsFill: BsiCloudsFillType = function (props, ctx) {
 };
 BsiCloudsFill.displayName = 'BsiCloudsFill';
 export default BsiCloudsFill;
+export { BsiCloudsFill };

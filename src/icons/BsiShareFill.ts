@@ -24,3 +24,4 @@ const BsiShareFill: BsiShareFillType = function (props, ctx) {
 };
 BsiShareFill.displayName = 'BsiShareFill';
 export default BsiShareFill;
+export { BsiShareFill };

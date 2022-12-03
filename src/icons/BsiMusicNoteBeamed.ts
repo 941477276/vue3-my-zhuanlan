@@ -24,3 +24,4 @@ const BsiMusicNoteBeamed: BsiMusicNoteBeamedType = function (props, ctx) {
 };
 BsiMusicNoteBeamed.displayName = 'BsiMusicNoteBeamed';
 export default BsiMusicNoteBeamed;
+export { BsiMusicNoteBeamed };

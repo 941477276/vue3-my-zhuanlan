@@ -24,3 +24,4 @@ const BsiTrophyFill: BsiTrophyFillType = function (props, ctx) {
 };
 BsiTrophyFill.displayName = 'BsiTrophyFill';
 export default BsiTrophyFill;
+export { BsiTrophyFill };

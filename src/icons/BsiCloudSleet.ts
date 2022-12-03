@@ -24,3 +24,4 @@ const BsiCloudSleet: BsiCloudSleetType = function (props, ctx) {
 };
 BsiCloudSleet.displayName = 'BsiCloudSleet';
 export default BsiCloudSleet;
+export { BsiCloudSleet };

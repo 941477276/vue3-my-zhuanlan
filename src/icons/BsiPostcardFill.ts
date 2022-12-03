@@ -24,3 +24,4 @@ const BsiPostcardFill: BsiPostcardFillType = function (props, ctx) {
 };
 BsiPostcardFill.displayName = 'BsiPostcardFill';
 export default BsiPostcardFill;
+export { BsiPostcardFill };

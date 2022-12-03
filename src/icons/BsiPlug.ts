@@ -24,3 +24,4 @@ const BsiPlug: BsiPlugType = function (props, ctx) {
 };
 BsiPlug.displayName = 'BsiPlug';
 export default BsiPlug;
+export { BsiPlug };

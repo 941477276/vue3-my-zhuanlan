@@ -24,3 +24,4 @@ const BsiBalloonFill: BsiBalloonFillType = function (props, ctx) {
 };
 BsiBalloonFill.displayName = 'BsiBalloonFill';
 export default BsiBalloonFill;
+export { BsiBalloonFill };

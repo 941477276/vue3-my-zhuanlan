@@ -24,3 +24,4 @@ const BsiPlusCircleDotted: BsiPlusCircleDottedType = function (props, ctx) {
 };
 BsiPlusCircleDotted.displayName = 'BsiPlusCircleDotted';
 export default BsiPlusCircleDotted;
+export { BsiPlusCircleDotted };

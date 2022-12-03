@@ -24,3 +24,4 @@ const BsiQuestionCircleFill: BsiQuestionCircleFillType = function (props, ctx) {
 };
 BsiQuestionCircleFill.displayName = 'BsiQuestionCircleFill';
 export default BsiQuestionCircleFill;
+export { BsiQuestionCircleFill };

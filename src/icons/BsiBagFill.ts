@@ -24,3 +24,4 @@ const BsiBagFill: BsiBagFillType = function (props, ctx) {
 };
 BsiBagFill.displayName = 'BsiBagFill';
 export default BsiBagFill;
+export { BsiBagFill };

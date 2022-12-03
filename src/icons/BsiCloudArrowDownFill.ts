@@ -24,3 +24,4 @@ const BsiCloudArrowDownFill: BsiCloudArrowDownFillType = function (props, ctx) {
 };
 BsiCloudArrowDownFill.displayName = 'BsiCloudArrowDownFill';
 export default BsiCloudArrowDownFill;
+export { BsiCloudArrowDownFill };

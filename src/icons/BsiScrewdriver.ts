@@ -24,3 +24,4 @@ const BsiScrewdriver: BsiScrewdriverType = function (props, ctx) {
 };
 BsiScrewdriver.displayName = 'BsiScrewdriver';
 export default BsiScrewdriver;
+export { BsiScrewdriver };

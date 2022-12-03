@@ -24,3 +24,4 @@ const BsiSquareHalf: BsiSquareHalfType = function (props, ctx) {
 };
 BsiSquareHalf.displayName = 'BsiSquareHalf';
 export default BsiSquareHalf;
+export { BsiSquareHalf };

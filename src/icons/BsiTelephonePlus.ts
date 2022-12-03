@@ -24,3 +24,4 @@ const BsiTelephonePlus: BsiTelephonePlusType = function (props, ctx) {
 };
 BsiTelephonePlus.displayName = 'BsiTelephonePlus';
 export default BsiTelephonePlus;
+export { BsiTelephonePlus };

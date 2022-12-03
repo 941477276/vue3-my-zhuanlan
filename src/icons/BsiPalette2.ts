@@ -24,3 +24,4 @@ const BsiPalette2: BsiPalette2Type = function (props, ctx) {
 };
 BsiPalette2.displayName = 'BsiPalette2';
 export default BsiPalette2;
+export { BsiPalette2 };

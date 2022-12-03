@@ -24,3 +24,4 @@ const BsiBucket: BsiBucketType = function (props, ctx) {
 };
 BsiBucket.displayName = 'BsiBucket';
 export default BsiBucket;
+export { BsiBucket };

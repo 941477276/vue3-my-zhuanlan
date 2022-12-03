@@ -24,3 +24,4 @@ const BsiFilterSquare: BsiFilterSquareType = function (props, ctx) {
 };
 BsiFilterSquare.displayName = 'BsiFilterSquare';
 export default BsiFilterSquare;
+export { BsiFilterSquare };

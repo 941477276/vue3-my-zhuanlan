@@ -24,3 +24,4 @@ const BsiCaretRightSquareFill: BsiCaretRightSquareFillType = function (props, ct
 };
 BsiCaretRightSquareFill.displayName = 'BsiCaretRightSquareFill';
 export default BsiCaretRightSquareFill;
+export { BsiCaretRightSquareFill };

@@ -24,3 +24,4 @@ const BsiBackspaceReverse: BsiBackspaceReverseType = function (props, ctx) {
 };
 BsiBackspaceReverse.displayName = 'BsiBackspaceReverse';
 export default BsiBackspaceReverse;
+export { BsiBackspaceReverse };

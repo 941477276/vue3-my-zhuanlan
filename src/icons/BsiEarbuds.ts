@@ -24,3 +24,4 @@ const BsiEarbuds: BsiEarbudsType = function (props, ctx) {
 };
 BsiEarbuds.displayName = 'BsiEarbuds';
 export default BsiEarbuds;
+export { BsiEarbuds };

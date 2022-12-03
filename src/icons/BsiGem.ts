@@ -24,3 +24,4 @@ const BsiGem: BsiGemType = function (props, ctx) {
 };
 BsiGem.displayName = 'BsiGem';
 export default BsiGem;
+export { BsiGem };

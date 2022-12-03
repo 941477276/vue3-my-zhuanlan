@@ -24,3 +24,4 @@ const BsiCodeSlash: BsiCodeSlashType = function (props, ctx) {
 };
 BsiCodeSlash.displayName = 'BsiCodeSlash';
 export default BsiCodeSlash;
+export { BsiCodeSlash };

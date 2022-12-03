@@ -24,3 +24,4 @@ const BsiFileEarmarkDiff: BsiFileEarmarkDiffType = function (props, ctx) {
 };
 BsiFileEarmarkDiff.displayName = 'BsiFileEarmarkDiff';
 export default BsiFileEarmarkDiff;
+export { BsiFileEarmarkDiff };

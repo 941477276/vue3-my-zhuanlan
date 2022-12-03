@@ -24,3 +24,4 @@ const BsiPersonUp: BsiPersonUpType = function (props, ctx) {
 };
 BsiPersonUp.displayName = 'BsiPersonUp';
 export default BsiPersonUp;
+export { BsiPersonUp };

@@ -24,3 +24,4 @@ const BsiFileEarmarkArrowUp: BsiFileEarmarkArrowUpType = function (props, ctx) {
 };
 BsiFileEarmarkArrowUp.displayName = 'BsiFileEarmarkArrowUp';
 export default BsiFileEarmarkArrowUp;
+export { BsiFileEarmarkArrowUp };

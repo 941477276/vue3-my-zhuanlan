@@ -24,3 +24,4 @@ const BsiJustifyLeft: BsiJustifyLeftType = function (props, ctx) {
 };
 BsiJustifyLeft.displayName = 'BsiJustifyLeft';
 export default BsiJustifyLeft;
+export { BsiJustifyLeft };

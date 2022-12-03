@@ -24,3 +24,4 @@ const BsiLine: BsiLineType = function (props, ctx) {
 };
 BsiLine.displayName = 'BsiLine';
 export default BsiLine;
+export { BsiLine };

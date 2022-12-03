@@ -24,3 +24,4 @@ const BsiPlayCircleFill: BsiPlayCircleFillType = function (props, ctx) {
 };
 BsiPlayCircleFill.displayName = 'BsiPlayCircleFill';
 export default BsiPlayCircleFill;
+export { BsiPlayCircleFill };

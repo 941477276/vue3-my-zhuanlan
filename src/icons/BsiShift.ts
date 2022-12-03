@@ -24,3 +24,4 @@ const BsiShift: BsiShiftType = function (props, ctx) {
 };
 BsiShift.displayName = 'BsiShift';
 export default BsiShift;
+export { BsiShift };

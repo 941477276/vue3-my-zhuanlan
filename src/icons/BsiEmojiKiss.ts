@@ -24,3 +24,4 @@ const BsiEmojiKiss: BsiEmojiKissType = function (props, ctx) {
 };
 BsiEmojiKiss.displayName = 'BsiEmojiKiss';
 export default BsiEmojiKiss;
+export { BsiEmojiKiss };

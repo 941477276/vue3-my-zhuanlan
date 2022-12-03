@@ -24,3 +24,4 @@ const BsiHddStack: BsiHddStackType = function (props, ctx) {
 };
 BsiHddStack.displayName = 'BsiHddStack';
 export default BsiHddStack;
+export { BsiHddStack };

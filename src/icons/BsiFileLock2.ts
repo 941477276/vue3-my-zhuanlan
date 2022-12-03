@@ -24,3 +24,4 @@ const BsiFileLock2: BsiFileLock2Type = function (props, ctx) {
 };
 BsiFileLock2.displayName = 'BsiFileLock2';
 export default BsiFileLock2;
+export { BsiFileLock2 };

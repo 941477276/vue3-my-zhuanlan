@@ -24,3 +24,4 @@ const BsiSignDoNotEnter: BsiSignDoNotEnterType = function (props, ctx) {
 };
 BsiSignDoNotEnter.displayName = 'BsiSignDoNotEnter';
 export default BsiSignDoNotEnter;
+export { BsiSignDoNotEnter };

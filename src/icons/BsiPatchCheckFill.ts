@@ -24,3 +24,4 @@ const BsiPatchCheckFill: BsiPatchCheckFillType = function (props, ctx) {
 };
 BsiPatchCheckFill.displayName = 'BsiPatchCheckFill';
 export default BsiPatchCheckFill;
+export { BsiPatchCheckFill };

@@ -24,3 +24,4 @@ const BsiCloudMinus: BsiCloudMinusType = function (props, ctx) {
 };
 BsiCloudMinus.displayName = 'BsiCloudMinus';
 export default BsiCloudMinus;
+export { BsiCloudMinus };

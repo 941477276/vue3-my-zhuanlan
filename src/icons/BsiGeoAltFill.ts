@@ -24,3 +24,4 @@ const BsiGeoAltFill: BsiGeoAltFillType = function (props, ctx) {
 };
 BsiGeoAltFill.displayName = 'BsiGeoAltFill';
 export default BsiGeoAltFill;
+export { BsiGeoAltFill };

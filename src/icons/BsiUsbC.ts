@@ -24,3 +24,4 @@ const BsiUsbC: BsiUsbCType = function (props, ctx) {
 };
 BsiUsbC.displayName = 'BsiUsbC';
 export default BsiUsbC;
+export { BsiUsbC };

@@ -24,3 +24,4 @@ const BsiXSquare: BsiXSquareType = function (props, ctx) {
 };
 BsiXSquare.displayName = 'BsiXSquare';
 export default BsiXSquare;
+export { BsiXSquare };

@@ -24,3 +24,4 @@ const BsiType: BsiTypeType = function (props, ctx) {
 };
 BsiType.displayName = 'BsiType';
 export default BsiType;
+export { BsiType };

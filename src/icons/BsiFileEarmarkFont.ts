@@ -24,3 +24,4 @@ const BsiFileEarmarkFont: BsiFileEarmarkFontType = function (props, ctx) {
 };
 BsiFileEarmarkFont.displayName = 'BsiFileEarmarkFont';
 export default BsiFileEarmarkFont;
+export { BsiFileEarmarkFont };

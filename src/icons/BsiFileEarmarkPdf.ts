@@ -24,3 +24,4 @@ const BsiFileEarmarkPdf: BsiFileEarmarkPdfType = function (props, ctx) {
 };
 BsiFileEarmarkPdf.displayName = 'BsiFileEarmarkPdf';
 export default BsiFileEarmarkPdf;
+export { BsiFileEarmarkPdf };

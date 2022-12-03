@@ -24,3 +24,4 @@ const BsiCloudMoon: BsiCloudMoonType = function (props, ctx) {
 };
 BsiCloudMoon.displayName = 'BsiCloudMoon';
 export default BsiCloudMoon;
+export { BsiCloudMoon };

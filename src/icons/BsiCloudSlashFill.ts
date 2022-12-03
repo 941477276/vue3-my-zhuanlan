@@ -24,3 +24,4 @@ const BsiCloudSlashFill: BsiCloudSlashFillType = function (props, ctx) {
 };
 BsiCloudSlashFill.displayName = 'BsiCloudSlashFill';
 export default BsiCloudSlashFill;
+export { BsiCloudSlashFill };

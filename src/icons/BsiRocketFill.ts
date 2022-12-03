@@ -24,3 +24,4 @@ const BsiRocketFill: BsiRocketFillType = function (props, ctx) {
 };
 BsiRocketFill.displayName = 'BsiRocketFill';
 export default BsiRocketFill;
+export { BsiRocketFill };

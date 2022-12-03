@@ -24,3 +24,4 @@ const BsiFileRuledFill: BsiFileRuledFillType = function (props, ctx) {
 };
 BsiFileRuledFill.displayName = 'BsiFileRuledFill';
 export default BsiFileRuledFill;
+export { BsiFileRuledFill };

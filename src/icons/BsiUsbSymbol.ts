@@ -24,3 +24,4 @@ const BsiUsbSymbol: BsiUsbSymbolType = function (props, ctx) {
 };
 BsiUsbSymbol.displayName = 'BsiUsbSymbol';
 export default BsiUsbSymbol;
+export { BsiUsbSymbol };

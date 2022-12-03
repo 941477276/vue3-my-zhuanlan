@@ -24,3 +24,4 @@ const BsiSlack: BsiSlackType = function (props, ctx) {
 };
 BsiSlack.displayName = 'BsiSlack';
 export default BsiSlack;
+export { BsiSlack };

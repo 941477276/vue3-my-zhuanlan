@@ -24,3 +24,4 @@ const BsiRainbow: BsiRainbowType = function (props, ctx) {
 };
 BsiRainbow.displayName = 'BsiRainbow';
 export default BsiRainbow;
+export { BsiRainbow };

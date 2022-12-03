@@ -24,3 +24,4 @@ const BsiKeyboardFill: BsiKeyboardFillType = function (props, ctx) {
 };
 BsiKeyboardFill.displayName = 'BsiKeyboardFill';
 export default BsiKeyboardFill;
+export { BsiKeyboardFill };

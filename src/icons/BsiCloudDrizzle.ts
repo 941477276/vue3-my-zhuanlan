@@ -24,3 +24,4 @@ const BsiCloudDrizzle: BsiCloudDrizzleType = function (props, ctx) {
 };
 BsiCloudDrizzle.displayName = 'BsiCloudDrizzle';
 export default BsiCloudDrizzle;
+export { BsiCloudDrizzle };

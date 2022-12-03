@@ -24,3 +24,4 @@ const BsiEmojiSmileUpsideDown: BsiEmojiSmileUpsideDownType = function (props, ct
 };
 BsiEmojiSmileUpsideDown.displayName = 'BsiEmojiSmileUpsideDown';
 export default BsiEmojiSmileUpsideDown;
+export { BsiEmojiSmileUpsideDown };

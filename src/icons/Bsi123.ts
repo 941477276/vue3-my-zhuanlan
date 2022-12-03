@@ -24,3 +24,4 @@ const Bsi123: Bsi123Type = function (props, ctx) {
 };
 Bsi123.displayName = 'Bsi123';
 export default Bsi123;
+export { Bsi123 };

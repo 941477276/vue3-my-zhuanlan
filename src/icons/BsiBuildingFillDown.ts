@@ -24,3 +24,4 @@ const BsiBuildingFillDown: BsiBuildingFillDownType = function (props, ctx) {
 };
 BsiBuildingFillDown.displayName = 'BsiBuildingFillDown';
 export default BsiBuildingFillDown;
+export { BsiBuildingFillDown };

@@ -24,3 +24,4 @@ const BsiCloudSnowFill: BsiCloudSnowFillType = function (props, ctx) {
 };
 BsiCloudSnowFill.displayName = 'BsiCloudSnowFill';
 export default BsiCloudSnowFill;
+export { BsiCloudSnowFill };

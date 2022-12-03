@@ -24,3 +24,4 @@ const BsiFullscreenExit: BsiFullscreenExitType = function (props, ctx) {
 };
 BsiFullscreenExit.displayName = 'BsiFullscreenExit';
 export default BsiFullscreenExit;
+export { BsiFullscreenExit };

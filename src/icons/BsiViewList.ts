@@ -24,3 +24,4 @@ const BsiViewList: BsiViewListType = function (props, ctx) {
 };
 BsiViewList.displayName = 'BsiViewList';
 export default BsiViewList;
+export { BsiViewList };

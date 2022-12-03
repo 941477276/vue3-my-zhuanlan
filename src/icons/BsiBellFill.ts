@@ -24,3 +24,4 @@ const BsiBellFill: BsiBellFillType = function (props, ctx) {
 };
 BsiBellFill.displayName = 'BsiBellFill';
 export default BsiBellFill;
+export { BsiBellFill };

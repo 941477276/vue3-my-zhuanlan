@@ -24,3 +24,4 @@ const BsiAlipay: BsiAlipayType = function (props, ctx) {
 };
 BsiAlipay.displayName = 'BsiAlipay';
 export default BsiAlipay;
+export { BsiAlipay };

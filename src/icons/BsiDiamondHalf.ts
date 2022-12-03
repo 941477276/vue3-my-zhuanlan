@@ -24,3 +24,4 @@ const BsiDiamondHalf: BsiDiamondHalfType = function (props, ctx) {
 };
 BsiDiamondHalf.displayName = 'BsiDiamondHalf';
 export default BsiDiamondHalf;
+export { BsiDiamondHalf };

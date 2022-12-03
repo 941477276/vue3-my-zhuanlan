@@ -24,3 +24,4 @@ const BsiDice5: BsiDice5Type = function (props, ctx) {
 };
 BsiDice5.displayName = 'BsiDice5';
 export default BsiDice5;
+export { BsiDice5 };

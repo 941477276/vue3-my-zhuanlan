@@ -24,3 +24,4 @@ const BsiSunFill: BsiSunFillType = function (props, ctx) {
 };
 BsiSunFill.displayName = 'BsiSunFill';
 export default BsiSunFill;
+export { BsiSunFill };

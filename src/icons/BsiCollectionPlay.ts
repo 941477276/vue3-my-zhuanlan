@@ -24,3 +24,4 @@ const BsiCollectionPlay: BsiCollectionPlayType = function (props, ctx) {
 };
 BsiCollectionPlay.displayName = 'BsiCollectionPlay';
 export default BsiCollectionPlay;
+export { BsiCollectionPlay };

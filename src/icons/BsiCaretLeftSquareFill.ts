@@ -24,3 +24,4 @@ const BsiCaretLeftSquareFill: BsiCaretLeftSquareFillType = function (props, ctx)
 };
 BsiCaretLeftSquareFill.displayName = 'BsiCaretLeftSquareFill';
 export default BsiCaretLeftSquareFill;
+export { BsiCaretLeftSquareFill };

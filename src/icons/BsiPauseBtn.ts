@@ -24,3 +24,4 @@ const BsiPauseBtn: BsiPauseBtnType = function (props, ctx) {
 };
 BsiPauseBtn.displayName = 'BsiPauseBtn';
 export default BsiPauseBtn;
+export { BsiPauseBtn };

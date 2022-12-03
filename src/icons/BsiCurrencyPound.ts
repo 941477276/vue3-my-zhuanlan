@@ -24,3 +24,4 @@ const BsiCurrencyPound: BsiCurrencyPoundType = function (props, ctx) {
 };
 BsiCurrencyPound.displayName = 'BsiCurrencyPound';
 export default BsiCurrencyPound;
+export { BsiCurrencyPound };

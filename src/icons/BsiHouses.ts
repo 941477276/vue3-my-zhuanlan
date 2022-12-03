@@ -24,3 +24,4 @@ const BsiHouses: BsiHousesType = function (props, ctx) {
 };
 BsiHouses.displayName = 'BsiHouses';
 export default BsiHouses;
+export { BsiHouses };

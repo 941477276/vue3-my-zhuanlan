@@ -24,3 +24,4 @@ const BsiFileArrowUp: BsiFileArrowUpType = function (props, ctx) {
 };
 BsiFileArrowUp.displayName = 'BsiFileArrowUp';
 export default BsiFileArrowUp;
+export { BsiFileArrowUp };

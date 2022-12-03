@@ -24,3 +24,4 @@ const BsiVinyl: BsiVinylType = function (props, ctx) {
 };
 BsiVinyl.displayName = 'BsiVinyl';
 export default BsiVinyl;
+export { BsiVinyl };

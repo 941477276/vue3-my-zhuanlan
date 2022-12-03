@@ -24,3 +24,4 @@ const BsiController: BsiControllerType = function (props, ctx) {
 };
 BsiController.displayName = 'BsiController';
 export default BsiController;
+export { BsiController };

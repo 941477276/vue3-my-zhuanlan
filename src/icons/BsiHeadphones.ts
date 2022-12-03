@@ -24,3 +24,4 @@ const BsiHeadphones: BsiHeadphonesType = function (props, ctx) {
 };
 BsiHeadphones.displayName = 'BsiHeadphones';
 export default BsiHeadphones;
+export { BsiHeadphones };

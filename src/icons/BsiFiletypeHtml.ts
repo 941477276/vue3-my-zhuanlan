@@ -24,3 +24,4 @@ const BsiFiletypeHtml: BsiFiletypeHtmlType = function (props, ctx) {
 };
 BsiFiletypeHtml.displayName = 'BsiFiletypeHtml';
 export default BsiFiletypeHtml;
+export { BsiFiletypeHtml };

@@ -24,3 +24,4 @@ const BsiFiletypePng: BsiFiletypePngType = function (props, ctx) {
 };
 BsiFiletypePng.displayName = 'BsiFiletypePng';
 export default BsiFiletypePng;
+export { BsiFiletypePng };

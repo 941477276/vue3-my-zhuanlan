@@ -24,3 +24,4 @@ const BsiPinterest: BsiPinterestType = function (props, ctx) {
 };
 BsiPinterest.displayName = 'BsiPinterest';
 export default BsiPinterest;
+export { BsiPinterest };

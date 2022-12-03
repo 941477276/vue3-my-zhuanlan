@@ -24,3 +24,4 @@ const BsiBuildingLock: BsiBuildingLockType = function (props, ctx) {
 };
 BsiBuildingLock.displayName = 'BsiBuildingLock';
 export default BsiBuildingLock;
+export { BsiBuildingLock };

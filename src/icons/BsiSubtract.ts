@@ -24,3 +24,4 @@ const BsiSubtract: BsiSubtractType = function (props, ctx) {
 };
 BsiSubtract.displayName = 'BsiSubtract';
 export default BsiSubtract;
+export { BsiSubtract };

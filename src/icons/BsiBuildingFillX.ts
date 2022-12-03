@@ -24,3 +24,4 @@ const BsiBuildingFillX: BsiBuildingFillXType = function (props, ctx) {
 };
 BsiBuildingFillX.displayName = 'BsiBuildingFillX';
 export default BsiBuildingFillX;
+export { BsiBuildingFillX };

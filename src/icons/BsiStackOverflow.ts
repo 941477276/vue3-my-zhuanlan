@@ -24,3 +24,4 @@ const BsiStackOverflow: BsiStackOverflowType = function (props, ctx) {
 };
 BsiStackOverflow.displayName = 'BsiStackOverflow';
 export default BsiStackOverflow;
+export { BsiStackOverflow };

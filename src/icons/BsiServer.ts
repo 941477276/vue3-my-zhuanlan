@@ -24,3 +24,4 @@ const BsiServer: BsiServerType = function (props, ctx) {
 };
 BsiServer.displayName = 'BsiServer';
 export default BsiServer;
+export { BsiServer };

@@ -24,3 +24,4 @@ const BsiSuperscript: BsiSuperscriptType = function (props, ctx) {
 };
 BsiSuperscript.displayName = 'BsiSuperscript';
 export default BsiSuperscript;
+export { BsiSuperscript };

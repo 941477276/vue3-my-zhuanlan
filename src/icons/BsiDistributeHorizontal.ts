@@ -24,3 +24,4 @@ const BsiDistributeHorizontal: BsiDistributeHorizontalType = function (props, ct
 };
 BsiDistributeHorizontal.displayName = 'BsiDistributeHorizontal';
 export default BsiDistributeHorizontal;
+export { BsiDistributeHorizontal };

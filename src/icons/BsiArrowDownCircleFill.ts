@@ -24,3 +24,4 @@ const BsiArrowDownCircleFill: BsiArrowDownCircleFillType = function (props, ctx)
 };
 BsiArrowDownCircleFill.displayName = 'BsiArrowDownCircleFill';
 export default BsiArrowDownCircleFill;
+export { BsiArrowDownCircleFill };

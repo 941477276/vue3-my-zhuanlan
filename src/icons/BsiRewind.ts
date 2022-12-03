@@ -24,3 +24,4 @@ const BsiRewind: BsiRewindType = function (props, ctx) {
 };
 BsiRewind.displayName = 'BsiRewind';
 export default BsiRewind;
+export { BsiRewind };

@@ -24,3 +24,4 @@ const BsiPeaceFill: BsiPeaceFillType = function (props, ctx) {
 };
 BsiPeaceFill.displayName = 'BsiPeaceFill';
 export default BsiPeaceFill;
+export { BsiPeaceFill };

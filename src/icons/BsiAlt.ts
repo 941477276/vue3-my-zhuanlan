@@ -24,3 +24,4 @@ const BsiAlt: BsiAltType = function (props, ctx) {
 };
 BsiAlt.displayName = 'BsiAlt';
 export default BsiAlt;
+export { BsiAlt };

@@ -24,3 +24,4 @@ const BsiCartFill: BsiCartFillType = function (props, ctx) {
 };
 BsiCartFill.displayName = 'BsiCartFill';
 export default BsiCartFill;
+export { BsiCartFill };

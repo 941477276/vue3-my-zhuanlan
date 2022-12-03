@@ -24,3 +24,4 @@ const BsiCloud: BsiCloudType = function (props, ctx) {
 };
 BsiCloud.displayName = 'BsiCloud';
 export default BsiCloud;
+export { BsiCloud };

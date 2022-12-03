@@ -24,3 +24,4 @@ const BsiList: BsiListType = function (props, ctx) {
 };
 BsiList.displayName = 'BsiList';
 export default BsiList;
+export { BsiList };

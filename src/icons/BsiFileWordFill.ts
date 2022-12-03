@@ -24,3 +24,4 @@ const BsiFileWordFill: BsiFileWordFillType = function (props, ctx) {
 };
 BsiFileWordFill.displayName = 'BsiFileWordFill';
 export default BsiFileWordFill;
+export { BsiFileWordFill };

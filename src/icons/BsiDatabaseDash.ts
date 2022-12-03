@@ -24,3 +24,4 @@ const BsiDatabaseDash: BsiDatabaseDashType = function (props, ctx) {
 };
 BsiDatabaseDash.displayName = 'BsiDatabaseDash';
 export default BsiDatabaseDash;
+export { BsiDatabaseDash };
