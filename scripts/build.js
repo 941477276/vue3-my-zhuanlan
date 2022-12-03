@@ -140,7 +140,9 @@ function buildIcon (format) {
   let generateEntryIndexFile = function () {
     let fileContent = `
     // this file is auto generate by build.js
+    import BsIcon from './components/BsIcon';
     export * from './icons';
+    export { BsIcon };
     `;
     // 生成typescript类型定义文件
     let typescriptDefineFileContent = `
@@ -163,6 +165,13 @@ function buildIcon (format) {
       format,
       outfile: path.resolve(targetDir, outdirParent + '/html2vDom.js')
     });
+  };
+
+  // 生成自定义构建图标工具
+  let generateCustomGenUtilFile = function () {
+    utils.copy(path.resolve(__dirname, 'custom-generate.js'), path.resolve(targetDir, 'generate.js'));
+    utils.copy(path.resolve(__dirname, 'utils.js'), path.resolve(targetDir, 'utils.js'));
+    utils.copy(path.resolve(__dirname, 'html2vDom.js'), path.resolve(targetDir, 'html2vDom.js'));
   };
 
   let buildIconPlugin = esbuildSetExternalPlugin(function (path, namespace) {
@@ -207,6 +216,7 @@ function buildIcon (format) {
         }); */
       }
       generateHtml2vDomFile();
+      generateCustomGenUtilFile();
     }
   });
 }

@@ -64,7 +64,7 @@ export default defineComponent({
             'bs-icon-filled': props.isFilled
           }
         ],
-        'area-label': 'bs-icon-' + iconName,
+        'area-label': iconName,
         onClick (evt: MouseEvent) {
           ctx.emit('click', evt);
         },
