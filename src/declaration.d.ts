@@ -1,1 +1,2 @@
-declare module 'bootstrap-vue-icons'
+declare module 'bootstrap-icon-vue';
+declare module 'prismjs';
