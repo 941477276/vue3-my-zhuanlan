@@ -19,6 +19,9 @@
           <a href="#" target="_blank">v{{ version }}</a>
           <span class="dot-splitor">•</span>
           <a href="#" target="_blank">Github源码仓库</a>
+          <span class="dot-splitor">•</span>
+          Bootstrap Icon 版本:
+          <a href="https://github.com/twbs/icons/releases" target="_blank">v{{ bootstrapIconVersion }}</a>
         </div>
       </div>
     </div>
@@ -133,6 +136,7 @@ import * as bsiIcons from '@/icons';
 import { BsMessage } from '@/docs/components/bs-message';
 import { copyText } from '@/docs/docUtil';
 const packageJson = require('../../../package.json');
+const bootstrapIconVersionJson = require('../../../svg/bootstrap-icons-version.json');
 
 export default defineComponent({
   name: 'Home',
@@ -244,6 +248,7 @@ export default defineComponent({
       usageExampleRef,
       componentPropsExplains,
       version: packageJson.version,
+      bootstrapIconVersion: bootstrapIconVersionJson.version,
 
       handleIconClick
     };
