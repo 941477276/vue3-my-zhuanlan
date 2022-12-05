@@ -23,8 +23,17 @@ pre[class*="language-"]:after{
     --bs-navbar-toggler-border-color: var(--text-color);
     padding: 0.75rem 2rem;
   }
+  .navbar-container{
+    display: flex;
+    flex: 1;
+  }
   .navbar-nav{
+    display: flex;
+    flex-direction: row;
     --bs-nav-link-hover-color: #fff;
+  }
+  .nav-link{
+    padding: 0.5rem;
   }
   .navbar-brand{
     position: relative;
@@ -55,6 +64,11 @@ pre[class*="language-"]:after{
   }
   .navbar-toggler{
     border: none;
+  }
+  .lang-nav-item{
+    display: flex;
+    align-items: center;
+    margin-right: 0.5rem;
   }
   .icon-nav-item{
     //line-height: 1;

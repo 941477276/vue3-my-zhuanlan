@@ -6,12 +6,12 @@
           <BsiBootstrap></BsiBootstrap>
           <BsiBootstrapFill></BsiBootstrapFill>
         </router-link>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
+        <!--<button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
                 aria-label="Toggle navigation">
           <BsiThreeDots></BsiThreeDots>
-        </button>
+        </button>-->
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-container" id="navbarSupportedContent">
           <ul class="navbar-nav">
             <li class="nav-item" :class="{active: $route.path == '/' || $route.path == '/home' }">
               <router-link class="nav-link" to="/home">首页</router-link>
@@ -21,6 +21,12 @@
             </li>
           </ul>
           <ul class="navbar-nav ml-auto">
+            <li class="nav-item lang-nav-item">
+              <select class="form-control form-control-sm">
+                <option value="cn">简体中文</option>
+                <option value="en">English</option>
+              </select>
+            </li>
             <li class="nav-item icon-nav-item">
               <a href="#" class="nav-link" target="_blank">
                 <BsiGithub></BsiGithub>
@@ -43,7 +49,7 @@ import {
   defineComponent,
   onMounted
 } from 'vue';
-import BsiThreeDots from '@/icons/BsiThreeDots';
+// import BsiThreeDots from '@/icons/BsiThreeDots';
 import { BsiGithub } from '@/icons/BsiGithub';
 import { BsiBootstrap } from '@/icons/BsiBootstrap';
 import BsiBootstrapFill from '@/icons/BsiBootstrapFill';
@@ -51,7 +57,7 @@ import BsiBootstrapFill from '@/icons/BsiBootstrapFill';
 export default defineComponent({
   name: 'App',
   components: {
-    BsiThreeDots,
+    // BsiThreeDots,
     BsiGithub,
     BsiBootstrap,
     BsiBootstrapFill
