@@ -13,7 +13,7 @@
     "build-icons-cjs": "node ./scripts/build.js --format cjs"
   },
   "dependencies": {
-
+    "vue-i18n": "^9.2.2"
   },
   "peerDependencies": {
     "vue": "^3.2.31"

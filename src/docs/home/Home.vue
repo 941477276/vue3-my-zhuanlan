@@ -4,23 +4,41 @@
     <div class="introduce row flex-lg-row-reverse">
       <div class="col-lg-5"><img class="introduce-img" src="../../assets/icons-hero@2x.png" alt=""></div>
       <div class="col-lg-7 jumbotron introduce-jumbotron">
-        <h1 class="display-4 jumbotron-title">Bootstrap vue3 组件图标库!</h1>
-        <p class="lead">
+        <h1 class="display-4 jumbotron-title">
+          <!--Bootstrap vue3 组件图标库!-->
+          {{ $t('home.jumbotronTitle') }}
+        </h1>
+        <!--<p class="lead">
           基于<code>vue3</code>的Bootstrap图标的免费、开源的图标组件库，所有图标均来自<a
-          href="https://github.com/twbs/icons">Bootstrap官方图标库</a>。
-        </p>
-        <p>使用图标组件，你需要安装 <code>bs-icon-vue</code> 图标组件包：</p>
+          href="https://github.com/twbs/icons">Bootstrap官方图标库</a>。</p>-->
+
+        <i18n-t class="lead" keypath="home.lead" tag="p">
+          <template #vue3><code>vue3</code></template>
+          <template #twbsIcons>
+            <a href="https://github.com/twbs/icons">
+              <!--Bootstrap官方图标库-->
+              {{ $t('home.bootstrapOfficialIcon') }}
+            </a>
+          </template>
+        </i18n-t>
+
+        <!--<p>使用图标组件，你需要安装 <code>bs-icon-vue</code> 图标组件包：</p>-->
+        <i18n-t keypath="home.beforeUseTip" tag="p">
+          <template #bsVueIcon><code>bs-icon-vue</code></template>
+        </i18n-t>
         <div class="install-code">
           npm install bs-icon-vue -S
         </div>
         <hr>
         <div class="text-muted">
-          最新版本：
+          <!--最新版本：-->
+          {{ $t('home.lastestVersion') }}
           <a href="#" target="_blank">v{{ version }}</a>
           <span class="dot-splitor">•</span>
-          <a href="#" target="_blank">Github源码仓库</a>
+          <a href="#" target="_blank"><!--Github源码仓库-->{{ $t('home.githubStorage') }}</a>
           <span class="dot-splitor">•</span>
-          Bootstrap Icon 版本:
+          <!--Bootstrap Icon 版本:-->
+          Bootstrap Icon {{ $t('version') }}
           <a href="https://github.com/twbs/icons/releases" target="_blank">v{{ bootstrapIconVersion }}</a>
         </div>
       </div>
@@ -28,9 +46,11 @@
 
     <!--usage guide start-->
     <div class="usage-guide">
-      <h3>用法</h3>
-      <p><code>bs-icon-vue</code>中的每一个图标都是一个组件，因此您需要从<code>bs-icon-vue</code>库中导出。</p>
-
+      <h3><!--用法-->{{ $t('usage') }}</h3>
+      <!--<p><code>bs-icon-vue</code>中的每一个图标都是一个组件，因此您需要从<code>bs-icon-vue</code>库中导出。</p>-->
+      <i18n-t keypath="home.usageTip" tag="p">
+        <template #bsVueIcon><code>bs-icon-vue</code></template>
+      </i18n-t>
       <div class="code-and-example">
         <div class="example">
           <BsiBootstrap title="bootstrap" />
@@ -43,8 +63,8 @@
   &lt;/template&gt;
 
   &lt;script setup&gt;
-    /* // 不推荐使用这种方式导入，因为库中有上千个图标组件，即有上千模块，在开发的时候webpack会把这
-    // 上千个模块都加载进去，这会导致webpack热更新速度变慢
+    /* // {{ $t('home.comment1') }}<!--不推荐使用这种方式导入，因为库中有上千个图标组件，即有上千模块，在开发的时候webpack会把这-->
+    // {{ $t('home.comment2') }}<!--上千个模块都加载进去，这会导致webpack热更新速度变慢-->
     // import { BsiBootstrap } from 'bs-icon-vue'; */
     import { BsiBootstrap } from 'bs-icon-vue/icons/BsiBootstrap';
     // 图标组件名称也是组件文件名称
@@ -56,21 +76,21 @@
     <!--usage guide end-->
 
     <div class="icon-list-box">
-      <h3>图标列表</h3>
+      <h3><!--图标列表-->{{ $t('home.iconList') }}</h3>
       <div class="operate-area">
         <div class="btn-group toggle-icon-btn-group" role="group" aria-label="toggle icon">
           <button
             type="button"
             class="btn"
             :class="visibledIconType == 'outlined' ? 'btn-primary' : 'btn-outline-primary'"
-            @click="visibledIconType = 'outlined'">线框风格</button>
+            @click="visibledIconType = 'outlined'"><!--线框风格-->{{ $t('home.outlinedStyle') }}</button>
           <button
             type="button"
             class="btn"
             :class="visibledIconType == 'filled' ? 'btn-primary' : 'btn-outline-primary'"
-            @click="visibledIconType = 'filled'">填充风格</button>
+            @click="visibledIconType = 'filled'"><!--填充风格-->{{$t('home.filledStyle')}}</button>
         </div>
-        <input type="text" v-model="searchText" class="form-control search-icon-input" placeholder="输入图标名称进行搜索" />
+        <input type="text" v-model="searchText" class="form-control search-icon-input" :placeholder="$t('home.searchIconInputPlaceholder')" />
       </div>
 
       <ul class="icon-list" @click="handleIconClick">
@@ -85,16 +105,16 @@
     </div>
 
     <div class="component-api">
-      <h3>组件props</h3>
+      <h3><!--组件props-->{{$t('home.componentApiHeader')}}</h3>
       <div class="table-responsive">
         <table class="table table-hover">
           <thead>
           <tr>
-            <th scope="col">参数</th>
-            <th scope="col">说明</th>
-            <th scope="col">类型</th>
-            <th scope="col">默认值</th>
-            <th scope="col">版本</th>
+            <th scope="col"><!--参数-->{{$t('home.colParam')}}</th>
+            <th scope="col"><!--说明-->{{$t('home.colExplain')}}</th>
+            <th scope="col"><!--类型-->{{$t('home.colValueType')}}</th>
+            <th scope="col"><!--默认值-->{{$t('home.colDefault')}}</th>
+            <th scope="col"><!--版本-->{{$t('version')}}</th>
           </tr>
           </thead>
           <tbody>
@@ -135,6 +155,8 @@ import 'prism-themes/themes/prism-atom-dark.css';
 import * as bsiIcons from '@/icons';
 import { BsMessage } from '@/docs/components/bs-message';
 import { copyText } from '@/docs/docUtil';
+import { useI18n } from 'vue-i18n';
+
 const packageJson = require('../../../package.json');
 const bootstrapIconVersionJson = require('../../../svg/bootstrap-icons-version.json');
 
@@ -144,6 +166,7 @@ export default defineComponent({
     ...bsiIcons
   },
   setup (props, ctx) {
+    const { t: $t } = useI18n();
     let filledIconsKey: string[] = [];
     let outlinedIconsKey: string[] = [];
     Object.keys(bsiIcons).forEach(key => {
@@ -191,51 +214,53 @@ export default defineComponent({
       console.log('icon-name', iconName);
       let copyStatus = copyText(iconName);
       if (copyStatus == 1) {
-        BsMessage!.success!(`【${iconName}】图标名称已复制到剪切板！`);
+        BsMessage!.success!(`【${iconName}】${$t('home.iconCopySuccess')}`); // 图标名称已复制到剪切板！
       } else {
-        BsMessage!.warning!('图标复制失败！');
+        BsMessage!.warning!($t('home.iconCopyFailed')); // 图标复制失败！
       }
     };
 
     // 组件props属性
-    let componentPropsExplains = ref([
-      {
-        name: 'width',
-        type: ['string', 'number'],
-        defaultValue: '1em',
-        desc: '图标宽度'
-      },
-      {
-        name: 'height',
-        type: ['string', 'number'],
-        defaultValue: '1em',
-        desc: '图标高度'
-      },
-      {
-        name: 'fill',
-        type: 'string',
-        defaultValue: 'currentColor',
-        desc: '图标填充颜色'
-      },
-      {
-        name: 'viewBox',
-        type: 'string',
-        defaultValue: '',
-        desc: 'svg的viewBox属性，默认从svg中读取，若读取不到则使用"<code>0 0 1024 1024</code>"'
-      },
-      {
-        name: 'ariaHidden',
-        type: 'boolean',
-        defaultValue: 'true',
-        desc: 'ariaHidden属性值'
-      },
-      {
-        name: 'focusable',
-        type: 'boolean',
-        defaultValue: 'false',
-        desc: 'focusable属性值'
-      }
-    ]);
+    let componentPropsExplains = computed(function () {
+      return [
+        {
+          name: 'width',
+          type: ['string', 'number'],
+          defaultValue: '1em',
+          desc: $t('home.iconWidth') // 图标宽度
+        },
+        {
+          name: 'height',
+          type: ['string', 'number'],
+          defaultValue: '1em',
+          desc: $t('home.iconHeight') // '图标高度'
+        },
+        {
+          name: 'fill',
+          type: 'string',
+          defaultValue: 'currentColor',
+          desc: $t('home.iconFillColor') // '图标填充颜色'
+        },
+        {
+          name: 'viewBox',
+          type: 'string',
+          defaultValue: '',
+          desc: $t('home.iconViewBoxDesc') // 'svg的viewBox属性，默认从svg中读取，若读取不到则使用"<code>0 0 1024 1024</code>"'
+        },
+        {
+          name: 'ariaHidden',
+          type: 'boolean',
+          defaultValue: 'true',
+          desc: $t('home.iconAriaHidden') // 'ariaHidden属性值'
+        },
+        {
+          name: 'focusable',
+          type: 'boolean',
+          defaultValue: 'false',
+          desc: $t('home.iconFocusable') // 'focusable属性值'
+        }
+      ];
+    });
     onMounted(function () {
       prism.highlightElement(usageExampleRef.value);
     });
