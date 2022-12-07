@@ -67,7 +67,7 @@
     // {{ $t('home.comment2') }}<!--上千个模块都加载进去，这会导致webpack热更新速度变慢-->
     // import { BsiBootstrap } from 'bs-icon-vue'; */
     import { BsiBootstrap } from 'bs-icon-vue/icons/BsiBootstrap';
-    // 图标组件名称也是组件文件名称
+    // <!--图标组件名称也是组件文件名称-->{{$t('home.iconNameIsTheComponentName')}}
     import { BsiGithub } from 'bs-icon-vue/icons/BsiGithub';
   &lt;/script&gt;
 </pre>
@@ -147,7 +147,9 @@ import {
   defineComponent,
   onMounted,
   ref,
-  computed
+  computed,
+  inject,
+  onUnmounted
 } from 'vue';
 import prism from 'prismjs';
 // import "prismjs/themes/prism-coy.css";
@@ -167,6 +169,7 @@ export default defineComponent({
   },
   setup (props, ctx) {
     const { t: $t } = useI18n();
+    let appInjection: any = inject('appInjection');
     let filledIconsKey: string[] = [];
     let outlinedIconsKey: string[] = [];
     Object.keys(bsiIcons).forEach(key => {
@@ -261,8 +264,16 @@ export default defineComponent({
         }
       ];
     });
-    onMounted(function () {
+    let onLangChange = function () {
       prism.highlightElement(usageExampleRef.value);
+    };
+    appInjection && appInjection.addLangChangeEvent(onLangChange);
+    onMounted(function () {
+      // prism.highlightElement(usageExampleRef.value);
+      onLangChange();
+    });
+    onUnmounted(function () {
+      appInjection && appInjection.removeLangChangeEvent(onLangChange);
     });
     return {
       filledIconsKey,

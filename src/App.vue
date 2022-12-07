@@ -50,7 +50,9 @@ import {
   ref,
   defineComponent,
   onMounted,
-  watch
+  watch,
+  provide,
+  nextTick
 } from 'vue';
 // import BsiThreeDots from '@/icons/BsiThreeDots';
 import { BsiGithub } from '@/icons/BsiGithub';
@@ -70,14 +72,42 @@ export default defineComponent({
   setup () {
     let i18n = useI18n();
     console.log('i18n2', i18n);
+
+    let langChangeEvents: any[] = [];
     let currentLang = ref(i18n.locale.value);
     watch(currentLang, function (newLang) {
+      let doLangChangeEvents = function () {
+        nextTick(function () {
+          langChangeEvents.forEach(handler => {
+            try {
+              handler();
+            } catch (e) {
+              console.error(e);
+            }
+          });
+        });
+      };
       if (i18n.availableLocales.includes(newLang)) {
         setI18nLanguage(newLang);
+        doLangChangeEvents();
       } else {
         loadLocalMessages(newLang).then(() => {
           setI18nLanguage(newLang);
+          doLangChangeEvents();
         });
+      }
+    });
+
+    provide('appInjection', {
+      addLangChangeEvent (handler: () => void) {
+        langChangeEvents.push(handler);
+      },
+      removeLangChangeEvent (handler: () => void) {
+        // langChangeEvents.push(handler());
+        let index = langChangeEvents.findIndex(item => item === handler);
+        if (index > -1) {
+          langChangeEvents.splice(index, 1);
+        }
       }
     });
 

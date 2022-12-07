@@ -15,6 +15,7 @@ export default {
     usageTip: '{bsVueIcon}中的每一个图标都是一个组件，因此您需要从{bsVueIcon}库中导出。',
     comment1: '不推荐使用这种方式导入，因为库中有上千个图标组件，即有上千模块，在开发的时候webpack会把这',
     comment2: '上千个模块都加载进去，这会导致webpack热更新速度变慢',
+    iconNameIsTheComponentName: '图标组件名称也是组件文件名称',
     iconList: '图标列表',
     outlinedStyle: '线框风格',
     filledStyle: '填充风格',

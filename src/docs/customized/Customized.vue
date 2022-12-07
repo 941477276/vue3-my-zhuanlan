@@ -136,7 +136,10 @@ generateIcons({
 <script lang="ts">
 import {
   ref,
-  defineComponent, onMounted
+  defineComponent,
+  onMounted,
+  onUnmounted,
+  inject
 } from 'vue';
 import prism from 'prismjs';
 // import "prismjs/themes/prism-coy.css";
@@ -145,15 +148,27 @@ import 'prism-themes/themes/prism-atom-dark.css';
 export default defineComponent({
   name: 'Customized',
   setup () {
+    let appInjection: any = inject('appInjection');
     let codeExample1Ref = ref();
     let codeExample2Ref = ref();
     let codeExample3Ref = ref();
 
-    onMounted(function () {
+    let onLangChange = function () {
       prism.highlightElement(codeExample1Ref.value);
       prism.highlightElement(codeExample2Ref.value);
       prism.highlightElement(codeExample3Ref.value);
+    };
+    appInjection && appInjection.addLangChangeEvent(onLangChange);
+    onMounted(function () {
+      /* prism.highlightElement(codeExample1Ref.value);
+      prism.highlightElement(codeExample2Ref.value);
+      prism.highlightElement(codeExample3Ref.value); */
+      onLangChange();
     });
+    onUnmounted(function () {
+      appInjection && appInjection.removeLangChangeEvent(onLangChange);
+    });
+
     return {
       codeExample1Ref,
       codeExample2Ref,

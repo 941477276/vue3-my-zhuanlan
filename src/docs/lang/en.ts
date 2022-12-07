@@ -15,6 +15,7 @@ export default {
     usageTip: 'Every icon in {bsVueIcon} is a component, so you need to export it from the {bsVueIcon} library.',
     comment1: 'It is not recommended to import in this way, because there are thousands of icon components in the library, that is, thousands of modules, and webpack will take these during development',
     comment2: 'Thousands of modules are loaded in, which will slow down the hot update of webpack',
+    iconNameIsTheComponentName: 'The icon component name is also the component file name',
     iconList: 'icon list',
     outlinedStyle: 'wireframe style',
     filledStyle: 'fill style',
