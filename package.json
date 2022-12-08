@@ -1,7 +1,7 @@
 {
-  "name": "bootstrap-vue-icons",
+  "name": "bootstrap-icon-vue",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "serve": "npm run copy-svgs && npm run generate-icons && vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -13,9 +13,6 @@
     "build-icons-cjs": "node ./scripts/build.js --format cjs"
   },
   "dependencies": {},
-  "peerDependencies": {
-    "vue": "^3.2.31"
-  },
   "devDependencies": {
     "@babel/core": "^7.0.0-bridge.0",
     "@babel/preset-env": "^7.19.4",
@@ -29,7 +26,6 @@
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-standard": "^5.1.2",
     "@vue/eslint-config-typescript": "^7.0.0",
-    "ant-design-vue": "^3.2.15",
     "babel-core": "^7.0.0-bridge.0",
     "babel-loader": "^7.1.5",
     "bootstrap": "^5.2.3",
@@ -47,7 +43,6 @@
     "sass-loader": "^10.2.1",
     "typescript": "~4.1.5",
     "vue": "^3.2.31",
-    "vue-router": "^4.1.6",
     "webpack": "^4.46.0"
   }
 }
