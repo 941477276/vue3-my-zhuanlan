@@ -1,7 +1,7 @@
 # Bootstrap Icon Vue
 A free and open-source icon component library for Bootstrap icons based on `vue3`, all icons are from [Bootstrap official icon library](https://github.com/twbs/icons)
 
-[中文文档](http://xxx.yyy)
+[中文文档](./README-CN.md)
 ## Install 
 **npm**
 `npm install bs-icon-vue -S`
@@ -25,7 +25,7 @@ A free and open-source icon component library for Bootstrap icons based on `vue3
   import { BsiGithub } from 'bs-icon-vue/icons/BsiGithub';
 </script>
 ```
-[Documentation and Examples](http://xxx.com)
+[Documentation and Examples](https://941477276.github.io/bootstrap-icon-vue/dist/)
 
 ## Component props
 

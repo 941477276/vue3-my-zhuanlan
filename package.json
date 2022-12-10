@@ -1,7 +1,9 @@
 {
   "name": "bootstrap-icon-vue",
+  "description": "A free and open-source icon component library for Bootstrap icons based on `vue3`, all icons are from [Bootstrap official icon library](https://github.com/twbs/icons)",
   "version": "1.0.0",
   "private": false,
+  "author": "拾晚霞",
   "scripts": {
     "serve": "npm run copy-svgs && npm run generate-icons && vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -12,6 +14,13 @@
     "build-icons-esm": "node ./scripts/build.js --format esm",
     "build-icons-cjs": "node ./scripts/build.js --format cjs"
   },
+  "main": "lib/lib/icons/index.js",
+  "module": "lib/es/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/941477276/bootstrap-icon-vue.git"
+  },
+  "homepage": "https://github.com/941477276/bootstrap-icon-vue#readme",
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.0.0-bridge.0",
@@ -44,5 +53,16 @@
     "typescript": "~4.1.5",
     "vue": "^3.2.31",
     "webpack": "^4.46.0"
-  }
+  },
+  "keywords": [
+    "vue3",
+    "vue3 icon",
+    "bootstrap",
+    "bootstrap icon"
+  ],
+  "files": [
+    "lib",
+    "README.md",
+    "README-CN.md"
+  ]
 }
