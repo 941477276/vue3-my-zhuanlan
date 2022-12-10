@@ -22,12 +22,12 @@
           </template>
         </i18n-t>
 
-        <!--<p>使用图标组件，你需要安装 <code>bs-icon-vue</code> 图标组件包：</p>-->
+        <!--<p>使用图标组件，你需要安装 <code>vue3-bootstrap-icon</code> 图标组件包：</p>-->
         <i18n-t keypath="home.beforeUseTip" tag="p">
-          <template #bsVueIcon><code>bs-icon-vue</code></template>
+          <template #bsVueIcon><code>vue3-bootstrap-icon</code></template>
         </i18n-t>
         <div class="install-code">
-          npm install bs-icon-vue -S
+          npm install vue3-bootstrap-icon -S
         </div>
         <hr>
         <div class="text-muted">
@@ -47,9 +47,9 @@
     <!--usage guide start-->
     <div class="usage-guide">
       <h3><!--用法-->{{ $t('usage') }}</h3>
-      <!--<p><code>bs-icon-vue</code>中的每一个图标都是一个组件，因此您需要从<code>bs-icon-vue</code>库中导出。</p>-->
+      <!--<p><code>vue3-bootstrap-icon</code>中的每一个图标都是一个组件，因此您需要从<code>vue3-bootstrap-icon</code>库中导出。</p>-->
       <i18n-t keypath="home.usageTip" tag="p">
-        <template #bsVueIcon><code>bs-icon-vue</code></template>
+        <template #bsVueIcon><code>vue3-bootstrap-icon</code></template>
       </i18n-t>
       <div class="code-and-example">
         <div class="example">
@@ -65,10 +65,10 @@
   &lt;script setup&gt;
     /* // {{ $t('home.comment1') }}<!--不推荐使用这种方式导入，因为库中有上千个图标组件，即有上千模块，在开发的时候webpack会把这-->
     // {{ $t('home.comment2') }}<!--上千个模块都加载进去，这会导致webpack热更新速度变慢-->
-    // import { BsiBootstrap } from 'bs-icon-vue'; */
-    import { BsiBootstrap } from 'bs-icon-vue/icons/BsiBootstrap';
+    // import { BsiBootstrap } from 'vue3-bootstrap-icon'; */
+    import { BsiBootstrap } from 'vue3-bootstrap-icon/icons/BsiBootstrap';
     // <!--图标组件名称也是组件文件名称-->{{$t('home.iconNameIsTheComponentName')}}
-    import { BsiGithub } from 'bs-icon-vue/icons/BsiGithub';
+    import { BsiGithub } from 'vue3-bootstrap-icon/icons/BsiGithub';
   &lt;/script&gt;
 </pre>
       </div>

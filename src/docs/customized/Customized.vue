@@ -2,16 +2,16 @@
 <div class="customized-page">
   <div class="container-xxl">
     <div class="lead customized-icon-lead">
-      <!--<h4><code>bs-icon-vue</code>提供了2种方式来实现自定义图标：</h4>-->
+      <!--<h4><code>vue3-bootstrap-icon</code>提供了2种方式来实现自定义图标：</h4>-->
       <i18n-t keypath="customized.customizedIconLead" tag="h4">
-        <template #bsIconVue><code>bs-icon-vue</code></template>
+        <template #bsIconVue><code>vue3-bootstrap-icon</code></template>
       </i18n-t>
       <ol>
-        <!--<li>使用bs-icon-vue提供的<code>BsIcon</code>组件</li>-->
+        <!--<li>使用vue3-bootstrap-icon提供的<code>BsIcon</code>组件</li>-->
         <i18n-t keypath="customized.custmizeWay1">
           <template #bsicon><code>BsIcon</code></template>
         </i18n-t>
-        <li><!--使用bs-icon-vue提供的生成工具-->{{$t('customized.custmizeWay2')}}</li>
+        <li><!--使用vue3-bootstrap-icon提供的生成工具-->{{$t('customized.custmizeWay2')}}</li>
       </ol>
     </div>
 
@@ -25,9 +25,9 @@ import {
 // <!--导入BsIcon-->{{$t('customized.importBsIcon')}}
 import {
   BsIcon
-} from 'bs-icon-vue';
+} from 'vue3-bootstrap-icon';
 // <!--导入html字符串转虚拟dom工具函数-->{{$t('customized.importHtml2vDom')}}
-import html2vDom from 'bs-icon-vue/html2vDom';
+import html2vDom from 'vue3-bootstrap-icon/html2vDom';
 
 // <!--定义svg内容-->{{$t('customized.defineSvgContent')}}
 const svg = `&lt;svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bootstrap" viewBox="0 0 16 16">
@@ -47,7 +47,7 @@ export function TestIcon4CircleFill () {
   });
 }
 </pre>
-      <h2><!--使用bs-icon-vue生成工具生成自定义图标-->{{$t('customized.usageGuide2Title')}}</h2>
+      <h2><!--使用vue3-bootstrap-icon生成工具生成自定义图标-->{{$t('customized.usageGuide2Title')}}</h2>
       <!--假设我们的项目目录结构是这样的：-->{{$t('customized.usageGuide2Title')}}
 <pre class="language-markup">
   a-test-project
@@ -69,7 +69,7 @@ export function TestIcon4CircleFill () {
 <pre ref="codeExample2Ref" class="language-javascript code-example2">
 const path = require('path');
   // <!--导入构建工具-->{{$t('customized.importGenerateTool')}}
-const generateIcons = require('bs-icon-vue/generate');
+const generateIcons = require('vue3-bootstrap-icon/generate');
 
 /*  // <!--单个构建-->{{$t('customized.generateSingle')}}
 generateIcons({
