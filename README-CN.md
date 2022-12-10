@@ -24,7 +24,7 @@
   import { BsiGithub } from 'bs-icon-vue/icons/BsiGithub';
 </script>
 ```
-[文档与示例](http://xxx.com)
+[文档与示例](https://941477276.github.io/bootstrap-icon-vue/dist/)
 
 ## 组件props
 
