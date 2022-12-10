@@ -1,7 +1,7 @@
 {
-  "name": "bootstrap-vue-icons",
+  "name": "bootstrap-icon-vue",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "serve": "npm run copy-svgs && npm run generate-icons && vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -32,7 +32,6 @@
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-standard": "^5.1.2",
     "@vue/eslint-config-typescript": "^7.0.0",
-    "ant-design-vue": "^3.2.15",
     "babel-core": "^7.0.0-bridge.0",
     "babel-loader": "^7.1.5",
     "babel-plugin-prismjs": "^2.1.0",
