@@ -4,10 +4,10 @@ A free and open-source icon component library for Bootstrap icons based on `vue3
 [中文文档](./README-CN.md)
 ## Install 
 **npm**
-`npm install bs-icon-vue -S`
+`npm install vue3-bootstrap-icon -S`
 
 **yarn**
-`yarn add bs-icon-vue --save`
+`yarn add vue3-bootstrap-icon --save`
 
 ## Usage
 ```
@@ -19,10 +19,10 @@ A free and open-source icon component library for Bootstrap icons based on `vue3
 <script setup>
   /* // It is not recommended to use this method to import, because there are thousands of icon components in the library, that is, thousands of modules, 
     // and webpack will load these thousands of modules during development, which will slow down the hot update speed of webpack
-  // import { BsiBootstrap } from 'bs-icon-vue'; */
-  import { BsiBootstrap } from 'bs-icon-vue/icons/BsiBootstrap';
+  // import { BsiBootstrap } from 'vue3-bootstrap-icon'; */
+  import { BsiBootstrap } from 'vue3-bootstrap-icon/icons/BsiBootstrap';
   // The icon component name is the component file name
-  import { BsiGithub } from 'bs-icon-vue/icons/BsiGithub';
+  import { BsiGithub } from 'vue3-bootstrap-icon/icons/BsiGithub';
 </script>
 ```
 [Documentation and Examples](https://941477276.github.io/bootstrap-icon-vue/dist/)
