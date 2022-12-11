@@ -155,7 +155,7 @@ export default defineComponent({
   emits: ['update:modelValue', 'change', 'select'],
   setup (props: any, ctx: any) {
     let bsCascaderRef = ref<HTMLElement|null>(null);
-    let bsCascaderInputRef = ref<ComponentInternalInstance|null>(null);
+    let bsCascaderInputRef = ref<any>(null);
     let bsCascaderDropdownRef = ref<HTMLElement|null>(null);
     let cascaderMenusRef = ref<HTMLElement|null>(null);
     let dropdownTransitionRef = ref(null);

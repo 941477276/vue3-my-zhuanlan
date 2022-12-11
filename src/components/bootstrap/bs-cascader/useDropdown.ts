@@ -3,7 +3,7 @@ import {
   ref,
   Ref
 } from 'vue';
-export function useDropdown (props: any, bsCascaderInputRef: Ref<ComponentInternalInstance|null>) {
+export function useDropdown (props: any, bsCascaderInputRef: Ref<any>) {
   let isFocus = ref(false);
   let dropdownDisplayed = ref(false); // 下拉菜单是否已经渲染
   let dropdownVisible = ref(false); // 下拉菜单是否显示

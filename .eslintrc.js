@@ -32,6 +32,7 @@ module.exports = {
     '@typescript-eslint/no-extra-semi': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-var-requires': 'off',
     'vue/no-setup-props-destructure': 'off',
     'no-var': 'off',
     'no-template-curly-in-string': 'off', // 关闭不允许在普通字符串中使用字符串模板
