@@ -25,7 +25,7 @@
       tabindex="-1"
       class="bs-picker-header-next-btn"
       @click="onNext()">
-      <BsIcon name="chevron-right"></BsIcon>
+      <BsiChevronRight></BsiChevronRight>
     </button>
     <button
       v-if="onSuperNext"
@@ -33,7 +33,7 @@
       tabindex="-1"
       class="bs-picker-header-super-next-btn"
       @click="onSuperNext()">
-      <BsIcon name="chevron-double-right"></BsIcon>
+      <BsiChevronDoubleRight></BsiChevronDoubleRight>
     </button>
   </div>
 </template>
@@ -42,12 +42,14 @@
 import {
   defineComponent
 } from 'vue';
-import BsIcon from '../../../bs-icon/BsIcon.vue';
+import { BsiChevronRight } from 'vue3-bootstrap-icon/es/icons/BsiChevronRight';
+import { BsiChevronDoubleRight } from 'vue3-bootstrap-icon/es/icons/BsiChevronDoubleRight';
 
 export default defineComponent({
   name: 'BsPanelHeader',
   components: {
-    BsIcon
+    BsiChevronRight,
+    BsiChevronDoubleRight
   },
   props: {
     onSuperPrev: {
