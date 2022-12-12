@@ -72,28 +72,48 @@
         title="这是可关闭的警告框！"
         type="primary"
         icon="info-circle-fill"
-        closeable></BsAlert>
+        closeable>
+        <template #icon>
+          <BsiInfoCircleFill></BsiInfoCircleFill>
+        </template>
+      </BsAlert>
       <BsAlert
         title="一个成功的警告框！"
         type="success"
-        icon="check-circle-fill"></BsAlert>
+        icon="check-circle-fill">
+        <template #icon>
+          <BsiCheckCircleFill></BsiCheckCircleFill>
+        </template>
+      </BsAlert>
       <BsAlert
         title="一个警告的，可关闭的警告框！"
         icon="exclamation-circle-fill"
         type="warning"
-        closeable></BsAlert>
+        closeable>
+        <template #icon>
+          <BsiExclamationCircleFill></BsiExclamationCircleFill>
+        </template>
+      </BsAlert>
       <BsAlert
         title="很多文字的警告框！很多文字的警告框！很多文字的警告框！很多文字的警告框！很多文字的警告框！很多文字的警告框！很多文字的警告框！"
         icon="exclamation-circle-fill"
         type="info"
-        closeable></BsAlert>
+        closeable>
+        <template #icon>
+          <BsiExclamationCircleFill></BsiExclamationCircleFill>
+        </template>
+      </BsAlert>
 
       <BsAlert
         title="有辅助性文字！"
         description="哈哈！"
         icon="exclamation-circle-fill"
         type="danger"
-        closeable></BsAlert>
+        closeable>
+        <template #icon>
+          <BsiExclamationCircleFill></BsiExclamationCircleFill>
+        </template>
+      </BsAlert>
     </div>
   </div>
 </template>
@@ -104,11 +124,17 @@ import {
   defineComponent
 } from 'vue';
 import BsAlert from './BsAlert.vue';
+import { BsiInfoCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiInfoCircleFill';
+import { BsiCheckCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiCheckCircleFill';
+import { BsiExclamationCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiExclamationCircleFill';
 
 export default defineComponent({
   name: 'BsAlertUsage',
   components: {
-    BsAlert
+    BsAlert,
+    BsiInfoCircleFill,
+    BsiCheckCircleFill,
+    BsiExclamationCircleFill
   },
   setup () {
     let colorTypes = ref(['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark']);

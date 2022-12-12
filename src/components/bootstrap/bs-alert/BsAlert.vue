@@ -7,12 +7,15 @@
         `alert-${type}`,
         {
           'alert-dismissible': closeable,
-          'has-icon': icon,
+          'has-icon': $slots.icon,
           show: closeable && visible
         }
       ]"
       role="alert">
-      <BsIcon class="bs-alert-icon" v-if="icon" :name="icon"></BsIcon>
+      <span v-if="$slots.icon" class="bs-alert-icon">
+        <slot name="icon"></slot>
+      </span>
+
       <div class="bs-alert-content">
         <slot v-if="!description && !$slots.description">{{ title }}</slot>
         <template v-else>
@@ -31,8 +34,8 @@
         type="button"
         class="close"
         :class="{
-        'custom-close': !!closeText
-      }"
+          'custom-close': !!closeText
+        }"
         data-dismiss="alert"
         aria-label="Close"
         @click="close">
@@ -51,16 +54,12 @@ import {
 import {
   BsColorType
 } from '@/ts-tokens/bootstrap';
-import BsIcon from '@/components/bootstrap/bs-icon/BsIcon.vue';
 import {
   isPromise
 } from '@/common/bs-util';
 
 export default defineComponent({
   name: 'BsAlert',
-  components: {
-    BsIcon
-  },
   props: {
     type: { // alert的主题类型
       type: String as PropType<BsColorType>,
@@ -79,10 +78,6 @@ export default defineComponent({
       default: ''
     },
     description: { // 辅助性文字。也可通过默认 slot 传入
-      type: String,
-      default: ''
-    },
-    icon: { // 图标名称，如果为空则不显示图标
       type: String,
       default: ''
     },
