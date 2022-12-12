@@ -69,8 +69,13 @@
     opacity: 0;
     transition: opacity .3s;
     background-color: #fff;
-    .bs-svg-icon{
-      transform: scale(0.85);
+    .bs-icon{
+      transform: scale(0.9);
+    }
+  }
+  &.show-password_icon{
+    .bs-icon{
+      transform: scale(1.1);
     }
   }
 }

@@ -63,14 +63,6 @@ export const bsInputProps = {
     type: String,
     default: ''
   },
-  suffixIcon: { // 尾部图标名称
-    type: String,
-    default: ''
-  },
-  prefixIcon: { // 首部图标名称
-    type: String,
-    default: ''
-  },
   name: { // input原生的name属性
     type: String,
     default: ''

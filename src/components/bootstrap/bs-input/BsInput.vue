@@ -7,9 +7,9 @@
         disabled,
         'has-show-password_icon': showPasswordIconDisplay,
         'has-clear-content_icon': clearContentIconDisplay,
-        'has-custom-suffix_icon': suffixIcon || $slots.suffix,
-        'has-suffix-icon': (suffixIcon || $slots.suffix) || showPassword || clearable,
-        'has-prefix-icon': prefixIcon || $slots.prefix,
+        'has-custom-suffix_icon': $slots.suffix,
+        'has-suffix-icon': $slots.suffix || showPassword || clearable,
+        'has-prefix-icon': $slots.prefix,
         'has-prepend': $slots.prepend,
         'has-append': $slots.append
       },
@@ -76,9 +76,7 @@
         v-if="prefixIcon || $slots.prefix"
         class="bs-input-prefix">
         <span class="bs-input-suffix-icon custom-suffix-icon">
-          <slot name="prefix">
-            <bs-icon :name="prefixIcon"></bs-icon>
-          </slot>
+          <slot name="prefix"></slot>
         </span>
       </div>
       <div
@@ -87,9 +85,7 @@
         <span
           v-if="suffixIcon || $slots.suffix"
           class="bs-input-suffix-icon custom-suffix-icon">
-          <slot name="suffix">
-            <bs-icon :name="suffixIcon"></bs-icon>
-          </slot>
+          <slot name="suffix"></slot>
         </span>
         <span
           v-if="clearable"
@@ -97,17 +93,17 @@
           :data-only-child="!suffixIcon && !$slots.suffix && !showPassword"
           class="bs-input-suffix-icon clear-content_icon"
           @click.stop="handleClear">
-          <bs-icon name="x-circle"></bs-icon>
+          <BsiXCircle></BsiXCircle>
         </span>
         <span
           v-if="showPassword"
           v-show="showPasswordIconDisplay"
           class="bs-input-suffix-icon show-password_icon"
           @click.stop="togglePasswordText">
-          <bs-icon :name="passwordIsShow ? 'eye-slash' : 'eye'"></bs-icon>
+          <BsiEyeSlash v-if="passwordIsShow"></BsiEyeSlash>
+          <BsiEye v-else></BsiEye>
         </span>
       </div>
-
     </div>
     <div class="input-group-append" v-if="$slots.append">
       <slot name="append"></slot>
@@ -124,14 +120,18 @@ import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
 import { useInput } from './useInput';
 import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
 import { bsInputProps } from './bs-input-props';
-import BsIcon from '../bs-icon/BsIcon.vue';
+import { BsiXCircle } from 'vue3-bootstrap-icon/es/icons/BsiXCircle';
+import { BsiEye } from 'vue3-bootstrap-icon/es/icons/BsiEye';
+import { BsiEyeSlash } from 'vue3-bootstrap-icon/es/icons/BsiEyeSlash';
 
 let inputCount = 0;
 let textareaCount = 0;
 export default defineComponent({
   name: 'BsInput',
   components: {
-    BsIcon
+    BsiXCircle,
+    BsiEye,
+    BsiEyeSlash
   },
   props: {
     ...bsInputProps

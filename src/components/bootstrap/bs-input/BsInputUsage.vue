@@ -180,9 +180,17 @@
     <h3>前后自定义图标</h3>
     <p>当使用前后自定义图标时，图标当样式及输入框当padding需自行调整</p>
     <h5>带前置图标的输入框</h5>
-    <bs-input placeholder="请输入名称进行查找" prefix-icon="search" style="margin-bottom: 1rem;"></bs-input>
+    <bs-input placeholder="请输入名称进行查找" prefix-icon="search" style="margin-bottom: 1rem;">
+      <template #prefix>
+        <BsiSearch></BsiSearch>
+      </template>
+    </bs-input>
     <h5>带后置图标的输入框</h5>
-    <bs-input suffix-icon="search"></bs-input>
+    <bs-input suffix-icon="search">
+      <template #suffix>
+        <BsiSearch></BsiSearch>
+      </template>
+    </bs-input>
   </div>
 
  <div>
@@ -210,11 +218,14 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import BsDropdownItem from '@/components/bootstrap/bs-dropdown/widgets/BsDropdownItem.vue';
+import { BsiSearch } from 'vue3-bootstrap-icon/es/icons/BsiSearch';
 
 export default defineComponent({
   name: 'BsInputUsage',
-  components: { BsDropdownItem },
-
+  components: {
+    BsDropdownItem,
+    BsiSearch
+  },
   setup (props: any) {
     let inputValue = ref('哈哈');
     let inputValue2 = ref('');
