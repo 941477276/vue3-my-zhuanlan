@@ -6,9 +6,9 @@
     <!--<div class="box">
       <BsButtonGroupUsage></BsButtonGroupUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsInputUsage></BsInputUsage>
-    </div>
+    </div>-->
     <!--<div class="box">
       <BsRadioUsage></BsRadioUsage>
     </div>-->
@@ -127,9 +127,9 @@
     <!--<div class="box">
       <BsToastUsage></BsToastUsage>
     </div>-->
-     <!--<div class="box">
+    <div class="box">
       <BsMenuUsage></BsMenuUsage>
-    </div>-->
+    </div>
   </bs-config-provider>
 </template>
 

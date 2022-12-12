@@ -12,7 +12,7 @@
           </template>
           仪表盘
         </bs-menu-item>
-        <bs-menu-item keyIndex="overview" icon="check-circle-fill">机构总览</bs-menu-item>
+        <bs-menu-item keyIndex="overview">机构总览</bs-menu-item>
         <bs-menu-item keyIndex="overview1">机构总览1</bs-menu-item>
         <bs-sub-menu keyIndex="userManageSub" icon="eye" title="用户管理">
           <bs-menu-item keyIndex="orgManage">组织管理</bs-menu-item>
@@ -82,7 +82,7 @@
           </template>
           仪表盘
         </bs-menu-item>
-        <bs-menu-item keyIndex="overview" icon="check-circle-fill">机构总览</bs-menu-item>
+        <bs-menu-item keyIndex="overview">机构总览</bs-menu-item>
         <bs-menu-item keyIndex="overview1">机构总览1</bs-menu-item>
         <bs-sub-menu keyIndex="userManageSub" icon="eye" title="用户管理">
           <bs-menu-item keyIndex="orgManage">组织管理</bs-menu-item>
@@ -152,7 +152,7 @@
           </template>
           仪表盘
         </bs-menu-item>
-        <bs-menu-item keyIndex="overview" icon="check-circle-fill">机构总览</bs-menu-item>
+        <bs-menu-item keyIndex="overview">机构总览</bs-menu-item>
         <bs-menu-item keyIndex="overview1">机构总览1</bs-menu-item>
         <bs-sub-menu keyIndex="userManageSub" icon="eye" title="用户管理">
           <bs-menu-item keyIndex="orgManage">组织管理</bs-menu-item>
@@ -221,7 +221,7 @@
           </template>
           仪表盘
         </bs-menu-item>
-        <bs-menu-item keyIndex="overview" icon="check-circle-fill">机构总览</bs-menu-item>
+        <bs-menu-item keyIndex="overview">机构总览</bs-menu-item>
         <bs-menu-item keyIndex="overview1">机构总览1</bs-menu-item>
         <bs-sub-menu keyIndex="userManageSub" icon="eye" title="用户管理">
           <bs-menu-item keyIndex="orgManage">组织管理</bs-menu-item>
@@ -292,7 +292,7 @@
           </template>
           仪表盘
         </bs-menu-item>
-        <bs-menu-item keyIndex="overview" icon="check-circle-fill">机构总览</bs-menu-item>
+        <bs-menu-item keyIndex="overview">机构总览</bs-menu-item>
         <bs-menu-item keyIndex="overview1">机构总览1</bs-menu-item>
         <bs-sub-menu keyIndex="userManageSub" icon="eye" title="用户管理">
           <bs-menu-item keyIndex="orgManage">组织管理</bs-menu-item>
@@ -360,7 +360,7 @@
           </template>
           仪表盘
         </bs-menu-item>
-        <bs-menu-item keyIndex="overview" icon="check-circle-fill">机构总览</bs-menu-item>
+        <bs-menu-item keyIndex="overview">机构总览</bs-menu-item>
         <bs-menu-item keyIndex="overview1">机构总览1</bs-menu-item>
         <bs-sub-menu keyIndex="userManageSub" icon="eye" title="用户管理">
           <bs-menu-item keyIndex="orgManage">组织管理</bs-menu-item>
@@ -434,7 +434,7 @@
           </template>
           仪表盘
         </bs-menu-item>
-        <bs-menu-item keyIndex="overview" icon="check-circle-fill">机构总览</bs-menu-item>
+        <bs-menu-item keyIndex="overview">机构总览</bs-menu-item>
         <bs-menu-item keyIndex="overview1">机构总览1</bs-menu-item>
         <bs-sub-menu keyIndex="userManageSub" icon="eye" title="用户管理">
           <bs-menu-item keyIndex="orgManage">组织管理</bs-menu-item>

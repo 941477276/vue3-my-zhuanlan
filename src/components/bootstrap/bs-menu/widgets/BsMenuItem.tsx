@@ -9,7 +9,6 @@ import {
   onBeforeUnmount
 } from 'vue';
 import BsTooltip from '../../bs-tooltip/BsTooltip.vue';
-import BsIcon from '../../bs-icon/BsIcon.vue';
 import { useMenuLevel } from '../hooks/useMenuLevel';
 import { bsMenuRootInjectKey, bsSubMenuInjectKey } from '@/ts-tokens/bootstrap/menu';
 
@@ -19,7 +18,6 @@ let componentName = 'BsMenuItem';
 export default defineComponent({
   name: componentName,
   components: {
-    BsIcon,
     BsTooltip
   },
   props: {
@@ -29,10 +27,6 @@ export default defineComponent({
       required: true
     },
     title: { // 标题
-      type: String,
-      default: ''
-    },
-    icon: { // 图标名称
       type: String,
       default: ''
     },
@@ -136,7 +130,7 @@ export default defineComponent({
     let $slots = this.$slots;
     let content = (<li
       class={['bs-menu-item', {
-        'has-icon': this.icon || $slots.icon,
+        'has-icon': $slots.icon,
         'is-disabled': this.disabled,
         'is-selected': this.isSelected
       }]}
@@ -148,10 +142,10 @@ export default defineComponent({
       aria-disabled={this.disabled}
       onClick={ this.handleClick }
       onMouseenter={ this.handleMouseenter }>
-      {(this.icon || $slots.icon) ? <span
+      {$slots.icon ? <span
         class="bs-menu-item-icon"
         role="img">
-        { $slots.icon ? $slots.icon() : <BsIcon name={ this.icon }></BsIcon> }
+        { $slots.icon ? $slots.icon() : null }
       </span> : null
       }
       <span class="bs-menu-item-title">

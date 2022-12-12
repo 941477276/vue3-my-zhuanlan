@@ -13,7 +13,7 @@ import {
   watch,
   Teleport
 } from 'vue';
-import BsIcon from '../../bs-icon/BsIcon.vue';
+import { BsiChevronDown } from 'vue3-bootstrap-icon/es/icons/BsiChevronDown';
 import BsDropdownTransition from '../../bs-dropdown-transition/BsDropdownTransition.vue';
 import BsCollapseTransition from '../../bs-collapse-transition/BsCollapseTransition.vue';
 import { useMenuLevel } from '../hooks/useMenuLevel';
@@ -36,11 +36,6 @@ let componentName = 'BsSubMenu';
 
 export default defineComponent({
   name: componentName,
-  /* components: {
-    BsIcon,
-    BsCollapseTransition,
-    BsDropdownTransition
-  }, */
   props: {
     keyIndex: { // 唯一标识，必填
       type: String,
@@ -48,10 +43,6 @@ export default defineComponent({
       required: true
     },
     title: { // 标题
-      type: String,
-      default: ''
-    },
-    icon: { // 图标名称
       type: String,
       default: ''
     },
@@ -524,7 +515,7 @@ export default defineComponent({
       <div
         ref="bsSubmenuTitleRef"
         class={['bs-submenu-title', {
-          'has-icon': this.icon || slots.icon
+          'has-icon': slots.icon
         }]}
         style={{
           paddingLeft: this.paddingLeft.value ? (this.paddingLeft.value + this.paddingLeft.unit) : ''
@@ -532,10 +523,10 @@ export default defineComponent({
         onClick={this.handleSubmenuTitleClick}
         onMouseenter={this.handleSubmenuTitleMouseenter}>
         {/* 图标 */}
-        { (this.icon || slots.icon) ? <span
+        { slots.icon ? <span
           class="bs-menu-item-icon"
           role="img">
-          {slots.icon ? slots.icon() : <BsIcon name={this.icon}></BsIcon>}
+          {slots.icon ? slots.icon() : null}
         </span> : null
         }
         {/* 标题 */}
@@ -544,7 +535,8 @@ export default defineComponent({
         </div>
         {/* 三角箭头 */}
         <span class="bs-submenu-arrow">
-          {slots.arrow ? slots.arrow() : <BsIcon class="bs-submenu-arrow-icon" name="chevron-down"></BsIcon>}
+          {/* @ts-ignore */}
+          {slots.arrow ? slots.arrow() : <BsiChevronDown class="bs-submenu-arrow-icon"></BsiChevronDown>}
         </span>
       </div>
       {/* @ts-ignore */}
