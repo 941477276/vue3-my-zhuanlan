@@ -61,9 +61,9 @@
     <!--<div class="box">
       <BsMaskUsage></BsMaskUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsAlertUsage></BsAlertUsage>
-    </div>
+    </div>-->
     <!--<div class="box">
       <BsInputNumberUsage></BsInputNumberUsage>
     </div>-->
@@ -91,9 +91,9 @@
     <!--<div class="box">
       <BsPopConfirmUsage></BsPopConfirmUsage>
     </div>-->
-    <!--<div class="box">
+    <div class="box">
       <BsCollapseUsage></BsCollapseUsage>
-    </div>-->
+    </div>
     <!--<div class="box">
       <BsTreeUsage></BsTreeUsage>
     </div>-->

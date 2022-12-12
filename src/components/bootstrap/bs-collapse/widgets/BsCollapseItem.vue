@@ -17,11 +17,13 @@
       :aria-expanded="isExpanded2"
       @click="onHeaderClick">
       <span v-if="showArrow && arrowLeft" class="bs-collapse-header-arrow">
-        <BsIcon name="chevron-right"></BsIcon>
+        <!--<BsIcon name="chevron-right"></BsIcon>-->
+        <BsiChevronRight></BsiChevronRight>
       </span>
       <slot name="title">{{ title }}</slot>
       <span v-if="showArrow && !arrowLeft" class="bs-collapse-header-arrow">
-        <BsIcon name="chevron-right"></BsIcon>
+        <!--<BsIcon name="chevron-right"></BsIcon>-->
+        <BsiChevronRight></BsiChevronRight>
       </span>
     </div>
     <BsCollapseTransition v-if="rendered">
@@ -45,7 +47,7 @@ import {
   computed,
   watch
 } from 'vue';
-import BsIcon from '../../bs-icon/BsIcon.vue';
+import { BsiChevronRight } from 'vue3-bootstrap-icon/es/icons/BsiChevronRight';
 import BsCollapseTransition from '../../bs-collapse-transition/BsCollapseTransition.vue';
 import {
   bsCollapseContextKey,
@@ -56,7 +58,7 @@ let collapseItemCount = 0;
 export default defineComponent({
   name: 'BsCollapseItem',
   components: {
-    BsIcon,
+    BsiChevronRight,
     BsCollapseTransition
   },
   props: {
