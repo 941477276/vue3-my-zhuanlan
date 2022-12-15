@@ -82,6 +82,7 @@ import { defineComponent, createVNode, getCurrentInstance, ComponentInternalInst
 import BsMessageCom from './BsMessage.vue';
 import BsBadge from '@/components/bootstrap/bs-badge/BsBadge.vue';
 import createMessage from './bs-message';
+import { BsiBootstrapFill } from 'vue3-bootstrap-icon/es/icons/BsiBootstrapFill';
 
 export default defineComponent({
   name: 'BsMessageUsage',
@@ -135,6 +136,12 @@ export default defineComponent({
       createMessage({
         type: 'info',
         duration: 0,
+        icon: createVNode('strong', {
+          style: {
+            color: '#f60',
+            fontSize: '1.5'
+          }
+        }, { default: () => [createVNode(BsiBootstrapFill)] }),
         // createVNode 第3个参数为默认插槽，它的值应该是一个函数，如果直接写vnode，则会报下面这种错误
         //  Non-function value encountered for default slot. Prefer function slots for better performance.
         message: createVNode('div', null, { default: () => [createVNode(BsBadge, null, { default: () => '徽章' }), '一条不会关闭，且message为vnode的消息！'] })

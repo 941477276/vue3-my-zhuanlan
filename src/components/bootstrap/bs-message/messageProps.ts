@@ -20,10 +20,6 @@ export const messageProps = {
     type: [String, Object, Function] as PropType<string|VNode|(() => VNode)>,
     default: ''
   },
-  icon: { // 图标，可以为一个字符串、vnode、返回vnode的函数
-    type: [String, Object, Function] as PropType<string|VNode|(() => VNode)>,
-    default: ''
-  },
   dangerouslyUseHTMLString: { // 是否将 message 属性作为 HTML 片段处理
     type: Boolean,
     default: false

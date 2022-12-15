@@ -19,11 +19,10 @@
       role="alert message"
       @mouseenter="clearTimer"
       @mouseleave="startTimer">
-      <span class="bs-message-icon" v-show="showIcon" v-if="typeof iconName === 'string'">
-        <bs-icon :name="iconName"></bs-icon>
-      </span>
-      <span class="bs-message-icon" v-show="showIcon" v-else>
-        <component :is="iconName"></component>
+      <span class="bs-message-icon" v-show="showIcon">
+        <slot name="icon">
+          <component :is="defaultIconMap[type]"></component>
+        </slot>
       </span>
       <div class="bs-message-content">
         <slot>
@@ -55,40 +54,36 @@ import {
   defineComponent,
   computed,
   onMounted,
-  watch
+  watch,
+  reactive
 } from 'vue';
 import { messageProps } from './messageProps';
 import { MessageType } from '@/ts-tokens/bootstrap/message';
-import BsIcon from '@/components/bootstrap/bs-icon/BsIcon.vue';
 import BsBadge from '@/components/bootstrap/bs-badge/BsBadge.vue';
-const defaultIconMap: Record<MessageType, string> = {
-  info: 'info-circle-fill',
-  success: 'check-circle-fill',
-  warning: 'exclamation-circle-fill',
-  danger: 'x-circle-fill'
-};
+import { BsiInfoCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiInfoCircleFill';
+import { BsiCheckCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiCheckCircleFill';
+import { BsiExclamationCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiExclamationCircleFill';
+import { BsiXCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiXCircleFill';
+
 export default defineComponent({
   name: 'BsMessage',
   props: messageProps,
   components: {
-    BsIcon,
-    BsBadge
+    BsBadge,
+    BsiInfoCircleFill,
+    BsiCheckCircleFill,
+    BsiExclamationCircleFill,
+    BsiXCircleFill
   },
   emits: ['destroy'],
   setup (props: any, ctx) {
     let visible = ref(false);
     let timer: number;
-    // 图标名称
-    let iconName = computed(function () {
-      let propsIcon = props.icon;
-      if (typeof propsIcon === 'string') {
-        if (propsIcon.length > 0) {
-          return propsIcon;
-        } else {
-          return defaultIconMap[(props.type as MessageType)];
-        }
-      }
-      return propsIcon;
+    let defaultIconMap = reactive<Record<MessageType, string>>({
+      info: 'bsi-info-circle-fill',
+      success: 'bsi-check-circle-fill',
+      warning: 'bsi-exclamation-circle-fill',
+      danger: 'bsi-x-circle-fill'
     });
 
     let customStyle = computed(function () {
@@ -132,8 +127,8 @@ export default defineComponent({
     });
     return {
       visible,
-      iconName,
       customStyle,
+      defaultIconMap,
 
       close,
       clearTimer,

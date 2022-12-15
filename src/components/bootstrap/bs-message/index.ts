@@ -1,4 +1,7 @@
 import {
+  App
+} from 'vue';
+import {
   closeAllMessage,
   closeMessage,
   BsMessage
@@ -10,7 +13,7 @@ export {
   BsMessage
 };
 export default {
-  install (app: any) {
+  install (app: App) {
     // 全局挂载 $message 函数
     app.config.globalProperties.$message = BsMessage;
     app.config.globalProperties.$closeAllMessage = closeAllMessage;

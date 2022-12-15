@@ -37,9 +37,9 @@
     <!--<div class="box">
       <BsBadgeUsage></BsBadgeUsage>
     </div>-->
-    <!--<div class="box">
+    <div class="box">
       <BsMessageUsage></BsMessageUsage>
-    </div>-->
+    </div>
     <!--<div class="box">
       <BsBreadcrumbUsage></BsBreadcrumbUsage>
     </div>-->
@@ -127,9 +127,9 @@
     <!--<div class="box">
       <BsToastUsage></BsToastUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsMenuUsage></BsMenuUsage>
-    </div>
+    </div>-->
   </bs-config-provider>
 </template>
 

@@ -48,6 +48,11 @@ const message:MessageFn & Partial<Message> & {_context: AppContext|null} = funct
     options = {};
     id = `bs-message_${++messageCount}`;
   }
+  let iconSlot = isVNode(options.icon) ? options.icon : null;
+  let slots = {
+    default: slotContent?.default,
+    icon: iconSlot
+  };
 
   // 根据text判断内容是否与之前其中的某个message组件的message值一致，如果一致则不创建新的
   if (options.grouping && (text == 0 || text)) {
@@ -99,7 +104,7 @@ const message:MessageFn & Partial<Message> & {_context: AppContext|null} = funct
     onClose: () => {
       closeMessage(id as string, optionOnClose);
     }
-  }, slotContent);
+  }, slots);
 
   // 设置context
   vm.appContext = context || message._context;
