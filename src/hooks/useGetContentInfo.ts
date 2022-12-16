@@ -6,7 +6,7 @@ import { isVNode, VNode, isRef } from 'vue';
  */
 export function useGetContentInfo (option: string|VNode|unknown) {
   let text;
-  let slotContent;
+  let slotContent: { [key:string]: any } | null = null;
   let optionsType = typeof option;
   if (optionsType === 'string' || optionsType === 'number' || optionsType === 'undefined' || optionsType === null || isRef(option)) {
     text = option;

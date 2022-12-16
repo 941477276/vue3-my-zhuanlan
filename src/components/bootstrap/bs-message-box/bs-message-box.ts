@@ -40,6 +40,8 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
   let id: string;
   let icon = '';
   let title = '';
+  let inputBefore:any = null;
+  let inputAfter:any = null;
   let context = null;
   // 重新组装组件的props
   let messageBoxProps: StringKeyObject = {};
@@ -47,8 +49,11 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
   // text, slotContent这2个都没有，则说明传递的options为一个普通的对象
   if (!text && !slotContent) {
     let contentInfo = useGetContentInfo(options.message);
+    let { text: inputeBeforeText, slotContent: inputBeforeSlot } = useGetContentInfo(options.inputBefore);
+    let { text: inputeAfterText, slotContent: inputAfterSlot } = useGetContentInfo(options.inputAfter);
     text = contentInfo.text;
     slotContent = contentInfo.slotContent;
+    console.log('slotContent', slotContent);
     id = options.id || `bs-message-box_${++messageBoxCount}`;
     title = options.title;
     messageBoxProps = {
@@ -59,12 +64,22 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
     if (options.type) {
       type = options.type;
     }
+    if (inputeBeforeText) {
+      inputBefore = () => inputeBeforeText;
+    } else if (inputBeforeSlot) {
+      inputBefore = inputBeforeSlot.default;
+    }
+    if (inputeAfterText) {
+      inputAfter = () => inputeAfterText;
+    } else if (inputAfterSlot) {
+      inputAfter = inputAfterSlot.default;
+    }
   } else {
     id = `bs-message-box_${++messageBoxCount}`;
     messageBoxProps = {};
   }
   if (!slotContent) {
-    (slotContent as any) = {};
+    slotContent = {};
   }
   let { nextZIndex } = useZIndex();
 
@@ -81,11 +96,18 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
     context = options.appContext || null;
   } */
   if (isVNode(icon) || typeof icon === 'function') {
-    (slotContent as any).icon = () => icon;
+    slotContent.icon = () => icon;
   }
   if (isVNode(title) || typeof title === 'function') {
     console.log('title isVnode', title);
-    (slotContent as any).title = () => title;
+    slotContent.title = () => title;
+  }
+  if (inputBefore) {
+    slotContent.inputBefore = inputBefore;
+  }
+  console.log();
+  if (inputAfter) {
+    slotContent.inputAfter = inputAfter;
   }
   // console.log('slotContent', slotContent);
 
@@ -93,6 +115,8 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
   delete messageBoxProps.message;
   delete messageBoxProps.icon;
   delete messageBoxProps.type;
+  delete messageBoxProps.inputBefre;
+  delete messageBoxProps.inputAfter;
 
   // 遮罩
   let mask = createMask({

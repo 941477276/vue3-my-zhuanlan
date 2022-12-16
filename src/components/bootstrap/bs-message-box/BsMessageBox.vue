@@ -66,7 +66,7 @@
             </div>
             <div class="bs-message-box-content">
               <slot>
-                <div v-if="dangerouslyUseHTMLString" v-html="messageInner"></div>
+                <div class="bs-message-box-dangerous-html" v-if="dangerouslyUseHTMLString" v-html="messageInner"></div>
                 <template v-else>{{ messageInner }}</template>
               </slot>
             </div>
@@ -77,6 +77,7 @@
             <div class="bs-message-box-title" v-if="!dialogTheme">
               <slot name="title">{{ titleInner }}</slot>
             </div>
+            <slot name="inputBefore"></slot>
             <BsFormItem
               ref="formItemRef"
               :value="inputModelVal"
@@ -88,6 +89,7 @@
                 :type="inputType"
                 :placeholder="inputPlaceholder"></BsInput>
             </BsFormItem>
+            <slot name="inputAfter"></slot>
           </div>
         </template>
       </div>

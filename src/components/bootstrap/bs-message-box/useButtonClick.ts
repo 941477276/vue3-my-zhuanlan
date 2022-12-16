@@ -55,7 +55,8 @@ export function useButtonClick (props: any, formItemRef: Ref<Component|null>, hi
     };
 
     // 如果弹窗类型为 prompt，则先校验表单
-    if (props.type === 'prompt' && props.inputRules.length > 0) {
+    let inputRules = props.inputRules;
+    if (props.type === 'prompt' && (Array.isArray(inputRules) ? inputRules.length > 0 : !!inputRules)) {
       (formItemRef.value as any).validate('', function (validMsg: string) {
         if (!validMsg) {
           console.log('校验通过！');

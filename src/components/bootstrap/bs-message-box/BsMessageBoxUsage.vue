@@ -118,7 +118,7 @@ import {
   defineComponent,
   ref,
   h,
-  onMounted
+  onMounted, createVNode
 } from 'vue';
 import BsMessageBoxCom from '@/components/bootstrap/bs-message-box/BsMessageBox.vue';
 // import BsIcon from '@/components/bootstrap/bs-icon/BsIcon.vue';
@@ -213,7 +213,16 @@ export default defineComponent({
       BsMessageBox({
         title: '绑定邮箱',
         type: 'prompt',
-        dialogTheme: true
+        dialogTheme: true,
+        inputPlaceholder: '请输入邮箱',
+        inputBefore: createVNode('i', null, ['邮箱']),
+        inputAfter: '请勿输入错误邮箱格式',
+        inputRules: {
+          required: true,
+          whitespace: true,
+          message: '请输入邮箱',
+          trigger: ['blur']
+        }
       });
     };
 
