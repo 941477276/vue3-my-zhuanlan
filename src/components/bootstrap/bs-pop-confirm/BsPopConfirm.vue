@@ -25,7 +25,7 @@
         <div class="bs-pop-confirm-message">
           <div class="bs-pop-confirm-icon" v-if="showIcon">
             <slot name="icon">
-              <BsIcon name="exclamation-circle-fill"></BsIcon>
+              <BsiExclamationCircleFill></BsiExclamationCircleFill>
             </slot>
           </div>
           <div class="bs-pop-confirm-message-text">
@@ -61,8 +61,8 @@
 </template>
 
 <script lang="ts">
+import { BsiExclamationCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiExclamationCircleFill';
 import BsTooltip from '../bs-tooltip/BsTooltip.vue';
-import BsIcon from '../bs-icon/BsIcon.vue';
 import BsButton from '../bs-button/BsButton.vue';
 import {
   PropType,
@@ -83,7 +83,7 @@ export default defineComponent({
   name: 'BsPopConfirm',
   components: {
     BsTooltip,
-    BsIcon,
+    BsiExclamationCircleFill,
     BsButton
   },
   props: {

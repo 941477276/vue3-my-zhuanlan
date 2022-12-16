@@ -62,10 +62,13 @@
 }
 .bs-pop-confirm-icon{
   float: left;
-  line-height: 1.4;
+  line-height: 1;
   margin-right: 0.5rem;
   color: var(--danger);
   font-size: 1rem;
+  .bs-icon{
+    vertical-align: middle;
+  }
 }
 .bs-pop-confirm-message-text{
   overflow: hidden;
