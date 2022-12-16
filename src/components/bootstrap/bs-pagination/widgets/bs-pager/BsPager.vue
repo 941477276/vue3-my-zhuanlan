@@ -101,13 +101,9 @@ import {
   hasClass,
   parents
 } from '@/common/bs-util';
-import BsIcon from '../../../bs-icon/BsIcon.vue';
 
 export default defineComponent({
   name: 'BsPager',
-  components: {
-    BsIcon
-  },
   props: {
     pageSize: { // 每页显示条目个数，支持v-model
       type: Number,
