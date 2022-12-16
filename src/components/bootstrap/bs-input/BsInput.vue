@@ -73,24 +73,24 @@
         @focus="on_focus"
         @blur="on_blur"></textarea>
       <div
-        v-if="prefixIcon || $slots.prefix"
+        v-if="$slots.prefix"
         class="bs-input-prefix">
         <span class="bs-input-suffix-icon custom-suffix-icon">
           <slot name="prefix"></slot>
         </span>
       </div>
       <div
-        v-if="(suffixIcon || $slots.suffix) || showPassword || clearable"
+        v-if="$slots.suffix || showPassword || clearable"
         class="bs-input-suffix">
         <span
-          v-if="suffixIcon || $slots.suffix"
+          v-if="$slots.suffix"
           class="bs-input-suffix-icon custom-suffix-icon">
           <slot name="suffix"></slot>
         </span>
         <span
           v-if="clearable"
           v-show="(inputValue + '').length > 0"
-          :data-only-child="!suffixIcon && !$slots.suffix && !showPassword"
+          :data-only-child="!$slots.suffix && !showPassword"
           class="bs-input-suffix-icon clear-content_icon"
           @click.stop="handleClear">
           <BsiXCircle></BsiXCircle>
