@@ -30,7 +30,9 @@
       @clear="$emit('clear')">
       <template #suffix>
         <bs-spinner v-if="loading" :color-type="loadingColorType" :text="loadingText"></bs-spinner>
-        <bs-icon v-else :name="suffixIcon || 'chevron-down'"></bs-icon>
+        <slot v-else name="suffixIcon">
+          <BsiChevronDown></BsiChevronDown>
+        </slot>
       </template>
     </bs-input>
     <div
@@ -89,6 +91,7 @@ import {
   inject,
   nextTick
 } from 'vue';
+import { BsiChevronDown } from 'vue3-bootstrap-icon/es/icons/BsiChevronDown';
 import BsInput from '../bs-input/BsInput.vue';
 import BsTag from '../bs-tag/BsTag.vue';
 import BsSpinner from '../bs-spinner/BsSpinner.vue';
@@ -105,7 +108,8 @@ export default defineComponent({
     BsInput,
     BsTag,
     BsSpinner,
-    SelectInputTagSlot
+    SelectInputTagSlot,
+    BsiChevronDown
   },
   props: {
     ...bsSelectInputProps
