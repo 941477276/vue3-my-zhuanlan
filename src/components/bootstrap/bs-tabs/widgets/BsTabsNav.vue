@@ -14,7 +14,7 @@
       class="bs-tabs-nav-prev"
       aria-label="tabs nav prev"
       @click="scrollPrev">
-      <BsIcon name="chevron-left"></BsIcon>
+      <BsiChevronLeft></BsiChevronLeft>
     </button>
     <slot name="left-extra"></slot>
     <div
@@ -47,14 +47,14 @@
       class="bs-tabs-nav-next"
       aria-label="tabs nav next"
       @click="scrollNext">
-      <BsIcon name="chevron-right"></BsIcon>
+      <BsiChevronRight></BsiChevronRight>
     </button>
     <div
       v-if="triggerType === 'more'"
       class="bs-tabs-nav-operation">
       <BsDropdown trigger="hover">
         <span class="more-btn">
-          <BsIcon name="three-dots"></BsIcon>
+          <BsiThreeDots></BsiThreeDots>
         </span>
         <template #dropdown-content>
           <bs-dropdown-item
@@ -79,7 +79,9 @@ import {
   onMounted,
   onUnmounted
 } from 'vue';
-import BsIcon from '../../bs-icon/BsIcon.vue';
+import { BsiChevronLeft } from 'vue3-bootstrap-icon/es/icons/BsiChevronLeft';
+import { BsiChevronRight } from 'vue3-bootstrap-icon/es/icons/BsiChevronRight';
+import { BsiThreeDots } from 'vue3-bootstrap-icon/es/icons/BsiThreeDots';
 import BsDropdown from '@/components/bootstrap/bs-dropdown/BsDropdown.vue';
 import BsDropdownItem from '@/components/bootstrap/bs-dropdown/widgets/BsDropdownItem.vue';
 import BsTabsNavItem from './BsTabsNavItem.vue';
@@ -99,7 +101,9 @@ import {
 export default defineComponent({
   name: 'BsTabsNav',
   components: {
-    BsIcon,
+    BsiChevronLeft,
+    BsiChevronRight,
+    BsiThreeDots,
     BsDropdown,
     BsDropdownItem,
     BsTabsNavItem

@@ -48,6 +48,10 @@
     .bs-tabs-nav-prev,
     .bs-tabs-nav-next{
       display: block;
+      line-height: 1;
+      .bs-icon{
+        vertical-align: middle;
+      }
     }
     .bs-tabs-nav-operation{
       display: flex;
@@ -112,8 +116,12 @@
   }
   .more-btn{
     display: block;
+    line-height: 1;
     &::after{
       display: none;
+    }
+    .bs-icon{
+      vertical-align: middle;
     }
   }
 }
@@ -149,9 +157,10 @@
     cursor: default;
     .bs-tabs-nav-close{
       &:hover{
-        .bs-svg-icon{
+        .bs-icon{
           color: currentColor;
           cursor: default;
+          vertical-align: middle;
           background-color: #fff;
         }
       }
@@ -169,16 +178,17 @@
   margin-left: 0;
   //overflow: hidden;
   margin-left: .45rem;
-  transform: translateY(0.3rem);
+  transform: translateY(0.2rem);
   //font-size: 1.1em;
   transition: all .3s;
-  .bs-svg-icon{
+  font-size: 1rem;
+  .bs-icon{
     border-radius: 50%;
     transition: background-color .3s, color .2s;
     cursor: pointer;
   }
   &:hover{
-    .bs-svg-icon{
+    .bs-icon{
       color: #fff;
       background-color: #c0c4cc;
     }
@@ -230,7 +240,7 @@
       right: 1px;
       top: 0;
       bottom: auto;
-      .bs-svg-icon{
+      .bs-icon{
         transform: rotate(90deg);
       }
     }
@@ -239,7 +249,7 @@
       left: 0;
       top: auto;
       bottom: 0;
-      .bs-svg-icon{
+      .bs-icon{
         transform: rotate(90deg);
       }
     }

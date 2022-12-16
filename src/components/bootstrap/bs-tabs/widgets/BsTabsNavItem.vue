@@ -19,14 +19,16 @@
 <script lang="ts">
 import {
   defineComponent,
-  h
+  h,
+  createVNode
 } from 'vue';
 import BsIcon from '../../bs-icon/BsIcon.vue';
+import { BsiX } from 'vue3-bootstrap-icon/es/icons/BsiX';
 
 export default defineComponent({
   name: 'BsTabsNavItem',
   components: {
-    BsIcon
+    BsiX
   },
   props: {
     activeTabId: {
@@ -85,8 +87,8 @@ export default defineComponent({
     return () => {
       let closeIcon = props.closeable ? h('span', {
         'class': 'bs-tabs-nav-close'
-      }, h(BsIcon, {
-        name: 'x',
+      }, createVNode(BsiX, {
+        // name: 'x',
         onClick: onClose
       })) : null;
       let children = h('button', {
