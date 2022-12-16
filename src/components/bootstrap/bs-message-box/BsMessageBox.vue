@@ -57,7 +57,7 @@
             v-if="showIcon"
             class="bs-message-box-icon">
             <slot name="icon">
-              <BsIcon :name="iconName"></BsIcon>
+              <component :is="defaultIconMap[type]"></component>
             </slot>
           </span>
           <div class="bs-message-box-content-wrap">
@@ -122,7 +122,7 @@ import {
   computed,
   Component,
   onMounted,
-  onUnmounted
+  onUnmounted, reactive
 } from 'vue';
 import BsButton from '../bs-button/BsButton.vue';
 import BsIcon from '../bs-icon/BsIcon.vue';
@@ -134,13 +134,11 @@ import { MessageType } from '@/ts-tokens/bootstrap/message';
 import { useButtonClick } from './useButtonClick';
 import { useGlobalEvent } from '@/hooks/useGlobalEvent';
 import { isPromise } from '@/common/bs-util';
+import { BsiInfoCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiInfoCircleFill';
+import { BsiCheckCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiCheckCircleFill';
+import { BsiExclamationCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiExclamationCircleFill';
+import { BsiXCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiXCircleFill';
 
-const defaultIconMap: Record<MessageType, string> = {
-  info: 'info-circle-fill',
-  success: 'check-circle-fill',
-  warning: 'exclamation-circle-fill',
-  danger: 'x-circle-fill'
-};
 let messageBoxCount = 0;
 export default defineComponent({
   name: 'BsMessageBox',
@@ -148,18 +146,22 @@ export default defineComponent({
     BsButton,
     BsIcon,
     BsInput,
-    BsFormItem
+    BsFormItem,
+    BsiInfoCircleFill,
+    BsiCheckCircleFill,
+    BsiExclamationCircleFill,
+    BsiXCircleFill
   },
   props: bsMessageBoxProps,
   emits: ['before-enter', 'show', 'hide'],
   setup (props: any, ctx: any) {
     let messageBoxRef = ref<HTMLElement|null>(null);
     let id = props.id || `bs_message_box-${++messageBoxCount}`;
-    let iconName = computed(function () {
-      if (props.icon) {
-        return props.icon;
-      }
-      return defaultIconMap[props.type as MessageType] || defaultIconMap.info;
+    let defaultIconMap = reactive<Record<MessageType, string>>({
+      info: 'bsi-info-circle-fill',
+      success: 'bsi-check-circle-fill',
+      warning: 'bsi-exclamation-circle-fill',
+      danger: 'bsi-x-circle-fill'
     });
 
     // 标题
@@ -273,7 +275,6 @@ export default defineComponent({
     });
 
     return {
-      iconName,
       id,
       messageBoxRootRef,
       messageBoxRef,
@@ -285,6 +286,7 @@ export default defineComponent({
       titleInner,
       messageInner,
       messageBoxTransformOrigin,
+      defaultIconMap,
 
       hide,
       okClick,

@@ -37,9 +37,9 @@
     <!--<div class="box">
       <BsBadgeUsage></BsBadgeUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsMessageUsage></BsMessageUsage>
-    </div>
+    </div>-->
     <!--<div class="box">
       <BsBreadcrumbUsage></BsBreadcrumbUsage>
     </div>-->
@@ -55,9 +55,9 @@
     <!--<div class="box">
       <BsSwitchUsage></BsSwitchUsage>
     </div>-->
-    <!--<div class="box">
+    <div class="box">
       <BsMessageBoxUsage></BsMessageBoxUsage>
-    </div>-->
+    </div>
     <!--<div class="box">
       <BsMaskUsage></BsMaskUsage>
     </div>-->

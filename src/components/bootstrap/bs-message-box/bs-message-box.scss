@@ -68,9 +68,11 @@
 .bs-message-box-icon{
   float: left;
   margin-right: 1.2rem;
-  .bs-svg-icon{
-    width: 1.5rem;
-    height: 1.5rem;
+  .bs-icon{
+    //width: 1.5rem;
+    //height: 1.5rem;
+    vertical-align: middle;
+    font-size: 1.5rem;
   }
 }
 .bs-message-box-content-wrap{
