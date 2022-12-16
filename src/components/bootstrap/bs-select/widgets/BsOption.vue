@@ -11,7 +11,7 @@
     <slot>
       <span class="bs-option-label">{{ label }}</span>
     </slot>
-    <bs-icon name="check-lg" class="bs-option-check-icon"></bs-icon>
+    <BsiCheckLg class="bs-option-check-icon"></BsiCheckLg>
   </li>
 </template>
 
@@ -35,6 +35,7 @@ import {
   SelectOptionItem
 } from '@/ts-tokens/bootstrap/select';
 import BsIcon from '../../bs-icon/BsIcon.vue';
+import { BsiCheckLg } from 'vue3-bootstrap-icon/es/icons/BsiCheckLg';
 import { BsColorType } from '@/ts-tokens/bootstrap';
 import {
   isFunction
@@ -44,7 +45,7 @@ let selectOptionCount = 0;
 export default defineComponent({
   name: 'BsOption',
   components: {
-    BsIcon
+    BsiCheckLg
   },
   props: {
     value: {
