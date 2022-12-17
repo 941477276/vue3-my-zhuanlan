@@ -14,8 +14,8 @@
       class="bs-tag-operate"
       v-if="closeable"
       @click.stop="doClose">
-      <BsIcon class="bs-tag-close" name="x"></BsIcon>
-      <BsIcon class="bs-tag-close" name="x-circle-fill"></BsIcon>
+      <BsiX class="bs-tag-close"></BsiX>
+      <BsiXCircleFill class="bs-tag-close"></BsiXCircleFill>
     </span>
   </span>
   </transition>
@@ -30,7 +30,8 @@ import {
   ref,
   onMounted
 } from 'vue';
-import BsIcon from '../bs-icon/BsIcon.vue';
+import { BsiX } from 'vue3-bootstrap-icon/es/icons/BsiX';
+import { BsiXCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiXCircleFill';
 
 type Effect = 'dark' | 'light' | 'plain';
 // type BsTagSize = 'medium' | 'small' | 'mini';
@@ -39,7 +40,8 @@ type BsTagSize = 'md' | 'sm' | 'mini';
 export default defineComponent({
   name: 'BsTag',
   components: {
-    BsIcon
+    BsiX,
+    BsiXCircleFill
   },
   props: {
     type: { // 按钮类型

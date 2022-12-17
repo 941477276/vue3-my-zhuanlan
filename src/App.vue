@@ -43,15 +43,15 @@
     <!--<div class="box">
       <BsBreadcrumbUsage></BsBreadcrumbUsage>
     </div>-->
-    <!--<div class="box">
+    <div class="box">
       <BsTagUsage></BsTagUsage>
-    </div>-->
+    </div>
     <!--<div class="box">
       <BsProgressUsage></BsProgressUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsTabsUsage></BsTabsUsage>
-    </div>
+    </div>-->
     <!--<div class="box">
       <BsSwitchUsage></BsSwitchUsage>
     </div>-->
@@ -103,9 +103,9 @@
     <!--<div class="box">
       <BsInputTagsUsage></BsInputTagsUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsSelectInputUsage></BsSelectInputUsage>
-    </div>
+    </div>-->
     <!--<div class="box">
       <BsTimePickerUsage></BsTimePickerUsage>
     </div>-->
