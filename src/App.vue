@@ -31,9 +31,9 @@
       <BsDropdownUsage></BsDropdownUsage>
     </div>-->
     <!--<router-view></router-view>-->
-    <!--<div class="box">
+    <div class="box">
       <BsPaginationUsage></BsPaginationUsage>
-    </div>-->
+    </div>
     <!--<div class="box">
       <BsBadgeUsage></BsBadgeUsage>
     </div>-->
@@ -109,9 +109,9 @@
     <!--<div class="box">
       <BsTimePickerUsage></BsTimePickerUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsDatePickerUsage></BsDatePickerUsage>
-    </div>
+    </div>-->
     <!--<div class="box">
       <BsBackTopUsage></BsBackTopUsage>
     </div>-->

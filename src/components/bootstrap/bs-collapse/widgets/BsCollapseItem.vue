@@ -17,12 +17,10 @@
       :aria-expanded="isExpanded2"
       @click="onHeaderClick">
       <span v-if="showArrow && arrowLeft" class="bs-collapse-header-arrow">
-        <!--<BsIcon name="chevron-right"></BsIcon>-->
         <BsiChevronRight></BsiChevronRight>
       </span>
       <slot name="title">{{ title }}</slot>
       <span v-if="showArrow && !arrowLeft" class="bs-collapse-header-arrow">
-        <!--<BsIcon name="chevron-right"></BsIcon>-->
         <BsiChevronRight></BsiChevronRight>
       </span>
     </div>

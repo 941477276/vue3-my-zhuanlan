@@ -22,7 +22,6 @@ import {
   h,
   createVNode
 } from 'vue';
-import BsIcon from '../../bs-icon/BsIcon.vue';
 import { BsiX } from 'vue3-bootstrap-icon/es/icons/BsiX';
 
 export default defineComponent({

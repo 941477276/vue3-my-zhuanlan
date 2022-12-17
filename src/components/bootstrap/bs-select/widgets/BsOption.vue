@@ -34,7 +34,6 @@ import {
   selectOptionGroupContextKey,
   SelectOptionItem
 } from '@/ts-tokens/bootstrap/select';
-import BsIcon from '../../bs-icon/BsIcon.vue';
 import { BsiCheckLg } from 'vue3-bootstrap-icon/es/icons/BsiCheckLg';
 import { BsColorType } from '@/ts-tokens/bootstrap';
 import {

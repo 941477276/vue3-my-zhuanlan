@@ -13,7 +13,7 @@
       <button type="button" class="page-link">
         <slot name="prev">
           <template v-if="prevText">{{ prevText }}</template>
-          <bs-icon v-else name="chevron-left"></bs-icon>
+          <BsiChevronLeft v-else></BsiChevronLeft>
         </slot>
       </button>
     </li>
@@ -34,8 +34,8 @@
       role="presentation"
       :title="`向前${supperOffset}页`">
       <button type="button" class="page-link">
-        <bs-icon class="three-dots" name="three-dots"></bs-icon>
-        <bs-icon class="chevron-double-left" name="chevron-double-left"></bs-icon>
+        <BsiThreeDots class="three-dots"></BsiThreeDots>
+        <BsiChevronDoubleLeft class="chevron-double-left"></BsiChevronDoubleLeft>
       </button>
     </li>
     <li
@@ -56,8 +56,8 @@
       role="presentation"
       :title="`向后${supperOffset}页`">
       <button type="button" class="page-link">
-        <bs-icon class="three-dots" name="three-dots"></bs-icon>
-        <bs-icon class="chevron-double-right" name="chevron-double-right"></bs-icon>
+        <BsiThreeDots class="three-dots"></BsiThreeDots>
+        <BsiChevronDoubleRight class="chevron-double-right"></BsiChevronDoubleRight>
       </button>
     </li>
     <li
@@ -81,7 +81,7 @@
       <button type="button" class="page-link">
         <slot name="next">
           <template v-if="nextText">{{ nextText }}</template>
-          <bs-icon v-else name="chevron-right"></bs-icon>
+          <BsiChevronRight v-else></BsiChevronRight>
         </slot>
       </button>
     </li>
@@ -96,6 +96,11 @@ import {
   computed,
   watchEffect
 } from 'vue';
+import { BsiChevronLeft } from 'vue3-bootstrap-icon/es/icons/BsiChevronLeft';
+import { BsiChevronRight } from 'vue3-bootstrap-icon/es/icons/BsiChevronRight';
+import { BsiThreeDots } from 'vue3-bootstrap-icon/es/icons/BsiThreeDots';
+import { BsiChevronDoubleLeft } from 'vue3-bootstrap-icon/es/icons/BsiChevronDoubleLeft';
+import { BsiChevronDoubleRight } from 'vue3-bootstrap-icon/es/icons/BsiChevronDoubleRight';
 import { BsSize } from '@/ts-tokens/bootstrap';
 import {
   hasClass,
@@ -104,6 +109,13 @@ import {
 
 export default defineComponent({
   name: 'BsPager',
+  components: {
+    BsiChevronLeft,
+    BsiChevronRight,
+    BsiThreeDots,
+    BsiChevronDoubleLeft,
+    BsiChevronDoubleRight
+  },
   props: {
     pageSize: { // 每页显示条目个数，支持v-model
       type: Number,

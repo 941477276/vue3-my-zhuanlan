@@ -127,7 +127,6 @@ import {
   onUnmounted, reactive
 } from 'vue';
 import BsButton from '../bs-button/BsButton.vue';
-import BsIcon from '../bs-icon/BsIcon.vue';
 import BsInput from '../bs-input/BsInput.vue';
 import BsFormItem from '../bs-form/widgets/BsFormItem.vue';
 import { bsMessageBoxProps } from './bs-message-box-props';
@@ -146,7 +145,6 @@ export default defineComponent({
   name: 'BsMessageBox',
   components: {
     BsButton,
-    BsIcon,
     BsInput,
     BsFormItem,
     BsiInfoCircleFill,

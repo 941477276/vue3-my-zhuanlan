@@ -17,10 +17,9 @@
   cursor: pointer;
 }
 .bs-pagination-pager{
-  &.pagination-sm{
-    .bs-svg-icon{
-      transform: translateY(-0.1rem);
-    }
+  .bs-icon{
+    vertical-align: middle;
+    transform: translateY(-0.1rem);
   }
   .page-item{
     &.active{
