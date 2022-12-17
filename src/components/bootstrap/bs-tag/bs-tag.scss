@@ -28,6 +28,10 @@
     transform: scale(0);
     overflow: hidden;
   }
+  &.bs-tag-custom-color{
+    border-color: transparent;
+    color: #fff;
+  }
 
   .bs-tag-close{
     //transform: translateY(-1px);

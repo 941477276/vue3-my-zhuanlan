@@ -1,13 +1,15 @@
 <template>
   <transition name="fold">
     <span
-      v-show="show"
+      v-show="visible"
       class="bs-tag"
       :class="[
-        `bs-tag-${type || 'primary'}`,
+        !color ? `bs-tag-${type || 'primary'}` : '',
         size ? `bs-tag-${size}` : '',
-        `bs-tag--${effect}`
+        color ? 'bs-tag-custom-color' : '',
+        !color ? `bs-tag--${effect}` : ''
       ]"
+      :style="color ? `background-color: ${color}` : null"
       @click="doClick">
     <slot></slot>
     <span
@@ -19,7 +21,6 @@
     </span>
   </span>
   </transition>
-
 </template>
 
 <script lang="ts">
@@ -30,6 +31,7 @@ import {
   ref,
   onMounted
 } from 'vue';
+import { isPromise } from '@vue/shared';
 import { BsiX } from 'vue3-bootstrap-icon/es/icons/BsiX';
 import { BsiXCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiXCircleFill';
 
@@ -63,33 +65,38 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
+    color: { // 自定义颜色
+      type: String,
+      default: ''
+    },
     hit: { // 是否有边框描边
       type: Boolean,
       default: false
-    },
-    beforeClose: { // 标签关闭前触发的事件，如果函数返回false，则不会关闭
-      type: Function,
-      default: null
     }
   },
   emit: ['close', 'click'],
   setup (props: any, ctx: any) {
-    let show = ref(false);
+    let visible = ref(false);
 
     onMounted(function () {
-      show.value = true;
+      visible.value = true;
     });
 
     let doClose = function () {
-      let beforeClose = props.beforeClose;
-      if (typeof beforeClose === 'function') {
-        let res = beforeClose();
+      let close = function () {
+        visible.value = false;
+      };
+      let onClose = ctx.attrs.onClose;
+      if (typeof onClose === 'function') {
+        let res = onClose();
         if (res === false) {
+          return;
+        } else if (isPromise(res)) {
+          res.then(close);
           return;
         }
       }
-      show.value = false;
-      ctx.emit('close');
+      close();
     };
 
     let doClick = function () {
@@ -97,7 +104,11 @@ export default defineComponent({
     };
 
     return {
-      show,
+      visible,
+
+      show () {
+        visible.value = true;
+      },
       doClose,
       doClick
     };

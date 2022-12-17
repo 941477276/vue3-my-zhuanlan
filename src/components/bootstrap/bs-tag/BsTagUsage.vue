@@ -39,6 +39,14 @@
   </div>
 
   <hr>
+  <h3>自定义颜色</h3>
+  <div>
+    <bs-tag size="sm" color="#f60">#f60</bs-tag>
+    <bs-tag size="sm" color="#3dc8f9">#3dc8f9</bs-tag>
+    <bs-tag size="sm" color="#9ed09a">#9ed09a</bs-tag>
+  </div>
+
+  <hr>
   <h3>可关闭</h3>
   <div>
     <bs-tag
@@ -46,6 +54,18 @@
       :key="typeName"
       :type="typeName"
       :closeable="true">{{ typeName }}</bs-tag>
+  </div>
+
+  <hr>
+  <h3>异步关闭</h3>
+  <div>
+    <bs-tag
+      class="async-close-tag"
+      :closeable="true"
+      @close="beforeClose('a tag')">
+      <BsSpinner v-if="closing"></BsSpinner>
+      a tag
+    </bs-tag>
   </div>
 
   <hr>
@@ -73,11 +93,13 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue';
+import BsSpinner from '@/components/bootstrap/bs-spinner/BsSpinner.vue';
 
 export default defineComponent({
   name: 'BsTagUsage',
-  components: {},
-
+  components: {
+    BsSpinner
+  },
   setup (props: any) {
     let types = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark', 'link'];
     let size = ref('');
@@ -91,12 +113,25 @@ export default defineComponent({
       tags.value.push(`标签_${tags.value.length}`);
     };
 
+    let closing = ref(false);
     return {
       types,
       size,
       tags,
+      closing,
 
-      addTag
+      addTag,
+      beforeClose (typeName: string) {
+        closing.value = true;
+        console.log('typeName', typeName);
+        return new Promise(function (resolve, reject) {
+          let timer = setTimeout(function () {
+            clearTimeout(timer);
+            closing.value = false;
+            resolve(1);
+          }, 1500);
+        });
+      }
     };
   }
 });
@@ -105,5 +140,13 @@ export default defineComponent({
 <style lang="scss" scoped>
 .bs-tag{
   margin-right: 10px;
+}
+.async-close-tag{
+  .bs-spinner{
+    width: 1.1em;
+    height: 1.1em;
+    border-width: 1px;
+    margin-right: 0.25rem;
+  }
 }
 </style>
