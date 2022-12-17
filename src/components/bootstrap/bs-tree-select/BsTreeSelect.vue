@@ -26,7 +26,9 @@
       :ariaLabel="ariaLabel"
       @clear="onInputClear">
       <template #suffix>
-        <bs-icon name="chevron-down"></bs-icon>
+        <slot name="suffixIcon">
+          <BsiChevronDown></BsiChevronDown>
+        </slot>
       </template>
     </bs-input>
     <teleport :disabled="!teleported" :to="appendTo">
@@ -79,6 +81,7 @@ import {
   elementContains
 } from '@/common/bs-util';
 import { useClickOutside } from '@/hooks/useClickOutside';
+import { BsiChevronDown } from 'vue3-bootstrap-icon/es/icons/BsiChevronDown';
 import BsInput from '../bs-input/BsInput.vue';
 import BsTree from '../bs-tree/BsTree.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
@@ -91,7 +94,8 @@ export default defineComponent({
   components: {
     BsInput,
     BsTree,
-    BsDropdownTransition
+    BsDropdownTransition,
+    BsiChevronDown
   },
   props: {
     ...bsTreeSelectProps
