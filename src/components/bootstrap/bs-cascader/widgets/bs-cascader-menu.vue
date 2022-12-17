@@ -43,13 +43,8 @@
         class="bs-cascader-loading-icon"
         v-if="lazy && (item[fieldNames.value] in loadingMap)"
         v-show="loadingMap[item[fieldNames.value]] == 'loading'"></BsSpinner>
-      <BsIcon
-        v-if="getChevronVisible(item)"
-        name="chevron-right"></BsIcon>
-      <bs-icon
-        v-if="!multiple && !checkStrictly"
-        name="check-lg"
-        class="bs-cascader-check-icon"></bs-icon>
+      <BsiChevronRight v-if="getChevronVisible(item)"></BsiChevronRight>
+      <BsiCheckLg v-if="!multiple && !checkStrictly" class="bs-cascader-check-icon">></BsiCheckLg>
     </li>
   </ul>
 </template>
@@ -69,7 +64,8 @@ import {
 } from '@vue/shared';
 import BsCheckbox from '../../bs-checkbox/BsCheckbox.vue';
 import BsRadio from '../../bs-radio/BsRadio.vue';
-import BsIcon from '../../bs-icon/BsIcon.vue';
+import { BsiChevronRight } from 'vue3-bootstrap-icon/es/icons/BsiChevronRight';
+import { BsiCheckLg } from 'vue3-bootstrap-icon/es/icons/BsiCheckLg';
 import BsSpinner from '../../bs-spinner/BsSpinner.vue';
 import BsCascaderMenuItemLabel from './bs-cascader-menu-item-label';
 import {
@@ -92,8 +88,9 @@ export default defineComponent({
   components: {
     BsCheckbox,
     BsRadio,
-    BsIcon,
     BsSpinner,
+    BsiChevronRight,
+    BsiCheckLg,
     BsCascaderMenuItemLabel
   },
   props: {

@@ -17,7 +17,7 @@
       <bs-button type="primary" style="margin-left: 1rem;" @click="addCheckedItem">添加一个选中项</bs-button>
     </div>
 
-    <!--<div>
+    <div>
       <hr>
       <h3>懒加载</h3>
       <BsCascader
@@ -31,25 +31,25 @@
         :lazy-load-fn="lazyLoadFn"
         :check-strictly="false"></BsCascader>
       <div>{{ cascader2 }}</div>
-    </div>-->
+    </div>
 
-    <!--<div>
+    <div>
       <hr>
       <h3>自定义节点内容</h3>
       <BsCascader
-        v-model="cascader1"
+        v-model="cascader4"
         :multiple="false"
         :show-all-levels="true"
         :options="dataOptions1"
         :emit-path="true"
         :check-strictly="false">
         <template #label="option">
-          {{ option.label }} <small style="color: var(&#45;&#45;success);">（{{ option.children?.length || 0 }}）</small>
+          {{ option.label }} <small style="color: var(--success);">（{{ option.children?.length || 0 }}）</small>
         </template>
       </BsCascader>
-    </div>-->
+    </div>
 
-    <!--<div>
+    <div>
       <hr>
       <h3>Loading与无数据</h3>
       <h5>Loading</h5>
@@ -71,9 +71,9 @@
         :emit-path="true"
         :check-strictly="false">
       </BsCascader>
-    </div>-->
+    </div>
 
-    <!--<div>
+    <div>
       <hr>
       <h3>自定义显示</h3>
       <BsCascader
@@ -86,9 +86,9 @@
         :check-strictly="false">
         <bs-button type="primary">点击我吧</bs-button>
       </BsCascader>
-    </div>-->
+    </div>
 
-    <!--<div>
+    <div>
       <hr>
       <h3>自定义Tag</h3>
       <h5>自定义Tag内容</h5>
@@ -102,7 +102,7 @@
         :check-strictly="false">
         <template #tag="tag">
           {{ tag.label }}
-          <strong style="color: var(&#45;&#45;success);">(选中项在第{{tag.optionPath.length}}层)</strong>
+          <strong style="color: var(--success);">(选中项在第{{tag.optionPath.length}}层)</strong>
         </template>
       </BsCascader>
       <h5 style="margin-top: 0.5rem;">自定义Tag类型</h5>
@@ -126,7 +126,7 @@
         :emit-path="true"
         :check-strictly="false">
       </BsCascader>
-    </div>-->
+    </div>
 
     <!--<div>
       <hr>
@@ -170,6 +170,7 @@ export default defineComponent({
     let cascader1 = ref<any>(['kekong']);
     let cascader2 = ref<any>([]);
     let cascader3 = ref<any>(['kekong', 'float', 'shejiyuanze']);
+    let cascader4 = ref<any>([]);
 
     return {
       dataOptions1,
@@ -178,6 +179,7 @@ export default defineComponent({
       cascader1,
       cascader2,
       cascader3,
+      cascader4,
       removeLastCheckedItem () {
         let length = cascader1.value.length;
         if (length > 0) {
