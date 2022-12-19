@@ -6,6 +6,7 @@
     :class="btnClass"
     :disabled="disabled || loading || null"
     :aria-disabled="disabled || loading"
+    :role-type="tag != 'button' ? 'button' : null"
     @click="onBtnClick"
     @blur="$emit('blur', $event)"
     @focus="$emit('focus', $event)"
