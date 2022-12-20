@@ -4,8 +4,8 @@
     :is="tag"
     :type="nativeType"
     :class="btnClass"
-    :disabled="disabled || loading || null"
-    :aria-disabled="disabled || loading"
+    :disabled="disabled || (loading && disabledOnLoading) || null"
+    :aria-disabled="disabled || (loading && disabledOnLoading)"
     :role-type="tag != 'button' ? 'button' : null"
     @click="onBtnClick"
     @blur="$emit('blur', $event)"
@@ -82,6 +82,10 @@ export default defineComponent({
     loading: { // 是否加载中
       type: Boolean,
       default: false
+    },
+    disabledOnLoading: { // 加载状态时按钮是否禁用
+      type: Boolean,
+      default: true
     },
     dropdownToggle: { // 是否为下拉菜单切换按钮
       type: Boolean,

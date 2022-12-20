@@ -2,88 +2,43 @@
 <div class="component-usage">
   <div>
     <h3>基础用法</h3>
-    <bs-button>默认</bs-button>
-    <bs-button
-      v-for="type in btnTypes"
-      :key="type"
-      :type="type">{{ type }}</bs-button>
+    <Basic></Basic>
   </div>
 
   <div>
     <hr>
-    <h3>基础用法</h3>
-    <bs-button plain>默认</bs-button>
-    <bs-button
-      v-for="type in btnTypes"
-      :key="type"
-      :type="type"
-      plain>{{ type }}</bs-button>
-  </div>
-
-  <div>
-    <hr>
-    <h3>圆角按钮</h3>
-    <bs-button round>默认</bs-button>
-    <bs-button
-      v-for="type in btnTypes"
-      :key="type"
-      :type="type"
-      round>{{ type }}</bs-button>
-  </div>
-
-  <div>
-    <hr>
-    <h3>平角按钮</h3>
-    <bs-button squared>默认</bs-button>
-    <bs-button
-      v-for="type in btnTypes"
-      :key="type"
-      :type="type"
-      squared>{{ type }}</bs-button>
+    <h3>圆角与平角按钮</h3>
+    <BorderRadius></BorderRadius>
   </div>
 
   <div>
     <hr>
     <h3>不同大小</h3>
-    <bs-button type="primary" size="sm">小按钮</bs-button>
-    <bs-button type="primary">默认大小</bs-button>
-    <bs-button type="primary" size="lg">大按钮</bs-button>
+    <Size></Size>
   </div>
 
   <div>
     <hr>
     <h3>块级按钮</h3>
-    <bs-button type="primary" block>块级按钮</bs-button>
-    <bs-button type="secondary" style="margin-left: 0;" block>块级按钮</bs-button>
-    <bs-button type="success" style="margin-left: 0;" block>块级按钮</bs-button>
+    <Block></Block>
   </div>
 
   <div>
     <hr>
     <h3>禁用</h3>
-    <bs-button disabled>默认</bs-button>
-    <bs-button
-      v-for="type in btnTypes"
-      :key="type"
-      :type="type"
-      disabled>{{ type }}</bs-button>
+    <Disabled></Disabled>
   </div>
 
   <div>
     <hr>
     <h3>加载中</h3>
-    <bs-button loading>默认</bs-button>
-    <bs-button
-      v-for="type in btnTypes"
-      :key="type"
-      :type="type"
-      loading>{{ type }}</bs-button>
+    <Loading></Loading>
   </div>
 
   <div>
     <hr>
-    <h3>链接按钮</h3>
-    <bs-button type="link" tag="a" href="https://www.baidu.com" target="_blank">a标签(跳转到百度)</bs-button>
+    <h3>其他标签</h3>
+    <Other></Other>
   </div>
 
 </div>
@@ -95,9 +50,25 @@ import {
   defineComponent
 } from 'vue';
 import { supportedBsColorTypes } from '@/ts-tokens/bootstrap';
+import Basic from './demos/basic.vue';
+import BorderRadius from './demos/border-radius.vue';
+import Size from './demos/size.vue';
+import Block from './demos/block.vue';
+import Disabled from './demos/disabled.vue';
+import Loading from './demos/loading.vue';
+import Other from './demos/other.vue';
 
 export default defineComponent({
   name: 'BsButtonUsage',
+  components: {
+    Basic,
+    BorderRadius,
+    Size,
+    Block,
+    Disabled,
+    Loading,
+    Other
+  },
   setup (props: any) {
     let onClick = function (evt: MouseEvent) {
       console.log(evt);
@@ -112,7 +83,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.bs-button + .bs-button{
+::v-deep(.bs-button) {
+  margin-bottom: 1rem;
+}
+::v-deep(.bs-button + .bs-button:not(.btn-block)){
   margin-left: 1rem;
 }
 </style>
