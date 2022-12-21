@@ -3,12 +3,12 @@
     <!--<div class="box">
       <BsButtonUsage></BsButtonUsage>
     </div>-->
-    <div class="box">
-      <BsButtonGroupUsage></BsButtonGroupUsage>
-    </div>
     <!--<div class="box">
-      <BsInputUsage></BsInputUsage>
+      <BsButtonGroupUsage></BsButtonGroupUsage>
     </div>-->
+    <div class="box">
+      <BsInputUsage></BsInputUsage>
+    </div>
     <!--<div class="box">
       <BsRadioUsage></BsRadioUsage>
     </div>-->
@@ -254,6 +254,9 @@ export default defineComponent({
   /*h5,*/
   h6{
     margin-bottom: 1.5rem;
+  }
+  h6{
+    margin: 1rem 0;
   }
 }
 </style>
