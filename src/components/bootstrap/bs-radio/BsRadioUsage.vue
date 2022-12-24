@@ -22,6 +22,12 @@
     <h2>单选组合</h2>
     <Group></Group>
   </div>
+
+  <div>
+    <hr>
+    <h2>单选组合(禁用)</h2>
+    <GroupDisabled></GroupDisabled>
+  </div>
 </div>
 </template>
 
@@ -31,6 +37,7 @@ import Basic from './widgets/basic.vue';
 import Disabled from './widgets/disabled.vue';
 import DifferentValues from './widgets/different-values.vue';
 import Group from './widgets/group.vue';
+import GroupDisabled from './widgets/group-disabled.vue';
 
 export default defineComponent({
   name: 'BsRadioUsage',
@@ -38,7 +45,8 @@ export default defineComponent({
     Basic,
     Disabled,
     DifferentValues,
-    Group
+    Group,
+    GroupDisabled
   },
   setup (props: any) {
     let radioVal = ref('');

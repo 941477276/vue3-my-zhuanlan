@@ -29,15 +29,11 @@ export default defineComponent({
     elTag: { // 标签名称
       type: String,
       default: 'div'
-    }
-    /* disabled: {
-      type: Boolean,
-      default: false
     },
-    readonly: {
+    disabled: {
       type: Boolean,
       default: false
-    } */
+    }
   },
   emits: ['update:modelValue', 'change'],
   setup (props: any, ctx: any) {

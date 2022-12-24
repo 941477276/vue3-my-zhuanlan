@@ -2,7 +2,7 @@
   <label
     class="form-check bs-radio"
     :class="{
-      'is-disabled': disabled || disabledInner,
+      'is-disabled': isDisabled,
       'is-focus': isFocus,
       'is-checked': isChecked
     }">
@@ -18,7 +18,7 @@
       :name="name || null"
       :id="radioId"
       :value="value"
-      :disabled="disabled || disabledInner"
+      :disabled="isDisabled"
       :data-checked="isChecked"
       :aria-label="ariaLabel || label || null"
       @focus="onFocus"
@@ -43,9 +43,6 @@ import {
   watch,
   onUpdated
 } from 'vue';
-import {
-  isFunction
-} from '@vue/shared';
 import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
 import {
   radioGroupContextKey,
@@ -129,15 +126,13 @@ export default defineComponent({
     let isChecked = computed(() => {
       return valueIsEqual.value;
     });
+    let isDisabled = computed(function () {
+      if (radioGroupCtx && radioGroupCtx.props.disabled) {
+        return true;
+      }
+      return props.disabled;
+    });
 
-    let disabledInner = ref(false);
-    let readonlyInner = ref(false);
-    let setDisabled = function (flag: boolean) {
-      disabledInner.value = false;
-    };
-    let setReadonly = function (flag: boolean) {
-      readonlyInner.value = false;
-    };
     let { validateStatus, setValidateStatus, getValidateStatus } = useSetValidateStatus();
 
     /* eslint-disable */
@@ -172,19 +167,24 @@ export default defineComponent({
       setValidateStatus
     });
 
+    let focus = function () {
+      radioInputRef.value?.focus();
+    }
+    let blur = function () {
+      radioInputRef.value?.blur();
+    }
+
     return {
       radioId,
       isFocus,
       isChecked,
       validateStatus,
       radioInputRef,
+      isDisabled,
 
-      disabledInner,
-      readonlyInner,
-      setDisabled,
-      setReadonly,
       setValidateStatus,
-
+      focus,
+      blur,
       on_change,
       onBlur,
       onFocus
