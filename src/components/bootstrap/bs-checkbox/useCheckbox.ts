@@ -96,10 +96,18 @@ export function useCheckbox (props: any, ctx: any, checkboxRef: Ref<HTMLInputEle
     return false;
   });
 
+  let isDisabled = computed(function () {
+    if (checkboxGroupCtx && checkboxGroupCtx.props.disabled) {
+      return true;
+    }
+    return props.disabled;
+  });
+
   return {
     checkboxVal,
     isChecked,
     selfModelVal,
-    isCountLimitDisable
+    isCountLimitDisable,
+    isDisabled
   };
 }

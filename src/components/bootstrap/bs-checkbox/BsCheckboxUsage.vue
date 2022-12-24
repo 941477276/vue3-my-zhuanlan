@@ -32,6 +32,11 @@
     <h3>可选项数量限制</h3>
     <GroupLimit></GroupLimit>
   </div>
+  <div>
+    <hr>
+    <h3>复选框组——禁用</h3>
+    <GroupDisabled></GroupDisabled>
+  </div>
 </div>
 </template>
 
@@ -43,6 +48,7 @@ import Ideterminate from './widgets/ideterminate.vue';
 import TrueFalseValue from './widgets/true-false-value.vue';
 import Group from './widgets/group.vue';
 import GroupLimit from './widgets/group-limit.vue';
+import GroupDisabled from './widgets/group-disabled.vue';
 
 export default defineComponent({
   name: 'BsCheckboxUsage',
@@ -52,7 +58,8 @@ export default defineComponent({
     Ideterminate,
     TrueFalseValue,
     Group,
-    GroupLimit
+    GroupLimit,
+    GroupDisabled
   },
   setup (props: any) {
     let checkboxVal = ref('');

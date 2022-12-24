@@ -37,6 +37,10 @@ export default defineComponent({
     max: { // 可被勾选的 checkbox 的最大数量
       type: Number,
       default: undefined
+    },
+    disabled: { // 是否禁用
+      type: Boolean,
+      default: false
     }
   },
   emits: ['update:modelValue', 'change'],
