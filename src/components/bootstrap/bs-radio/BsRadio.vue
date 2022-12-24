@@ -26,6 +26,7 @@
       @change="on_change">
     <span class="form-check-input-inner"></span>
     <label
+      v-if="$slots.default || label"
       class="form-check-label"
       :for="radioId">
       <slot>{{ label }}</slot>

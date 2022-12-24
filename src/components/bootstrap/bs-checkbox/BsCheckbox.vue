@@ -50,10 +50,10 @@
       @change="on_change">
     <span class="form-check-input-inner"></span>
     <label
-      v-if="$slots.default"
+      v-if="$slots.default || label"
       class="form-check-label"
       :for="checkboxId">
-      <slot></slot>
+      <slot>{{ label }}</slot>
     </label>
   </label>
 </template>
@@ -125,6 +125,10 @@ export default defineComponent({
       type: String,
       default: ''
     },
+    label: { // checkbox的label
+      type: String,
+      default: ''
+    },
     ariaLabel: { // area-label属性值
       type: String,
       default: ''
@@ -143,7 +147,7 @@ export default defineComponent({
 
     /* eslint-disable */
     let on_change = function (evt: Event) {
-      let isChecked = (evt.target as HTMLInputElement).checked;
+      // let isChecked = (evt.target as HTMLInputElement).checked;
       // console.log('是否选中', isChecked);
       /* if (typeof props.indeterminate === 'boolean') {
         console.log('on_change，改变 isIndeterminate');
@@ -157,7 +161,7 @@ export default defineComponent({
         value = isNoneValue(props.value) ? props.value : (isNoneValue(props.falseValue) ? true : props.falseValue);
       }
       ctx.emit('change', value); */
-      ctx.emit('change', evt);
+      ctx.emit('change', evt, checkboxVal.value);
       callFormItem('validate', 'change');
     };
 
