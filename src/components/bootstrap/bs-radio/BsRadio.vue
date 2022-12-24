@@ -20,16 +20,15 @@
       :value="value"
       :disabled="disabled || disabledInner"
       :data-checked="isChecked"
-      :aria-label="ariaLabel || null"
+      :aria-label="ariaLabel || label || null"
       @focus="onFocus"
       @blur="onBlur"
       @change="on_change">
     <span class="form-check-input-inner"></span>
     <label
-      v-if="$slots.default"
       class="form-check-label"
       :for="radioId">
-      <slot></slot>
+      <slot>{{ label }}</slot>
     </label>
   </label>
 </template>
@@ -88,6 +87,10 @@ export default defineComponent({
       }
     },
     name: { // input原生的name属性
+      type: String,
+      default: ''
+    },
+    label: { // radio显示名称
       type: String,
       default: ''
     },

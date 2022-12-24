@@ -6,12 +6,12 @@
     <!--<div class="box">
       <BsButtonGroupUsage></BsButtonGroupUsage>
     </div>-->
-    <div class="box">
-      <BsInputUsage></BsInputUsage>
-    </div>
     <!--<div class="box">
-      <BsRadioUsage></BsRadioUsage>
+      <BsInputUsage></BsInputUsage>
     </div>-->
+    <div class="box">
+      <BsRadioUsage></BsRadioUsage>
+    </div>
     <!--<div class="box">
       <BsRadioGroupUsage></BsRadioGroupUsage>
     </div>-->
