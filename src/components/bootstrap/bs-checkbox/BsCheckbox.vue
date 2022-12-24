@@ -2,7 +2,7 @@
   <label
     class="form-check bs-checkbox"
     :class="{
-      'is-disabled': disabled || disabledInner || isCountLimitDisable,
+      'is-disabled': disabled || isCountLimitDisable,
       'is-focus': isFocus,
       'is-checked': isChecked,
       'is-indeterminate': isIndeterminate
@@ -22,7 +22,7 @@
       :true-value="trueValue"
       :false-value="falseValue"
       v-model="checkboxVal"
-      :disabled="disabled || disabledInner || isCountLimitDisable"
+      :disabled="disabled || isCountLimitDisable"
       :indeterminate="indeterminate"
       :aria-label="ariaLabel || null"
       @focus="onFocus"
@@ -43,7 +43,7 @@
       :id="checkboxId"
       :value="value"
       :indeterminate="indeterminate"
-      :disabled="disabled || disabledInner || isCountLimitDisable"
+      :disabled="disabled || isCountLimitDisable"
       :aria-label="ariaLabel || null"
       @focus="onFocus"
       @blur="onBlur"
@@ -139,11 +139,6 @@ export default defineComponent({
     let isIndeterminate = ref(props.indeterminate); // 判断是否为不确定状态
 
     let { checkboxVal, isChecked, isCountLimitDisable } = useCheckbox(props, ctx, checkboxRef);
-
-    let disabledInner = ref(false);
-    let setDisabled = function (flag: boolean) {
-      disabledInner.value = false;
-    };
     let { validateStatus, setValidateStatus, getValidateStatus } = useSetValidateStatus();
 
     /* eslint-disable */
@@ -236,8 +231,6 @@ export default defineComponent({
 
       checkboxVal,
       validateStatus,
-      disabledInner,
-      setDisabled,
       setValidateStatus,
 
       on_change,
