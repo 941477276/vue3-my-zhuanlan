@@ -8,9 +8,9 @@
       'is-checked': isSelected
     }"
     @click="onOptionClick">
-    <slot>
-      <span class="bs-option-label">{{ label }}</span>
-    </slot>
+    <div class="bs-option-label">
+      <slot>{{ label }}</slot>
+    </div>
     <BsiCheckLg class="bs-option-check-icon"></BsiCheckLg>
   </li>
 </template>

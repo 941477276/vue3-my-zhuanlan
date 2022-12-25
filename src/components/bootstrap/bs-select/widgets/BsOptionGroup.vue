@@ -2,7 +2,9 @@
   <li
     class="bs-option-group"
     :class="{'is-disabled': disabled}">
-    <div class="bs-option-group-title" :title="label">{{ label }}</div>
+    <div class="bs-option-group-title" :title="label">
+      <slot name="label">{{ label }}</slot>
+    </div>
     <ul class="bs-option-group-list">
       <slot></slot>
     </ul>

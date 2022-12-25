@@ -6,7 +6,7 @@
     <bs-select v-model="selectVal" clearable>
       <bs-option value="a" v-if="show">第1个选项</bs-option>
       <bs-option-group label="组1">
-        <bs-option value="group-value1">组1第1个选项</bs-option>
+        <bs-option value="group-value1" label="组1第1个选项"></bs-option>
         <bs-option value="group-value2" label="组1第2个选项"></bs-option>
       </bs-option-group>
       <bs-option value="b" label="第2个选项"></bs-option>

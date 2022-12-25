@@ -64,7 +64,7 @@
           }"
           :data-for-select="selectId">
           <ul class="bs-select-option-list">
-            <template v-if="options">
+            <template v-if="options && Array.isArray(options)">
               <template
                 v-for="(option, index) in options">
                 <BsOptionGroup
@@ -92,9 +92,8 @@
                   <slot name="option" v-bind="{ option, index }">{{ option.label }}</slot>
                 </BsOption>
               </template>
-
             </template>
-            <slot></slot>
+            <slot v-else></slot>
             <li
               v-if="(!loading && optionItems.length == 0) || (filtering && filterable && Object.keys(filteredVisibleOptions).length == 0)"
               class="bs-select-empty">
