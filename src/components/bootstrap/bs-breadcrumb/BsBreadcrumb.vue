@@ -32,10 +32,6 @@ export default defineComponent({
     separator: {
       type: String,
       default: '/'
-    },
-    separatorIcon: {
-      type: [String, Function, Object] as PropType<string|Component>,
-      default: ''
     }
   },
   setup (props: any) {
@@ -66,7 +62,6 @@ export default defineComponent({
 
     provide<BreadcrumbContext>(breadcrumbContextKey, {
       separator: toRef(props, 'separator'),
-      separatorIcon: toRef(props, 'separatorIcon'),
       lastChildId,
       addChildComponentContext,
       removeChildComponentContext

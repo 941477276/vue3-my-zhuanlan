@@ -50,9 +50,8 @@ export default defineComponent({
   },
   setup (props: any) {
     let id = `breadcrumb_item_${++breadcrumbCount}`;
-    let { separator, separatorIcon, lastChildId } = inject<BreadcrumbContext>(breadcrumbContextKey, {
-      separator: ref('/'),
-      separatorIcon: ref('')
+    let { separator, lastChildId } = inject<BreadcrumbContext>(breadcrumbContextKey, {
+      separator: ref('/')
     } as BreadcrumbContext);
 
     let ins = getCurrentInstance();
@@ -73,7 +72,6 @@ export default defineComponent({
     return {
       id,
       separator,
-      separatorIcon,
       lastChildId,
       onLinkClick
     };
