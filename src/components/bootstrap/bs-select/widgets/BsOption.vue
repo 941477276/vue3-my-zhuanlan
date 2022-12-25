@@ -100,8 +100,8 @@ export default defineComponent({
     });
 
     let isDisabled = computed<boolean>(function () {
-      if (optionGroupCtx) {
-        return optionGroupCtx.props.disabled;
+      if (optionGroupCtx && optionGroupCtx.props.disabled) {
+        return true;
       }
       return props.disabled;
     });

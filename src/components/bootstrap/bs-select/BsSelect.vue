@@ -10,8 +10,7 @@
       },
       size ? `bs-select-${size}` :''
     ]"
-    :data-bs-id="selectId"
-    data-click="onSelectRootClick">
+    :data-bs-id="selectId">
     <select
       v-model="nativeSelectModel"
       :name="name"
@@ -75,6 +74,7 @@
                   <BsOption
                     v-for="(groupOption, index2) in option.options"
                     :key="groupOption.value"
+                    :label="groupOption.label"
                     :value="groupOption.value"
                     :disabled="groupOption.disabled"
                     :tag-type="groupOption.tagType"
@@ -85,6 +85,7 @@
                 <BsOption
                   v-else
                   :key="option.value"
+                  :label="option.label"
                   :value="option.value"
                   :disabled="option.disabled"
                   :tag-type="option.tagType"
@@ -405,7 +406,6 @@ export default defineComponent({
       filtering,
       filteredVisibleOptions,
 
-      // onSelectRootClick,
       onSelectInputClear,
       dropdownShow,
       dropdownHide,

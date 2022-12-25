@@ -80,6 +80,7 @@
     }
   }
   &.is-disabled{
+    cursor: not-allowed;
     .custom-suffix-icon,
     .bs-select-input-tags{
       cursor: default;
