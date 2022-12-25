@@ -90,6 +90,7 @@ const message:MessageFn & Partial<Message> & {_context: AppContext|null} = funct
     offsetTop += lastMessageVM.el?.offsetHeight || 0;
     offsetTop += offsetTopBase;
   }
+  delete options.icon;
 
   let { nextZIndex } = useZIndex();
   let optionOnClose = options.onClose;

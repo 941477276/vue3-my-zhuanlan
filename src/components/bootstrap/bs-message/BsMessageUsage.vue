@@ -58,18 +58,29 @@
       </div>
     </li>
     <li>
-      <h3>操作按钮</h3>
       <div>
-        <bs-button type="primary" @click="quickSuccess">快速创建success消息</bs-button>
+        <h3>基本使用</h3>
+        <Basic></Basic>
       </div>
-      <div style="margin-top: 20px;">
-        <bs-button type="primary" @click="createNoClosed">快速创建一条不会关闭的消息</bs-button>
+
+      <div>
+        <h3>其他类型</h3>
+        <OtherTypes></OtherTypes>
       </div>
-      <div style="margin-top: 20px;">
-        <bs-button type="primary" @click="createWarning">创建一条警告消息</bs-button>
+
+      <div>
+        <h3>消息合并</h3>
+        <MessageMerge></MessageMerge>
       </div>
-      <div style="margin-top: 20px;">
-        <bs-button type="primary" @click="closeAll">关闭所有弹窗</bs-button>
+
+      <div>
+        <h3>永不消失的消息</h3>
+        <ForeverMessage></ForeverMessage>
+      </div>
+
+      <div>
+        <h3>自定义消息内容</h3>
+        <CustomMessage></CustomMessage>
       </div>
     </li>
   </ul>
@@ -78,107 +89,26 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, createVNode, getCurrentInstance, ComponentInternalInstance } from 'vue';
+import { defineComponent } from 'vue';
 import BsMessageCom from './BsMessage.vue';
-import BsBadge from '@/components/bootstrap/bs-badge/BsBadge.vue';
-import createMessage from './bs-message';
-import { BsiBootstrapFill } from 'vue3-bootstrap-icon/es/icons/BsiBootstrapFill';
+import Basic from './demos/basic.vue';
+import OtherTypes from './demos/other-types.vue';
+import MessageMerge from './demos/message-merge.vue';
+import ForeverMessage from './demos/forever-message.vue';
+import CustomMessage from './demos/custom-content.vue';
 
 export default defineComponent({
   name: 'BsMessageUsage',
   components: {
-    BsMessage: BsMessageCom
+    BsMessage: BsMessageCom,
+    Basic,
+    OtherTypes,
+    MessageMerge,
+    ForeverMessage,
+    CustomMessage
   },
   setup () {
-    let { proxy } = getCurrentInstance() as ComponentInternalInstance;
-    createMessage({
-      type: 'success',
-      message: '一条由js代码创建的消息',
-      onClose (vm: any) {
-        console.log('message关闭了', vm);
-      }
-    });
-    setTimeout(function () {
-      createMessage({
-        type: 'warning',
-        // appendTo: '#message_test',
-        grouping: true,
-        message: 'js代码创建的第二条消息'
-      });
-    }, 1000);
-
-    setTimeout(function () {
-      createMessage({
-        type: 'warning',
-        // appendTo: '#message_test',
-        grouping: true,
-        message: 'js代码创建的第二条消息'
-      });
-    }, 1500);
-
-    setTimeout(function () {
-      createMessage({
-        type: 'danger',
-        appendTo: '#message_test',
-        message: '一条由添加进了id=message_test盒子的消息'
-      });
-    }, 1500);
-
-    setTimeout(function () {
-      createMessage({
-        type: 'info',
-        appendTo: '#message_test',
-        message: '一条由添加进了id=message_test盒子的消息2'
-      });
-    }, 2000);
-
-    setTimeout(function () {
-      createMessage({
-        type: 'info',
-        duration: 0,
-        icon: createVNode('strong', {
-          style: {
-            color: '#f60',
-            fontSize: '1.5'
-          }
-        }, { default: () => [createVNode(BsiBootstrapFill)] }),
-        // createVNode 第3个参数为默认插槽，它的值应该是一个函数，如果直接写vnode，则会报下面这种错误
-        //  Non-function value encountered for default slot. Prefer function slots for better performance.
-        message: createVNode('div', null, { default: () => [createVNode(BsBadge, null, { default: () => '徽章' }), '一条不会关闭，且message为vnode的消息！'] })
-      });
-    }, 2500);
-
-    let quickSuccess = function () {
-      // eslint-disable-next-line no-unused-expressions
-      createMessage.success?.({
-        message: '一条由BsMessage.success创建的消息！',
-        grouping: true
-      });
-    };
-
-    let createNoClosed = function () {
-      // eslint-disable-next-line no-unused-expressions
-      createMessage.danger?.({
-        message: '一条由不会关闭的消息！',
-        duration: 0
-      });
-    };
-
-    let createWarning = function () {
-      // eslint-disable-next-line no-unused-expressions
-      (proxy as any)?.$message?.warning('通过vue实例创建的warning消息！');
-    };
-
-    let closeAll = function () {
-      // eslint-disable-next-line no-unused-expressions
-      createMessage.closeAllMessage?.();
-    };
-    return {
-      quickSuccess,
-      closeAll,
-      createNoClosed,
-      createWarning
-    };
+    return {};
   }
 });
 </script>
