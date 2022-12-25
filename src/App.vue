@@ -37,12 +37,12 @@
     <!--<div class="box">
       <BsBadgeUsage></BsBadgeUsage>
     </div>-->
-    <div class="box">
-      <BsMessageUsage></BsMessageUsage>
-    </div>
     <!--<div class="box">
-      <BsBreadcrumbUsage></BsBreadcrumbUsage>
+      <BsMessageUsage></BsMessageUsage>
     </div>-->
+    <div class="box">
+      <BsBreadcrumbUsage></BsBreadcrumbUsage>
+    </div>
     <!--<div class="box">
       <BsTagUsage></BsTagUsage>
     </div>-->

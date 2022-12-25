@@ -1,26 +1,15 @@
 <template>
   <div class="component-usage">
-    <h1>基础用法</h1>
-    <bs-breadcrumb>
-      <breadcrumb-item to="/home">Home</breadcrumb-item>
-      <breadcrumb-item :to="{path: '/login'}">Library1</breadcrumb-item>
-      <breadcrumb-item><a href="baidu.com" target="_blank">Library2</a></breadcrumb-item>
-      <breadcrumb-item :disabled="true">Library3</breadcrumb-item>
-      <breadcrumb-item>Library4</breadcrumb-item>
-      <breadcrumb-item>Library5</breadcrumb-item>
-      <breadcrumb-item v-if="show">Library6</breadcrumb-item>
-    </bs-breadcrumb>
+    <div>
+      <h3>基础用法</h3>
+      <Basic></Basic>
+    </div>
 
-    <h1>修改分隔符</h1>
-    <bs-breadcrumb separator=">">
-      <breadcrumb-item to="/home">Home</breadcrumb-item>
-      <breadcrumb-item :to="{path: '/login'}">Library1</breadcrumb-item>
-      <breadcrumb-item><a href="baidu.com" target="_blank">Library2</a></breadcrumb-item>
-      <breadcrumb-item :disabled="true">Library3</breadcrumb-item>
-      <breadcrumb-item>Library4</breadcrumb-item>
-      <breadcrumb-item>Library5</breadcrumb-item>
-      <breadcrumb-item>Library6</breadcrumb-item>
-    </bs-breadcrumb>
+    <div>
+      <hr>
+      <h3>自定义分隔符</h3>
+      <CustomSplitor></CustomSplitor>
+    </div>
   </div>
 </template>
 
@@ -29,9 +18,14 @@ import {
   defineComponent,
   ref
 } from 'vue';
+import Basic from './demos/basic.vue';
+import CustomSplitor from './demos/custom-splitor.vue';
 export default defineComponent({
   name: 'BsBreadcrumbUsage',
-  components: {},
+  components: {
+    Basic,
+    CustomSplitor
+  },
   setup () {
     let show = ref(true);
 
