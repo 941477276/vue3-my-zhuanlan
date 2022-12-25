@@ -40,12 +40,12 @@
     <!--<div class="box">
       <BsMessageUsage></BsMessageUsage>
     </div>-->
-    <div class="box">
-      <BsBreadcrumbUsage></BsBreadcrumbUsage>
-    </div>
     <!--<div class="box">
-      <BsTagUsage></BsTagUsage>
+      <BsBreadcrumbUsage></BsBreadcrumbUsage>
     </div>-->
+    <div class="box">
+      <BsTagUsage></BsTagUsage>
+    </div>
     <!--<div class="box">
       <BsProgressUsage></BsProgressUsage>
     </div>-->
