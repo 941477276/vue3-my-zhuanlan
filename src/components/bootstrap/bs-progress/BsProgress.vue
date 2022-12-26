@@ -52,9 +52,19 @@ export default defineComponent({
         });
       }
       // console.log('children', children);
-
+      let classnames = ['bs-progress progress'];
+      if (!props.multiple) {
+        if (!props.color) {
+          classnames.push(`bs-progress-${props.colorType}`);
+        }
+      } else {
+        classnames.push('bs-progress-multiple');
+      }
+      if (props.color) {
+        classnames.push('bs-progress-custom-color');
+      }
       return h('div', {
-        'class': ['bs-progress progress', `bs-progress-${props.colorType}`]
+        'class': classnames
       }, children);
     };
   }
