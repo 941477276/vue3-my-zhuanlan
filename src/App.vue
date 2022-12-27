@@ -49,12 +49,12 @@
     <!--<div class="box">
       <BsProgressUsage></BsProgressUsage>
     </div>-->
-    <div class="box">
-      <BsTabsUsage></BsTabsUsage>
-    </div>
     <!--<div class="box">
-      <BsSwitchUsage></BsSwitchUsage>
+      <BsTabsUsage></BsTabsUsage>
     </div>-->
+    <div class="box">
+      <BsSwitchUsage></BsSwitchUsage>
+    </div>
     <!--<div class="box">
       <BsMessageBoxUsage></BsMessageBoxUsage>
     </div>-->
