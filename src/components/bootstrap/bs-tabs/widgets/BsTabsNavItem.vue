@@ -22,6 +22,7 @@ import {
   h,
   createVNode
 } from 'vue';
+import { isFunction } from '@vue/shared';
 import { BsiX } from 'vue3-bootstrap-icon/es/icons/BsiX';
 
 export default defineComponent({
@@ -35,7 +36,7 @@ export default defineComponent({
       default: ''
     },
     label: {
-      type: [String, Number],
+      type: [String, Number, Function],
       default: ''
     },
     name: {
@@ -95,7 +96,7 @@ export default defineComponent({
         type: 'button',
         'aria-label': props.label,
         disabled: props.disabled
-      }, typeof props.itemSlot === 'function' ? props.itemSlot() : props.label);
+      }, isFunction(props.itemSlot) ? props.itemSlot() : (isFunction(props.label) ? props.label() : props.label));
       // console.log('itemSlot', typeof props.itemSlot === 'function' ? props.itemSlot() : props.label);
       return h('li', {
         'class': [
