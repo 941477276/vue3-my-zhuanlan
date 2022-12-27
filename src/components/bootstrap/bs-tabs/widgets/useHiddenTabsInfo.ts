@@ -188,7 +188,7 @@ export function useHiddenTabsInfo (props: any, activeTabId: Ref<string>, navScro
     }, 310);
   };
 
-  let stopWatch = watch([() => props.panes, activeTabId], function () {
+  let stopWatch = watch([() => [...props.panes], activeTabId], function () {
     calcHiddenTabInfo();
   });
   onMounted(function () {
