@@ -1,6 +1,9 @@
 import {
   Ref
 } from 'vue';
+import {
+  isFunction
+} from '@/common/bs-util';
 import { BigNumber } from 'bignumber.js';
 // 转换数据
 let processValue = function (value: string|number, actionType: number, step: number, min: number, max: number, precision: number) {
@@ -66,52 +69,62 @@ export function useInputNumberMethods (props: any, ctx: any, callFormItem: any, 
   /* eslint-disable */
   let on_input = function (evt: InputEvent) {
     // ctx.emit('update:modelValue', val);
-    ctx.emit('input', evt);
-
-    callFormItem('validate', 'input');
-  };
-  let on_focus = function (evt: Event) {
-    ctx.emit('focus', evt);
-    callFormItem('validate', 'focus');
-  };
-  let on_blur = function (evt: Event) {
     let targetVal = (evt.target as HTMLInputElement).value + '';
     let val: number | string;
     let parser = props.parser;
+    let min = props.min;
+    // 防止不能输入.和-
+    if (targetVal.endsWith('.') || targetVal == '-') {
+      ctx.emit('input', evt, '');
+      return;
+    }
     // console.log('on_blur', targetVal);
-    if (targetVal.length == 0 && typeof props.min !== 'number') {
+    if (targetVal.length == 0 && typeof min !== 'number') {
       ctx.emit('update:modelValue', '');
+      ctx.emit('input', evt, '');
       ctx.emit('change', '');
+      callFormItem('validate', 'input');
       return;
     }
     // console.log(22);
-    if (typeof props.formatter === 'function' && typeof props.parser !== 'function') {
+    if (isFunction(props.formatter) && !isFunction(parser)) {
       console.warn('formatter应与parser配合使用！');
     }
-    if (typeof props.parser === 'function') {
+    if (isFunction(parser)) {
       targetVal = parser(targetVal);
     }
     if (targetVal == props.modelValue) {
       return;
     }
 
-    val = processValue(targetVal, 3, props.step, props.min, props.max, props.precision);
+    val = processValue(targetVal, 3, props.step, min, props.max, props.precision);
     // console.log('val', val);
     ctx.emit('update:modelValue', val);
+    ctx.emit('input', evt, val);
     ctx.emit('change', val);
     callFormItem('validate', 'change');
-    ctx.emit('blur', evt);
+
     // 防止因执行计算后由于小数点精度问题，modelValue的值实际没变化，而输入框的值被手动更改了，而导致输入框显示的值与modelValue不一致问题
     setTimeout(function () {
       let targetVal = (evt.target as HTMLInputElement).value + '';
       let inputViewVal = val;
-      if (typeof props.formatter === 'function') {
+      if (isFunction(props.formatter)) {
         inputViewVal = props.formatter(val);
       }
       if (targetVal !== (val + '')) {
         (evt.target as HTMLInputElement).value = (inputViewVal + '');
       }
     }, 0);
+
+    // ctx.emit('input', evt);
+    // callFormItem('validate', 'input');
+  };
+  let on_focus = function (evt: Event) {
+    ctx.emit('focus', evt);
+    callFormItem('validate', 'focus');
+  };
+  let on_blur = function (evt: Event) {
+    ctx.emit('blur', evt);
     callFormItem('validate', 'blur');
   };
 
