@@ -175,6 +175,7 @@
   .bs-message-box{
     top: 8vh;
     width: 100%;
+    min-width: auto;
     max-width: calc(100% - 2rem);
     margin-left: 1rem;
     margin-right: 1rem;

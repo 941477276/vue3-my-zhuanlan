@@ -96,12 +96,16 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
     icon = options.icon;
     context = options.appContext || null;
   } */
-  if (isVNode(icon) || typeof icon === 'function') {
+  if (isVNode(icon)) {
     slotContent.icon = () => icon;
+  } else if (isFunction(icon)) {
+    slotContent.icon = icon;
   }
-  if (isVNode(title) || typeof title === 'function') {
+  if (isVNode(title)) {
     console.log('title isVnode', title);
     slotContent.title = () => title;
+  } else if (isFunction(title)) {
+    slotContent.title = title;
   }
   if (inputBefore) {
     slotContent.inputBefore = inputBefore;
