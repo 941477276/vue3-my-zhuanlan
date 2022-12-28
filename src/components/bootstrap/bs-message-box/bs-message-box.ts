@@ -18,7 +18,8 @@ import {
   supportMessageBoxTypes
 } from '@/ts-tokens/bootstrap/message';
 import {
-  offset
+  offset,
+  isFunction
 } from '@/common/bs-util';
 import { useZIndex } from '@/hooks/useZIndex';
 import { useGetContentInfo } from '@/hooks/useGetContentInfo';
@@ -198,20 +199,16 @@ supportMessageBoxTypes.forEach(typeName => {
     let options: any = {
       type: typeName
     };
-    // 只传递了一个参数的情况
-    if (arguments.length <= 2) {
-      if (typeof titleOrOptions !== 'object' || isVNode(titleOrOptions) || isRef(titleOrOptions)) {
-        options.title = titleOrOptions;
-      } else if (typeof titleOrOptions === 'function') {
-        options.title = titleOrOptions;
-      } else {
-        options = {
-          ...titleOrOptions,
-          type: typeName
-        };
-      }
+    if (typeof titleOrOptions !== 'object' || isVNode(titleOrOptions) || isRef(titleOrOptions) || isFunction(titleOrOptions)) {
+      options.title = titleOrOptions;
+      options.message = message;
+    } else {
+      options = {
+        ...titleOrOptions,
+        type: typeName
+      };
     }
-    options.message = message;
+
     options.appContext = context;
     /* if (message && (isVNode(message) || isRef(message) || typeof message !== 'object')) {
       options.title = message;
