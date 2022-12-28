@@ -110,7 +110,8 @@
     }
     &:hover{
       .form-control{
-        padding-right: 2.25rem;
+        //padding-right: 2.25rem;
+        padding-right: 1.5rem;
       }
       .bs-input-number-operations{
         opacity: 1;
@@ -118,7 +119,8 @@
     }
     .form-control{
       &:focus{
-        padding-right: 2.25rem;
+        //padding-right: 2.25rem;
+        padding-right: 1.5rem;
         &+.bs-input-number-operations{
           opacity: 1;
         }
@@ -201,7 +203,8 @@
       &.control-inner {
         .form-control{
           &:focus{
-            padding-right: 2.65rem;
+            //padding-right: 2.65rem;
+            padding-right: 2rem;
           }
         }
       }
@@ -230,13 +233,13 @@
       .form-control{
         padding-left: 1.5rem;
       }
-      &.control-inner {
+      /*&.control-inner {
         .form-control{
           &:focus{
             padding-right: 1.9rem;
           }
         }
-      }
+      }*/
       .bs-input-number-prefix{
         padding-left: 0.5rem;
         font-size: 0.875rem;
