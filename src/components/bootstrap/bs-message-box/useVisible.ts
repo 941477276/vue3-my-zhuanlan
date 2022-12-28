@@ -2,7 +2,8 @@ import {
   ref
 } from 'vue';
 import {
-  isPromise
+  isPromise,
+  isFunction
 } from '@/common/bs-util';
 
 /**
@@ -16,7 +17,7 @@ export function useVisible (props: any) {
     visible.value = true;
   };
   let hide = function () {
-    let okCloseResult = typeof props.onCancel === 'function' ? props.onCancel() : true;
+    let okCloseResult = isFunction(props.onCancel) ? props.onCancel() : true;
     if (okCloseResult === false) {
       return;
     }

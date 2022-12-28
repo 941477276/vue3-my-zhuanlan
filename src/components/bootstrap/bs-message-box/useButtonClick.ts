@@ -6,7 +6,8 @@ import {
   isRef
 } from 'vue';
 import {
-  isPromise
+  isPromise,
+  isFunction
 } from '@/common/bs-util';
 
 /**
@@ -32,7 +33,7 @@ export function useButtonClick (props: any, formItemRef: Ref<Component|null>, hi
       return;
     }
     let doClose = function () {
-      let okCbResult = typeof props.onOk === 'function' ? props.onOk(hideFn, props.type === 'prompt' ? inputModelVal.value : undefined) : true;
+      let okCbResult = isFunction(props.onOk) ? props.onOk(hideFn, props.type === 'prompt' ? inputModelVal.value : undefined) : true;
       if (okCbResult === false) {
         return;
       }
@@ -71,7 +72,7 @@ export function useButtonClick (props: any, formItemRef: Ref<Component|null>, hi
     if (okLoadingInner.value) {
       return;
     }
-    let okCancelResult = typeof props.onCancel === 'function' ? props.onCancel(hideFn) : true;
+    let okCancelResult = isFunction(props.onCancel) ? props.onCancel(hideFn) : true;
     if (okCancelResult === false) {
       return;
     }
