@@ -64,15 +64,15 @@
    <!-- <div class="box">
       <BsAlertUsage></BsAlertUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsInputNumberUsage></BsInputNumberUsage>
-    </div>
+    </div>-->
     <!--<div class="box">
       <BsPopperUsage></BsPopperUsage>
     </div>-->
-    <!--<div class="box">
+    <div class="box">
       <BsTooltipUsage></BsTooltipUsage>
-    </div>-->
+    </div>
     <!--<div class="box">
       <BsSliderUsage></BsSliderUsage>
     </div>-->
