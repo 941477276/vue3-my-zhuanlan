@@ -66,6 +66,7 @@ export function useInputNumberMethods (props: any, ctx: any, callFormItem: any, 
   };
 
   // input事件
+  let isInvalidValue = false;
   /* eslint-disable */
   let on_input = function (evt: InputEvent) {
     // ctx.emit('update:modelValue', val);
@@ -73,9 +74,13 @@ export function useInputNumberMethods (props: any, ctx: any, callFormItem: any, 
     let val: number | string;
     let parser = props.parser;
     let min = props.min;
+    isInvalidValue = false;
     // 防止不能输入.和-
     if (targetVal.endsWith('.') || targetVal == '-') {
-      ctx.emit('input', evt, '');
+      ctx.emit('update:modelValue', targetVal);
+      ctx.emit('input', evt, targetVal);
+      ctx.emit('change', targetVal);
+      callFormItem('validate', 'input');
       return;
     }
     // console.log('on_blur', targetVal);
@@ -98,6 +103,10 @@ export function useInputNumberMethods (props: any, ctx: any, callFormItem: any, 
     }
 
     val = processValue(targetVal, 3, props.step, min, props.max, props.precision);
+    if (isNaN(Number(val))) {
+      isInvalidValue = true;
+      return;
+    }
     // console.log('val', val);
     ctx.emit('update:modelValue', val);
     ctx.emit('input', evt, val);
@@ -105,7 +114,8 @@ export function useInputNumberMethods (props: any, ctx: any, callFormItem: any, 
     callFormItem('validate', 'change');
 
     // 防止因执行计算后由于小数点精度问题，modelValue的值实际没变化，而输入框的值被手动更改了，而导致输入框显示的值与modelValue不一致问题
-    setTimeout(function () {
+    let timer = setTimeout(function () {
+      clearTimeout(timer);
       let targetVal = (evt.target as HTMLInputElement).value + '';
       let inputViewVal = val;
       if (isFunction(props.formatter)) {
@@ -124,6 +134,14 @@ export function useInputNumberMethods (props: any, ctx: any, callFormItem: any, 
     callFormItem('validate', 'focus');
   };
   let on_blur = function (evt: Event) {
+    if (isInvalidValue) { // 失去焦点后若之前输入的是不合法的数字，则在这里回滚原来合法的数字
+      let inputViewVal = props.modelValue;
+      if (isFunction(props.formatter)) {
+        inputViewVal = props.formatter(inputViewVal);
+      }
+      (evt.target as HTMLInputElement).value = inputViewVal;
+      isInvalidValue = false;
+    }
     ctx.emit('blur', evt);
     callFormItem('validate', 'blur');
   };
