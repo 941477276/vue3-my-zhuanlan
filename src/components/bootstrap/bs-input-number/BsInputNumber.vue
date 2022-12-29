@@ -52,7 +52,7 @@
           ]"
           :value="inputValue"
           :id="inputId"
-          :inputmode="inputmode"
+          :inputmode="inputModeInner"
           :disabled="disabled"
           :readonly="readonly"
           :placeholder="placeholder || null"
@@ -135,6 +135,17 @@ export default defineComponent({
       return props.type;
     });
 
+    let inputModeInner = computed(function () {
+      if (props.inputmode) {
+        return props.inputmode;
+      }
+      let vw = window.innerWidth;
+      if (vw <= 992) {
+        return 'numeric';
+      }
+      return null;
+    });
+
     let inputRef = ref<HTMLInputElement | null>(null);
     let { validateStatus, setValidateStatus, getValidateStatus } = useSetValidateStatus();
 
@@ -180,6 +191,7 @@ export default defineComponent({
       validateStatus,
       inputValue,
       inputType,
+      inputModeInner,
 
       onControlBtnClick,
       on_input,
