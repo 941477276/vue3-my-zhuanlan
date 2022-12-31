@@ -16,7 +16,7 @@
         }"
         tabindex="-1"
         role="dialog"
-        aria-hidden="false"
+        :aria-hidden="!visibleInner"
         aria-modal="true"
         :style="{zIndex}"
         @click="onRootElClick">
@@ -58,8 +58,8 @@
                 <BsButton data-dismiss="modal" aria-label="Close" @click="close">{{ cancelText }}</BsButton>
                 <BsButton
                   type="primary"
-                  :loading="closeDisabled"
-                  :disabled="closeDisabled"
+                  :loading="confirmLoading"
+                  :disabled="confirmLoading"
                   @click="onOKBtnClick">{{ okText }}</BsButton>
               </slot>
             </div>
@@ -121,7 +121,7 @@ export default defineComponent({
     let maskVisible = ref(false);
 
     watch(() => props.visible, function (visible) {
-      if (props.closeDisabled && !visible) { // 当前不允许关闭
+      if (props.confirmLoading && !visible) { // 当前不允许关闭
         return;
       }
       if (visible) {
@@ -185,7 +185,7 @@ export default defineComponent({
 
     // 关闭弹窗
     let close = function () {
-      if (props.closeDisabled) {
+      if (props.confirmLoading) {
         return;
       }
       visibleInner.value = false;
@@ -230,22 +230,30 @@ export default defineComponent({
       let onOk = props.onOk;
       if (typeof onOk === 'function') {
         let result = onOk();
-        if (result === false) {
-          return;
-        }
         if (isPromise(result)) {
           result.then(function (canClose?: boolean) {
             if (canClose === false) {
               return;
             }
-            // 延迟300毫秒再关闭吗，以让用户看到loading取消效果
+            // 延迟100毫秒再关闭吗，以让用户看到loading取消效果
             let timer = setTimeout(function () {
               clearTimeout(timer);
               close();
-            }, 300);
+            }, 100);
           });
           return;
         }
+        nextTick(function () {
+          // confirmLoading为true表示操作正在进行中，此时不关闭弹窗，由调用者手动关闭
+          if (props.confirmLoading) {
+            return;
+          }
+          if (result === false) {
+            return;
+          }
+          close();
+        });
+        return;
       }
       close();
     };

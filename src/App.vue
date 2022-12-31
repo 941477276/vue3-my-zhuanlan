@@ -73,12 +73,12 @@
     <!--<div class="box">
       <BsTooltipUsage></BsTooltipUsage>
     </div>-->
-    <div class="box">
-      <BsSliderUsage></BsSliderUsage>
-    </div>
     <!--<div class="box">
-      <BsModalUsage></BsModalUsage>
+      <BsSliderUsage></BsSliderUsage>
     </div>-->
+    <div class="box">
+      <BsModalUsage></BsModalUsage>
+    </div>
     <!--<div class="box">
       <BsDrawerUsage></BsDrawerUsage>
     </div>-->
