@@ -82,12 +82,12 @@
     <!--<div class="box">
       <BsDrawerUsage></BsDrawerUsage>
     </div>-->
-    <div class="box">
-      <BsPopoverUsage></BsPopoverUsage>
-    </div>
     <!--<div class="box">
-      <BsSpinnerUsage></BsSpinnerUsage>
+      <BsPopoverUsage></BsPopoverUsage>
     </div>-->
+    <div class="box">
+      <BsSpinnerUsage></BsSpinnerUsage>
+    </div>
     <!--<div class="box">
       <BsPopConfirmUsage></BsPopConfirmUsage>
     </div>-->
