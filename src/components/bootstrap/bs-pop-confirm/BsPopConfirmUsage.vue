@@ -2,56 +2,19 @@
   <div class="component-usage">
     <div>
       <h3>基础用法</h3>
-      <bs-pop-confirm
-        trigger="click"
-        content="确定要删除吗?"
-        @confirm="onConfirm1">
-        <bs-button type="primary" plain>确认弹窗</bs-button>
-      </bs-pop-confirm>
+      <Basic></Basic>
     </div>
 
     <div>
       <hr>
       <h3>自定义内容</h3>
-      <bs-pop-confirm placement="bottom-start" @confirm="onConfirm1">
-        <bs-button type="primary">内容使用插槽</bs-button>
-        <template #content>
-          <h6 style="margin-bottom: 5px;font-weight: 600;">自定义内容的popover！</h6>
-          <p>
-            我是一个使用了<mark style="font-size: 1.5em;padding: 0 5px;"><strong>插槽</strong></mark>的popover！
-          </p>
-        </template>
-      </bs-pop-confirm>
-
-      <bs-pop-confirm
-        :content="rawContent"
-        :raw-content="true"
-        placement="top-start"
-        @confirm="onConfirm1">
-        <bs-button type="primary" style="margin-left: 25px;">内容使用HTML文本</bs-button>
-      </bs-pop-confirm>
-
-      <bs-pop-confirm
-        width="50%"
-        content="Documentation and examples for adding Bootstrap popovers, like those found in iOS, to any element on your site."
-        placement="top-start"
-        @confirm="onConfirm1">
-        <bs-button type="primary" style="margin-left: 25px;">自定义宽度</bs-button>
-      </bs-pop-confirm>
+      <CustomContent></CustomContent>
     </div>
 
     <div>
       <hr>
       <h3>受控模式</h3>
-      <bs-pop-confirm
-        :visible="visible1"
-        title="受控模式"
-        content="我是一个由父组件控制的popover！">
-        <bs-button
-          type="primary"
-          @mouseenter="visible1 = true"
-          @mouseleave="visible1 = false">受控的popover</bs-button>
-      </bs-pop-confirm>
+      <ControlledConfirm></ControlledConfirm>
     </div>
   </div>
 </template>
@@ -62,10 +25,17 @@ import {
   defineComponent,
   onMounted
 } from 'vue';
+import Basic from './demos/basic.vue';
+import CustomContent from './demos/custom-content.vue';
+import ControlledConfirm from './demos/controlled-mode.vue';
 
 export default defineComponent({
   name: 'BsPopConfirmUsage',
-  components: {},
+  components: {
+    Basic,
+    CustomContent,
+    ControlledConfirm
+  },
   setup () {
     let visible1 = ref(false);
 
