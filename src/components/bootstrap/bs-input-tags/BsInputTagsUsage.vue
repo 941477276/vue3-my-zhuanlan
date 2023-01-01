@@ -2,167 +2,37 @@
   <div class="component-usage">
     <div>
       <h3>基本使用</h3>
-      <BsInputTags
-        v-model="values1"></BsInputTags>
-    </div>
-    <div>
-      <hr>
-      <h3>多选</h3>
-      <BsInputTags
-        v-model="values2"
-        :is-focus="false"
-        :clearable="true"
-        :multiple="true"
-        :filterable="true"
-        :loading="false"
-        @tag-close="onTagClose2"></BsInputTags>
-      <br>
-      <h5>限制个数(最多5个)</h5>
-      <BsInputTags
-        v-model="values5"
-        :is-focus="false"
-        :clearable="true"
-        :multiple="true"
-        :filterable="true"
-        :loading="false"
-        :tag-limit="5"
-        @limited="onLimited"
-        @tag-close="onTagClose2"></BsInputTags>
+      <Basic></Basic>
     </div>
 
     <div>
       <hr>
-      <h3>Loading</h3>
-      <BsInputTags
-        v-model="values1"
-        loading
-        style="margin-bottom: 1rem;"></BsInputTags>
-      <BsInputTags
-        v-model="values2"
-        :is-focus="false"
-        :clearable="true"
-        :multiple="true"
-        :filterable="true"
-        :loading="true"
-        @tag-close="onTagClose2"></BsInputTags>
-    </div>
-
-    <div>
-      <hr>
-      <h3>禁用</h3>
-      <BsInputTags
-        disabled
-        v-model="values1"
-        loading
-        style="margin-bottom: 1rem;"></BsInputTags>
-      <BsInputTags
-        disabled
-        v-model="values2"
-        :is-focus="false"
-        :clearable="true"
-        :multiple="true"
-        :filterable="true"
-        :loading="true"
-        @tag-close="onTagClose2"></BsInputTags>
-    </div>
-
-    <div>
-      <hr>
-      <h3>校验状态</h3>
-      <BsInputTags
-        ref="verifyStatusRef"
-        style="margin-bottom: 1rem;"></BsInputTags>
-      <bs-button type="success" @click="setVerifyStatus(1)">设置成功状态</bs-button>
-      <bs-button type="warning" style="margin-left: 1rem;" @click="setVerifyStatus(2)">设置失败状态</bs-button>
-    </div>
-
-    <div>
-      <hr>
-      <h3>自定义Tag内容</h3>
-      <BsInputTags
-        v-model="values2"
-        :is-focus="false"
-        :clearable="true"
-        :multiple="true"
-        :filterable="true"
-        :loading="false"
-        style="margin-bottom: 1rem;"
-        @tag-close="onTagClose2">
-        <template #tag="tag">
-          {{ tag.label }}
-          <small style="color: #f00;" v-if="tag.value == 'html'">(超文本标记语言)</small>
-          <small style="color: #f00;" v-if="tag.value == 'css'">(层叠样式表)</small>
-          <small style="color: #f00;" v-if="tag.value == 'javascript'">(脚本语言)</small>
-        </template>
-      </BsInputTags>
-      <BsInputTags
-        v-model="values2"
-        :is-focus="false"
-        :clearable="true"
-        :multiple="true"
-        :filterable="true"
-        :loading="false"
-        :max-tag-count="3"
-        @tag-close="onTagClose2">
-        <template #maxTagPlaceholder="data">
-          还有 <strong style="color: #f00;">{{ data.omittedCount }}</strong> 个Tag
-        </template>
-      </BsInputTags>
-    </div>
-
-    <div>
-      <hr>
-      <h3>自定义标签样式</h3>
-      <BsInputTags
-        v-model="values3"
-        :is-focus="false"
-        :clearable="true"
-        :multiple="true"
-        :filterable="true"
-        @tag-close="onTagClose3"></BsInputTags>
-    </div>
-
-    <div>
-      <hr>
-      <h3>标签禁用关闭</h3>
-      <BsInputTags
-        v-model="values4"
-        :is-focus="false"
-        :clearable="true"
-        :multiple="true"
-        :filterable="true"
-        @tag-close="onTagClose4"></BsInputTags>
+      <h3>限制个数</h3>
+      <MaxCount></MaxCount>
     </div>
 
     <div>
       <hr>
       <h3>不同大小</h3>
-      <h6>大的</h6>
-      <BsInputTags
-        v-model="values6"
-        :is-focus="false"
-        :clearable="true"
-        :multiple="true"
-        :filterable="true"
-        size="lg"
-        @tag-close="onTagClose4"></BsInputTags>
-      <h6 style="margin: 1rem 0;">中等的</h6>
-      <BsInputTags
-        v-model="values6"
-        :is-focus="false"
-        :clearable="true"
-        :multiple="true"
-        :filterable="true"
-        @tag-close="onTagClose4"></BsInputTags>
-      <h6 style="margin: 1rem 0;">小的</h6>
-      <BsInputTags
-        v-model="values6"
-        :is-focus="false"
-        :clearable="true"
-        :multiple="true"
-        :filterable="true"
-        size="sm"
-        @tag-close="onTagClose4"></BsInputTags>
+      <Sizes></Sizes>
+    </div>
+
+    <div>
+      <hr>
+      <h3>自定义Tag</h3>
+      <CustomTag></CustomTag>
+    </div>
+
+    <div>
+      <hr>
+      <h3>Tag显示数量限制</h3>
+      <ViewTagLimit></ViewTagLimit>
+    </div>
+
+    <div>
+      <hr>
+      <h3>禁用</h3>
+      <Disabled></Disabled>
     </div>
   </div>
 </template>
@@ -174,11 +44,23 @@ import {
   defineComponent
 } from 'vue';
 import BsInputTags from './BsInputTags.vue';
+import Basic from './demos/basic.vue';
+import MaxCount from './demos/max-count.vue';
+import Sizes from './demos/sizes.vue';
+import CustomTag from './demos/custom-tag.vue';
+import ViewTagLimit from './demos/view-tag-limit.vue';
+import Disabled from './demos/disabled.vue';
 
 export default defineComponent({
   name: 'BsInputTagsUsage',
   components: {
-    BsInputTags
+    // BsInputTags,
+    Basic,
+    MaxCount,
+    Sizes,
+    CustomTag,
+    ViewTagLimit,
+    Disabled
   },
   setup () {
     let values1 = ref([{ label: 'HTML', value: 'html' }]);
@@ -269,8 +151,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.bs-input-tags{
-  max-width: 260px;
+::v-deep(.bs-input-tags){
+  max-width: 300px;
 }
 :deep(.angular-tag){
   border-color: #cd2f55;

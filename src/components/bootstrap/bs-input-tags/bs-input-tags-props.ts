@@ -26,10 +26,6 @@ export const bsInputTagsProps = {
       return flag;
     }
   },
-  multiple: { // 是否允许多选
-    type: Boolean,
-    default: false
-  },
   disabled: {
     type: Boolean,
     default: false
