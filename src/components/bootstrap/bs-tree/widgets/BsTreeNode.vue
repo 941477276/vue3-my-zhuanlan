@@ -328,7 +328,7 @@ export default defineComponent({
       }
     };
 
-    watch(() => props.expandedKeys, function (expandedKeys) {
+    let doExpand = function (expandedKeys: string[]) {
       let nodeKey = nodeValue.value;
 
       if (!isManualExpanded.value) { // 在没有手动操作过的情况下才可以展开/收起
@@ -366,7 +366,13 @@ export default defineComponent({
           }
         }
       }
-    }, { immediate: true, deep: true });
+    };
+    watch(() => props.expandedKeys, doExpand, { immediate: true, deep: true });
+    watch(isLeaf, function (isLeaf) {
+      if (!isLeaf) {
+        doExpand(props.expandedKeys);
+      }
+    });
 
     onUnmounted(function () {
       treeCtx.onNodeDestroy(props.nodeData);
