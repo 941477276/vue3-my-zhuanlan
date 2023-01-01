@@ -1,5 +1,5 @@
 import { PropType } from 'vue';
-import { BsSize } from '@/ts-tokens/bootstrap';
+import { BsColorType, BsSize } from '@/ts-tokens/bootstrap';
 import { bsTreeProps } from '../bs-tree/bs-tree-props';
 
 export const bsTreeSelectProps = {
@@ -133,5 +133,33 @@ export const bsTreeSelectProps = {
   emptyText: {
     type: String,
     default: '暂无数据'
+  },
+  loadingColorType: { // 加载图标的颜色的类型
+    type: String as PropType<BsColorType>,
+    default: ''
+  },
+  tagType: { // 标签组件的type
+    type: String as PropType<BsColorType>,
+    default: 'secondary'
+  },
+  filterable: { // 是否可以搜索
+    type: Boolean,
+    default: false
+  },
+  filterMethod: { // 自定义搜索函数
+    type: Function,
+    default: null
+  },
+  maxTagCount: { // 最多显示几个tag
+    type: Number,
+    default: 0
+  },
+  tagEffect: { // tag主题
+    type: String,
+    default: 'light'
+  },
+  tagCloseable: { // tag是否可关闭
+    type: Boolean,
+    default: true
   }
 };

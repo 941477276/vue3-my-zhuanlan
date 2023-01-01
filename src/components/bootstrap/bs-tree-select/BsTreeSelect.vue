@@ -13,26 +13,30 @@
     ]"
     :data-bs-id="selectId"
     @click="onSelectRootClick">
-    <bs-input
-      ref="bsInputRef"
+    <BsSelectInput
+      ref="bsSelectInputRef"
       :disabled="disabled || loading"
-      :readonly="bsInputReadonly"
+      :loading="loading"
+      :loading-text="loadingText"
+      :loading-color-type="loadingColorType"
       :clearable="clearable"
       :id="selectId"
-      :value="viewText"
+      :values="viewText"
       :size="size"
-      :delive-context-to-form-item="false"
-      :placeholder="loading ? loadingText : placeholder"
-      :ariaLabel="ariaLabel"
-      @clear="onInputClear">
-      <template #suffix>
-        <slot name="suffixIcon">
-          <BsiChevronDown></BsiChevronDown>
-        </slot>
-      </template>
-    </bs-input>
+      :multiple="multiple"
+      :filterable="filterable"
+      :placeholder="placeholder"
+      :max-tag-count="maxTagCount"
+      :tag-type="tagType"
+      :tag-effect="tagEffect"
+      :tag-closeable="tagCloseable"
+      data-click="onSelectInputClick"
+      @tag-close="onTagClose"
+      data-filter-text-change="onFilterTextChange"
+      @clear="onInputClear"></BsSelectInput>
     <teleport :disabled="!teleported" :to="appendTo">
       <BsDropdownTransition
+        ref="dropdownTransitionRef"
         placement="bottom"
         :reference-ref="bsTreeSelectRef"
         :try-all-placement="false"
@@ -71,7 +75,7 @@ import {
   ref,
   watch,
   ComponentInternalInstance,
-  computed
+  computed, provide, reactive
 } from 'vue';
 import {
   ValidateStatus,
@@ -81,21 +85,18 @@ import {
   elementContains
 } from '@/common/bs-util';
 import { useClickOutside } from '@/hooks/useClickOutside';
-import { BsiChevronDown } from 'vue3-bootstrap-icon/es/icons/BsiChevronDown';
-import BsInput from '../bs-input/BsInput.vue';
 import BsTree from '../bs-tree/BsTree.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
 import { bsTreeSelectProps } from './props';
 import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
+import { SelectContext, selectContextKey, SelectOptionItem } from '@/ts-tokens/bootstrap/select';
 
 let treeSelectCount = 0;
 export default defineComponent({
   name: 'BsTreeSelect',
   components: {
-    BsInput,
     BsTree,
-    BsDropdownTransition,
-    BsiChevronDown
+    BsDropdownTransition
   },
   props: {
     ...bsTreeSelectProps
@@ -111,6 +112,7 @@ export default defineComponent({
     let dropdownDisplayed = ref(false); // 下拉菜单是否已经渲染
     let dropdownVisible = ref(false); // 下拉菜单是否显示
     let treeRef = ref(null);
+    let dropdownTransitionRef = ref(null);
 
     /**
      * 显示下拉菜单
@@ -178,7 +180,7 @@ export default defineComponent({
       }
     });
 
-    let viewText = ref('');
+    let viewText = ref([]);
     watch(() => props.modelValue, function () {
       nextTick(function () {
         let labels = props.labels;
@@ -195,13 +197,22 @@ export default defineComponent({
               labelItem.label = labels[index].label;
             }
           });
-          viewText.value = labelsFromTree.map((labelItem: StringKeyObject) => labelItem.label).join(',');
+          viewText.value = labelsFromTree.map((labelItem: StringKeyObject) => {
+            return {
+              ...labelItem,
+              label: labelItem.label
+            };
+          });
+        }
+        if (dropdownVisible.value) {
+          // 多选时值改变后需要刷新下拉内容
+          let timer = setTimeout(function () {
+            clearTimeout(timer);
+            (dropdownTransitionRef.value as any)?.refresh();
+          }, 60);
         }
       });
     }, { immediate: true });
-    watch([() => props.clearable, viewText], function (newVals: any[]) {
-      (bsInputRef.value as any).setClearIconDisplay(newVals[0] && newVals[1].length > 0);
-    });
 
     let isClickOutside = useClickOutside([bsTreeSelectRef, bsSelectDropdownRef]);
     watch(isClickOutside, (newVal: boolean) => {
@@ -235,6 +246,21 @@ export default defineComponent({
       callFormItem('validate', 'change');
     };
 
+    //
+    let onTagClose = function (option: any) {
+      console.log('onTagClose', option);
+      if (option.disabled) {
+        return;
+      }
+      let modelValue = [...treeModelValue.value];
+      let optionValue = option.value;
+      let index = modelValue.findIndex(item => item === optionValue);
+      if (index > -1) {
+        modelValue.splice(index, 1);
+      }
+      treeModelValue.value = modelValue;
+    };
+
     let { callFormItem } = useDeliverContextToFormItem(props, {
       id: selectId.value,
       setValidateStatus: (status: ValidateStatus) => {
@@ -245,11 +271,29 @@ export default defineComponent({
       }
     });
 
+    provide<SelectContext>(selectContextKey, reactive({
+      props,
+      ctx,
+      filterMethod (option: SelectOptionItem) {
+        return true;
+      },
+      changeVal (val: any, isDelete?: boolean) {
+      //
+      },
+      addOption (option: SelectOptionItem) {
+      //
+      },
+      removeOption (optionId: string, optionValue: any) {
+      //
+      }
+    }));
+
     return {
       bsTreeSelectRef,
       bsInputRef,
       treeRef,
       bsSelectDropdownRef,
+      dropdownTransitionRef,
       bsInputReadonly,
       isFocus,
       selectId,
@@ -261,7 +305,8 @@ export default defineComponent({
       onSelectRootClick,
       onInputClear,
       dropdownShow,
-      dropdownHide
+      dropdownHide,
+      onTagClose
     };
   }
 });

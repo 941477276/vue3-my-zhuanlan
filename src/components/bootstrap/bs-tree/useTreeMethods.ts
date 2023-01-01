@@ -68,11 +68,13 @@ export function useTreeMethods (props: any, flatTreeNodeInfoArr: Ref<BsNodeInfo[
   let getCheckedNodesLabel = function () {
     let checkedNodes = getCheckedNodes();
     let labelKey = props.props.label;
+    let disabledKey = props.props.disabled;
     let nodeKey = props.nodeKey;
     return checkedNodes.map(checkedNode => {
       return {
         label: checkedNode?.[labelKey],
-        value: checkedNode?.[nodeKey]
+        value: checkedNode?.[nodeKey],
+        disabled: checkedNode?.[disabledKey]
       };
     });
   };

@@ -94,12 +94,12 @@
     <!--<div class="box">
       <BsCollapseUsage></BsCollapseUsage>
     </div>-->
-    <div class="box">
-      <BsTreeUsage></BsTreeUsage>
-    </div>
     <!--<div class="box">
-      <BsTreeSelectUsage></BsTreeSelectUsage>
+      <BsTreeUsage></BsTreeUsage>
     </div>-->
+    <div class="box">
+      <BsTreeSelectUsage></BsTreeSelectUsage>
+    </div>
     <!--<div class="box">
       <BsInputTagsUsage></BsInputTagsUsage>
     </div>-->
