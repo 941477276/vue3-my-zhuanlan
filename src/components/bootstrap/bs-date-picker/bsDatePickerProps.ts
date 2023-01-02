@@ -119,5 +119,9 @@ export const bsDatePickerProps = {
   valueFormatSpliter: { // 格式模板之间的连接符，仅在pickerType=dateTime时有效
     type: String,
     default: ' '
+  },
+  panelViewDate: { // 选择器打开时默认显示的时间
+    type: [String, Object],
+    default: ''
   }
 };

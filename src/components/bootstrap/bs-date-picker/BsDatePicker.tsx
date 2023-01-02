@@ -288,6 +288,15 @@ export default defineComponent({
     let quarterRef = ref<any>(null);
     let decadeRef = ref<any>(null);
     let dateTimeRef = ref<any>(null);
+    let refs: { [key: string]: Ref<any> } = {
+      dateRef,
+      weekRef,
+      monthRef,
+      yearRef,
+      quarterRef,
+      decadeRef,
+      dateTimeRef
+    };
 
     // 设置值
     let setDate = function (newDate?: Dayjs) {
@@ -341,6 +350,11 @@ export default defineComponent({
       ctx.emit('update:modelValue', value);
       ctx.emit('change', value, newDate.clone());
       callFormItem('validate', 'change');
+    };
+    // 设置面板显示的日期
+    let setPanelViewDate = function (date: Date|Dayjs) {
+      let mode = currentMode.value || props.pickerType;
+      refs[mode + 'Ref']?.value?.setPanelViewDate(date);
     };
     // 清空内容
     let clear = function () {
@@ -398,15 +412,6 @@ export default defineComponent({
           // console.log('3333');
           break;
       }
-      let refs: { [key: string]: Ref<any> } = {
-        dateRef,
-        weekRef,
-        monthRef,
-        yearRef,
-        quarterRef,
-        decadeRef,
-        dateTimeRef
-      };
       setCurrentMode(nextMode);
       let timer = setTimeout(() => {
         clearTimeout(timer);
@@ -533,6 +538,7 @@ export default defineComponent({
       currentMode
     });
 
+    let defaultPanelViewDate: any = null;
     return {
       bsCommonPicker,
       pickerId,
@@ -552,6 +558,7 @@ export default defineComponent({
       setNow,
       setValidateStatus,
       setCurrentMode,
+      setPanelViewDate,
 
       dateRef,
       weekRef,
@@ -584,6 +591,13 @@ export default defineComponent({
           currentMode.value = allowedPickerType.includes(mode) ? mode : props.pickerType;
         }
         visible.value = true;
+        let panelViewDate = props.panelViewDate;
+        if (!props.modelValue && (defaultPanelViewDate !== panelViewDate)) {
+          nextTick(function () {
+            defaultPanelViewDate = panelViewDate;
+            setPanelViewDate(panelViewDate);
+          });
+        }
         ctx.emit('open');
       },
       onHidden () {
