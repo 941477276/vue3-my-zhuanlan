@@ -1,78 +1,44 @@
 <template>
   <div class="component-usage">
-    <div>
-      <h3>AntDesign Time Picker</h3>
-      <a-time-picker v-model:value="strValue" />
-
-      <a-time-picker v-model:value="value" use12-hours value-format="h:mm:ss p" />
-      <a-time-picker v-model:value="value" use12-hours value-format="h:mm:ss p" format="h:mm:ss A" style="width: 140px" />
-      <br>
-      <a-time-range-picker />
-      <!--<a-time-picker v-model:value="value" use12-hours value-format="h:mm:ss A" format="h:mm a" />-->
-    </div>
     <div style="margin-top: 1rem;">
       <hr>
       <h3>基本使用</h3>
-      <BsTimePicker v-model="time1"></BsTimePicker>
+      <Basic></Basic>
     </div>
     <div>
       <hr>
       <h3>格式化</h3>
-      <h6 style="margin: 0.8rem 0">显示格式化</h6>
-      <BsTimePicker v-model="time2" format="HH时mm分ss秒"></BsTimePicker>
-      <h6 style="margin: 0.8rem 0">值格式化(默认为null，当为null时值为一个 <code>dayjs</code> 实例)</h6>
-      <BsTimePicker v-model="time3" value-format="HH时mm分ss秒"></BsTimePicker>
-      <p>值：{{ time3 }}</p>
+      <Format></Format>
     </div>
     <div>
       <hr>
-      <h3 style="margin-bottom: 0.25rem;">选择时分</h3>
-      <p> 下拉浮窗中的列会随着 format 变化，当略去 format 中的某部分时，浮层中对应的列也会消失。注意，format 只是改变显示的格式，并非改变 model-value 值。</p>
-      <h6 style="margin: 0.8rem 0">只选择时分</h6>
-      <BsTimePicker v-model="time4" format="HH:mm"></BsTimePicker>
-      <h6 style="margin: 0.8rem 0">只选择分秒</h6>
-      <BsTimePicker v-model="time5" format="mm:ss"></BsTimePicker>
+      <h3>选择时分</h3>
+      <ChooseTime></ChooseTime>
     </div>
     <div style="margin-top: 1rem;">
       <hr>
-      <h3 style="margin-bottom: 0.25rem;">12小时制</h3>
-      <p>12 小时制的时间选择器，默认的 format 为 hh:mm:ss a。</p>
-      <BsTimePicker v-model="time6" use12-hours value-format="h:mm:ss"></BsTimePicker>
-      <p>值：{{ time6 }}</p>
-    </div>
-    <div style="margin-top: 1rem;">
-      <hr>
-      <h3>自定义内容</h3>
-      <BsTimePicker v-model="time7">
-        <bs-button type="primary" plain>由触发的time-picker</bs-button>
-      </BsTimePicker>
+      <h3>12小时制</h3>
+      <Use12Hour></Use12Hour>
     </div>
     <div style="margin-top: 1rem;">
       <hr>
       <h3>禁用</h3>
-      <h6 style="margin: 0.5rem 0;">整体禁用</h6>
-      <BsTimePicker v-model="time7" disabled></BsTimePicker>
-      <h6 style="margin: 0.5rem 0;">部分选项禁用</h6>
-      <BsTimePicker
-        v-model="time9"
-        :disabled-hours="disabledHours"
-        :disabled-minutes="disabledMinutes"
-        :disabled-seconds="disabledSeconds"></BsTimePicker>
-    </div>
-    <div style="margin-top: 1rem;">
-      <hr>
-      <h3>显示底部按钮</h3>
-      <BsTimePicker v-model="time7" show-footer></BsTimePicker>
+      <Disabled></Disabled>
     </div>
     <div style="margin-top: 1rem;">
       <hr>
       <h3>不同大小</h3>
-      <h6 style="margin: 0.5rem 0;">大的</h6>
-      <BsTimePicker v-model="time8" size="lg"></BsTimePicker>
-      <h6 style="margin: 0.5rem 0;">中等的（默认）</h6>
-      <BsTimePicker v-model="time8"></BsTimePicker>
-      <h6 style="margin: 0.5rem 0;">小的</h6>
-      <BsTimePicker v-model="time8" size="sm"></BsTimePicker>
+      <Size></Size>
+    </div>
+    <div style="margin-top: 1rem;">
+      <hr>
+      <h3>自定义触发</h3>
+      <CustomTrigger></CustomTrigger>
+    </div>
+    <div style="margin-top: 1rem;">
+      <hr>
+      <h3>显示底部按钮</h3>
+      <ShowBottomButton></ShowBottomButton>
     </div>
   </div>
 </template>
@@ -83,64 +49,29 @@ import {
   watch,
   defineComponent
 } from 'vue';
-import BsTimePicker from './BsTimePicker.vue';
-import dayjs, { Dayjs } from 'dayjs';
-// import { Dayjs } from 'dayjs';
+import Basic from './demos/basic.vue';
+import Format from './demos/format.vue';
+import ChooseTime from './demos/choose-time.vue';
+import Use12Hour from './demos/use-12-hours.vue';
+import Disabled from './demos/disabled.vue';
+import Size from './demos/size.vue';
+import CustomTrigger from './demos/custom-trigger.vue';
+import ShowBottomButton from './demos/show-bottom-button.vue';
 
 export default defineComponent({
   name: 'BsTimePickerUsage',
   components: {
-    BsTimePicker
+    Basic,
+    Format,
+    ChooseTime,
+    Use12Hour,
+    Disabled,
+    Size,
+    CustomTrigger,
+    ShowBottomButton
   },
   setup () {
-    let obj = dayjs('09:00:00', 'HH:mm:ss');
-    const strValue = ref<Dayjs>(obj);
-
-    watch(strValue, function (newObj) {
-      console.log(obj === newObj, newObj);
-    });
-
-    let time1 = ref(new Date());
-    let time2 = ref(new Date());
-    let time3 = ref('18时02分25秒');
-    let time4 = ref(new Date());
-    let time5 = ref(new Date());
-    let time6 = ref(new Date());
-    let time7 = ref(new Date());
-    let time8 = ref(new Date());
-    let time9 = ref(new Date());
-    let value = ref(dayjs(new Date()));
-
-    let disabledHours = function (hour: number, use12Hourss: boolean) {
-      // console.log('disabledHours', hour);
-      return hour > 20;
-    };
-    let disabledMinutes = function (hour: number, minute: number, use12Hourss: boolean) {
-      // console.log('disabledHours', hour, minute);
-      return minute < 50;
-    };
-    let disabledSeconds = function (hour: number, minute: number, second: number, use12Hourss: boolean) {
-      return second > 20 && second < 35;
-    };
-
-    return {
-      strValue,
-
-      time1,
-      time2,
-      time3,
-      time4,
-      time5,
-      time6,
-      time7,
-      time8,
-      time9,
-      value,
-
-      disabledHours,
-      disabledMinutes,
-      disabledSeconds
-    };
+    return {};
   }
 });
 </script>
