@@ -40,6 +40,7 @@ import BsCascader from '@/components/bootstrap/bs-cascader';
 import BsToast from '@/components/bootstrap/bs-toast';
 import BsMenu from '@/components/bootstrap/bs-menu';
 import BsConfigProvider from '@/components/bootstrap/bs-config-provider';
+import BsRelativeTime from '@/components/bootstrap/bs-relative-time';
 
 export default function (vueApp: any) {
   vueApp.component(BsButton.name, BsButton);
@@ -85,4 +86,5 @@ export default function (vueApp: any) {
   vueApp.use(BsToast);
   vueApp.use(BsMenu);
   vueApp.use(BsConfigProvider);
+  vueApp.use(BsRelativeTime);
 }
