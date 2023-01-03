@@ -34,5 +34,11 @@ export const bsLoadingProps = {
   customClass: { // 自定义class类名
     type: String,
     default: ''
+  },
+  style: { // dom style
+    type: Object,
+    default () {
+      return {};
+    }
   }
 };
