@@ -7,14 +7,18 @@ function resolveOptions (binding: any) {
   let text = '';
   let isLoading = false;
   // let fullscreen = false;
-  // let lock = false;
-  let { fullscreen, lock } = binding.modifiers || {};
+  let lock = true;
+  let { fullscreen } = binding.modifiers || {};
 
   let bindingValue = binding.value;
   let options: BsLoadingOptions = {};
   if (isObject(bindingValue)) {
     text = bindingValue.text;
     isLoading = bindingValue.loading;
+    lock = bindingValue.lock;
+    if (typeof lock === 'undefined') {
+      lock = true;
+    }
     options = {
       ...bindingValue
     };
