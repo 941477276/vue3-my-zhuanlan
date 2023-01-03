@@ -13,6 +13,7 @@
         customClass
       ]"
       :style="{
+        ...style,
         'background-color': maskBackground
       }">
       <div
