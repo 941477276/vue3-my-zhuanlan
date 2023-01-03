@@ -5,8 +5,11 @@ import {
 } from '@vue/shared';
 import { createLoadingComponent, LoadingInstance } from './createLoadingComponent';
 import { CreateLoadingOptions } from '@/ts-tokens/bootstrap/loading';
+import { StringKeyObject } from '@/ts-tokens/bootstrap';
 import {
-  getStyle
+  getStyle,
+  scrollTop,
+  scrollLeft
 } from '@/common/bs-util';
 import { useLockScroll } from '@/hooks/useLockScroll';
 import { bsLoadingProps } from './bs-loading-props';
@@ -83,6 +86,9 @@ export function BsLoading (options: BsLoadingOptions = {} as BsLoadingOptions) {
     if (typeof lock !== 'boolean' && fullscreen) {
       lock = true;
     }
+    let props = {
+      ...newProps
+    };
     if (typeof visible == 'boolean') {
       let containerIsBody = container.nodeName == 'BODY';
       if (visible) {
@@ -101,7 +107,17 @@ export function BsLoading (options: BsLoadingOptions = {} as BsLoadingOptions) {
             let containerOriginStyleOverflow = container.style.overflow;
             let isLocked = getStyle(container, 'overflow') == 'hidden';
             if (!isLocked) {
+              let elScrollTop = scrollTop(container);
+              let elScrollLeft = scrollLeft(container);
+              let style: StringKeyObject = {};
               container.style.overflow = 'hidden';
+              if (elScrollTop > 0) {
+                style.top = elScrollTop + 'px';
+              }
+              if (elScrollLeft > 0) {
+                style.left = elScrollLeft + 'px';
+              }
+              props.style = style;
               unlockScroll = function () {
                 if (!container) {
                   return;
@@ -113,7 +129,7 @@ export function BsLoading (options: BsLoadingOptions = {} as BsLoadingOptions) {
         }
       }
     };
-    loadingIns.updateProps(newProps);
+    loadingIns.updateProps(props);
   };
 
   let returnResult = {
