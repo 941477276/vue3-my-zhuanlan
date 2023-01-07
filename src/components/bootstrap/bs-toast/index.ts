@@ -13,3 +13,4 @@ BsToastComponent.install = function (vueApp: App) {
 };
 
 export default BsToastComponent;
+export { BsToast };
