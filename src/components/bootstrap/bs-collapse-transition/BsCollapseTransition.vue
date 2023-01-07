@@ -26,8 +26,9 @@ export default defineComponent({
       default: 'collapse-transition'
     }
   },
-  setup () {
-    let transitionEvents = useCollapseTransition();
+  emits: ['before-enter', 'enter', 'after-enter', 'before-leave', 'leave', 'after-leave'],
+  setup (props: any, ctx: any) {
+    let transitionEvents = useCollapseTransition(ctx, true);
 
     return {
       ...transitionEvents

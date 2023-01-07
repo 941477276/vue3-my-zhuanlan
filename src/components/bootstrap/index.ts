@@ -28,6 +28,7 @@ import BsPopover from '@/components/bootstrap/bs-popover';
 import BsSpinner from '@/components/bootstrap/bs-spinner';
 import BsPopConfirm from '@/components/bootstrap/bs-pop-confirm';
 import BsCollapse from '@/components/bootstrap/bs-collapse';
+import BsCollapseTransition from '@/components/bootstrap/bs-collapse-transition';
 import BsTree from '@/components/bootstrap/bs-tree';
 import BsTreeSelect from '@/components/bootstrap/bs-tree-select';
 import BsInputTags from '@/components/bootstrap/bs-input-tags';
@@ -73,6 +74,7 @@ export default function (vueApp: any) {
   vueApp.use(BsSpinner);
   vueApp.use(BsPopConfirm);
   vueApp.use(BsCollapse);
+  vueApp.use(BsCollapseTransition);
   vueApp.use(BsTree);
   vueApp.use(BsTreeSelect);
   vueApp.use(BsInputTags);

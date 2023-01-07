@@ -124,12 +124,13 @@
     <!--<div class="box">
       <BsCascaderUsage></BsCascaderUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsToastUsage></BsToastUsage>
-    </div>
+    </div>-->
     <!--<div class="box">
       <BsMenuUsage></BsMenuUsage>
     </div>-->
+    <BsCollapseTransitionUsage></BsCollapseTransitionUsage>
   </bs-config-provider>
 </template>
 
@@ -168,6 +169,7 @@ import BsPopoverUsage from '@/components/bootstrap/bs-popover/BsPopoverUsage.vue
 import BsSpinnerUsage from '@/components/bootstrap/bs-spinner/BsSpinnerUsage.vue';
 import BsPopConfirmUsage from '@/components/bootstrap/bs-pop-confirm/BsPopConfirmUsage.vue';
 import BsCollapseUsage from '@/components/bootstrap/bs-collapse/BsCollapseUsage.vue';
+import BsCollapseTransitionUsage from '@/components/bootstrap/bs-collapse-transition/BsCollapseTransitionUsage.vue';
 import BsTreeUsage from '@/components/bootstrap/bs-tree/BsTreeUsage.vue';
 import BsTreeSelectUsage from '@/components/bootstrap/bs-tree-select/BsTreeSelectUsage.vue';
 import BsInputTagsUsage from '@/components/bootstrap/bs-input-tags/BsInputTagsUsage.vue';
@@ -218,6 +220,7 @@ export default defineComponent({
     BsSpinnerUsage,
     BsPopConfirmUsage,
     BsCollapseUsage,
+    BsCollapseTransitionUsage,
     BsTreeUsage,
     BsTreeSelectUsage,
     BsInputTagsUsage,

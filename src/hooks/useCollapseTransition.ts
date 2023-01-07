@@ -1,7 +1,7 @@
 /**
  * 元素折叠过度动效
  */
-export function useCollapseTransition () {
+export function useCollapseTransition (ctx: any, emitEvents?: boolean) {
   let oldPaddingTop = '';
   let oldPaddingBottom = '';
   // let oldOpacity = '';
@@ -17,6 +17,9 @@ export function useCollapseTransition () {
       el.style.paddingTop = '0';
       el.style.paddingBottom = '0';
       el.style.maxHeight = '0';
+      if (emitEvents) {
+        ctx.emit('before-enter', el);
+      }
     },
     collapseEnter (el: HTMLElement, done: () => void) {
       // console.log('22, collapseEnter');
@@ -42,12 +45,20 @@ export function useCollapseTransition () {
       // 绑定元素的transition完成事件，在transition完成后立即完成vue的过度动效
       el.addEventListener('transitionend', onTransitionDone, false);
       el.addEventListener('transitioncancel', onTransitionDone, false);
+
+      if (emitEvents) {
+        ctx.emit('enter', el);
+      }
     },
     collapseAfterEnter (el: HTMLElement) {
       // console.log('33, collapseAfterEnter');
 
       el.style.maxHeight = '';
       el.style.overflow = oldOverflow;
+
+      if (emitEvents) {
+        ctx.emit('after-enter', el);
+      }
     },
 
     collapseBeforeLeave (el: HTMLElement) {
@@ -59,6 +70,10 @@ export function useCollapseTransition () {
 
       el.style.maxHeight = el.scrollHeight + 'px';
       el.style.overflow = 'hidden';
+
+      if (emitEvents) {
+        ctx.emit('before-leave', el);
+      }
     },
     collapseLeave (el: HTMLElement, done: () => void) {
       // console.log('55, collapseLeave', el.scrollHeight);
@@ -78,6 +93,10 @@ export function useCollapseTransition () {
       // 绑定元素的transition完成事件，在transition完成后立即完成vue的过度动效
       el.addEventListener('transitionend', onTransitionDone, false);
       el.addEventListener('transitioncancel', onTransitionDone, false);
+
+      if (emitEvents) {
+        ctx.emit('leave', el);
+      }
     },
     collapseAfterLeave (el: HTMLElement) {
       // console.log('66, collapseAfterLeave');
@@ -87,6 +106,10 @@ export function useCollapseTransition () {
       el.style.paddingTop = oldPaddingTop;
 
       oldOverflow = oldPaddingBottom = oldPaddingTop = '';
+
+      if (emitEvents) {
+        ctx.emit('after-leave', el);
+      }
     }
   };
 };
