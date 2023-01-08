@@ -127,10 +127,10 @@
     <!--<div class="box">
       <BsToastUsage></BsToastUsage>
     </div>-->
-    <!--<div class="box">
+    <div class="box">
       <BsMenuUsage></BsMenuUsage>
-    </div>-->
-    <BsCollapseTransitionUsage></BsCollapseTransitionUsage>
+    </div>
+    <!--<BsCollapseTransitionUsage></BsCollapseTransitionUsage>-->
   </bs-config-provider>
 </template>
 
