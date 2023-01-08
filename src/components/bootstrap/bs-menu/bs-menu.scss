@@ -1,6 +1,7 @@
 .bs-menu{
   padding: 0;
   margin: 0;
+  transition: width .3s;
 }
 .bs-menu-item,
 .bs-submenu-title{
@@ -47,6 +48,7 @@
   margin-bottom: 0;
 }
 .bs-submenu-content-dropdown{
+  position: absolute;
   min-width: 11.25rem; // 180px
   max-height: calc(100vh - 7.5rem); // 7.5rem = 120px
   border-radius: 0.125rem;

@@ -51,7 +51,7 @@ export const useGlobalEvent = {
     if (!events.includes(eventCb)) {
       events.push(eventCb);
     }
-    console.log(target, 'events', eventName, events);
+    // console.log(target, 'events', eventName, events);
   },
   removeEvent: function (target: EventTarget, eventName: string, eventCb: EventCallbackFn): void {
     let events = eventMap[target][eventName];

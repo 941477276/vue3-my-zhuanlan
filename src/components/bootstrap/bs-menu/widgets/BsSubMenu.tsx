@@ -366,6 +366,14 @@ export default defineComponent({
       flush: 'post'
     });
 
+    // 监听菜单是否收起
+    watch(() => menuRootCtx?.props.collapse, function (collapsed) {
+      // 若菜单被收起来了，则隐藏子菜单，否则鼠标移到子菜单标题的时候子菜单无法显示出来
+      if (collapsed) {
+        submenuVisible.value = false;
+      }
+    });
+
     let handleCollapseExpandTimer: number;
     // 给子孙组件提供上下文
     provide(bsSubMenuInjectKey, {
