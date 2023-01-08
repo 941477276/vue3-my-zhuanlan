@@ -40,9 +40,9 @@ export default defineComponent({
     let currentIns = getCurrentInstance()!;
     let menuItemId = `bs-menu-item_${++menuItemCount}`;
     // 根菜单提供的上下文
-    let menuRootCtx = inject(bsMenuRootInjectKey) as any;
+    let menuRootCtx = inject(bsMenuRootInjectKey, null) as any;
     // 父级<bs-submenu>提供的上下文
-    let submenuCtx = inject(bsSubMenuInjectKey) as any;
+    let submenuCtx = inject(bsSubMenuInjectKey, null) as any;
 
     let isCollapsed = computed(function () {
       return menuRootCtx?.props.collapse;

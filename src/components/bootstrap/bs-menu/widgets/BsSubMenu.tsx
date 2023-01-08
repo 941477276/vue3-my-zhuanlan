@@ -62,9 +62,9 @@ export default defineComponent({
     let subMenuId = `bs-submenu_${currentSubMenuCount}`;
     let bsSubmenuTitleRef = ref<HTMLElement | null>(null);
     // 根菜单上下文
-    let menuRootCtx = inject(bsMenuRootInjectKey) as any;
+    let menuRootCtx = inject(bsMenuRootInjectKey, null) as any;
     // 父级submenu上下文
-    let parentSubmenuCtx = inject(bsSubMenuInjectKey) as any;
+    let parentSubmenuCtx = inject(bsSubMenuInjectKey, null) as any;
     // 展开的子菜单
     let expandedChildSubmenus: Record<string, ExpandedSubmenu> = {};
 
@@ -205,10 +205,10 @@ export default defineComponent({
           expandSubmenu(false);
         }
       };
-      menuRootCtx.expandedSubMenu(expandedMenuInfo, flag);
+      menuRootCtx?.expandedSubMenu(expandedMenuInfo, flag);
       let parentMenuName = parentMenu.value?.type.name;
       if (parentMenuName === 'BsMenu') {
-        menuRootCtx.handChildSubmenuExpand(expandedMenuInfo, flag);
+        menuRootCtx?.handChildSubmenuExpand(expandedMenuInfo, flag);
       }
       let triggerType = menuRootProps.value.triggerType;
       if (flag) {
