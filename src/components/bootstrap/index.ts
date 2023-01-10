@@ -9,6 +9,7 @@ import BsCheckboxGroup from './bs-checkbox-group/BsCheckboxGroup.vue';
 import BsSelect from './bs-select/index';
 import BsForm from '@/components/bootstrap/bs-form';
 import BsDropdown from '@/components/bootstrap/bs-dropdown';
+import BsDropdownTransition from '@/components/bootstrap/bs-dropdown-transition';
 import BsPagination from '@/components/bootstrap/bs-pagination';
 import BsBadge from '@/components/bootstrap/bs-badge/BsBadge.vue';
 import BsMessage from '@/components/bootstrap/bs-message';
@@ -56,6 +57,7 @@ export default function (vueApp: any) {
   vueApp.use(BsSelect);
   vueApp.use(BsForm);
   vueApp.use(BsDropdown);
+  vueApp.use(BsDropdownTransition);
   vueApp.use(BsPagination);
   vueApp.use(BsMessage);
   vueApp.use(BsBreadcrumb);

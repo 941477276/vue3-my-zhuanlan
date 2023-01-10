@@ -30,6 +30,9 @@
     <!--<div class="box">
       <BsDropdownUsage></BsDropdownUsage>
     </div>-->
+    <div class="box">
+      <BsDropdownTransitionUsage></BsDropdownTransitionUsage>
+    </div>
     <!--<router-view></router-view>-->
     <!--<div class="box">
       <BsPaginationUsage></BsPaginationUsage>
@@ -127,9 +130,9 @@
     <!--<div class="box">
       <BsToastUsage></BsToastUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsMenuUsage></BsMenuUsage>
-    </div>
+    </div>-->
     <!--<BsCollapseTransitionUsage></BsCollapseTransitionUsage>-->
   </bs-config-provider>
 </template>
@@ -148,6 +151,7 @@ import BsCheckboxUsage from '@/components/bootstrap/bs-checkbox/BsCheckboxUsage.
 import BsCheckboxGroupUsage from '@/components/bootstrap/bs-checkbox-group/BsCheckboxGroupUsage.vue';
 import BsSelectUsage from '@/components/bootstrap/bs-select/BsSelectUsage.vue';
 import BsDropdownUsage from '@/components/bootstrap/bs-dropdown/BsDropdownUsage.vue';
+import BsDropdownTransitionUsage from '@/components/bootstrap/bs-dropdown-transition/BsDropdownTransitionUsage.vue';
 import BsPaginationUsage from '@/components/bootstrap/bs-pagination/BsPaginationUsage.vue';
 import BsBadgeUsage from '@/components/bootstrap/bs-badge/BsBadgeUsage.vue';
 import BsMessageUsage from '@/components/bootstrap/bs-message/BsMessageUsage.vue';
@@ -199,6 +203,7 @@ export default defineComponent({
     BsCheckboxGroupUsage,
     BsSelectUsage,
     BsDropdownUsage,
+    BsDropdownTransitionUsage,
     BsPaginationUsage,
     BsBadgeUsage,
     BsMessageUsage,
