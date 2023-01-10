@@ -9,6 +9,7 @@
     'hide-required-asterisk': hideRequiredAsterisk
   }">
   <label
+    v-show="labelIsShow"
     :for="labelFor || htmlLabelFor || null"
     class="bs-form-label"
     :class="labelClass">
@@ -47,7 +48,8 @@ import {
   isObject
 } from '@vue/shared';
 import {
-  getPropValueByPath
+  getPropValueByPath,
+  isBoolean
 } from '@/common/bs-util';
 import Schema from 'async-validator';
 import {
@@ -78,6 +80,10 @@ export default defineComponent({
     rules: { // 当前表单的校验规则
       type: [Array, Object],
       default: () => []
+    },
+    showLabel: { // 是否显示label
+      type: Boolean,
+      default: true
     },
     labelFor: { // label的for属性
       type: String,
@@ -112,7 +118,7 @@ export default defineComponent({
     let bsFormItemRef = ref<HTMLElement>();
     // 校验状态
     let validStatus = ref<ValidateStatus>('');
-    let formContext = inject<FormContext>(formContextKey);
+    let formContext = inject<FormContext|null>(formContextKey, null);
     // 存储初始值，以遍在重置表单值时使用
     let initialVal:any = {};
     if (formContext) {
@@ -205,6 +211,17 @@ export default defineComponent({
         return childComponentContext.value[0].id;
       }
       return '';
+    });
+
+    // 是否显示label
+    let labelIsShow = computed(function () {
+      if (props.showLabel === false) {
+        return false;
+      }
+      if (formContext?.props.showLabel === false) {
+        return false;
+      }
+      return true;
     });
     /* watch(childComponents, function (newChildComponents: ComponentInternalInstance[]) {
       console.log('newChildComponents 111', newChildComponents);
@@ -326,6 +343,7 @@ export default defineComponent({
       htmlLabelFor,
       invalidMessage,
       isRequired,
+      labelIsShow,
 
       validate,
       clearValidate,

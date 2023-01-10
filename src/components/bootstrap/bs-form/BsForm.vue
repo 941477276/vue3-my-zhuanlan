@@ -38,6 +38,10 @@ export default defineComponent({
         return {};
       }
     },
+    showLabel: { // 是否显示label
+      type: Boolean,
+      default: true
+    },
     showErrorMessage: { // 表单项校验失败时是否显示错误提示
       type: Boolean,
       default: true
