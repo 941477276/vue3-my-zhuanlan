@@ -31,9 +31,10 @@ import {
   defineComponent,
   reactive,
   onMounted,
-  onUnmounted, ref
+  onUnmounted,
+  ref
 } from 'vue';
-import { NOOP } from '@vue/shared';
+import { NOOP, isObject } from '@vue/shared';
 import {
   isUndefined,
   getStyle
@@ -46,6 +47,7 @@ export default defineComponent({
   props: {
     referenceRef: { // 参照元素ref
       type: Object,
+      required: true,
       default () {
         return {};
       }
@@ -87,7 +89,13 @@ export default defineComponent({
 
     // 刷新定位
     let refresh = function () {
-      let referenceEl = props.referenceRef as HTMLElement;
+      let referenceRef = props.referenceRef;
+      let referenceEl: HTMLElement|null = null;
+      if (referenceRef.nodeName) {
+        referenceEl = referenceRef;
+      } else if (isObject(referenceRef) && referenceRef.$el) {
+        referenceEl = referenceRef.$el;
+      }
       if (!targetEl || !referenceEl) {
         return;
       }
@@ -107,8 +115,19 @@ export default defineComponent({
       // 延迟50毫秒是为了解决目标元素使用v-if控制后导致元素位置计算不准确问题
       // let timer = setTimeout(function () {
       //   clearTimeout(timer);
-      let referenceEl = props.referenceRef as HTMLElement;
-      console.log('onEnter执行了', referenceEl.nodeName, el);
+      let referenceRef = props.referenceRef;
+      let referenceEl: HTMLElement|null = null;
+      console.log('referenceRef', referenceRef);
+      if (!referenceRef) {
+        console.log('referenceRef不存在!-----------------------');
+        return;
+      }
+      if (referenceRef.nodeName) {
+        referenceEl = referenceRef;
+      } else if (isObject(referenceRef) && referenceRef.$el) {
+        referenceEl = referenceRef.$el;
+      }
+      console.log('onEnter执行了', referenceEl?.nodeName, el);
       if (!referenceEl) {
         console.log('参照元素不存在!-----------------------');
         return;
