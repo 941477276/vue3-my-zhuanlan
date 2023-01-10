@@ -24,15 +24,15 @@
     <!--<div class="box">
       <BsSelectUsage></BsSelectUsage>
     </div>-->
-    <!--<div class="box">
+    <div class="box">
       <BsFormUsage></BsFormUsage>
-    </div>-->
+    </div>
     <!--<div class="box">
       <BsDropdownUsage></BsDropdownUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsDropdownTransitionUsage></BsDropdownTransitionUsage>
-    </div>
+    </div>-->
     <!--<router-view></router-view>-->
     <!--<div class="box">
       <BsPaginationUsage></BsPaginationUsage>

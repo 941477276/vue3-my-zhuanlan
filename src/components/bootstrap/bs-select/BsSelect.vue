@@ -301,7 +301,7 @@ export default defineComponent({
     let isClickOutside = useClickOutside([bsSelectRef, bsSelectDropdownRef]);
     watch(isClickOutside, (newVal: boolean) => {
       // console.log('isClickOutside', isClickOutside.value);
-      if (newVal) {
+      if (newVal && dropdownVisible.value) {
         dropdownHide();
       }
     });

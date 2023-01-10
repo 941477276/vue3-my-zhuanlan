@@ -47,7 +47,6 @@ export default defineComponent({
   props: {
     referenceRef: { // 参照元素ref
       type: Object,
-      required: true,
       default () {
         return {};
       }
