@@ -31,13 +31,15 @@ import {
   defineComponent,
   reactive,
   onMounted,
-  onUnmounted,
+  onBeforeMount,
   ref
 } from 'vue';
 import { NOOP, isObject } from '@vue/shared';
 import {
   isUndefined,
-  getStyle
+  getStyle,
+  getScrollParent,
+  scrollTop, scrollLeft
 } from '@/common/bs-util';
 import { getDropdownDirection } from './useDropdownDirection';
 import { useGlobalEvent } from '@/hooks/useGlobalEvent';
@@ -84,6 +86,8 @@ export default defineComponent({
       bottom: null
     });
     let targetEl: HTMLElement|null = null;
+    // 参照元素有滚动条的父级节点
+    let referenceScrollParent: HTMLElement|undefined;
     let isVisible = ref(false);
 
     // 刷新定位
@@ -149,10 +153,29 @@ export default defineComponent({
       el.addEventListener('transitioncancel', onTransitionDone, false);
       ctx.emit('enter', el, NOOP);
       // }, !targetEl ? 50 : 0);
+
+      referenceScrollParent = getScrollParent(referenceEl);
+      let nodeName = referenceScrollParent?.nodeName;
+      console.log('referenceScrollParent', referenceScrollParent?.nodeName);
+      // 如果参照元素有有滚动条的父级节点且不为body，则给该父级节点绑定scroll事件，在容器滚动的时候刷新下拉位置
+      if (referenceScrollParent && nodeName != 'BODY' && nodeName != 'HTML') {
+        console.log('参照元素有有滚动条的父级节点且不是body');
+        referenceScrollParent.addEventListener('scroll', scrollEvent, false);
+      } else {
+        useGlobalEvent.addEvent('window', 'scroll', scrollEvent);
+      }
     };
 
     let onLeave = function (el: HTMLElement) {
       isVisible.value = false;
+      let nodeName = referenceScrollParent?.nodeName;
+      // 下拉隐藏后移除参照元素有有滚动条的父级节点的scroll事件
+      if (referenceScrollParent && nodeName != 'BODY' && nodeName != 'HTML') {
+        referenceScrollParent.removeEventListener('scroll', scrollEvent, false);
+      } else {
+        useGlobalEvent.removeEvent('window', 'scroll', scrollEvent);
+      }
+      referenceScrollParent = undefined;
       ctx.emit('after-leave', el);
     };
 
@@ -160,11 +183,17 @@ export default defineComponent({
     let resizeEventName = 'orientationchange' in window ? 'orientationchange' : 'resize';
     // 浏览器窗口大小改变事件
     let resizeEvent = function () {
-      let now = new Date().getTime();
       if (!isVisible.value) {
         return;
       }
-      if (resizeTimer == 0 || now - resizeTimer >= 125) {
+      let now = new Date().getTime();
+      /* let nodeName = referenceScrollParent?.nodeName;
+      let throttlingTime = 100;
+      // 如果参照元素有有滚动条的父级节点则在父级节点滚动滚动条的时候节流时间改短
+      if (referenceScrollParent && nodeName != 'BODY' && nodeName != 'HTML') {
+        throttlingTime = 50;
+      } */
+      if (resizeTimer == 0 || (now - resizeTimer >= 10)) {
         refresh();
         resizeTimer = now;
       }
@@ -172,16 +201,44 @@ export default defineComponent({
 
     // 滚动条滚动事件
     let scrollTimer = 0;
-    let scrollEvent = function () {
+    let lastScrollTop = 0;
+    // let lastScrollLeft = 0;
+    let scrollEvent = function (evt: Event) {
       if (!isVisible.value || !targetEl) {
         return;
       }
-      let targetElPosition = getStyle(targetEl, 'position');
-      if (targetElPosition == 'fixed') {
-        return;
-      }
       let now = new Date().getTime();
-      if (scrollTimer == 0 || now - scrollTimer >= 125) {
+      console.log('now - scrollTimer: ', now - scrollTimer);
+      if (scrollTimer == 0 || now - scrollTimer >= 20) {
+        let targetElPosition = getStyle(targetEl, 'position');
+        if (targetElPosition == 'fixed') {
+          return;
+        }
+        let target = evt.currentTarget!;
+        let currentScrollTop = 0;
+        // let currentScrollLeft = 0;
+        if (target === window || target === document) {
+          currentScrollTop = scrollTop();
+          // currentScrollLeft = scrollLeft();
+        } else {
+          currentScrollTop = (target as HTMLElement).scrollTop;
+          // currentScrollLeft = (target as HTMLElement).scrollLeft;
+        }
+        console.log('evt', evt);
+        // @ts-ignore
+        console.log('currentScrollTop', currentScrollTop, lastScrollTop, target);
+        // 由于 eleHasScroll() 函数判断元素是否有滚动条会触发滚动条事件，因此这里需要判断当前滚动条是否是由eleHasScroll函数触发的，如果是它触发的则不执行更新
+        if (lastScrollTop == 0 && currentScrollTop == 1) {
+          console.log('这里拦掉了');
+          return;
+        }
+        lastScrollTop = currentScrollTop;
+        let nodeName = referenceScrollParent?.nodeName;
+        /* let throttlingTime = 25;
+        // 如果参照元素有有滚动条的父级节点则在父级节点滚动滚动条的时候节流时间改短
+        if (referenceScrollParent && nodeName != 'BODY' && nodeName != 'HTML') {
+          throttlingTime = 0;
+        } */
         refresh();
         scrollTimer = now;
       }
@@ -189,12 +246,15 @@ export default defineComponent({
 
     onMounted(function () {
       useGlobalEvent.addEvent('window', resizeEventName, resizeEvent);
-      useGlobalEvent.addEvent('window', 'scroll', scrollEvent);
+      // useGlobalEvent.addEvent('window', 'scroll', scrollEvent);
+      useGlobalEvent.addEvent('window', 'scroll', function () {
+        console.log('滚动条滚动了');
+      });
     });
 
-    onUnmounted(function () {
+    onBeforeMount(function () {
       useGlobalEvent.removeEvent('window', resizeEventName, resizeEvent);
-      useGlobalEvent.removeEvent('window', 'scroll', scrollEvent);
+      // useGlobalEvent.removeEvent('window', 'scroll', scrollEvent);
       targetEl = null;
     });
 
