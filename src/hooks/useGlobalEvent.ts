@@ -32,7 +32,8 @@ export const useGlobalEvent = {
         let eventsCopy = events.slice(0);
         eventsCopy.forEach((eventFn: EventCallbackFn) => {
           try {
-            eventFn(evt);
+            // @ts-ignore
+            eventFn.call(this, evt);
           } catch (e) {
             // 捕捉异常
             errors.push(e);
