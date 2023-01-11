@@ -75,6 +75,8 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     referenceElWrapperScrollTop = scrollTop(scrollParent);
     referenceElWrapperScrollLeft = scrollLeft(scrollParent);
   }
+  // TODO
+  let targetScrollParent = getScrollParent(targetEl);
   // console.log('eleWrapperScrollTop, eleWrapperScrollLeft', referenceElWrapperScrollTop, referenceElWrapperScrollLeft);
 
   // console.log('targetElDisplay', targetElDisplay);
@@ -95,6 +97,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
   var handleBottom = function (isBottomRight: boolean) {
     // 当参照物在有滚动条的容器中且目标元素插入在body时需减去容器滚动条滚动的距离
     var top = referenceOffset.top + referenceRect.height - (targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0);
+    console.log('targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0', targetElOffsetParentIsDocument, targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0);
     var left = isBottomRight ? Math.floor(referenceOffset.left - (targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0) - (targetElRect.width - referenceRect.width)) : (referenceOffset.left - (targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0));
     // console.log('handleBottom,-----------', referenceOffset.left, targetElRect.width,referenceRect.width);
     var isInView = eleIsInView(targetEl, top, left, needSubtractScrollOffset);
