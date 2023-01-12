@@ -233,8 +233,11 @@ export default defineComponent({
         }
         // @ts-ignore
         console.log('currentScrollTop', currentScrollTop, lastScrollTop, target);
-        // 由于 eleHasScroll() 函数判断元素是否有滚动条会触发滚动条事件，因此这里需要判断当前滚动条是否是由eleHasScroll函数触发的，如果是它触发的则不执行更新
-        if (lastScrollTop == 0 && currentScrollTop == 1) {
+        /*
+         由于 eleHasScroll() 函数判断元素是否有滚动条会触发滚动条事件，因此这里需要判断当前滚动条是否是由eleHasScroll函数触发的，如果是它触发的则不执行更新。
+         如果滚动条是否是由eleHasScroll函数触发的，它的2次执行时间在10-20之间
+         */
+        if ((lastScrollTop == 0 && currentScrollTop == 1) || ((lastScrollTop == 0 && currentScrollTop == 0) && (now - scrollTimer < 20))) {
           console.log('这里拦掉了');
           return;
         }
