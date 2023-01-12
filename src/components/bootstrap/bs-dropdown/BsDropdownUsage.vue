@@ -307,7 +307,7 @@
       <p>这是一个抽屉弹窗</p>
       <p>这是一个抽屉弹窗</p>
       <p>这是一个抽屉弹窗</p>
-      <bs-dropdown placement="bottom" trigger="click" :teleported="true">
+      <bs-dropdown placement="top" trigger="click" :teleported="true">
         <bs-button class="dropdown-toggle" type="primary">网页三剑客</bs-button>
         <template #dropdown-content>
           <bs-dropdown-item>Html</bs-dropdown-item>
@@ -323,7 +323,7 @@
       <p>这是一个抽屉弹窗</p>
       <p>这是一个抽屉弹窗</p>
       <p>这是一个抽屉弹窗</p>
-      <bs-dropdown placement="bottom" trigger="click" :teleported="true">
+      <bs-dropdown placement="top" trigger="click" :teleported="true">
         <bs-button class="dropdown-toggle" type="primary">网页三剑客</bs-button>
         <template #dropdown-content>
           <bs-dropdown-item>Html</bs-dropdown-item>
