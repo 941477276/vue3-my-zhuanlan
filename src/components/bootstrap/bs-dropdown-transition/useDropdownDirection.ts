@@ -6,8 +6,10 @@ import {
   scrollLeft,
   getScrollParent,
   getEleTranslateValue,
-  eleIsInView,
-  hasScroll
+  hasScroll,
+  eleIsInScrollParentView,
+  getDocumentWidthHeight,
+  scrollWidth
 } from '@/common/bs-util';
 
 let documentNodeNames = ['HTML', 'BODY'];
@@ -82,20 +84,20 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     referenceElWrapperScrollTop = scrollTop(scrollParent);
     referenceElWrapperScrollLeft = scrollLeft(scrollParent);
   }
-  // TODO
   let targetScrollParent = getScrollParent(targetEl);
   // 判断下拉内容是否插入在body中
   let targetIsInBody = targetScrollParent && documentNodeNames.includes(targetScrollParent.nodeName);
-  let bodyHasScroll = {
+  /* let bodyHasScroll = {
     vertical: false,
     horizontal: false
-  };
+  }; */
+  let bodyHasScroll = hasScroll();
   let bodyScrollVisible = {
     vertical: false,
     horizontal: false
   };
   if (targetIsInBody) {
-    bodyHasScroll = hasScroll();
+    // bodyHasScroll = hasScroll();
     bodyScrollVisible = {
       vertical: getStyle(document.body, 'overflow-y') != 'hidden',
       horizontal: getStyle(document.body, 'overflow-x') != 'hidden'
@@ -125,7 +127,16 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     console.log('targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0', targetElOffsetParentIsDocument, targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0);
     var left = isBottomRight ? Math.floor(referenceOffset.left - (targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0) - (targetElRect.width - referenceRect.width)) : (referenceOffset.left - (targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0));
     // console.log('handleBottom,-----------', referenceOffset.left, targetElRect.width,referenceRect.width);
-    var isInView = eleIsInView(targetEl, top, left, needSubtractScrollOffset);
+    // var isInView = eleIsInView(targetEl, top, left, needSubtractScrollOffset);
+    var isInView = eleIsInView({
+      ele: targetEl,
+      top,
+      left,
+      needSubtractScrollOffset,
+      documentHasScroll: bodyHasScroll,
+      documentScrollInfo: scrollInfo,
+      scrollParent // 获取目标元素所处有滚动条的父级容器
+    });
     // console.log('handleBottom isInView', isInView, isBottomRight, (targetElRect.width - referenceRect.width), left);
     // 计算top值时需减去目标元素position不为static的父级元素的top值
     let newTop = top - targetElOffsetParentOffset.top;
@@ -154,7 +165,16 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     // console.log('referenceElWrapperScrollTop', referenceOffset.top, tool.scrollTop(), referenceElWrapperScrollTop);
     var top = referenceOffset.top - targetElRect.height - (targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0);
     var left = isTopRight ? Math.floor(referenceOffset.left - (targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0) - (targetElRect.width - referenceRect.width - (targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0))) : referenceOffset.left;
-    var isInView = eleIsInView(targetEl, top, left, needSubtractScrollOffset);
+    // var isInView = eleIsInView(targetEl, top, left, needSubtractScrollOffset);
+    var isInView = eleIsInView({
+      ele: targetEl,
+      top,
+      left,
+      needSubtractScrollOffset,
+      documentHasScroll: bodyHasScroll,
+      documentScrollInfo: scrollInfo,
+      scrollParent // 获取目标元素所处有滚动条的父级容器
+    });
     // var bottom = referenceOffset.top - targetElOffsetParentOffset.top - (targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0) + referenceRect.height;
     var bottom;
     if (targetElOffsetParentIsDocument) {
@@ -206,7 +226,16 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       }
     }
 
-    var isInView = eleIsInView(targetEl, top, left, needSubtractScrollOffset);
+    // var isInView = eleIsInView(targetEl, top, left, needSubtractScrollOffset);
+    var isInView = eleIsInView({
+      ele: targetEl,
+      top,
+      left,
+      needSubtractScrollOffset,
+      documentHasScroll: bodyHasScroll,
+      documentScrollInfo: scrollInfo,
+      scrollParent // 获取目标元素所处有滚动条的父级容器
+    });
 
     let newTop = top - targetElOffsetParentOffset.top;
     let newLeft = left - targetElOffsetParentOffset.left;
@@ -252,7 +281,16 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       }
     }
 
-    var isInView = eleIsInView(targetEl, top, left, needSubtractScrollOffset);
+    // var isInView = eleIsInView(targetEl, top, left, needSubtractScrollOffset);
+    var isInView = eleIsInView({
+      ele: targetEl,
+      top,
+      left,
+      needSubtractScrollOffset,
+      documentHasScroll: bodyHasScroll,
+      documentScrollInfo: scrollInfo,
+      scrollParent // 获取目标元素所处有滚动条的父级容器
+    });
 
     let newTop = top - targetElOffsetParentOffset.top;
     let newLeft = left - targetElOffsetParentOffset.left;
@@ -458,4 +496,77 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     targetEl.style.display = '';
   }
   return calcedDirection;
+}
+
+/**
+ * 判断元素是否完全出现在视口中，优化性能，减少计算scrollParent、documentHasScroll、documentScrollInfo
+ * @param {object} options
+ * @returns {{horizontal: boolean, vertical: boolean}}
+ */
+function eleIsInView (options: any) {
+  let {
+    ele,
+    top,
+    left,
+    needSubtractScrollOffset,
+    documentHasScroll,
+    documentScrollInfo,
+    scrollParent // 获取目标元素有滚动条的父级容器
+  } = options;
+  // var documentHasScroll = hasScroll();
+  // 元素有滚动条的父级元素的滚动条高度
+  let eleWrapperScrollTop = 0;
+  let eleWrapperScrollLeft = 0;
+
+  // 获取目标元素所处有滚动条的父级容器
+  // let scrollParent = getScrollParent(ele);
+  let scrollParentVertical = true;
+  let scrollParentHorizontal = true;
+  // 如果当前元素有滚动条的父级元素并且不是body，则判断元素在有滚动条的父级元素中是否可见
+  if (scrollParent && !documentNodeNames.includes(scrollParent.nodeName)) {
+    eleWrapperScrollTop = scrollTop(scrollParent);
+    eleWrapperScrollLeft = scrollLeft(scrollParent);
+    let scroll = eleIsInScrollParentView(ele, scrollParent, top, left, needSubtractScrollOffset);
+    // console.log('scrollParent scroll', scroll);
+    scrollParentHorizontal = scroll.horizontal;
+    scrollParentVertical = scroll.vertical;
+  }
+  // console.log('scrollTop/scrollLeft', scrollTop, scrollLeft);
+  if (!top || !left) {
+    var offsetValue = offset(ele);
+    if (!top) {
+      top = offsetValue.top;
+    }
+    if (!left) {
+      left = offsetValue.left;
+    }
+  }
+
+  if (documentHasScroll.vertical) {
+    top -= documentScrollInfo.top;
+  }
+  if (documentHasScroll.horizontal) {
+    left -= documentScrollInfo.left;
+  }
+  top = top - eleWrapperScrollTop;
+  left = left - eleWrapperScrollLeft;
+
+  let bottom = ele.offsetHeight + top;
+  let right = ele.offsetWidth + left;
+  let windowWH = getDocumentWidthHeight();
+  // 如果有浏览器有滚动条，则需减去滚动条的宽度
+  if (documentHasScroll.vertical) {
+    windowWH.width = windowWH.width - scrollWidth().vertical;
+  }
+  if (documentHasScroll.horizontal) {
+    windowWH.height = windowWH.height - scrollWidth().horizontal;
+  }
+  // console.log('left', left, right, scrollLeft);
+  // console.log('top', top, bottom, scrollTop);
+  return {
+    scrollParentHorizontal,
+    scrollParentVertical,
+    vertical: top > 0 && top < windowWH.height && bottom > 0 && bottom <= windowWH.height,
+    horizontal: left > 0 && left < windowWH.width && right > 0 && right <= windowWH.width
+  };
 }
