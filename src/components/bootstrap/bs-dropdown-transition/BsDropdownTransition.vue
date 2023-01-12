@@ -39,7 +39,7 @@ import {
   isUndefined,
   getStyle,
   getScrollParent,
-  scrollTop, scrollLeft
+  scrollTop
 } from '@/common/bs-util';
 import { getDropdownDirection } from './useDropdownDirection';
 import { useGlobalEvent } from '@/hooks/useGlobalEvent';
@@ -88,8 +88,6 @@ export default defineComponent({
     let targetEl: HTMLElement|null = null;
     // 参照元素有滚动条的父级节点
     let referenceScrollParent: HTMLElement|undefined;
-    // 目标元素有滚动条的父级节点
-    let targetScrollParent: HTMLElement|undefined;
     let isVisible = ref(false);
     let documentNodeNames = ['HTML', 'BODY'];
 
@@ -158,36 +156,25 @@ export default defineComponent({
       // }, !targetEl ? 50 : 0);
 
       referenceScrollParent = getScrollParent(referenceEl);
-      targetScrollParent = getScrollParent(targetEl);
       let nodeName = referenceScrollParent?.nodeName || '';
-      let targetScrollParentName = targetScrollParent?.nodeName || '';
 
       console.log('referenceScrollParent', referenceScrollParent?.nodeName);
       // 如果参照元素有有滚动条的父级节点且不为body，则给该父级节点绑定scroll事件，在容器滚动的时候刷新下拉位置
       if (referenceScrollParent && !documentNodeNames.includes(nodeName)) {
         console.log('参照元素有有滚动条的父级节点且不是body');
         referenceScrollParent.addEventListener('scroll', scrollEvent, false);
-        if (documentNodeNames.includes(targetScrollParentName)) {
-          useGlobalEvent.addEvent('window', 'scroll', scrollEvent);
-        }
-      } else {
-        useGlobalEvent.addEvent('window', 'scroll', scrollEvent);
       }
+      useGlobalEvent.addEvent('window', 'scroll', scrollEvent);
     };
 
     let onLeave = function (el: HTMLElement) {
       isVisible.value = false;
       let nodeName = referenceScrollParent?.nodeName || '';
-      let targetScrollParentName = targetScrollParent?.nodeName || '';
       // 下拉隐藏后移除参照元素有有滚动条的父级节点的scroll事件
       if (referenceScrollParent && !documentNodeNames.includes(nodeName)) {
         referenceScrollParent.removeEventListener('scroll', scrollEvent, false);
-        if (documentNodeNames.includes(targetScrollParentName)) {
-          useGlobalEvent.removeEvent('window', 'scroll', scrollEvent);
-        }
-      } else {
-        useGlobalEvent.removeEvent('window', 'scroll', scrollEvent);
       }
+      useGlobalEvent.removeEvent('window', 'scroll', scrollEvent);
       referenceScrollParent = undefined;
       ctx.emit('after-leave', el);
     };
@@ -257,7 +244,7 @@ export default defineComponent({
       // useGlobalEvent.removeEvent('window', 'scroll', scrollEvent);
       targetEl = null;
       // 参照元素有滚动条的父级节点
-      referenceScrollParent = targetScrollParent = undefined;
+      referenceScrollParent = undefined;
     });
 
     return {
