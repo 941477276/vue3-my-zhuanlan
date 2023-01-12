@@ -61,7 +61,7 @@ Use the `prepend` or `append` slot to add other components before or after the i
       <template #prepend>
         <bs-dropdown>
           <bs-button type="primary">下拉菜单</bs-button>
-          <template #dropdown-content>
+          <template #content>
             <bs-dropdown-item value="1" disabled>Html</bs-dropdown-item>
             <bs-dropdown-item value="2">Css</bs-dropdown-item>
             <bs-dropdown-item value="3">Javascript</bs-dropdown-item>
@@ -69,7 +69,7 @@ Use the `prepend` or `append` slot to add other components before or after the i
         </bs-dropdown>
         <bs-dropdown>
           <bs-button type="primary">下拉菜单2</bs-button>
-          <template #dropdown-content>
+          <template #content>
             <bs-dropdown-item value="1">Html</bs-dropdown-item>
             <bs-dropdown-item value="2">Css</bs-dropdown-item>
             <bs-dropdown-item value="3">Javascript</bs-dropdown-item>
@@ -82,7 +82,7 @@ Use the `prepend` or `append` slot to add other components before or after the i
       <template #append>
         <bs-dropdown>
           <bs-button type="primary">下拉菜单</bs-button>
-          <template #dropdown-content>
+          <template #content>
             <bs-dropdown-item value="1">Html</bs-dropdown-item>
             <bs-dropdown-item value="2">Css</bs-dropdown-item>
             <bs-dropdown-item value="3">Javascript</bs-dropdown-item>
@@ -90,7 +90,7 @@ Use the `prepend` or `append` slot to add other components before or after the i
         </bs-dropdown>
         <bs-dropdown>
           <bs-button type="success">下拉菜单2</bs-button>
-          <template #dropdown-content>
+          <template #content>
             <bs-dropdown-item value="1">Html</bs-dropdown-item>
             <bs-dropdown-item value="2">Css</bs-dropdown-item>
             <bs-dropdown-item value="3">Javascript</bs-dropdown-item>

@@ -26,7 +26,7 @@
           }"
           @mouseenter="onMouseEnter"
           @mouseleave="onMouseLeave">
-          <slot name="dropdown-content"></slot>
+          <slot name="content"></slot>
         </div>
       </BsDropdownTransition>
     </teleport>

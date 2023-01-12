@@ -24,7 +24,7 @@ Use a button group to group a series of buttons on a row, often for multiple sim
     <bs-button-group>
       <bs-dropdown>
         <bs-button type="primary">Left Dropdown</bs-button>
-        <template #dropdown-content>
+        <template #content>
           <bs-dropdown-item>Html</bs-dropdown-item>
           <bs-dropdown-item>Css</bs-dropdown-item>
           <bs-dropdown-item>Javascript</bs-dropdown-item>
@@ -33,7 +33,7 @@ Use a button group to group a series of buttons on a row, often for multiple sim
       <bs-button type="success">success</bs-button>
       <bs-dropdown>
         <bs-button type="primary">Centro Dropdown</bs-button>
-        <template #dropdown-content>
+        <template #content>
           <bs-dropdown-item>Html</bs-dropdown-item>
           <bs-dropdown-item>Css</bs-dropdown-item>
           <bs-dropdown-item>Javascript</bs-dropdown-item>
@@ -42,7 +42,7 @@ Use a button group to group a series of buttons on a row, often for multiple sim
       <bs-button type="warning">warning</bs-button>
       <bs-dropdown>
         <bs-button type="primary">Right Dropdown</bs-button>
-        <template #dropdown-content>
+        <template #content>
           <bs-dropdown-item>Html</bs-dropdown-item>
           <bs-dropdown-item>Css</bs-dropdown-item>
           <bs-dropdown-item>Javascript</bs-dropdown-item>

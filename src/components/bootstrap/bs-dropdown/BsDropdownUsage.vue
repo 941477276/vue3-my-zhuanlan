@@ -7,7 +7,7 @@
       <bs-button type="primary" @click="modalVisible2 = true" style="margin-right: 1rem;">在弹窗的滚动容器中</bs-button>
       <bs-dropdown trigger="click" teleported>
         <bs-button class="dropdown-toggle" type="primary">你好，vue3</bs-button>
-        <template #dropdown-content>
+        <template #content>
           <bs-dropdown-item>下拉框1</bs-dropdown-item>
           <bs-dropdown-item>下拉框2</bs-dropdown-item>
           <bs-dropdown-item>下拉框3</bs-dropdown-item>
@@ -29,7 +29,7 @@
       <p>下拉菜单！</p>
       <bs-dropdown placement="bottom" trigger="click" :teleported="false">
         <bs-button class="dropdown-toggle" type="primary">基本使用</bs-button>
-        <template #dropdown-content>
+        <template #content>
           <bs-dropdown-item>下拉框1</bs-dropdown-item>
           <bs-dropdown-item disabled>下拉框2</bs-dropdown-item>
           <bs-dropdown-item>下拉框3</bs-dropdown-item>
@@ -47,7 +47,7 @@
       <p>下拉菜单！</p>
       <bs-dropdown :teleported="true" style="margin-left: 100px;">
         <span>一个span</span>
-        <template #dropdown-content>
+        <template #content>
           <bs-dropdown-item>下拉框1</bs-dropdown-item>
           <bs-dropdown-item>下拉框2</bs-dropdown-item>
           <bs-dropdown-item>下拉框3</bs-dropdown-item>
@@ -59,7 +59,7 @@
     <div>
       <bs-dropdown placement="top">
         <bs-button class="dropdown-toggle" type="primary">顶部左边对齐</bs-button>
-        <template #dropdown-content>
+        <template #content>
           <bs-dropdown-item>下拉框1</bs-dropdown-item>
           <bs-dropdown-item>下拉框2</bs-dropdown-item>
           <bs-dropdown-item>下拉框3</bs-dropdown-item>
@@ -68,7 +68,7 @@
 
       <bs-dropdown placement="topRight" style="margin-left: 100px">
         <bs-button class="dropdown-toggle" type="primary">顶部右边对齐</bs-button>
-        <template #dropdown-content>
+        <template #content>
           <bs-dropdown-item>下拉框1</bs-dropdown-item>
           <bs-dropdown-item>下拉框2</bs-dropdown-item>
           <bs-dropdown-item>下拉框3</bs-dropdown-item>
@@ -77,7 +77,7 @@
 
       <bs-dropdown placement="bottom" style="margin-left: 100px">
         <bs-button class="dropdown-toggle" type="primary" >底部左边对齐</bs-button>
-        <template #dropdown-content>
+        <template #content>
           <bs-dropdown-item>下拉框1</bs-dropdown-item>
           <bs-dropdown-item>下拉框2</bs-dropdown-item>
           <bs-dropdown-item>下拉框3</bs-dropdown-item>
@@ -86,7 +86,7 @@
 
       <bs-dropdown placement="bottomRight" style="margin-left: 100px">
         <bs-button class="dropdown-toggle" type="primary" >底部右边对齐</bs-button>
-        <template #dropdown-content>
+        <template #content>
           <bs-dropdown-item>下拉框1</bs-dropdown-item>
           <bs-dropdown-item>下拉框2</bs-dropdown-item>
           <bs-dropdown-item>下拉框3</bs-dropdown-item>
@@ -96,7 +96,7 @@
       <div style="margin-top: 50px">
         <bs-dropdown placement="right">
           <bs-button class="dropdown-toggle" type="primary">右边顶部对齐</bs-button>
-          <template #dropdown-content>
+          <template #content>
             <bs-dropdown-item>下拉框1</bs-dropdown-item>
             <bs-dropdown-item>下拉框2</bs-dropdown-item>
             <bs-dropdown-item>下拉框3</bs-dropdown-item>
@@ -105,7 +105,7 @@
 
         <bs-dropdown trigger="hover" placement="rightBottom" style="margin-left: 100px;">
           <bs-button class="dropdown-toggle" type="primary">右边底部对齐</bs-button>
-          <template #dropdown-content>
+          <template #content>
             <bs-dropdown-item>下拉框1</bs-dropdown-item>
             <bs-dropdown-item>下拉框2</bs-dropdown-item>
             <bs-dropdown-item>下拉框3</bs-dropdown-item>
@@ -114,7 +114,7 @@
 
         <bs-dropdown placement="left" style="margin-left: 100px;">
           <bs-button class="dropdown-toggle" type="primary">左边顶部对齐</bs-button>
-          <template #dropdown-content>
+          <template #content>
             <bs-dropdown-item>下拉框1</bs-dropdown-item>
             <bs-dropdown-item>下拉框2</bs-dropdown-item>
             <bs-dropdown-item>下拉框3</bs-dropdown-item>
@@ -123,7 +123,7 @@
 
         <bs-dropdown placement="leftBottom" style="margin-left: 100px;">
           <bs-button class="dropdown-toggle" type="primary">左边底部对齐</bs-button>
-          <template #dropdown-content>
+          <template #content>
             <bs-dropdown-item>下拉框1</bs-dropdown-item>
             <bs-dropdown-item>下拉框2</bs-dropdown-item>
             <bs-dropdown-item>下拉框3</bs-dropdown-item>
@@ -136,7 +136,7 @@
     <div>
       <bs-dropdown trigger="click">
         <bs-button class="dropdown-toggle" type="primary">点击我吧</bs-button>
-        <template #dropdown-content>
+        <template #content>
           <bs-dropdown-item>下拉框1</bs-dropdown-item>
           <bs-dropdown-item>下拉框2</bs-dropdown-item>
           <bs-dropdown-item>下拉框3</bs-dropdown-item>
@@ -150,7 +150,7 @@
       <div class="d-flex">
         <bs-dropdown>
           <bs-button class="dropdown-toggle" type="primary">下拉菜单</bs-button>
-          <template #dropdown-content>
+          <template #content>
             <bs-dropdown-item>下拉框1</bs-dropdown-item>
             <bs-dropdown-item>下拉框2</bs-dropdown-item>
             <bs-dropdown-item>下拉框3</bs-dropdown-item>
@@ -159,7 +159,7 @@
 
         <bs-dropdown class="ml-auto">
           <bs-button class="dropdown-toggle" type="primary">下拉菜单</bs-button>
-          <template #dropdown-content>
+          <template #content>
             <bs-dropdown-item>下拉框1</bs-dropdown-item>
             <bs-dropdown-item>下拉框2</bs-dropdown-item>
             <bs-dropdown-item>下拉框3</bs-dropdown-item>
@@ -171,7 +171,7 @@
       <div class="d-flex">
         <bs-dropdown placement="top">
           <bs-button class="dropdown-toggle" type="primary">下拉菜单</bs-button>
-          <template #dropdown-content>
+          <template #content>
             <bs-dropdown-item>下拉框1</bs-dropdown-item>
             <bs-dropdown-item>下拉框2</bs-dropdown-item>
             <bs-dropdown-item>下拉框3</bs-dropdown-item>
@@ -180,7 +180,7 @@
 
         <bs-dropdown placement="top" class="ml-auto">
           <bs-button class="dropdown-toggle" type="primary">下拉菜单</bs-button>
-          <template #dropdown-content>
+          <template #content>
             <bs-dropdown-item>下拉框1</bs-dropdown-item>
             <bs-dropdown-item>下拉框2</bs-dropdown-item>
             <bs-dropdown-item>下拉框3</bs-dropdown-item>
@@ -192,7 +192,7 @@
       <div class="d-flex">
         <bs-dropdown placement="left">
           <bs-button class="dropdown-toggle" type="primary">下拉菜单</bs-button>
-          <template #dropdown-content>
+          <template #content>
             <bs-dropdown-item>下拉框1</bs-dropdown-item>
             <bs-dropdown-item>下拉框2</bs-dropdown-item>
             <bs-dropdown-item>下拉框3</bs-dropdown-item>
@@ -201,7 +201,7 @@
 
         <bs-dropdown placement="left" class="ml-auto">
           <bs-button class="dropdown-toggle" type="primary">下拉菜单</bs-button>
-          <template #dropdown-content>
+          <template #content>
             <bs-dropdown-item>下拉框1</bs-dropdown-item>
             <bs-dropdown-item>下拉框2</bs-dropdown-item>
             <bs-dropdown-item>下拉框3</bs-dropdown-item>
@@ -213,7 +213,7 @@
       <div class="d-flex">
         <bs-dropdown placement="right">
           <bs-button class="dropdown-toggle" type="primary">下拉菜单</bs-button>
-          <template #dropdown-content>
+          <template #content>
             <bs-dropdown-item>下拉框1</bs-dropdown-item>
             <bs-dropdown-item>下拉框2</bs-dropdown-item>
             <bs-dropdown-item>下拉框3</bs-dropdown-item>
@@ -222,7 +222,7 @@
 
         <bs-dropdown placement="right" class="ml-auto">
           <bs-button class="dropdown-toggle" type="primary">下拉菜单</bs-button>
-          <template #dropdown-content>
+          <template #content>
             <bs-dropdown-item>下拉框1</bs-dropdown-item>
             <bs-dropdown-item>下拉框2</bs-dropdown-item>
             <bs-dropdown-item>下拉框3</bs-dropdown-item>
@@ -234,7 +234,7 @@
       <div>
         <bs-dropdown :destroy-dropdown-menu-on-hide="true">
           <bs-button class="dropdown-toggle" type="primary">下拉菜单</bs-button>
-          <template #dropdown-content>
+          <template #content>
             <bs-dropdown-item>下拉框1</bs-dropdown-item>
             <bs-dropdown-item>下拉框2</bs-dropdown-item>
             <bs-dropdown-item>下拉框3</bs-dropdown-item>
@@ -248,7 +248,7 @@
       <h3>在fixed容器中</h3>
       <bs-dropdown trigger="click">
         <bs-button class="dropdown-toggle" type="primary">网页三剑客</bs-button>
-        <template #dropdown-content>
+        <template #content>
           <bs-dropdown-item>Javascript</bs-dropdown-item>
           <bs-dropdown-item>Css</bs-dropdown-item>
           <bs-dropdown-item>Html</bs-dropdown-item>
@@ -264,7 +264,7 @@
       <div>
         <bs-dropdown placement="bottom" trigger="click" :teleported="false">
           <bs-button class="dropdown-toggle" type="primary">网页三剑客</bs-button>
-          <template #dropdown-content>
+          <template #content>
             <bs-dropdown-item>Html</bs-dropdown-item>
             <bs-dropdown-item>Css</bs-dropdown-item>
             <bs-dropdown-item>Javascript</bs-dropdown-item>
@@ -285,7 +285,7 @@
       <div>
         <bs-dropdown placement="bottom" trigger="click" :teleported="false">
           <bs-button class="dropdown-toggle" type="primary">网页三剑客</bs-button>
-          <template #dropdown-content>
+          <template #content>
             <bs-dropdown-item>Html</bs-dropdown-item>
             <bs-dropdown-item>Css</bs-dropdown-item>
             <bs-dropdown-item>Javascript</bs-dropdown-item>
@@ -309,7 +309,7 @@
       <p>这是一个抽屉弹窗</p>
       <bs-dropdown placement="top" trigger="click" :teleported="true">
         <bs-button class="dropdown-toggle" type="primary">网页三剑客</bs-button>
-        <template #dropdown-content>
+        <template #content>
           <bs-dropdown-item>Html</bs-dropdown-item>
           <bs-dropdown-item>Css</bs-dropdown-item>
           <bs-dropdown-item>Javascript</bs-dropdown-item>
@@ -325,7 +325,7 @@
       <p>这是一个抽屉弹窗</p>
       <bs-dropdown placement="top" trigger="click" :teleported="true">
         <bs-button class="dropdown-toggle" type="primary">网页三剑客</bs-button>
-        <template #dropdown-content>
+        <template #content>
           <bs-dropdown-item>Html</bs-dropdown-item>
           <bs-dropdown-item>Css</bs-dropdown-item>
           <bs-dropdown-item>Javascript</bs-dropdown-item>

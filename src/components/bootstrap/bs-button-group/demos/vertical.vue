@@ -18,7 +18,7 @@ Set the `vertical` attribute to make a group of buttons arranged vertically inst
     <bs-button-group vertical>
       <bs-dropdown placement="right">
         <bs-button type="primary">Top Dropdown</bs-button>
-        <template #dropdown-content>
+        <template #content>
           <bs-dropdown-item>Html</bs-dropdown-item>
           <bs-dropdown-item>Css</bs-dropdown-item>
           <bs-dropdown-item>Javascript</bs-dropdown-item>
@@ -27,7 +27,7 @@ Set the `vertical` attribute to make a group of buttons arranged vertically inst
       <bs-button type="success">success</bs-button>
       <bs-dropdown placement="right">
         <bs-button type="primary">Centro Dropdown</bs-button>
-        <template #dropdown-content>
+        <template #content>
           <bs-dropdown-item>Html</bs-dropdown-item>
           <bs-dropdown-item>Css</bs-dropdown-item>
           <bs-dropdown-item>Javascript</bs-dropdown-item>
@@ -36,7 +36,7 @@ Set the `vertical` attribute to make a group of buttons arranged vertically inst
       <bs-button type="warning">warning</bs-button>
       <bs-dropdown placement="right">
         <bs-button type="primary">Bottom Dropdown</bs-button>
-        <template #dropdown-content>
+        <template #content>
           <bs-dropdown-item>Html</bs-dropdown-item>
           <bs-dropdown-item>Css</bs-dropdown-item>
           <bs-dropdown-item>Javascript</bs-dropdown-item>
