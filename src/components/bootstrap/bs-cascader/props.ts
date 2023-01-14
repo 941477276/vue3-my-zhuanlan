@@ -136,5 +136,9 @@ export const bsCascaderProps = {
     type: Boolean,
     default: false
   },
+  dropdownClass: { // 下拉菜单名称
+    type: [String, Object, Array],
+    default: ''
+  },
   ...cascaderMenuProps
 };

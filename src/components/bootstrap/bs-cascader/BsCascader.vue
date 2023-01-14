@@ -35,7 +35,8 @@
         :reference-ref="triggerRef"
         :try-all-placement="false"
         :set-width="setDropdownWidth"
-        :set-min-width="setDropdownMinWidth || loading || (!loading && options.length == 0)">
+        :set-min-width="setDropdownMinWidth || loading || (!loading && options.length == 0)"
+        :will-visible="dropdownWillVisible">
         <div
           v-show="dropdownVisible"
           ref="bsSelectDropdownRef"
@@ -46,7 +47,8 @@
           :data-for-cascader="cascaderId">
           <div
             ref="cascaderMenusRef"
-            class="bs-cascader-panel">
+            class="bs-cascader-panel"
+            :class="dropdownClass">
             <template v-if="!loading && options.length > 0">
               <BsCascaderMenu
                 v-for="(menuItem, index) in expandedMenus"
@@ -216,6 +218,7 @@ export default defineComponent({
     let {
       isFocus,
       dropdownDisplayed,
+      dropdownWillVisible,
       dropdownVisible,
 
       dropdownShow,
@@ -420,6 +423,7 @@ export default defineComponent({
       isFocus,
       cascaderId,
       dropdownDisplayed,
+      dropdownWillVisible,
       dropdownVisible,
       optionItems,
       viewText,
