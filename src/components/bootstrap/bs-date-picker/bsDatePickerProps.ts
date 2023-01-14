@@ -96,8 +96,8 @@ export const bsDatePickerProps = {
     type: Function,
     default: null
   },
-  dropdownClassName: { // 下拉弹窗的额外classname
-    type: String,
+  dropdownClass: { // 下拉弹窗的额外classname
+    type: [String, Object, Array],
     default: ''
   },
   datePanelProps: { // 日期选择器props

@@ -13,7 +13,7 @@
     :disabled="disabled"
     :id="bsTimePickerId"
     :set-min-width="true"
-    :dropdown-class-name="dropdownClassName"
+    :dropdown-name="dropdownClass"
     @update:inputModelValue="hanleInputModelValueChange"
     @input="onInput"
     @blur="onInputBlur"
@@ -109,8 +109,8 @@ export default defineComponent({
         return true;
       }
     },
-    dropdownClassName: { // 下拉弹窗的额外classname
-      type: String,
+    dropdownClass: { // 下拉弹窗的额外classname
+      type: [String, Object, Array],
       default: ''
     }
   },

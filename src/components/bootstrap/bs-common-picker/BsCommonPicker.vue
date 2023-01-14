@@ -36,6 +36,7 @@
       :reference-ref="triggerRef"
       :try-all-placement="false"
       :set-min-width="setMinWidth"
+      :will-visible="willVisible"
       @before-enter="$emit('show')"
       @after-enter="$emit('shown')"
       @after-leave="$emit('hidden')">
@@ -43,7 +44,7 @@
         ref="bsPickerDropdownRef"
         v-show="visible"
         class="bs-picker-dropdown"
-        :class="dropdownClassName">
+        :class="dropdownClass">
         <div class="bs-picker-panel-container">
           <slot></slot>
         </div>
@@ -132,8 +133,8 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
-    dropdownClassName: { // 下拉弹窗的额外classname
-      type: String,
+    dropdownClass: { // 下拉弹窗的额外classname
+      type: [String, Object, Array],
       default: ''
     }
   },
@@ -149,6 +150,7 @@ export default defineComponent({
     // 下拉元素
     let bsPickerDropdownRef = ref<HTMLElement|null>(null);
     let display = ref(false);
+    let willVisible = ref(false);
     let visible = ref(false);
     let showDropdown = function (flag = true) {
       if (props.disabled) {
@@ -161,11 +163,25 @@ export default defineComponent({
       if (!display.value) {
         display.value = true;
         nextTick(function () {
-          visible.value = true;
+          // willVisible必须比visible先行，以能确保dropdown-transition组件正确的计算过渡动画名称
+          willVisible.value = true;
+          // 第一次的时候需等待dom初始化完成再显示出来
+          let timer = setTimeout(function () {
+            clearTimeout(timer);
+            visible.value = true;
+          }, 20);
         });
       } else {
-        visible.value = true;
+        willVisible.value = true;
+        let timer = setTimeout(function () {
+          clearTimeout(timer);
+          visible.value = true;
+        }, 0);
       }
+    };
+    let hideDropdown = function () {
+      willVisible.value = false;
+      visible.value = false;
     };
     // 给触发元素绑定点击事件
     watch(() => triggerRef.value, function (el) {
@@ -178,7 +194,7 @@ export default defineComponent({
       if (flag && visible.value) {
         console.log('【<bs-common-picker>组件】检测到点击了picker外面');
 
-        visible.value = false;
+        hideDropdown();
       }
     });
 
@@ -202,6 +218,7 @@ export default defineComponent({
       bsPickerDropdownRef,
       bsInputRef,
       display,
+      willVisible,
       visible,
       triggerRef,
       bsCommonPickerId,
@@ -212,6 +229,7 @@ export default defineComponent({
 
       setValidateStatus,
       showDropdown,
+      hideDropdown,
       focus () {
         (bsInputRef.value as any)?.focus();
       },
