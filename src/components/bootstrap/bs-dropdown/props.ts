@@ -1,6 +1,6 @@
 import { PropType } from 'vue';
 import { BsPlacement } from '@/ts-tokens/bootstrap';
-export type BsDropdownTrigger = 'click' | 'hover';
+export type BsDropdownTrigger = 'click' | 'hover' | 'contextMenu';
 
 export const bsDropdownProps = {
   teleported: { // 是否使用 teleport。设置成 true则会被追加到 append-to 的位置

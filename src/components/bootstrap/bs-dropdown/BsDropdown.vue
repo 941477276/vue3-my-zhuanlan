@@ -36,9 +36,7 @@ import {
   ref,
   reactive,
   defineComponent,
-  onMounted,
   nextTick,
-  onBeforeUnmount,
   watch,
   Ref,
   computed
@@ -88,8 +86,6 @@ export default defineComponent({
       position: 'absolute',
       zIndex: ''
     });
-    let toggleEl: HTMLElement|null; // 触发下拉菜单显示/隐藏的dom元素
-
     let displayDirection = ref(props.placement);
     let transitionLeaveDone = ref(false); // 过渡动画是否执行完毕
     let display = computed(function () {
@@ -100,7 +96,6 @@ export default defineComponent({
       return !props.lazy || loaded.value;
     });
 
-    let isClickOutside = useClickOutside([dropdownRef, dropdownMenuRef]); // 是否点击了下拉菜单的外面
     let { nextZIndex } = useZIndex();
 
     let showTimer: number;
@@ -188,42 +183,72 @@ export default defineComponent({
       }
       hide();
     };
+    let onContextMenu = function (evt: MouseEvent) {
+      if (props.disabled) {
+        return;
+      }
+      if (evt.preventDefault) {
+        evt.preventDefault();
+      } else {
+        // @ts-ignore
+        window.event.returnValue = false;
+      }
+      show();
+    };
 
-    let stopWatchClickOutside = watch(isClickOutside, (newVal: Ref) => {
-      // console.log('watch isClickOutside', newVal);
+    // 判断是否点击了下拉菜单的外面
+    useClickOutside([dropdownRef, dropdownMenuRef], (newVal: boolean) => {
       if (newVal) {
         hide();
       }
     });
 
-    watch(() => triggerRef.value, (triggerEl) => {
-      toggleEl = triggerEl;
-      if (triggerEl) {
-        if (props.showDropdownToggleArrow) {
-          addClass(triggerEl, 'dropdown-toggle');
-        }
-        triggerEl.addEventListener('click', clickEvent, false);
-        triggerEl.addEventListener('mouseenter', onMouseEnter, false);
-        triggerEl.addEventListener('mouseleave', onMouseLeave, false);
-      }
-    }, { immediate: true });
-
-    watch([() => props.showToggleArrow, triggerRef], function ([isShow, triggerEl]) {
-      console.log('isShow', isShow, triggerEl);
+    watch([() => props.trigger, triggerRef], ([trigger, triggerEl], [oldTrigger]) => {
+      console.log('[dropdown] watch trigger:', trigger, oldTrigger, triggerEl);
       if (!triggerEl) {
         return;
       }
-      if (isShow) {
+      if (props.showToggleArrow) {
         addClass(triggerEl, 'dropdown-toggle');
+        // @ts-ignore
+        triggerEl._bs_add_arrow_class = true;
       } else {
-        removeClass(triggerEl, 'dropdown-toggle');
+        // @ts-ignore
+        if (triggerEl._bs_add_arrow_class) {
+          removeClass(triggerEl, 'dropdown-toggle');
+          // @ts-ignore
+          triggerEl._bs_add_arrow_class = false;
+        }
       }
-    });
-
-    onBeforeUnmount(() => {
-      stopWatchClickOutside();
-      toggleEl = null;
-    });
+      // @ts-ignore
+      if (triggerEl._bs_dropdown_eventBinded && (trigger === oldTrigger)) {
+        return;
+      }
+      // @ts-ignore
+      if (triggerEl._bs_dropdown_eventBinded) {
+        // console.log('先移除事件');
+        // 先移除事件
+        triggerEl.removeEventListener('mouseenter', onMouseEnter, false);
+        triggerEl.removeEventListener('mouseleave', onMouseEnter, false);
+        triggerEl.removeEventListener('contextmenu', onMouseEnter, false);
+        triggerEl.removeEventListener('click', onMouseEnter, false);
+      }
+      // console.log('绑定事件');
+      // 再绑定事件
+      switch (trigger) {
+        case 'hover':
+          triggerEl.addEventListener('mouseenter', onMouseEnter, false);
+          triggerEl.addEventListener('mouseleave', onMouseLeave, false);
+          break;
+        case 'contextMenu':
+          triggerEl.addEventListener('contextmenu', onContextMenu, false);
+          break;
+        default:
+          triggerEl.addEventListener('click', clickEvent, false);
+      }
+      // @ts-ignore
+      triggerEl._bs_dropdown_eventBinded = true;
+    }, { immediate: true });
 
     return {
       display,
@@ -232,7 +257,6 @@ export default defineComponent({
       loaded,
       dropdownRef,
       dropdownMenuRef,
-      isClickOutside,
       dropdownMenuStyle,
       displayDirection,
       transitionLeaveDone,
