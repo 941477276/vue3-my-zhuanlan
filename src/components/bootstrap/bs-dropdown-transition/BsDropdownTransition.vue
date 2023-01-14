@@ -31,6 +31,7 @@
 
 <script lang="ts">
 import {
+  PropType,
   defineComponent,
   reactive,
   onMounted,
@@ -46,7 +47,7 @@ import {
   scrollTop,
   isFunction
 } from '@/common/bs-util';
-import { getDropdownDirection } from './useDropdownDirection';
+import { getDropdownDirection, DropdownOffset } from './useDropdownDirection';
 import { useGlobalEvent } from '@/hooks/useGlobalEvent';
 import { StringKeyObject } from '@/ts-tokens/bootstrap';
 
@@ -93,6 +94,10 @@ export default defineComponent({
     },
     customStyle: { // 自定义下拉菜单style
       type: Function,
+      default: null
+    },
+    offset: { // 下拉菜单距参照元素的偏移量
+      type: Object as PropType<DropdownOffset>,
       default: null
     }
   },
@@ -142,7 +147,7 @@ export default defineComponent({
       let referenceElRect = referenceEl.getBoundingClientRect();
       // console.log('referenceElRect', referenceElRect);
 
-      let displayDirection: any = getDropdownDirection(referenceEl, targetEl, props.placement, props.tryAllPlacement);
+      let displayDirection: any = getDropdownDirection(referenceEl, targetEl, props.placement, props.tryAllPlacement, props.offset);
       let bottom = displayDirection.bottom;
       let direction = displayDirection.direction;
       if (transitionName.value == 'bs-zoom') {

@@ -14,14 +14,22 @@ import {
 
 let documentNodeNames = ['HTML', 'BODY'];
 
+export interface DropdownOffset {
+  top?: number;
+  left?: number;
+  // bottom?: number;
+  // right?: number;
+}
+
 /**
  * 计算绝对定位元素能完全出现在视口的展示方位
  * @param referenceEl 参照元素
  * @param targetEl 目标元素
  * @param defaultDirection 默认方向，支持top、bottom、left、right
  * @param tryAllDirection 当切换到defaultDirection对应的反方向目标元素也不能完全出现在视口时是否尝试切换其他方向
+ * @param dropdownOffset 下拉菜单距参照元素的偏移量
  */
-export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLElement, defaultDirection: string, tryAllDirection = false) {
+export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLElement, defaultDirection: string, tryAllDirection = false, dropdownOffset?: DropdownOffset) {
   if (!referenceEl || !targetEl || !defaultDirection) {
     throw new Error('缺少referenceEl, targetEl, defaultDirection其中的某个参数');
   }
@@ -119,6 +127,9 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
   targetElRect.height = Math.round(targetElRect.height / Math.abs(targetElTransform.scaleY));
   // console.log('计算scale后的宽高', {width: targetElRect.width, height: targetElRect.height});
 
+  var dropdownOffsetTop = dropdownOffset?.top || 0;
+  var dropdownOffsetLeft = dropdownOffset?.left || 0;
+
   var calcedDirection = null;
   var directionCalcFlow = []; // 存储按流程计算方向的函数，当下拉菜单在某个方向上不能完全展示时会自动切换一个方向
   var handleBottom = function (isBottomRight: boolean) {
@@ -128,6 +139,8 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     var left = isBottomRight ? Math.floor(referenceOffset.left - (targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0) - (targetElRect.width - referenceRect.width)) : (referenceOffset.left - (targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0));
     // console.log('handleBottom,-----------', referenceOffset.left, targetElRect.width,referenceRect.width);
     // var isInView = eleIsInView(targetEl, top, left, needSubtractScrollOffset);
+    top += dropdownOffsetTop;
+    left += dropdownOffsetLeft;
     var isInView = eleIsInView({
       ele: targetEl,
       top,
@@ -154,6 +167,8 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
         newLeft += scrollInfo.left;
       }
     }
+    newTop -= dropdownOffsetTop;
+    newLeft -= dropdownOffsetLeft;
     return {
       ...isInView,
       direction: isBottomRight ? 'bottomRight' : 'bottom',
@@ -166,6 +181,8 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     var top = referenceOffset.top - targetElRect.height - (targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0);
     var left = isTopRight ? Math.floor(referenceOffset.left - (targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0) - (targetElRect.width - referenceRect.width - (targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0))) : referenceOffset.left;
     // var isInView = eleIsInView(targetEl, top, left, needSubtractScrollOffset);
+    top += dropdownOffsetTop;
+    left += dropdownOffsetLeft;
     var isInView = eleIsInView({
       ele: targetEl,
       top,
@@ -202,6 +219,8 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
         newLeft += scrollInfo.left;
       }
     }
+    newTop -= dropdownOffsetTop;
+    newLeft -= dropdownOffsetLeft;
     return {
       ...isInView,
       direction: isTopRight ? 'topRight' : 'top',
@@ -225,7 +244,8 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
         bottom = targetElOffsetParent.offsetHeight - (referenceOffset.top + referenceRect.height - targetElOffsetParentOffset.top);// + referenceElWrapperScrollTop;
       }
     }
-
+    top += dropdownOffsetTop;
+    left += dropdownOffsetLeft;
     // var isInView = eleIsInView(targetEl, top, left, needSubtractScrollOffset);
     var isInView = eleIsInView({
       ele: targetEl,
@@ -256,6 +276,8 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
         newLeft += scrollInfo.left;
       }
     }
+    newTop -= dropdownOffsetTop;
+    newLeft -= dropdownOffsetLeft;
     // console.log('handleTop handleLeft', isInView);
     return {
       ...isInView,
@@ -281,6 +303,8 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       }
     }
 
+    top += dropdownOffsetTop;
+    left += dropdownOffsetLeft;
     // var isInView = eleIsInView(targetEl, top, left, needSubtractScrollOffset);
     var isInView = eleIsInView({
       ele: targetEl,
@@ -311,6 +335,8 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
         newLeft += scrollInfo.left;
       }
     }
+    newTop -= dropdownOffsetTop;
+    newLeft -= dropdownOffsetLeft;
     // console.log('handleTop handleRight', isInView);
     return {
       ...isInView,

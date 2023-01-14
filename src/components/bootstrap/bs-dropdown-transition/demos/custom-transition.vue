@@ -27,7 +27,8 @@ Set the `custom-transition-name` attribute to customize the transition name, whi
         :will-visible="willVisible"
         :reference-ref="referenceRef"
         :custom-transition-name="getTransitionName"
-        :custom-style="getStyle">
+        :custom-style="getStyle"
+        :offset="{ top: 5.36, left: 5.36 }">
         <ul
           v-show="show"
           class="my-custom-dropdown"
