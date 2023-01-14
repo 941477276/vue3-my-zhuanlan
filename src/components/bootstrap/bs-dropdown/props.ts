@@ -43,8 +43,8 @@ export const bsDropdownProps = {
     type: Boolean,
     default: false
   },
-  dropdownMenuClass: { // .dropdown-menu的额外class
-    type: String,
+  dropdownClass: { // .dropdown-menu的额外class
+    type: [String, Object, Array],
     default: ''
   }
 };

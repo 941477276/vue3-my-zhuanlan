@@ -18,9 +18,7 @@
           v-show="visible"
           ref="dropdownMenuRef"
           class="bs-dropdown-menu dropdown-menu"
-          :class="[
-            dropdownMenuClass
-          ]"
+          :class="dropdownClass"
           :style="{
             zIndex: dropdownMenuStyle.zIndex
           }"
