@@ -35,7 +35,7 @@ export const bsDropdownProps = {
     type: Boolean,
     default: true
   },
-  addDropdownToggleClass: { // 是否给触发下拉菜单元素添加 dropdown-toggle 类名
+  showToggleArrow: { // 是否显示触发下拉菜单元素向下三角
     type: Boolean,
     default: true
   },

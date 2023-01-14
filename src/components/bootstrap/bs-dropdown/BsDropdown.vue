@@ -47,6 +47,7 @@ import BsOnlyChild from '../bs-slot/BsOnlyChild.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
 import {
   addClass,
+  removeClass,
   eleIsInFixedParents
 } from '@/common/bs-util';
 import { useClickOutside } from '@/hooks/useClickOutside';
@@ -195,23 +196,32 @@ export default defineComponent({
       }
     });
 
-    let stopWatchTriggerRef: () => void;
-    onMounted(() => {
-      stopWatchTriggerRef = watch(() => triggerRef.value, (triggerEl) => {
-        toggleEl = triggerEl;
-        if (triggerEl) {
-          if (props.addDropdownToggleClass) {
-            addClass(triggerEl, 'dropdown-toggle');
-          }
-          triggerEl.addEventListener('click', clickEvent, false);
-          triggerEl.addEventListener('mouseenter', onMouseEnter, false);
-          triggerEl.addEventListener('mouseleave', onMouseLeave, false);
+    watch(() => triggerRef.value, (triggerEl) => {
+      toggleEl = triggerEl;
+      if (triggerEl) {
+        if (props.showDropdownToggleArrow) {
+          addClass(triggerEl, 'dropdown-toggle');
         }
-      }, { immediate: true });
+        triggerEl.addEventListener('click', clickEvent, false);
+        triggerEl.addEventListener('mouseenter', onMouseEnter, false);
+        triggerEl.addEventListener('mouseleave', onMouseLeave, false);
+      }
+    }, { immediate: true });
+
+    watch([() => props.showToggleArrow, triggerRef], function ([isShow, triggerEl]) {
+      console.log('isShow', isShow, triggerEl);
+      if (!triggerEl) {
+        return;
+      }
+      if (isShow) {
+        addClass(triggerEl, 'dropdown-toggle');
+      } else {
+        removeClass(triggerEl, 'dropdown-toggle');
+      }
     });
+
     onBeforeUnmount(() => {
       stopWatchClickOutside();
-      stopWatchTriggerRef();
       toggleEl = null;
     });
 
