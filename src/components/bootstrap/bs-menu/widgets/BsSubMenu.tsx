@@ -50,8 +50,8 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
-    dropdownClassname: { // 下拉子菜单的样式
-      type: String,
+    dropdownClass: { // 下拉子菜单的样式
+      type: [String, Object, Array],
       default: ''
     }
   },
@@ -515,7 +515,7 @@ export default defineComponent({
             data-submenu-path={this.submenuPath}
             class={['bs-submenu-content', 'bs-submenu-content-dropdown', /* {
               'bs-submenu-content-dropdown': this.menuRootProps.subMenuDisplayMode == 'dropdown'
-            }, */ this.dropdownClassname]}>
+            }, */ this.dropdownClass]}>
             { slots.default && slots.default() }
           </ul>
         </BsDropdownTransition>
