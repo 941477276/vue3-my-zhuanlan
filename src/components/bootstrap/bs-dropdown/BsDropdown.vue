@@ -203,8 +203,7 @@ export default defineComponent({
       }
     });
 
-    watch([() => props.trigger, triggerRef], ([trigger, triggerEl], [oldTrigger]) => {
-      console.log('[dropdown] watch trigger:', trigger, oldTrigger, triggerEl);
+    let addToggleArrowClass = function (triggerEl: HTMLElement) {
       if (!triggerEl) {
         return;
       }
@@ -220,6 +219,13 @@ export default defineComponent({
           triggerEl._bs_add_arrow_class = false;
         }
       }
+    };
+    watch([() => props.trigger, triggerRef], ([trigger, triggerEl], [oldTrigger]) => {
+      // console.log('[dropdown] watch trigger:', trigger, oldTrigger, triggerEl);
+      if (!triggerEl) {
+        return;
+      }
+      addToggleArrowClass(triggerEl);
       // @ts-ignore
       if (triggerEl._bs_dropdown_eventBinded && (trigger === oldTrigger)) {
         return;
@@ -249,6 +255,10 @@ export default defineComponent({
       // @ts-ignore
       triggerEl._bs_dropdown_eventBinded = true;
     }, { immediate: true });
+
+    watch(() => props.showToggleArrow, function () {
+      addToggleArrowClass(triggerRef.value!);
+    });
 
     return {
       display,
