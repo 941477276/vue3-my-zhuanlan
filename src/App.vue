@@ -21,9 +21,9 @@
     <!--<div class="box">
       <BsCheckboxGroupUsage></BsCheckboxGroupUsage>
     </div>-->
-    <!--<div class="box">
+    <div class="box">
       <BsSelectUsage></BsSelectUsage>
-    </div>-->
+    </div>
     <!--<div class="box">
       <BsFormUsage></BsFormUsage>
     </div>-->
@@ -100,9 +100,9 @@
     <!--<div class="box">
       <BsTreeUsage></BsTreeUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsTreeSelectUsage></BsTreeSelectUsage>
-    </div>
+    </div>-->
     <!--<div class="box">
       <BsInputTagsUsage></BsInputTagsUsage>
     </div>-->

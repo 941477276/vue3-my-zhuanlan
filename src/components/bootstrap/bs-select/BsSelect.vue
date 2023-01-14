@@ -52,15 +52,16 @@
         :reference-ref="bsSelectRef"
         :try-all-placement="false"
         :set-width="true"
+        :will-visible="dropdownWillVisible"
         @after-enter="onDropdownVisibleChange(true, $event)"
         @after-leave="onDropdownVisibleChange(false, $event)">
         <div
           v-show="dropdownVisible"
           ref="bsSelectDropdownRef"
           class="bs-select-dropdown"
-          :class="{
+          :class="[{
             'is-multiple': multiple
-          }"
+          }, dropdownClass]"
           :data-for-select="selectId">
           <ul class="bs-select-option-list">
             <template v-if="options && Array.isArray(options)">
@@ -165,6 +166,7 @@ export default defineComponent({
     let isFocus = ref(false);
     let selectId = ref(props.id || `bs-select_${++selectCount}`);
     let dropdownDisplayed = ref(false); // 下拉菜单是否已经渲染
+    let dropdownWillVisible = ref(false); // 下拉菜单是否即将显示
     let dropdownVisible = ref(false); // 下拉菜单是否显示
     let optionItems = ref<SelectOptionItem[]>([]); // 存储option的label及value
 
@@ -187,11 +189,15 @@ export default defineComponent({
       if (props.disabled) {
         return;
       }
-      dropdownVisible.value = true;
-      if (!props.loading) {
-        isFocus.value = true;
-        (bsSelectInputRef.value as any)?.focus();
-      }
+      dropdownWillVisible.value = true;
+      let timer = setTimeout(function () {
+        clearTimeout(timer);
+        dropdownVisible.value = true;
+        if (!props.loading) {
+          isFocus.value = true;
+          (bsSelectInputRef.value as any)?.focus();
+        }
+      }, 0);
     };
     /**
      * 隐藏下拉菜单
@@ -200,6 +206,7 @@ export default defineComponent({
       // 延迟一会隐藏下拉菜单是因为为了等待背景色改变后再隐藏
       let timer = setTimeout(function () {
         clearTimeout(timer);
+        dropdownWillVisible.value = false;
         dropdownVisible.value = false;
         isFocus.value = false;
         (bsSelectInputRef.value as any)?.blur();
@@ -399,6 +406,7 @@ export default defineComponent({
       isFocus,
       selectId,
       dropdownDisplayed,
+      dropdownWillVisible,
       dropdownVisible,
       optionItems,
       nativeSelectModel,
