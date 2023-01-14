@@ -16,15 +16,17 @@ A `reference-ref` attribute needs to be passed to `bs-dropdown-transition`, and 
 
 <template>
   <div>
-    <bs-button ref="referenceRef" type="primary" @click="show = !show">{{ show ? 'Hide' : 'Show' }} custom dropdown</bs-button>
+    <bs-button ref="referenceRef" type="primary" @click="showDropdown">{{ show ? 'Hide' : 'Show' }} custom dropdown</bs-button>
     <bs-button type="primary" @click="allowTeleport = true">Teleport to body</bs-button>
 
     <teleport :disabled="!allowTeleport" to="body">
-      <bs-dropdown-transition :reference-ref="referenceRef">
+      <bs-dropdown-transition
+        :will-visible="willVisible"
+        :reference-ref="referenceRef">
         <ul
           v-show="show"
           class="my-custom-dropdown"
-          @click="onDropdownClick">
+          @click="showDropdown">
           <li>Html</li>
           <li>Javascript</li>
           <li>Css</li>
@@ -37,12 +39,18 @@ A `reference-ref` attribute needs to be passed to `bs-dropdown-transition`, and 
 <script setup>
 import { ref } from 'vue';
 
+let willVisible = ref(false);
 let show = ref(false);
 let allowTeleport = ref(false);
 
 let referenceRef = ref();
-let onDropdownClick = function () {
-  show.value = !show.value;
+let showDropdown = function () {
+  // willVisible必须比show先行，这样才能确保<dropdown-transition>组件正确的计算过渡动画名称
+  willVisible.value = !willVisible.value;
+  let timer = setTimeout(function () {
+    clearTimeout(timer);
+    show.value = !show.value;
+  }, 0);
 };
 </script>
 

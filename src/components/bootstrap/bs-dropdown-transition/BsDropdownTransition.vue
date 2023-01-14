@@ -1,6 +1,7 @@
 <template>
   <transition
-    name="bs-slide"
+    ref="targetRef"
+    :name="transitionName"
     @before-enter="$emit('before-enter', $event)"
     @enter="onEnter"
     @after-enter="$emit('after-enter', $event)"
@@ -18,6 +19,7 @@
       position: position,
       ...(setWidth ? { width: dropdownStyle.width + 'px' } : {}),
       ...(setMinWidth ? { minWidth: dropdownStyle.width + 'px' } : {}),
+      ...transitionOrigin,
       left: dropdownStyle.left + 'px',
       top: dropdownStyle.bottom == (void 0) ? (dropdownStyle.top + 'px') : 'auto',
       bottom: dropdownStyle.bottom != (void 0) ? (dropdownStyle.bottom + 'px') : ''
@@ -32,7 +34,8 @@ import {
   reactive,
   onMounted,
   onBeforeMount,
-  ref
+  ref,
+  watch
 } from 'vue';
 import { NOOP, isObject } from '@vue/shared';
 import {
@@ -43,6 +46,7 @@ import {
 } from '@/common/bs-util';
 import { getDropdownDirection } from './useDropdownDirection';
 import { useGlobalEvent } from '@/hooks/useGlobalEvent';
+import { StringKeyObject } from '@/ts-tokens/bootstrap';
 
 export default defineComponent({
   name: 'BsDropdownTransition',
@@ -56,6 +60,14 @@ export default defineComponent({
     placement: { // 下拉菜单展示方位
       type: String,
       default: 'bottom'
+    },
+    willVisible: { // 下拉菜单是否即将显示/隐藏
+      type: Boolean,
+      default: false
+    },
+    useZoomTransition: { // 是否使用zoom过渡效果
+      type: Boolean,
+      default: false
     },
     tryAllPlacement: { // 默认是否尝试所有方位
       type: Boolean,
@@ -89,7 +101,19 @@ export default defineComponent({
     // 参照元素有滚动条的父级节点
     let referenceScrollParent: HTMLElement|undefined;
     let isVisible = ref(false);
+    let transitionName = ref('');
+    let targetRef = ref<HTMLElement|null>(null);
     let documentNodeNames = ['HTML', 'BODY'];
+    let zoomTransitionOrigin: StringKeyObject = {
+      top: '0 100%',
+      topRight: '100% 100%',
+      bottom: '0 0',
+      bottomRight: '100% 0',
+      left: '100% 0',
+      leftBottom: '100% 100%',
+      right: '0 0',
+      rightBottom: '0 100%'
+    };
 
     // 刷新定位
     let refresh = function () {
@@ -108,12 +132,63 @@ export default defineComponent({
 
       let displayDirection: any = getDropdownDirection(referenceEl, targetEl, props.placement, props.tryAllPlacement);
       let bottom = displayDirection.bottom;
-      dropdownStyle.direction = displayDirection.direction;
+      let direction = displayDirection.direction;
+      if (transitionName.value == 'bs-zoom') {
+        let origin = zoomTransitionOrigin[direction];
+        transitionOrigin.value = {
+          'transform-origin': origin,
+          '-ms-transform-origin': origin,
+          '-webkit-transform-origin': origin
+        };
+      } else {
+        transitionOrigin.value = {};
+      }
+      dropdownStyle.direction = direction;
       dropdownStyle.width = referenceElRect.width;
       dropdownStyle.top = isUndefined(bottom) ? displayDirection.top : null;
       dropdownStyle.left = displayDirection.left;
       dropdownStyle.bottom = isUndefined(bottom) ? null : displayDirection.bottom;
     };
+
+    let slideUpTransitionPlacements = ['top', 'topRight'];
+    let slideDownTransitionPlacements = ['bottom', 'bottomRight'];
+    let transitionOrigin = ref<any>({});
+    // 监听willVisible，在下拉菜单显示出来前计算出下拉菜单显示位置，如过useZoomTransition为true可以略过
+    watch(() => props.willVisible, function (isVisible) {
+      console.log('watch willVisible');
+      if (props.useZoomTransition) {
+        transitionName.value = 'bs-zoom';
+        console.log('-----sssssss------');
+
+        return;
+      }
+      if (!isVisible) {
+        console.log('-----12322323------');
+        return;
+      }
+      let referenceRef = props.referenceRef;
+      let referenceEl: HTMLElement|null = null;
+      if (!referenceRef) {
+        console.log('-------------');
+        return;
+      }
+      if (referenceRef.nodeName) {
+        referenceEl = referenceRef;
+      } else if (isObject(referenceRef) && referenceRef.$el) {
+        referenceEl = referenceRef.$el;
+      }
+      let displayDirection: any = getDropdownDirection(referenceEl!, targetRef.value!, props.placement, props.tryAllPlacement);
+      let direction = displayDirection.direction;
+
+      if (slideUpTransitionPlacements.includes(direction)) {
+        transitionName.value = 'bs-slide-up';
+      } else if (slideDownTransitionPlacements.includes(direction)) {
+        transitionName.value = 'bs-slide-down';
+      } else {
+        transitionName.value = 'bs-zoom';
+      }
+      console.log('transitionName', transitionName.value);
+    });
 
     let onEnter = function (el:HTMLElement, done: () => void) {
       // 延迟50毫秒是为了解决目标元素使用v-if控制后导致元素位置计算不准确问题
@@ -249,6 +324,9 @@ export default defineComponent({
 
     return {
       dropdownStyle,
+      transitionName,
+      transitionOrigin,
+      targetRef,
 
       onEnter,
       onLeave,

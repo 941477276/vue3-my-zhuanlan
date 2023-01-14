@@ -11,6 +11,7 @@
         v-if="display"
         @before-enter="transitionLeaveDone = false"
         @after-leave="transitionLeaveDone = true"
+        :will-visible="willVisible"
         :placement="placement"
         :reference-ref="triggerRef">
         <div
@@ -21,7 +22,6 @@
             dropdownMenuClass
           ]"
           :style="{
-            position: dropdownMenuStyle.position,
             zIndex: dropdownMenuStyle.zIndex
           }"
           @mouseenter="onMouseEnter"
@@ -78,6 +78,7 @@ export default defineComponent({
   setup (props: any, ctx: any) {
     let loaded = ref(false);
     let visible = ref(false);
+    let willVisible = ref(false);
     // 触发元素
     let triggerRef = ref<HTMLElement|null>(null);
     useForwardRef(triggerRef);
@@ -120,20 +121,32 @@ export default defineComponent({
             dropdownMenuStyle.zIndex = nextZIndex() + '';
           }
 
-          let toggleElIsInFixedContainer = eleIsInFixedParents(toggleEl as HTMLElement);
+          /* let toggleElIsInFixedContainer = eleIsInFixedParents(toggleEl as HTMLElement);
           if (toggleElIsInFixedContainer && props.teleported) {
             dropdownMenuStyle.position = 'fixed';
           } else {
             dropdownMenuStyle.position = 'absolute';
-          }
+          } */
 
           ctx.emit('show');
         };
+
         if (!loaded.value) {
           loaded.value = true;
-          nextTick(doShow);
+          nextTick(function () {
+            // willVisible必须比visible先行，以能确保dropdown-transition组件正确的计算过渡动画名称
+            willVisible.value = true;
+            // 第一次的时候需等待dom初始化完成再显示出来
+            let timer = setTimeout(function () {
+              clearTimeout(timer);
+              doShow();
+            }, 20);
+          });
         } else {
-          doShow();
+          let timer = setTimeout(function () {
+            clearTimeout(timer);
+            doShow();
+          }, 0);
         }
       }, props.trigger == 'click' ? 0 : 150);
     };
@@ -144,6 +157,7 @@ export default defineComponent({
       // 鼠标离开trigger el后不立即隐藏下拉菜单，因为有可能鼠标是移动到了下拉菜单本身中
       hideTimer = setTimeout(() => {
         clearTimeout(hideTimer);
+        willVisible.value = false;
         visible.value = false;
         if (props.destroyDropdownMenuOnHide) {
           loaded.value = false;
@@ -206,6 +220,7 @@ export default defineComponent({
     return {
       display,
       visible,
+      willVisible,
       loaded,
       dropdownRef,
       dropdownMenuRef,

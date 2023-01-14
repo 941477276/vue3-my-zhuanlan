@@ -366,7 +366,7 @@ export default defineComponent({
   setup (props: any) {
     let modalVisible = ref(false);
     let modalVisible2 = ref(false);
-    let drawerVisible = ref(true);
+    let drawerVisible = ref(false);
     return {
       modalVisible,
       modalVisible2,
