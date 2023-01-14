@@ -41,14 +41,13 @@
           v-show="dropdownVisible"
           ref="bsSelectDropdownRef"
           class="bs-cascader-dropdown"
-          :class="{
+          :class="[{
             'is-multiple': multiple
-          }"
+          }, dropdownClass]"
           :data-for-cascader="cascaderId">
           <div
             ref="cascaderMenusRef"
-            class="bs-cascader-panel"
-            :class="dropdownClass">
+            class="bs-cascader-panel">
             <template v-if="!loading && options.length > 0">
               <BsCascaderMenu
                 v-for="(menuItem, index) in expandedMenus"

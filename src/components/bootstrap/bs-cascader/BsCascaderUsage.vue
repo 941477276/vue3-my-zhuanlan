@@ -56,21 +56,6 @@
 
     <div>
       <hr>
-      <h3>自定义显示</h3>
-      <BsCascader
-        v-model="cascader1"
-        :filterable="false"
-        :multiple="false"
-        :show-all-levels="true"
-        :options="dataOptions1"
-        :emit-path="true"
-        :check-strictly="false">
-        <bs-button type="primary">点击我吧</bs-button>
-      </BsCascader>
-    </div>
-
-    <div>
-      <hr>
       <h3>自定义Tag</h3>
       <CustomTag></CustomTag>
     </div>
@@ -94,7 +79,6 @@ import {
   ref,
   defineComponent
 } from 'vue';
-import BsCascader from './BsCascader.vue';
 import Basic from './demos/basic.vue';
 import Multiple from './demos/multiple.vue';
 import ShowLastLevelOnly from './demos/show-last-level-only.vue';
@@ -109,7 +93,6 @@ import Size from './demos/size.vue';
 export default defineComponent({
   name: 'BsCascaderUsage',
   components: {
-    BsCascader,
     Basic,
     Multiple,
     ShowLastLevelOnly,
