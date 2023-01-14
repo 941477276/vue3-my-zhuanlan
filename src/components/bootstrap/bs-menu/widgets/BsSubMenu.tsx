@@ -180,6 +180,8 @@ export default defineComponent({
       hasMenuItemSelected.value = flag;
     }
 
+    // 子菜单是否即将显示
+    let submenuWillVisible = ref(false);
     // 子菜单是否显示
     let submenuVisible = ref(false);
     let submenuRendered = ref(false);
@@ -211,6 +213,10 @@ export default defineComponent({
         menuRootCtx?.handChildSubmenuExpand(expandedMenuInfo, flag);
       }
       let triggerType = menuRootProps.value.triggerType;
+      // 向外抛出openChange事件
+      let emitParent = function (flag: boolean) {
+        menuRootCtx?.emit('openChange', currentKeyIndex.value, flag, keyIndexPath.value);
+      };
       if (flag) {
         // console.log('menuRootProps.value.triggerType', menuRootProps.value.triggerType);
         if (triggerType === 'hover') {
@@ -226,16 +232,26 @@ export default defineComponent({
         parentSubmenuCtx?.handleChildSubmenuShrink(subMenuId);
       }
 
-      let emitParent = function (flag: boolean) {
-        menuRootCtx?.emit('openChange', currentKeyIndex.value, flag, keyIndexPath.value);
-      };
       if (flag && !submenuTeleported.value && menuRootProps.value.subMenuDisplayMode == 'dropdown') {
         submenuTeleported.value = true;
-        nextTick(function () {
+        /* submenuWillVisible.value = true;
+        let timer = setTimeout(function () {
+          clearTimeout(timer);
           submenuVisible.value = flag as boolean;
           emitParent(flag as boolean);
-        });
+        }, 0); */
+      }
+
+      let newFlag = flag as boolean;
+      if (newFlag) {
+        submenuWillVisible.value = true;
+        let timer = setTimeout(function () {
+          clearTimeout(timer);
+          submenuVisible.value = newFlag;
+          emitParent(newFlag);
+        }, 0);
       } else {
+        submenuWillVisible.value = false;
         submenuVisible.value = flag;
         emitParent(flag);
       }
@@ -370,6 +386,7 @@ export default defineComponent({
     watch(() => menuRootCtx?.props.collapse, function (collapsed) {
       // 若菜单被收起来了，则隐藏子菜单，否则鼠标移到子菜单标题的时候子菜单无法显示出来
       if (collapsed) {
+        submenuWillVisible.value = false;
         submenuVisible.value = false;
       }
     });
@@ -449,6 +466,7 @@ export default defineComponent({
       keyIndexPath,
       paddingLeft,
       menuRootProps,
+      submenuWillVisible,
       submenuVisible,
       submenuRendered,
       bsSubmenuTitleRef,
@@ -481,13 +499,14 @@ export default defineComponent({
     };
     // 下拉展开子菜单
     let createDropdownTransition = () => {
-      return <Teleport to="body">
+      return <Teleport to="body" disabled={!this.submenuTeleported}>
         <BsDropdownTransition
           placement={this.dropdownTransitionPlacement}
           reference-ref={this.bsSubmenuTitleRef}
           try-all-placement={false}
           set-width={this.menuRootProps.mode == 'horizontal'}
           set-min-width={false}
+          will-visible={this.submenuWillVisible}
           // @ts-ignore
           onAfterEnter={ () => { this.$emit('expand', this.comId); } }>
           <ul
