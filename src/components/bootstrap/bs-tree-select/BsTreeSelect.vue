@@ -46,10 +46,10 @@
           v-show="dropdownVisible"
           ref="bsSelectDropdownRef"
           class="bs-tree-select-dropdown"
-          :class="{
+          :class="[{
             'checkbox-hidden': multiple && !checkboxVisible,
             'radio-hidden': !multiple && !radioVisible
-          }">
+          }, dropdownClass]">
           <BsTree
             ref="treeRef"
             v-bind="treeProps"

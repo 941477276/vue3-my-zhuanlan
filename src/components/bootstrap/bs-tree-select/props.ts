@@ -161,5 +161,9 @@ export const bsTreeSelectProps = {
   tagCloseable: { // tag是否可关闭
     type: Boolean,
     default: true
+  },
+  dropdownClass: { // .dropdown-menu的额外class
+    type: [String, Object, Array],
+    default: ''
   }
 };
