@@ -40,7 +40,8 @@
         placement="bottom"
         :reference-ref="bsTreeSelectRef"
         :try-all-placement="false"
-        :set-width="true">
+        :set-width="true"
+        :will-visible="dropdownWillVisible">
         <div
           v-show="dropdownVisible"
           ref="bsSelectDropdownRef"
@@ -110,6 +111,7 @@ export default defineComponent({
     let isFocus = ref(false);
     let selectId = ref(props.id || `bs-tree-select_${++treeSelectCount}`);
     let dropdownDisplayed = ref(false); // 下拉菜单是否已经渲染
+    let dropdownWillVisible = ref(false); // 下拉菜单是否即将显示
     let dropdownVisible = ref(false); // 下拉菜单是否显示
     let treeRef = ref(null);
     let dropdownTransitionRef = ref(null);
@@ -121,13 +123,17 @@ export default defineComponent({
       if (props.disabled) {
         return;
       }
-      dropdownVisible.value = true;
-      nextTick(function () {
-        if (props.defaultExpandCheckedNodesParent) {
-          // 展开选中节点的父级节点
-          (treeRef.value as any).expandCheckedNodesParent();
-        }
-      });
+      dropdownWillVisible.value = true;
+      let timer = setTimeout(function () {
+        clearTimeout(timer);
+        dropdownVisible.value = true;
+        nextTick(function () {
+          if (props.defaultExpandCheckedNodesParent) {
+            // 展开选中节点的父级节点
+            (treeRef.value as any).expandCheckedNodesParent();
+          }
+        });
+      }, 0);
     };
 
     let hideTimer: number;
@@ -139,10 +145,13 @@ export default defineComponent({
         clearTimeout(hideTimer);
         // 这里延迟180毫秒是为了能让用户看到选中项到变化
         hideTimer = setTimeout(function () {
+          clearTimeout(hideTimer);
+          dropdownWillVisible.value = false;
           dropdownVisible.value = false;
           isFocus.value = false;
         }, 180);
       } else {
+        dropdownWillVisible.value = false;
         dropdownVisible.value = false;
         isFocus.value = false;
       }
@@ -298,6 +307,7 @@ export default defineComponent({
       isFocus,
       selectId,
       dropdownDisplayed,
+      dropdownWillVisible,
       dropdownVisible,
       viewText,
       treeModelValue,
