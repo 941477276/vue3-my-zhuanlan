@@ -137,10 +137,11 @@ export default defineComponent({
             }, 20);
           });
         } else {
+          willVisible.value = true;
           let timer = setTimeout(function () {
             clearTimeout(timer);
             doShow();
-          }, 0);
+          }, 20);
         }
       }, props.trigger == 'click' ? 0 : 150);
     };
