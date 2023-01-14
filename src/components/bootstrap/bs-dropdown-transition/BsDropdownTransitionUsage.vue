@@ -4,6 +4,12 @@
       <h3>基本使用</h3>
       <Basic></Basic>
     </div>
+
+    <div>
+      <hr>
+      <h3>自定义过渡名称</h3>
+      <CustomTransition></CustomTransition>
+    </div>
   </div>
 </template>
 
@@ -13,13 +19,14 @@ import {
   defineComponent
 } from 'vue';
 import Basic from './demos/basic.vue';
+import CustomTransition from './demos/custom-transition.vue';
 
 export default defineComponent({
   name: 'BsDropdownTransitionUsage',
   components: {
-    Basic
+    Basic,
+    CustomTransition
   },
-
   setup (props: any) {
     return {
     };
@@ -30,6 +37,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .component-usage{
   height: 2000px;
+  padding-top: 5rem;
 }
 .fixed-header{
   position: fixed;
@@ -43,10 +51,6 @@ export default defineComponent({
   text-align: right;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   background-color: #fff;
-}
-h3{
-  margin-bottom: 0.8rem;
-  margin-top: 5rem;
 }
 .fixed-box{
   position: fixed;

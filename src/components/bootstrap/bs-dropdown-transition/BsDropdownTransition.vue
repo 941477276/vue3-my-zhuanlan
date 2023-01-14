@@ -22,7 +22,8 @@
       ...transitionOrigin,
       left: dropdownStyle.left + 'px',
       top: dropdownStyle.bottom == (void 0) ? (dropdownStyle.top + 'px') : 'auto',
-      bottom: dropdownStyle.bottom != (void 0) ? (dropdownStyle.bottom + 'px') : ''
+      bottom: dropdownStyle.bottom != (void 0) ? (dropdownStyle.bottom + 'px') : '',
+      ...styleCustom
     }">
     <slot></slot>
   </transition>
@@ -42,7 +43,8 @@ import {
   isUndefined,
   getStyle,
   getScrollParent,
-  scrollTop
+  scrollTop,
+  isFunction
 } from '@/common/bs-util';
 import { getDropdownDirection } from './useDropdownDirection';
 import { useGlobalEvent } from '@/hooks/useGlobalEvent';
@@ -84,6 +86,14 @@ export default defineComponent({
     setMinWidth: { // 是否设置下拉菜单的最小宽度等于参照元素的宽度
       type: Boolean,
       default: false
+    },
+    customTransitionName: { // 自定义transition name
+      type: Function,
+      default: null
+    },
+    customStyle: { // 自定义下拉菜单style
+      type: Function,
+      default: null
     }
   },
   emits: ['before-enter', 'enter', 'after-enter', 'before-leave', 'leave', 'after-leave'],
@@ -114,6 +124,8 @@ export default defineComponent({
       right: '0 0',
       rightBottom: '0 100%'
     };
+    // 外部自定义样式
+    let styleCustom = ref<StringKeyObject>({});
 
     // 刷新定位
     let refresh = function () {
@@ -143,6 +155,16 @@ export default defineComponent({
       } else {
         transitionOrigin.value = {};
       }
+      let customStyle = props.customStyle;
+      if (isFunction(customStyle)) {
+        let style = customStyle(displayDirection);
+        if (style && isObject(style)) {
+          styleCustom.value = style;
+        } else {
+          styleCustom.value = {};
+        }
+      }
+
       dropdownStyle.direction = direction;
       dropdownStyle.width = referenceElRect.width;
       dropdownStyle.top = isUndefined(bottom) ? displayDirection.top : null;
@@ -159,7 +181,6 @@ export default defineComponent({
       if (props.useZoomTransition) {
         transitionName.value = 'bs-zoom';
         console.log('-----sssssss------');
-
         return;
       }
       if (!isVisible) {
@@ -180,12 +201,17 @@ export default defineComponent({
       let displayDirection: any = getDropdownDirection(referenceEl!, targetRef.value!, props.placement, props.tryAllPlacement);
       let direction = displayDirection.direction;
 
-      if (slideUpTransitionPlacements.includes(direction)) {
-        transitionName.value = 'bs-slide-up';
-      } else if (slideDownTransitionPlacements.includes(direction)) {
-        transitionName.value = 'bs-slide-down';
+      let customTransitionName = props.customTransitionName;
+      if (!isFunction(customTransitionName)) {
+        if (slideUpTransitionPlacements.includes(direction)) {
+          transitionName.value = 'bs-slide-up';
+        } else if (slideDownTransitionPlacements.includes(direction)) {
+          transitionName.value = 'bs-slide-down';
+        } else {
+          transitionName.value = 'bs-zoom';
+        }
       } else {
-        transitionName.value = 'bs-zoom';
+        transitionName.value = customTransitionName(displayDirection);
       }
       console.log('transitionName', transitionName.value);
     });
@@ -327,6 +353,7 @@ export default defineComponent({
       transitionName,
       transitionOrigin,
       targetRef,
+      styleCustom,
 
       onEnter,
       onLeave,

@@ -30,9 +30,9 @@
     <!--<div class="box">
       <BsDropdownUsage></BsDropdownUsage>
     </div>-->
-    <!--<div class="box">
+    <div class="box">
       <BsDropdownTransitionUsage></BsDropdownTransitionUsage>
-    </div>-->
+    </div>
     <!--<router-view></router-view>-->
     <!--<div class="box">
       <BsPaginationUsage></BsPaginationUsage>
@@ -130,9 +130,9 @@
     <!--<div class="box">
       <BsToastUsage></BsToastUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsMenuUsage></BsMenuUsage>
-    </div>
+    </div>-->
     <!--<BsCollapseTransitionUsage></BsCollapseTransitionUsage>-->
   </bs-config-provider>
 </template>
