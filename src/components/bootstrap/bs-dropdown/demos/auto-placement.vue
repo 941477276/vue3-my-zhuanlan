@@ -18,7 +18,7 @@ auto-adjust placement
   <div class="auto-placement-demo-box">
     <div class="auto-placement-demo-content">
       <bs-dropdown trigger="click">
-        <bs-button type="primary">Hover me</bs-button>
+        <bs-button type="primary">Click me</bs-button>
         <template #content>
           <bs-dropdown-item>Html</bs-dropdown-item>
           <bs-dropdown-item>Css</bs-dropdown-item>
@@ -43,6 +43,6 @@ auto-adjust placement
   height: 1400px;
 }
 .bs-dropdown{
-  margin: 15rem 8.5rem;
+  margin: 15rem 20rem;
 }
 </style>
