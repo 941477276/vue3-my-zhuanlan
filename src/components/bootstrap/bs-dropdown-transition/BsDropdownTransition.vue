@@ -205,7 +205,7 @@ export default defineComponent({
       }
       let displayDirection: any = getDropdownDirection(referenceEl!, targetRef.value!, props.placement, props.tryAllPlacement);
       let direction = displayDirection.direction;
-
+      console.log('watch willVisible direction', direction);
       let customTransitionName = props.customTransitionName;
       if (!isFunction(customTransitionName)) {
         if (slideUpTransitionPlacements.includes(direction)) {

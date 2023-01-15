@@ -15,235 +15,35 @@
       </bs-dropdown>
     </header>
 
-    <h3 style="margin-top: 100px">基本使用</h3>
-    <div style="height: 400px;border: 1px solid #f60;overflow-y: auto;padding: 1rem;">
-      <p>下拉菜单！</p>
-      <p>下拉菜单！</p>
-      <p>下拉菜单！</p>
-      <p>下拉菜单！</p>
-      <p>下拉菜单！</p>
-      <p>下拉菜单！</p>
-      <p>下拉菜单！</p>
-      <p>下拉菜单！</p>
-      <p>下拉菜单！</p>
-      <p>下拉菜单！</p>
-      <bs-dropdown placement="bottom" trigger="click" :teleported="false">
-        <bs-button class="dropdown-toggle" type="primary">基本使用</bs-button>
-        <template #content>
-          <bs-dropdown-item>下拉框1</bs-dropdown-item>
-          <bs-dropdown-item disabled>下拉框2</bs-dropdown-item>
-          <bs-dropdown-item>下拉框3</bs-dropdown-item>
-        </template>
-      </bs-dropdown>
-      <p>下拉菜单！</p>
-      <p>下拉菜单！</p>
-      <p>下拉菜单！</p>
-      <p>下拉菜单！</p>
-      <p>下拉菜单！</p>
-      <p>下拉菜单！</p>
-      <p>下拉菜单！</p>
-      <p>下拉菜单！</p>
-      <p>下拉菜单！</p>
-      <p>下拉菜单！</p>
-      <bs-dropdown :teleported="true" style="margin-left: 100px;">
-        <span>一个span</span>
-        <template #content>
-          <bs-dropdown-item>下拉框1</bs-dropdown-item>
-          <bs-dropdown-item>下拉框2</bs-dropdown-item>
-          <bs-dropdown-item>下拉框3</bs-dropdown-item>
-        </template>
-      </bs-dropdown>
+    <div>
+      <hr>
+      <h3>基本使用</h3>
+      <Basic></Basic>
     </div>
 
-    <h3 style="margin-top: 100px">对其方式</h3>
     <div>
-      <bs-dropdown placement="top">
-        <bs-button class="dropdown-toggle" type="primary">顶部左边对齐</bs-button>
-        <template #content>
-          <bs-dropdown-item>下拉框1</bs-dropdown-item>
-          <bs-dropdown-item>下拉框2</bs-dropdown-item>
-          <bs-dropdown-item>下拉框3</bs-dropdown-item>
-        </template>
-      </bs-dropdown>
-
-      <bs-dropdown placement="topRight" style="margin-left: 100px">
-        <bs-button class="dropdown-toggle" type="primary">顶部右边对齐</bs-button>
-        <template #content>
-          <bs-dropdown-item>下拉框1</bs-dropdown-item>
-          <bs-dropdown-item>下拉框2</bs-dropdown-item>
-          <bs-dropdown-item>下拉框3</bs-dropdown-item>
-        </template>
-      </bs-dropdown>
-
-      <bs-dropdown placement="bottom" style="margin-left: 100px">
-        <bs-button class="dropdown-toggle" type="primary" >底部左边对齐</bs-button>
-        <template #content>
-          <bs-dropdown-item>下拉框1</bs-dropdown-item>
-          <bs-dropdown-item>下拉框2</bs-dropdown-item>
-          <bs-dropdown-item>下拉框3</bs-dropdown-item>
-        </template>
-      </bs-dropdown>
-
-      <bs-dropdown placement="bottomRight" style="margin-left: 100px">
-        <bs-button class="dropdown-toggle" type="primary" >底部右边对齐</bs-button>
-        <template #content>
-          <bs-dropdown-item>下拉框1</bs-dropdown-item>
-          <bs-dropdown-item>下拉框2</bs-dropdown-item>
-          <bs-dropdown-item>下拉框3</bs-dropdown-item>
-        </template>
-      </bs-dropdown>
-
-      <div style="margin-top: 50px">
-        <bs-dropdown placement="right">
-          <bs-button class="dropdown-toggle" type="primary">右边顶部对齐</bs-button>
-          <template #content>
-            <bs-dropdown-item>下拉框1</bs-dropdown-item>
-            <bs-dropdown-item>下拉框2</bs-dropdown-item>
-            <bs-dropdown-item>下拉框3</bs-dropdown-item>
-          </template>
-        </bs-dropdown>
-
-        <bs-dropdown trigger="hover" placement="rightBottom" style="margin-left: 100px;">
-          <bs-button class="dropdown-toggle" type="primary">右边底部对齐</bs-button>
-          <template #content>
-            <bs-dropdown-item>下拉框1</bs-dropdown-item>
-            <bs-dropdown-item>下拉框2</bs-dropdown-item>
-            <bs-dropdown-item>下拉框3</bs-dropdown-item>
-          </template>
-        </bs-dropdown>
-
-        <bs-dropdown placement="left" style="margin-left: 100px;">
-          <bs-button class="dropdown-toggle" type="primary">左边顶部对齐</bs-button>
-          <template #content>
-            <bs-dropdown-item>下拉框1</bs-dropdown-item>
-            <bs-dropdown-item>下拉框2</bs-dropdown-item>
-            <bs-dropdown-item>下拉框3</bs-dropdown-item>
-          </template>
-        </bs-dropdown>
-
-        <bs-dropdown placement="leftBottom" style="margin-left: 100px;">
-          <bs-button class="dropdown-toggle" type="primary">左边底部对齐</bs-button>
-          <template #content>
-            <bs-dropdown-item>下拉框1</bs-dropdown-item>
-            <bs-dropdown-item>下拉框2</bs-dropdown-item>
-            <bs-dropdown-item>下拉框3</bs-dropdown-item>
-          </template>
-        </bs-dropdown>
-      </div>
+      <hr>
+      <h3>触发方式</h3>
+      <Triggers></Triggers>
     </div>
 
-    <h3 style="margin-top: 100px">click触发</h3>
     <div>
-      <bs-dropdown trigger="click">
-        <bs-button class="dropdown-toggle" type="primary">点击我吧</bs-button>
-        <template #content>
-          <bs-dropdown-item>下拉框1</bs-dropdown-item>
-          <bs-dropdown-item>下拉框2</bs-dropdown-item>
-          <bs-dropdown-item>下拉框3</bs-dropdown-item>
-        </template>
-      </bs-dropdown>
+      <hr>
+      <h3>弹出位置</h3>
+      <Aligns style="max-width: 700px;margin: 0 auto"></Aligns>
     </div>
 
-    <h3 style="margin-top: 100px">自动调整方向</h3>
     <div>
-      <h5>1、向下</h5>
-      <div class="d-flex">
-        <bs-dropdown>
-          <bs-button class="dropdown-toggle" type="primary">下拉菜单</bs-button>
-          <template #content>
-            <bs-dropdown-item>下拉框1</bs-dropdown-item>
-            <bs-dropdown-item>下拉框2</bs-dropdown-item>
-            <bs-dropdown-item>下拉框3</bs-dropdown-item>
-          </template>
-        </bs-dropdown>
+      <hr>
+      <h3>自动调整位置</h3>
+      <AutoPlacement></AutoPlacement>
+    </div>
 
-        <bs-dropdown class="ml-auto">
-          <bs-button class="dropdown-toggle" type="primary">下拉菜单</bs-button>
-          <template #content>
-            <bs-dropdown-item>下拉框1</bs-dropdown-item>
-            <bs-dropdown-item>下拉框2</bs-dropdown-item>
-            <bs-dropdown-item>下拉框3</bs-dropdown-item>
-          </template>
-        </bs-dropdown>
-      </div>
-
-      <h5 style="margin-top: 50px;">2、向上</h5>
-      <div class="d-flex">
-        <bs-dropdown placement="top">
-          <bs-button class="dropdown-toggle" type="primary">下拉菜单</bs-button>
-          <template #content>
-            <bs-dropdown-item>下拉框1</bs-dropdown-item>
-            <bs-dropdown-item>下拉框2</bs-dropdown-item>
-            <bs-dropdown-item>下拉框3</bs-dropdown-item>
-          </template>
-        </bs-dropdown>
-
-        <bs-dropdown placement="top" class="ml-auto">
-          <bs-button class="dropdown-toggle" type="primary">下拉菜单</bs-button>
-          <template #content>
-            <bs-dropdown-item>下拉框1</bs-dropdown-item>
-            <bs-dropdown-item>下拉框2</bs-dropdown-item>
-            <bs-dropdown-item>下拉框3</bs-dropdown-item>
-          </template>
-        </bs-dropdown>
-      </div>
-
-      <h5 style="margin-top: 50px;">3、向左</h5>
-      <div class="d-flex">
-        <bs-dropdown placement="left">
-          <bs-button class="dropdown-toggle" type="primary">下拉菜单</bs-button>
-          <template #content>
-            <bs-dropdown-item>下拉框1</bs-dropdown-item>
-            <bs-dropdown-item>下拉框2</bs-dropdown-item>
-            <bs-dropdown-item>下拉框3</bs-dropdown-item>
-          </template>
-        </bs-dropdown>
-
-        <bs-dropdown placement="left" class="ml-auto">
-          <bs-button class="dropdown-toggle" type="primary">下拉菜单</bs-button>
-          <template #content>
-            <bs-dropdown-item>下拉框1</bs-dropdown-item>
-            <bs-dropdown-item>下拉框2</bs-dropdown-item>
-            <bs-dropdown-item>下拉框3</bs-dropdown-item>
-          </template>
-        </bs-dropdown>
-      </div>
-
-      <h5 style="margin-top: 50px;">4、向右</h5>
-      <div class="d-flex">
-        <bs-dropdown placement="right">
-          <bs-button class="dropdown-toggle" type="primary">下拉菜单</bs-button>
-          <template #content>
-            <bs-dropdown-item>下拉框1</bs-dropdown-item>
-            <bs-dropdown-item>下拉框2</bs-dropdown-item>
-            <bs-dropdown-item>下拉框3</bs-dropdown-item>
-          </template>
-        </bs-dropdown>
-
-        <bs-dropdown placement="right" class="ml-auto">
-          <bs-button class="dropdown-toggle" type="primary">下拉菜单</bs-button>
-          <template #content>
-            <bs-dropdown-item>下拉框1</bs-dropdown-item>
-            <bs-dropdown-item>下拉框2</bs-dropdown-item>
-            <bs-dropdown-item>下拉框3</bs-dropdown-item>
-          </template>
-        </bs-dropdown>
-      </div>
-
+    <div>
+      <hr>
       <h3>隐藏时销毁下拉内容</h3>
-      <div>
-        <bs-dropdown :destroy-dropdown-menu-on-hide="true">
-          <bs-button class="dropdown-toggle" type="primary">下拉菜单</bs-button>
-          <template #content>
-            <bs-dropdown-item>下拉框1</bs-dropdown-item>
-            <bs-dropdown-item>下拉框2</bs-dropdown-item>
-            <bs-dropdown-item>下拉框3</bs-dropdown-item>
-          </template>
-        </bs-dropdown>
-      </div>
-
+      <DestroyOnHide></DestroyOnHide>
     </div>
-
     <!--<div class="fixed-box">
       <h3>在fixed容器中</h3>
       <bs-dropdown trigger="click">
@@ -262,7 +62,7 @@
       <h3>安装 Bootstrap</h3>
       <p>通过 npm、Composer、或者 Meteor，可以将 Bootstrap 的 Sass 和 JavaScript 源码安装到本地。</p>
       <div>
-        <bs-dropdown placement="bottom" trigger="click" :teleported="false">
+        <bs-dropdown placement="bottom" trigger="click" :teleported="true">
           <bs-button class="dropdown-toggle" type="primary">网页三剑客</bs-button>
           <template #content>
             <bs-dropdown-item>Html</bs-dropdown-item>
@@ -283,7 +83,7 @@
       <h3>安装 Bootstrap</h3>
       <p>通过 npm、Composer、或者 Meteor，可以将 Bootstrap 的 Sass 和 JavaScript 源码安装到本地。</p>
       <div>
-        <bs-dropdown placement="bottom" trigger="click" :teleported="false">
+        <bs-dropdown placement="bottom" trigger="click" :teleported="true">
           <bs-button class="dropdown-toggle" type="primary">网页三剑客</bs-button>
           <template #content>
             <bs-dropdown-item>Html</bs-dropdown-item>
@@ -358,11 +158,21 @@ import {
   ref,
   defineComponent
 } from 'vue';
+import Basic from './demos/basic.vue';
+import Triggers from './demos/triggers.vue';
+import Aligns from './demos/aligns.vue';
+import AutoPlacement from './demos/auto-placement.vue';
+import DestroyOnHide from './demos/destroy-on-hide.vue';
 
 export default defineComponent({
   name: 'BsDropdownUsage',
-  components: {},
-
+  components: {
+    Basic,
+    Triggers,
+    Aligns,
+    AutoPlacement,
+    DestroyOnHide
+  },
   setup (props: any) {
     let modalVisible = ref(false);
     let modalVisible2 = ref(false);
