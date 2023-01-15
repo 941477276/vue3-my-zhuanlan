@@ -5,7 +5,7 @@ export type BsDropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export const bsDropdownProps = {
   teleported: { // 是否使用 teleport。设置成 true则会被追加到 append-to 的位置
     type: Boolean,
-    default: false
+    default: true
   },
   appendTo: { // 下拉菜单即将插入到的父级元素
     type: String,
@@ -39,7 +39,7 @@ export const bsDropdownProps = {
     type: Boolean,
     default: true
   },
-  destroyDropdownMenuOnHide: { // 隐藏时是否销毁 dropdown-menu
+  destroyOnHide: { // 隐藏时是否销毁 dropdown-menu
     type: Boolean,
     default: false
   },

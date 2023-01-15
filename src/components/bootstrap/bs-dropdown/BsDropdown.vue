@@ -10,7 +10,7 @@
       <BsDropdownTransition
         v-if="display"
         @before-enter="transitionLeaveDone = false"
-        @after-leave="transitionLeaveDone = true"
+        @after-leave="onAfterLeave"
         :will-visible="willVisible"
         :placement="placement"
         :reference-ref="triggerRef">
@@ -71,7 +71,7 @@ export default defineComponent({
   props: {
     ...bsDropdownProps
   },
-  emits: ['show', 'hide'],
+  emits: ['show', 'hide', 'clickOutside'],
   setup (props: any, ctx: any) {
     let loaded = ref(false);
     let visible = ref(false);
@@ -90,9 +90,13 @@ export default defineComponent({
     let transitionLeaveDone = ref(false); // 过渡动画是否执行完毕
     let display = computed(function () {
       // 如果开启了“隐藏时销毁下拉内容”则需等离开过渡动画执行完毕后再销毁
-      if (props.destroyDropdownMenuOnHide && !visible.value && transitionLeaveDone.value) {
-        return false;
-      }
+      /* if (props.destroyDropdownMenuOnHide && !visible.value) {
+        if (transitionLeaveDone.value) {
+          return false;
+        } else {
+          return true;
+        }
+      } */
       return !props.lazy || loaded.value;
     });
 
@@ -127,6 +131,7 @@ export default defineComponent({
 
         if (!loaded.value) {
           loaded.value = true;
+          console.log('loaded.value为false');
           nextTick(function () {
             // willVisible必须比visible先行，以能确保dropdown-transition组件正确的计算过渡动画名称
             willVisible.value = true;
@@ -154,9 +159,9 @@ export default defineComponent({
         clearTimeout(hideTimer);
         willVisible.value = false;
         visible.value = false;
-        if (props.destroyDropdownMenuOnHide) {
+        /* if (props.destroyDropdownMenuOnHide) {
           loaded.value = false;
-        }
+        } */
         ctx.emit('hide');
       }, delayTime || (props.trigger == 'click' ? 0 : 150));
     };
@@ -200,6 +205,7 @@ export default defineComponent({
     // 判断是否点击了下拉菜单的外面
     useClickOutside([dropdownRef, dropdownMenuRef], (newVal: boolean) => {
       if (newVal) {
+        ctx.emit('clickOutside');
         hide();
       }
     });
@@ -276,7 +282,13 @@ export default defineComponent({
       hide,
       show,
       onMouseEnter,
-      onMouseLeave
+      onMouseLeave,
+      onAfterLeave () {
+        transitionLeaveDone.value = true;
+        if (props.destroyOnHide) {
+          loaded.value = false;
+        }
+      }
       // onDropdownMouseenter,
       // onDropdownMouseleave,
     };
