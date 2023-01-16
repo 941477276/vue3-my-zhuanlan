@@ -41,6 +41,12 @@
 
     <div>
       <hr>
+      <h3>自定义内容</h3>
+      <CustomContent></CustomContent>
+    </div>
+
+    <div>
+      <hr>
       <h3>隐藏时销毁下拉内容</h3>
       <DestroyOnHide></DestroyOnHide>
     </div>
@@ -163,6 +169,7 @@ import Triggers from './demos/triggers.vue';
 import Aligns from './demos/aligns.vue';
 import AutoPlacement from './demos/auto-placement.vue';
 import DestroyOnHide from './demos/destroy-on-hide.vue';
+import CustomContent from './demos/custom-content.vue';
 
 export default defineComponent({
   name: 'BsDropdownUsage',
@@ -171,7 +178,8 @@ export default defineComponent({
     Triggers,
     Aligns,
     AutoPlacement,
-    DestroyOnHide
+    DestroyOnHide,
+    CustomContent
   },
   setup (props: any) {
     let modalVisible = ref(false);
