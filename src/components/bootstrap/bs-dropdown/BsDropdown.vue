@@ -39,13 +39,15 @@ import {
   nextTick,
   watch,
   Ref,
-  computed
+  computed,
+  onBeforeMount
 } from 'vue';
 import BsOnlyChild from '../bs-slot/BsOnlyChild.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
 import {
   addClass,
   removeClass,
+  hasClass,
   eleIsInFixedParents
 } from '@/common/bs-util';
 import { useClickOutside } from '@/hooks/useClickOutside';
@@ -58,6 +60,7 @@ import {
 import {
   useForwardRef
 } from '@/hooks/useForwardRef';
+import { useGlobalEvent } from '@/hooks/useGlobalEvent';
 
 // 下来菜单显示方向
 type directions = 'bottom' | 'top' | 'left' | 'right';
@@ -127,6 +130,7 @@ export default defineComponent({
           } */
 
           ctx.emit('show');
+          useGlobalEvent.addEvent('document', 'keydown', onKeydown);
         };
 
         if (!loaded.value) {
@@ -163,6 +167,7 @@ export default defineComponent({
           loaded.value = false;
         } */
         ctx.emit('hide');
+        useGlobalEvent.removeEvent('document', 'keydown', onKeydown);
       }, delayTime || (props.trigger == 'click' ? 0 : 150));
     };
 
@@ -200,6 +205,64 @@ export default defineComponent({
         window.event.returnValue = false;
       }
       show();
+    };
+
+    let arrowKeycodes = [40, 38, 13];
+    let hoveredMenu: HTMLElement|undefined;
+    // 键盘事件
+    // TODO 待完善
+    let onKeydown = function (evt: KeyboardEvent) {
+      let keyCode = evt.keyCode;
+      console.log('keyCode', keyCode);
+      if (!arrowKeycodes.includes(keyCode)) {
+        return;
+      }
+      evt.preventDefault();
+      // @ts-ignore
+      window.event.returnValue = false;
+
+      let menuItems = Array.from(dropdownMenuRef.value?.children || []).filter(function (domItem) {
+        return domItem.nodeType == 1 && hasClass(domItem as HTMLElement, 'dropdown-item');
+      });
+      let maxIndex = menuItems.length - 1;
+      console.log('menuItems', menuItems);
+      if (keyCode == 40 || keyCode == 38) {
+        let hoveredMenuIndex = menuItems.findIndex(function (domItem) {
+          return hasClass(domItem as HTMLElement, 'dropdown-item-hover');
+        });
+        let currentActiveMenuIndex = -1;
+        if (hoveredMenuIndex < 0) {
+          currentActiveMenuIndex = menuItems.findIndex(function (domItem) {
+            return hasClass(domItem as HTMLElement, 'active');
+          });
+          if (keyCode == 40) { // 向下键
+            hoveredMenuIndex = currentActiveMenuIndex > -1 ? (currentActiveMenuIndex) : 0;
+          } else {
+            hoveredMenuIndex = currentActiveMenuIndex > -1 ? (currentActiveMenuIndex) : 0;
+          }
+        }
+
+        if (keyCode == 40) { // 向下键
+          hoveredMenuIndex++;
+          if (hoveredMenuIndex > maxIndex) {
+            hoveredMenuIndex = 0;
+          }
+        } else {
+          hoveredMenuIndex--;
+          if (hoveredMenuIndex < 0) {
+            hoveredMenuIndex = maxIndex;
+          }
+        }
+        if (hoveredMenu) {
+          removeClass(hoveredMenu, 'dropdown-item-hover');
+        }
+        let newHoveredMenu = menuItems[hoveredMenuIndex] as HTMLElement;
+        addClass(newHoveredMenu, 'dropdown-item-hover');
+        hoveredMenu = newHoveredMenu;
+        return;
+      }
+      // 按回车键执行dom点击，实现选中效果
+      hoveredMenu?.click();
     };
 
     // 判断是否点击了下拉菜单的外面
@@ -265,6 +328,10 @@ export default defineComponent({
 
     watch(() => props.showToggleArrow, function () {
       addToggleArrowClass(triggerRef.value!);
+    });
+
+    onBeforeMount(function () {
+      useGlobalEvent.removeEvent('document', 'keydown', onKeydown);
     });
 
     return {
