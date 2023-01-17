@@ -482,6 +482,21 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
   }
 
   let defaultDirectionResult = {};
+  // 尝试一遍当前方向的尾方向
+  let tryReverse = function (allInView = false, flow: any) {
+    let result = flow.handler(!flow.isTail);
+    let inView = result.vertical && result.horizontal;
+    let inScrollParentView = result.scrollParentVertical && result.scrollParentHorizontal;
+
+    let flag = allInView ? (inView && inScrollParentView) : (inView || inScrollParentView);
+    // console.log('tryReverse', flag, inView, inScrollParentView, result);
+
+    if (flag) {
+      calcedDirection = result;
+      return true;
+    }
+    return false;
+  };
   // 寻找元素在水平、垂直方向都完全出现在视口中的方向
   directionCalcFlow.some(function (flow) {
     let result = flow.handler(flow.isTail);
@@ -493,21 +508,6 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     if (result.direction === defaultDirection) {
       defaultDirectionResult = result;
     }
-    // 尝试一遍当前方向的尾方向
-    let tryReverse = function (allInView = false) {
-      let result = flow.handler(!flow.isTail);
-      let inView = result.vertical && result.horizontal;
-      let inScrollParentView = result.scrollParentVertical && result.scrollParentHorizontal;
-
-      let flag = allInView ? (inView && inScrollParentView) : (inView || inScrollParentView);
-      // console.log('tryReverse', flag, inView, inScrollParentView, result);
-
-      if (flag) {
-        calcedDirection = result;
-        return true;
-      }
-      return false;
-    };
 
     if (result.direction === defaultDirection) {
       defaultDirectionResult = result;
@@ -515,7 +515,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     if (inView) {
       // console.log('inView111, inScrollParentView', inView, inScrollParentView, result);
       if (!inScrollParentView) {
-        let flag = tryReverse(true);
+        let flag = tryReverse(true, flow);
         if (flag) {
           return true;
         }
@@ -525,37 +525,12 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       return true;
     } else {
       // console.log('inView222, inScrollParentView', inView, inScrollParentView, result);
-
-      return tryReverse(true);
+      return tryReverse(true, flow);
     }
-
-    /* // 尝试一遍当前方向的尾方向
-    if (!inView) {
-      result = flow.handler(!flow.isTail);
-      inView = result.vertical && result.horizontal;
-    }
-    if (inView) {
-      calcedDirection = result;
-    }
-    return inView; */
   });
   console.log('calcedDirection', calcedDirection);
   // 如果尝试了所有方位后都无法显示，则显示默认方位
   if (!calcedDirection) {
-    /* switch (defaultDirection) {
-      case 'bottom':
-        calcedDirection = handleBottom();
-        break;
-      case 'top':
-        calcedDirection = handleTop();
-        break;
-      case 'left':
-        calcedDirection = handleLeft();
-        break;
-      case 'right':
-        calcedDirection = handleRight();
-        break;
-    } */
     calcedDirection = defaultDirectionResult as any;
     calcedDirection.isRollback = true;
   }
