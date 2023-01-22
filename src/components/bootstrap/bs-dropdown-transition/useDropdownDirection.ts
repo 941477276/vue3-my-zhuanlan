@@ -138,6 +138,8 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     // var left = isBottomRight ? Math.floor(referenceOffset.left - (targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0) - (targetElRect.width - referenceRect.width)) : (referenceOffset.left - (targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0));
     var top = referenceOffset.top + referenceRect.height;
     var left = isBottomRight ? Math.floor(referenceOffset.left - (targetElRect.width - referenceRect.width)) : (referenceOffset.left);
+    var bottom = null;
+    var right = null;
     console.log('targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0', targetElOffsetParentIsDocument, targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0);
     // console.log('handleBottom,-----------', referenceOffset.left, targetElRect.width,referenceRect.width);
     // var isInView = eleIsInView(targetEl, top, left, needSubtractScrollOffset);
@@ -169,6 +171,25 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     // 如果目标元素插入到了body中，则需减去参照元素有滚动条父级容器滚动条滚动到距离（调用eleIsInView函数前不需要减去，因为eleIsInView函数内部计算时会减去）
     top -= targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0;
     left -= targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0;
+
+    if (targetElOffsetParentIsDocument) {
+      // 如果目标元素插入在body中，则bottom的值为浏览器可见高度减去参照元素至浏览器最顶端的距离，再加上参照元素滚动容器滚动滚动的距离即可
+      // 实际为：浏览器可见高度-参照元素在可见高度内的位置-浏览器滚动条滚动的距离+参照元素滚动容器滚动滚动的距离
+      // bottom = window.innerHeight - referenceOffset.top + referenceElWrapperScrollTop;
+      right = window.innerWidth - referenceOffset.left + referenceElWrapperScrollLeft - referenceRect.width;
+    } else {
+      // bottom = targetElOffsetParent.offsetHeight - (referenceOffset.top - targetElOffsetParentOffset.top);// + referenceElWrapperScrollTop;
+      right = targetElOffsetParent.offsetWidth - (referenceOffset.left - targetElOffsetParentOffset.left) - referenceRect.width;
+    }
+    if (targetIsInBody) {
+      /* if (bodyHasScroll.vertical && !bodyScrollVisible.vertical) {
+        bottom -= scrollInfo.top;
+      } */
+      if (bodyHasScroll.horizontal && !bodyScrollVisible.horizontal) {
+        right -= scrollInfo.left;
+      }
+    }
+
     // console.log('handleBottom isInView', isInView, isBottomRight, (targetElRect.width - referenceRect.width), left);
     // 计算top值时需减去目标元素position不为static的父级元素的top值
     let newTop = top - targetElOffsetParentOffset.top;
@@ -179,7 +200,9 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       ...isInView,
       direction: isBottomRight ? 'bottomRight' : 'bottom',
       top: newTop,
-      left: newLeft
+      left: newLeft,
+      bottom,
+      right: isBottomRight ? right : null
     };
   };
   let handleTop = function (isTopRight: boolean) {
@@ -219,17 +242,23 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     top -= targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0;
     left -= targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0;
     // var bottom = referenceOffset.top - targetElOffsetParentOffset.top - (targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0) + referenceRect.height;
-    var bottom;
+    var bottom = null;
+    var right = null;
     if (targetElOffsetParentIsDocument) {
       // 如果目标元素插入在body中，则bottom的值为浏览器可见高度减去参照元素至浏览器最顶端的距离，再加上参照元素滚动容器滚动滚动的距离即可
       // 实际为：浏览器可见高度-参照元素在可见高度内的位置-浏览器滚动条滚动的距离+参照元素滚动容器滚动滚动的距离
       bottom = window.innerHeight - referenceOffset.top + referenceElWrapperScrollTop;
+      right = window.innerWidth - referenceOffset.left + referenceElWrapperScrollLeft - referenceRect.width;
     } else {
       bottom = targetElOffsetParent.offsetHeight - (referenceOffset.top - targetElOffsetParentOffset.top);// + referenceElWrapperScrollTop;
+      right = targetElOffsetParent.offsetWidth - (referenceOffset.left - targetElOffsetParentOffset.left) - referenceRect.width;
     }
     if (targetIsInBody) {
       if (bodyHasScroll.vertical && !bodyScrollVisible.vertical) {
         bottom -= scrollInfo.top;
+      }
+      if (bodyHasScroll.horizontal && !bodyScrollVisible.horizontal) {
+        right -= scrollInfo.left;
       }
     }
     // console.log('handleTop isInView', isInView, top, left);
@@ -243,12 +272,14 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     console.log('handleTop total result:', {
       top: newTop,
       bottom,
+      right,
       left: newLeft
     });
     return {
       ...isInView,
       direction: isTopRight ? 'topRight' : 'top',
       bottom,
+      right: isTopRight ? right : null,
       // 计算top值时需减去目标元素position不为static的父级元素的top值
       top: newTop,
       left: newLeft
@@ -259,6 +290,8 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     // var left = referenceOffset.left - targetElRect.width - (targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0);
     var top = isLeftBottom ? Math.floor(referenceOffset.top - (targetElRect.height - referenceRect.height)) : (referenceOffset.top);
     var left = referenceOffset.left - targetElRect.width;
+    var bottom = null;
+    var right = null;
 
     top += dropdownOffsetTop;
     left += dropdownOffsetLeft;
@@ -277,14 +310,15 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       }
     }
 
-    var bottom;
     if (isLeftBottom) {
       if (targetElOffsetParentIsDocument) {
         // 如果目标元素插入在body中，则bottom的值为浏览器可见高度减去参照元素至浏览器最顶端的距离，再加上参照元素滚动容器滚动滚动的距离即可
         // 实际为：浏览器可见高度-参照元素在可见高度内的位置-浏览器滚动条滚动的距离+参照元素滚动容器滚动滚动的距离
         bottom = window.innerHeight - (referenceOffset.top + referenceRect.height) + referenceElWrapperScrollTop;
+        right = window.innerWidth - referenceOffset.left + referenceElWrapperScrollLeft;
       } else {
         bottom = targetElOffsetParent.offsetHeight - (referenceOffset.top + referenceRect.height - targetElOffsetParentOffset.top);// + referenceElWrapperScrollTop;
+        right = targetElOffsetParent.offsetWidth - (referenceOffset.left - targetElOffsetParentOffset.left) + referenceRect.width - targetElRect.width;
       }
     }
 
@@ -303,6 +337,11 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     // 如果目标元素插入到了body中，则需减去参照元素有滚动条父级容器滚动条滚动到距离（调用eleIsInView函数前不需要减去，因为eleIsInView函数内部计算时会减去）
     top -= targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0;
     left -= targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0;
+    if (targetElOffsetParentIsDocument) {
+      right = window.innerWidth - referenceOffset.left + referenceElWrapperScrollLeft;
+    } else {
+      right = targetElOffsetParent.offsetWidth - (referenceOffset.left - targetElOffsetParentOffset.left) + referenceRect.width - targetElRect.width;
+    }
     let newTop = top - targetElOffsetParentOffset.top;
     let newLeft = left - targetElOffsetParentOffset.left;
     if (targetIsInBody) {
@@ -312,12 +351,18 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
           bottom -= scrollInfo.top;
         }
       }
+      if (right !== null) {
+        if (bodyHasScroll.horizontal && !bodyScrollVisible.horizontal) {
+          right -= scrollInfo.left;
+        }
+      }
     }
     newTop -= dropdownOffsetTop;
     newLeft -= dropdownOffsetLeft;
     // console.log('handleTop handleLeft', isInView);
     return {
       ...isInView,
+      right,
       bottom,
       direction: isLeftBottom ? 'leftBottom' : 'left',
       // 计算top值时需减去目标元素position不为static的父级元素的top值
@@ -348,7 +393,8 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       }
     }
 
-    var bottom;
+    var bottom = null;
+    var right = null;
     if (isRightBottom) {
       if (targetElOffsetParentIsDocument) {
         // 如果目标元素插入在body中，则bottom的值为浏览器可见高度减去参照元素至浏览器最顶端的距离，再加上参照元素滚动容器滚动滚动的距离即可
@@ -390,6 +436,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     // console.log('handleTop handleRight', isInView);
     return {
       ...isInView,
+      right,
       bottom,
       direction: isRightBottom ? 'rightBottom' : 'right',
       // 计算top值时需减去目标元素position不为static的父级元素的top值
@@ -564,6 +611,8 @@ function eleIsInView (options: any) {
     documentScrollInfo,
     bodyScrollVisible,
     scrollParent // 获取目标元素有滚动条的父级容器
+    // verticalRight, // 垂直方向展示且右对齐时的right值
+    // horizontalBottom // 水平方向展示且底部对齐时的bottom值
   } = options;
   // var documentHasScroll = hasScroll();
   // 元素有滚动条的父级元素的滚动条高度

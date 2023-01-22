@@ -12,7 +12,8 @@
     :class="[
       `bs-placement-${dropdownStyle.direction}`,
       {
-        'use-bottom': dropdownStyle.bottom != null
+        'use-bottom': dropdownStyle.bottom != null,
+        'use-right': dropdownStyle.right != null
       }
     ]"
     :style="{
@@ -20,9 +21,10 @@
       ...(setWidth ? { width: dropdownStyle.width + 'px' } : {}),
       ...(setMinWidth ? { minWidth: dropdownStyle.width + 'px' } : {}),
       ...transitionOrigin,
-      left: dropdownStyle.left + 'px',
-      top: dropdownStyle.bottom == (void 0) ? (dropdownStyle.top + 'px') : 'auto',
-      bottom: dropdownStyle.bottom != (void 0) ? (dropdownStyle.bottom + 'px') : '',
+      left: dropdownStyle.right == null ? (dropdownStyle.left + 'px') : 'auto',
+      right: dropdownStyle.right != null ? (dropdownStyle.right + 'px') : '',
+      top: dropdownStyle.bottom == null ? (dropdownStyle.top + 'px') : 'auto',
+      bottom: dropdownStyle.bottom != null ? (dropdownStyle.bottom + 'px') : '',
       ...styleCustom
     }">
     <slot></slot>
@@ -41,7 +43,6 @@ import {
 } from 'vue';
 import { NOOP, isObject } from '@vue/shared';
 import {
-  isUndefined,
   getStyle,
   getScrollParent,
   scrollTop,
@@ -110,7 +111,8 @@ export default defineComponent({
       width: 0,
       left: 0,
       top: 0,
-      bottom: null
+      bottom: null,
+      right: null
     });
     let targetEl: HTMLElement|null = null;
     // 参照元素有滚动条的父级节点
@@ -149,6 +151,7 @@ export default defineComponent({
 
       let displayDirection: any = getDropdownDirection(referenceEl, targetEl, props.placement, props.tryAllPlacement, props.offset);
       let bottom = displayDirection.bottom;
+      let right = displayDirection.right;
       let direction = displayDirection.direction;
       if (transitionName.value == 'bs-zoom') {
         let origin = zoomTransitionOrigin[direction];
@@ -172,9 +175,18 @@ export default defineComponent({
 
       dropdownStyle.direction = direction;
       dropdownStyle.width = referenceElRect.width;
-      dropdownStyle.top = isUndefined(bottom) ? displayDirection.top : null;
-      dropdownStyle.left = displayDirection.left;
-      dropdownStyle.bottom = isUndefined(bottom) ? null : displayDirection.bottom;
+      if (bottom === null) {
+        dropdownStyle.top = displayDirection.top;
+        dropdownStyle.bottom = null;
+      } else {
+        dropdownStyle.bottom = displayDirection.bottom;
+      }
+      if (right === null) {
+        dropdownStyle.left = displayDirection.left;
+        dropdownStyle.right = null;
+      } else {
+        dropdownStyle.right = displayDirection.right;
+      }
     };
 
     let slideUpTransitionPlacements = ['top', 'topRight'];
