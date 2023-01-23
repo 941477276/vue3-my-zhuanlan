@@ -252,32 +252,32 @@ export function eleHasScroll (ele: HTMLElement): {
   if (ele.scrollTop > 0) {
     result.vertical = true;
   } else {
-    // 使用这种方式判断元素是否有滚动条，若是元素绑定了scroll事件偶尔会触发scroll事件
+    /* // 使用这种方式判断元素是否有滚动条，若是元素绑定了scroll事件偶尔会触发scroll事件
     ele.scrollTop++;
     // 元素不能滚动的话，scrollTop 设置不会生效，还会置为 0
     const top = ele.scrollTop;
     // 重置滚动位置
     top && (ele.scrollTop = 0);
     // return top > 0;
-    result.vertical = top > 0;
-    /* var overflowY = getStyle(ele, 'overflow-y');
+    result.vertical = top > 0; */
+    var overflowY = getStyle(ele, 'overflow-y');
     console.log('overflowY', overflowY);
-    result.vertical = overflowY != 'hidden' && (ele.scrollHeight > ele.clientHeight); */
+    result.vertical = overflowY != 'hidden' && (ele.scrollHeight > ele.clientHeight);
   }
   if (ele.scrollLeft > 0) {
     result.horizontal = true;
   } else {
-    // 使用这种方式判断元素是否有滚动条，若是元素绑定了scroll事件偶尔会触发scroll事件
+    /* // 使用这种方式判断元素是否有滚动条，若是元素绑定了scroll事件偶尔会触发scroll事件
     ele.scrollLeft++;
     // 元素不能滚动的话，scrollLeft 设置不会生效，还会置为 0
     const left = ele.scrollLeft;
     // 重置滚动位置
     left && (ele.scrollLeft = 0);
     // return top > 0;
-    result.horizontal = left > 0;
-    /* var overflowX = getStyle(ele, 'overflow-x');
+    result.horizontal = left > 0; */
+    var overflowX = getStyle(ele, 'overflow-x');
     console.log('overflowX', overflowX);
-    result.horizontal = overflowX != 'hidden' && (ele.scrollWidth > ele.clientWidth); */
+    result.horizontal = overflowX != 'hidden' && (ele.scrollWidth > ele.clientWidth);
   }
   return result;
 }
