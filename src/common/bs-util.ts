@@ -137,6 +137,32 @@ export function getRandomNumber (min: number, max: number): number {
   return parseInt((Math.random() * (max - min + 1) + min) + '');
 }
 
+/**
+ * 短横行命名转小驼峰命名
+ * @param kebabStr
+ */
+export function kebabCase2CamelCase (kebabStr: string): string {
+  if (!isString(kebabStr)) {
+    return kebabStr;
+  }
+  return kebabStr.replace(/-(.)/g, function (matched, $1) {
+    return $1.toUpperCase();
+  });
+};
+
+/**
+ *  小驼峰命名转短横线命名
+ * @param camelStr
+ */
+export function camelCase2KebabCase (camelStr: string): string {
+  if (!isString(camelStr)) {
+    return camelStr;
+  }
+  return camelStr.replace(/(\w)([A-Z])/g, function (matched, $1, $2) {
+    return $1 + '-' + $2.toLowerCase();
+  });
+};
+
 /* **************************** DOM utils start ************************************* */
 
 // 获取浏览器宽高

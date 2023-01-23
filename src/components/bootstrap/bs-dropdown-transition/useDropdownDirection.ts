@@ -9,7 +9,8 @@ import {
   hasScroll,
   eleIsInScrollParentView,
   getDocumentWidthHeight,
-  scrollWidth
+  scrollWidth,
+  kebabCase2CamelCase
 } from '@/common/bs-util';
 
 let documentNodeNames = ['HTML', 'BODY'];
@@ -29,21 +30,16 @@ export interface DropdownOffset {
  * @param tryAllDirection 当切换到defaultDirection对应的反方向目标元素也不能完全出现在视口时是否尝试切换其他方向
  * @param dropdownOffset 下拉菜单距参照元素的偏移量
  */
+const endReg = /(\w+)End$/;
 export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLElement, defaultDirection: string, tryAllDirection = false, dropdownOffset?: DropdownOffset) {
   if (!referenceEl || !targetEl || !defaultDirection) {
     throw new Error('缺少referenceEl, targetEl, defaultDirection其中的某个参数');
   }
-  let rightTailReg = /(\w+)Right$/;
-  let bottomTailReg = /(\w+)Bottom$/;
-  // 判断方向中是否含有Right
-  let defaultDirectionIsRight = false;
-  let defaultDirectionIsTop = false;
-  if (rightTailReg.test(defaultDirection)) {
+  defaultDirection = kebabCase2CamelCase(defaultDirection);
+  let defaultDirectionIsEnd = false;
+  if (endReg.test(defaultDirection)) {
     defaultDirection = RegExp.$1;
-    defaultDirectionIsRight = true;
-  } else if (bottomTailReg.test(defaultDirection)) {
-    defaultDirection = RegExp.$1;
-    defaultDirectionIsTop = true;
+    defaultDirectionIsEnd = true;
   }
   let scrollInfo = {
     top: scrollTop(),
@@ -198,7 +194,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     newLeft -= dropdownOffsetLeft;
     return {
       ...isInView,
-      direction: isBottomRight ? 'bottomRight' : 'bottom',
+      direction: isBottomRight ? 'bottomEnd' : 'bottom',
       top: newTop,
       left: newLeft,
       bottom,
@@ -277,7 +273,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     });
     return {
       ...isInView,
-      direction: isTopRight ? 'topRight' : 'top',
+      direction: isTopRight ? 'topEnd' : 'top',
       bottom,
       right: isTopRight ? right : null,
       // 计算top值时需减去目标元素position不为static的父级元素的top值
@@ -364,7 +360,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       ...isInView,
       right,
       bottom,
-      direction: isLeftBottom ? 'leftBottom' : 'left',
+      direction: isLeftBottom ? 'leftEnd' : 'left',
       // 计算top值时需减去目标元素position不为static的父级元素的top值
       top: newTop,
       left: newLeft
@@ -438,7 +434,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       ...isInView,
       right,
       bottom,
-      direction: isRightBottom ? 'rightBottom' : 'right',
+      direction: isRightBottom ? 'rightEnd' : 'right',
       // 计算top值时需减去目标元素position不为static的父级元素的top值
       top: newTop,
       left: newLeft
@@ -448,11 +444,11 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
   switch (defaultDirection) {
     case 'bottom':
       directionCalcFlow.push({
-        isTail: defaultDirectionIsRight,
+        isTail: defaultDirectionIsEnd,
         handler: handleBottom
       });
       directionCalcFlow.push({
-        isTail: defaultDirectionIsRight,
+        isTail: defaultDirectionIsEnd,
         handler: handleTop
       });
       if (tryAllDirection) {
@@ -468,11 +464,11 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       break;
     case 'top':
       directionCalcFlow.push({
-        isTail: defaultDirectionIsRight,
+        isTail: defaultDirectionIsEnd,
         handler: handleTop
       });
       directionCalcFlow.push({
-        isTail: defaultDirectionIsRight,
+        isTail: defaultDirectionIsEnd,
         handler: handleBottom
       });
       if (tryAllDirection) {
@@ -488,11 +484,11 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       break;
     case 'left':
       directionCalcFlow.push({
-        isTail: defaultDirectionIsTop,
+        isTail: defaultDirectionIsEnd,
         handler: handleLeft
       });
       directionCalcFlow.push({
-        isTail: defaultDirectionIsTop,
+        isTail: defaultDirectionIsEnd,
         handler: handleRight
       });
       if (tryAllDirection) {
@@ -508,11 +504,11 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       break;
     case 'right':
       directionCalcFlow.push({
-        isTail: defaultDirectionIsTop,
+        isTail: defaultDirectionIsEnd,
         handler: handleRight
       });
       directionCalcFlow.push({
-        isTail: defaultDirectionIsTop,
+        isTail: defaultDirectionIsEnd,
         handler: handleLeft
       });
       if (tryAllDirection) {

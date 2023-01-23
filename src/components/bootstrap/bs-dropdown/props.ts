@@ -1,5 +1,5 @@
 import { PropType } from 'vue';
-import { BsPlacement } from '@/ts-tokens/bootstrap';
+import { BsPlacement, BsPlacementEnd, BsPlacementEndKebab } from '@/ts-tokens/bootstrap';
 export type BsDropdownTrigger = 'click' | 'hover' | 'contextMenu';
 
 export const bsDropdownProps = {
@@ -12,7 +12,7 @@ export const bsDropdownProps = {
     default: 'body'
   },
   placement: { // 显示方向
-    type: String as PropType<BsPlacement>,
+    type: String as PropType<BsPlacement | BsPlacementEnd | BsPlacementEndKebab>,
     default: 'bottom'
   },
   tryReverseDirection: { // 当在props.direction方向不能完全显示时，是否尝试反方向显示

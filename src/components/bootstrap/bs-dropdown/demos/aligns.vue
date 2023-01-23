@@ -57,8 +57,8 @@ And they can adjust themselves to the best pop-up position according to the drop
 <script setup>
 import { ref } from 'vue';
 
-let vertical = ref(['top', 'topRight', 'bottom', 'bottomRight']);
-let horizontal = ref(['left', 'leftBottom', 'right', 'rightBottom']);
+let vertical = ref(['top', 'topEnd', 'bottom', 'bottomEnd']);
+let horizontal = ref(['left', 'leftEnd', 'right', 'rightEnd']);
 </script>
 
 <style lang="scss" scoped>

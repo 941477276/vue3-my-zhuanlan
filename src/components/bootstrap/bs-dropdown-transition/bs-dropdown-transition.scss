@@ -8,9 +8,9 @@
   @include zoom;
 
   &.bs-placement-top,
-  &.bs-placement-topRight{
+  &.bs-placement-top-end{
     margin-top: -.35rem;
-    &.use-bottom{
+    &.use-bottom-position{
       margin-top: auto;
       margin-bottom: .35rem;
       transform-origin: 0 100%;
@@ -18,21 +18,21 @@
     //@include slide-top;
   }
   &.bs-placement-bottom,
-  &.bs-placement-bottomRight{
+  &.bs-placement-bottom-end{
     margin-top: .35rem;
     //@include slide-down;
   }
   &.bs-placement-left,
-  &.bs-placement-leftBottom{
+  &.bs-placement-left-end{
     margin-left: -.35rem;
     //@include slide-left;
-    &.use-right{
+    &.use-right-position{
       margin-left: auto;
       margin-right: .35rem;
     }
   }
   &.bs-placement-right,
-  &.bs-placement-rightBottom{
+  &.bs-placement-right-end{
     margin-left: .35rem;
     //@include slide-right;
   }

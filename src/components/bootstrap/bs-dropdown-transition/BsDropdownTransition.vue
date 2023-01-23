@@ -10,10 +10,10 @@
     @after-leave="onLeave"
     class="bs-dropdown-transition"
     :class="[
-      `bs-placement-${dropdownStyle.direction}`,
+      `bs-placement-${camelCase2KebabCase(dropdownStyle.direction)}`,
       {
-        'use-bottom': dropdownStyle.bottom != null,
-        'use-right': dropdownStyle.right != null
+        'use-bottom-position': dropdownStyle.bottom != null,
+        'use-right-position': dropdownStyle.right != null
       }
     ]"
     :style="{
@@ -46,7 +46,9 @@ import {
   getStyle,
   getScrollParent,
   scrollTop,
-  isFunction
+  isFunction,
+  kebabCase2CamelCase,
+  camelCase2KebabCase
 } from '@/common/bs-util';
 import { getDropdownDirection, DropdownOffset } from './useDropdownDirection';
 import { useGlobalEvent } from '@/hooks/useGlobalEvent';
@@ -123,13 +125,13 @@ export default defineComponent({
     let documentNodeNames = ['HTML', 'BODY'];
     let zoomTransitionOrigin: StringKeyObject = {
       top: '0 100%',
-      topRight: '100% 100%',
+      topEnd: '100% 100%',
       bottom: '0 0',
-      bottomRight: '100% 0',
+      bottomEnd: '100% 0',
       left: '100% 0',
-      leftBottom: '100% 100%',
+      leftEnd: '100% 100%',
       right: '0 0',
-      rightBottom: '0 100%'
+      rightEnd: '0 100%'
     };
     // 外部自定义样式
     let styleCustom = ref<StringKeyObject>({});
@@ -189,8 +191,8 @@ export default defineComponent({
       }
     };
 
-    let slideUpTransitionPlacements = ['top', 'topRight'];
-    let slideDownTransitionPlacements = ['bottom', 'bottomRight'];
+    let slideUpTransitionPlacements = ['top', 'topEnd'];
+    let slideDownTransitionPlacements = ['bottom', 'bottomEnd'];
     let transitionOrigin = ref<any>({});
     // 监听willVisible，在下拉菜单显示出来前计算出下拉菜单显示位置，如过useZoomTransition为true可以略过
     watch(() => props.willVisible, function (isVisible) {
@@ -374,7 +376,8 @@ export default defineComponent({
 
       onEnter,
       onLeave,
-      refresh
+      refresh,
+      camelCase2KebabCase
     };
   }
 });
