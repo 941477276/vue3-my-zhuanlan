@@ -6,7 +6,8 @@
     'bs-form-item-valid': validStatus === 'success',
     'bs-form-item-invalid': validStatus === 'error',
     'is-required': isRequired,
-    'hide-required-asterisk': hideRequiredAsterisk
+    'hide-required-asterisk': hideRequiredAsterisk,
+    'has-feedback': feedbackIsShow
   }">
   <label
     v-show="labelIsShow"
@@ -20,7 +21,7 @@
     :class="contentClass">
     <slot></slot>
     <small
-      v-if="(hintText != null && typeof hintText != 'undefined' && (hintText + '').length > 0) || $slots.hint"
+      v-if="hintText || $slots.hint"
       class="form-text text-muted">
       <slot name="hint">{{ hintText }}</slot>
     </small>
@@ -28,7 +29,7 @@
       v-if="validStatus === 'success' && (validSuccessText === 0 || !!validSuccessText)"
       class="valid-feedback">{{ validSuccessText }}</div>
     <div
-      v-if="(invalidMessage + '').length > 0"
+      v-if="validStatus === 'error' && (invalidMessage === 0 || !!invalidMessage)"
       v-html="invalidMessage"
       class="invalid-feedback"></div>
   </div>
@@ -227,6 +228,18 @@ export default defineComponent({
       console.log('newChildComponents 111', newChildComponents);
     }, { immediate: true }); */
 
+    let feedbackIsShow = computed(function () {
+      let validStatusRaw = validStatus.value;
+      if (validStatusRaw == 'success') {
+        return props.validSuccessText === 0 || !!props.validSuccessText;
+      }
+      if (validStatusRaw == 'error') {
+        let invalidMessageRaw = invalidMessage.value as string|number;
+        return invalidMessageRaw === 0 || !!invalidMessageRaw;
+      }
+      return false;
+    });
+
     /**
      * 设置表单项子组件的校验状态
      * @param status
@@ -344,6 +357,7 @@ export default defineComponent({
       invalidMessage,
       isRequired,
       labelIsShow,
+      feedbackIsShow,
 
       validate,
       clearValidate,
