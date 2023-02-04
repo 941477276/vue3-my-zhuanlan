@@ -5,6 +5,9 @@
       display: none;
     }
   }
+  &.form-inline{
+    align-items: flex-start;
+  }
 }
 .bs-form-item{
   margin-bottom: 1.45rem; /* 校验错误提示信息的高度 + 校验错误提示信息的margin-top */
@@ -12,21 +15,26 @@
     margin-bottom: 0;
   }
   &.is-required{
-    &>.bs-form-label{
-      &::before{
-        display: inline-block;
-        vertical-align: middle;
-        content: '*';
-        line-height: 1;
-        margin-right: 0.3rem;
-        font-size: 1.2em;
-        color: #dc3545;
+    &>.form-group{
+      .bs-form-label{
+        &::before{
+          display: inline-block;
+          vertical-align: middle;
+          content: '*';
+          line-height: 1;
+          margin-right: 0.3rem;
+          font-size: 1.2em;
+          color: #dc3545;
+        }
       }
     }
+
     &.hide-required-asterisk{
-      &>.bs-form-label{
-        &::before{
-          display: none;
+      &>.form-group {
+        .bs-form-label {
+          &::before {
+            display: none;
+          }
         }
       }
     }
@@ -59,4 +67,19 @@
 }
 .bs-form-label{
   margin-bottom: 0.5rem;
+}
+
+@media (min-width: 375px) {
+  .bs-form{
+    &.form-inline{
+      &>.bs-form-item{
+        margin-right: 1rem;
+        &>.form-group{
+          .bs-form-label{
+            margin-right: 0.5rem;
+          }
+        }
+      }
+    }
+  }
 }

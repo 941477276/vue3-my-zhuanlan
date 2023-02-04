@@ -2,10 +2,10 @@
 <form
   class="bs-form"
   :class="{
-    'bs-form-hide-error-message': !showErrorMessage
+    'bs-form-hide-error-message': !showErrorMessage,
+    'form-inline': inline
   }">
   <slot></slot>
-
 </form>
 </template>
 
@@ -45,6 +45,10 @@ export default defineComponent({
     showErrorMessage: { // 表单项校验失败时是否显示错误提示
       type: Boolean,
       default: true
+    },
+    inline: { // 是否为行内表单
+      type: Boolean,
+      default: false
     }
   },
   setup (props: any, ctx: any) {

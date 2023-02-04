@@ -15,7 +15,7 @@
         :for="labelFor || htmlLabelFor || null"
         class="bs-form-label"
         :class="labelClass">
-        <slot name="label">{{ label }}</slot>
+        <slot name="label">{{ label == ' ' ? '&nbsp;' : label }}</slot>
       </label>
       <div
         class="bs-form-item-content"
