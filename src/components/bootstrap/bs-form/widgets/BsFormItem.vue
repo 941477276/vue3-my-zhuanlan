@@ -21,9 +21,9 @@
     :class="contentClass">
     <slot></slot>
     <small
-      v-if="hintText || $slots.hint"
+      v-if="hint || $slots.hint"
       class="form-text text-muted">
-      <slot name="hint">{{ hintText }}</slot>
+      <slot name="hint">{{ hint }}</slot>
     </small>
     <div
       v-if="validStatus === 'success' && (validSuccessText === 0 || !!validSuccessText)"
@@ -98,7 +98,7 @@ export default defineComponent({
       type: String,
       default: ''
     },
-    hintText: { // 提示文字
+    hint: { // 提示文字
       type: String,
       default: ''
     },
