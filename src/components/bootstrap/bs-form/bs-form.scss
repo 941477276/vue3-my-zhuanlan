@@ -1,13 +1,16 @@
 .bs-form{
   &.bs-form-hide-error-message{
-    .bs-form-item-invalid > .bs-form-item-content > .invalid-feedback,
-    .bs-form-item-invalid > .bs-form-item-content > .invalid-tooltip{
-      display: none;;
+    .bs-form-item-invalid > .invalid-feedback,
+    .bs-form-item-invalid > .invalid-tooltip{
+      display: none;
     }
   }
 }
 .bs-form-item{
   margin-bottom: 1.45rem; /* 校验错误提示信息的高度 + 校验错误提示信息的margin-top */
+  .form-group{
+    margin-bottom: 0;
+  }
   &.is-required{
     &>.bs-form-label{
       &::before{
@@ -39,20 +42,20 @@
   }
 }
 .bs-form-item-valid{
-  &>.bs-form-item-content{
+  //&>.bs-form-item-content{
     &>.valid-feedback,
     &>.valid-tooltip{
       display: block;
     }
-  }
+  //}
 }
 .bs-form-item-invalid{
-  &>.bs-form-item-content {
+  //&>.bs-form-item-content {
     & > .invalid-feedback,
     & > .invalid-tooltip {
       display: block;
     }
-  }
+  //}
 }
 .bs-form-label{
   margin-bottom: 0.5rem;

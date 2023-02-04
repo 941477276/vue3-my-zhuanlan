@@ -1,25 +1,28 @@
 <template>
-<div
-  ref="bsFormItemRef"
-  class="form-group bs-form-item"
-  :class="{
-    'bs-form-item-valid': validStatus === 'success',
-    'bs-form-item-invalid': validStatus === 'error',
-    'is-required': isRequired,
-    'hide-required-asterisk': hideRequiredAsterisk,
-    'has-feedback': feedbackIsShow
-  }">
-  <label
-    v-show="labelIsShow"
-    :for="labelFor || htmlLabelFor || null"
-    class="bs-form-label"
-    :class="labelClass">
-    <slot name="label">{{ label }}</slot>
-  </label>
   <div
-    class="bs-form-item-content"
-    :class="contentClass">
-    <slot></slot>
+    ref="bsFormItemRef"
+    class="bs-form-item"
+    :class="{
+      'bs-form-item-valid': validStatus === 'success',
+      'bs-form-item-invalid': validStatus === 'error',
+      'is-required': isRequired,
+      'hide-required-asterisk': hideRequiredAsterisk,
+      'has-feedback': feedbackIsShow
+    }">
+    <div class="form-group">
+      <label
+        v-show="labelIsShow"
+        :for="labelFor || htmlLabelFor || null"
+        class="bs-form-label"
+        :class="labelClass">
+        <slot name="label">{{ label }}</slot>
+      </label>
+      <div
+        class="bs-form-item-content"
+        :class="contentClass">
+        <slot></slot>
+      </div>
+    </div>
     <small
       v-if="hint || $slots.hint"
       class="form-text text-muted">
@@ -33,7 +36,6 @@
       v-html="invalidMessage"
       class="invalid-feedback"></div>
   </div>
-</div>
 </template>
 
 <script lang="ts">
