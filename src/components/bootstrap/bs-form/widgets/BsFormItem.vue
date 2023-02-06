@@ -2,44 +2,66 @@
   <div
     ref="bsFormItemRef"
     class="bs-form-item"
-    :class="{
+    :class="[{
       'bs-form-item-valid': validStatus === 'success',
       'bs-form-item-invalid': validStatus === 'error',
       'is-required': isRequired,
       'hide-required-asterisk': hideRequiredAsterisk,
       'has-feedback': feedbackIsShow
-    }">
-    <div class="form-group">
+    }, `bs-form-item-${formLayout}`]">
+    <div
+      class="form-group"
+      :class="{
+        'form-row': labelIsHorizontal
+      }">
       <label
         v-show="labelIsShow"
         :for="labelFor || htmlLabelFor || null"
         class="bs-form-label"
-        :class="labelClass">
+        :class="[
+          labelClassFromForm,
+          labelClass,
+          labelTextAlign ? `bs-form-label-text-${labelTextAlign}` : '',
+          {
+            'col-form-label': labelIsHorizontal || formLayout == 'inline'
+          }
+        ]"
+        :style="{
+          width: labelRealWidth ? labelRealWidth : ''
+        }">
         <slot name="label">{{ label == ' ' ? '&nbsp;' : label }}</slot>
       </label>
       <div
         class="bs-form-item-content"
-        :class="contentClass">
+        :class="[
+          contentClassFromForm,
+          contentClass,
+          {
+            'form-content-valid': validStatus === 'success',
+            'form-content-invalid': validStatus === 'error',
+          }
+        ]">
         <slot></slot>
+        <small
+          v-if="hint || $slots.hint"
+          class="form-text text-muted">
+          <slot name="hint">{{ hint }}</slot>
+        </small>
+        <div
+          v-if="validStatus === 'success' && (validSuccessText === 0 || !!validSuccessText)"
+          class="valid-feedback">{{ validSuccessText }}</div>
+        <div
+          v-if="validStatus === 'error' && (invalidMessage === 0 || !!invalidMessage)"
+          v-html="invalidMessage"
+          class="invalid-feedback"></div>
       </div>
     </div>
-    <small
-      v-if="hint || $slots.hint"
-      class="form-text text-muted">
-      <slot name="hint">{{ hint }}</slot>
-    </small>
-    <div
-      v-if="validStatus === 'success' && (validSuccessText === 0 || !!validSuccessText)"
-      class="valid-feedback">{{ validSuccessText }}</div>
-    <div
-      v-if="validStatus === 'error' && (invalidMessage === 0 || !!invalidMessage)"
-      v-html="invalidMessage"
-      class="invalid-feedback"></div>
   </div>
 </template>
 
 <script lang="ts">
 import {
+  PropType,
   computed,
   defineComponent,
   ref,
@@ -61,6 +83,7 @@ import {
   ValidateStatus,
   FormItemValidateCallback,
   SetValidateStatusContext,
+  BsTextAlign,
   formContextKey,
   formItemContextKey
 } from '@/ts-tokens/bootstrap';
@@ -92,13 +115,25 @@ export default defineComponent({
       type: String,
       default: ''
     },
+    labelAlign: { // label标签的对齐方式
+      type: String as PropType<BsTextAlign>,
+      default: ''
+    },
     labelClass: { // label标签的额外classname
-      type: String,
+      type: [String, Array, Object],
+      default: ''
+    },
+    labelWidth: { // label标签的宽度
+      type: [String, Number],
       default: ''
     },
     contentClass: { // 内容部分的额外class
-      type: String,
+      type: [String, Array, Object],
       default: ''
+    },
+    horizontal: { // label是否水平显示
+      type: Boolean,
+      default: undefined
     },
     hint: { // 提示文字
       type: String,
@@ -242,6 +277,63 @@ export default defineComponent({
       return false;
     });
 
+    // 表单布局方式
+    let formLayout = computed(function () {
+      if (formContext) {
+        return formContext.props.layout;
+      }
+      return 'vertical';
+    });
+
+    // label是否水平显示
+    let labelIsHorizontal = computed(function () {
+      let horizontal = props.horizontal;
+      if (isBoolean(horizontal)) {
+        return horizontal;
+      }
+      if (formContext) {
+        return formContext.props.layout == 'horizontal';
+      }
+      return false;
+    });
+
+    // form组件传递过来的label的class
+    let labelTextAlign = computed(function () {
+      let align = props.labelAlign;
+      if (align) {
+        return align;
+      }
+      return formContext?.props.labelAlign;
+    });
+
+    // label的宽度
+    let labelRealWidth = computed(function () {
+      let width1 = props.labelWidth;
+      let width2 = formContext?.props.labelWidth;
+      if (width1) {
+        if (/^\d+$/.test(width1)) {
+          width1 = width1 + 'px';
+        }
+        return width1;
+      }
+      if (width2) {
+        if (/^\d+$/.test(width2)) {
+          width2 = width2 + 'px';
+        }
+        return width2;
+      }
+      return '';
+    });
+
+    // form组件传递过来的label的class
+    let labelClassFromForm = computed(function () {
+      return formContext?.props.labelClass;
+    });
+    // form组件传递过来的content的class
+    let contentClassFromForm = computed(function () {
+      return formContext?.props.contentClass;
+    });
+
     /**
      * 设置表单项子组件的校验状态
      * @param status
@@ -360,6 +452,12 @@ export default defineComponent({
       isRequired,
       labelIsShow,
       feedbackIsShow,
+      formLayout,
+      labelIsHorizontal,
+      labelClassFromForm,
+      contentClassFromForm,
+      labelTextAlign,
+      labelRealWidth,
 
       validate,
       clearValidate,

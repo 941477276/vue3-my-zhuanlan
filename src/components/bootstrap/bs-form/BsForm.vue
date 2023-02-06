@@ -3,7 +3,9 @@
   class="bs-form"
   :class="{
     'bs-form-hide-error-message': !showErrorMessage,
-    'form-inline': inline
+    'form-inline': layout == 'inline',
+    'form-horizontal': layout == 'horizontal',
+    'form-vertical': layout == 'vertical',
   }">
   <slot></slot>
 </form>
@@ -11,6 +13,7 @@
 
 <script lang="ts">
 import {
+  PropType,
   defineComponent,
   provide,
   ref,
@@ -18,7 +21,9 @@ import {
 } from 'vue';
 import {
   FormContext,
-  formContextKey
+  FormLayout,
+  formContextKey,
+  BsSize, BsTextAlign
 } from '@/ts-tokens/bootstrap';
 
 type ValidateCallback = (valid:boolean) => void;
@@ -46,9 +51,25 @@ export default defineComponent({
       type: Boolean,
       default: true
     },
-    inline: { // 是否为行内表单
-      type: Boolean,
-      default: false
+    layout: { // 表单布局模式
+      type: String as PropType<FormLayout>,
+      default: 'vertical'
+    },
+    labelClass: { // label标签的额外classname
+      type: [String, Array, Object],
+      default: ''
+    },
+    labelWidth: { // label标签的宽度
+      type: [String, Number],
+      default: ''
+    },
+    contentClass: { // 内容部分的额外class
+      type: [String, Array, Object],
+      default: ''
+    },
+    labelAlign: { // label标签的对齐方式
+      type: String as PropType<BsTextAlign>,
+      default: ''
     }
   },
   setup (props: any, ctx: any) {

@@ -32,6 +32,9 @@ export interface FormItemContext {
   removeChildComponentContext: (context: SetValidateStatusContext) => void;
 };
 
+// 表单布局模式
+export type FormLayout = 'horizontal' | 'vertical' | 'inline'
+
 // 子孙组件获取<bs-form>组件provide传递下去的值的key
 export const formContextKey: InjectionKey<FormContext> = Symbol('formContextKey');
 // 子孙组件获取<bs-form-item>组件provide传递下去的值的key
