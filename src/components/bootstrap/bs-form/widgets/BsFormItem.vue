@@ -8,7 +8,7 @@
       'is-required': isRequired,
       'hide-required-asterisk': hideRequiredAsterisk,
       'has-feedback': feedbackIsShow
-    }, `bs-form-item-${formLayout}`]">
+    }, `bs-form-item-${formLayout}`, formItemSize ? `bs-form-item-${formItemSize}` : '']">
     <div
       class="form-group"
       :class="{
@@ -22,6 +22,7 @@
           labelClassFromForm,
           labelClass,
           labelTextAlign ? `bs-form-label-text-${labelTextAlign}` : '',
+          formItemSize ? `col-form-label-${formItemSize}` : '',
           {
             'col-form-label': labelIsHorizontal || formLayout == 'inline'
           }
@@ -84,6 +85,7 @@ import {
   FormItemValidateCallback,
   SetValidateStatusContext,
   BsTextAlign,
+  BsSize,
   formContextKey,
   formItemContextKey
 } from '@/ts-tokens/bootstrap';
@@ -150,6 +152,10 @@ export default defineComponent({
     hideRequiredAsterisk: { // 是否隐藏必填字段的标签旁边的红色星号
       type: Boolean,
       default: false
+    },
+    size: { // 表单大小
+      type: String as PropType<BsSize>,
+      default: ''
     }
   },
   setup (props: any, ctx: any) {
@@ -334,6 +340,15 @@ export default defineComponent({
       return formContext?.props.contentClass;
     });
 
+    // form组件传递过来的label的class
+    let formItemSize = computed(function () {
+      let size = props.size;
+      if (size) {
+        return size;
+      }
+      return formContext?.props.size;
+    });
+
     /**
      * 设置表单项子组件的校验状态
      * @param status
@@ -458,6 +473,7 @@ export default defineComponent({
       contentClassFromForm,
       labelTextAlign,
       labelRealWidth,
+      formItemSize,
 
       validate,
       clearValidate,

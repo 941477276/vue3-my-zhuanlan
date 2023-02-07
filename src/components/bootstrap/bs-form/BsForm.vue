@@ -1,12 +1,12 @@
 <template>
 <form
   class="bs-form"
-  :class="{
+  :class="[{
     'bs-form-hide-error-message': !showErrorMessage,
     'form-inline': layout == 'inline',
     'form-horizontal': layout == 'horizontal',
     'form-vertical': layout == 'vertical',
-  }">
+  }, size ? `bs-form-${size}` : '']">
   <slot></slot>
 </form>
 </template>
@@ -23,7 +23,8 @@ import {
   FormContext,
   FormLayout,
   formContextKey,
-  BsSize, BsTextAlign
+  BsSize,
+  BsTextAlign
 } from '@/ts-tokens/bootstrap';
 
 type ValidateCallback = (valid:boolean) => void;
@@ -69,6 +70,10 @@ export default defineComponent({
     },
     labelAlign: { // label标签的对齐方式
       type: String as PropType<BsTextAlign>,
+      default: ''
+    },
+    size: { // 表单大小
+      type: String as PropType<BsSize>,
       default: ''
     }
   },
