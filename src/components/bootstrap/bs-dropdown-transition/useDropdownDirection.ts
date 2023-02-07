@@ -164,6 +164,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       documentScrollInfo: scrollInfo,
       scrollParent // 获取目标元素所处有滚动条的父级容器
     });
+    console.log('----------handleBottom isInView: ', isInView);
     // 如果目标元素插入到了body中，则需减去参照元素有滚动条父级容器滚动条滚动到距离（调用eleIsInView函数前不需要减去，因为eleIsInView函数内部计算时会减去）
     top -= targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0;
     left -= targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0;
@@ -234,6 +235,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       documentScrollInfo: scrollInfo,
       scrollParent // 获取目标元素所处有滚动条的父级容器
     });
+    console.log('----------handleTop isInView: ', isInView);
     // 如果目标元素插入到了body中，则需减去参照元素有滚动条父级容器滚动条滚动到距离（调用eleIsInView函数前不需要减去，因为eleIsInView函数内部计算时会减去）
     top -= targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0;
     left -= targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0;
@@ -329,7 +331,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       documentScrollInfo: scrollInfo,
       scrollParent // 获取目标元素所处有滚动条的父级容器
     });
-
+    console.log('----------handleLeft isInView: ', isInView);
     // 如果目标元素插入到了body中，则需减去参照元素有滚动条父级容器滚动条滚动到距离（调用eleIsInView函数前不需要减去，因为eleIsInView函数内部计算时会减去）
     top -= targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0;
     left -= targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0;
@@ -412,7 +414,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       documentScrollInfo: scrollInfo,
       scrollParent // 获取目标元素所处有滚动条的父级容器
     });
-
+    console.log('----------handleRight isInView: ', isInView);
     // 如果目标元素插入到了body中，则需减去参照元素有滚动条父级容器滚动条滚动到距离（调用eleIsInView函数前不需要减去，因为eleIsInView函数内部计算时会减去）
     top -= targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0;
     left -= targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0;
@@ -626,6 +628,7 @@ function eleIsInView (options: any) {
     let newTop = top;
     let newLeft = left;
     console.log('bodyScrollVisible.vertical1111111', bodyScrollVisible.vertical);
+    console.log('eleIsInView:scrollParent', scrollParent);
     if (documentHasScroll.vertical && !bodyScrollVisible.vertical) {
       console.log('减去了documentScrollInfo.top');
       newTop -= documentScrollInfo.top;
