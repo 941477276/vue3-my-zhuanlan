@@ -15,14 +15,14 @@
       },
       inputClass
     ]"
-    @click="on_click">
+    @click="handleClick">
     <div class="input-group-prepend" v-if="$slots.prepend">
       <slot name="prepend"></slot>
     </div>
     <div
       class="bs-input-wrap"
-      @mouseenter="on_mouseenter"
-      @mouseleave="on_mouseleave">
+      @mouseenter="handleMouseenter"
+      @mouseleave="handleMouseleave">
       <input
         v-if="type != 'textarea'"
         ref="inputRef"
@@ -45,10 +45,10 @@
         :name="name || null"
         :inputmode="inputmode"
         :style="inputStyle"
-        @input="on_input"
-        @change="on_change"
-        @focus="on_focus"
-        @blur="on_blur" />
+        @input="onInput"
+        @change="onChange"
+        @focus="onFocus"
+        @blur="handleBlur" />
 
       <textarea
         v-else
@@ -68,10 +68,10 @@
         :name="name || null"
         :inputmode="inputmode"
         :style="inputStyle"
-        @input="on_input"
-        @change="on_change"
-        @focus="on_focus"
-        @blur="on_blur"></textarea>
+        @input="onInput"
+        @change="onChange"
+        @focus="onFocus"
+        @blur="handleBlur"></textarea>
       <div
         v-if="$slots.prefix"
         class="bs-input-prefix">
@@ -161,7 +161,7 @@ export default defineComponent({
 
     // input事件
     /* eslint-disable */
-    let on_input = function (evt: Event) {
+    let onInput = function (evt: Event) {
       let val = (evt.target as HTMLInputElement).value;
       console.log('触发了input 事件');
       inputValue.value = val;
@@ -175,7 +175,7 @@ export default defineComponent({
 
       callFormItem('validate', 'input');
     };
-    let on_focus = function (evt: Event) {
+    let onFocus = function (evt: Event) {
       if (props.showPassword) {
         showPasswordIconDisplay.value = true; // 当类型为密码框，并且需要显示切换输入框类型按钮时在输入框获得焦点时显示切换类型按钮
       }
@@ -185,7 +185,7 @@ export default defineComponent({
       ctx.emit('focus', evt);
       callFormItem('validate', 'focus');
     };
-    let on_blur = function (evt: Event) {
+    let handleBlur = function (evt: Event) {
       let innerValue = inputValue.value;
       if ((innerValue + '').length > 0) {
         if (props.showPassword) {
@@ -205,24 +205,24 @@ export default defineComponent({
       ctx.emit('blur', evt);
       callFormItem('validate', 'blur');
     };
-    let on_change = function (evt: Event) {
+    let onChange = function (evt: Event) {
       // let val = (evt.target as HTMLInputElement).value;
       ctx.emit('change', evt);
       callFormItem('validate', 'change');
     };
-    let on_mouseenter = function (evt: MouseEvent) {
+    let handleMouseenter = function (evt: MouseEvent) {
       ctx.emit('mouseenter', evt);
       if (props.clearable && (inputValue.value + '').length > 0) {
         clearContentIconDisplay.value = true;
       }
     };
-    let on_mouseleave = function (evt: MouseEvent) {
+    let handleMouseleave = function (evt: MouseEvent) {
       ctx.emit('mouseleave', evt);
       if (props.clearable && (inputValue.value + '').length > 0 && clearContentIconDisplay.value) {
         clearContentIconDisplay.value = false;
       }
     };
-    let on_click = function (evt: MouseEvent) {
+    let handleClick = function (evt: MouseEvent) {
       if (props.disabled || props.readonly) {
         return;
       }
@@ -277,13 +277,13 @@ export default defineComponent({
       clearContentIconDisplay,
       validateStatus,
 
-      on_input,
-      on_change,
-      on_blur,
-      on_focus,
-      on_mouseenter,
-      on_mouseleave,
-      on_click,
+      onInput,
+      onChange,
+      handleBlur,
+      onFocus,
+      handleMouseenter,
+      handleMouseleave,
+      handleClick,
       togglePasswordText,
       handleClear,
       clear,
