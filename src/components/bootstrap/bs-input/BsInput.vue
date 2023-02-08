@@ -45,9 +45,9 @@
         :name="name || null"
         :inputmode="inputmode"
         :style="inputStyle"
-        @input="onInput"
-        @change="onChange"
-        @focus="onFocus"
+        @input="handleInput"
+        @change="handleChange"
+        @focus="handleFocus"
         @blur="handleBlur" />
 
       <textarea
@@ -68,9 +68,9 @@
         :name="name || null"
         :inputmode="inputmode"
         :style="inputStyle"
-        @input="onInput"
-        @change="onChange"
-        @focus="onFocus"
+        @input="handleInput"
+        @change="handleChange"
+        @focus="handleFocus"
         @blur="handleBlur"></textarea>
       <div
         v-if="$slots.prefix"
@@ -161,7 +161,7 @@ export default defineComponent({
 
     // input事件
     /* eslint-disable */
-    let onInput = function (evt: Event) {
+    let handleInput = function (evt: Event) {
       let val = (evt.target as HTMLInputElement).value;
       console.log('触发了input 事件');
       inputValue.value = val;
@@ -175,7 +175,7 @@ export default defineComponent({
 
       callFormItem('validate', 'input');
     };
-    let onFocus = function (evt: Event) {
+    let handleFocus = function (evt: Event) {
       if (props.showPassword) {
         showPasswordIconDisplay.value = true; // 当类型为密码框，并且需要显示切换输入框类型按钮时在输入框获得焦点时显示切换类型按钮
       }
@@ -205,7 +205,7 @@ export default defineComponent({
       ctx.emit('blur', evt);
       callFormItem('validate', 'blur');
     };
-    let onChange = function (evt: Event) {
+    let handleChange = function (evt: Event) {
       // let val = (evt.target as HTMLInputElement).value;
       ctx.emit('change', evt);
       callFormItem('validate', 'change');
@@ -277,10 +277,10 @@ export default defineComponent({
       clearContentIconDisplay,
       validateStatus,
 
-      onInput,
-      onChange,
+      handleInput,
+      handleChange,
       handleBlur,
-      onFocus,
+      handleFocus,
       handleMouseenter,
       handleMouseleave,
       handleClick,
