@@ -5,7 +5,7 @@
     <Basic></Basic>
   </div>
 
-  <div>
+  <!--<div>
     <hr>
     <h3>不同大小</h3>
     <Size></Size>
@@ -43,7 +43,7 @@
 
   <hr>
   <h3>禁用和只读</h3>
-  <DisabledAndReadonly></DisabledAndReadonly>
+  <DisabledAndReadonly></DisabledAndReadonly>-->
 </div>
 </template>
 
@@ -61,14 +61,14 @@ import DisabledAndReadonly from './demos/disabled-and-readonly.vue';
 export default defineComponent({
   name: 'BsInputUsage',
   components: {
-    Basic,
-    Size,
+    Basic
+    /* Size,
     Clearable,
     Password,
     PrefixAndSuffix,
     Slots,
     Textarea,
-    DisabledAndReadonly
+    DisabledAndReadonly */
   },
   setup (props: any) {
     let inputValue = ref('哈哈');

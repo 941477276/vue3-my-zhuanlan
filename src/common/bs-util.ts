@@ -163,6 +163,14 @@ export function camelCase2KebabCase (camelStr: string): string {
   });
 };
 
+/**
+ * 判断文本是否为韩文
+ * @param text
+ */
+export function isKorean (text: string): boolean {
+  return /([(\uAC00-\uD7AF)|(\u3130-\u318F)])+/gi.test(text);
+}
+
 /* **************************** DOM utils start ************************************* */
 
 // 获取浏览器宽高

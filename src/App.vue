@@ -6,9 +6,9 @@
     <!--<div class="box">
       <BsButtonGroupUsage></BsButtonGroupUsage>
     </div>-->
-    <!--<div class="box">
+    <div class="box">
       <BsInputUsage></BsInputUsage>
-    </div>-->
+    </div>
     <!--<div class="box">
       <BsRadioUsage></BsRadioUsage>
     </div>-->
@@ -24,9 +24,9 @@
     <!--<div class="box">
       <BsSelectUsage></BsSelectUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsFormUsage></BsFormUsage>
-    </div>
+    </div>-->
     <!--<div class="box">
       <BsDropdownUsage></BsDropdownUsage>
     </div>-->

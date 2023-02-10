@@ -70,5 +70,9 @@ export const bsInputProps = {
   ariaLabel: { // area-label属性值
     type: String,
     default: ''
+  },
+  compositionDisable: { // 是否不对input当composition事件进行拦截，当值为true时在输入中文、日文等其他非英文时modelValue的值将会在input事件中实时更新
+    type: Boolean,
+    default: false
   }
 };

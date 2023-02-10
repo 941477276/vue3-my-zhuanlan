@@ -37,7 +37,6 @@
         ]"
         :type="inputType"
         :id="inputId"
-        :value="inputValue || value"
         :disabled="disabled"
         :readonly="readonly"
         :placeholder="placeholder || null"
@@ -48,7 +47,11 @@
         @input="handleInput"
         @change="handleChange"
         @focus="handleFocus"
-        @blur="handleBlur" />
+        @blur="handleBlur"
+        @compositionstart="handleCompositionStart"
+        @compositionupdate="handleCompositionUpdate"
+        @compositionend="handleCompositionEnd"
+        @keydown="$emit('keydown', $event)" />
 
       <textarea
         v-else
@@ -60,7 +63,6 @@
           'is-invalid': validateStatus === 'error'
         }"
         :id="inputId"
-        :value="inputValue || value"
         :disabled="disabled"
         :readonly="readonly"
         :placeholder="placeholder || null"
@@ -71,7 +73,11 @@
         @input="handleInput"
         @change="handleChange"
         @focus="handleFocus"
-        @blur="handleBlur"></textarea>
+        @blur="handleBlur"
+        @compositionstart="handleCompositionStart"
+        @compositionupdate="handleCompositionUpdate"
+        @compositionend="handleCompositionEnd"
+        @keydown="$emit('keydown', $event)"></textarea>
       <div
         v-if="$slots.prefix"
         class="bs-input-prefix">
@@ -123,6 +129,7 @@ import { bsInputProps } from './bs-input-props';
 import { BsiXCircle } from 'vue3-bootstrap-icon/es/icons/BsiXCircle';
 import { BsiEye } from 'vue3-bootstrap-icon/es/icons/BsiEye';
 import { BsiEyeSlash } from 'vue3-bootstrap-icon/es/icons/BsiEyeSlash';
+import { isKorean } from '@/common/bs-util';
 
 let inputCount = 0;
 let textareaCount = 0;
@@ -136,7 +143,7 @@ export default defineComponent({
   props: {
     ...bsInputProps
   },
-  emits: ['click', 'input', 'update:modelValue', 'change', 'blur', 'focus', 'clear', 'mouseenter', 'mouseleave'],
+  emits: ['click', 'input', 'update:modelValue', 'change', 'blur', 'focus', 'clear', 'mouseenter', 'mouseleave', 'compositionstart', 'compositionupdate', 'compositionend', 'keydown'],
   setup (props: any, ctx: any) {
     let showPasswordIconDisplay = ref(false); // 切换输入框类型为“密码/文本”按钮是否显示
     let clearContentIconDisplay = ref(false); // 清空内容按钮是否显示
@@ -152,19 +159,23 @@ export default defineComponent({
     }
 
     let inputRef = ref<HTMLInputElement | null>(null);
-    let { passwordIsShow, inputValue, inputClass, inputType, togglePasswordText } = useInput(props);
+    let { passwordIsShow, inputValue, inputClass, inputType, togglePasswordText } = useInput(props, inputRef);
     let { validateStatus, setValidateStatus, getValidateStatus } = useSetValidateStatus();
     let { callFormItem } = useDeliverContextToFormItem(props, {
       id: inputId.value,
       setValidateStatus
     });
+    let isCompositing = ref(false);
 
     // input事件
     /* eslint-disable */
     let handleInput = function (evt: Event) {
+      if (isCompositing.value && !props.compositionDisable) {
+        return;
+      }
       let val = (evt.target as HTMLInputElement).value;
       console.log('触发了input 事件');
-      inputValue.value = val;
+      // inputValue.value = val;
       if (props.clearable && val.length > 0) {
         clearContentIconDisplay.value = true;
       } else {
@@ -228,6 +239,23 @@ export default defineComponent({
       }
       ctx.emit('click', evt);
     };
+    let handleCompositionStart = function (evt: CompositionEvent) {
+      isCompositing.value = true;
+      ctx.emit('compositionstart', evt);
+    };
+    let handleCompositionUpdate = function (evt: CompositionEvent) {
+      let text = (evt.target as HTMLInputElement)?.value;
+      let lastCharacter = text[text.length - 1] || '';
+      isCompositing.value = !isKorean(lastCharacter)
+      ctx.emit('compositionupdate', evt);
+    };
+    let handleCompositionEnd = function (evt: CompositionEvent) {
+      if (isCompositing.value) {
+        isCompositing.value = false;
+        handleInput(evt);
+      }
+      ctx.emit('compositionend', evt);
+    };
     let clear = function () {
       inputValue.value = '';
       clearContentIconDisplay.value = false;
@@ -248,6 +276,10 @@ export default defineComponent({
     let blur = function () {
       (inputRef.value as HTMLInputElement).blur();
     };
+    // 选中输入框中的文本
+    let select = function () {
+      (inputRef.value as HTMLInputElement).select();
+    }
     /**
      *  切换清空内容按钮显示
      * @param flag
@@ -284,11 +316,16 @@ export default defineComponent({
       handleMouseenter,
       handleMouseleave,
       handleClick,
+      handleCompositionStart,
+      handleCompositionUpdate,
+      handleCompositionEnd,
+
       togglePasswordText,
       handleClear,
       clear,
       focus,
       blur,
+      select,
       setValidateStatus,
       setClearIconDisplay
     };

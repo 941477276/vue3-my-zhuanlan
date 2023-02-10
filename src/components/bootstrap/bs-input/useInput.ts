@@ -1,4 +1,7 @@
-import { computed, ref, watch } from 'vue';
+import { computed, Ref, ref, watch } from 'vue';
+import {
+  isNoneValue
+} from '@/common/bs-util';
 
 /**
  * 当为密码输入框时切换密文/密码原文
@@ -18,7 +21,7 @@ function usePasswordIsShow (props: any) {
   };
 }
 
-export function useInput (props: any) {
+export function useInput (props: any, inputRef: Ref<HTMLInputElement | null>) {
   let { passwordIsShow, togglePasswordText } = usePasswordIsShow(props);
   // 计算输入框的class
   let inputClass = computed<string>(() => {
@@ -33,12 +36,25 @@ export function useInput (props: any) {
     return props.type;
   });
 
-  // 处理input的值
-  let inputValue = ref<string|number>(props.modelValue);
-  watch(() => props.modelValue, newVal => {
-    if (inputValue.value != newVal) {
-      inputValue.value = newVal;
+  // 原生input的值
+  let inputValue = ref<string|number>(isNoneValue(props.modelValue) ? '' : props.modelValue);
+
+  // 设置原生input的value
+  let setInputValue = function (val: string) {
+    let inputEl = inputRef.value;
+    if (!inputEl || inputEl.value === val) {
+      return;
     }
+    inputEl.value = val;
+  };
+
+  watch(() => props.modelValue, newModelVal => {
+    /* if (inputValue.value != newModelVal) {
+      inputValue.value = newModelVal;
+    } */
+    let newValue = isNoneValue(newModelVal) ? '' : newModelVal;
+    inputValue.value = newValue;
+    setInputValue(newValue);
   });
 
   return {
@@ -47,6 +63,7 @@ export function useInput (props: any) {
     inputValue,
     passwordIsShow,
 
-    togglePasswordText
+    togglePasswordText,
+    setInputValue
   };
 }
