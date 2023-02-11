@@ -74,5 +74,17 @@ export const bsInputProps = {
   compositionDisable: { // 是否不对input当composition事件进行拦截，当值为true时在输入中文、日文等其他非英文时modelValue的值将会在input事件中实时更新
     type: Boolean,
     default: false
+  },
+  autoHeight: { // 是否自动计算高度，仅当type=textarea时有效
+    type: Boolean,
+    default: false
+  },
+  minHeight: { // textarea的最小高度，仅当type=textarea时有效，当值为0时minHeight无效
+    type: Number,
+    default: 0
+  },
+  textareaEmptyHeightIsMinHeight: { // textarea值为空时的高度是否为minHeight
+    type: Boolean,
+    default: true
   }
 };

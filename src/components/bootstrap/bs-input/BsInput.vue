@@ -28,6 +28,7 @@
         ref="inputRef"
         class="form-control"
         autocomplete="off"
+        v-bind="$attrs"
         :class="[
           {
             'is-valid': validateStatus === 'success',
@@ -53,31 +54,35 @@
         @compositionend="handleCompositionEnd"
         @keydown="$emit('keydown', $event)" />
 
-      <textarea
-        v-else
-        ref="inputRef"
-        class="form-control"
-        autocomplete="off"
-        :class="{
-          'is-valid': validateStatus === 'success',
-          'is-invalid': validateStatus === 'error'
-        }"
-        :id="inputId"
-        :disabled="disabled"
-        :readonly="readonly"
-        :placeholder="placeholder || null"
-        :aria-label="ariaLabel || placeholder || null"
-        :name="name || null"
-        :inputmode="inputmode"
-        :style="inputStyle"
-        @input="handleInput"
-        @change="handleChange"
-        @focus="handleFocus"
-        @blur="handleBlur"
-        @compositionstart="handleCompositionStart"
-        @compositionupdate="handleCompositionUpdate"
-        @compositionend="handleCompositionEnd"
-        @keydown="$emit('keydown', $event)"></textarea>
+      <template v-else>
+        <GhostTextarea v-if="autoHeight" :text="inputValue" @height-change="handleTextareaHeight"></GhostTextarea>
+        <textarea
+          ref="inputRef"
+          class="form-control"
+          autocomplete="off"
+          v-bind="$attrs"
+          :class="{
+            'is-valid': validateStatus === 'success',
+            'is-invalid': validateStatus === 'error'
+          }"
+          :id="inputId"
+          :disabled="disabled"
+          :readonly="readonly"
+          :placeholder="placeholder || null"
+          :aria-label="ariaLabel || placeholder || null"
+          :name="name || null"
+          :inputmode="inputmode"
+          :style="inputStyle"
+          @input="handleInput"
+          @change="handleChange"
+          @focus="handleFocus"
+          @blur="handleBlur"
+          @compositionstart="handleCompositionStart"
+          @compositionupdate="handleCompositionUpdate"
+          @compositionend="handleCompositionEnd"
+          @keydown="$emit('keydown', $event)"></textarea>
+      </template>
+
       <div
         v-if="$slots.prefix"
         class="bs-input-prefix">
@@ -129,7 +134,8 @@ import { bsInputProps } from './bs-input-props';
 import { BsiXCircle } from 'vue3-bootstrap-icon/es/icons/BsiXCircle';
 import { BsiEye } from 'vue3-bootstrap-icon/es/icons/BsiEye';
 import { BsiEyeSlash } from 'vue3-bootstrap-icon/es/icons/BsiEyeSlash';
-import { isKorean } from '@/common/bs-util';
+import { isKorean, isNoneValue } from '@/common/bs-util';
+import { GhostTextarea } from './widgets/ghost-textarea';
 
 let inputCount = 0;
 let textareaCount = 0;
@@ -138,7 +144,8 @@ export default defineComponent({
   components: {
     BsiXCircle,
     BsiEye,
-    BsiEyeSlash
+    BsiEyeSlash,
+    GhostTextarea
   },
   props: {
     ...bsInputProps
@@ -256,6 +263,40 @@ export default defineComponent({
       }
       ctx.emit('compositionend', evt);
     };
+
+    let textareaLastHeight = 0;
+    let textareaEmptyHeight = 0; // textarea值为空时的高度
+    // 处理textarea自动高度
+    let handleTextareaHeight = function (height: number) {
+      if (!props.autoHeight || props.type != 'textarea') {
+        return;
+      }
+      let textareaEl = inputRef.value;
+      if (!textareaEl) {
+        return;
+      }
+      // let textareaHeight = textareaEl.offsetHeight || 0;
+      if (height == -1 && textareaLastHeight) {
+        textareaEl.style.height = '';
+        textareaLastHeight = height;
+        console.log('height == -1');
+        return;
+      }
+      let minHeight = props.minHeight;
+      if (props.textareaEmptyHeightIsMinHeight && minHeight <= 0) {
+        minHeight = textareaEmptyHeight;
+      }
+      if (height <= minHeight) {
+        if (minHeight > 0) {
+          textareaEl.style.height = minHeight + 'px';
+          textareaLastHeight = minHeight;
+        }
+        console.log('height <= textareaHeight');
+        return;
+      }
+      textareaEl.style.height = height + 'px';
+      textareaLastHeight = height;
+    };
     let clear = function () {
       inputValue.value = '';
       clearContentIconDisplay.value = false;
@@ -270,7 +311,11 @@ export default defineComponent({
     }
     // 让元素获得焦点
     let focus = function () {
-      (inputRef.value as HTMLInputElement).focus();
+      let inputEl = inputRef.value as HTMLInputElement;
+      inputEl.focus();
+      if (isNoneValue(inputEl.value)) {
+        textareaEmptyHeight = inputEl.offsetHeight;
+      }
     };
     // 让元素失去焦点
     let blur = function () {
@@ -319,6 +364,7 @@ export default defineComponent({
       handleCompositionStart,
       handleCompositionUpdate,
       handleCompositionEnd,
+      handleTextareaHeight,
 
       togglePasswordText,
       handleClear,
