@@ -5,7 +5,7 @@
     <Basic></Basic>
   </div>
 
-  <!--<div>
+  <div>
     <hr>
     <h3>不同大小</h3>
     <Size></Size>
@@ -41,9 +41,17 @@
     <Textarea></Textarea>
   </div>
 
-  <hr>
-  <h3>禁用和只读</h3>
-  <DisabledAndReadonly></DisabledAndReadonly>-->
+  <div>
+    <hr>
+    <h3>文本域——自动计算高度</h3>
+    <TextareaAutoHeight></TextareaAutoHeight>
+  </div>
+
+   <div>
+    <hr>
+    <h3>禁用和只读</h3>
+    <DisabledAndReadonly></DisabledAndReadonly>
+  </div>
 </div>
 </template>
 
@@ -56,19 +64,21 @@ import Password from './demos/password.vue';
 import PrefixAndSuffix from './demos/prefix-and-suffix.vue';
 import Slots from './demos/slots.vue';
 import Textarea from './demos/textarea.vue';
+import TextareaAutoHeight from './demos/textarea-auto-height.vue';
 import DisabledAndReadonly from './demos/disabled-and-readonly.vue';
 
 export default defineComponent({
   name: 'BsInputUsage',
   components: {
-    Basic
-    /* Size,
+    Basic,
+    Size,
     Clearable,
     Password,
     PrefixAndSuffix,
     Slots,
     Textarea,
-    DisabledAndReadonly */
+    DisabledAndReadonly,
+    TextareaAutoHeight
   },
   setup (props: any) {
     let inputValue = ref('哈哈');

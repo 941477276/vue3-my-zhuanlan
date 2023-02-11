@@ -28,7 +28,6 @@
         ref="inputRef"
         class="form-control"
         autocomplete="off"
-        v-bind="$attrs"
         :class="[
           {
             'is-valid': validateStatus === 'success',
@@ -60,7 +59,6 @@
           ref="inputRef"
           class="form-control"
           autocomplete="off"
-          v-bind="$attrs"
           :class="{
             'is-valid': validateStatus === 'success',
             'is-invalid': validateStatus === 'error'
