@@ -86,5 +86,11 @@ export const bsInputProps = {
   textareaEmptyHeightIsMinHeight: { // textarea值为空时的高度是否为minHeight
     type: Boolean,
     default: true
+  },
+  nativeAttrs: { // input原生属性
+    type: Object,
+    default () {
+      return {};
+    }
   }
 };

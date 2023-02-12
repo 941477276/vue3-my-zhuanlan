@@ -11,7 +11,8 @@
         'has-suffix-icon': $slots.suffix || showPassword || clearable,
         'has-prefix-icon': $slots.prefix,
         'has-prepend': $slots.prepend,
-        'has-append': $slots.append
+        'has-append': $slots.append,
+        'bs-textarea': type == 'textarea'
       },
       inputClass
     ]"
@@ -28,6 +29,7 @@
         ref="inputRef"
         class="form-control"
         autocomplete="off"
+        v-bind="nativeAttrs"
         :class="[
           {
             'is-valid': validateStatus === 'success',
@@ -59,6 +61,7 @@
           ref="inputRef"
           class="form-control"
           autocomplete="off"
+          v-bind="nativeAttrs"
           :class="{
             'is-valid': validateStatus === 'success',
             'is-invalid': validateStatus === 'error'
