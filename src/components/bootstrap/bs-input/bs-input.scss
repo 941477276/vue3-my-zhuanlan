@@ -21,6 +21,7 @@
   align-items: center;
   justify-content: center;
   position: absolute;
+  z-index: 5;
   top: 1px;
   bottom: 1px;
   min-width: 2rem;
@@ -31,7 +32,11 @@
 .bs-input-suffix{
   right: 1px;
 }
-
+.bs-input-text-count{
+  padding: 0 0.5rem;
+  font-size: 0.875rem;
+  background-color: #fff;
+}
 .bs-input-suffix-icon{
   display: flex;
   align-items: center;
@@ -80,6 +85,18 @@
   }
 }
 
+.bs-textarea{
+  .bs-input-wrap{
+    &>.bs-input-text-count{
+      position: absolute;
+      z-index: 3;
+      bottom: 0.5rem;
+      right: 0.5rem;
+      background-color: rgba(255,255,255, 0.8);
+    }
+  }
+}
+
 .bs-input{
   .form-control{
     z-index: 2;
@@ -119,7 +136,7 @@
       padding-left: 2rem;
     }
   }
-  &.disabled {
+  &.is-disabled {
     .clear-content_icon{
       display: none;
     }
@@ -127,6 +144,14 @@
       &:hover{
         color: #aaa;
       }
+    }
+    .bs-input-text-count{
+      background-color: transparent;
+    }
+  }
+  &.is-readonly{
+    .bs-input-text-count{
+      background-color: transparent;
     }
   }
 

@@ -15,6 +15,14 @@ export const GhostTextarea = defineComponent({
     text: {
       type: String,
       default: ''
+    },
+    minlength: { // 最少字数
+      type: Number,
+      default: 0
+    },
+    maxlength: { // 最多字数
+      type: Number,
+      default: 0
     }
   },
   emits: ['height-change'],
@@ -47,10 +55,14 @@ export const GhostTextarea = defineComponent({
       useGlobalEvent.removeEvent('window', 'resize', resizeEventHandler);
     });
     return function () {
+      let minlength = props.minlength == 0 ? '' : props.minlength;
+      let maxlength = props.maxlength == 0 ? '' : props.maxlength;
       return h('textarea', {
         ref: textareaRef,
         class: 'form-control bs-ghost-textarea',
-        value: props.text
+        value: props.text,
+        minlength,
+        maxlength
       });
     };
   }

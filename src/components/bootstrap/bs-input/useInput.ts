@@ -52,7 +52,14 @@ export function useInput (props: any, inputRef: Ref<HTMLInputElement | null>) {
     /* if (inputValue.value != newModelVal) {
       inputValue.value = newModelVal;
     } */
-    let newValue = isNoneValue(newModelVal) ? '' : newModelVal;
+    if (newModelVal === inputValue.value) {
+      return;
+    }
+    let newValue = isNoneValue(newModelVal) ? '' : (newModelVal + '');
+    /* let maxlength = props.maxlength;
+    if (maxlength > 0 && newValue.length > maxlength) {
+      newValue = newValue.substr(0, maxlength);
+    } */
     inputValue.value = newValue;
     setInputValue(newValue);
   });

@@ -92,5 +92,17 @@ export const bsInputProps = {
     default () {
       return {};
     }
+  },
+  minlength: { // 最少字数
+    type: Number,
+    default: 0
+  },
+  maxlength: { // 最多字数
+    type: Number,
+    default: 0
+  },
+  showCount: { // 是否显示字数
+    type: Boolean,
+    default: false
   }
 };

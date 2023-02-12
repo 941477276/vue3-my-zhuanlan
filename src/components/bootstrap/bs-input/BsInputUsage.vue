@@ -47,6 +47,12 @@
     <TextareaAutoHeight></TextareaAutoHeight>
   </div>
 
+  <div>
+    <hr>
+    <h3>字数限制</h3>
+    <ShowTextCount></ShowTextCount>
+  </div>
+
    <div>
     <hr>
     <h3>禁用和只读</h3>
@@ -64,6 +70,7 @@ import Password from './demos/password.vue';
 import PrefixAndSuffix from './demos/prefix-and-suffix.vue';
 import Slots from './demos/slots.vue';
 import Textarea from './demos/textarea.vue';
+import ShowTextCount from './demos/show-text-count.vue';
 import TextareaAutoHeight from './demos/textarea-auto-height.vue';
 import DisabledAndReadonly from './demos/disabled-and-readonly.vue';
 
@@ -77,6 +84,7 @@ export default defineComponent({
     PrefixAndSuffix,
     Slots,
     Textarea,
+    ShowTextCount,
     DisabledAndReadonly,
     TextareaAutoHeight
   },

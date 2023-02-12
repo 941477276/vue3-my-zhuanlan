@@ -4,7 +4,8 @@
     class="input-group bs-input"
     :class="[
       {
-        disabled,
+        'is-disabled': disabled,
+        'is-readonly': readonly,
         'has-show-password_icon': showPasswordIconDisplay,
         'has-clear-content_icon': clearContentIconDisplay,
         'has-custom-suffix_icon': $slots.suffix,
@@ -12,13 +13,21 @@
         'has-prefix-icon': $slots.prefix,
         'has-prepend': $slots.prepend,
         'has-append': $slots.append,
-        'bs-textarea': type == 'textarea'
+        'bs-textarea': type == 'textarea',
+        'show-text-count': showCount
       },
       inputClass
     ]"
     @click="handleClick">
     <div class="input-group-prepend" v-if="$slots.prepend">
       <slot name="prepend"></slot>
+    </div>
+    <div
+      v-if="$slots.prefix"
+      class="bs-input-prefix">
+        <span class="bs-input-suffix-icon custom-suffix-icon">
+          <slot name="prefix"></slot>
+        </span>
     </div>
     <div
       class="bs-input-wrap"
@@ -46,6 +55,8 @@
         :name="name || null"
         :inputmode="inputmode"
         :style="inputStyle"
+        :minlength="minlength > 0 ? minlength : null"
+        :maxlength="maxlength > 0 ? maxlength : null"
         @input="handleInput"
         @change="handleChange"
         @focus="handleFocus"
@@ -56,7 +67,12 @@
         @keydown="$emit('keydown', $event)" />
 
       <template v-else>
-        <GhostTextarea v-if="autoHeight" :text="inputValue" @height-change="handleTextareaHeight"></GhostTextarea>
+        <GhostTextarea
+          v-if="autoHeight"
+          :text="inputValue"
+          :minlength="minlength"
+          :maxlength="maxlength"
+          @height-change="handleTextareaHeight"></GhostTextarea>
         <textarea
           ref="inputRef"
           class="form-control"
@@ -74,6 +90,7 @@
           :name="name || null"
           :inputmode="inputmode"
           :style="inputStyle"
+          :maxlength="maxlength > 0 ? maxlength : ''"
           @input="handleInput"
           @change="handleChange"
           @focus="handleFocus"
@@ -85,14 +102,7 @@
       </template>
 
       <div
-        v-if="$slots.prefix"
-        class="bs-input-prefix">
-        <span class="bs-input-suffix-icon custom-suffix-icon">
-          <slot name="prefix"></slot>
-        </span>
-      </div>
-      <div
-        v-if="$slots.suffix || showPassword || clearable"
+        v-if="$slots.suffix || showPassword || clearable || (showCount && type != 'textarea')"
         class="bs-input-suffix">
         <span
           v-if="$slots.suffix"
@@ -115,7 +125,19 @@
           <BsiEyeSlash v-if="passwordIsShow"></BsiEyeSlash>
           <BsiEye v-else></BsiEye>
         </span>
+        <span class="bs-input-text-count" v-if="showCount && type != 'textarea'">
+          <slot name="text-count" :data="{count: inputValue.length, maxCount: maxlength}">
+            <template v-if="maxlength > 0">{{ inputValue.length }} / {{ maxlength }}</template>
+            <template v-else>{{ inputValue.length }}</template>
+          </slot>
+        </span>
       </div>
+      <span class="bs-input-text-count" v-if="showCount && type == 'textarea'">
+        <slot name="text-count" :data="{count: inputValue.length, maxCount: maxlength}">
+          <template v-if="maxlength > 0">{{ inputValue.length }} / {{ maxlength }}</template>
+          <template v-else>{{ inputValue.length }}</template>
+        </slot>
+      </span>
     </div>
     <div class="input-group-append" v-if="$slots.append">
       <slot name="append"></slot>
@@ -188,6 +210,11 @@ export default defineComponent({
         clearContentIconDisplay.value = true;
       } else {
         clearContentIconDisplay.value = false;
+      }
+      let maxlength = props.maxlength;
+      if (maxlength > 0 && val.length > maxlength) {
+        val = val.substr(0, maxlength);
+        (evt.target as HTMLInputElement).value = val;
       }
       ctx.emit('update:modelValue', val);
       ctx.emit('input', val, evt);
@@ -299,7 +326,7 @@ export default defineComponent({
       textareaLastHeight = height;
     };
     let clear = function () {
-      inputValue.value = '';
+      // inputValue.value = '';
       clearContentIconDisplay.value = false;
       ctx.emit('update:modelValue', '');
       ctx.emit('clear');
