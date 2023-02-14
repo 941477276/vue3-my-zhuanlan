@@ -6,10 +6,6 @@ export const bsInputProps = {
     type: [String, Number],
     default: ''
   },
-  value: {
-    type: [String, Number],
-    default: ''
-  },
   type: { // 输入框类型
     type: String as PropType<BsInputType>,
     default: 'text'
