@@ -12,12 +12,12 @@
     <!--<div class="box">
       <BsRadioUsage></BsRadioUsage>
     </div>-->
-    <div class="box">
-      <BsRadioGroupUsage></BsRadioGroupUsage>
-    </div>
     <!--<div class="box">
-      <BsCheckboxUsage></BsCheckboxUsage>
+      <BsRadioGroupUsage></BsRadioGroupUsage>
     </div>-->
+    <div class="box">
+      <BsCheckboxUsage></BsCheckboxUsage>
+    </div>
     <!--<div class="box">
       <BsCheckboxGroupUsage></BsCheckboxGroupUsage>
     </div>-->
