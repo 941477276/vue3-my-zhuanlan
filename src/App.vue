@@ -1,11 +1,11 @@
 <template>
   <bs-config-provider size="sm">
-    <div class="box">
-      <BsButtonUsage></BsButtonUsage>
-    </div>
     <!--<div class="box">
-      <BsButtonGroupUsage></BsButtonGroupUsage>
+      <BsButtonUsage></BsButtonUsage>
     </div>-->
+    <div class="box">
+      <BsButtonGroupUsage></BsButtonGroupUsage>
+    </div>
     <!--<div class="box">
       <BsInputUsage></BsInputUsage>
     </div>-->
