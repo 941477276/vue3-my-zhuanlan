@@ -99,7 +99,7 @@
             <li
               v-if="(!loading && optionItems.length == 0) || (filtering && filterable && Object.keys(filteredVisibleOptions).length == 0)"
               class="bs-select-empty">
-              <slot name="empty">{{ noDataText }}</slot>
+              <slot name="empty">{{ emptyText }}</slot>
             </li>
             <li class="bs-select-loading" v-if="loading">
               <slot name="loading">
@@ -417,6 +417,9 @@ export default defineComponent({
       onSelectInputClear,
       dropdownShow,
       dropdownHide,
+      setValidateStatus: function (status: ValidateStatus) {
+        (bsSelectInputRef.value as any).setValidateStatus(status);
+      },
 
       onSelectInputClick,
       onTagClose,

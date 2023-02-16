@@ -83,7 +83,7 @@ export const bsSelectProps = {
     type: String,
     default: ''
   },
-  noDataText: { // 下拉列表为空时显示的文字，也可以使用slot="empty"设置
+  emptyText: { // 下拉列表为空时显示的文字，也可以使用slot="empty"设置
     type: String,
     default: '无数据'
   },
