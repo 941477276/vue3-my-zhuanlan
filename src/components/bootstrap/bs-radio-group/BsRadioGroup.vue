@@ -15,8 +15,6 @@ import {
 
 export default defineComponent({
   name: 'BsRadioGroup',
-  components: {},
-
   props: {
     modelValue: {
       type: [String, Number, Boolean],
