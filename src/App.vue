@@ -24,12 +24,12 @@
     <!--<div class="box">
       <BsSelectUsage></BsSelectUsage>
     </div>-->
-    <div class="box">
-      <BsFormUsage></BsFormUsage>
-    </div>
     <!--<div class="box">
-      <BsDropdownUsage></BsDropdownUsage>
+      <BsFormUsage></BsFormUsage>
     </div>-->
+    <div class="box">
+      <BsDropdownUsage></BsDropdownUsage>
+    </div>
     <!--<div class="box">
       <BsDropdownTransitionUsage></BsDropdownTransitionUsage>
     </div>-->
