@@ -27,12 +27,12 @@
     <!--<div class="box">
       <BsFormUsage></BsFormUsage>
     </div>-->
-    <div class="box">
+   <!-- <div class="box">
       <BsDropdownUsage></BsDropdownUsage>
-    </div>
-    <!--<div class="box">
-      <BsDropdownTransitionUsage></BsDropdownTransitionUsage>
     </div>-->
+    <div class="box">
+      <BsDropdownTransitionUsage></BsDropdownTransitionUsage>
+    </div>
     <!--<router-view></router-view>-->
     <!--<div class="box">
       <BsPaginationUsage></BsPaginationUsage>
