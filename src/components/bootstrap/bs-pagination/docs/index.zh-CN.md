@@ -36,7 +36,7 @@ subtitle: 分页
 | currentChange  | 当前页码变化时触发                     |      |       |
 
 
-### FormItem 插槽
+### Pagination 插槽
 
 | 插槽名称 | 说明    | 版本  |
 |------|-------|-----|
