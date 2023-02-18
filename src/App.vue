@@ -30,13 +30,13 @@
    <!-- <div class="box">
       <BsDropdownUsage></BsDropdownUsage>
     </div>-->
-    <div class="box">
-      <BsDropdownTransitionUsage></BsDropdownTransitionUsage>
-    </div>
-    <!--<router-view></router-view>-->
     <!--<div class="box">
-      <BsPaginationUsage></BsPaginationUsage>
+      <BsDropdownTransitionUsage></BsDropdownTransitionUsage>
     </div>-->
+    <!--<router-view></router-view>-->
+    <div class="box">
+      <BsPaginationUsage></BsPaginationUsage>
+    </div>
     <!--<div class="box">
       <BsBadgeUsage></BsBadgeUsage>
     </div>-->
