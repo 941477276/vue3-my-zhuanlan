@@ -13,10 +13,9 @@ subtitle: 选择器
 
 | 参数                      | 说明                                                                | 类型                                                                             | 默认值       | 版本  |
 |-------------------------|-------------------------------------------------------------------|--------------------------------------------------------------------------------|-----------|-----|
-| modelValue(v-model)     | 单选框的值                                                             | `string`/`number`/`boolean`/`array`                                            |           |     |
+| modelValue(v-model)     | 选择器的值                                                             | `string`/`number`/`boolean`/`array`                                            |           |     |
 | checked                 | 是否选中状态                                                            | boolean                                                                        | false     |     |
 | disabled                | 是否禁用状态                                                            | boolean                                                                        | false     |     |
-| indeterminate           | 是否不确定状态                                                           | boolean                                                                        | false     |     |
 | deliveContextToFormItem | 是否向`form-item`组件传递上下文信息，默认为 true                                  | boolean                                                                        | true      |     |
 | size                    | 输入框大小。可选 `lg`、`sm`                                                | string                                                                         | ``        |  |
 | label                   | radio显示名称                                                         | string                                                                         |           |     |  |
@@ -71,3 +70,27 @@ subtitle: 选择器
 | setValidateStatus     | 设置选择器的校验状态 | `status`，可选值有：`validating`/`success`/`error` |         |
 | dropdownShow     | 显示选择器下拉菜单  |                                              |         |
 | dropdownHide     | 隐藏选择器下拉菜单  |                                              |         |
+
+
+### Option 属性
+
+| 参数           | 说明               | 类型                                                                             | 默认值       | 版本  |
+|--------------|------------------|--------------------------------------------------------------------------------|-----------|-----|
+| value        | 下拉选项的值           | `string`/`number`/`boolean`                                            |           |     |
+| disabled     | 是否禁用状态           | boolean                                                                        | false     |     |
+| label        | 下拉选项显示名称        | string                                                                         |           |     |  |
+| tagType      | 多选时，`tag`标签的颜色类型 |    `primary`/ `secondary`/ `success`/ `danger`/ `warning`/ `info`/ `light`/ `dark`         | secondary |     |
+| tagClass     | 标签的classname     | string                                                                         |     |
+
+### OptionGroup 属性
+
+| 参数           | 说明     | 类型          | 默认值       | 版本  |
+|--------------|--------|-------------|-----------|-----|
+| disabled     | 是否禁用状态 | boolean     | false     |     |
+| label        | 分组名称   | string      |           |     |  |
+
+### OptionGroup 插槽
+
+| 插槽名称    | 说明   | 版本  |
+|---------|------|-----|
+| label  | 分组名称 |     |
