@@ -68,10 +68,6 @@ export default defineComponent({
     color: { // 自定义颜色
       type: String,
       default: ''
-    },
-    hit: { // 是否有边框描边
-      type: Boolean,
-      default: false
     }
   },
   emit: ['close', 'click'],
