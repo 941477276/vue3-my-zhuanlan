@@ -19,6 +19,7 @@ The simplest usage, setting the `to` attribute can add a jump link.
       <breadcrumb-item to="/home">Home</breadcrumb-item>
       <breadcrumb-item :to="{path: '/login'}">Library1</breadcrumb-item>
       <breadcrumb-item><a href="https://github.com/941477276/vue3-bootstrap-icon" target="_blank">vue3-bootstrap-icon</a></breadcrumb-item>
+      <breadcrumb-item to="https://github.com/941477276/vue3-country-intl" target="_blank">vue3-country-intl</breadcrumb-item>
       <breadcrumb-item :disabled="true">Library3</breadcrumb-item>
       <breadcrumb-item>Library4</breadcrumb-item>
       <breadcrumb-item v-if="show">Library5</breadcrumb-item>

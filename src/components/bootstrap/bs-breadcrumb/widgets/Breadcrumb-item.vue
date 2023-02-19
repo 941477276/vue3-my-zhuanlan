@@ -7,14 +7,17 @@
     }">
     <span
       class="breadcrumb-item-separator">{{ separator }}</span>
-    <span
+    <component
+      :is="isHttpUrl ? 'a': 'span'"
+      :href="isHttpUrl ? to : null"
+      :target="isHttpUrl ? target : null"
       class="breadcrumb-link"
       :class="{
         'is-link': !!to && (lastChildId !== id)
       }"
       @click="onLinkClick">
       <slot></slot>
-    </span>
+    </component>
   </li>
 </template>
 
@@ -23,6 +26,7 @@ import {
   defineComponent,
   inject,
   ref,
+  computed,
   getCurrentInstance
 } from 'vue';
 import {
@@ -46,6 +50,14 @@ export default defineComponent({
     disabled: { // 是否禁用
       type: Boolean,
       default: false
+    },
+    isUrl: { // 是否为普通链接
+      type: Boolean,
+      default: false
+    },
+    target: { // a标签的target属性
+      type: String,
+      default: ''
     }
   },
   setup (props: any) {
@@ -65,6 +77,14 @@ export default defineComponent({
       props.replace ? $router.replace(to) : $router.push(to);
     };
 
+    let urlReg = /^(\w+:\/\/)/;
+    let isHttpUrl = computed(function () {
+      if (props.isUrl) {
+        return;
+      }
+      return urlReg.test(props.to);
+    });
+
     useDeliverContextToParent<BreadcrumbContext>(breadcrumbContextKey, {
       id
     });
@@ -73,6 +93,7 @@ export default defineComponent({
       id,
       separator,
       lastChildId,
+      isHttpUrl,
       onLinkClick
     };
   }
