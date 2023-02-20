@@ -35,7 +35,6 @@ export default defineComponent({
     BsProgressBar
   },
   props,
-  emit: ['close', 'click'],
   setup (props: any, ctx: any) {
     return function () {
       let children;

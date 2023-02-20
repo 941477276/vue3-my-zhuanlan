@@ -29,7 +29,6 @@ export default defineComponent({
   components: {
   },
   props,
-  emit: ['close', 'click'],
   setup (props: any, ctx: any) {
     let percentageNumber = computed(function () {
       let percentage = props.percentage;

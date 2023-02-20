@@ -46,12 +46,12 @@
     <!--<div class="box">
       <BsBreadcrumbUsage></BsBreadcrumbUsage>
     </div>-->
-    <div class="box">
-      <BsTagUsage></BsTagUsage>
-    </div>
     <!--<div class="box">
-      <BsProgressUsage></BsProgressUsage>
+      <BsTagUsage></BsTagUsage>
     </div>-->
+    <div class="box">
+      <BsProgressUsage></BsProgressUsage>
+    </div>
     <!--<div class="box">
       <BsTabsUsage></BsTabsUsage>
     </div>-->
