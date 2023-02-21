@@ -58,15 +58,15 @@
     <!--<div class="box">
       <BsSwitchUsage></BsSwitchUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsMessageBoxUsage></BsMessageBoxUsage>
-    </div>
+    </div>-->
     <!--<div class="box">
       <BsMaskUsage></BsMaskUsage>
     </div>-->
-   <!-- <div class="box">
+    <div class="box">
       <BsAlertUsage></BsAlertUsage>
-    </div>-->
+    </div>
     <!--<div class="box">
       <BsInputNumberUsage></BsInputNumberUsage>
     </div>-->
