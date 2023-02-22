@@ -1,10 +1,7 @@
-.bs-input-number{
-  display: inline-block;
-  vertical-align: middle;
-}
 .bs-input-number-wrapper{
   position: relative;
   z-index: 1;
+  flex: 1;
 }
 .bs-input-number-prefix{
   position: absolute;
@@ -47,6 +44,9 @@
 }
 
 .bs-input-number{
+  display: inline-block;
+  vertical-align: middle;
+  width: 100%;
   &.has-prepend{
     &.control-out{
       .bs-input-number-decrease {
@@ -87,6 +87,7 @@
     transition: padding-left .3s, padding-right .3s;
   }
   &.control-inner{
+    max-width: 6.25rem; // 100px
     .bs-input-number-operate-button{
       display: block;
       outline: none;
@@ -128,6 +129,7 @@
     }
   }
   &.control-out{
+    max-width: 10.65rem; // 170px
     .form-control{
       border-left: none;
       border-right: none;
@@ -176,10 +178,11 @@
     }
   }
   &.bs-input-number-lg{
-    .form-control{
+    /*.form-control{
       width: 8rem;
-    }
+    }*/
     &.control-inner {
+      max-width: 8.5rem; // 136px
       .bs-input-number-operations{
         width: 2rem;
       }
@@ -188,6 +191,7 @@
       }
     }
     &.control-out{
+      max-width: 14.5rem; // 232px
       .bs-input-number-operate-button {
         width: 3rem;
         font-size: 1.2rem;
@@ -215,15 +219,17 @@
     }
   }
   &.bs-input-number-sm{
-    .form-control{
+    /*.form-control{
       width: 5rem;
-    }
+    }*/
     &.control-inner {
+      max-width: 5rem; // 80px
       .bs-input-number-operate-button {
         font-size: 0.75rem;
       }
     }
     &.control-out{
+      max-width: 8.3rem; // 132.8px
       .bs-input-number-operate-button {
         width: 1.65rem;
         font-size: 0.75rem;
