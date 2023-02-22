@@ -61,7 +61,7 @@
           @input="on_input"
           @focus="on_focus"
           @blur="on_blur"
-          @keydown.stop="on_keydown">
+          @keydown.stop.prevent="on_keydown">
         <div
           v-if="controlInner"
           v-show="!disabled && !readonly"

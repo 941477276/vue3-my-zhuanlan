@@ -52,15 +52,17 @@ export function useInputNumberMethods (props: any, ctx: any, callFormItem: any, 
     ctx.emit('change', val);
     callFormItem('validate', 'change');
     // 防止因执行计算后由于小数点精度问题，modelValue的值实际没变化，而输入框的值被手动更改了，而导致输入框显示的值与modelValue不一致问题
-    setTimeout(function () {
-      let targetVal = (inputRef.value as HTMLInputElement).value + '';
+    let timer = setTimeout(function () {
+      clearTimeout(timer);
+      let inputEl = inputRef.value as HTMLInputElement;
+      let targetVal = inputEl.value + '';
       let inputViewVal = val;
       if (typeof props.formatter === 'function') {
         inputViewVal = props.formatter(val);
       }
       // console.log('targetVal', targetVal, val);
       if (targetVal !== (inputViewVal + '')) {
-        (inputRef.value as HTMLInputElement).value = (inputViewVal + '');
+        inputEl.value = (inputViewVal + '');
       }
     }, 0);
   };
