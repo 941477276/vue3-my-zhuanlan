@@ -7,7 +7,7 @@
     :disabled="disabled"
     :visible="tooltipShow"
     :content="tooltipContent"
-    :raw-content="tooltipRawContent">
+    :is-raw-content="tooltipRawContent">
     <div
       ref="sliderHandlerRef"
       class="bs-slider-handler"
