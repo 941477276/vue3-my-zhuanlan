@@ -94,8 +94,8 @@ export default defineComponent({
     };
 
     // 当trigger类型为hover，并且鼠标可以进入popper时需在content的mouseenter、mouseleave事件上做处理
-    let onContentMouseenter = function () {
-      bsTooltipCtx.onContentMouseenter();
+    let onContentMouseenter = function (evt: MouseEvent) {
+      bsTooltipCtx.onContentMouseenter(evt);
       if (!props.enterable) {
         return;
       }
@@ -108,8 +108,8 @@ export default defineComponent({
       }
       bsTooltipCtx.show();
     };
-    let onContentMouseleave = function () {
-      bsTooltipCtx.onContentMouseleave();
+    let onContentMouseleave = function (evt: MouseEvent) {
+      bsTooltipCtx.onContentMouseleave(evt);
       if (!props.enterable) {
         return;
       }
@@ -162,6 +162,3 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
-
-</style>

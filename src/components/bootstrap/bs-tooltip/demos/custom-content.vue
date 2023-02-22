@@ -27,7 +27,7 @@ The content of the Tooltip can be customized through the `content` slot or the `
 
     <BsTooltip
       :content="rawContent"
-      :raw-content="true"
+      :is-raw-content="true"
       placement="top-start">
       <bs-button type="primary">Use html string</bs-button>
     </BsTooltip>

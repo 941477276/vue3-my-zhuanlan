@@ -30,7 +30,7 @@
       :transition-name="transitionName"
       :gpu-acceleration="transitionName === 'scale' ? false : gpuAcceleration">
       <slot name="content">
-        <div v-if="!rawContent">
+        <div v-if="!isRawContent">
           {{ content }}
         </div>
         <div v-else v-html="content"></div>
@@ -196,11 +196,11 @@ export default defineComponent({
       onHide: () => {
         ctx.emit('hide');
       },
-      onContentMouseenter: () => {
-        ctx.emit('content-mouseenter');
+      onContentMouseenter: (evt: MouseEvent) => {
+        ctx.emit('content-mouseenter', evt);
       },
-      onContentMouseleave: () => {
-        ctx.emit('content-mouseleave');
+      onContentMouseleave: (evt: MouseEvent) => {
+        ctx.emit('content-mouseleave', evt);
       },
       trigger: toRef(props, 'trigger'),
       isShow: readonly(isShow),

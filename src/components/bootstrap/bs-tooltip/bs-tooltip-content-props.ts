@@ -20,7 +20,7 @@ export const bsTooltipContentProps = {
     type: [String, Number],
     default: ''
   },
-  rawContent: { // content 中的内容是否作为 HTML 字符串处理
+  isRawContent: { // content 中的内容是否作为 HTML 字符串处理
     type: Boolean,
     default: false
   },

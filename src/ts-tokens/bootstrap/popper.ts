@@ -25,8 +25,8 @@ export type BsTooltipContext = {
   onShow: () => void;
   onBeforeHide: () => void;
   onHide: () => void;
-  onContentMouseenter: () => void;
-  onContentMouseleave: () => void;
+  onContentMouseenter: (evt: MouseEvent) => any;
+  onContentMouseleave: (evt: MouseEvent) => any;
   isShow: Ref<boolean>;
   trigger: Ref<string>;
   isControlled: ComputedRef<boolean>;
