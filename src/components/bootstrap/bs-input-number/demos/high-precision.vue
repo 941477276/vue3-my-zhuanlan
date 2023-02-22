@@ -46,9 +46,6 @@ let number2 = ref('1.020');
 
 <style lang="scss" scoped>
 .high-percision-input{
-  ::v-deep(.form-control){
-    width: 100%;
-    max-width: 12rem;
-  }
+  max-width: 13rem;
 }
 </style>
