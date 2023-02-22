@@ -15,8 +15,8 @@
     :hide-condition="canHide"
     @before-show="$emit('before-show')"
     @before-hide="$emit('before-hide')"
-    @content-mouseenter="$emit('content-mouseenter')"
-    @content-mouseleave="$emit('content-mouseleave')"
+    @content-mouseenter="$emit('content-mouseenter', $event)"
+    @content-mouseleave="$emit('content-mouseleave', $event)"
     @show="$emit('show')"
     @hide="$emit('hide')">
     <slot></slot>
@@ -26,7 +26,7 @@
       </h3>
       <div class="popover-body">
         <slot name="content">
-          <template v-if="!rawContent">{{ content }}</template>
+          <template v-if="!isRawContent">{{ content }}</template>
           <div v-else v-html="content"></div>
         </slot>
       </div>

@@ -28,7 +28,7 @@ The content of the Popover can be customized through the `content` slot or the `
     <bs-popover
       title="内容使用HTML文本"
       :content="rawContent"
-      :raw-content="true"
+      :is-raw-content="true"
       placement="top-start">
       <bs-button type="primary">Use html string</bs-button>
     </bs-popover>

@@ -22,7 +22,7 @@ The Popover component supports inserting the popper into the specified dom (the 
       v-if="render"
       teleported
       append-to="#popoverContainer"
-      raw-content
+      is-raw-content
       title="插入到指定dom元素中"
       trigger="click"
       content="看到我的dom在哪了吗？<br>嘻嘻！">
