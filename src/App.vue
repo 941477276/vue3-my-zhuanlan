@@ -88,12 +88,12 @@
     <!--<div class="box">
       <BsPopoverUsage></BsPopoverUsage>
     </div>-->
-    <div class="box">
-      <BsSpinnerUsage></BsSpinnerUsage>
-    </div>
     <!--<div class="box">
-      <BsPopConfirmUsage></BsPopConfirmUsage>
+      <BsSpinnerUsage></BsSpinnerUsage>
     </div>-->
+    <div class="box">
+      <BsPopConfirmUsage></BsPopConfirmUsage>
+    </div>
     <!--<div class="box">
       <BsCollapseUsage></BsCollapseUsage>
     </div>-->

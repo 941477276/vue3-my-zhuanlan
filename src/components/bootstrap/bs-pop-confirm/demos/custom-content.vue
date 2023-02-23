@@ -27,7 +27,7 @@ The content of the Confirm can be customized through the `content` slot or the `
 
     <bs-pop-confirm
       :content="rawContent"
-      :raw-content="true"
+      :is-raw-content="true"
       placement="top-start"
       @confirm="onConfirm">
       <bs-button type="primary">Use html string</bs-button>
