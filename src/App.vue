@@ -100,12 +100,12 @@
     <!--<div class="box">
       <BsTreeUsage></BsTreeUsage>
     </div>-->
-    <div class="box">
-      <BsTreeSelectUsage></BsTreeSelectUsage>
-    </div>
     <!--<div class="box">
-      <BsInputTagsUsage></BsInputTagsUsage>
+      <BsTreeSelectUsage></BsTreeSelectUsage>
     </div>-->
+    <div class="box">
+      <BsInputTagsUsage></BsInputTagsUsage>
+    </div>
     <!--<div class="box">
       <BsSelectInputUsage></BsSelectInputUsage>
     </div>-->
