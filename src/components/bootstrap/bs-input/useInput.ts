@@ -66,7 +66,9 @@ export function useInput (props: any, inputRef: Ref<HTMLInputElement | null>) {
 
   onMounted(function () {
     let modelValue = props.modelValue;
-    setInputValue(isNoneValue(modelValue) ? '' : modelValue);
+    let newVal = isNoneValue(modelValue) ? '' : modelValue;
+    inputValue.value = newVal;
+    setInputValue(newVal);
   });
 
   return {
