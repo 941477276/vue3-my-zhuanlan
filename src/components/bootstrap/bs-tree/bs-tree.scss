@@ -70,10 +70,11 @@
 }
 .bs-tree-node-spinner{
   display: inline-block;
-  transform: translateY(-0.0625rem);
+  vertical-align: 1px;
+  //transform: translateY(-0.0625rem);
   .bs-spinner{
-    width: 0.8rem;
-    height: 0.8rem;
+    width: 0.75rem;
+    height: 0.75rem;
     border-width: 1px;
   }
 }
