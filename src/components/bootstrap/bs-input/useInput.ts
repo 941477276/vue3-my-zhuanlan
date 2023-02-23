@@ -1,4 +1,4 @@
-import { computed, Ref, ref, watch } from 'vue';
+import { computed, Ref, ref, watch, onMounted } from 'vue';
 import {
   isNoneValue
 } from '@/common/bs-util';
@@ -37,7 +37,7 @@ export function useInput (props: any, inputRef: Ref<HTMLInputElement | null>) {
   });
 
   // 原生input的值
-  let inputValue = ref<string|number>(isNoneValue(props.modelValue) ? '' : props.modelValue);
+  let inputValue = ref<string|number>('');
 
   // 设置原生input的value
   let setInputValue = function (val: string) {
@@ -62,6 +62,11 @@ export function useInput (props: any, inputRef: Ref<HTMLInputElement | null>) {
     } */
     inputValue.value = newValue;
     setInputValue(newValue);
+  });
+
+  onMounted(function () {
+    let modelValue = props.modelValue;
+    setInputValue(isNoneValue(modelValue) ? '' : modelValue);
   });
 
   return {
