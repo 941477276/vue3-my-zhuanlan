@@ -62,7 +62,11 @@
             :check-strictly="checkStrictly"
             :check-on-click-node="checkOnClickNode"
             :expand-on-click-node="checkStrictly"
-            :lazy="lazy"></BsTree>
+            :lazy="lazy"
+            @node-expand="handleNodeExpand"
+            @node-click="handleNodeClick"
+            @node-destroy="handleNodeDestroy"
+            @check-change="handleNodeCheckChange"></BsTree>
         </div>
       </BsDropdownTransition>
     </teleport>
@@ -102,10 +106,10 @@ export default defineComponent({
   props: {
     ...bsTreeSelectProps
   },
-  emits: ['update:modelValue', 'change'],
+  emits: ['update:modelValue', 'change', 'node-expand', 'check-change', 'node-click', 'node-destroy', 'show', 'hide'],
   setup (props: any, ctx: any) {
     let bsTreeSelectRef = ref<HTMLElement|null>(null);
-    let bsInputRef = ref<ComponentInternalInstance|null>(null);
+    let bsSelectInputRef = ref<ComponentInternalInstance|null>(null);
     let bsSelectDropdownRef = ref<HTMLElement|null>(null);
     let bsInputReadonly = ref(true);
     let isFocus = ref(false);
@@ -127,10 +131,16 @@ export default defineComponent({
       let timer = setTimeout(function () {
         clearTimeout(timer);
         dropdownVisible.value = true;
+        ctx.emit('show');
         nextTick(function () {
           if (props.defaultExpandCheckedNodesParent) {
             // 展开选中节点的父级节点
             (treeRef.value as any).expandCheckedNodesParent();
+            // 刷新下拉菜单位置
+            let timer2 = setTimeout(function () {
+              clearTimeout(timer2);
+              (dropdownTransitionRef.value as any)?.refresh();
+            }, 320);
           }
         });
       }, 0);
@@ -149,11 +159,13 @@ export default defineComponent({
           dropdownWillVisible.value = false;
           dropdownVisible.value = false;
           isFocus.value = false;
+          ctx.emit('hide');
         }, 180);
       } else {
         dropdownWillVisible.value = false;
         dropdownVisible.value = false;
         isFocus.value = false;
+        ctx.emit('hide');
       }
       console.log('调用隐藏函数了');
     };
@@ -274,8 +286,8 @@ export default defineComponent({
       id: selectId.value,
       setValidateStatus: (status: ValidateStatus) => {
         // console.log('调select组件的setValidateStatus方法l');
-        if (bsInputRef.value) {
-          (bsInputRef.value as any).setValidateStatus(status);
+        if (bsSelectInputRef.value) {
+          (bsSelectInputRef.value as any).setValidateStatus(status);
         }
       }
     });
@@ -299,7 +311,7 @@ export default defineComponent({
 
     return {
       bsTreeSelectRef,
-      bsInputRef,
+      bsSelectInputRef,
       treeRef,
       bsSelectDropdownRef,
       dropdownTransitionRef,
@@ -312,11 +324,32 @@ export default defineComponent({
       viewText,
       treeModelValue,
 
+      setValidateStatus: function (status: ValidateStatus) {
+        (bsSelectInputRef.value as any).setValidateStatus(status);
+      },
+      refreshDropdown () { // 刷新下拉菜单位置
+        if (!dropdownVisible.value) {
+          return;
+        }
+        (dropdownTransitionRef.value as any)?.refresh();
+      },
       onSelectRootClick,
       onInputClear,
       dropdownShow,
       dropdownHide,
-      onTagClose
+      onTagClose,
+      handleNodeExpand (nodeData: any, expanded: boolean, nodeState: any) {
+        ctx.emit('node-expand', nodeData, expanded, nodeState);
+      },
+      handleNodeClick (nodeData: any, nodeState: any) {
+        ctx.emit('node-click', nodeData, nodeState);
+      },
+      handleNodeDestroy (nodeData: any) {
+        ctx.emit('node-destroy', nodeData);
+      },
+      handleNodeCheckChange (nodeData: any, isChecked: boolean) {
+        ctx.emit('check-change', nodeData, isChecked);
+      }
     };
   }
 });

@@ -1,9 +1,9 @@
 import { PropType } from 'vue';
 import { BsColorType, BsSize } from '@/ts-tokens/bootstrap';
-import { bsTreeProps } from '../bs-tree/bs-tree-props';
+// import { bsTreeProps } from '../bs-tree/bs-tree-props';
 
 export const bsTreeSelectProps = {
-  ...bsTreeProps,
+  // ...bsTreeProps,
   modelValue: {
     type: [String, Number, Array],
     default: ''
