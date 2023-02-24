@@ -109,12 +109,12 @@
     <!--<div class="box">
       <BsSelectInputUsage></BsSelectInputUsage>
     </div>-->
-    <div class="box">
-      <BsTimePickerUsage></BsTimePickerUsage>
-    </div>
     <!--<div class="box">
-      <BsDatePickerUsage></BsDatePickerUsage>
+      <BsTimePickerUsage></BsTimePickerUsage>
     </div>-->
+    <div class="box">
+      <BsDatePickerUsage></BsDatePickerUsage>
+    </div>
     <!--<div class="box">
       <BsBackTopUsage></BsBackTopUsage>
     </div>-->
