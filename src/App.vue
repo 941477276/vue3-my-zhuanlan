@@ -112,12 +112,12 @@
     <!--<div class="box">
       <BsTimePickerUsage></BsTimePickerUsage>
     </div>-->
-    <div class="box">
-      <BsDatePickerUsage></BsDatePickerUsage>
-    </div>
     <!--<div class="box">
-      <BsBackTopUsage></BsBackTopUsage>
+      <BsDatePickerUsage></BsDatePickerUsage>
     </div>-->
+    <div class="box">
+      <BsBackTopUsage></BsBackTopUsage>
+    </div>
     <!--<div class="box">
       <BsRelativeTimeUsage></BsRelativeTimeUsage>
     </div>-->
