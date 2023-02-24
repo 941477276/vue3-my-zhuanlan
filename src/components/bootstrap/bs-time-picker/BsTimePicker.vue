@@ -13,7 +13,10 @@
     :disabled="disabled"
     :id="bsTimePickerId"
     :set-min-width="true"
-    :dropdown-name="dropdownClass"
+    :clearable="clearable"
+    :placeholder="placeholder"
+    :name="name"
+    :dropdown-class="dropdownClass"
     @update:inputModelValue="hanleInputModelValueChange"
     @input="onInput"
     @blur="onInputBlur"
@@ -63,8 +66,8 @@ import BsPickerTimePanel from './widgets/BsPickerTimePanel.vue';
 import BsButton from '../bs-button/BsButton.vue';
 import BsCommonPicker from '../bs-common-picker/BsCommonPicker.vue';
 import { bsPickerTimePanelProps } from './widgets/bs-picker-time-panel-props';
+import { bsCommonPickerProps } from '../bs-common-picker/bs-common-picker-props';
 import { useTimePicker, getUpdateModelValue } from './useTimePicker';
-import { BsSize } from '@/ts-tokens/bootstrap';
 import { dayjsUtil } from '@/common/dayjsUtil';
 import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
 import {
@@ -82,39 +85,9 @@ export default defineComponent({
   },
   props: {
     ...bsPickerTimePanelProps,
-    showFooter: { // 是否显示底部
-      type: Boolean,
-      default: false
-    },
-    disabled: { // 是否禁用
-      type: Boolean,
-      default: false
-    },
-    deliveContextToFormItem: { // 是否向form-item组件传递上下文信息
-      type: Boolean,
-      default: true
-    },
-    size: { // 输入框大小
-      type: String as PropType<BsSize>,
-      default: ''
-    },
-    id: {
-      type: String,
-      default: '',
-      validator (idVal: string) {
-        if (typeof idVal !== 'string' || /^\d+/.test(idVal)) {
-          console.warn('id必须为字符串类型，且不能以数字开头');
-          return false;
-        }
-        return true;
-      }
-    },
-    dropdownClass: { // 下拉弹窗的额外classname
-      type: [String, Object, Array],
-      default: ''
-    }
+    ...bsCommonPickerProps
   },
-  emits: ['update:modelValue', 'change', 'hidden', 'open'],
+  emits: ['update:modelValue', 'change', 'show', 'hide'],
   setup (props: any, ctx: any) {
     let bsPickerTimePanelRef = ref(null);
     let bsCommonPicker = ref(null);
@@ -306,11 +279,11 @@ export default defineComponent({
       onInputBlur,
       onShow () {
         visible.value = true;
-        ctx.emit('open');
+        ctx.emit('show');
       },
       onHidden () {
         visible.value = false;
-        ctx.emit('hidden');
+        ctx.emit('hide');
       },
       hanleInputModelValueChange (newViewText: string) {
         console.log('hanleInputModelValueChange', newViewText);
