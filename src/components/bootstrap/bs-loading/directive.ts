@@ -91,5 +91,6 @@ export const bsLoadingDirective = {
       return;
     }
     loadingIns.destroy();
+    (el as any).loadingIns = null;
   }
 };
