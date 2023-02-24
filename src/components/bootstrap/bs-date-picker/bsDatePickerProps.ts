@@ -74,16 +74,6 @@ export const bsDatePickerProps = {
     type: [Boolean, Object],
     default: false
   }, */
-  sidebarAlign: { // 侧边栏显示位置
-    type: String,
-    default: 'left'
-  },
-  shortcuts: { // 侧边栏快捷按钮
-    type: Array,
-    default () {
-      return [];
-    }
-  },
   dateRender: { // 自定义日期单元格的内容
     type: Function,
     default: null

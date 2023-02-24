@@ -59,7 +59,7 @@ export default defineComponent({
   props: {
     ...bsDatePickerProps
   },
-  emits: ['update:modelValue', 'change', 'open', 'hidden'],
+  emits: ['update:modelValue', 'change', 'show', 'hide'],
   setup (props: any, ctx: any) {
     let bsCommonPicker = ref();
     let pickerId = ref(props.id || `bs-${props.pickerType}-picker_${++pickerCounts[props.pickerType]}`);
@@ -598,11 +598,11 @@ export default defineComponent({
             setPanelViewDate(panelViewDate);
           });
         }
-        ctx.emit('open');
+        ctx.emit('show');
       },
       onHidden () {
         visible.value = false;
-        ctx.emit('hidden');
+        ctx.emit('hide');
       }
     };
   },
