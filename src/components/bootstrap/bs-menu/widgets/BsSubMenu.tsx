@@ -249,7 +249,7 @@ export default defineComponent({
           clearTimeout(timer);
           submenuVisible.value = newFlag;
           emitParent(newFlag);
-        }, 0);
+        }, 20);
       } else {
         submenuWillVisible.value = false;
         submenuVisible.value = flag;

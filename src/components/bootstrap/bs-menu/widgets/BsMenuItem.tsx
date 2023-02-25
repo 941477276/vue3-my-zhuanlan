@@ -130,7 +130,7 @@ export default defineComponent({
     let $slots = this.$slots;
     let content = (<li
       class={['bs-menu-item', {
-        'has-icon': $slots.icon,
+        'has-icon': !!$slots.icon,
         'is-disabled': this.disabled,
         'is-selected': this.isSelected
       }]}
