@@ -127,12 +127,12 @@
     <!--<div class="box">
       <BsCascaderUsage></BsCascaderUsage>
     </div>-->
-    <div class="box">
-      <BsToastUsage></BsToastUsage>
-    </div>
     <!--<div class="box">
-      <BsMenuUsage></BsMenuUsage>
+      <BsToastUsage></BsToastUsage>
     </div>-->
+    <div class="box">
+      <BsMenuUsage></BsMenuUsage>
+    </div>
     <!--<BsCollapseTransitionUsage></BsCollapseTransitionUsage>-->
   </bs-config-provider>
 </template>
