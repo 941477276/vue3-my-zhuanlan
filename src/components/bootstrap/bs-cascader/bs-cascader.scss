@@ -36,6 +36,9 @@
   cursor: pointer;
   color: #454545;
   transition: color .3s, background-color .3s;
+  &.is-single-actived{
+    color: rgba(0, 123, 255, 0.6);
+  }
   &.is-checked{
     color: var(--primary);
     &.is-multiple{
@@ -48,11 +51,6 @@
   &.is-expanded {
     color: var(--primary);
   }
-  /*&.is-actived{
-    &:not(.is-multiple){
-      color: var(--primary);
-    }
-  }*/
   &.is-disabled{
     color: #a1a1a1;
     cursor: not-allowed;

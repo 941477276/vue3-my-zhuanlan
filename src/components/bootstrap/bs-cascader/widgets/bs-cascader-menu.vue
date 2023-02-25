@@ -188,8 +188,9 @@ export default defineComponent({
       let isExpanded = props.expandedMenus?.some((menuItem: CascaderExpandedMenuItem) => {
         return menuItem.menuId === cascaderMenuId && menuItem.menuItemValue === value;
       });
+      let isMultiple = props.multiple;
 
-      if (props.multiple) {
+      if (isMultiple) {
         /* if (props.checkStrictly) {
           isChecked = isInclude;
         } */
@@ -206,6 +207,7 @@ export default defineComponent({
       }
       if (isInclude) {
         classlist.push('is-actived');
+        classlist.push(`is-${isMultiple ? 'multiple' : 'single'}-actived`);
       }
       if (isChecked) {
         classlist.push('is-checked');
