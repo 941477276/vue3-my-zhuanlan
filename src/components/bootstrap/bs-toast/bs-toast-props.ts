@@ -59,10 +59,6 @@ export const bsToastProps = {
     type: Number,
     default: 3000
   },
-  onClose: { // 关闭时的回调函数, 参数为被关闭的 message 实例
-    type: Function,
-    default: null
-  },
   zIndex: {
     type: [Number, String],
     default: ''

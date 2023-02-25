@@ -161,11 +161,11 @@ function hide (toastId: string) {
 };
 // 快捷创建各种类型的toast
 supportedBsColorTypes.forEach((type: string) => {
-  (BsToast as any)[type] = function (options: any) {
+  (BsToast as any)[type] = function (options: any, context?: AppContext | null) {
     return BsToast({
       ...options,
       type
-    });
+    }, context);
   };
 });
 BsToast.show = show;
