@@ -72,7 +72,7 @@
             <div
               v-if="!loading && options.length == 0"
               class="bs-cascader-empty">
-              <slot name="empty">{{ noDataText }}</slot>
+              <slot name="empty">{{ emptyText }}</slot>
             </div>
             <div class="bs-cascader-loading" v-if="loading">
               <slot name="loading">
