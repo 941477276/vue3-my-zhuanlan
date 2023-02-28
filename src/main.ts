@@ -7,12 +7,8 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 
 import App from './App.vue';
-import './icons';
 import initBootstrapComponents from '@/components/index.ts';
 
-// import store from '@/store';
-// import router from '@/router';
-// import initRouterDefend from '@/router/routerDefend';
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 

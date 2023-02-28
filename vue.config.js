@@ -4,17 +4,10 @@ function resolve(dirPath) {
 }
 module.exports = {
   devServer: {
-    open: true, // 默认打开浏览器
-    proxy: {
-      '/viking': {
-        target: 'http://api.vikingship.xyz',
-        pathRewrite: { '^/viking': '' },
-        changeOrigin: true
-      }
-    }
+    open: true // 默认打开浏览器
   },
   publicPath: './',
-  chainWebpack: config => {
+  /* chainWebpack: config => {
     // 获取svg文件名称正则
     let svgNameReg = /([\w-]+)(\.\w*)*\.svg$/;
     config.module
@@ -33,15 +26,15 @@ module.exports = {
       .use('svg-sprite-loader')
       .loader('svg-sprite-loader')
       .options({
-        /* symbolId: filePath => {
+        /!* symbolId: filePath => {
           console.log(filePath.match(svgNameReg));
           let svgName = filePath.match(svgNameReg)[1];
           return `bsicon-${svgName}`;
-        } */
+        } *!/
         symbolId: 'bsicon-[name]'
       })
       .end();
-  },
+  }, */
   configureWebpack: config => {
     config.module.rules.push({ // 解析jsx、tsx
       test: /\.(js|ts|jsx|tsx)$/,

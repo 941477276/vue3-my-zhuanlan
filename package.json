@@ -11,15 +11,12 @@
     "@popperjs/core": "^2.11.5",
     "@vue/babel-plugin-jsx": "^1.1.1",
     "async-validator": "^4.0.7",
-    "axios": "^0.26.1",
     "bignumber.js": "^9.0.2",
     "bootstrap": "^4.6.1",
     "bootstrap-icons": "^1.8.1",
     "dayjs": "^1.11.4",
     "vue": "^3.2.31",
-    "vue-router": "^4.0.14",
-    "vue3-bootstrap-icon": "^1.0.3",
-    "vuex": "^4.0.2"
+    "vue3-bootstrap-icon": "^1.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-bridge.0",
@@ -46,7 +43,6 @@
     "node-sass": "^7.0.1",
     "sass": "^1.49.9",
     "sass-loader": "^10.2.1",
-    "svg-sprite-loader": "^6.0.11",
     "typescript": "~4.1.5",
     "webpack": "^4.46.0"
   }
