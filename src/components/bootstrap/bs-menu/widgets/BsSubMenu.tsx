@@ -276,6 +276,9 @@ export default defineComponent({
         expandSubmenu(true);
       }, 150);
     };
+    let handleSubmenuTitleMouseleave = function () {
+      clearTimeout(mouseenterTimer);
+    };
 
     // 判断子菜单是否应该隐藏
     let isChildrenShouldHide = function (target: HTMLElement | undefined) {
@@ -479,6 +482,7 @@ export default defineComponent({
       expandSubmenu,
       handleSubmenuTitleClick,
       handleSubmenuTitleMouseenter,
+      handleSubmenuTitleMouseleave,
       handleCollapseExpand
     };
   },
@@ -548,7 +552,8 @@ export default defineComponent({
           paddingLeft: this.paddingLeft.value ? (this.paddingLeft.value + this.paddingLeft.unit) : ''
         }}
         onClick={this.handleSubmenuTitleClick}
-        onMouseenter={this.handleSubmenuTitleMouseenter}>
+        onMouseenter={this.handleSubmenuTitleMouseenter}
+        onMouseleave={this.handleSubmenuTitleMouseleave}>
         {/* 图标 */}
         { slots.icon ? <span
           class="bs-menu-item-icon"
