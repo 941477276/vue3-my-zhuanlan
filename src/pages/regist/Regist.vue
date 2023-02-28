@@ -50,7 +50,7 @@ import {
 import formRules from './useRules';
 import { userApi } from '@/apis/userApi';
 import { useRouter } from 'vue-router';
-import { BsMessage } from '@/components/bootstrap/bs-message';
+import { BsMessage } from '@/components/bs-message';
 
 export default defineComponent({
   name: 'Regist',

@@ -56,7 +56,7 @@ import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import rules from './useRules';
 import { uploadFile } from '@/apis/uploadApi';
-import { BsMessage, closeMessage } from '@/components/bootstrap/bs-message';
+import { BsMessage, closeMessage } from '@/components/bs-message';
 import { articleApi } from '@/apis/articleApi';
 
 export default defineComponent({

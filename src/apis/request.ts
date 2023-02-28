@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BsMessage } from '@/components/bootstrap/bs-message';
+import { BsMessage } from '@/components/bs-message';
 import { accountUtil } from '@/common/accountUtil';
 
 let isDev = process.env.NODE_ENV === 'development';

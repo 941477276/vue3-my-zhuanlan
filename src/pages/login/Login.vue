@@ -41,7 +41,7 @@ import {
 } from 'vue';
 import rules from './useRules';
 import { userApi } from '@/apis/userApi';
-import { BsMessage } from '@/components/bootstrap/bs-message';
+import { BsMessage } from '@/components/bs-message';
 import { useStore } from 'vuex';
 import { accountUtil } from '@/common/accountUtil';
 import { useRouter, useRoute } from 'vue-router';

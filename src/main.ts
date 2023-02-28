@@ -8,7 +8,7 @@ import 'dayjs/locale/zh-cn';
 
 import App from './App.vue';
 import './icons';
-import initBootstrapComponents from '@/components/bootstrap/index.ts';
+import initBootstrapComponents from '@/components/index.ts';
 
 // import store from '@/store';
 // import router from '@/router';
