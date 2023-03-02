@@ -26,19 +26,20 @@ export interface DropdownOffset {
  * 计算绝对定位元素能完全出现在视口的展示方位
  * @param referenceEl 参照元素
  * @param targetEl 目标元素
- * @param defaultDirection 默认方向，支持top、bottom、left、right
- * @param tryAllDirection 当切换到defaultDirection对应的反方向目标元素也不能完全出现在视口时是否尝试切换其他方向
+ * @param direction 默认方向，支持top、bottom、left、right
+ * @param tryAllDirection 当切换到direction对应的反方向目标元素也不能完全出现在视口时是否尝试切换其他方向
  * @param dropdownOffset 下拉菜单距参照元素的偏移量
  */
 const endReg = /(\w+)End$/;
-export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLElement, defaultDirection: string, tryAllDirection = false, dropdownOffset?: DropdownOffset) {
-  if (!referenceEl || !targetEl || !defaultDirection) {
-    throw new Error('缺少referenceEl, targetEl, defaultDirection其中的某个参数');
+export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLElement, direction: string, tryAllDirection = false, dropdownOffset?: DropdownOffset) {
+  if (!referenceEl || !targetEl || !direction) {
+    throw new Error('缺少referenceEl, targetEl, direction其中的某个参数');
   }
-  defaultDirection = kebabCase2CamelCase(defaultDirection);
+  direction = kebabCase2CamelCase(direction);
+  let defaultDirection = direction;
   let defaultDirectionIsEnd = false;
-  if (endReg.test(defaultDirection)) {
-    defaultDirection = RegExp.$1;
+  if (endReg.test(direction)) {
+    direction = RegExp.$1;
     defaultDirectionIsEnd = true;
   }
   let scrollInfo = {
@@ -461,7 +462,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     };
   };
 
-  switch (defaultDirection) {
+  switch (direction) {
     case 'bottom':
       directionCalcFlow.push({
         isTail: defaultDirectionIsEnd,
@@ -554,6 +555,10 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     let flag = allInView ? (inView && inScrollParentView) : (inView || inScrollParentView);
     // console.log('tryReverse', flag, inView, inScrollParentView, result);
 
+    if (result.direction === defaultDirection) {
+      defaultDirectionResult = result;
+    }
+
     if (flag) {
       calcedDirection = result;
       return true;
@@ -567,10 +572,6 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     let inView = result.vertical && result.horizontal;
     // 判断在有滚动条的父级容器中是否完可视
     let inScrollParentView = result.scrollParentVertical && result.scrollParentHorizontal;
-
-    if (result.direction === defaultDirection) {
-      defaultDirectionResult = result;
-    }
 
     if (result.direction === defaultDirection) {
       defaultDirectionResult = result;
