@@ -58,8 +58,8 @@ import {
   reactive
 } from 'vue';
 import { messageProps } from './messageProps';
-import { MessageType } from '@/ts-tokens/bootstrap/message';
-import BsBadge from '@/components/bs-badge/BsBadge.vue';
+import { MessageType } from '../../ts-tokens/bootstrap/message';
+import BsBadge from '../../components/bs-badge/BsBadge.vue';
 import { BsiInfoCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiInfoCircleFill';
 import { BsiCheckCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiCheckCircleFill';
 import { BsiExclamationCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiExclamationCircleFill';

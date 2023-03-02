@@ -2,7 +2,7 @@ import { PropType, VNode } from 'vue';
 import {
   MessageType,
   supportMessageTypes
-} from '@/ts-tokens/bootstrap/message';
+} from '../../ts-tokens/bootstrap/message';
 
 export const messageProps = {
   type: { // 类型

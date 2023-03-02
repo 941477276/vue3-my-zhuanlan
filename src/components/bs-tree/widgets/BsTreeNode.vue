@@ -101,14 +101,14 @@ import {
   inject,
   onUnmounted
 } from 'vue';
-import BsCheckbox from '@/components/bs-checkbox/BsCheckbox.vue';
-import BsRadio from '@/components/bs-radio/BsRadio.vue';
-import BsSpinner from '@/components/bs-spinner/BsSpinner.vue';
+import BsCheckbox from '../../../components/bs-checkbox/BsCheckbox.vue';
+import BsRadio from '../../../components/bs-radio/BsRadio.vue';
+import BsSpinner from '../../../components/bs-spinner/BsSpinner.vue';
 import BsTreeNodeLabel from './BsTreeNodeLabel.vue';
 import BsTreeNodeSwitcherIcon from './BsTreeNodeSwitcherIcon.vue';
 import BsTreeNodeOperate from './BsTreeNodeOperate.vue';
 import BsCollapseTransition from '../../bs-collapse-transition/BsCollapseTransition.vue';
-import { bsTreeContextKey, TreeContext } from '@/ts-tokens/bootstrap/tree';
+import { bsTreeContextKey, TreeContext } from '../../../ts-tokens/bootstrap/tree';
 import { useTreePagination } from '../useTreePagination';
 import { bsTreeProps } from '../bs-tree-props';
 import { bsTreeNodeProps } from './bs-tree-node-props';
@@ -116,7 +116,7 @@ import {
   isPromise,
   hasClass,
   parents
-} from '@/common/bs-util';
+} from '../../../utils/bs-util';
 import { useTreeNode } from './useTreeNode';
 
 export default defineComponent({

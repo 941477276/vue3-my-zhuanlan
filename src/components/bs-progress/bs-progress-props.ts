@@ -1,5 +1,5 @@
 import { PropType } from 'vue';
-import { BsColorType, supportedBsColorTypes } from '@/ts-tokens/bootstrap';
+import { BsColorType, supportedBsColorTypes } from '../../ts-tokens/bootstrap';
 
 export type ColorFunctionType = (percentage: number) => string|Array<{color: string;percentage:number}>;
 export interface MultipleProgressDefine {

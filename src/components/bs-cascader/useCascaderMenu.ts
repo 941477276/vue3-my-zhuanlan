@@ -14,21 +14,21 @@ import {
   CascaderExpandedMenuItem,
   CascaderFieldNames,
   CheckedOptions
-} from '@/ts-tokens/bootstrap/cascader';
-import { BsNodeInfo } from '@/ts-tokens/bootstrap/tree';
+} from '../../ts-tokens/bootstrap/cascader';
+import { BsNodeInfo } from '../../ts-tokens/bootstrap/tree';
 import {
   StringKeyObject
-} from '@/ts-tokens/bootstrap';
+} from '../../ts-tokens/bootstrap';
 import {
   findNodeInfoByValue2,
   findParentsByNodeValue2
-} from '@/components/bs-tree/bs-tree-utils';
+} from '../../components/bs-tree/bs-tree-utils';
 import {
   useCascaderMultiple
 } from './useCascaderMultiple';
 import {
   scrollTo
-} from '@/common/bs-util';
+} from '../../utils/bs-util';
 
 export function useCascaderMenu (options: any) {
   let {

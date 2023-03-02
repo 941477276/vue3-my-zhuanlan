@@ -15,11 +15,11 @@ import {
 import {
   ForwardRefContext,
   useForwardRef
-} from '@/hooks/useForwardRef';
+} from '../../hooks/useForwardRef';
 import {
   BsPopperContext,
   bsPopperContextKey
-} from '@/ts-tokens/bootstrap/popper';
+} from '../../ts-tokens/bootstrap/popper';
 import { bsPopperProps } from './bs-popper-props';
 import {
   createPopper,

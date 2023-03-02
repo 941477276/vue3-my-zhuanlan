@@ -48,7 +48,7 @@ import { bsTooltipContentProps } from './bs-tooltip-content-props';
 import {
   BsTooltipContext,
   bsTooltipContextKey
-} from '@/ts-tokens/bootstrap/popper';
+} from '../../ts-tokens/bootstrap/popper';
 
 export default defineComponent({
   name: 'BsTooltipContent',

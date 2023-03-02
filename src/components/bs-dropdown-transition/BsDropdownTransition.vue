@@ -49,10 +49,10 @@ import {
   isFunction,
   kebabCase2CamelCase,
   camelCase2KebabCase
-} from '@/common/bs-util';
+} from '../../utils/bs-util';
 import { getDropdownDirection, DropdownOffset } from './useDropdownDirection';
-import { useGlobalEvent } from '@/hooks/useGlobalEvent';
-import { StringKeyObject } from '@/ts-tokens/bootstrap';
+import { useGlobalEvent } from '../../hooks/useGlobalEvent';
+import { StringKeyObject } from '../../ts-tokens/bootstrap';
 
 export default defineComponent({
   name: 'BsDropdownTransition',

@@ -5,7 +5,7 @@ import {
   h,
   defineComponent
 } from 'vue';
-import { datePickerCtx, DatePickerCtx } from '@/ts-tokens/bootstrap/date-picker';
+import { datePickerCtx, DatePickerCtx } from '../../../../ts-tokens/bootstrap/date-picker';
 import dayjs from 'dayjs';
 
 export default defineComponent({

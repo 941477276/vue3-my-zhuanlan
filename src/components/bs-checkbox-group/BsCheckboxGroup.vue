@@ -11,7 +11,7 @@ import { defineComponent, provide, reactive } from 'vue';
 import {
   checkboxGroupContextKey,
   CheckboxGroupContext
-} from '@/ts-tokens/bootstrap';
+} from '../../ts-tokens/bootstrap';
 
 export default defineComponent({
   name: 'BsCheckboxGroup',

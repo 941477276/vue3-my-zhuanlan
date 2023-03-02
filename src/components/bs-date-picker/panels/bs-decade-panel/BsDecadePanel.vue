@@ -26,7 +26,7 @@ import {
 // import PanelHeader from '../panel-header/PanelHeader.vue';
 import PanelBody from '../panel-body/PanelBody.vue';
 import dayjs, { Dayjs } from 'dayjs';
-import { dayjsUtil, getMonthDays } from '@/common/dayjsUtil';
+import { dayjsUtil, getMonthDays } from '../../../../utils/dayjsUtil';
 import { usePanelViewDate } from '../../hooks/usePanelViewDate';
 
 let yearDecadeCount = 10;

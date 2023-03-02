@@ -1,5 +1,5 @@
 import { PropType } from 'vue';
-import { BsColorType, BsSize } from '@/ts-tokens/bootstrap';
+import { BsColorType, BsSize } from '../../ts-tokens/bootstrap';
 // import { bsTreeProps } from '../bs-tree/bs-tree-props';
 
 export const bsTreeSelectProps = {

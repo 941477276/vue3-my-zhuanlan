@@ -66,9 +66,8 @@ import {
 import BsInput from '../bs-input/BsInput.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
 import BsOnlyChild from '../bs-slot/BsOnlyChild.vue';
-import { useForwardRef } from '@/hooks/useForwardRef';
-import { useClickOutside } from '@/hooks/useClickOutside';
-import { BsSize } from '@/ts-tokens/bootstrap';
+import { useForwardRef } from '../../hooks/useForwardRef';
+import { useClickOutside } from '../../hooks/useClickOutside';
 import { bsCommonPickerProps } from './bs-common-picker-props';
 
 let bsCommonPickerCount = 0;

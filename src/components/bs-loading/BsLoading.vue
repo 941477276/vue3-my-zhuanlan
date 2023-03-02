@@ -40,7 +40,7 @@ import {
 } from 'vue';
 import BsSpinner from '../bs-spinner/BsSpinner.vue';
 import { bsLoadingProps } from './bs-loading-props';
-import { supportedBsColorTypes } from '@/ts-tokens/bootstrap';
+import { supportedBsColorTypes } from '../../ts-tokens/bootstrap';
 
 export default defineComponent({
   name: 'BsLoading',

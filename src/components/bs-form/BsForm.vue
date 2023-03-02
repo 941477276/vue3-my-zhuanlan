@@ -25,7 +25,7 @@ import {
   formContextKey,
   BsSize,
   BsTextAlign
-} from '@/ts-tokens/bootstrap';
+} from '../../ts-tokens/bootstrap';
 
 type ValidateCallback = (valid:boolean) => void;
 

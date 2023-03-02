@@ -1,5 +1,5 @@
 import { PropType } from 'vue';
-import { BsSize } from '@/ts-tokens/bootstrap';
+import { BsSize } from '../../ts-tokens/bootstrap';
 
 export const bsCommonPickerProps = {
   showFooter: { // 是否显示底部

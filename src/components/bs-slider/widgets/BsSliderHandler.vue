@@ -40,7 +40,7 @@ import { bsSliderProps } from '../bs-slider-props';
 import BsTooltip from '../../bs-tooltip/BsTooltip.vue';
 import { BigNumber } from 'bignumber.js';
 import { useSliderHandler } from './useSliderHandler';
-import { useClickOutside } from '@/hooks/useClickOutside';
+import { useClickOutside } from '../../../hooks/useClickOutside';
 
 export default defineComponent({
   name: 'BsSliderHandler',

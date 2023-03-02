@@ -59,7 +59,7 @@ import {
   defineComponent
 } from 'vue';
 import PanelHeader from '../../bs-date-picker/panels/panel-header/PanelHeader.vue';
-import { TimeDataUnit } from '@/ts-tokens/bootstrap/time-picker';
+import { TimeDataUnit } from '../../../ts-tokens/bootstrap/time-picker';
 import { bsPickerTimePanelProps } from './bs-picker-time-panel-props';
 import { useTimePicker, getUpdateModelValue } from '../useTimePicker';
 import dayjs, { Dayjs } from 'dayjs';

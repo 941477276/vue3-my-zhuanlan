@@ -80,21 +80,23 @@ import {
   ref,
   watch,
   ComponentInternalInstance,
-  computed, provide, reactive
+  computed,
+  provide,
+  reactive
 } from 'vue';
 import {
   ValidateStatus,
   StringKeyObject
-} from '@/ts-tokens/bootstrap';
+} from '../../ts-tokens/bootstrap';
 import {
   elementContains
-} from '@/common/bs-util';
-import { useClickOutside } from '@/hooks/useClickOutside';
+} from '../../utils/bs-util';
+import { useClickOutside } from '../../hooks/useClickOutside';
 import BsTree from '../bs-tree/BsTree.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
 import { bsTreeSelectProps } from './props';
-import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
-import { SelectContext, selectContextKey, SelectOptionItem } from '@/ts-tokens/bootstrap/select';
+import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
+import { SelectContext, selectContextKey, SelectOptionItem } from '../../ts-tokens/bootstrap/select';
 
 let treeSelectCount = 0;
 export default defineComponent({

@@ -31,7 +31,7 @@ import {
   bsMenuRootInjectKey,
   MenuItemResgisted,
   ExpandedSubmenu
-} from '@/ts-tokens/bootstrap/menu';
+} from '../../ts-tokens/bootstrap/menu';
 
 let menuCount = 0;
 export default defineComponent({

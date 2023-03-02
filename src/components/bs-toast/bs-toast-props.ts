@@ -1,6 +1,6 @@
 import { PropType } from 'vue';
-import { ToastPlacement } from '@/ts-tokens/bootstrap/toast';
-import { BsColorType } from '@/ts-tokens/bootstrap';
+import { ToastPlacement } from '../../ts-tokens/bootstrap/toast';
+import { BsColorType } from '../../ts-tokens/bootstrap';
 
 export const bsToastProps = {
   title: { // 标题

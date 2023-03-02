@@ -10,8 +10,8 @@ import {
   isFunction
 } from '@vue/shared';
 import BsLoading from './BsLoading.vue';
-import { useGetContentInfo } from '@/hooks/useGetContentInfo';
-import { CreateLoadingOptions } from '@/ts-tokens/bootstrap/loading';
+import { useGetContentInfo } from '../../hooks/useGetContentInfo';
+import { CreateLoadingOptions } from '../../ts-tokens/bootstrap/loading';
 
 let loadingCount = 0;
 export function createLoadingComponent (options: CreateLoadingOptions = {} as (CreateLoadingOptions)) {

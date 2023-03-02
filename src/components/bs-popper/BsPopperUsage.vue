@@ -27,10 +27,10 @@ import {
   ref,
   defineComponent
 } from 'vue';
-import BsPopper from '@/components/bs-popper/BsPopper.vue';
-import BsPopperTrigger from '@/components/bs-popper/BsPopperTrigger.vue';
-import BsPopperContent from '@/components/bs-popper/BsPopperContent.vue';
-import BsPopperArrow from '@/components/bs-popper/BsPopperArrow.vue';
+import BsPopper from './BsPopper.vue';
+import BsPopperTrigger from './BsPopperTrigger.vue';
+import BsPopperContent from './BsPopperContent.vue';
+import BsPopperArrow from './BsPopperArrow.vue';
 
 export default defineComponent({
   name: 'BsPopperUsage',

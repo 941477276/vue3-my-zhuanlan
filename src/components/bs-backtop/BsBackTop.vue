@@ -39,13 +39,13 @@ import {
   isString,
   isObject
 } from '@vue/shared';
-import { useGlobalEvent } from '@/hooks/useGlobalEvent';
+import { useGlobalEvent } from '../../hooks/useGlobalEvent';
 import {
   scrollTo,
   getStyle,
   scrollLeft,
   scrollTop
-} from '@/common/bs-util';
+} from '../../utils/bs-util';
 
 const defaultTop = '80%';
 const defaultRight = '30px';

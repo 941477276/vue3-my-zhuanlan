@@ -4,14 +4,14 @@ import {
   isFunction
 } from '@vue/shared';
 import { createLoadingComponent, LoadingInstance } from './createLoadingComponent';
-import { CreateLoadingOptions } from '@/ts-tokens/bootstrap/loading';
-import { StringKeyObject } from '@/ts-tokens/bootstrap';
+import { CreateLoadingOptions } from '../../ts-tokens/bootstrap/loading';
+import { StringKeyObject } from '../../ts-tokens/bootstrap';
 import {
   getStyle,
   scrollTop,
   scrollLeft
-} from '@/common/bs-util';
-import { useLockScroll } from '@/hooks/useLockScroll';
+} from '../../utils/bs-util';
+import { useLockScroll } from '../../hooks/useLockScroll';
 import { bsLoadingProps } from './bs-loading-props';
 
 let fullscreenLoading: any = null;

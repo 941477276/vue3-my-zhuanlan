@@ -44,12 +44,12 @@ import {
   watch,
   onUpdated
 } from 'vue';
-import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
+import { useSetValidateStatus } from '../../hooks/useSetValidateStatus';
 import {
   radioGroupContextKey,
   RadioGroupContext
-} from '@/ts-tokens/bootstrap/radio';
-import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
+} from '../../ts-tokens/bootstrap/radio';
+import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
 
 // 统计单选框数量
 let radioCount = 0;

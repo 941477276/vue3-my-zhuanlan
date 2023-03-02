@@ -76,7 +76,7 @@ import {
 import {
   getPropValueByPath,
   isBoolean
-} from '@/common/bs-util';
+} from '../../../utils/bs-util';
 import Schema from 'async-validator';
 import {
   FormContext,
@@ -88,8 +88,8 @@ import {
   BsSize,
   formContextKey,
   formItemContextKey
-} from '@/ts-tokens/bootstrap';
-import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
+} from '../../../ts-tokens/bootstrap';
+import { useDeliverContextToParent } from '../../../hooks/useDeliverContextToParent';
 
 export default defineComponent({
   name: 'BsFormItem',

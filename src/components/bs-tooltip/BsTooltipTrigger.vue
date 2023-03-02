@@ -25,14 +25,14 @@ import {
 import BsPopperTrigger from '../bs-popper/BsPopperTrigger.vue';
 import { bsPopperTriggerProps } from '../bs-popper/bs-popper-trigger-props';
 import { bsTooltipTriggerProps } from './bs-tooltip-trigger-props';
-import { useClickOutside } from '@/hooks/useClickOutside';
+import { useClickOutside } from '../../hooks/useClickOutside';
 import {
   bsTooltipContextKey,
   bsPopperContextKey,
   BsTooltipContext,
   BsPopperContext,
   PopperTriggerType
-} from '@/ts-tokens/bootstrap/popper';
+} from '../../ts-tokens/bootstrap/popper';
 
 export default defineComponent({
   name: 'BsTooltipTrigger',

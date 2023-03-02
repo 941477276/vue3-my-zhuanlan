@@ -10,7 +10,7 @@ import {
 } from 'vue';
 import BsTooltip from '../../bs-tooltip/BsTooltip.vue';
 import { useMenuLevel } from '../hooks/useMenuLevel';
-import { bsMenuRootInjectKey, bsSubMenuInjectKey } from '@/ts-tokens/bootstrap/menu';
+import { bsMenuRootInjectKey, bsSubMenuInjectKey } from '../../../ts-tokens/bootstrap/menu';
 
 let menuItemCount = 0;
 let componentName = 'BsMenuItem';

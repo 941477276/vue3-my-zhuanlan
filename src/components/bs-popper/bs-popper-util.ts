@@ -1,7 +1,7 @@
 import { Options as PopperOptions } from '@popperjs/core';
 import {
   eleIsInFixedParents
-} from '@/common/bs-util';
+} from '../../utils/bs-util';
 
 export function buildPopperOptions (props: any, triggerEl: HTMLElement): PopperOptions {
   let popperOptions = props.popperOptions || {};

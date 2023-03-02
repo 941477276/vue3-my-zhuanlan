@@ -62,7 +62,8 @@ import {
   ref,
   computed,
   defineComponent,
-  onUnmounted, isRef
+  onUnmounted,
+  isRef
 } from 'vue';
 import { bsToastProps } from './bs-toast-props';
 import {
@@ -74,7 +75,7 @@ import {
   getFixedToastIdsByPlacement,
   allowedPlacements
 } from './bs-toast-ctxs';
-import { useZIndex } from '@/hooks/useZIndex';
+import { useZIndex } from '../../hooks/useZIndex';
 
 let toastCount = 0;
 export default defineComponent({

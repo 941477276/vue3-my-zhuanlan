@@ -66,12 +66,12 @@ import {
   onUnmounted,
   watch
 } from 'vue';
-import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
+import { useSetValidateStatus } from '../../hooks/useSetValidateStatus';
 import { useCheckbox } from './useCheckbox';
 import {
   isNoneValue
-} from '@/common/bs-util';
-import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
+} from '../../utils/bs-util';
+import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
 
 // 统计复选框数量
 let checkboxCount = 0;

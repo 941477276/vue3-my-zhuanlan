@@ -31,7 +31,7 @@ import {
   NOOP
 } from '@vue/shared';
 import dayjs, { Dayjs } from 'dayjs';
-import { dayjsUtil } from '@/common/dayjsUtil';
+import { dayjsUtil } from '../../../../utils/dayjsUtil';
 import BsDatePanel from '../bs-date-panel/BsDatePanel.vue';
 
 let defaultFormat = 'YYYY-wo';

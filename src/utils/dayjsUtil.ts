@@ -1,5 +1,4 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { StringKeyObject } from '@/ts-tokens/bootstrap';
 import localeData from 'dayjs/plugin/localeData';
 import weekday from 'dayjs/plugin/weekday';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
@@ -24,7 +23,7 @@ dayjs.extend(customParseFormat);
 // 季度插件
 dayjs.extend(quarterOfYear);
 
-const localeMap: StringKeyObject = {
+const localeMap: Record<string, string> = {
   // ar_EG:
   // az_AZ:
   // bg_BG:

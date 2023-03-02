@@ -257,7 +257,7 @@ export function eleHasScroll (ele: HTMLElement): {
   if (!(ele instanceof HTMLElement)) {
     return result;
   }
-  var noScrollOverflowValue = ['hidden', 'visible'];
+  var noScrollOverflowValue = ['hidden'/* , 'visible' */];
   if (ele.scrollTop > 0) {
     result.vertical = true;
   } else {
@@ -271,6 +271,7 @@ export function eleHasScroll (ele: HTMLElement): {
     result.vertical = top > 0; */
     var overflowY = getStyle(ele, 'overflow-y');
     // console.log('overflowY', overflowY);
+    // console.log('(ele.scrollHeight, ele.clientHeight)', ele.scrollHeight, ele.clientHeight);
     result.vertical = !noScrollOverflowValue.includes(overflowY) && (ele.scrollHeight > ele.clientHeight);
   }
   if (ele.scrollLeft > 0) {

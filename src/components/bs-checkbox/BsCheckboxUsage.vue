@@ -42,13 +42,13 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
-import Basic from './widgets/basic.vue';
-import Disabled from './widgets/disabled.vue';
-import Ideterminate from './widgets/ideterminate.vue';
-import TrueFalseValue from './widgets/true-false-value.vue';
-import Group from './widgets/group.vue';
-import GroupLimit from './widgets/group-limit.vue';
-import GroupDisabled from './widgets/group-disabled.vue';
+import Basic from './demos/basic.vue';
+import Disabled from './demos/disabled.vue';
+import Ideterminate from './demos/ideterminate.vue';
+import TrueFalseValue from './demos/true-false-value.vue';
+import Group from './demos/group.vue';
+import GroupLimit from './demos/group-limit.vue';
+import GroupDisabled from './demos/group-disabled.vue';
 
 export default defineComponent({
   name: 'BsCheckboxUsage',

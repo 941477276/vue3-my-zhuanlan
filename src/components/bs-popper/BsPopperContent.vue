@@ -23,7 +23,7 @@ import {
 import {
   BsPopperContext,
   bsPopperContextKey
-} from '@/ts-tokens/bootstrap/popper';
+} from '../../ts-tokens/bootstrap/popper';
 import {
   createPopper,
   Instance as PopperInstance,
@@ -32,7 +32,7 @@ import {
 import {
   buildPopperOptions
 } from './bs-popper-util';
-import { useZIndex } from '@/hooks/useZIndex';
+import { useZIndex } from '../../hooks/useZIndex';
 import { bsPopperContentProps } from './bs-popper-content-props';
 
 export default defineComponent({

@@ -82,13 +82,13 @@ import {
 import BsTag from '../bs-tag/BsTag.vue';
 import InputTagSlot from './widgets/InputTagsSlot.vue';
 import { bsInputTagsProps, ValueItem } from './bs-input-tags-props';
-import { useClickOutside } from '@/hooks/useClickOutside';
+import { useClickOutside } from '../../hooks/useClickOutside';
 import {
   getStyle,
   offset
-} from '@/common/bs-util';
-import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
-import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
+} from '../../utils/bs-util';
+import { useSetValidateStatus } from '../../hooks/useSetValidateStatus';
+import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
 
 let bsInputTagsCount = 0;
 export default defineComponent({

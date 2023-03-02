@@ -23,8 +23,8 @@ import {
   TabsContext,
   TabsPaneContext,
   bsTabsContextKey
-} from '@/ts-tokens/bootstrap/tabs';
-import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
+} from '../../../ts-tokens/bootstrap/tabs';
+import { useDeliverContextToParent } from '../../../hooks/useDeliverContextToParent';
 
 let bsTabsPaneCount = 0;
 export default defineComponent({

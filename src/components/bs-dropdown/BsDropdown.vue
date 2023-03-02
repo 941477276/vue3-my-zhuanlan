@@ -47,23 +47,19 @@ import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition
 import {
   addClass,
   removeClass,
-  hasClass,
-  eleIsInFixedParents
-} from '@/common/bs-util';
-import { useClickOutside } from '@/hooks/useClickOutside';
+  hasClass
+} from '../../utils/bs-util';
+import { useClickOutside } from '../../hooks/useClickOutside';
 import {
   bsDropdownProps
 } from './props';
 import {
   useZIndex
-} from '@/hooks/useZIndex';
+} from '../../hooks/useZIndex';
 import {
   useForwardRef
-} from '@/hooks/useForwardRef';
-import { useGlobalEvent } from '@/hooks/useGlobalEvent';
-
-// 下来菜单显示方向
-type directions = 'bottom' | 'top' | 'left' | 'right';
+} from '../../hooks/useForwardRef';
+import { useGlobalEvent } from '../../hooks/useGlobalEvent';
 
 export default defineComponent({
   name: 'BsDropdown',

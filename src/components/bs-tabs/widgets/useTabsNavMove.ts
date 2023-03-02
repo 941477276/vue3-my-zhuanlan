@@ -9,7 +9,7 @@ import {
 } from 'vue';
 import {
   eleIsInParentView
-} from '@/common/bs-util';
+} from '../../../utils/bs-util';
 
 /* let getPaneById = function (id: string, panes: any[]) {
   return panes.find((pane: {[key: string]: any}) => {

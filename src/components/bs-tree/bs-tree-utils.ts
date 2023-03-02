@@ -1,8 +1,8 @@
 import {
   BsNodeInfo,
   BsNodeData
-} from '@/ts-tokens/bootstrap/tree';
-import { StringKeyObject } from '@/ts-tokens/bootstrap';
+} from '../../ts-tokens/bootstrap/tree';
+import { StringKeyObject } from '../../ts-tokens/bootstrap';
 
 let caches: any = {};
 /**

@@ -33,11 +33,11 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import Basic from './widgets/basic.vue';
-import Disabled from './widgets/disabled.vue';
-import DifferentValues from './widgets/different-values.vue';
-import Group from './widgets/group.vue';
-import GroupDisabled from './widgets/group-disabled.vue';
+import Basic from './demos/basic.vue';
+import Disabled from './demos/disabled.vue';
+import DifferentValues from './demos/different-values.vue';
+import Group from './demos/group.vue';
+import GroupDisabled from './demos/group-disabled.vue';
 
 export default defineComponent({
   name: 'BsRadioUsage',

@@ -5,8 +5,8 @@ import {
 import BsMask from './bs-mask.vue';
 import {
   StringKeyObject
-} from '@/ts-tokens/bootstrap';
-import { useZIndex } from '@/hooks/useZIndex';
+} from '../../ts-tokens/bootstrap';
+import { useZIndex } from '../../hooks/useZIndex';
 
 let maskCount = 0;
 export function createMask (options: StringKeyObject = {}): { show: (zIndex?: number) => void; hide: (destroyed?: boolean) => void; } {

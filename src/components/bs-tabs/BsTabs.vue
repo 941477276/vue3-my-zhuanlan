@@ -42,7 +42,7 @@ import {
   TabsPaneContext,
   TabsContext,
   bsTabsContextKey
-} from '@/ts-tokens/bootstrap/tabs';
+} from '../../ts-tokens/bootstrap/tabs';
 
 export default defineComponent({
   name: 'BsTabs',

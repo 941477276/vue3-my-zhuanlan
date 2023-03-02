@@ -7,7 +7,7 @@ import {
 import {
   bsTreeContextKey,
   TreeContext
-} from '@/ts-tokens/bootstrap/tree';
+} from '../../../ts-tokens/bootstrap/tree';
 
 export default defineComponent({
   name: 'BsTreeNodeLabel',

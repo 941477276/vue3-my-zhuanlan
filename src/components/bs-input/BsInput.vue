@@ -150,14 +150,14 @@ import {
   defineComponent,
   ref
 } from 'vue';
-import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
+import { useSetValidateStatus } from '../../hooks/useSetValidateStatus';
 import { useInput } from './useInput';
-import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
+import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
 import { bsInputProps } from './bs-input-props';
 import { BsiXCircle } from 'vue3-bootstrap-icon/es/icons/BsiXCircle';
 import { BsiEye } from 'vue3-bootstrap-icon/es/icons/BsiEye';
 import { BsiEyeSlash } from 'vue3-bootstrap-icon/es/icons/BsiEyeSlash';
-import { isKorean, isNoneValue } from '@/common/bs-util';
+import { isKorean, isNoneValue } from '../../utils/bs-util';
 import { GhostTextarea } from './widgets/ghost-textarea';
 
 let inputCount = 0;

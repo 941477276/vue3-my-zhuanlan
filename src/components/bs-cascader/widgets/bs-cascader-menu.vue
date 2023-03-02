@@ -75,10 +75,10 @@ import {
   CascaderOptionItem,
   CascaderExpandedMenuItem,
   CascaderFieldNames
-} from '@/ts-tokens/bootstrap/cascader';
+} from '../../../ts-tokens/bootstrap/cascader';
 import {
   hasClass
-} from '@/common/bs-util';
+} from '../../../utils/bs-util';
 
 type LazyLoadingStatus = 'loading' | 'fail' | 'success';
 

@@ -26,7 +26,7 @@ Set the `marks` attribute to display the mark, `marks` is an object whose `key` 
 
 <script setup>
 import { h, ref } from 'vue';
-import BsIcon from '@/components/bs-icon/BsIcon.vue';
+import { BsiInfoCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiInfoCircleFill';
 
 let marks = ref({
   0: '0°C',
@@ -40,7 +40,7 @@ let marks = ref({
   50: '50°C',
   100: {
     // label: '100°C',
-    label: h('span', [h(BsIcon, { name: 'info-circle-fill' }), '100°C']),
+    label: h('span', [h(BsiInfoCircleFill), '100°C']),
     style: {
       color: '#f00',
       fontWeight: 'bold'

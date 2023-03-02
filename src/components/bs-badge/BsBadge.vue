@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { defineComponent, computed, PropType } from 'vue';
-import { BsColorType, supportedBsColorTypes } from '@/ts-tokens/bootstrap';
+import { BsColorType, supportedBsColorTypes } from '../../ts-tokens/bootstrap';
 
 export default defineComponent({
   name: 'BsBadge',
