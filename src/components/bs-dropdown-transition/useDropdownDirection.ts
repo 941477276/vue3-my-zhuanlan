@@ -91,6 +91,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
   let targetScrollParent = getScrollParent(targetEl);
   // 判断下拉内容是否插入在body中
   let targetIsInBody = targetScrollParent && documentNodeNames.includes(targetScrollParent.nodeName);
+  // console.log('targetScrollParent', targetScrollParent, targetEl);
   /* let bodyHasScroll = {
     vertical: false,
     horizontal: false
@@ -102,11 +103,13 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
   };
   if (targetIsInBody) {
     // bodyHasScroll = hasScroll();
+    console.log('7777777777777777');
     bodyScrollVisible = {
       vertical: getStyle(document.body, 'overflow-y') != 'hidden',
       horizontal: getStyle(document.body, 'overflow-x') != 'hidden'
     };
   }
+  let bodyScrollWidth = scrollWidth();
 
   // console.log('eleWrapperScrollTop, eleWrapperScrollLeft', referenceElWrapperScrollTop, referenceElWrapperScrollLeft);
 
@@ -174,6 +177,11 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       // 实际为：浏览器可见高度-参照元素在可见高度内的位置-浏览器滚动条滚动的距离+参照元素滚动容器滚动滚动的距离
       // bottom = window.innerHeight - referenceOffset.top + referenceElWrapperScrollTop;
       right = window.innerWidth - referenceOffset.left + referenceElWrapperScrollLeft - referenceRect.width;
+      // 如果浏览器有垂直滚动条，则需减去垂直滚动条的宽度，因为前面计算right值的时候使用的是window.innerWidth，window.innerWidth包含了滚动条
+      if (bodyHasScroll.vertical && bodyScrollVisible.vertical) {
+        right -= bodyScrollWidth.vertical;
+        console.log('right值减去浏览器垂直滚动条的宽度', right, bodyScrollWidth.vertical);
+      }
     } else {
       // bottom = targetElOffsetParent.offsetHeight - (referenceOffset.top - targetElOffsetParentOffset.top);// + referenceElWrapperScrollTop;
       right = targetElOffsetParent.offsetWidth - (referenceOffset.left - targetElOffsetParentOffset.left) - referenceRect.width;
@@ -247,6 +255,11 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       // 实际为：浏览器可见高度-参照元素在可见高度内的位置-浏览器滚动条滚动的距离+参照元素滚动容器滚动滚动的距离
       bottom = window.innerHeight - referenceOffset.top + referenceElWrapperScrollTop;
       right = window.innerWidth - referenceOffset.left + referenceElWrapperScrollLeft - referenceRect.width;
+      // 如果浏览器有垂直滚动条，则需减去垂直滚动条的宽度，因为前面计算right值的时候使用的是window.innerWidth，window.innerWidth包含了滚动条
+      if (bodyHasScroll.vertical && bodyScrollVisible.vertical) {
+        right -= bodyScrollWidth.vertical;
+        console.log('right值减去浏览器垂直滚动条的宽度', right, bodyScrollWidth.vertical);
+      }
     } else {
       bottom = targetElOffsetParent.offsetHeight - (referenceOffset.top - targetElOffsetParentOffset.top);// + referenceElWrapperScrollTop;
       right = targetElOffsetParent.offsetWidth - (referenceOffset.left - targetElOffsetParentOffset.left) - referenceRect.width;
@@ -337,6 +350,11 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     left -= targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0;
     if (targetElOffsetParentIsDocument) {
       right = window.innerWidth - referenceOffset.left + referenceElWrapperScrollLeft;
+      // 如果浏览器有垂直滚动条，则需减去垂直滚动条的宽度，因为前面计算right值的时候使用的是window.innerWidth，window.innerWidth包含了滚动条
+      if (bodyHasScroll.vertical && bodyScrollVisible.vertical) {
+        right -= bodyScrollWidth.vertical;
+        console.log('right值减去浏览器垂直滚动条的宽度', right, bodyScrollWidth.vertical);
+      }
     } else {
       right = targetElOffsetParent.offsetWidth - (referenceOffset.left - targetElOffsetParentOffset.left) + referenceRect.width - targetElRect.width;
     }
