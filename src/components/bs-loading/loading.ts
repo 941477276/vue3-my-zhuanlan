@@ -10,7 +10,7 @@ import {
   getStyle,
   scrollTop,
   scrollLeft
-} from '../../common/bs-util';
+} from '../../utils/bs-util';
 import { useLockScroll } from '../../hooks/useLockScroll';
 import { bsLoadingProps } from './bs-loading-props';
 

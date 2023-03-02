@@ -86,7 +86,7 @@ import { useClickOutside } from '../../hooks/useClickOutside';
 import {
   getStyle,
   offset
-} from '../../common/bs-util';
+} from '../../utils/bs-util';
 import { useSetValidateStatus } from '../../hooks/useSetValidateStatus';
 import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
 

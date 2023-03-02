@@ -45,7 +45,7 @@ import {
   getStyle,
   scrollLeft,
   scrollTop
-} from '../../common/bs-util';
+} from '../../utils/bs-util';
 
 const defaultTop = '80%';
 const defaultRight = '30px';

@@ -4,7 +4,7 @@ import {
   computed,
   inject
 } from 'vue';
-import { isUndefined } from '@/common/bs-util';
+import { isUndefined } from '@/utils/bs-util';
 import {
   bsMenuRootInjectKey
 } from '@/ts-tokens/bootstrap/menu';

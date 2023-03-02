@@ -46,7 +46,7 @@ import {
   NOOP
 } from '@vue/shared';
 import dayjs, { Dayjs } from 'dayjs';
-import { dayjsUtil, isLeapYear, getMonthDays } from '../../../../common/dayjsUtil';
+import { dayjsUtil, isLeapYear, getMonthDays } from '../../../../utils/dayjsUtil';
 import PanelHeader from '../panel-header/PanelHeader.vue';
 import PanelBody from '../panel-body/PanelBody.vue';
 import { datePickerPrefixColumnSlotCtx } from '../../../../ts-tokens/bootstrap/date-picker';

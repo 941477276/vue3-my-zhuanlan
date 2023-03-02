@@ -38,7 +38,7 @@ import { BsiCheckLg } from 'vue3-bootstrap-icon/es/icons/BsiCheckLg';
 import { BsColorType } from '../../../ts-tokens/bootstrap';
 import {
   isFunction
-} from '../../../common/bs-util';
+} from '../../../utils/bs-util';
 
 let selectOptionCount = 0;
 export default defineComponent({

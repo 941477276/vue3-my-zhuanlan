@@ -11,7 +11,7 @@ import {
   hasClass,
   getEleTranslateValue,
   getStyle
-} from '../../../common/bs-util';
+} from '../../../utils/bs-util';
 import {
   HiddenTabInfo
 } from '../../../ts-tokens/bootstrap/tabs';

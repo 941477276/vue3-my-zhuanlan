@@ -6,7 +6,7 @@ import {
   nextTick,
   onBeforeUnmount
 } from 'vue';
-import { isNoneValue } from '../../../common/bs-util';
+import { isNoneValue } from '../../../utils/bs-util';
 import { useGlobalEvent } from '../../../hooks/useGlobalEvent';
 
 export const GhostTextarea = defineComponent({

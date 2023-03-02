@@ -28,7 +28,7 @@ import {
 } from './useCascaderMultiple';
 import {
   scrollTo
-} from '../../common/bs-util';
+} from '../../utils/bs-util';
 
 export function useCascaderMenu (options: any) {
   let {

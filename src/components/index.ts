@@ -1,7 +1,6 @@
 import BsButton from './bs-button/BsButton.vue';
 import BsButtonGroup from '@/components/bs-button-group';
 import BsInput from './bs-input';
-import BsIcon from './bs-icon/BsIcon.vue';
 import BsRadio from './bs-radio/BsRadio.vue';
 import BsRadioGroup from './bs-radio-group/BsRadioGroup.vue';
 import BsCheckbox from './bs-checkbox/BsCheckbox.vue';
@@ -47,7 +46,6 @@ import BsRelativeTime from '@/components/bs-relative-time';
 export default function (vueApp: any) {
   vueApp.component(BsButton.name, BsButton);
   vueApp.use(BsInput);
-  vueApp.component(BsIcon.name, BsIcon);
   vueApp.component(BsRadio.name, BsRadio);
   vueApp.component(BsRadioGroup.name, BsRadioGroup);
   vueApp.component(BsCheckbox.name, BsCheckbox);

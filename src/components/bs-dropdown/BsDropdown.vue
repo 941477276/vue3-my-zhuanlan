@@ -48,7 +48,7 @@ import {
   addClass,
   removeClass,
   hasClass
-} from '../../common/bs-util';
+} from '../../utils/bs-util';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import {
   bsDropdownProps

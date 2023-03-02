@@ -56,7 +56,7 @@ import {
 } from '../../ts-tokens/bootstrap';
 import {
   isPromise
-} from '../../common/bs-util';
+} from '../../utils/bs-util';
 
 export default defineComponent({
   name: 'BsAlert',

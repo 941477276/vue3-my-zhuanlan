@@ -70,7 +70,7 @@ import { useSetValidateStatus } from '../../hooks/useSetValidateStatus';
 import { useCheckbox } from './useCheckbox';
 import {
   isNoneValue
-} from '../../common/bs-util';
+} from '../../utils/bs-util';
 import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
 
 // 统计复选框数量

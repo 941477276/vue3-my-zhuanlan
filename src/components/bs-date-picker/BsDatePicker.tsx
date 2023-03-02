@@ -30,7 +30,7 @@ import BsWeekPanel from './panels/bs-week-panel/BsWeekPanel.vue';
 import BsDateTimePanel from './panels/bs-date-time-panel/BsDateTimePanel.vue';
 import BsButton from '../bs-button/BsButton.vue';
 import dayjs, { Dayjs } from 'dayjs';
-import { dayjsUtil } from '../../common/dayjsUtil';
+import { dayjsUtil } from '../../utils/dayjsUtil';
 import { getUpdateModelValue } from '../../components/bs-time-picker/useTimePicker';
 import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
 

@@ -101,9 +101,9 @@ import {
   inject,
   onUnmounted
 } from 'vue';
-import BsCheckbox from '../../components/bs-checkbox/BsCheckbox.vue';
-import BsRadio from '../../components/bs-radio/BsRadio.vue';
-import BsSpinner from '../../components/bs-spinner/BsSpinner.vue';
+import BsCheckbox from '../../../components/bs-checkbox/BsCheckbox.vue';
+import BsRadio from '../../../components/bs-radio/BsRadio.vue';
+import BsSpinner from '../../../components/bs-spinner/BsSpinner.vue';
 import BsTreeNodeLabel from './BsTreeNodeLabel.vue';
 import BsTreeNodeSwitcherIcon from './BsTreeNodeSwitcherIcon.vue';
 import BsTreeNodeOperate from './BsTreeNodeOperate.vue';
@@ -116,7 +116,7 @@ import {
   isPromise,
   hasClass,
   parents
-} from '../../../common/bs-util';
+} from '../../../utils/bs-util';
 import { useTreeNode } from './useTreeNode';
 
 export default defineComponent({

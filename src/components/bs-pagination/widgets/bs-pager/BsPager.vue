@@ -105,7 +105,7 @@ import { BsSize } from '../../../../ts-tokens/bootstrap';
 import {
   hasClass,
   parents
-} from '../../../../common/bs-util';
+} from '../../../../utils/bs-util';
 
 export default defineComponent({
   name: 'BsPager',

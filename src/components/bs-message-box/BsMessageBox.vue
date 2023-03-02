@@ -133,7 +133,7 @@ import { bsMessageBoxProps } from './bs-message-box-props';
 import { MessageType } from '../../ts-tokens/bootstrap/message';
 import { useButtonClick } from './useButtonClick';
 import { useGlobalEvent } from '../../hooks/useGlobalEvent';
-import { isPromise } from '../../common/bs-util';
+import { isPromise } from '../../utils/bs-util';
 import { BsiInfoCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiInfoCircleFill';
 import { BsiCheckCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiCheckCircleFill';
 import { BsiExclamationCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiExclamationCircleFill';

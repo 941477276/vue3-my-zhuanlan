@@ -23,7 +23,7 @@ Set the `vertical` property to render a vertical slider
 
 <script setup>
 import { h, ref } from 'vue';
-import BsIcon from '@/components/bs-icon/BsIcon.vue';
+import { BsiInfoCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiInfoCircleFill';
 
 let slider = ref(33);
 let slider2 = ref([40, 60]);
@@ -38,7 +38,7 @@ let marks = ref({
   },
   50: '50°C',
   100: {
-    label: h('span', [h(BsIcon, { name: 'info-circle-fill' }), '100°C']),
+    label: h('span', [h(BsiInfoCircleFill), '100°C']),
     style: {
       color: '#f00',
       fontWeight: 'bold'

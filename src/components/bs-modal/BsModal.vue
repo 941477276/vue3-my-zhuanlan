@@ -93,7 +93,7 @@ import { useLockScroll } from '../../hooks/useLockScroll';
 import { useGlobalEvent } from '../../hooks/useGlobalEvent';
 import {
   isPromise
-} from '../../common/bs-util';
+} from '../../utils/bs-util';
 import drag from '../../hooks/useDrag';
 
 let modalCount = 0;

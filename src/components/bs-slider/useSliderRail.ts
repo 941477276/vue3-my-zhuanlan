@@ -4,7 +4,7 @@ import {
 } from 'vue';
 import {
   hasClass
-} from '../../common/bs-util';
+} from '../../utils/bs-util';
 import { calcValueByPosition, convertValue, getSliderHandlerNameByValue } from './bsSliderUitl';
 
 type SetValueFunction = (value: string|number) => void;

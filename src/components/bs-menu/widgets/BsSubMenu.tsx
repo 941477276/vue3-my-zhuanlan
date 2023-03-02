@@ -29,7 +29,7 @@ import {
   isUndefined,
   elementContains,
   parents
-} from '../../../common/bs-util';
+} from '../../../utils/bs-util';
 
 let subMenuCount = 0;
 let componentName = 'BsSubMenu';

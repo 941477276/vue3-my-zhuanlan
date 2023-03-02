@@ -8,7 +8,7 @@ import {
 import {
   isPromise,
   isFunction
-} from '../../common/bs-util';
+} from '../../utils/bs-util';
 
 /**
  * 处理确定、取消按钮的点击事件

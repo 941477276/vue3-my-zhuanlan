@@ -7,7 +7,7 @@ import {
 } from 'vue';
 import {
   isNoneValue
-} from '../../common/bs-util';
+} from '../../utils/bs-util';
 import {
   checkboxGroupContextKey,
   CheckboxGroupContext

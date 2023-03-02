@@ -4,7 +4,7 @@ import {
   scrollWidth,
   addClass,
   removeClass
-} from '../common/bs-util';
+} from '../utils/bs-util';
 
 /**
  * 锁定浏览器滚动条

@@ -76,7 +76,7 @@ import { bsTooltipTriggerProps } from '../bs-tooltip/bs-tooltip-trigger-props';
 import { bsTooltipProps } from '../bs-tooltip/bs-tooltip-props';
 import {
   isPromise
-} from '../../common/bs-util';
+} from '../../utils/bs-util';
 
 let popConfirmCount = 0;
 export default defineComponent({

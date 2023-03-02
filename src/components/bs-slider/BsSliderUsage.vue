@@ -46,7 +46,6 @@ import {
   ref,
   h
 } from 'vue';
-import BsIcon from '@/components/bs-icon/BsIcon.vue';
 import Basic from './demos/basic.vue';
 import Vertical from './demos/veritcal.vue';
 import Range from './demos/range.vue';
@@ -58,7 +57,6 @@ export default defineComponent({
   name: 'BsSliderUsage',
   components: {
     // eslint-disable-next-line vue/no-unused-components
-    BsIcon,
     Basic,
     Vertical,
     Range,

@@ -90,7 +90,7 @@ import {
 } from '../../ts-tokens/bootstrap';
 import {
   elementContains
-} from '../../common/bs-util';
+} from '../../utils/bs-util';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import BsTree from '../bs-tree/BsTree.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';

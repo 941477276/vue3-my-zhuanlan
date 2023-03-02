@@ -11,7 +11,7 @@ import {
   getDocumentWidthHeight,
   scrollWidth,
   kebabCase2CamelCase
-} from '../../common/bs-util';
+} from '../../utils/bs-util';
 
 let documentNodeNames = ['HTML', 'BODY'];
 

@@ -76,7 +76,7 @@ import {
 import {
   getPropValueByPath,
   isBoolean
-} from '../../../common/bs-util';
+} from '../../../utils/bs-util';
 import Schema from 'async-validator';
 import {
   FormContext,

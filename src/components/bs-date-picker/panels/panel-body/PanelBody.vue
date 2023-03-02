@@ -62,7 +62,7 @@ import {
 } from 'vue';
 import {
   parents
-} from '../../../../common/bs-util';
+} from '../../../../utils/bs-util';
 import PickerCellInner from './PickerCellInner.vue';
 import { PrefixColumn } from './PrefixColumn';
 /**

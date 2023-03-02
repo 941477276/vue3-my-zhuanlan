@@ -20,7 +20,7 @@ import {
 import {
   offset,
   isFunction
-} from '../../common/bs-util';
+} from '../../utils/bs-util';
 import { useZIndex } from '../../hooks/useZIndex';
 import { useGetContentInfo } from '../../hooks/useGetContentInfo';
 import { useLockScroll } from '../../hooks/useLockScroll';
