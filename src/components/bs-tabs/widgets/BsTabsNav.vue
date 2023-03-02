@@ -82,21 +82,21 @@ import {
 import { BsiChevronLeft } from 'vue3-bootstrap-icon/es/icons/BsiChevronLeft';
 import { BsiChevronRight } from 'vue3-bootstrap-icon/es/icons/BsiChevronRight';
 import { BsiThreeDots } from 'vue3-bootstrap-icon/es/icons/BsiThreeDots';
-import BsDropdown from '@/components/bs-dropdown/BsDropdown.vue';
-import BsDropdownItem from '@/components/bs-dropdown/widgets/BsDropdownItem.vue';
+import BsDropdown from '../../../components/bs-dropdown/BsDropdown.vue';
+import BsDropdownItem from '../../../components/bs-dropdown/widgets/BsDropdownItem.vue';
 import BsTabsNavItem from './BsTabsNavItem.vue';
 import {
   HiddenTabInfo,
   TabNavItem,
   TabPosition,
   TriggerTypeOnOverflow
-} from '@/ts-tokens/bootstrap/tabs';
+} from '../../../ts-tokens/bootstrap/tabs';
 import { useHiddenTabsInfo } from './useHiddenTabsInfo';
 import { useActiveTab } from './useActiveTab';
 import { useTabsNavMove } from './useTabsNavMove';
 import {
   useGlobalEvent
-} from '@/hooks/useGlobalEvent';
+} from '../../../hooks/useGlobalEvent';
 
 export default defineComponent({
   name: 'BsTabsNav',

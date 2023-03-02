@@ -20,7 +20,7 @@ import {
 import {
   SelectOptionGroupContext,
   selectOptionGroupContextKey
-} from '@/ts-tokens/bootstrap/select';
+} from '../../../ts-tokens/bootstrap/select';
 
 export default defineComponent({
   name: 'BsOptionGroup',

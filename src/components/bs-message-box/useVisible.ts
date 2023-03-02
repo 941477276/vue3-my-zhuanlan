@@ -4,7 +4,7 @@ import {
 import {
   isPromise,
   isFunction
-} from '@/common/bs-util';
+} from '../../common/bs-util';
 
 /**
  * 处理message box显示或隐藏

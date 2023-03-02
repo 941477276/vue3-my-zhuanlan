@@ -88,13 +88,13 @@ import {
 import BsButton from '../bs-button/BsButton.vue';
 import BsMask from '../bs-mask/bs-mask.vue';
 import { bsModalProps } from './props';
-import { useZIndex } from '@/hooks/useZIndex';
-import { useLockScroll } from '@/hooks/useLockScroll';
-import { useGlobalEvent } from '@/hooks/useGlobalEvent';
+import { useZIndex } from '../../hooks/useZIndex';
+import { useLockScroll } from '../../hooks/useLockScroll';
+import { useGlobalEvent } from '../../hooks/useGlobalEvent';
 import {
   isPromise
-} from '@/common/bs-util';
-import drag from '@/hooks/useDrag';
+} from '../../common/bs-util';
+import drag from '../../hooks/useDrag';
 
 let modalCount = 0;
 let modalIdQueue: string[] = [];

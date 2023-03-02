@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { BsColorType, supportedBsColorTypes } from '@/ts-tokens/bootstrap';
+import { BsColorType, supportedBsColorTypes } from '../../ts-tokens/bootstrap';
 import {
   defineComponent,
   PropType,

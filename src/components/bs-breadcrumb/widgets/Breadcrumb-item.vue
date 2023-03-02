@@ -32,8 +32,8 @@ import {
 import {
   BreadcrumbContext,
   breadcrumbContextKey
-} from '@/ts-tokens/bootstrap/breadcrumb';
-import { useDeliverContextToParent } from '@/hooks/useDeliverContextToParent';
+} from '../../../ts-tokens/bootstrap/breadcrumb';
+import { useDeliverContextToParent } from '../../../hooks/useDeliverContextToParent';
 let breadcrumbCount = 0;
 
 export default defineComponent({

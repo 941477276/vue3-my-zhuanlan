@@ -23,7 +23,7 @@ import {
   bsCollapseContextKey,
   CollapseContext,
   CollapseItemContext
-} from '@/ts-tokens/bootstrap/collapse';
+} from '../../ts-tokens/bootstrap/collapse';
 
 export default defineComponent({
   name: 'BsCollapse',

@@ -11,21 +11,21 @@ import {
 import BsMessageBox from './BsMessageBox.vue';
 import {
   StringKeyObject
-} from '@/ts-tokens/bootstrap';
+} from '../../ts-tokens/bootstrap';
 import {
   MessageBox,
   MessageBoxFn,
   supportMessageBoxTypes
-} from '@/ts-tokens/bootstrap/message';
+} from '../../ts-tokens/bootstrap/message';
 import {
   offset,
   isFunction
-} from '@/common/bs-util';
-import { useZIndex } from '@/hooks/useZIndex';
-import { useGetContentInfo } from '@/hooks/useGetContentInfo';
-import { useLockScroll } from '@/hooks/useLockScroll';
-import { useGetMousePosition } from '@/hooks/useGetMousePosition';
-import { createMask } from '@/components/bs-mask';
+} from '../../common/bs-util';
+import { useZIndex } from '../../hooks/useZIndex';
+import { useGetContentInfo } from '../../hooks/useGetContentInfo';
+import { useLockScroll } from '../../hooks/useLockScroll';
+import { useGetMousePosition } from '../../hooks/useGetMousePosition';
+import { createMask } from '../../components/bs-mask';
 
 type MessageQueueItem = {
   id?: string;

@@ -3,7 +3,7 @@ import {
 } from 'vue';
 import {
   isFunction
-} from '@/common/bs-util';
+} from '../../common/bs-util';
 import { BigNumber } from 'bignumber.js';
 // 转换数据
 let processValue = function (value: string|number, actionType: number, step: number, min: number, max: number, precision: number) {

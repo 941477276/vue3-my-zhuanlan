@@ -42,14 +42,15 @@ import {
   computed,
   watch,
   nextTick,
-  onUnmounted, inject
+  onUnmounted,
+  inject
 } from 'vue';
 import {
   BsColorType,
   BsSize,
   FormItemContext,
   formItemContextKey
-} from '@/ts-tokens/bootstrap';
+} from '../../ts-tokens/bootstrap';
 
 export default defineComponent({
   name: 'BsSwitch',

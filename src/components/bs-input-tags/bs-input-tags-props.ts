@@ -1,5 +1,5 @@
 import { PropType } from 'vue';
-import { BsSize, BsColorType } from '@/ts-tokens/bootstrap';
+import { BsSize, BsColorType } from '../../ts-tokens/bootstrap';
 
 export type ValueItem = {
   label: string;

@@ -1,6 +1,6 @@
 import { PropType } from 'vue';
-import { PickerType } from '@/ts-tokens/bootstrap/date-picker';
-import { BsSize } from '@/ts-tokens/bootstrap';
+import { PickerType } from '../../ts-tokens/bootstrap/date-picker';
+import { BsSize } from '../../ts-tokens/bootstrap';
 
 export const bsDatePickerProps = {
   modelValue: {

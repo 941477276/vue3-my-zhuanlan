@@ -1,8 +1,8 @@
 import { ref, onMounted, onBeforeUnmount, Ref } from 'vue';
-import { useGlobalEvent } from '@/hooks/useGlobalEvent';
+import { useGlobalEvent } from './useGlobalEvent';
 import {
   elementContains
-} from '@/common/bs-util';
+} from '../common/bs-util';
 
 export function useClickOutside (eleRefs: Ref<HTMLElement|null>|Ref<HTMLElement|null>[], callback?: (isClickOutside: boolean) => void):Ref {
   let flag = ref(false);

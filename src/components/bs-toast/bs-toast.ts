@@ -11,8 +11,8 @@ import {
 import BsToastComponent from './BsToast.vue';
 import {
   isBoolean
-} from '@/common/bs-util';
-import { useGetContentInfo } from '@/hooks/useGetContentInfo';
+} from '../../common/bs-util';
+import { useGetContentInfo } from '../../hooks/useGetContentInfo';
 import {
   ToastCtx,
   getToastCtx,
@@ -20,7 +20,7 @@ import {
 } from './bs-toast-ctxs';
 import {
   supportedBsColorTypes
-} from '@/ts-tokens/bootstrap';
+} from '../../ts-tokens/bootstrap';
 
 let toastCount = 0;
 function BsToast (options = {} as any, context?: AppContext | null) {

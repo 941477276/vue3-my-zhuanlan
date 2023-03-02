@@ -1,5 +1,5 @@
 import { PropType } from 'vue';
-import { BsColorType } from '@/ts-tokens/bootstrap';
+import { BsColorType } from '../../ts-tokens/bootstrap';
 
 export const bsSpinnerProps = {
   text: {

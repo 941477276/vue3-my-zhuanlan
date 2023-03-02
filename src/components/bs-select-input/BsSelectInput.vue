@@ -97,9 +97,9 @@ import BsTag from '../bs-tag/BsTag.vue';
 import BsSpinner from '../bs-spinner/BsSpinner.vue';
 import SelectInputTagSlot from './widgets/SelectInputTagSlot.vue';
 import { bsSelectInputProps, ValueItem } from './bs-select-input-props';
-import { selectContextKey } from '@/ts-tokens/bootstrap/select';
+import { selectContextKey } from '../../ts-tokens/bootstrap/select';
 import { useInput } from './useInput';
-import { ValidateStatus } from '@/ts-tokens/bootstrap';
+import { ValidateStatus } from '../../ts-tokens/bootstrap';
 
 let bsSelectInputCount = 0;
 export default defineComponent({

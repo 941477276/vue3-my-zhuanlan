@@ -3,7 +3,7 @@ import {
 } from 'vue';
 import {
   datePickerPrefixColumnSlotCtx
-} from '@/ts-tokens/bootstrap/date-picker';
+} from '../../../../ts-tokens/bootstrap/date-picker';
 
 export function PrefixColumn (props: any) {
   let prefixColumnSlotCtx: any = inject(datePickerPrefixColumnSlotCtx)!;

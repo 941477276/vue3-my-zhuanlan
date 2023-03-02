@@ -59,7 +59,7 @@ import {
   PopperTriggerType,
   BsTooltipContext,
   bsTooltipContextKey
-} from '@/ts-tokens/bootstrap/popper';
+} from '../../ts-tokens/bootstrap/popper';
 import BsPopper from '../bs-popper/BsPopper.vue';
 // import BsPopperTrigger from '../bs-popper/BsPopperTrigger.vue';
 // import BsPopperContent from '../bs-popper/BsPopperContent.vue';

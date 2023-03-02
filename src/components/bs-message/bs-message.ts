@@ -8,13 +8,13 @@ import {
 import BsMessageController from './BsMessage.vue';
 import {
   useZIndex
-} from '@/hooks/useZIndex';
+} from '../../hooks/useZIndex';
 import {
   supportMessageTypes,
   MessageFn,
   Message
-} from '@/ts-tokens/bootstrap/message';
-import { useGetContentInfo } from '@/hooks/useGetContentInfo';
+} from '../../ts-tokens/bootstrap/message';
+import { useGetContentInfo } from '../../hooks/useGetContentInfo';
 
 type MessageQueueItem = {
   id?: string;

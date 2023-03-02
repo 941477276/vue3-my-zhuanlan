@@ -7,17 +7,17 @@ import {
 } from '@vue/shared';
 import {
   StringKeyObject
-} from '@/ts-tokens/bootstrap';
+} from '../../ts-tokens/bootstrap';
 import {
   CascaderFieldNames,
   CascaderOptionItem,
   CheckedOptions
-} from '@/ts-tokens/bootstrap/cascader';
-import { BsNodeInfo } from '@/ts-tokens/bootstrap/tree';
+} from '../../ts-tokens/bootstrap/cascader';
+import { BsNodeInfo } from '../../ts-tokens/bootstrap/tree';
 import {
   findParentsByNodeValue2,
   findChildrenByNodeValue2
-} from '@/components/bs-tree/bs-tree-utils';
+} from '../../components/bs-tree/bs-tree-utils';
 
 export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptions>, halfCheckedOptions: Ref<StringKeyObject>, fieldNameProps: ComputedRef<CascaderFieldNames>, flatternOptions: Ref<BsNodeInfo[]>, dropdownTransitionRef: Ref<any>, cascaderId: string) {
   let findOptionParents = function (value: string, valueKey: string) {

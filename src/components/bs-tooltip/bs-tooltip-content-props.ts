@@ -1,6 +1,6 @@
 import {
   TooltipTheme
-} from '@/ts-tokens/bootstrap/popper';
+} from '../../ts-tokens/bootstrap/popper';
 import { PropType } from 'vue';
 
 export const bsTooltipContentProps = {

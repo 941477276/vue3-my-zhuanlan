@@ -7,7 +7,7 @@ import {
 } from 'vue';
 import {
   TabNavItem
-} from '@/ts-tokens/bootstrap/tabs';
+} from '../../../ts-tokens/bootstrap/tabs';
 
 let getPaneByName = function (name: string, panes: TabNavItem[]) {
   return panes.find((pane: TabNavItem) => {

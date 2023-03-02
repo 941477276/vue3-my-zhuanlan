@@ -7,11 +7,11 @@ import {
 } from 'vue';
 import {
   isNoneValue
-} from '@/common/bs-util';
+} from '../../common/bs-util';
 import {
   checkboxGroupContextKey,
   CheckboxGroupContext
-} from '@/ts-tokens/bootstrap';
+} from '../../ts-tokens/bootstrap';
 
 export function useCheckbox (props: any, ctx: any, checkboxRef: Ref<HTMLInputElement|null>) {
   let selfModelVal = ref('');

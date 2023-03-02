@@ -19,7 +19,7 @@ import {
 import {
   BreadcrumbContext,
   breadcrumbContextKey
-} from '@/ts-tokens/bootstrap/breadcrumb';
+} from '../../ts-tokens/bootstrap/breadcrumb';
 
 type ItemCtx = {
   id: string;

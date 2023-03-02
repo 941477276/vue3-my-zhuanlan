@@ -46,10 +46,10 @@ import {
   NOOP
 } from '@vue/shared';
 import dayjs, { Dayjs } from 'dayjs';
-import { dayjsUtil, isLeapYear, getMonthDays } from '@/common/dayjsUtil';
+import { dayjsUtil, isLeapYear, getMonthDays } from '../../../../common/dayjsUtil';
 import PanelHeader from '../panel-header/PanelHeader.vue';
 import PanelBody from '../panel-body/PanelBody.vue';
-import { datePickerPrefixColumnSlotCtx } from '@/ts-tokens/bootstrap/date-picker';
+import { datePickerPrefixColumnSlotCtx } from '../../../../ts-tokens/bootstrap/date-picker';
 import { usePanelViewDate } from '../../hooks/usePanelViewDate';
 
 const totalCell = 42; // 单元格总数, 6行 * 7天（一周）

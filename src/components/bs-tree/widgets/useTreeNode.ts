@@ -1,5 +1,5 @@
 import { computed, ref } from 'vue';
-import { TreeContext } from '@/ts-tokens/bootstrap/tree';
+import { TreeContext } from '../../../ts-tokens/bootstrap/tree';
 
 export function useTreeNode (props: any, treeCtx: TreeContext) {
   let loadingData = ref(false); // 是否正在加载数据

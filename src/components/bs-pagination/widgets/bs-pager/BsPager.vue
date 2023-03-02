@@ -101,11 +101,11 @@ import { BsiChevronRight } from 'vue3-bootstrap-icon/es/icons/BsiChevronRight';
 import { BsiThreeDots } from 'vue3-bootstrap-icon/es/icons/BsiThreeDots';
 import { BsiChevronDoubleLeft } from 'vue3-bootstrap-icon/es/icons/BsiChevronDoubleLeft';
 import { BsiChevronDoubleRight } from 'vue3-bootstrap-icon/es/icons/BsiChevronDoubleRight';
-import { BsSize } from '@/ts-tokens/bootstrap';
+import { BsSize } from '../../../../ts-tokens/bootstrap';
 import {
   hasClass,
   parents
-} from '@/common/bs-util';
+} from '../../../../common/bs-util';
 
 export default defineComponent({
   name: 'BsPager',

@@ -22,7 +22,7 @@ import {
   getCurrentInstance,
   ref
 } from 'vue';
-import { useMenuLevel } from '@/components/bs-menu/hooks/useMenuLevel';
+import { useMenuLevel } from '../../../components/bs-menu/hooks/useMenuLevel';
 
 let bsMenuItemGroupCount = 0;
 export default defineComponent({

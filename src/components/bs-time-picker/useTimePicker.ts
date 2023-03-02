@@ -1,10 +1,10 @@
 import { computed, ref, watch } from 'vue';
 import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { dayjsUtil } from '@/common/dayjsUtil';
+import { dayjsUtil } from '../../common/dayjsUtil';
 import {
   isFunction
-} from '@/common/bs-util';
+} from '../../common/bs-util';
 
 dayjs.extend(customParseFormat);
 export function useTimePicker (props: any) {

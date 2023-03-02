@@ -50,7 +50,7 @@ import BsCollapseTransition from '../../bs-collapse-transition/BsCollapseTransit
 import {
   bsCollapseContextKey,
   CollapseContext
-} from '@/ts-tokens/bootstrap/collapse';
+} from '../../../ts-tokens/bootstrap/collapse';
 
 let collapseItemCount = 0;
 export default defineComponent({

@@ -3,8 +3,8 @@ import {
   findNodeInfoByValue2,
   findChildrenInfoFlattarnByNodeValue2
 } from './bs-tree-utils';
-import { BsNodeData, BsNodeInfo } from '@/ts-tokens/bootstrap/tree';
-import { StringKeyObject } from '@/ts-tokens/bootstrap';
+import { BsNodeData, BsNodeInfo } from '../../ts-tokens/bootstrap/tree';
+import { StringKeyObject } from '../../ts-tokens/bootstrap';
 
 /**
  * 子节点分页处理

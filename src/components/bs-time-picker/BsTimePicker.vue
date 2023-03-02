@@ -68,8 +68,8 @@ import BsCommonPicker from '../bs-common-picker/BsCommonPicker.vue';
 import { bsPickerTimePanelProps } from './widgets/bs-picker-time-panel-props';
 import { bsCommonPickerProps } from '../bs-common-picker/bs-common-picker-props';
 import { useTimePicker, getUpdateModelValue } from './useTimePicker';
-import { dayjsUtil } from '@/common/dayjsUtil';
-import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
+import { dayjsUtil } from '../../common/dayjsUtil';
+import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
 import {
   isString
 } from '@vue/shared';

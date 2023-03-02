@@ -3,7 +3,7 @@
  */
 import {
   EventCallbackFn
-} from '@/ts-tokens/bootstrap';
+} from '../ts-tokens/bootstrap';
 
 type EventTarget = 'document' | 'window';
 let eventMap = {

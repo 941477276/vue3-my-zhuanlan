@@ -33,12 +33,12 @@ import {
   selectContextKey,
   selectOptionGroupContextKey,
   SelectOptionItem
-} from '@/ts-tokens/bootstrap/select';
+} from '../../../ts-tokens/bootstrap/select';
 import { BsiCheckLg } from 'vue3-bootstrap-icon/es/icons/BsiCheckLg';
-import { BsColorType } from '@/ts-tokens/bootstrap';
+import { BsColorType } from '../../../ts-tokens/bootstrap';
 import {
   isFunction
-} from '@/common/bs-util';
+} from '../../../common/bs-util';
 
 let selectOptionCount = 0;
 export default defineComponent({

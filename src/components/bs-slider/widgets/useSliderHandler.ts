@@ -7,7 +7,7 @@ import {
 import { BigNumber } from 'bignumber.js';
 import {
   elementContains
-} from '@/common/bs-util';
+} from '../../../common/bs-util';
 import {
   calcValueByPosition,
   convertValue

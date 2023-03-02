@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import { defineComponent, computed, PropType } from 'vue';
-import { BsSize, BsColorType, supportedBsColorTypes } from '@/ts-tokens/bootstrap';
+import { BsSize, BsColorType, supportedBsColorTypes } from '../../ts-tokens/bootstrap';
 
 type ButtonColorType = BsColorType | 'link';
 // 定义按钮支持类型

@@ -4,7 +4,7 @@ import {
 import {
   BsMenuMode,
   BsSubMenuDisplayMode
-} from '@/ts-tokens/bootstrap/menu';
+} from '../../ts-tokens/bootstrap/menu';
 
 export const bsMenuProps = {
   mode: { // 菜单类型

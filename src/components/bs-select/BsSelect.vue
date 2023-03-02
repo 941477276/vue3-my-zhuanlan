@@ -128,20 +128,20 @@ import {
 } from 'vue';
 import {
   ValidateStatus
-} from '@/ts-tokens/bootstrap';
-import { useClickOutside } from '@/hooks/useClickOutside';
+} from '../../ts-tokens/bootstrap';
+import { useClickOutside } from '../../hooks/useClickOutside';
 import {
   SelectContext,
   SelectOptionItem,
   selectContextKey
-} from '@/ts-tokens/bootstrap/select';
+} from '../../ts-tokens/bootstrap/select';
 import BsSelectInput from '../bs-select-input/BsSelectInput.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
 import BsSpinner from '../bs-spinner/BsSpinner.vue';
 import BsOption from './widgets/BsOption.vue';
 import BsOptionGroup from './widgets/BsOptionGroup.vue';
 import { bsSelectProps } from './props';
-import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
+import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
 
 let selectCount = 0;
 export default defineComponent({

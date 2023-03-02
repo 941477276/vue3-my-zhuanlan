@@ -53,10 +53,10 @@ import {
 } from 'vue';
 import {
   BsColorType
-} from '@/ts-tokens/bootstrap';
+} from '../../ts-tokens/bootstrap';
 import {
   isPromise
-} from '@/common/bs-util';
+} from '../../common/bs-util';
 
 export default defineComponent({
   name: 'BsAlert',

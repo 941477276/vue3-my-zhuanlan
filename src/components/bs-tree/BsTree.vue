@@ -56,8 +56,8 @@ import {
 import BsTreeNode from './widgets/BsTreeNode.vue';
 import BsTreeNodeOperate from './widgets/BsTreeNodeOperate.vue';
 import { bsTreeProps } from './bs-tree-props';
-import { BsNodeData, BsNodeInfo, bsTreeContextKey, TreeContext } from '@/ts-tokens/bootstrap/tree';
-import { StringKeyObject } from '@/ts-tokens/bootstrap';
+import { BsNodeData, BsNodeInfo, bsTreeContextKey, TreeContext } from '../../ts-tokens/bootstrap/tree';
+import { StringKeyObject } from '../../ts-tokens/bootstrap';
 import {
   findChildrenWhichHasChildren2,
   findNodeInfoByValue2,

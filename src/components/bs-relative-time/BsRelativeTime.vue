@@ -16,7 +16,7 @@ import {
 } from '@vue/shared';
 import dayjs, { Dayjs } from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { dayjsUtil } from '@/common/dayjsUtil';
+import { dayjsUtil } from '../../common/dayjsUtil';
 
 dayjs.extend(relativeTime);
 

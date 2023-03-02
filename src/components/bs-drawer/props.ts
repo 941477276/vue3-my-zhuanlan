@@ -1,7 +1,7 @@
 import { PropType } from 'vue';
 import {
   BsPlacementFour
-} from '@/ts-tokens/bootstrap';
+} from '../../ts-tokens/bootstrap';
 
 export const bsDrawerProps = {
   visible: { // 用于控制弹窗显隐

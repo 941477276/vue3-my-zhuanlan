@@ -11,7 +11,7 @@ import { defineComponent, provide, reactive } from 'vue';
 import {
   radioGroupContextKey,
   RadioGroupContext
-} from '@/ts-tokens/bootstrap/radio';
+} from '../../ts-tokens/bootstrap/radio';
 
 export default defineComponent({
   name: 'BsRadioGroup',

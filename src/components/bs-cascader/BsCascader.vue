@@ -108,16 +108,16 @@ import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition
 import BsCascaderMenu from './widgets/bs-cascader-menu.vue';
 import BsOnlyChild from '../bs-slot/BsOnlyChild.vue';
 import { bsCascaderProps } from './props';
-import { useClickOutside } from '@/hooks/useClickOutside';
-import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
-import { useForwardRef } from '@/hooks/useForwardRef';
-import { ValidateStatus } from '@/ts-tokens/bootstrap';
+import { useClickOutside } from '../../hooks/useClickOutside';
+import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
+import { useForwardRef } from '../../hooks/useForwardRef';
+import { ValidateStatus } from '../../ts-tokens/bootstrap';
 import {
   CascaderOptionItem,
   CascaderExpandedMenuItem,
   CascaderFieldNames
-} from '@/ts-tokens/bootstrap/cascader';
-import { SelectContext, selectContextKey } from '@/ts-tokens/bootstrap/select';
+} from '../../ts-tokens/bootstrap/cascader';
+import { SelectContext, selectContextKey } from '../../ts-tokens/bootstrap/select';
 import { useDropdown } from './useDropdown';
 import { useCascaderMenu } from './useCascaderMenu';
 import {

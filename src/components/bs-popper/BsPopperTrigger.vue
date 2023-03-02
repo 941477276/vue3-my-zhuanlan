@@ -21,7 +21,7 @@ import { bsPopperTriggerProps } from './bs-popper-trigger-props';
 import {
   bsPopperContextKey,
   BsPopperContext
-} from '@/ts-tokens/bootstrap/popper';
+} from '../../ts-tokens/bootstrap/popper';
 
 let eventsName = [
   'onMouseenter',

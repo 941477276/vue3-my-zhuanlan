@@ -1,5 +1,5 @@
 import { PropType } from 'vue';
-import { BsColorType, BsSize } from '@/ts-tokens/bootstrap';
+import { BsColorType, BsSize } from '../../ts-tokens/bootstrap';
 
 export const bsSelectProps = {
   modelValue: {

@@ -104,10 +104,10 @@ import {
   inject,
   nextTick
 } from 'vue';
-import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
+import { useSetValidateStatus } from '../../hooks/useSetValidateStatus';
 import { bsInputNumberProps } from './bs-input-number-props';
 import { useInputNumberMethods } from './useMethods';
-import { useDeliverContextToFormItem } from '@/hooks/useDeliverContextToFormItem';
+import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
 import BsInputNumberOperateButton from './widgets/BsInputNumberOperateButton.vue';
 
 let bsInputNumberCount = 0;

@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useCollapseTransition } from '@/hooks/useCollapseTransition';
+import { useCollapseTransition } from '../../hooks/useCollapseTransition';
 
 /**
  * 元素折叠过度效果

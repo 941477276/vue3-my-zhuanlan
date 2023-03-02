@@ -1,7 +1,7 @@
 import { computed, Ref, ref, watch, onMounted } from 'vue';
 import {
   isNoneValue
-} from '@/common/bs-util';
+} from '../../common/bs-util';
 
 /**
  * 当为密码输入框时切换密文/密码原文

@@ -73,9 +73,9 @@ import { defineComponent, nextTick, onMounted, onUnmounted, ref, watch } from 'v
 import BsButton from '../bs-button/BsButton.vue';
 import BsMask from '../bs-mask/bs-mask.vue';
 import { bsDrawerProps } from './props';
-import { useZIndex } from '@/hooks/useZIndex';
-import { useLockScroll } from '@/hooks/useLockScroll';
-import { useGlobalEvent } from '@/hooks/useGlobalEvent';
+import { useZIndex } from '../../hooks/useZIndex';
+import { useLockScroll } from '../../hooks/useLockScroll';
+import { useGlobalEvent } from '../../hooks/useGlobalEvent';
 
 let drawerCount = 0;
 let drawerIdQueue: string[] = [];

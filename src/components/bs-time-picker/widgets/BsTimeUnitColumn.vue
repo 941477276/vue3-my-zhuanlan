@@ -24,10 +24,10 @@ import {
   onMounted,
   defineComponent
 } from 'vue';
-import { TimeDataUnit } from '@/ts-tokens/bootstrap/time-picker';
+import { TimeDataUnit } from '../../../ts-tokens/bootstrap/time-picker';
 import {
   scrollTo
-} from '@/common/bs-util';
+} from '../../../common/bs-util';
 
 export default defineComponent({
   name: 'BsTimeUnitColumn',

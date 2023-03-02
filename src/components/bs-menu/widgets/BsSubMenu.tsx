@@ -17,19 +17,19 @@ import { BsiChevronDown } from 'vue3-bootstrap-icon/es/icons/BsiChevronDown';
 import BsDropdownTransition from '../../bs-dropdown-transition/BsDropdownTransition.vue';
 import BsCollapseTransition from '../../bs-collapse-transition/BsCollapseTransition.vue';
 import { useMenuLevel } from '../hooks/useMenuLevel';
-import { useGlobalEvent } from '@/hooks/useGlobalEvent';
+import { useGlobalEvent } from '../../../hooks/useGlobalEvent';
 import {
   bsMenuRootInjectKey,
   bsSubMenuInjectKey,
   bsSubMenuDisplayMode,
   MenuItemResgisted,
   ExpandedSubmenu
-} from '@/ts-tokens/bootstrap/menu';
+} from '../../../ts-tokens/bootstrap/menu';
 import {
   isUndefined,
   elementContains,
   parents
-} from '@/common/bs-util';
+} from '../../../common/bs-util';
 
 let subMenuCount = 0;
 let componentName = 'BsSubMenu';
