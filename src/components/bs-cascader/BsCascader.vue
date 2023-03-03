@@ -123,10 +123,10 @@ import { useCascaderMenu } from './useCascaderMenu';
 import {
   treeDataToFlattarnArr2,
   clearCachedNodeInfo
-} from '@/components/bs-tree/bs-tree-utils';
+} from '../../components/bs-tree/bs-tree-utils';
 import {
   BsNodeInfo
-} from '@/ts-tokens/bootstrap/tree';
+} from '../../ts-tokens/bootstrap/tree';
 
 const defaultFieldNames: CascaderFieldNames = {
   label: 'label',

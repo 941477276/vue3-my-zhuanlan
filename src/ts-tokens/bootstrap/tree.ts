@@ -2,7 +2,7 @@ import {
   Ref,
   InjectionKey
 } from 'vue';
-import { StringKeyObject } from '@/ts-tokens/bootstrap/index';
+import { StringKeyObject } from './index';
 
 // 节点信息
 export interface BsNodeInfo {
