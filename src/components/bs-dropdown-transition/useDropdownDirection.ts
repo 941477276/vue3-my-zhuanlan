@@ -46,12 +46,14 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     top: scrollTop(),
     left: scrollLeft()
   };
-  let targetElOffsetParent = targetEl.offsetParent as HTMLElement;
-  // console.log('targetEl offsetParent', targetEl.offsetParent);
+  let targetElOffsetParent = (targetEl.offsetParent || document.body) as HTMLElement;
+  console.log('targetEl offsetParent', targetElOffsetParent);
   // 判断目标元素的position不为static的父级元素是否为body
   let targetElOffsetParentIsDocument = !targetElOffsetParent || (documentNodeNames.includes(targetElOffsetParent.nodeName));
+  console.log('targetElOffsetParentIsDocument', targetElOffsetParentIsDocument);
   let targetElOffsetParentOffset = { top: 0, left: 0 };
   if (!targetElOffsetParentIsDocument) {
+    console.log('targetElOffsetParentIsDocument111111111111111111111');
     targetElOffsetParentOffset = offset(targetElOffsetParent);
   }
   // console.log('targetElOffsetParentOffset', targetElOffsetParentOffset);
@@ -89,9 +91,12 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     referenceElWrapperScrollTop = scrollTop(scrollParent);
     referenceElWrapperScrollLeft = scrollLeft(scrollParent);
   }
-  let targetScrollParent = getScrollParent(targetEl);
+  // let targetScrollParent = getScrollParent(targetEl);
   // 判断下拉内容是否插入在body中
-  let targetIsInBody = targetScrollParent && documentNodeNames.includes(targetScrollParent.nodeName);
+  // let targetIsInBody = targetScrollParent && documentNodeNames.includes(targetScrollParent.nodeName);
+  // let targetIsInBody = documentNodeNames.includes(targetEl.parentElement!.nodeName);
+  // 目标元素的position不为static的父级元素如果是body，则下拉内容是插入到body中（因为下拉元素是相对于position不为static的父级元素进行定位的）
+  let targetIsInBody = documentNodeNames.includes(targetElOffsetParent.nodeName);
   // console.log('targetScrollParent', targetScrollParent, targetEl);
   /* let bodyHasScroll = {
     vertical: false,
@@ -185,7 +190,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       }
     } else {
       // bottom = targetElOffsetParent.offsetHeight - (referenceOffset.top - targetElOffsetParentOffset.top);// + referenceElWrapperScrollTop;
-      right = targetElOffsetParent.offsetWidth - (referenceOffset.left - targetElOffsetParentOffset.left) - referenceRect.width;
+      right = targetElOffsetParent.offsetWidth - (referenceOffset.left - targetElOffsetParentOffset.left) - referenceRect.width + referenceElWrapperScrollLeft;
     }
     if (targetIsInBody) {
       /* if (bodyHasScroll.vertical && !bodyScrollVisible.vertical) {
@@ -263,7 +268,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       }
     } else {
       bottom = targetElOffsetParent.offsetHeight - (referenceOffset.top - targetElOffsetParentOffset.top);// + referenceElWrapperScrollTop;
-      right = targetElOffsetParent.offsetWidth - (referenceOffset.left - targetElOffsetParentOffset.left) - referenceRect.width;
+      right = targetElOffsetParent.offsetWidth - (referenceOffset.left - targetElOffsetParentOffset.left) - referenceRect.width + referenceElWrapperScrollLeft;
     }
     if (targetIsInBody) {
       if (bodyHasScroll.vertical && !bodyScrollVisible.vertical) {
@@ -327,10 +332,10 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
         // 如果目标元素插入在body中，则bottom的值为浏览器可见高度减去参照元素至浏览器最顶端的距离，再加上参照元素滚动容器滚动滚动的距离即可
         // 实际为：浏览器可见高度-参照元素在可见高度内的位置-浏览器滚动条滚动的距离+参照元素滚动容器滚动滚动的距离
         bottom = window.innerHeight - (referenceOffset.top + referenceRect.height) + referenceElWrapperScrollTop;
-        right = window.innerWidth - referenceOffset.left + referenceElWrapperScrollLeft;
+        // right = window.innerWidth - referenceOffset.left + referenceElWrapperScrollLeft;
       } else {
         bottom = targetElOffsetParent.offsetHeight - (referenceOffset.top + referenceRect.height - targetElOffsetParentOffset.top);// + referenceElWrapperScrollTop;
-        right = targetElOffsetParent.offsetWidth - (referenceOffset.left - targetElOffsetParentOffset.left) + referenceRect.width - targetElRect.width;
+        // right = targetElOffsetParent.offsetWidth - (referenceOffset.left - targetElOffsetParentOffset.left) + referenceRect.width - targetElRect.width;
       }
     }
 
@@ -345,19 +350,21 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       documentScrollInfo: scrollInfo,
       scrollParent // 获取目标元素所处有滚动条的父级容器
     });
-    console.log('----------handleLeft isInView: ', isInView);
+    console.log('----------handleLeft isInView: ', isInView, targetIsInBody, targetElOffsetParentOffset.left);
     // 如果目标元素插入到了body中，则需减去参照元素有滚动条父级容器滚动条滚动到距离（调用eleIsInView函数前不需要减去，因为eleIsInView函数内部计算时会减去）
     top -= targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0;
     left -= targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0;
-    if (targetElOffsetParentIsDocument) {
+    if (targetElOffsetParentIsDocument && targetIsInBody) {
       right = window.innerWidth - referenceOffset.left + referenceElWrapperScrollLeft;
       // 如果浏览器有垂直滚动条，则需减去垂直滚动条的宽度，因为前面计算right值的时候使用的是window.innerWidth，window.innerWidth包含了滚动条
       if (bodyHasScroll.vertical && bodyScrollVisible.vertical) {
         right -= bodyScrollWidth.vertical;
-        console.log('right值减去浏览器垂直滚动条的宽度', right, bodyScrollWidth.vertical);
+        console.log('right值减去浏览器垂直滚动条的宽度，----left', right, bodyScrollWidth.vertical);
       }
     } else {
-      right = targetElOffsetParent.offsetWidth - (referenceOffset.left - targetElOffsetParentOffset.left) + referenceRect.width - targetElRect.width;
+      let referenceIsTargetElOffsetParent = referenceEl === targetElOffsetParent;
+      console.log('referenceIsTargetElOffsetParent[[[[[[[[[[[[[', referenceIsTargetElOffsetParent, referenceOffset.left - targetElOffsetParentOffset.left, targetElOffsetParent.offsetWidth);
+      right = targetElOffsetParent.offsetWidth - (referenceOffset.left - targetElOffsetParentOffset.left) + referenceElWrapperScrollLeft;
     }
     let newTop = top - targetElOffsetParentOffset.top;
     let newLeft = left - targetElOffsetParentOffset.left;
