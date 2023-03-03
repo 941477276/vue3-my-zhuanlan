@@ -257,7 +257,9 @@ export function eleHasScroll (ele: HTMLElement): {
   if (!(ele instanceof HTMLElement)) {
     return result;
   }
-  var noScrollOverflowValue = ['hidden'/* , 'visible' */];
+  // 当元素的overflow=visible，position=relative，且元素有绝对定位的子元素，且绝对定位的子元素的高度超过父元素的高度时，
+  // 父元素的scrollHeight会大于父元素的clientHeight，因此在判断元素是否有滚动条时必须排除调overflow=visible
+  var noScrollOverflowValue = ['hidden', 'visible'];
   if (ele.scrollTop > 0) {
     result.vertical = true;
   } else {
@@ -271,7 +273,7 @@ export function eleHasScroll (ele: HTMLElement): {
     result.vertical = top > 0; */
     var overflowY = getStyle(ele, 'overflow-y');
     // console.log('overflowY', overflowY);
-    // console.log('(ele.scrollHeight, ele.clientHeight)', ele.scrollHeight, ele.clientHeight);
+    // console.log('(ele.scrollHeight, ele.clientHeight)', ele.scrollHeight, ele.offsetHeight);
     result.vertical = !noScrollOverflowValue.includes(overflowY) && (ele.scrollHeight > ele.clientHeight);
   }
   if (ele.scrollLeft > 0) {
@@ -332,6 +334,7 @@ export function getScrollParent (ele: HTMLElement): HTMLElement|undefined {
   var eleParent = ele.parentElement;
   while (eleParent != null) {
     var scroll = eleHasScroll(eleParent);
+    console.log('getScrollParent', eleParent, scroll);
     if (scroll.vertical || scroll.horizontal) {
       return eleParent;
     }

@@ -4,10 +4,10 @@ import {
   computed,
   inject
 } from 'vue';
-import { isUndefined } from '@/utils/bs-util';
+import { isUndefined } from '../../../utils/bs-util';
 import {
   bsMenuRootInjectKey
-} from '@/ts-tokens/bootstrap/menu';
+} from '../../../ts-tokens/bootstrap/menu';
 
 const MENU_NAME = 'BsMenu';
 const SUB_MENU_NAME = 'BsSubMenu';
