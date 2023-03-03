@@ -81,15 +81,15 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     }
   }
 
-  let scrollParent = getScrollParent(referenceEl);
+  let referenceScrollParent = getScrollParent(referenceEl);
   let referenceElWrapperScrollTop = 0;
   let referenceElWrapperScrollLeft = 0;
   // console.log('getScrollParent', tool.getScrollParent(ele).nodeName);
   // 如果参照元素有滚动条的父级元素并且不是body，则获取参照元素有滚动条的父级元素的滚动条位置
-  if (scrollParent && !documentNodeNames.includes(scrollParent.nodeName)) {
+  if (referenceScrollParent && !documentNodeNames.includes(referenceScrollParent.nodeName)) {
     // console.log(']]]]]]]]]]]]]]]]]]]]]]]');
-    referenceElWrapperScrollTop = scrollTop(scrollParent);
-    referenceElWrapperScrollLeft = scrollLeft(scrollParent);
+    referenceElWrapperScrollTop = scrollTop(referenceScrollParent);
+    referenceElWrapperScrollLeft = scrollLeft(referenceScrollParent);
   }
   // let targetScrollParent = getScrollParent(targetEl);
   // 判断下拉内容是否插入在body中
@@ -171,7 +171,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       bodyScrollVisible,
       documentHasScroll: bodyHasScroll,
       documentScrollInfo: scrollInfo,
-      scrollParent // 获取目标元素所处有滚动条的父级容器
+      scrollParent: referenceScrollParent // 获取目标元素所处有滚动条的父级容器
     });
     console.log('----------handleBottom isInView: ', isInView);
     // 如果目标元素插入到了body中，则需减去参照元素有滚动条父级容器滚动条滚动到距离（调用eleIsInView函数前不需要减去，因为eleIsInView函数内部计算时会减去）
@@ -247,7 +247,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       bodyScrollVisible,
       documentHasScroll: bodyHasScroll,
       documentScrollInfo: scrollInfo,
-      scrollParent // 获取目标元素所处有滚动条的父级容器
+      scrollParent: referenceScrollParent // 获取目标元素所处有滚动条的父级容器
     });
     console.log('----------handleTop isInView: ', isInView);
     // 如果目标元素插入到了body中，则需减去参照元素有滚动条父级容器滚动条滚动到距离（调用eleIsInView函数前不需要减去，因为eleIsInView函数内部计算时会减去）
@@ -348,7 +348,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       bodyScrollVisible,
       documentHasScroll: bodyHasScroll,
       documentScrollInfo: scrollInfo,
-      scrollParent // 获取目标元素所处有滚动条的父级容器
+      scrollParent: referenceScrollParent // 获取目标元素所处有滚动条的父级容器
     });
     console.log('----------handleLeft isInView: ', isInView, targetIsInBody, targetElOffsetParentOffset.left);
     // 如果目标元素插入到了body中，则需减去参照元素有滚动条父级容器滚动条滚动到距离（调用eleIsInView函数前不需要减去，因为eleIsInView函数内部计算时会减去）
@@ -438,7 +438,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       needSubtractScrollOffset,
       documentHasScroll: bodyHasScroll,
       documentScrollInfo: scrollInfo,
-      scrollParent // 获取目标元素所处有滚动条的父级容器
+      scrollParent: referenceScrollParent // 获取目标元素所处有滚动条的父级容器
     });
     console.log('----------handleRight isInView: ', isInView);
     // 如果目标元素插入到了body中，则需减去参照元素有滚动条父级容器滚动条滚动到距离（调用eleIsInView函数前不需要减去，因为eleIsInView函数内部计算时会减去）
