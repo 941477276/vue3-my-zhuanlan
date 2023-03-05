@@ -1,13 +1,14 @@
 import {
-  ComponentInternalInstance, nextTick,
+  nextTick,
   ref,
   Ref
 } from 'vue';
-export function useDropdown (props: any, bsCascaderInputRef: Ref<any>) {
+export function useDropdown (props: any, bsCascaderInputRef: Ref<any>, bsCascaderRef: Ref<HTMLElement|null>, cascaderMenusRef: Ref<HTMLElement|null>) {
   let isFocus = ref(false);
   let dropdownDisplayed = ref(false); // 下拉菜单是否已经渲染
   let dropdownWillVisible = ref(false); // 下拉菜单是否即将显示
   let dropdownVisible = ref(false); // 下拉菜单是否显示
+  // let cascaderWidth = ref(0);
   /**
    * 显示下拉菜单
    */
@@ -22,6 +23,8 @@ export function useDropdown (props: any, bsCascaderInputRef: Ref<any>) {
         (bsCascaderInputRef.value as any)?.focus();
       }
     };
+    // cascaderWidth.value = bsCascaderRef.value?.offsetWidth || 0;
+    cascaderMenusRef.value?.style.setProperty('--cascader-refernce-width', (bsCascaderRef.value?.offsetWidth || 0) + 'px');
     if (!dropdownDisplayed.value) {
       dropdownDisplayed.value = true;
       nextTick(function () {
@@ -57,6 +60,7 @@ export function useDropdown (props: any, bsCascaderInputRef: Ref<any>) {
     dropdownDisplayed,
     dropdownWillVisible,
     dropdownVisible,
+    // cascaderWidth,
 
     dropdownShow,
     dropdownHide

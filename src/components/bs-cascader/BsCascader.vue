@@ -36,7 +36,9 @@
         :try-all-placement="false"
         :set-width="setDropdownWidth"
         :set-min-width="setDropdownMinWidth || loading || (!loading && options.length == 0)"
-        :will-visible="dropdownWillVisible">
+        :will-visible="dropdownWillVisible"
+        :try-end-placement="false"
+        @after-leave="handleDropdownHidden">
         <div
           v-show="dropdownVisible"
           ref="bsSelectDropdownRef"
@@ -219,10 +221,11 @@ export default defineComponent({
       dropdownDisplayed,
       dropdownWillVisible,
       dropdownVisible,
+      // cascaderWidth,
 
       dropdownShow,
       dropdownHide
-    } = useDropdown(props, bsCascaderInputRef);
+    } = useDropdown(props, bsCascaderInputRef, bsCascaderRef, cascaderMenusRef);
 
     // 点击外部隐藏下拉
     let isClickOutside = useClickOutside([bsCascaderRef, bsCascaderDropdownRef]);
@@ -407,6 +410,12 @@ export default defineComponent({
       }
     });
 
+    // 下拉菜单隐藏后的事件
+    let handleDropdownHidden = function () {
+      // 下拉菜单隐藏后立即移除--cascader-refernce-width属性，否则会造成下拉菜单再次显示时位置计算不准确问题
+      cascaderMenusRef.value?.style.removeProperty('--cascader-refernce-width');
+    };
+
     onUnmounted(function () {
       clearCachedNodeInfo(cascaderId.value);
     });
@@ -427,6 +436,7 @@ export default defineComponent({
       optionItems,
       viewText,
       fieldNameProps,
+      // cascaderWidth,
 
       // onCascaderRootClick,
       onCascaderInputClear,
@@ -441,7 +451,8 @@ export default defineComponent({
       checkedOptions,
       halfCheckedOptions,
       handleMenuItemOpen,
-      handleMenuItemChecked
+      handleMenuItemChecked,
+      handleDropdownHidden
     };
   }
 });
