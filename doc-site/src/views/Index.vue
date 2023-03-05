@@ -8,7 +8,6 @@
 import {
   defineComponent
 } from 'vue';
-import Header from '../layout/Header.vue';
 
 export default defineComponent({
   name: 'Index',
