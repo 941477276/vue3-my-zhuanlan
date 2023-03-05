@@ -16,7 +16,9 @@
   background-color: #fff;
 }
 .bs-select-option-list{
+  padding: 0;
   margin: 0;
+  font-size: 0.875rem;
 }
 .bs-select-empty{
   padding: 1.5rem 1.2rem;
@@ -42,6 +44,7 @@
 }
 .bs-option{
   position: relative;
+  list-style: none;
   min-height: 2rem;
   line-height: 1.375rem;
   padding: 0.3rem 1.2rem;

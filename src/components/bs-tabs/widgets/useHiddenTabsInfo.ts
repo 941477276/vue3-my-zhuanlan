@@ -167,6 +167,7 @@ export function useHiddenTabsInfo (props: any, activeTabId: Ref<string>, navScro
   // let bottomHiddenTabs = ref<HiddenTabInfo[]>([]);
   // let timer: number;
   let calcHiddenTabInfo = function (delay = true) {
+    let timer: number;
     let doCalc = function () {
       clearTimeout(timer);
       let hiddenTabsInfo = getHiddenTabs(navScrollerRef, tabsNavRef, props.tabPosition);
@@ -182,7 +183,7 @@ export function useHiddenTabsInfo (props: any, activeTabId: Ref<string>, navScro
       return;
     }
     // 之所以延迟310毫秒是为了更准确的计算。因为 .bs-tabs-nav 元素的 transition: transform 时间用了300毫秒
-    let timer = setTimeout(function () {
+    timer = setTimeout(function () {
       clearTimeout(timer);
       doCalc();
     }, 310);

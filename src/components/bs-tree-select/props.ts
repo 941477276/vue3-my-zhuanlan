@@ -162,6 +162,10 @@ export const bsTreeSelectProps = {
     type: Boolean,
     default: true
   },
+  showRadio: { // 节点是否可以单选
+    type: Boolean,
+    default: false
+  },
   dropdownClass: { // .dropdown-menu的额外class
     type: [String, Object, Array],
     default: ''

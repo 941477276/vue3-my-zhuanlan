@@ -14,6 +14,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
   transition: width .3s, height .3s, font-size .3s, transform .3s;
+  & + .bs-tag{
+    margin-left: 0.5rem;
+  }
   &:hover{
     max-width: none;
     overflow: unset;

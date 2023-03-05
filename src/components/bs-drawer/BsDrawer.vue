@@ -6,12 +6,13 @@
       v-show="drawerRootVisible"
       class="bs-drawer"
       :class="[
-          `bs-drawer-${placement}`,
-          {
-            'fixed-position': teleported && appendTo === 'body',
-            'bs-drawer-opened': visibleInner
-          }
-        ]"
+        `bs-drawer-${placement}`,
+        {
+          'fixed-position': teleported && appendTo === 'body',
+          'bs-drawer-opened': visibleInner
+        },
+        drawerClass
+      ]"
       tabindex="-1"
       role="dialog"
       aria-hidden="false"

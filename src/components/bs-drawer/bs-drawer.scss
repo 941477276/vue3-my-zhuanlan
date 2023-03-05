@@ -145,6 +145,7 @@
 
 .bs-drawer-content-wrapper {
   position: absolute;
+  width: 22rem; // 320px
   background-color: #fff;
   /*&.fixed-position{
     position: fixed;
@@ -158,7 +159,6 @@
   &.bs-drawer-right {
     top: 0;
     bottom: 0;
-    width: 375px;
   }
 
   &.bs-drawer-left {
@@ -195,7 +195,8 @@
   &.bs-drawer-bottom {
     left: 0;
     right: 0;
-    height: 375px;
+    width: 100%;
+    height: 22rem; // 320px
   }
 
   &.bs-drawer-top {
