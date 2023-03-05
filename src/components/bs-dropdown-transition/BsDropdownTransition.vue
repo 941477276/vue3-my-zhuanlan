@@ -26,7 +26,9 @@
       top: dropdownStyle.bottom == null ? (dropdownStyle.top + 'px') : 'auto',
       bottom: dropdownStyle.bottom != null ? (dropdownStyle.bottom + 'px') : '',
       ...styleCustom
-    }">
+    }"
+    :data-horizontal-fullinview="isVisible ? dropdownStyle.horizontalFullInview : null"
+    :data-vertical-fullinview="isVisible ? dropdownStyle.verticalFullInview : null">
     <slot></slot>
   </transition>
 </template>
@@ -79,6 +81,10 @@ export default defineComponent({
       type: Boolean,
       default: true
     },
+    tryEndPlacement: { // 是否尝试end方位
+      type: Boolean,
+      default: true
+    },
     position: { // 定位方式
       type: String,
       default: 'absolute'
@@ -114,7 +120,9 @@ export default defineComponent({
       left: 0,
       top: 0,
       bottom: null,
-      right: null
+      right: null,
+      horizontalFullInview: false,
+      verticalFullInview: false
     });
     let targetEl: HTMLElement|null = null;
     // 参照元素有滚动条的父级节点
@@ -151,7 +159,7 @@ export default defineComponent({
       let referenceElRect = referenceEl.getBoundingClientRect();
       // console.log('referenceElRect', referenceElRect);
 
-      let displayDirection: any = getDropdownDirection(referenceEl, targetEl, props.placement, props.tryAllPlacement, props.offset);
+      let displayDirection: any = getDropdownDirection(referenceEl, targetEl, props.placement, props.tryAllPlacement, props.tryEndPlacement, props.offset);
       let bottom = displayDirection.bottom;
       let right = displayDirection.right;
       let direction = displayDirection.direction;
@@ -175,6 +183,8 @@ export default defineComponent({
         }
       }
 
+      dropdownStyle.horizontalFullInview = displayDirection.horizontal;
+      dropdownStyle.verticalFullInview = displayDirection.vertical;
       dropdownStyle.direction = direction;
       dropdownStyle.width = referenceElRect.width;
       if (bottom === null) {
@@ -373,6 +383,7 @@ export default defineComponent({
       transitionOrigin,
       targetRef,
       styleCustom,
+      isVisible,
 
       onEnter,
       onLeave,

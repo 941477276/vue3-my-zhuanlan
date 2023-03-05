@@ -28,10 +28,11 @@ export interface DropdownOffset {
  * @param targetEl 目标元素
  * @param direction 默认方向，支持top、bottom、left、right
  * @param tryAllDirection 当切换到direction对应的反方向目标元素也不能完全出现在视口时是否尝试切换其他方向
+ * @param tryEndDirection 是否尝试切换当前方向的尾部方向
  * @param dropdownOffset 下拉菜单距参照元素的偏移量
  */
 const endReg = /(\w+)End$/;
-export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLElement, direction: string, tryAllDirection = false, dropdownOffset?: DropdownOffset) {
+export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLElement, direction: string, tryAllDirection = false, tryEndDirection = true, dropdownOffset?: DropdownOffset) {
   if (!referenceEl || !targetEl || !direction) {
     throw new Error('缺少referenceEl, targetEl, direction其中的某个参数');
   }
@@ -555,7 +556,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
   let defaultDirectionResult = {};
   // 尝试一遍当前方向的尾方向
   let tryReverse = function (allInView = false, flow: any) {
-    let result = flow.handler(!flow.isTail);
+    let result = flow.handler(tryEndDirection ? !flow.isTail : flow.isTail);
     let inView = result.vertical && result.horizontal;
     let inScrollParentView = result.scrollParentVertical && result.scrollParentHorizontal;
 
