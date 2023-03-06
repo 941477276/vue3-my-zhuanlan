@@ -6,9 +6,10 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "vite:dev": "vite serve doc-site",
+    "vite:dev": "npm run gen-version && vite serve doc-site",
     "vite:build": "vue-tsc && vite build",
-    "vite:preview": "vite preview"
+    "vite:preview": "vite preview",
+    "gen-version": "node ./script/generate-version.js"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.5",
