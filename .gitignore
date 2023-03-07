@@ -3,6 +3,7 @@ node_modules
 /dist
 package-lock.json
 src/version.ts
+doc-site/src/router/docRoutes.ts
 
 # local env files
 .env.local
