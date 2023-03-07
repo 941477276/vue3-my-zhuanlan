@@ -5,7 +5,6 @@ const fs = require('fs');
 const path = require('path');
 // 从字符串或文件解析front-matter。快速、可靠、使用方便。默认情况下解析YAML前端内容
 const matter = require('gray-matter');
-const ESLint = require('eslint');
 
 ;(async function () {
   console.log('----构建文档路由 start----');
@@ -32,6 +31,7 @@ const ESLint = require('eslint');
 
   let template = `
 // 由 generateRoutes.js 自动构建的路由文件
+/* eslint-disable */
 export default [
   ${Object.keys(componentDocs).map(componentName => {
     return (`
@@ -39,20 +39,9 @@ export default [
       path: '${componentName}',
       meta: ${JSON.stringify(componentDocs[componentName].matter)},
       component: () => import('../../../src/components/bs-${componentName}/demos/index.vue')
-    }
-    `);
-  })}
+    }`);
+  }).join(',')}
 ];`;
-  console.log('ESLint', ESLint);
-  let linter = new ESLint.Linter({
-    fix: true,
-    useEslintrc: false,
-    baseConfig: require(path.join(process.cwd(), '.eslintrc.js'))
-  });
-  console.log('linter', linter);
-  let newTemplate = await linter.lintText(template);
-  console.log('newTemplate', newTemplate);
-  // console.log(componentDocs);
-  // fs.writeFileSync(path.resolve(__dirname, '../router/docRoutes.ts'), template, 'utf-8');
+  fs.writeFileSync(path.resolve(__dirname, '../router/docRoutes.ts'), template, 'utf-8');
   console.log('----构建文档路由 end----');
 })();
