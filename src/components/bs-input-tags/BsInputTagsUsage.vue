@@ -43,7 +43,6 @@ import {
   reactive,
   defineComponent
 } from 'vue';
-import BsInputTags from './BsInputTags.vue';
 import Basic from './demos/basic.vue';
 import MaxCount from './demos/max-count.vue';
 import Sizes from './demos/sizes.vue';

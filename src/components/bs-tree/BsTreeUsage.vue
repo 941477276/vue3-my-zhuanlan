@@ -45,14 +45,6 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { BsMessage } from '@/components/bs-message';
-import {
-  BsNodeData
-} from '@/ts-tokens/bootstrap/tree';
-import {
-  StringKeyObject
-} from '@/ts-tokens/bootstrap';
-// import { largeTreeData } from './largeTreeData';
 import Basic from './demos/basic.vue';
 import MultipleCheck from './demos/multiple-check.vue';
 import SingleCheck from './demos/single-check.vue';
@@ -61,9 +53,6 @@ import CustomContent from './demos/custom-content.vue';
 import Filterable from './demos/filterable.vue';
 import AsyncLoad from './demos/async-load.vue';
 
-function randoms (min: number, max: number): number {
-  return parseInt((Math.random() * (max - min + 1) + min) + '');
-}
 export default defineComponent({
   name: 'BsTreeUsage',
   components: {

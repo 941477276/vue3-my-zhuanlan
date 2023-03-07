@@ -40,7 +40,6 @@ import {
   ref,
   defineComponent
 } from 'vue';
-import { BsMessage } from '../..//bs-message';
 import Basic from './demos/basic.vue';
 import Directions from './demos/directions.vue';
 import AsyncClose from './demos/async-close.vue';
