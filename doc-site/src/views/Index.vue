@@ -1,6 +1,7 @@
 <template>
 <div class="index">
   <h1>首页</h1>
+  <demo-box></demo-box>
 </div>
 </template>
 
