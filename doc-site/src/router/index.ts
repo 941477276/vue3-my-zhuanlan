@@ -4,6 +4,7 @@ import {
   RouteRecordRaw
 } from 'vue-router';
 import DefaultLayout from '../layout/DefaultLayout.vue';
+import demoRoutes from './docRoutes';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -15,7 +16,8 @@ const routes: RouteRecordRaw[] = [
         path: '/index',
         name: 'index',
         component: () => import('../views/Index.vue')
-      }
+      },
+      ...demoRoutes
     ]
   },
   {
