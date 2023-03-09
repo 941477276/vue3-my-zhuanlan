@@ -59,12 +59,31 @@
   padding-top: 0;
 }
 .demo-example-code{
+  position: relative;
   padding: 1rem;
   border-top: 1px solid #eee;
-
   pre{
     padding: 1rem;
-    margin-bottom: 0;
+    margin-bottom: 0.5rem;
     background-color: #F6F8FA;
+  }
+}
+.shrink-code-operate{
+  position: sticky;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px dashed #ccc;
+  transition: border-color .2s;
+  background-color: #fff;
+  &:hover{
+    border-color: var(--primary);
+    .bs-button{
+      color: var(--primary);
+    }
+  }
+  .bs-icon-chevron-up{
+    vertical-align: 0.1rem;
+    margin-right: 0.25rem;
   }
 }
