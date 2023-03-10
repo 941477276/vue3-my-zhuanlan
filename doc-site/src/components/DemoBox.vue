@@ -23,7 +23,7 @@
       </bs-tooltip>
     </div>
   </div>
-  <div class="demo-description" v-html="description.cn"></div>
+  <div class="demo-description" v-html="decodeURIComponent(description.cn)"></div>
   <div class="demo-example">
     <slot>
       <bs-button>default</bs-button>
@@ -38,11 +38,8 @@
     </slot>
   </div>
   <div class="demo-example-code" v-show="codeExpanded">
-    <pre v-pre>
-      这是一段代码
-      这是一段代码
-      这是一段代码这是一段代码
-      这是一段代码
+    <pre>
+{{ decodeURIComponent(exampleCode) }}
     </pre>
     <div class="shrink-code-operate">
       <bs-button block @click="codeExpanded = false"><BsiChevronUp></BsiChevronUp>收起代码</bs-button>
