@@ -4,13 +4,10 @@ order: 0
 title:
   zh-CN: 复选框组合——禁用
   en-US: Checkbox group--disabled
+description:
+  zh-CN: 给`bs-checkbox-group`组件设置`disabled`属性即可禁用所有复选框
+  en-US: Set the `disabled` attribute to the `bs-checkbox-group` component to disable all checkbox buttons
 ---
-
-## zh-CN
-给`bs-checkbox-group`组件设置`disabled`属性即可禁用所有复选框
-
-## en-US
-Set the `disabled` attribute to the `bs-checkbox-group` component to disable all checkbox buttons
 </docs>
 
 <template>

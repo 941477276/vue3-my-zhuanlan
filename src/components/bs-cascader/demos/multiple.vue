@@ -4,14 +4,10 @@ order: 0
 title:
   zh-CN: 基本使用
   en-US: Basic usage
+description:
+  zh-CN: 设置`multiple`属性可多选
+  en-US: Set the `multiple` attribute to allow multiple selections
 ---
-
-## zh-CN
-设置`multiple`属性可多选
-
-## en-US
-Set the `multiple` attribute to allow multiple selections
-
 </docs>
 
 <template>

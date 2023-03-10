@@ -2,8 +2,8 @@
 ---
 order: 0
 title:
-zh-CN: 不同尺寸
-en-US: Different sizes
+  zh-CN: 不同尺寸
+  en-US: Different sizes
 description:
   zh-CN: 按钮组与按钮一样有3个尺寸大小，分别为`sm`、`lg`和默认
   en-US: The button group has 3 sizes like the button, which are `sm`, `lg` and default

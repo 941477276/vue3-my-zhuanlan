@@ -4,16 +4,14 @@ order: 0
 title:
   zh-CN: 动态加载
   en-US: Dynamic load
+description:
+  zh-CN:
+    设置`lazy`属性开启动态加载，并需要设置`lazy-load-fn`函数来加载数据。
+    `lazy-load-fn`函数有2个参数，第一个参数为当前点击的节点，第二个参数为`设置节点数据加载状态`的一个函数，该函数接收一个`boolean`类型的参数，若值为`true`表示节点数据加载成功，反之表示节点数据加载失败
+  en-US:
+    Set the `lazy` attribute to enable dynamic loading, and you need to set the `lazy-load-fn` function to load data.
+    The `lazy-load-fn` function has 2 parameters, the first parameter is the currently clicked node, and the second parameter is a function of `setting node data loading status`, which receives a `boolean` type parameter, If the value is `true`, it means that the node data loading is successful, otherwise it means that the node data loading fails
 ---
-
-## zh-CN
-设置`lazy`属性开启动态加载，并需要设置`lazy-load-fn`函数来加载数据。
-`lazy-load-fn`函数有2个参数，第一个参数为当前点击的节点，第二个参数为`设置节点数据加载状态`的一个函数，该函数接收一个`boolean`类型的参数，若值为`true`表示节点数据加载成功，反之表示节点数据加载失败
-
-## en-US
-Set the `lazy` attribute to enable dynamic loading, and you need to set the `lazy-load-fn` function to load data.
-The `lazy-load-fn` function has 2 parameters, the first parameter is the currently clicked node, and the second parameter is a function of `setting node data loading status`, which receives a `boolean` type parameter, If the value is `true`, it means that the node data loading is successful, otherwise it means that the node data loading fails
-
 </docs>
 
 <template>

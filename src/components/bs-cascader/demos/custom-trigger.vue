@@ -4,14 +4,10 @@ order: 0
 title:
   zh-CN: 自定义触发
   en-US: Custom trigger
+description:
+  zh-CN: 通过`default`插槽可以自定义触发元素
+  en-US: The trigger element can be customized through the `default` slot
 ---
-
-## zh-CN
-通过`default`插槽可以自定义触发元素
-
-## en-US
-The trigger element can be customized through the `default` slot
-
 </docs>
 
 <template>

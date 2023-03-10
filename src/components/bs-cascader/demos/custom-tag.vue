@@ -4,14 +4,10 @@ order: 0
 title:
   zh-CN: 自定义Tag
   en-US: Custom tag
+description:
+  zh-CN: 通过`tag`插槽可以自定义Tag内容，或通过`tag-type`属性指定Tag类型
+  en-US: The Tag can be customized through the `tag` slot, Or specify the Tag type through the `tag-type` attribute
 ---
-
-## zh-CN
-通过`tag`插槽可以自定义Tag内容，或通过`tag-type`属性指定Tag类型
-
-## en-US
-The Tag can be customized through the `tag` slot, Or specify the Tag type through the `tag-type` attribute
-
 </docs>
 
 <template>

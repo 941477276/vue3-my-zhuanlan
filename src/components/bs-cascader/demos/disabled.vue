@@ -4,14 +4,10 @@ order: 0
 title:
   zh-CN: 禁用
   en-US: Disabled
+description:
+  zh-CN: 设置`disabled`可禁用整个级联选择器，在节点的`option`中设置`disabled`属性可禁用该节点
+  en-US:Setting `disabled` can disable the entire cascading selector, and setting the `disabled` attribute in the node's `option` can disable the node
 ---
-
-## zh-CN
-设置`disabled`可禁用整个级联选择器，在节点的`option`中设置`disabled`属性可禁用该节点
-
-## en-US
-Setting `disabled` can disable the entire cascading selector, and setting the `disabled` attribute in the node's `option` can disable the node
-
 </docs>
 
 <template>

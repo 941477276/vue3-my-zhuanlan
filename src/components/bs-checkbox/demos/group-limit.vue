@@ -4,13 +4,10 @@ order: 0
 title:
   zh-CN: 可选项数量限制
   en-US: Checkbox count limit
+description:
+  zh-CN: 使用`min`和`max`属性能够限制可以被勾选的复选框的数量。
+  en-US: Use the `min` and `max` attributes to limit the number of checkboxes that can be checked.
 ---
-
-## zh-CN
-使用`min`和`max`属性能够限制可以被勾选的复选框的数量。
-
-## en-US
-Use the `min` and `max` attributes to limit the number of checkboxes that can be checked.
 </docs>
 
 <template>

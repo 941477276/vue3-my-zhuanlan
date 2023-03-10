@@ -8,12 +8,6 @@ description:
   zh-CN: 最简单的用法，设置`to`属性可以添加跳转链接。
   en-US: The simplest usage, setting the `to` attribute can add a jump link.
 ---
-
-## zh-CN
-最简单的用法，设置`to`属性可以添加跳转链接。
-
-## en-US
-The simplest usage, setting the `to` attribute can add a jump link.
 </docs>
 
 <template>

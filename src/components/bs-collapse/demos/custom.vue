@@ -5,13 +5,6 @@ title:
   zh-CN: 自定义头部
   en-US: Custom header
 ---
-
-## zh-CN
-使用`header`插槽自定义头部
-
-## en-US
-Use the `title` slot to customize headers
-
 </docs>
 
 <template>

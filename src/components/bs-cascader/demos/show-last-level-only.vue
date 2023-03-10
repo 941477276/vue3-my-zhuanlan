@@ -4,16 +4,14 @@ order: 0
 title:
   zh-CN: 仅显示最后一级
   en-US: Last level only
+description:
+  zh-CN:
+    设置`show-all-level=false`可以仅在输入框中显示选中项最后一级的标签，而不是选中项所在的完整路径。
+    设置`emit-path=false`可以设置在选中节点改变时只返回该节点的值，而不是该节点所在的各级菜单的值所组成的路径
+  en-US:
+    Set `show-all-level=false` to set only the label of the last level of the selected item to be displayed in the input box, instead of the full path where the selected item is located.
+    Set `emit-path=false` to set that when the selected node changes, only the value of the node will be returned, instead of the path composed of the values of the menu levels where the node is located
 ---
-
-## zh-CN
-设置`show-all-level=false`可以仅在输入框中显示选中项最后一级的标签，而不是选中项所在的完整路径。
-设置`emit-path=false`可以设置在选中节点改变时只返回该节点的值，而不是该节点所在的各级菜单的值所组成的路径
-
-## en-US
-Set `show-all-level=false` to set only the label of the last level of the selected item to be displayed in the input box, instead of the full path where the selected item is located.
-Set `emit-path=false` to set that when the selected node changes, only the value of the node will be returned, instead of the path composed of the values of the menu levels where the node is located
-
 </docs>
 
 <template>

@@ -4,13 +4,10 @@ order: 0
 title:
   zh-CN: 手风琴模式
   en-US: Accordion mode
+description:
+  zh-CN: 设置`accordion`属性开启手风琴模式，开启手风琴模式后每次只能打开一个`tab`
+  en-US: Set the `accordion` attribute to enable the accordion mode, after enabling the accordion mode, only one `tab` can be opened at a time
 ---
-
-## zh-CN
-设置`accordion`属性开启手风琴模式，开启手风琴模式后每次只能打开一个`tab`
-
-## en-US
-Set the `accordion` attribute to enable the accordion mode, after enabling the accordion mode, only one `tab` can be opened at a time
 </docs>
 
 <template>

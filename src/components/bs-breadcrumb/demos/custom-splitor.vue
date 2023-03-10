@@ -8,12 +8,6 @@ description:
   zh-CN: 通过`separator`属性可以自定义分隔符
   en-US: The separator can be customized through the `separator` attribute
 ---
-
-## zh-CN
-通过`separator`属性可以自定义分隔符
-
-## en-US
-The separator can be customized through the `separator` attribute
 </docs>
 
 <template>

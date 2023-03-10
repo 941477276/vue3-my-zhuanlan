@@ -4,13 +4,11 @@ order: 0
 title:
   zh-CN: 基本使用
   en-US: Basic usage
+description:
+  zh-CN: 支持同时展开多个面板，使用`v-model`绑定展开的面板名称
+  en-US: The simplest usage is often used for secondary confirmation operations. If the `confirm` event returns `Promise`, then the second confirmation popup will be closed after the Promise status becomes `fulfilled`, if `false` is returned, the second confirmation popup will not be closed
 ---
-
-## zh-CN
-支持同时展开多个面板，使用`v-model`绑定展开的面板名称
-
-## en-US
-The simplest usage is often used for secondary confirmation operations. If the `confirm` event returns `Promise`, then the second confirmation popup will be closed after the Promise status becomes `fulfilled`, if `false` is returned, the second confirmation popup will not be closed</docs>
+</docs>
 
 <template>
   <div>

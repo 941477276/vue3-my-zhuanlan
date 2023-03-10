@@ -4,14 +4,10 @@ order: 0
 title:
   zh-CN: 自定义节点
   en-US: Custom node
+description:
+  zh-CN: 通过`label`插槽可以自定义节点内容
+  en-US: The node content can be customized through the `label` slot
 ---
-
-## zh-CN
-通过`label`插槽可以自定义节点内容
-
-## en-US
-The node content can be customized through the `label` slot
-
 </docs>
 
 <template>

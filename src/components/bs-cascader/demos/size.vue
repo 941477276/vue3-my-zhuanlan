@@ -4,13 +4,10 @@ order: 0
 title:
   zh-CN: 不同大小
   en-US: Different size
+description:
+  zh-CN: `bs-cascader`有大、中、小3种尺寸，通过`size`属性来设置它们，它们对应的值为`lg`、`默认`、`sm`。
+  en-US: `bs-cascader` has three sizes: large, medium, and small. They are set through the `size` attribute, and their corresponding values are `lg`, `default`, and `lg`.
 ---
-
-## zh-CN
-`bs-cascader`有大、中、小3种尺寸，通过`size`属性来设置它们，它们对应的值为`lg`、`默认`、`sm`。
-
-## en-US
-`bs-cascader` has three sizes: large, medium, and small. They are set through the `size` attribute, and their corresponding values are `lg`, `default`, and `lg`.
 </docs>
 
 <template>

@@ -4,14 +4,10 @@ order: 0
 title:
   zh-CN: 加载与空数据
   en-US: Loading and empty
+description:
+  zh-CN: 设置`loading`属性可呈现加载中状态
+  en-US: Set the `loading` attribute to display the loading state
 ---
-
-## zh-CN
-设置`loading`属性可呈现加载中状态
-
-## en-US
-Set the `loading` attribute to display the loading state
-
 </docs>
 
 <template>
