@@ -20,7 +20,7 @@ The `Message` component is mainly used for information reminder feedback
 </template>
 
 <script setup>
-import { BsMessage } from '@/components/bs-message';
+import { BsMessage } from '../../components/bs-message';
 
 let showMsg = function () {
   BsMessage('This is a normal message');

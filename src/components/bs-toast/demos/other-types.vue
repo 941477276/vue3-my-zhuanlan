@@ -30,7 +30,7 @@ The `Toast` component has eight types: `default`、`primary`、`secondary`、`su
 </template>
 
 <script setup>
-import { BsToast } from '@/components/bs-toast';
+import { BsToast } from '../../components/bs-toast';
 
 let showToast = function (type) {
   BsToast({

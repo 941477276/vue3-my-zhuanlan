@@ -33,7 +33,7 @@ The `lazy-load-fn` function has 2 parameters, the first parameter is the current
 import {
   ref
 } from 'vue';
-import { BsMessage } from '@/components/bs-message';
+import { BsMessage } from '../../components/bs-message';
 
 let obj = {
   guangdong: [

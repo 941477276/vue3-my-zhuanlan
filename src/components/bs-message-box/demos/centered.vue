@@ -20,7 +20,7 @@ Set the `centered` parameter to `MessageBox`, and you will get a message box tha
 </template>
 
 <script setup>
-import { BsMessageBox } from '@/components/bs-message-box';
+import { BsMessageBox } from '../../components/bs-message-box';
 
 let showMessageBox = function () {
   BsMessageBox({

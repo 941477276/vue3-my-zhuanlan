@@ -27,7 +27,7 @@ Set the `tag-limit` attribute to limit the maximum number of tags allowed to be 
 
 <script setup>
 import { ref } from 'vue';
-import { BsMessage } from '@/components/bs-message';
+import { BsMessage } from '../../components/bs-message';
 
 let values1 = ref([
   { label: 'HTML', value: 'html' },

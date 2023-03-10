@@ -23,9 +23,9 @@ You can customize the header and content of the MessageBox in 3 ways: `VNode`, `
 </template>
 
 <script setup>
-import { BsMessageBox } from '@/components/bs-message-box';
+import { BsMessageBox } from '../../components/bs-message-box';
 import { h } from 'vue';
-import imgSrc from '@/assets/imgs/icons-hero.png';
+import imgSrc from './icons-hero.png';
 
 let showMessageBox1 = function () {
   BsMessageBox({

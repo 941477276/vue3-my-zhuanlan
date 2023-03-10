@@ -24,8 +24,8 @@ title:
 </template>
 
 <script setup>
-import { BsMessageBox } from '@/components/bs-message-box';
-import { BsMessage } from '@/components/bs-message';
+import { BsMessageBox } from '../../components/bs-message-box';
+import { BsMessage } from '../../components/bs-message';
 
 let showMsgBox = function (typeName) {
   // BsMessageBox[typeName]('温馨提示', `一条${typeName}消息！`);

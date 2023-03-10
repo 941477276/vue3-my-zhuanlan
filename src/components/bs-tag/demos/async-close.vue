@@ -27,7 +27,7 @@ When a `Promise` is returned to the `close` event bound to the Tag component, th
 
 <script setup>
 import { ref } from 'vue';
-import BsSpinner from '@/components/bs-spinner/BsSpinner.vue';
+import BsSpinner from '../../components/bs-spinner/BsSpinner.vue';
 
 let closing = ref(false);
 let beforeClose = function (arg) {

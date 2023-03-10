@@ -20,8 +20,8 @@ If the `onOk` event function returns `Promise`, then the MessageBox will be clos
 </template>
 
 <script setup>
-import { BsMessageBox } from '@/components/bs-message-box';
-import { BsMessage } from '@/components/bs-message';
+import { BsMessageBox } from '../../components/bs-message-box';
+import { BsMessage } from '../../components/bs-message';
 
 let showMessageBox = function () {
   BsMessageBox({

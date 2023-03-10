@@ -27,7 +27,7 @@ When using `v-bsloading`, global loading needs to add the `fullscreen` modifier 
 import {
   ref
 } from 'vue';
-import { BsLoading } from '@/components/bs-loading';
+import { BsLoading } from '../../components/bs-loading';
 
 let globalLoading = ref(false);
 let showGlobalLoading = function () {

@@ -21,7 +21,7 @@ Pop-up style MessageBox
 </template>
 
 <script setup>
-import { BsMessageBox } from '@/components/bs-message-box';
+import { BsMessageBox } from '../../components/bs-message-box';
 
 let showMsg = function () {
   BsMessageBox.info({

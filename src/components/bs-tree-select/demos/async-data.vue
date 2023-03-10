@@ -33,7 +33,7 @@ Set the `lazy` property and set the `loadDataFn` property of `tree-props` to loa
 
 <script setup>
 import { ref } from 'vue';
-import { BsMessage } from '@/components/bs-message';
+import { BsMessage } from '../../components/bs-message';
 
 let treeData1 = ref([
   {

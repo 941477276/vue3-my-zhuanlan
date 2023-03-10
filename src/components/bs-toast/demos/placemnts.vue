@@ -29,8 +29,8 @@ title:
 </template>
 
 <script setup>
-import { BsToast } from '@/components/bs-toast';
-import { getRandomNumber } from '@/utils/bs-util';
+import { BsToast } from '../../components/bs-toast';
+import { getRandomNumber } from '../../../utils/bs-util';
 import dayjs from 'dayjs';
 
 const types = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'];

@@ -23,8 +23,8 @@ From the perspective of the scene, the function of `MessageBox` is to beautify t
 
 <script setup>
 import { ref } from 'vue';
-import { BsMessageBox } from '@/components/bs-message-box';
-import { BsMessage } from '@/components/bs-message';
+import { BsMessageBox } from '../../components/bs-message-box';
+import { BsMessage } from '../../components/bs-message';
 
 let showMsg = function () {
   BsMessageBox.info('温馨提示', '这是一个美化后的alert！');

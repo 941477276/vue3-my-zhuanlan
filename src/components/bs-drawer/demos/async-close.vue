@@ -34,7 +34,7 @@ Set the `close-disabled` attribute drawer will not be closed automatically unles
 
 <script setup>
 import { ref } from 'vue';
-import { BsMessage } from '@/components/bs-message';
+import { BsMessage } from '../../components/bs-message';
 
 let closeDisabled = ref(false);
 let visible = ref(false);

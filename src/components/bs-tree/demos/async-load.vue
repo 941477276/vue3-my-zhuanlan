@@ -30,7 +30,7 @@ Set the `lazy` attribute and set the `load-data-fn` attribute to dynamically loa
 
 <script setup>
 import { ref } from 'vue';
-import { BsMessage } from '@/components/bs-message';
+import { BsMessage } from '../../components/bs-message';
 
 let treeData2 = ref([{
   label: '一级 1',

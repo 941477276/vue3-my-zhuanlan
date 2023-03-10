@@ -20,7 +20,7 @@ title:
 </template>
 
 <script setup>
-import { BsMessageBox, closeMessageBox } from '@/components/bs-message-box';
+import { BsMessageBox, closeMessageBox } from '../../components/bs-message-box';
 import { ref } from 'vue';
 
 let showMessageBox = function () {

@@ -23,7 +23,7 @@ The `Message` component has four types: normal (default), success, warning, and 
 </template>
 
 <script setup>
-import { BsMessage } from '@/components/bs-message';
+import { BsMessage } from '../../components/bs-message';
 
 let showMsg = function () {
   BsMessage('This is a normal message');

@@ -20,7 +20,7 @@ Set `grouping` to `true`, `message` with the same content will be merged. This f
 </template>
 
 <script setup>
-import { BsMessage } from '@/components/bs-message';
+import { BsMessage } from '../../components/bs-message';
 
 let showMsg = function () {
   BsMessage.info({

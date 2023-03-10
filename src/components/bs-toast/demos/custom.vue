@@ -24,10 +24,10 @@ They can be customized by passing a `function`, `VNode` or `Html string` to `tit
 </template>
 
 <script setup>
-import { BsToast } from '@/components/bs-toast';
+import { BsToast } from '../../components/bs-toast';
 import dayjs from 'dayjs';
 import { h, ref, onBeforeUnmount } from 'vue';
-import imgSrc from '@/assets/imgs/icons-hero.png';
+import imgSrc from './icons-hero.png';
 
 let timeNow = ref('');
 let timer = setInterval(function () {

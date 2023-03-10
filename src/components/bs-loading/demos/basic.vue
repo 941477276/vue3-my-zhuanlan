@@ -57,7 +57,7 @@ import {
   nextTick,
   onMounted
 } from 'vue';
-import { BsLoading } from '@/components/bs-loading';
+import { BsLoading } from '../../components/bs-loading';
 
 let loading = ref(true);
 let vertical = ref(false);

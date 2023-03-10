@@ -20,7 +20,7 @@ Set `duration` to `0`, the message will never disappear unless it is manually tu
 </template>
 
 <script setup>
-import { BsMessage } from '@/components/bs-message';
+import { BsMessage } from '../../components/bs-message';
 
 let showMsg = function () {
   BsMessage({

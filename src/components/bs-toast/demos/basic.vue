@@ -20,7 +20,7 @@ The `Toast` component is mainly used for more complex notification content with 
 </template>
 
 <script setup>
-import { BsToast } from '@/components/bs-toast';
+import { BsToast } from '../../components/bs-toast';
 
 let showMsg = function () {
   BsToast({
