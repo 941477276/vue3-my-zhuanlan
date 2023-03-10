@@ -2,22 +2,19 @@
 ---
 order: 0
 title:
-  zh-CN: 在容器中
-  en-US: In container
+  zh-CN: 容器中使用Fixed
+  en-US: Use Fixed in container
+description:
+  zh-CN: 设置`useFixedPosition`属性可在容器中使用`fixed`定位
+  en-US: Set the `useFixedPosition` property to use `fixed` positioning in the container
 ---
-
-## zh-CN
-`bs-backup`除了能应用在`body`中，也能应用在其他`dom`中
-
-## en-US
-`bs-backup` can be applied not only in `body`, but also in other `dom`
 
 </docs>
 
 <template>
   <div class="scroll-box" id="scrollBox1">
     <div class="scroll-content">
-      <BsBackTop target="#scrollBox1" visibilityHeight="30%" style="bottom: auto;"></BsBackTop>
+      <BsBackTop target="#scrollBox1" visibilityHeight="30%" :useFixedPosition="true" style="bottom: auto;"></BsBackTop>
     </div>
   </div>
 </template>

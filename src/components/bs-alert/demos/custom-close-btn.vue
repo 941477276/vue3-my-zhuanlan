@@ -4,13 +4,10 @@ order: 0
 title:
   zh-CN: 自定义关闭按钮
   en-US: Custom close button
+description:
+  zh-CN: 自定义关闭按钮
+  en-US: Custom close button
 ---
-
-## zh-CN
-自定义关闭按钮
-
-## en-US
-custom close button
 </docs>
 
 <template>

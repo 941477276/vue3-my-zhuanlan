@@ -4,13 +4,10 @@ order: 0
 title:
   zh-CN: 胶囊式徽章
   en-US: Pill badge
+description:
+  zh-CN: 添加`pill`属性能够让徽章（badge）组件的边角变得更圆滑
+  en-US: Adding the `pill` attribute can make the corners of the badge (badge) component more rounded
 ---
-
-## zh-CN
-添加`pill`属性能够让徽章（badge）组件的边角变得更圆滑
-
-## en-US
-Adding the `pill` attribute can make the corners of the badge (badge) component more rounded
 </docs>
 
 <template>

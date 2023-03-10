@@ -4,13 +4,10 @@ order: 0
 title:
   zh-CN: 其他标签
   en-US: Other html tag
+description:
+  zh-CN: 设置`tag`属性可以让徽章组件渲染不同的标签，默认为`span`
+  en-US: Set the `tag` property to make the badge component render different html tag, the default is `span`
 ---
-
-## zh-CN
-设置`tag`属性可以让徽章组件渲染不同的标签，默认为`span`
-
-## en-US
-Set the `tag` property to make the badge component render different html tag, the default is `span`
 </docs>
 
 <template>

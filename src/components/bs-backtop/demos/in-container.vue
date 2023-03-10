@@ -4,14 +4,10 @@ order: 0
 title:
   zh-CN: 在容器中
   en-US: In container
+description:
+  zh-CN: `bs-backup`除了能应用在`body`中，也能应用在其他`dom`中
+  en-US: `bs-backup` can be applied not only in `body`, but also in other `dom`
 ---
-
-## zh-CN
-`bs-backup`除了能应用在`body`中，也能应用在其他`dom`中
-
-## en-US
-`bs-backup` can be applied not only in `body`, but also in other `dom`
-
 </docs>
 
 <template>

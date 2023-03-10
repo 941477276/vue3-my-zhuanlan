@@ -4,13 +4,10 @@ order: 0
 title:
   zh-CN: 禁用
   en-US: Disabled
+description:
+  zh-CN: 你可以使用`disabled`属性来定义按钮是否可用，它接受一个`Boolean`值。
+  en-US: You can use the `disabled` property to define whether the button is enabled or not, it accepts a `Boolean` value.
 ---
-
-## zh-CN
-你可以使用`disabled`属性来定义按钮是否可用，它接受一个`Boolean`值。
-
-## en-US
-You can use the `disabled` property to define whether the button is enabled or not, it accepts a `Boolean` value.
 </docs>
 
 <template>

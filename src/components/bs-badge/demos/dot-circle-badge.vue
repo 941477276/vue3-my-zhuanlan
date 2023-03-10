@@ -4,6 +4,9 @@ order: 0
 title:
   zh-CN: 圆点式徽章
   en-US: Dot badge
+description:
+  zh-CN: 添加`pill`属性能够让徽章变成一个小圆点
+  en-US: Add the `pill` attribute to make the badge a small dot
 ---
 
 ## zh-CN

@@ -4,13 +4,10 @@ order: 0
 title:
   zh-CN: 加载状态
   en-US: Loading
+description:
+  zh-CN: 你可以使用`loading`属性来定义按钮是否为loading状态，它接受一个`Boolean`值。
+  en-US: You can define whether the button is loading or not using the `loading` property, which accepts a `Boolean` value.
 ---
-
-## zh-CN
-你可以使用`loading`属性来定义按钮是否为loading状态，它接受一个`Boolean`值。
-
-## en-US
-You can define whether the button is loading or not using the `loading` property, which accepts a `Boolean` value.
 </docs>
 
 <template>

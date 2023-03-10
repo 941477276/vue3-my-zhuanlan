@@ -2,15 +2,12 @@
 ---
 order: 0
 title:
-zh-CN: 垂直的
-en-US: Vertical variation
+  zh-CN: 垂直的
+  en-US: Vertical variation
+description:
+  zh-CN: 设置`vertical`属性可以使一组按钮垂直排布而不是水平排布
+  en-US: Set the `vertical` attribute to make a group of buttons arranged vertically instead of horizontally
 ---
-
-## zh-CN
-设置`vertical`属性可以使一组按钮垂直排布而不是水平排布
-
-## en-US
-Set the `vertical` attribute to make a group of buttons arranged vertically instead of horizontally
 </docs>
 
 <template>

@@ -2,15 +2,12 @@
 ---
 order: 0
 title:
-zh-CN: 基本使用
-en-US: Basic usage
+  zh-CN: 基本使用
+  en-US: Basic usage
+description:
+  zh-CN: 使用按钮组将一系列按钮组合在一行中，常用于多项类似操作。
+  en-US: Use a button group to group a series of buttons on a row, often for multiple similar actions.
 ---
-
-## zh-CN
-使用按钮组将一系列按钮组合在一行中，常用于多项类似操作。
-
-## en-US
-Use a button group to group a series of buttons on a row, often for multiple similar actions.
 </docs>
 
 <template>

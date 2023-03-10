@@ -4,17 +4,14 @@ order: 0
 title:
   zh-CN: 圆角与平角
   en-US: Rounded and flat corners
+description:
+  zh-CN:
+    设置`block`属性为`true`即可呈现圆角按钮
+    设置`squared`属性为`true`即可呈现平角按钮
+  en-US:
+    Set the `round` property to `true` to render the button with rounded corners
+    Set the `squared` property to `true` to render a flat button
 ---
-
-## zh-CN
-设置`block`属性为`true`即可呈现圆角按钮
-
-设置`squared`属性为`true`即可呈现平角按钮
-
-## en-US
-Set the `round` property to `true` to render the button with rounded corners
-
-Set the `squared` property to `true` to render a flat button
 </docs>
 
 <template>

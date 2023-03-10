@@ -4,13 +4,10 @@ order: 0
 title:
   zh-CN: 基本使用
   en-US: Basic usage
+description:
+  zh-CN: 徽章（badge）是一种小型的用于计数和打标签的组件。
+  en-US: Badges are small counting and labeling components.
 ---
-
-## zh-CN
-徽章（badge）是一种小型的用于计数和打标签的组件。
-
-## en-US
-Badges are small counting and labeling components.
 </docs>
 
 <template>

@@ -4,13 +4,10 @@ order: 0
 title:
   zh-CN: 按钮类型
   en-US: Type
+description:
+  zh-CN: Bootstrap 内置了几种预定义的按钮样式，每种样式都有自己的语义目的，并添加了一些额外的按钮
+  en-US: Boostrap includes several predefined button styles, each serving its own semantic purpose, with a few extras thrown in for more control.
 ---
-
-## zh-CN
-Bootstrap 内置了几种预定义的按钮样式，每种样式都有自己的语义目的，并添加了一些额外的按钮
-
-## en-US
-Boostrap includes several predefined button styles, each serving its own semantic purpose, with a few extras thrown in for more control.
 </docs>
 
 <template>

@@ -4,13 +4,10 @@ order: 0
 title:
   zh-CN: 辅助性文字
   en-US: Auxiliary text
+description:
+  zh-CN: 包含标题和内容，解释更详细的警告
+  en-US: Contains title and content explaining warnings in more detail
 ---
-
-## zh-CN
-包含标题和内容，解释更详细的警告
-
-## en-US
-Contains title and content explaining warnings in more detail
 </docs>
 
 <template>

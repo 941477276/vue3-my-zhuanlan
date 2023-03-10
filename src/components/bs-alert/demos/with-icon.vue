@@ -4,13 +4,10 @@ order: 0
 title:
   zh-CN: 带图标
   en-US: With icon
+description:
+  zh-CN: 通过`icon`插槽可以自定义图标
+  en-US: The icon can be customized through the `icon` slot
 ---
-
-## zh-CN
-通过`icon`插槽可以自定义图标
-
-## en-US
-The icon can be customized through the `icon` slot
 </docs>
 
 <template>

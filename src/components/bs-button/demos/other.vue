@@ -4,13 +4,10 @@ order: 0
 title:
   zh-CN: 其他标签
   en-US: Other tag
+description:
+  zh-CN: 设置`tag`属性可以让Button组件渲染不同的标签，默认为`button`
+  en-US: Setting the `tag` property allows the Button component to render different html tags, the default is `button`
 ---
-
-## zh-CN
-设置`tag`属性可以让Button组件渲染不同的标签，默认为`button`
-
-## en-US
-Setting the `tag` property allows the Button component to render different html tags, the default is `button`
 </docs>
 
 <template>
