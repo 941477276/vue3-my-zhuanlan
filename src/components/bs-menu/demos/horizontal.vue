@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 水平菜单
   en-US: Horizontal menu
+description: 
+  zh-CN: 水平菜单
+  en-US: Horizontal menu
 ---
-
-## zh-CN
-水平菜单
-
-## en-US
-Horizontal menu
-
 </docs>
 
 <template>

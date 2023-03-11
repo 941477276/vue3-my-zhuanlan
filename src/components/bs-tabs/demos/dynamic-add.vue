@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 新增和关闭标签页
   en-US: Add and close tabs
+description: 
+  zh-CN: 给`bs-tab-pane`组件设置`closeable`属性可关闭该标签页
+  en-US: Set the `closeable` attribute to the `bs-tab-pane` component to close the tab
 ---
-
-## zh-CN
-给`bs-tab-pane`组件设置`closeable`属性可关闭该标签页
-
-## en-US
-Set the `closeable` attribute to the `bs-tab-pane` component to close the tab
 </docs>
 
 <template>

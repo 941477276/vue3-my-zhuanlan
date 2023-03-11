@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 自定义内容
   en-US: Custom content
+description: 
+  zh-CN: 通过默认插槽可以自定义节点内容
+  en-US: 通过默认插槽可以自定义节点内容
 ---
-
-## zh-CN
-通过默认插槽可以自定义节点内容
-
-## en-US
-通过默认插槽可以自定义节点内容
-
 </docs>
 
 <template>

@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 自定义消息内容
   en-US: Custom message content
+description:
+  zh-CN: `Message`组件的消息内容可以为字符串、函数(函数需返回string或VNode)、VNode
+  en-US: The message content of the `Message` component can be a string, a function (the function needs to return a string or VNode), VNode
 ---
-
-## zh-CN
-`Message`组件的消息内容可以为字符串、函数(函数需返回string或VNode)、VNode
-
-## en-US
-The message content of the `Message` component can be a string, a function (the function needs to return a string or VNode), VNode
 </docs>
 
 <template>
@@ -21,10 +19,10 @@ The message content of the `Message` component can be a string, a function (the 
 </template>
 
 <script setup>
-import { BsMessage } from '@/components/bs-message';
+import { BsMessage } from '../../bs-message';
 import { createVNode } from 'vue';
 import { BsiBootstrapFill } from 'vue3-bootstrap-icon/es/icons/BsiBootstrapFill';
-import BsBadge from '@/components/bs-badge/BsBadge.vue';
+import BsBadge from '../../bs-badge/BsBadge.vue';
 
 let showMsg = function () {
   BsMessage.success({

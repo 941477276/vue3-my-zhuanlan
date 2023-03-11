@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 其他类型
   en-US: Other type
+description:
+  zh-CN: `Message`组件共有普通(默认)、成功、警告、错误4种类型，它们分别对应`info`、`success`、`danger`、`warning`;
+  en-US: The `Message` component has four types: normal (default), success, warning, and error, which correspond to `info`, `success`, `danger`, and `warning`;
 ---
-
-## zh-CN
-`Message`组件共有普通(默认)、成功、警告、错误4种类型，它们分别对应`info`、`success`、`danger`、`warning`;
-
-## en-US
-The `Message` component has four types: normal (default), success, warning, and error, which correspond to `info`, `success`, `danger`, and `warning`;
 </docs>
 
 <template>
@@ -23,7 +21,7 @@ The `Message` component has four types: normal (default), success, warning, and 
 </template>
 
 <script setup>
-import { BsMessage } from '../../components/bs-message';
+import { BsMessage } from '../../bs-message';
 
 let showMsg = function () {
   BsMessage('This is a normal message');

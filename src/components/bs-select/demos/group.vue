@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 基本使用
   en-US: Basic usage
+description: 
+  zh-CN: 使用`bs-option-group`组件可对选项进行分组，它的label属性为分组名
+  en-US: Use the `bs-option-group` component to group options, and its label attribute is the group name
 ---
-
-## zh-CN
-使用`bs-option-group`组件可对选项进行分组，它的label属性为分组名
-
-## en-US
-Use the `bs-option-group` component to group options, and its label attribute is the group name
 </docs>
 
 <template>

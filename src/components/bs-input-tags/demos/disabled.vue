@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 禁用
   en-US: Disabled
+description: 
+  zh-CN: 设置`disabled`属性可以禁用`bs-input-tags`
+  en-US: Set the `disabled` attribute to disable the `bs-input-tags`
 ---
-
-## zh-CN
-设置`disabled`属性可以禁用`bs-input-tags`
-
-## en-US
-Set the `disabled` attribute to disable the `bs-input-tags`
-
 </docs>
 
 <template>

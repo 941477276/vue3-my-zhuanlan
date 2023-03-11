@@ -1,18 +1,18 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 单选组合
   en-US: Radio group
+description: 
+  zh-CN: 
+    `bs-vue`提供了`bs-radio-group`组件来将多个单选按钮进行组合，组合后无需在每一个`bs-radio`组件中都绑定`v-model`，
+    而只需在`bs-radio-group`组件上绑定`v-model`，在`bs-radio`中设置`value`即可
+  en-US: 
+    `bs-vue` provides the `bs-radio-group` component to combine multiple radio buttons. After the combination, there is no need to bind `v-model` in each `bs-radio` component.
+    Instead, just bind `v-model` on the `bs-radio-group` component and set `value` in `bs-radio`
 ---
-
-## zh-CN
-`bs-vue`提供了`bs-radio-group`组件来将多个单选按钮进行组合，组合后无需在每一个`bs-radio`组件中都绑定`v-model`，
-而只需在`bs-radio-group`组件上绑定`v-model`，在`bs-radio`中设置`value`即可
-
-## en-US
-`bs-vue` provides the `bs-radio-group` component to combine multiple radio buttons. After the combination, there is no need to bind `v-model` in each `bs-radio` component.
-Instead, just bind `v-model` on the `bs-radio-group` component and set `value` in `bs-radio`
 </docs>
 
 <template>

@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 禁用项
   en-US: Disabled item
+description: 
+  zh-CN: 添加`disabled-page`属性可将指定的页码设置为禁用状态，它接收一个`number`类型的数组
+  en-US: Add `disabled-page` attribute to set the specified page number to disabled state, it receives an array of `number` type
 ---
-
-## zh-CN
-添加`disabled-page`属性可将指定的页码设置为禁用状态，它接收一个`number`类型的数组
-
-## en-US
-Add `disabled-page` attribute to set the specified page number to disabled state, it receives an array of `number` type
 </docs>
 
 <template>

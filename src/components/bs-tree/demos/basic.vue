@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 基本使用
   en-US: Basic usage
+description: 
+  zh-CN: 基础的树形结构展示，必须给`bs-tree`组件设置`node-key`属性以告诉组件每个节点的唯一标识属性
+  en-US: For the basic tree structure display, the `node-key` attribute must be set for the `bs-tree` component to tell the component the unique identification attribute of each node
 ---
-
-## zh-CN
-基础的树形结构展示，必须给`bs-tree`组件设置`node-key`属性以告诉组件每个节点的唯一标识属性
-
-## en-US
-For the basic tree structure display, the `node-key` attribute must be set for the `bs-tree` component to tell the component the unique identification attribute of each node
-
 </docs>
 
 <template>

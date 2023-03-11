@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 动态添加或删除
   en-US: Dynamically add or remove
+description: 
+  zh-CN: 用数组生成一组标签，可以动态添加和删除
+  en-US: Use an array to generate a set of tags that can be added and removed dynamically
 ---
-
-## zh-CN
-用数组生成一组标签，可以动态添加和删除
-
-## en-US
-Use an array to generate a set of tags that can be added and removed dynamically
 </docs>
 
 <template>

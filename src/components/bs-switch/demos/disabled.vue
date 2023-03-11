@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 禁用
   en-US: Disabled
+description: 
+  zh-CN: 添加`disabled`属性可禁用开关
+  en-US: Add `disabled` attribute to disable switch
 ---
-
-## zh-CN
-添加`disabled`属性可禁用开关
-
-## en-US
-Add `disabled` attribute to disable switch
 </docs>
 
 <template>

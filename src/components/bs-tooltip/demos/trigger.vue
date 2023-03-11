@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 触发方式
   en-US: Trigger
+description: 
+  zh-CN: Tooltip默认支持`hover`、`click`、`focus`、`contextmenu`触发
+  en-US: The simplest usage is to display the Tooltip when the mouse is enter in
 ---
-
-## zh-CN
-Tooltip默认支持`hover`、`click`、`focus`、`contextmenu`触发
-
-## en-US
-The simplest usage is to display the Tooltip when the mouse is enter in
 </docs>
 
 <template>

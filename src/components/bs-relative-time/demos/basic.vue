@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 基本使用
   en-US: Basic usage
+description: 
+  zh-CN: 设置一个时间戳或`Date`，可自动转为相对于当前的时间。
+  en-US: 设置一个时间戳或`Date`，可自动转为相对于当前的时间。
 ---
-
-## zh-CN
-设置一个时间戳或`Date`，可自动转为相对于当前的时间。
-
-## en-US
-设置一个时间戳或`Date`，可自动转为相对于当前的时间。
-
 </docs>
 
 <template>

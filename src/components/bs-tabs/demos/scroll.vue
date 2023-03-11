@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 滚动条
   en-US: Scroll
+description: 
+  zh-CN: 当标签页数量过多导致长度超出容器长度时会隐藏掉不可见标签页，但依旧可以访问那些被隐藏但标签页
+  en-US: When there are too many tabs and the width exceeds the width of the parent container, the invisible tabs will be automatically hidden, but those hidden but tabs can still be accessed
 ---
-
-## zh-CN
-当标签页数量过多导致长度超出容器长度时会隐藏掉不可见标签页，但依旧可以访问那些被隐藏但标签页
-
-## en-US
-When there are too many tabs and the width exceeds the width of the parent container, the invisible tabs will be automatically hidden, but those hidden but tabs can still be accessed
 </docs>
 
 <template>

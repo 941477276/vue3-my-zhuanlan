@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 不同类型的值
   en-US: Different types of values
+description: 
+  zh-CN: `bs-radio`组件可以接受`string`、`number`、`boolean`类型的值
+  en-US: The `bs-radio` component can accept `string`, `number`, `boolean` values
 ---
-
-## zh-CN
-`bs-radio`组件可以接受`string`、`number`、`boolean`类型的值
-
-## en-US
-The `bs-radio` component can accept `string`, `number`, `boolean` values
 </docs>
 
 <template>

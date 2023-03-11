@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 显示位置
   en-US: Placements
+description: 
+  zh-CN: 有12个不同的方向显示Tooltip
+  en-US: There are 12 different directions to display the Tooltip
 ---
-
-## zh-CN
-有12个不同的方向显示Tooltip
-
-## en-US
-There are 12 different directions to display the Tooltip
 </docs>
 
 <template>

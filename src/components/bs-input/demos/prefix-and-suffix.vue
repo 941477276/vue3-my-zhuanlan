@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 前缀和后缀
   en-US: prefixes and suffixes
+description: 
+  zh-CN: 使用`prefixes`或`suffixes`插槽可以在输入框前缀或后缀添加额外内容，如符号、图标
+  en-US: Use the `prefixes` or `suffixes` slot to add additional content, such as symbols and icons, to the input box prefix or suffix
 ---
-
-## zh-CN
-使用`prefixes`或`suffixes`插槽可以在输入框前缀或后缀添加额外内容，如符号、图标
-
-## en-US
-Use the `prefixes` or `suffixes` slot to add additional content, such as symbols and icons, to the input box prefix or suffix
 </docs>
 
 <template>

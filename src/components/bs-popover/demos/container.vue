@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 父级容器
   en-US: Parent container
+description: 
+  zh-CN: Popover组件支持将 popper插入到指定的dom中（默认为`body`）
+  en-US: The Popover component supports inserting the popper into the specified dom (the default is `body`)
 ---
-
-## zh-CN
-Popover组件支持将 popper插入到指定的dom中（默认为`body`）
-
-## en-US
-The Popover component supports inserting the popper into the specified dom (the default is `body`)
 </docs>
 
 <template>

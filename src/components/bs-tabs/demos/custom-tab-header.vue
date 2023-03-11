@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 自定义标签页头
   en-US: Custom tab head
+description: 
+  zh-CN: 通过`label`插槽，或给`label`属性传递一个函数可以实现自定义标签页头
+  en-US: Customize the label header by passing the `label` slot, or passing a function to the `label` attribute
 ---
-
-## zh-CN
-通过`label`插槽，或给`label`属性传递一个函数可以实现自定义标签页头
-
-## en-US
-Customize the label header by passing the `label` slot, or passing a function to the `label` attribute
 </docs>
 
 <template>

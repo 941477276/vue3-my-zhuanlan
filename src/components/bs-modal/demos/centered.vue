@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 居中显示
   en-US: Centered
+description: 
+  zh-CN: 设置`centered`属性可以让弹窗在水平、垂直方向都居中显示
+  en-US: Set the `centered` property to center the modal both horizontally and vertically
 ---
-
-## zh-CN
-设置`centered`属性可以让弹窗在水平、垂直方向都居中显示
-
-## en-US
-Set the `centered` property to center the modal both horizontally and vertically
 </docs>
 
 <template>

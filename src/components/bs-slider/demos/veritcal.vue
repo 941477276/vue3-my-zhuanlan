@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 垂直模式
   en-US: Vertical
+description: 
+  zh-CN: 设置`vertical`属性即可呈现垂直的滑块
+  en-US: Set the `vertical` property to render a vertical slider
 ---
-
-## zh-CN
-设置`vertical`属性即可呈现垂直的滑块
-
-## en-US
-Set the `vertical` property to render a vertical slider
 </docs>
 
 <template>

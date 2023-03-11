@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 基本使用
   en-US: Basic usage
+description: 
+  zh-CN: 使用 `v-model` 实现数据双向绑定。`bs-select`有2种方式渲染下拉内容，一种是使用`bs-option`组件，另一种是通过给`bs-select`组件设置`options`属性
+  en-US: Use `v-model` to achieve two-way data binding. `bs-select` has two ways to render the drop-down content, one is to use the `bs-option` component, and the other is to set the `options` property for the `bs-select` component
 ---
-
-## zh-CN
-使用 `v-model` 实现数据双向绑定。`bs-select`有2种方式渲染下拉内容，一种是使用`bs-option`组件，另一种是通过给`bs-select`组件设置`options`属性
-
-## en-US
-Use `v-model` to achieve two-way data binding. `bs-select` has two ways to render the drop-down content, one is to use the `bs-option` component, and the other is to set the `options` property for the `bs-select` component
 </docs>
 
 <template>

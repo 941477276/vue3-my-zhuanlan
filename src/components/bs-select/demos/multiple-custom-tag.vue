@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 多选——自定义Tag
   en-US: Multiple--custom tag
+description: 
+  zh-CN: 多选时选中值多Tag也是可以自定义的
+  en-US: When multiple selections are selected, multiple tags can also be customized
 ---
-
-## zh-CN
-多选时选中值多Tag也是可以自定义的
-
-## en-US
-When multiple selections are selected, multiple tags can also be customized
 </docs>
 
 <template>

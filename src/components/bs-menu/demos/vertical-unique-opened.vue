@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 手风琴式菜单
   en-US: Accordion menu
+description: 
+  zh-CN: 设置`unique-opened`可实现只展开当前父级菜单，收起其他展开的所有菜单，保持菜单聚焦简洁。
+  en-US: Setting `unique-opened` can only expand the current parent menu, and collapse all other expanded menus, keeping the menu focused and concise.
 ---
-
-## zh-CN
-设置`unique-opened`可实现只展开当前父级菜单，收起其他展开的所有菜单，保持菜单聚焦简洁。
-
-## en-US
-Setting `unique-opened` can only expand the current parent menu, and collapse all other expanded menus, keeping the menu focused and concise.
-
 </docs>
 
 <template>

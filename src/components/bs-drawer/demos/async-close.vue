@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 异步关闭
   en-US: Async close
+description: 
+  zh-CN: 设置`close-disabled`属性抽屉将无法自动关闭，除非手动关闭
+  en-US: Set the `close-disabled` attribute drawer will not be closed automatically unless closed manually
 ---
-
-## zh-CN
-设置`close-disabled`属性抽屉将无法自动关闭，除非手动关闭
-
-## en-US
-Set the `close-disabled` attribute drawer will not be closed automatically unless closed manually
 </docs>
 
 <template>

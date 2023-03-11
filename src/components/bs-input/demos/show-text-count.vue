@@ -1,18 +1,18 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 字数限制
   en-US: Text count limit
+description: 
+  zh-CN: 
+    使用`maxlength`和`minlength`属性, 来控制输入内容的最大字数和最小字数。设置`showCount`属性为`true`可以显示剩余字数，当`maxlength`值
+    为0的时候不会限制字数。
+  en-US: 
+    Use the `maxlength` and `minlength` attributes to control the maximum and minimum number of words in the input content. Set the `showCount` property to `true` to display the remaining word count, when the `maxlength` value
+    When it is 0, the number of characters will not be limited.
 ---
-
-## zh-CN
-使用`maxlength`和`minlength`属性, 来控制输入内容的最大字数和最小字数。设置`showCount`属性为`true`可以显示剩余字数，当`maxlength`值
-为0的时候不会限制字数。
-
-## en-US
-Use the `maxlength` and `minlength` attributes to control the maximum and minimum number of words in the input content. Set the `showCount` property to `true` to display the remaining word count, when the `maxlength` value
-When it is 0, the number of characters will not be limited.
 </docs>
 
 <template>

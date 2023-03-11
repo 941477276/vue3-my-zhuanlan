@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 可关闭
   en-US: Basic usage
+description: 
+  zh-CN: 添加`closeable`属性创建可关闭的Tag
+  en-US: Add the `closeable` attribute to create a closeable Tag
 ---
-
-## zh-CN
-添加`closeable`属性创建可关闭的Tag
-
-## en-US
-Add the `closeable` attribute to create a closeable Tag
 </docs>
 
 <template>

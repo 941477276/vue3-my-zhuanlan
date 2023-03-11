@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 自定义触发
   en-US: Custom trigger
+description: 
+  zh-CN: 通过默认插槽可以自定义触发显示下拉的元素
+  en-US: The element that triggers the display of the drop-down can be customized through the default slot
 ---
-
-## zh-CN
-通过默认插槽可以自定义触发显示下拉的元素
-
-## en-US
-The element that triggers the display of the drop-down can be customized through the default slot
-
 </docs>
 
 <template>

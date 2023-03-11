@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 节点过滤
   en-US: Filter
+description: 
+  zh-CN: 设置`filter-method`、`filter-text`属性可实现节点过滤功能，`filter-method`接收一个函数
+  en-US: Setting `filter-method` and `filter-text` attributes can realize node filtering function, and `filter-method` receives a function
 ---
-
-## zh-CN
-设置`filter-method`、`filter-text`属性可实现节点过滤功能，`filter-method`接收一个函数
-
-## en-US
-Setting `filter-method` and `filter-text` attributes can realize node filtering function, and `filter-method` receives a function
-
 </docs>
 
 <template>

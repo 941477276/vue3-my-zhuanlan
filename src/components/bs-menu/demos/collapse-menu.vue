@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 缩起菜单
   en-US: Shrink menu
+description: 
+  zh-CN: 垂直模式时设置`collapse`属性菜单可以被缩起/展开
+  en-US: Set `collapse` attribute menu can be collapsed/expanded in vertical mode
 ---
-
-## zh-CN
-垂直模式时设置`collapse`属性菜单可以被缩起/展开
-
-## en-US
-Set `collapse` attribute menu can be collapsed/expanded in vertical mode
-
 </docs>
 
 <template>

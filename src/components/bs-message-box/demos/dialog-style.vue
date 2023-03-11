@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 弹窗风格
   en-US: Dialog style
+description: 
+  zh-CN: 弹窗风格的MessageBox
+  en-US: Pop-up style MessageBox
 ---
-
-## zh-CN
-弹窗风格的MessageBox
-
-## en-US
-Pop-up style MessageBox
 </docs>
 
 <template>

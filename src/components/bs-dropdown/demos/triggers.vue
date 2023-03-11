@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 触发方式
   en-US: Trigger type
+description: 
+  zh-CN: 设置`trigger`属性可以修改触发方式，支持的触发方式有`click`、`hover(默认)`、`contextMenu(右键)`、`custom`。
+  en-US: Setting the `trigger` attribute can modify the trigger method, and the supported trigger methods are `click`, `hover (default)`, `contextMenu (right click)`, `custom`.
 ---
-
-## zh-CN
-设置`trigger`属性可以修改触发方式，支持的触发方式有`click`、`hover(默认)`、`contextMenu(右键)`、`custom`。
-
-## en-US
-Setting the `trigger` attribute can modify the trigger method, and the supported trigger methods are `click`, `hover (default)`, `contextMenu (right click)`, `custom`.
-
 </docs>
 
 <template>

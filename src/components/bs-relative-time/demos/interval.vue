@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 自动更新时间间隔
   en-US: Update interval
+description: 
+  zh-CN: `interval`属性可以修改组件自动更新时间间隔，默认为`60`秒
+  en-US: The `interval` attribute can modify the automatic update interval of the component, the default is `60` seconds
 ---
-
-## zh-CN
-`interval`属性可以修改组件自动更新时间间隔，默认为`60`秒
-
-## en-US
-The `interval` attribute can modify the automatic update interval of the component, the default is `60` seconds
-
 </docs>
 
 <template>

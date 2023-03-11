@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 多选——Tag数量显示
   en-US: Multiple--tag limit
+description: 
+  zh-CN: 为`bs-select`设置`max-tag-count`属性可以限制显示在界面中Tag的数量
+  en-US: Set the `max-tag-count` attribute for `bs-select` to limit the number of Tags displayed
 ---
-
-## zh-CN
-为`bs-select`设置`max-tag-count`属性可以限制显示在界面中Tag的数量
-
-## en-US
-Set the `max-tag-count` attribute for `bs-select` to limit the number of Tags displayed
 </docs>
 
 <template>

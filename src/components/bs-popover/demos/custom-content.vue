@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 自定义内容
   en-US: Custom content
+description: 
+  zh-CN: 可以通过`content`插槽或`raw-content`属性来自定义Popover的内容
+  en-US: The content of the Popover can be customized through the `content` slot or the `raw-content` prop
 ---
-
-## zh-CN
-可以通过`content`插槽或`raw-content`属性来自定义Popover的内容
-
-## en-US
-The content of the Popover can be customized through the `content` slot or the `raw-content` prop
 </docs>
 
 <template>

@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 异步关闭
   en-US: Asynchronous close
+description: 
+  zh-CN: `onOk`事件函数若返回`Promise`，那么MessageBox将在Promise状态变更为`fulfilled`后关闭，如果Promise状态为`rejected`或`onOk`事件函数若返回`false`那么MessageBox将不会关闭
+  en-US: If the `onOk` event function returns `Promise`, then the MessageBox will be closed after the Promise state changes to `fulfilled`, if the Promise state is `rejected` or if the `onOk` event function returns `false`, then the MessageBox will not be closed
 ---
-
-## zh-CN
-`onOk`事件函数若返回`Promise`，那么MessageBox将在Promise状态变更为`fulfilled`后关闭，如果Promise状态为`rejected`或`onOk`事件函数若返回`false`那么MessageBox将不会关闭
-
-## en-US
-If the `onOk` event function returns `Promise`, then the MessageBox will be closed after the Promise state changes to `fulfilled`, if the Promise state is `rejected` or if the `onOk` event function returns `false`, then the MessageBox will not be closed
 </docs>
 
 <template>

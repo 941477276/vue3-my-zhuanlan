@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 异步关闭
   en-US: Async close
+description: 
+  zh-CN: 给Modal设置`confirm-loading`属性，点击确定后不会立即关闭对话框，而是需要手动关闭，或者`on-ok`事件返回值为`Promise`且状态为`fulfilled`，常用于提交表单。
+  en-US: Set the `confirm-loading` attribute to Modal. After clicking OK, the modal will not be closed immediately, but needs to be closed manually, or the return value of the `on-ok` event is `Promise` and the status is `fulfilled`, which is often used to submit forms .
 ---
-
-## zh-CN
-给Modal设置`confirm-loading`属性，点击确定后不会立即关闭对话框，而是需要手动关闭，或者`on-ok`事件返回值为`Promise`且状态为`fulfilled`，常用于提交表单。
-
-## en-US
-Set the `confirm-loading` attribute to Modal. After clicking OK, the modal will not be closed immediately, but needs to be closed manually, or the return value of the `on-ok` event is `Promise` and the status is `fulfilled`, which is often used to submit forms .
 </docs>
 
 <template>

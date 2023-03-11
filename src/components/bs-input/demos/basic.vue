@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 基本使用
   en-US: Basic usage
+description: 
+  zh-CN: 基本用法，可以使用 `v-model` 实现数据的双向绑定。
+  en-US: Basic usage, you can use `v-model` to achieve two-way binding of data.
 ---
-
-## zh-CN
-基本用法，可以使用 `v-model` 实现数据的双向绑定。
-
-## en-US
-Basic usage, you can use `v-model` to achieve two-way binding of data.
 </docs>
 
 <template>

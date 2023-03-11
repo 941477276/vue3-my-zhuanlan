@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 单选
   en-US: Single choice
+description: 
+  zh-CN: 设置`show-radio`属性可开起单选，使用`v-model:checkedKeys`双向绑定选中项
+  en-US: Set the `show-radio` attribute to enable radio selection, and use `v-model:checkedKeys` to bind the selected item two-way
 ---
-
-## zh-CN
-设置`show-radio`属性可开起单选，使用`v-model:checkedKeys`双向绑定选中项
-
-## en-US
-Set the `show-radio` attribute to enable radio selection, and use `v-model:checkedKeys` to bind the selected item two-way
-
 </docs>
 
 <template>

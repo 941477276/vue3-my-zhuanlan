@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 基本使用
   en-US: Basic usage
+description: 
+  zh-CN: 需给`bs-dropdown-transition`传递一个`reference-ref`属性，该属性的值可以是一个`组件`、`dom节点`
+  en-US: A `reference-ref` attribute needs to be passed to `bs-dropdown-transition`, and the value of this attribute can be a `component`, `dom node`
 ---
-
-## zh-CN
-需给`bs-dropdown-transition`传递一个`reference-ref`属性，该属性的值可以是一个`组件`、`dom节点`
-
-## en-US
-A `reference-ref` attribute needs to be passed to `bs-dropdown-transition`, and the value of this attribute can be a `component`, `dom node`
-
 </docs>
 
 <template>

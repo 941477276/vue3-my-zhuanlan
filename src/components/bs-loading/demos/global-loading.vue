@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 全局加载
   en-US: Global loading
+description: 
+  zh-CN: 当使用`v-bsloading`指令方式时，全局加载状态需要添加`fullscreen`修饰符（遮罩会插入至`body`上）
+  en-US: When using `v-bsloading`, global loading needs to add the `fullscreen` modifier (the mask will be inserted on the `body`)
 ---
-
-## zh-CN
-当使用`v-bsloading`指令方式时，全局加载状态需要添加`fullscreen`修饰符（遮罩会插入至`body`上）
-
-## en-US
-When using `v-bsloading`, global loading needs to add the `fullscreen` modifier (the mask will be inserted on the `body`)
 </docs>
 
 <template>

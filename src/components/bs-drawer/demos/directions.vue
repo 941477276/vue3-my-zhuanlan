@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 不同方向
   en-US: Directions
+description: 
+  zh-CN: `bs-drawer`可以在`top`、`right`、`bottom`、`left`4方个方向上显示
+  en-US: `bs-drawer` can be displayed in 4 directions: `top`, `right`, `bottom`, `left`
 ---
-
-## zh-CN
-`bs-drawer`可以在`top`、`right`、`bottom`、`left`4方个方向上显示
-
-## en-US
-`bs-drawer` can be displayed in 4 directions: `top`, `right`, `bottom`, `left`
 </docs>
 
 <template>

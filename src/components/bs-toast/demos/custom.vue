@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 自定义内容
   en-US: Custom content
+description: 
+  zh-CN: 可以通过给`title`、`message`传递一个`函数`、`VNode`或`Html字符串`来自定义它们
+  en-US: They can be customized by passing a `function`, `VNode` or `Html string` to `title`, `message`
 ---
-
-## zh-CN
-可以通过给`title`、`message`传递一个`函数`、`VNode`或`Html字符串`来自定义它们
-
-## en-US
-They can be customized by passing a `function`, `VNode` or `Html string` to `title`, `message`
-
 </docs>
 
 <template>

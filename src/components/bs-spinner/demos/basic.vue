@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 基本使用
   en-US: Basic usage
+description: 
+  zh-CN: 一个简单的`loading`状态。
+  en-US: A simple`loading`state
 ---
-
-## zh-CN
-一个简单的`loading`状态。
-
-## en-US
-A simple`loading`state
 </docs>
 
 <template>

@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 垂直菜单
   en-US: Vertical menu
+description: 
+  zh-CN: 设置`mode=vertical`菜单将变成垂直的
+  en-US: Set `mode=vertical` menu will become vertical
 ---
-
-## zh-CN
-设置`mode=vertical`菜单将变成垂直的
-
-## en-US
-Set `mode=vertical` menu will become vertical
-
 </docs>
 
 <template>

@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 不同大小
   en-US: Different size
+description: 
+  zh-CN: `vue3-bootstrap`预置了`sm`、`lg`和`默认`3种尺寸，通过`size`属性来设置它们
+  en-US: `vue3-bootstrap` presets `sm`, `lg` and `default` 3 sizes, set them by `size` prop
 ---
-
-## zh-CN
-`vue3-bootstrap`预置了`sm`、`lg`和`默认`3种尺寸，通过`size`属性来设置它们
-
-## en-US
-`vue3-bootstrap` presets `sm`, `lg` and `default` 3 sizes, set them by `size` prop
 </docs>
 
 <template>

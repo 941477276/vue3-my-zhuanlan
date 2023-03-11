@@ -1,17 +1,16 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 可搜索
   en-US: Filterable
+description: 
+  zh-CN: 
+    设置`filterable`属性可以开启搜索模式，默认情况下`bs-select`会从下拉选项的`label`或下拉选项的`innerText`中进行查找，如果希望使用其他
+    的搜索逻辑，可以传递一个`filterMethod`给bs-select。`filterMethod`会在输入值变化的时候被调用
+  en-US: Set the `filterable` attribute to enable the search mode. By default, `bs-select` will search from the `label` of the drop-down option or the `innerText` of the drop-down option. If you want to use other search logic, you can pass a `filterMethod` `Attributes to bs-select. `filterMethod` will be called when the input value changes
 ---
-
-## zh-CN
-设置`filterable`属性可以开启搜索模式，默认情况下`bs-select`会从下拉选项的`label`或下拉选项的`innerText`中进行查找，如果希望使用其他
-的搜索逻辑，可以传递一个`filterMethod`给bs-select。`filterMethod`会在输入值变化的时候被调用
-
-## en-US
-Set the `filterable` attribute to enable the search mode. By default, `bs-select` will search from the `label` of the drop-down option or the `innerText` of the drop-down option. If you want to use other search logic, you can pass a `filterMethod` `Attributes to bs-select. `filterMethod` will be called when the input value changes
 </docs>
 
 <template>

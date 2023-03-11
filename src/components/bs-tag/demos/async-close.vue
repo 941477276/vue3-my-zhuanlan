@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 异步关闭
   en-US: Async close
+description: 
+  zh-CN: 当给Tag组件的绑定的`close`事件返回一个`Promise`的时候，Tag将在promise状态转为`fulfilled`后关闭
+  en-US: When a `Promise` is returned to the `close` event bound to the Tag component, the Tag will be closed after the promise state turns to `fulfilled`
 ---
-
-## zh-CN
-当给Tag组件的绑定的`close`事件返回一个`Promise`的时候，Tag将在promise状态转为`fulfilled`后关闭
-
-## en-US
-When a `Promise` is returned to the `close` event bound to the Tag component, the Tag will be closed after the promise state turns to `fulfilled`
 </docs>
 
 <template>

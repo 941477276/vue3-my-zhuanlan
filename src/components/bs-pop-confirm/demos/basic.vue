@@ -1,4 +1,16 @@
 <docs>
+
+---
+order: 0
+title:
+  zh-CN: 基本使用
+  en-US: Basic usage
+description: 
+  zh-CN: 最简单的用法，常用于二次确认操作。`confirm`事件若返回`Promise`那么二次确认弹窗将在Promise状态变为`fulfilled`后关闭，如返回`false`二次确认弹窗不会关闭
+  en-US: The simplest usage is often used for secondary confirmation operations. If the `confirm` event returns `Promise`, then the second confirmation popup will be closed after the Promise status becomes `fulfilled`, if `false` is returned, the second confirmation popup will not be closed
+---
+</docs>
+<docs>
 ---
 order: 0
 title:

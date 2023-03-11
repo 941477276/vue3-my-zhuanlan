@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 显示标记
   en-US: Show mark
+description: 
+  zh-CN: 设置`marks`属性即可显示标记，`marks`为一个`key`为`number`类型，`value`为`string`或`object`类型的对象
+  en-US: Set the `marks` attribute to display the mark, `marks` is an object whose `key` is of type `number`, and `value` is of type `string` or `object`
 ---
-
-## zh-CN
-设置`marks`属性即可显示标记，`marks`为一个`key`为`number`类型，`value`为`string`或`object`类型的对象
-
-## en-US
-Set the `marks` attribute to display the mark, `marks` is an object whose `key` is of type `number`, and `value` is of type `string` or `object`
 </docs>
 
 <template>

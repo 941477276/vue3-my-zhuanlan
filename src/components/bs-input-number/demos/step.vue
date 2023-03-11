@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 不同步长
   en-US: Step
+description: 
+  zh-CN: 可以通过`step`属性设置`bs-input-number`每次改变的步数
+  en-US: You can set the number of steps for each change of `bs-input-number` through the `step` attribute
 ---
-
-## zh-CN
-可以通过`step`属性设置`bs-input-number`每次改变的步数
-
-## en-US
-You can set the number of steps for each change of `bs-input-number` through the `step` attribute
 </docs>
 
 <template>

@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 加载中
   en-US: Loading state
+description: 
+  zh-CN: 当下拉内容还在加载时可以给`bs-select`添加一个`loading`属性，以让select呈现加载中样式
+  en-US: When the drop-down content is still loading, you can add a `loading` attribute to `bs-select`, so that the select can display the loading style
 ---
-
-## zh-CN
-当下拉内容还在加载时可以给`bs-select`添加一个`loading`属性，以让select呈现加载中样式
-
-## en-US
-When the drop-down content is still loading, you can add a `loading` attribute to `bs-select`, so that the select can display the loading style
 </docs>
 
 <template>

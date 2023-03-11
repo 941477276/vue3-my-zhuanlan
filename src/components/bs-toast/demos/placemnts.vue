@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 显示位置
   en-US: Placement
+description: 
+  zh-CN: `Toast`组件共有`top-left`、`top-center`、`top-right`、`bottom-left`、`bottom-center`、`bottom-right`6个显示位置;
+  en-US: `Toast` component has 6 placements: `top-left`, `top-center`, `top-right`, `bottom-left`, `bottom-center`, `bottom-right`;
 ---
-
-## zh-CN
-`Toast`组件共有`top-left`、`top-center`、`top-right`、`bottom-left`、`bottom-center`、`bottom-right`6个显示位置;
-
-## en-US
-`Toast` component has 6 placements: `top-left`, `top-center`, `top-right`, `bottom-left`, `bottom-center`, `bottom-right`;
 </docs>
 
 <template>

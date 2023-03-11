@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 日期时间选择
   en-US: Date time selection
+description: 
+  zh-CN: 设置`picker-type=dateTime`属性可选择日期及时间
+  en-US: Set `picker-type=dateTime` attribute to select date and time
 ---
-
-## zh-CN
-设置`picker-type=dateTime`属性可选择日期及时间
-
-## en-US
-Set `picker-type=dateTime` attribute to select date and time
-
 </docs>
 
 <template>

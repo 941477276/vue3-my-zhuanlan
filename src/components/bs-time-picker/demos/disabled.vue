@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 禁用
   en-US: Disabled
+description: 
+  zh-CN: 设置`disabled`属性可以禁用时间选择，设置`disabled-hours`、`disabled-minutes`、`disabled-seconds`可分别禁用时、分、秒
+  en-US: 12-hour time selector, set `use12Hours` attribute to enable 12-hour format, default `format` is `hh:mm:ss a`.
 ---
-
-## zh-CN
-设置`disabled`属性可以禁用时间选择，设置`disabled-hours`、`disabled-minutes`、`disabled-seconds`可分别禁用时、分、秒
-
-## en-US
-12-hour time selector, set `use12Hours` attribute to enable 12-hour format, default `format` is `hh:mm:ss a`.
-
 </docs>
 
 <template>

@@ -1,19 +1,18 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 弹出位置
   en-US: Placements
+description: 
+  zh-CN: 
+    `bs-dropdown`组件共有`top`、`topRight`、`bottom`、`bottomRight`、`left`、`leftBottom`、`right`、`rightBottom`8个弹窗位置。
+    并它们可以根据下拉内容和视口宽高自行调整至最佳弹出位置
+  en-US: 
+    The `bs-dropdown` component has a total of `top`, `topRight`, `bottom`, `bottomRight`, `left`, `leftBottom`, `right`, `rightBottom` 8 pop-up positions.
+    And they can adjust themselves to the best pop-up position according to the drop-down content and viewport width and height
 ---
-
-## zh-CN
-`bs-dropdown`组件共有`top`、`topRight`、`bottom`、`bottomRight`、`left`、`leftBottom`、`right`、`rightBottom`8个弹窗位置。
-并它们可以根据下拉内容和视口宽高自行调整至最佳弹出位置
-
-## en-US
-The `bs-dropdown` component has a total of `top`, `topRight`, `bottom`, `bottomRight`, `left`, `leftBottom`, `right`, `rightBottom` 8 pop-up positions.
-And they can adjust themselves to the best pop-up position according to the drop-down content and viewport width and height
-
 </docs>
 
 <template>

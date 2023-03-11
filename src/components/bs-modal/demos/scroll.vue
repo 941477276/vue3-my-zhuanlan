@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 超长内容及滚动条
   en-US: Scroll
+description: 
+  zh-CN: 当弹窗中内容过多时会显示滚动条，`bs-modal`有2种显示滚动条的方式
+  en-US: When there is too much content in the pop-up window, a scroll bar will be displayed. `bs-modal` has 2 ways to display the scroll bar
 ---
-
-## zh-CN
-当弹窗中内容过多时会显示滚动条，`bs-modal`有2种显示滚动条的方式
-
-## en-US
-When there is too much content in the pop-up window, a scroll bar will be displayed. `bs-modal` has 2 ways to display the scroll bar
 </docs>
 
 <template>

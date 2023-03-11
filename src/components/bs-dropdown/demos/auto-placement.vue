@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 自动调整位置
   en-US: Auto-adjust placement
+description: 
+  zh-CN: 自动调整位置
+  en-US: auto-adjust placement
 ---
-
-## zh-CN
-自动调整位置
-
-## en-US
-auto-adjust placement
-
 </docs>
 
 <template>

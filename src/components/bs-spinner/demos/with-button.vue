@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 与按钮一起使用
   en-US: Use with the button
+description: 
+  zh-CN: 与按钮一起使用
+  en-US: Use with the button
 ---
-
-## zh-CN
-与按钮一起使用
-
-## en-US
-Use with the button
 </docs>
 
 <template>

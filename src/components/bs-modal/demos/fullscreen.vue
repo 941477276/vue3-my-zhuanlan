@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 全屏弹窗
   en-US: Fullscreen modal
+description: 
+  zh-CN: 设置`fullscreen`属性可开启全屏弹窗
+  en-US: Set the `fullscreen` property to open a full screen modal
 ---
-
-## zh-CN
-设置`fullscreen`属性可开启全屏弹窗
-
-## en-US
-Set the `fullscreen` property to open a full screen modal
 </docs>
 
 <template>

@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 基本使用
   en-US: Basic usage
+description: 
+  zh-CN: 最简单的用法
+  en-US: Bind the name of the selected Tab through `v-model`, and the first item is selected by default. If `name` is not set, `name` defaults to the index of Tab
 ---
-
-## zh-CN
-最简单的用法
-
-## en-US
-Bind the name of the selected Tab through `v-model`, and the first item is selected by default. If `name` is not set, `name` defaults to the index of Tab
 </docs>
 
 <template>

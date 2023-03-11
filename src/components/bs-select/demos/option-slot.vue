@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 自定义模板
   en-US: Option slot
+description: 
+  zh-CN: 自定义下拉选项内容
+  en-US: Custom dropdown option content
 ---
-
-## zh-CN
-自定义下拉选项内容
-
-## en-US
-Custom dropdown option content
 </docs>
 
 <template>

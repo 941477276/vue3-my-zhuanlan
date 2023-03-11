@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
 zh-CN: 多选
 en-US: Multiple choice
+description: 
+  zh-CN: 设置`multiple`属性可以多选
+  en-US: Set the `multiple` attribute to allow multiple selections
 ---
-
-## zh-CN
-设置`multiple`属性可以多选
-
-## en-US
-Set the `multiple` attribute to allow multiple selections
-
 </docs>
 
 <template>

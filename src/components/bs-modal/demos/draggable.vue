@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 可拖拽移动
   en-US: Draggable
+description: 
+  zh-CN: 设置`draggable`即可拖拽弹窗
+  en-US: Set `draggable` to drag the modal
 ---
-
-## zh-CN
-设置`draggable`即可拖拽弹窗
-
-## en-US
-Set `draggable` to drag the modal
 </docs>
 
 <template>

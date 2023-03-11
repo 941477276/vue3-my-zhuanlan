@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 永不消失的消息
   en-US: Forever message
+description:
+  zh-CN: 设置 `duration` 为 `0`，消息将永远不会消失，除非手动关闭它
+  en-US: Set `duration` to `0`, the message will never disappear unless it is manually turned off
 ---
-
-## zh-CN
-设置 `duration` 为 `0`，消息将永远不会消失，除非手动关闭它
-
-## en-US
-Set `duration` to `0`, the message will never disappear unless it is manually turned off
 </docs>
 
 <template>
@@ -20,7 +18,7 @@ Set `duration` to `0`, the message will never disappear unless it is manually tu
 </template>
 
 <script setup>
-import { BsMessage } from '../../components/bs-message';
+import { BsMessage } from '../../bs-message';
 
 let showMsg = function () {
   BsMessage({

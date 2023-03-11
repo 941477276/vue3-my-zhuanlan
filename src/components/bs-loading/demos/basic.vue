@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 基本使用
   en-US: Basic usage
+description: 
+  zh-CN: 我们提供了`v-bsloading`及`api调用`2种调用Loading的方式，通常情况下`Loading`遮罩会插入到绑定元素的子节点
+  en-US: We provide `v-bsloading` and `api calling` two ways to call Loading. Usually, the `Loading` mask will be inserted into the child node of the bound element
 ---
-
-## zh-CN
-我们提供了`v-bsloading`及`api调用`2种调用Loading的方式，通常情况下`Loading`遮罩会插入到绑定元素的子节点
-
-## en-US
-We provide `v-bsloading` and `api calling` two ways to call Loading. Usually, the `Loading` mask will be inserted into the child node of the bound element
 </docs>
 
 <template>

@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 异步切换
   en-US: Async switching
+description: 
+  zh-CN: `before-change`函数若返回`Promise`，那么Switch将在`Promise`状态为`fulfilled`后进行切换
+  en-US: If `before-change` function returns `Promise`, then Switch will switch after `Promise` state is `fulfilled`
 ---
-
-## zh-CN
-`before-change`函数若返回`Promise`，那么Switch将在`Promise`状态为`fulfilled`后进行切换
-
-## en-US
-If `before-change` function returns `Promise`, then Switch will switch after `Promise` state is `fulfilled`
 </docs>
 
 <template>

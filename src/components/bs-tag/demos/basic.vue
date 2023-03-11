@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 基本使用
   en-US: Basic usage
+description: 
+  zh-CN: 通过`type`属性来选择`tag`的类型。 也可以通过`color`属性来自定义背景色。
+  en-US: Use the `type` attribute to select the type of `tag`. You can also customize the background color through the `color` property.
 ---
-
-## zh-CN
-通过`type`属性来选择`tag`的类型。 也可以通过`color`属性来自定义背景色。
-
-## en-US
-Use the `type` attribute to select the type of `tag`. You can also customize the background color through the `color` property.
 </docs>
 
 <template>

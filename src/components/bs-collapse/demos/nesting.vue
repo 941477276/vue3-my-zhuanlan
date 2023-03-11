@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 面板嵌套
   en-US: Nested accordion
+description: 
+  zh-CN: 嵌套的折叠面板
+  en-US: Nested accordions
 ---
-
-## zh-CN
-嵌套的折叠面板
-
-## en-US
-Nested accordions
-
 </docs>
 
 <template>

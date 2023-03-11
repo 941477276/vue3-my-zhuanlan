@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 自定义内容
   en-US: Custom content
+description: 
+  zh-CN: 自定义内容
+  en-US: Custom content
 ---
-
-## zh-CN
-自定义内容
-
-## en-US
-Custom content
-
 </docs>
 
 <template>

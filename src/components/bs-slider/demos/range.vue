@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 区间模式
   en-US: Range
+description: 
+  zh-CN: 区间模式即为双滑块模式，设置`range`属性即可开启区间模式，当开启区间模式后`modelValue`需为一个长度为2的`int`数组
+  en-US: The interval mode is the double slider mode. Set the `range` attribute to enable the interval mode. When the interval mode is enabled, `modelValue` needs to be an `int` array with a length of 2
 ---
-
-## zh-CN
-区间模式即为双滑块模式，设置`range`属性即可开启区间模式，当开启区间模式后`modelValue`需为一个长度为2的`int`数组
-
-## en-US
-The interval mode is the double slider mode. Set the `range` attribute to enable the interval mode. When the interval mode is enabled, `modelValue` needs to be an `int` array with a length of 2
 </docs>
 
 <template>

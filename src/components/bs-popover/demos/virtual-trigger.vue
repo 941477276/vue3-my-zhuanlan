@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 触发方式
   en-US: Trigger
+description: 
+  zh-CN: 虚拟触发是指Popover可以通过外部dom或无dom方式触发，添加`virtual-triggering`属性可以开启虚拟触发
+  en-US: Virtual triggering means that Popover can be triggered by external dom or no dom, adding `virtual-triggering` attribute can enable virtual triggering
 ---
-
-## zh-CN
-虚拟触发是指Popover可以通过外部dom或无dom方式触发，添加`virtual-triggering`属性可以开启虚拟触发
-
-## en-US
-Virtual triggering means that Popover can be triggered by external dom or no dom, adding `virtual-triggering` attribute can enable virtual triggering
 </docs>
 
 <template>

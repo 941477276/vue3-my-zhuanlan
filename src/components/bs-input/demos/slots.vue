@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 复合型输入框
   en-US: Combined input box
+description: 
+  zh-CN: 使用`prepend`或`append`插槽可以在输入框前面或后面添加其他组件
+  en-US: Use the `prepend` or `append` slot to add other components before or after the input box
 ---
-
-## zh-CN
-使用`prepend`或`append`插槽可以在输入框前面或后面添加其他组件
-
-## en-US
-Use the `prepend` or `append` slot to add other components before or after the input box
 </docs>
 
 <template>

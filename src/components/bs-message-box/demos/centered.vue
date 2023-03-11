@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 居中显示
   en-US: Centered
+description: 
+  zh-CN: 给`MessageBox`设置`centered`参数，将得到一个垂直水平方向都居中都消息盒子
+  en-US: Set the `centered` parameter to `MessageBox`, and you will get a message box that is centered both vertically and horizontally
 ---
-
-## zh-CN
-给`MessageBox`设置`centered`参数，将得到一个垂直水平方向都居中都消息盒子
-
-## en-US
-Set the `centered` parameter to `MessageBox`, and you will get a message box that is centered both vertically and horizontally
 </docs>
 
 <template>

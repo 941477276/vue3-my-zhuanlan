@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 格式化展示
   en-US: Format
+description: 
+  zh-CN: 通过`formatter`属性可以将数字格式化成更有具体含义的数据，它往往需要配合`parser`一起使用。
+  en-US: The `formatter` attribute can be used to format numbers into more specific data, which often needs to be used together with `parser`.
 ---
-
-## zh-CN
-通过`formatter`属性可以将数字格式化成更有具体含义的数据，它往往需要配合`parser`一起使用。
-
-## en-US
-The `formatter` attribute can be used to format numbers into more specific data, which often needs to be used together with `parser`.
 </docs>
 
 <template>

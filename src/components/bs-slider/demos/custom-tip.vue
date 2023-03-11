@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 自定义提示
   en-US: Custom tooltip
+description: 
+  zh-CN: 使用`tooltipFormatter`可以格式化Tooltip的内容，它接收一个`Function`类型的数据
+  en-US: Tooltip content can be formatted using `tooltipFormatter`, it receives a `Function`
 ---
-
-## zh-CN
-使用`tooltipFormatter`可以格式化Tooltip的内容，它接收一个`Function`类型的数据
-
-## en-US
-Tooltip content can be formatted using `tooltipFormatter`, it receives a `Function`
 </docs>
 
 <template>

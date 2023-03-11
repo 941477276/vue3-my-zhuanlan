@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 隐藏时销毁下拉
   en-US: Destroy on hide
+description: 
+  zh-CN: 设置`destroy-on-hide`下拉菜单dom将会在隐藏时销毁掉
+  en-US: Set `destroy-on-hide` dropdown menu dom will be destroyed when hidden
 ---
-
-## zh-CN
-设置`destroy-on-hide`下拉菜单dom将会在隐藏时销毁掉
-
-## en-US
-Set `destroy-on-hide` dropdown menu dom will be destroyed when hidden
-
 </docs>
 
 <template>

@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 不同的主题
   en-US: Different theme
+description: 
+  zh-CN: 通过`effect`属性可以改变Tag的主题，可选的主题有`dark`、`plain`和`light(默认)`
+  en-US: The theme of the Tag can be changed through the `effect` attribute. The optional themes are `dark`, `plain` and `light(default)`
 ---
-
-## zh-CN
-通过`effect`属性可以改变Tag的主题，可选的主题有`dark`、`plain`和`light(默认)`
-
-## en-US
-The theme of the Tag can be changed through the `effect` attribute. The optional themes are `dark`, `plain` and `light(default)`
 </docs>
 
 <template>

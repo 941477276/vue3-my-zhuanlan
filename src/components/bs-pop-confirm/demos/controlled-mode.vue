@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 受控模式
   en-US: Controlled mode
+description: 
+  zh-CN: 给Confirm添加`visible`属性，confirm就是受控的，它接收一个`boolean`类型的值
+  en-US: Add `visible` attribute to Confirm, confirm is controlled, it receives a `boolean` type value
 ---
-
-## zh-CN
-给Confirm添加`visible`属性，confirm就是受控的，它接收一个`boolean`类型的值
-
-## en-US
-Add `visible` attribute to Confirm, confirm is controlled, it receives a `boolean` type value
 </docs>
 
 <template>

@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 过渡效果
   en-US: Transition
+description: 
+  zh-CN: Tooltip默认有`fade`、`scale`2种过渡效果
+  en-US: Tooltip has two transition effects of `fade` and `scale` by default
 ---
-
-## zh-CN
-Tooltip默认有`fade`、`scale`2种过渡效果
-
-## en-US
-Tooltip has two transition effects of `fade` and `scale` by default
 </docs>
 
 <template>

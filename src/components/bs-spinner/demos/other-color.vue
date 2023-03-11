@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 其他颜色
   en-US: Other colors
+description: 
+  zh-CN: Spinner共有7种不同的颜色
+  en-US: Spinner has 7 different colors
 ---
-
-## zh-CN
-Spinner共有7种不同的颜色
-
-## en-US
-Spinner has 7 different colors
 </docs>
 
 <template>

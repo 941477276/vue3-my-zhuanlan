@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 行内表单
   en-US: Inline form
+description: 
+  zh-CN: 设置`layout=inline`属性可以让表单域变为行内的表单域
+  en-US: Setting the `layout=inline` attribute can make the form field an inline form field
 ---
-
-## zh-CN
-设置`layout=inline`属性可以让表单域变为行内的表单域
-
-## en-US
-Setting the `layout=inline` attribute can make the form field an inline form field
 </docs>
 
 <template>

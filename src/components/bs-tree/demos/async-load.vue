@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 动态加载
   en-US: Dynamic loading
+description: 
+  zh-CN: 设置`lazy`属性，并设置`load-data-fn`属性可实现动态加载子节点
+  en-US: Set the `lazy` attribute and set the `load-data-fn` attribute to dynamically load child nodes
 ---
-
-## zh-CN
-设置`lazy`属性，并设置`load-data-fn`属性可实现动态加载子节点
-
-## en-US
-Set the `lazy` attribute and set the `load-data-fn` attribute to dynamically load child nodes
-
 </docs>
 
 <template>

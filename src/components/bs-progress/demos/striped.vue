@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 条纹进度条
   en-US: Striped progress
+description: 
+  zh-CN: 设置`striped`属性即可呈现条纹进度条
+  en-US: Set the `striped` attribute to present a striped progress bar
 ---
-
-## zh-CN
-设置`striped`属性即可呈现条纹进度条
-
-## en-US
-Set the `striped` attribute to present a striped progress bar
 </docs>
 
 <template>

@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 禁用
   en-US: Basic usage
+description: 
+  zh-CN: 给`bs-tab-pane`组件设置`disabled`属性可禁用该Tab
+  en-US: Set the `disabled` attribute to the `bs-tab-pane` component to disable the Tab
 ---
-
-## zh-CN
-给`bs-tab-pane`组件设置`disabled`属性可禁用该Tab
-
-## en-US
-Set the `disabled` attribute to the `bs-tab-pane` component to disable the Tab
 </docs>
 
 <template>

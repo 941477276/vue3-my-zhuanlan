@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 不同主题
   en-US: theme
+description: 
+  zh-CN: Tooltip默认有`dark`、`light`2种主题
+  en-US: Tooltip has two themes `dark` and `light` by default
 ---
-
-## zh-CN
-Tooltip默认有`dark`、`light`2种主题
-
-## en-US
-Tooltip has two themes `dark` and `light` by default
 </docs>
 
 <template>

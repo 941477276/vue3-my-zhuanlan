@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 不同颜色
   en-US: Switch size
+description: 
+  zh-CN: 通过`color-type`属性可以设置开关打开时的颜色
+  en-US: The color when the switch is turned on can be set through the `color-type` attribute
 ---
-
-## zh-CN
-通过`color-type`属性可以设置开关打开时的颜色
-
-## en-US
-The color when the switch is turned on can be set through the `color-type` attribute
 </docs>
 
 <template>

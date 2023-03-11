@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 不同方向
   en-US: Different direction
+description: 
+  zh-CN: 设置`tabPosition`可改变标签页的展示位置，有4个位置可选，`top|left|bottom|right`
+  en-US: Setting `tabPosition` can change the display position of the tab page, there are 4 positions to choose from, `top|left|bottom|right`
 ---
-
-## zh-CN
-设置`tabPosition`可改变标签页的展示位置，有4个位置可选，`top|left|bottom|right`
-
-## en-US
-Setting `tabPosition` can change the display position of the tab page, there are 4 positions to choose from, `top|left|bottom|right`
 </docs>
 
 <template>

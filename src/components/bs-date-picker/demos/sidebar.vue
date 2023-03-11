@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 侧边栏
   en-US: Sidebar
+description: 
+  zh-CN: 设置`show-sidebar`属性可显示侧边栏
+  en-US: Set the `show-sidebar` property to display the sidebar
 ---
-
-## zh-CN
-设置`show-sidebar`属性可显示侧边栏
-
-## en-US
-Set the `show-sidebar` property to display the sidebar
-
 </docs>
 
 <template>

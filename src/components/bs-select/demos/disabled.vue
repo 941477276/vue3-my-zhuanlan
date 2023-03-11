@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 禁用状态
   en-US: Disabled
+description: 
+  zh-CN: 添加`disabled`属性可设置为不可用状态
+  en-US: Add the `disabled` attribute to set it to an unavailable state
 ---
-
-## zh-CN
-添加`disabled`属性可设置为不可用状态
-
-## en-US
-Add the `disabled` attribute to set it to an unavailable state
 </docs>
 
 <template>

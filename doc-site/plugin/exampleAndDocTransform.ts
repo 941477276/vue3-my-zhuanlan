@@ -25,7 +25,8 @@ export function exampleAndDocTransform () {
     transform (code: string, id: string) {
       // console.log('id===============', id, id.includes('/demos/'));
       let now = new Date().getTime();
-      if (id.includes('/demos/') && !id.endsWith('index.vue')) {
+      // 判断条件中必须加上以.vue结尾的条件，因为vue文件中的style也会进到这个插件中
+      if (id.includes('/demos/') && id.endsWith('.vue') && !id.endsWith('index.vue')) {
         // console.log('code-------------', code);
         if (id in caches) {
           let [recentlyTime, originCode, resultCode] = caches[id];

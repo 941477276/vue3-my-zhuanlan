@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 定制单元格
   en-US: Custom cell
+description: 
+  zh-CN: 可以通过`dateRender`插槽，或`dateRender`函数来定制单元格
+  en-US: You can customize the cell through the `dateRender` slot, or the `dateRender` function
 ---
-
-## zh-CN
-可以通过`dateRender`插槽，或`dateRender`函数来定制单元格
-
-## en-US
-You can customize the cell through the `dateRender` slot, or the `dateRender` function
-
 </docs>
 
 <template>

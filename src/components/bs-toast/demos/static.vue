@@ -1,17 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 基本使用
   en-US: Basic usage
+description: 
+  zh-CN: 使用`<bs-toast>`组件即可得到一个静态都Toast
+  en-US: Use `<bs-toast>` component to get a static Toast
 ---
-
-## zh-CN
-使用`<bs-toast>`组件即可得到一个静态都Toast
-
-## en-US
-Use `<bs-toast>` component to get a static Toast
-
 </docs>
 
 <template>

@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 加载状态
   en-US: Loading
+description: 
+  zh-CN: 添加`loading`属性将开关置为加载状态，加载状态时的开关不可操作
+  en-US: Add the `loading` attribute to set the switch to the loading state, and the switch in the loading state cannot be operated
 ---
-
-## zh-CN
-添加`loading`属性将开关置为加载状态，加载状态时的开关不可操作
-
-## en-US
-Add the `loading` attribute to set the switch to the loading state, and the switch in the loading state cannot be operated
 </docs>
 
 <template>

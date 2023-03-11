@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 基本使用
   en-US: Basic usage
+description: 
+  zh-CN: 最简单的用法，通过`percentage`属性设置进度，它接收一个`number`类型的值，或`xx%`形式的`string`类型的值。
+  en-US: The simplest usage is to set the progress through the `percentage` property, which receives a value of type `number`, or a value of type `string` in the form of `xx%`.
 ---
-
-## zh-CN
-最简单的用法，通过`percentage`属性设置进度，它接收一个`number`类型的值，或`xx%`形式的`string`类型的值。
-
-## en-US
-The simplest usage is to set the progress through the `percentage` property, which receives a value of type `number`, or a value of type `string` in the form of `xx%`.
 </docs>
 
 <template>

@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 基本使用
   en-US: Basic usage
+description: 
+  zh-CN: 高精度的数字输入框
+  en-US: High-precision digital input box
 ---
-
-## zh-CN
-高精度的数字输入框
-
-## en-US
-High-precision digital input box
 </docs>
 
 <template>

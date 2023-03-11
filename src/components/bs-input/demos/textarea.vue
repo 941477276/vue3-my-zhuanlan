@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 文本框
   en-US: Textarea
+description: 
+  zh-CN: `type`设置为`textarea`可呈现文本框，常用于多行输入
+  en-US: `type` is set to `textarea` to render a textarea, often used for multi-line input
 ---
-
-## zh-CN
-`type`设置为`textarea`可呈现文本框，常用于多行输入
-
-## en-US
-`type` is set to `textarea` to render a textarea, often used for multi-line input
 </docs>
 
 <template>

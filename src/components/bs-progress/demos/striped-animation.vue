@@ -1,16 +1,14 @@
 <docs>
+
 ---
 order: 0
 title:
   zh-CN: 条纹动画
   en-US: Striped animation
+description: 
+  zh-CN: 设置`animated`属性可显示条纹动画
+  en-US: Set the `animated` property to display the stripe animation
 ---
-
-## zh-CN
-设置`animated`属性可显示条纹动画
-
-## en-US
-Set the `animated` property to display the stripe animation
 </docs>
 
 <template>
