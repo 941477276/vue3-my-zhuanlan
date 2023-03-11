@@ -61,9 +61,26 @@ export default defineComponent({
       z-index: 100;
     }
   }
-  .doc-main{
-    padding: 2.5rem 2.5rem 2.5rem 21.25rem;
-    transition: all .2s;
+}
+.doc-main{
+  padding: 2.5rem 2.5rem 2.5rem 21.25rem;
+  transition: all .2s;
+  .demo-index{
+    /*display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 1.5rem;
+    align-items: start;*/
+    /*display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;*/
+    .demo-box{
+      //float: left;
+      //width: 48%;
+      //flex: 0 0 48%;
+      & + .demo-box {
+        margin-top: 1.5rem;
+      }
+    }
   }
 }
 .mobile-menu-drawer{

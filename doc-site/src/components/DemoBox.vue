@@ -1,7 +1,7 @@
 <template>
 <div class="demo-box">
   <div class="demo-box-header">
-    <h6 class="demo-title">按钮类型{{ title.cn }}</h6>
+    <h6 class="demo-title">{{ title.cn }}</h6>
     <div class="demo-operate-area">
       <bs-tooltip content="在Playground中打开" placement="top" transition-name="scale">
         <bs-button size="sm">
@@ -25,17 +25,7 @@
   </div>
   <div class="demo-description" v-html="decodeURIComponent(description.cn)"></div>
   <div class="demo-example">
-    <slot>
-      <bs-button>default</bs-button>
-      <bs-button type="primary">primary</bs-button>
-      <bs-button type="secondary">secondary</bs-button>
-      <bs-button type="success">success</bs-button>
-      <bs-button type="warning">warning</bs-button>
-      <bs-button type="danger">danger</bs-button>
-      <bs-button type="info">info</bs-button>
-      <bs-button type="light">light</bs-button>
-      <bs-button type="danger">danger</bs-button>
-    </slot>
+    <slot></slot>
   </div>
   <div class="demo-example-code" v-show="codeExpanded">
     <pre>

@@ -11,6 +11,7 @@ const routes: RouteRecordRaw[] = [
     path: '/component',
     name: 'component',
     component: DefaultLayout,
+    redirect: '/component/button',
     children: [
       {
         path: '/index',

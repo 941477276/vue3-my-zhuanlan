@@ -17,3 +17,9 @@ description:
     <bs-button type="success" tag="strong">strong</bs-button>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.bs-button{
+  margin: 0 1rem 1rem 0;
+}
+</style>

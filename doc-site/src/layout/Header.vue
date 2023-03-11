@@ -20,8 +20,8 @@
           <li class="nav-item" :class="{active: $route.path == '/' || $route.path == '/index' }">
             <router-link class="nav-link" to="/home">文档</router-link>
           </li>
-          <li class="nav-item" :class="{active: $route.path == '/customized' }">
-            <router-link class="nav-link" to="/customized">组件</router-link>
+          <li class="nav-item" :class="{active: $route.path.startsWith('/component') }">
+            <router-link class="nav-link" to="/component">组件</router-link>
           </li>
           <li class="nav-item lang-nav-item">
             <bs-dropdown placement="bottom-end" >

@@ -34,3 +34,9 @@ description:
     <bs-button type="danger" :disabled-on-loading="false" loading>danger</bs-button>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.bs-button{
+  margin: 0 1rem 1rem 0;
+}
+</style>
