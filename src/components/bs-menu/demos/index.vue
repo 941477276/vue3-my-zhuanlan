@@ -1,6 +1,6 @@
 <template>
 <div class="demo-index">
-  <Basic></Basic>
+  <Horizontal></Horizontal>
   <Vertical></Vertical>
   <VerticalUniqueOpened></VerticalUniqueOpened>
   <CollapseMenu></CollapseMenu>
@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Basic from './basic.vue';
+import Horizontal from './horizontal.vue';
 import Vertical from './vertical.vue';
 import VerticalUniqueOpened from './vertical-unique-opened.vue';
 import CollapseMenu from './collapse-menu.vue';
@@ -17,7 +17,7 @@ import CollapseMenu from './collapse-menu.vue';
 export default defineComponent({
   name: 'DemoIndex',
   components: {
-    Basic,
+    Horizontal,
     Vertical,
     VerticalUniqueOpened,
     CollapseMenu

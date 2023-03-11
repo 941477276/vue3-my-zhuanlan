@@ -5,7 +5,7 @@ order: 0
 title:
   zh-CN: 弹窗风格
   en-US: Dialog style
-description: 
+description:
   zh-CN: 弹窗风格的MessageBox
   en-US: Pop-up style MessageBox
 ---
@@ -19,7 +19,7 @@ description:
 </template>
 
 <script setup>
-import { BsMessageBox } from '../../components/bs-message-box';
+import { BsMessageBox } from '../../bs-message-box';
 
 let showMsg = function () {
   BsMessageBox.info({

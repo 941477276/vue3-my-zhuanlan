@@ -5,7 +5,7 @@ order: 0
 title:
   zh-CN: 其他类型
   en-US: Other type
-description: 
+description:
   zh-CN: `Toast`组件共有`默认`、`primary`、`secondary`、`success`、`danger`、`warning`、`info`、`light`、`dark`8种类型;
   en-US: The `Toast` component has eight types: `default`、`primary`、`secondary`、`success`、`danger`、`warning`、`info`、`light`、`dark`;
 ---
@@ -28,7 +28,7 @@ description:
 </template>
 
 <script setup>
-import { BsToast } from '../../components/bs-toast';
+import { BsToast } from '../../bs-toast';
 
 let showToast = function (type) {
   BsToast({

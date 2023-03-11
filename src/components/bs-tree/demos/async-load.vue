@@ -5,7 +5,7 @@ order: 0
 title:
   zh-CN: 动态加载
   en-US: Dynamic loading
-description: 
+description:
   zh-CN: 设置`lazy`属性，并设置`load-data-fn`属性可实现动态加载子节点
   en-US: Set the `lazy` attribute and set the `load-data-fn` attribute to dynamically load child nodes
 ---
@@ -27,7 +27,7 @@ description:
 
 <script setup>
 import { ref } from 'vue';
-import { BsMessage } from '../../components/bs-message';
+import { BsMessage } from '../../bs-message';
 
 let treeData2 = ref([{
   label: '一级 1',

@@ -16,7 +16,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import Basic from './basic.vue';
-import Size from './demos/size.vue';
+import Size from './size.vue';
 import Clearable from './clearable.vue';
 import Password from './password.vue';
 import PrefixAndSuffix from './prefix-and-suffix.vue';

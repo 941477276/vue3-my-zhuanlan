@@ -5,7 +5,7 @@ order: 0
 title:
   zh-CN: 基本使用
   en-US: Basic usage
-description: 
+description:
   zh-CN: 使用`<bs-toast>`组件即可得到一个静态都Toast
   en-US: Use `<bs-toast>` component to get a static Toast
 ---
@@ -30,7 +30,7 @@ description:
 
 <script setup>
 // import BsToast from '@/components/BsToast.vue';
-import { BsToast as BsToastController } from '@/components/bs-toast';
+import { BsToast as BsToastController } from '../../bs-toast';
 import { ref, onMounted } from 'vue';
 
 let staticToastVisible = ref(false);

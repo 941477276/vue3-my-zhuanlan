@@ -5,7 +5,7 @@ order: 0
 title:
   zh-CN: 自定义过渡名称
   en-US: Custom transition name
-description: 
+description:
   zh-CN: 设置`custom-transition-name`属性可自定义过渡名称，它接收一个`Function`，该函数需返回一个`string`类型的名称
   en-US: Set the `custom-transition-name` attribute to customize the transition name, which receives a `Function`, which needs to return a name of type `string`
 ---
@@ -84,6 +84,9 @@ let getStyle = function (positionInfo) {
 <style lang="scss" scoped>
 .my-custom-dropdown{
   position: absolute;
+  padding: 0;
+  margin: 0;
+  list-style: none;
   z-index: 999;
   border: 1px solid #f0f0f0;
   background-color: #fff;

@@ -31,7 +31,7 @@ description:
 import {
   ref
 } from 'vue';
-import { BsMessage } from '../../components/bs-message';
+import { BsMessage } from '../../bs-message';
 
 let obj = {
   guangdong: [

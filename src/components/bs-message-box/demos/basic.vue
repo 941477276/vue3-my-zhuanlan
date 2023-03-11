@@ -5,7 +5,7 @@ order: 0
 title:
   zh-CN: 基本使用
   en-US: Basic usage
-description: 
+description:
   zh-CN: 从场景上说，`MessageBox` 的作用是美化系统自带的`alert`、`confirm` 和 `prompt`，因此适合展示较为简单的内容。如果需要弹出较为复杂的内容，请使用`Modal`。
   en-US: From the perspective of the scene, the function of `MessageBox` is to beautify the `alert`, `confirm` and `prompt` that comes with the system, so it is suitable for displaying relatively simple content. If you need to pop up more complicated content, please use `Modal`.
 ---
@@ -21,8 +21,8 @@ description:
 
 <script setup>
 import { ref } from 'vue';
-import { BsMessageBox } from '../../components/bs-message-box';
-import { BsMessage } from '../../components/bs-message';
+import { BsMessageBox } from '../../bs-message-box';
+import { BsMessage } from '../../bs-message';
 
 let showMsg = function () {
   BsMessageBox.info('温馨提示', '这是一个美化后的alert！');

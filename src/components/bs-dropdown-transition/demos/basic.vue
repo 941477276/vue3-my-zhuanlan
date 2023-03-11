@@ -5,7 +5,7 @@ order: 0
 title:
   zh-CN: 基本使用
   en-US: Basic usage
-description: 
+description:
   zh-CN: 需给`bs-dropdown-transition`传递一个`reference-ref`属性，该属性的值可以是一个`组件`、`dom节点`
   en-US: A `reference-ref` attribute needs to be passed to `bs-dropdown-transition`, and the value of this attribute can be a `component`, `dom node`
 ---
@@ -54,9 +54,12 @@ let showDropdown = function () {
 <style lang="scss" scoped>
 .my-custom-dropdown{
   position: absolute;
+  padding: 0;
+  margin: 0;
   z-index: 999;
   border: 1px solid #f0f0f0;
   background-color: #fff;
+  list-style: none;
   li{
     height: 2rem;
     line-height: 2rem;

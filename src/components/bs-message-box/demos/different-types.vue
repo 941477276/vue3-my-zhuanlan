@@ -5,7 +5,7 @@ order: 0
 title:
   zh-CN: 不同类型
   en-US: Different type
-description: 
+description:
   zh-CN: `MessageBox`有`success`, `danger`, `warning`, `info`, `prompt`5种类型，对应的有5个函数
   en-US: `MessageBox` has 5 types: `success`, `danger`, `warning`, `info`, `prompt`, corresponding to 5 functions
 ---
@@ -22,8 +22,8 @@ description:
 </template>
 
 <script setup>
-import { BsMessageBox } from '../../components/bs-message-box';
-import { BsMessage } from '../../components/bs-message';
+import { BsMessageBox } from '../../bs-message-box';
+import { BsMessage } from '../../bs-message';
 
 let showMsgBox = function (typeName) {
   // BsMessageBox[typeName]('温馨提示', `一条${typeName}消息！`);

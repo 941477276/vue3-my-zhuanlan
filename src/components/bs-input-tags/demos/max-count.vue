@@ -5,7 +5,7 @@ order: 0
 title:
   zh-CN: 限制最大输入个数
   en-US: Limit count
-description: 
+description:
   zh-CN: 设置`tag-limit`属性可以限制允许输入Tag的最大数量
   en-US: Set the `tag-limit` attribute to limit the maximum number of tags allowed to be entered
 ---
@@ -24,7 +24,7 @@ description:
 
 <script setup>
 import { ref } from 'vue';
-import { BsMessage } from '../../components/bs-message';
+import { BsMessage } from '../../bs-message';
 
 let values1 = ref([
   { label: 'HTML', value: 'html' },

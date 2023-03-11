@@ -5,7 +5,7 @@ order: 0
 title:
   zh-CN: 显示位置
   en-US: Placement
-description: 
+description:
   zh-CN: `Toast`组件共有`top-left`、`top-center`、`top-right`、`bottom-left`、`bottom-center`、`bottom-right`6个显示位置;
   en-US: `Toast` component has 6 placements: `top-left`, `top-center`, `top-right`, `bottom-left`, `bottom-center`, `bottom-right`;
 ---
@@ -27,7 +27,7 @@ description:
 </template>
 
 <script setup>
-import { BsToast } from '../../components/bs-toast';
+import { BsToast } from '../../bs-toast';
 import { getRandomNumber } from '../../../utils/bs-util';
 import dayjs from 'dayjs';
 

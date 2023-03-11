@@ -1,6 +1,7 @@
 .bs-menu{
   padding: 0;
   margin: 0;
+  list-style: none;
   font-size: 0.875rem;
   color: #333;
   transition: width .3s;
@@ -48,7 +49,10 @@
   }
 }
 .bs-submenu-content{
-  margin-bottom: 0;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font-size: 0.875rem;
 }
 .bs-submenu-content-dropdown{
   position: absolute;
@@ -148,6 +152,8 @@
 .bs-menu-item-group-content{
   padding: 0;
   margin: 0;
+  list-style: none;
+  font-size: 0.875rem;
 }
 .bs-menu-horizontal {
   display: flex;

@@ -5,7 +5,7 @@ order: 0
 title:
   zh-CN: 基本使用
   en-US: Basic usage
-description: 
+description:
   zh-CN: `Toast`组件主要用来较为复杂的、带有交互的通知内容
   en-US: The `Toast` component is mainly used for more complex notification content with interaction
 ---
@@ -18,7 +18,7 @@ description:
 </template>
 
 <script setup>
-import { BsToast } from '../../components/bs-toast';
+import { BsToast } from '../../bs-toast';
 
 let showMsg = function () {
   BsToast({
