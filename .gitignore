@@ -4,6 +4,7 @@ node_modules
 package-lock.json
 src/version.ts
 doc-site/src/router/docRoutes.ts
+doc-site/src/router/menu.*.ts
 
 # local env files
 .env.local
