@@ -15,6 +15,10 @@ export const bsMenuProps = {
     type: Boolean,
     default: false
   },
+  autoScrollToSelectedMenu: { // 是否自动滚动到选中的第一个菜单，仅在mode=vertical并且有滚动条的情况下有效
+    type: Boolean,
+    default: true
+  },
   indent: { // 菜单为垂直模式时的缩进宽度
     type: Number,
     default: 16

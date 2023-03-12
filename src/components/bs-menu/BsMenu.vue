@@ -1,6 +1,7 @@
 <template>
   <ul
     class="bs-menu"
+    ref="menuRef"
     :class="[
       `bs-menu-${mode}`,
       {
@@ -32,6 +33,7 @@ import {
   MenuItemResgisted,
   ExpandedSubmenu
 } from '../../ts-tokens/bootstrap/menu';
+import { getScrollParent, scrollTo, offset } from '../../utils/bs-util';
 
 let menuCount = 0;
 export default defineComponent({
@@ -79,8 +81,25 @@ export default defineComponent({
     // 已注册的menuitem
     let registedMenuItems = reactive<Record<string, MenuItemResgisted>>({});
 
+    // 滚动到选中的菜单项中
+    let scrollToSelectedMenu = function () {
+      let activeMenu = menuRef.value?.querySelector('.bs-menu-item.is-selected');
+      if (!activeMenu) {
+        return;
+      }
+      let scrollParent = getScrollParent(activeMenu as HTMLElement);
+      if (!scrollParent) {
+        return;
+      }
+      let scrollParentOffset = offset(scrollParent);
+      let activeMenuOffset = offset(activeMenu as HTMLElement);
+      scrollTo(scrollParent, 'y', activeMenuOffset.top - scrollParentOffset.top, 150);
+    };
+
     // 选中的菜单项
     let selectedKeysInner = ref<string[]>([]);
+    let menuRef = ref<HTMLElement|null>(null);
+    let timer: number;
     watch(() => {
       let selectedKes = props.selectedKeys;
       if (isString(selectedKes)) {
@@ -92,6 +111,13 @@ export default defineComponent({
         return;
       }
       selectedKeysInner.value = selectedKes;
+      if (props.autoScrollToSelectedMenu && props.mode === 'vertical') {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          clearTimeout(timer);
+          scrollToSelectedMenu();
+        }, 100);
+      }
     }, {
       immediate: true
     });
@@ -144,6 +170,7 @@ export default defineComponent({
       }
     });
     return {
+      menuRef,
       comId: menuId,
       subMenuDisplayModeInner,
       expandedSubMenus,

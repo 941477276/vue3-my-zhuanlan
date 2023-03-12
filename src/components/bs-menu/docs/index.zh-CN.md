@@ -23,6 +23,7 @@ subtitle: 导航菜单
 | indent                 | 菜单为垂直模式时的缩进宽度                      | number                        | 16         |     |
 | indentUnit                 | 菜单为垂直模式时缩进宽度的单位                    | string                        | px         |     |
 | closeable                          | 是否可关闭                              | boolean                       | false      |     |
+| autoScrollToSelectedMenu                          |  是否自动滚动到选中的第一个菜单，仅在mode=vertical并且有滚动条的情况下有效                     | boolean                       | true       |     |
 
 ### Menu 事件
 
