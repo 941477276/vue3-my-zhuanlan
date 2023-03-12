@@ -28,7 +28,7 @@
     <slot></slot>
   </div>
   <div class="demo-example-code" v-show="codeExpanded">
-    <pre>
+    <pre ref="exampleCodeRef" class="language-html">
 {{ decodeURIComponent(exampleCode) }}
     </pre>
     <div class="shrink-code-operate">
@@ -41,7 +41,8 @@
 <script>
 import {
   ref,
-  defineComponent
+  defineComponent,
+  onMounted
 } from 'vue';
 import { BsiPlayFill } from 'vue3-bootstrap-icon/es/icons/BsiPlayFill';
 import { BsiCode } from 'vue3-bootstrap-icon/es/icons/BsiCode';
@@ -50,6 +51,7 @@ import { BsiFiles } from 'vue3-bootstrap-icon/es/icons/BsiFiles';
 import { BsiChevronUp } from 'vue3-bootstrap-icon/es/icons/BsiChevronUp';
 import { copyText } from '../common/utils';
 import { BsMessage } from '../../../src/components/bs-message';
+import prism from 'prismjs';
 
 export default defineComponent({
   name: 'DemoBox',
@@ -88,13 +90,23 @@ export default defineComponent({
       default: ''
     }
   },
-  setup () {
+  setup (props) {
     let codeExpanded = ref(false);
+    let exampleCodeRef = ref(null);
 
+    onMounted(function () {
+      prism.highlightElement(exampleCodeRef.value);
+    });
     return {
       codeExpanded,
+      exampleCodeRef,
       copyExampleCode () { // 复制代码
-        BsMessage.success('代码已复制');
+        let copyStatus = copyText(decodeURIComponent(props.exampleCode));
+        if (copyStatus == 1) {
+          BsMessage.success('代码已复制');
+        } else {
+          BsMessage.warning('代码复制失败');
+        }
       }
     };
   }

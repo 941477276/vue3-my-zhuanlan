@@ -5,6 +5,8 @@ import App from './App.vue';
 import router from './router';
 // 导入bootstrap css
 import 'bootstrap/scss/bootstrap.scss';
+// 导入代码高亮插件css
+import 'prism-themes/themes/prism-atom-dark.css';
 import initBootstrapComponents from '../../src/components/index';
 
 // 导入全局组件

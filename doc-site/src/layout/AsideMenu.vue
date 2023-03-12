@@ -3,7 +3,11 @@
     <div class="header-search-box">
       <bs-input class="header-search-input" placeholder="搜索文档..."></bs-input>
     </div>
-    <div class="aside-menu-container">
+    <div
+      class="aside-menu-container"
+      :class="{
+        'scroll-auto': showScroll //为了在刷新页面后能自动滚动到激活的菜单项
+      }">
       <bs-menu mode="vertical" v-model:selected-keys="activeMenu">
         <bs-menu-item-group
           v-for="group in menus"
@@ -28,7 +32,8 @@
 import {
   defineComponent,
   ref,
-  computed
+  computed,
+  onMounted
 } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import menuZhCN from '../router/menu.zh-CN';
@@ -48,9 +53,17 @@ export default defineComponent({
         console.log('set newActiveMenu', newActiveMenu);
       }
     });
+    let showScroll = ref(true);
 
+    onMounted(function () {
+      let timer = setTimeout(() => {
+        clearTimeout(timer);
+        showScroll.value = false;
+      }, 300);
+    });
     return {
       menus,
+      showScroll,
       activeMenu,
       handleMenuItemClick (menuItem) {
         router.push({ name: menuItem.componentName });

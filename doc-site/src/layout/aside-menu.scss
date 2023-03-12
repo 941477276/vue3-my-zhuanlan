@@ -28,6 +28,9 @@
     &:hover{
       overflow: auto;
     }
+    &.scroll-auto{
+      overflow: auto;
+    }
   }
 
   .bs-menu-vertical{

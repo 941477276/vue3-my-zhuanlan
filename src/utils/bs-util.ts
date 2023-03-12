@@ -787,7 +787,7 @@ export function scrollWidth (ele?: HTMLElement):{
  * @param onScroll 正在滚动中的回调
  * @returns {boolean}
  */
-export function scrollTo (ele: HTMLElement, direction = 'y', to: number, duration: number, onDone: () => void, onScroll: () => void): boolean {
+export function scrollTo (ele: HTMLElement, direction = 'y', to: number, duration?: number, onDone?: () => void, onScroll?: () => void): boolean {
   if (!ele) {
     return false;
   }

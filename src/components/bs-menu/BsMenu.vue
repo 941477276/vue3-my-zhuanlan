@@ -33,7 +33,7 @@ import {
   MenuItemResgisted,
   ExpandedSubmenu
 } from '../../ts-tokens/bootstrap/menu';
-import { getScrollParent, scrollTo, offset } from '../../utils/bs-util';
+import { getScrollParent, scrollTo, offset, getStyle } from '../../utils/bs-util';
 
 let menuCount = 0;
 export default defineComponent({
@@ -92,8 +92,10 @@ export default defineComponent({
         return;
       }
       let scrollParentOffset = offset(scrollParent);
+      let scrollParentPaddingTop = getStyle(scrollParent, 'padding-top');
+      console.log('scrollParentPaddingTop', scrollParentPaddingTop);
       let activeMenuOffset = offset(activeMenu as HTMLElement);
-      scrollTo(scrollParent, 'y', activeMenuOffset.top - scrollParentOffset.top, 150);
+      scrollTo(scrollParent, 'y', activeMenuOffset.top - scrollParentOffset.top - scrollParentPaddingTop, 150);
     };
 
     // 选中的菜单项

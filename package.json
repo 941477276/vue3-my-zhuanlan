@@ -6,9 +6,10 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "vite:dev": "npm run gen-version && vite serve doc-site",
+    "vite:dev": "npm run gen-version && npm run gen-doc-router && vite serve doc-site",
     "vite:build": "vue-tsc && vite build",
     "vite:preview": "vite preview",
+    "gen-doc-router": "node ./doc-site/src/script/generateRoutes.js",
     "gen-version": "node ./script/generate-version.js"
   },
   "dependencies": {
@@ -50,6 +51,8 @@
     "gray-matter": "^4.0.3",
     "markdown-it": "^13.0.1",
     "node-sass": "^7.0.1",
+    "prism-themes": "^1.9.0",
+    "prismjs": "^1.29.0",
     "sass": "^1.49.9",
     "sass-loader": "^10.2.1",
     "typescript": "^4.9.3",

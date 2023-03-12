@@ -31,9 +31,11 @@ export function copyText (value: string | number) {
       }
     };
     const copyEl = document.createElement('input');
+    copyEl.style.position = 'absolute';
+    copyEl.style.top = '-100%';
+    copyEl.style.opacity = '0';
     copyEl.value = value as string;
     copyEl.setAttribute('readonly', 'readonly');
-    copyEl.setAttribute('class', 'copy-dpape');
     document.body.appendChild(copyEl);
     selectText(copyEl, 0, (value + '').length);
     if (document.execCommand('copy')) {
