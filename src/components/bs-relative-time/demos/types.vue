@@ -5,9 +5,9 @@ order: 0
 title:
   zh-CN: 不同类型
   en-US: Types
-description: 
+description:
   zh-CN: `bs-relative-time`有`relative`、`date`、`datetime`3种类型，它们分别表示相对时间、日期、日期时间。
-  en-US: `bs-relative-time` has three types: `relative`, `date`, and `datetime`, which represent relative time, date, and datetime respectively.
+  en-US: `bs-relative-time` has three types：`relative`, `date`, and `datetime`, which represent relative time, date, and datetime respectively.
 ---
 </docs>
 

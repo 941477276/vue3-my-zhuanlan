@@ -3,8 +3,8 @@
 ---
 order: 0
 title:
-zh-CN: 异步加载数据
-en-US: Async load data
+  zh-CN: 异步加载数据
+  en-US: Async load data
 description:
   zh-CN: 设置`lazy`属性并设置`tree-props`的`loadDataFn`属性可异步加载数据
   en-US: Set the `lazy` property and set the `loadDataFn` property of `tree-props` to load data asynchronously

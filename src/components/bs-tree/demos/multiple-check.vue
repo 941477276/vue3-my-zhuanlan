@@ -5,7 +5,7 @@ order: 0
 title:
   zh-CN: 多选
   en-US: Multiple choice
-description: 
+description:
   zh-CN: 设置`show-checkbox`属性可开起多选，使用`v-model:checkedKeys`双向绑定选中项
   en-US: Set the `show-checkbox` attribute to enable multiple selections, and use `v-model:checkedKeys` to bind the selected items two-way
 ---

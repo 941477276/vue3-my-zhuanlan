@@ -5,9 +5,9 @@ order: 0
 title:
   zh-CN: 不同大小
   en-US: Sizes
-description: 
+description:
   zh-CN: 设置`size`属性可以改变`bs-modal`宽度，默认有小、默认、大、超大4种尺寸可选，它们对应的`size`属性值为`sm`、`default`、`lg` 、`xl`
-  en-US: You can change the width of `bs-modal` by setting the `size` attribute. By default, there are 4 sizes available: small, default, large, and extra large. Their corresponding `size` attribute values are `sm`, `default`, `lg`, `xl`
+  en-US: You can change the width of `bs-modal` by setting the `size` attribute. By default, there are 4 sizes available：small, default, large, and extra large. Their corresponding `size` attribute values are `sm`, `default`, `lg`, `xl`
 ---
 </docs>
 

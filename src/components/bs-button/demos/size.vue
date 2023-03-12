@@ -6,7 +6,7 @@ title:
   en-US: Button size
 description:
   zh-CN: `bs-button`有大、中、小3种尺寸，通过`size`属性来设置它们，它们对应的值为`lg`、`默认`、`sm`。
-  en-US: `bs-button` has three sizes: large, medium, and small. They are set through the `size` attribute, and their corresponding values are `lg`, `default`, and `lg`.
+  en-US: `bs-button` has three sizes：large, medium, and small. They are set through the `size` attribute, and their corresponding values are `lg`, `default`, and `lg`.
 ---
 </docs>
 

@@ -5,9 +5,9 @@ order: 0
 title:
   zh-CN: 自定义颜色
   en-US: Custom color
-description: 
-  zh-CN: 给`bs-progress`组件设置`color`属性可以自定义颜色，它可以是一个`string`类型的颜色值、一个函数或者一个`{color: string; percentage: number}`类型的数组
-  en-US: You can customize the color by setting the `color` attribute to the `bs-progress` component, which can be a color value of type `string`, a function or an array of type `{color: string; percentage: number}`
+description:
+  zh-CN: 给`bs-progress`组件设置`color`属性可以自定义颜色，它可以是一个`string`类型的颜色值、一个函数或者一个`\{color\: string; percentage\: number\}`类型的数组
+  en-US: You can customize the color by setting the `color` attribute to the `bs-progress` component, which can be a color value of type `string`, a function or an array of type `\{color\: string; percentage\: number\}`
 ---
 </docs>
 

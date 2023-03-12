@@ -3,9 +3,9 @@
 ---
 order: 0
 title:
-zh-CN: 高精度
-en-US: High-precision
-description: 
+  zh-CN: 高精度
+  en-US: High-precision
+description:
   zh-CN: `input-number`组件内部使用`bignumber.js`来进行计算，因此它可以有很高的精度
   en-US: The `input-number` component internally uses `bignumber.js` for calculations, so it can have high precision
 ---

@@ -7,7 +7,7 @@ title:
   en-US: Custom
 description:
   zh-CN: 你可以通过`VNode`、`函数`、`html字符串`3种方式自定义MessageBox的头部和内容
-  en-US: You can customize the header and content of the MessageBox in 3 ways: `VNode`, `function`, `html string`
+  en-US: You can customize the header and content of the MessageBox in 3 ways：`VNode`, `function`, `html string`
 ---
 </docs>
 

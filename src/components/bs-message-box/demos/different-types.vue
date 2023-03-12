@@ -1,5 +1,4 @@
 <docs>
-
 ---
 order: 0
 title:
@@ -7,7 +6,7 @@ title:
   en-US: Different type
 description:
   zh-CN: `MessageBox`有`success`, `danger`, `warning`, `info`, `prompt`5种类型，对应的有5个函数
-  en-US: `MessageBox` has 5 types: `success`, `danger`, `warning`, `info`, `prompt`, corresponding to 5 functions
+  en-US: `MessageBox` has 5 types：`success`, `danger`, `warning`, `info`, `prompt`, corresponding to 5 functions
 ---
 </docs>
 
