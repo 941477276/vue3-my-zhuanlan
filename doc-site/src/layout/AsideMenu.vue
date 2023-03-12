@@ -11,8 +11,8 @@
       <bs-menu mode="vertical" v-model:selected-keys="activeMenu">
         <bs-menu-item-group
           v-for="group in menus"
-          :key="group.type"
-          :key-index="group.type"
+          :key="group.typeCode"
+          :key-index="group.typeCode"
           :title="group.type">
           <bs-menu-item
             v-for="menu in group.children"

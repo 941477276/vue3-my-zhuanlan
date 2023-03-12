@@ -6,6 +6,16 @@ const path = require('path');
 // 从字符串或文件解析front-matter。快速、可靠、使用方便。默认情况下解析YAML前端内容
 const matter = require('gray-matter');
 
+// 菜单分类排序
+const menuCategoryOrder = [
+  { title: '通用', code: 'generic' },
+  { title: '数据录入', code: 'data_input' },
+  { title: '导航', code: 'navigation' },
+  { title: '数据展示', code: 'data_display' },
+  { title: '反馈', code: 'feedback' },
+  { title: '工具组件', code: 'tool_component' },
+  { title: '其他', code: 'other' }
+];
 ;(async function () {
   console.log('----构建文档路由 start----');
   // 用于模式匹配目录文件
@@ -35,11 +45,17 @@ const matter = require('gray-matter');
       langMenusMap[lang] = {};
     }
     let menus = langMenusMap[lang];
-    if (!menus[matterData.type]) { // 按分类存储菜单
-      menus[matterData.type] = [];
+    let typeCode = matterData.typeCode;
+    if (!menus[typeCode]) { // 按分类存储菜单
+      menus[typeCode] = {
+        typeName: matterData.type,
+        typeCode: typeCode,
+        children: []
+      };
     }
-    menus[matterData.type].push({
-      // type: matterData.type,
+    menus[typeCode].children.push({
+      type: matterData.type,
+      typeCode: typeCode,
       title: matterData.title,
       subtitle: matterData.subtitle,
       componentName
@@ -63,11 +79,18 @@ export default [
   }).join(',')}
 ];`;
 
-  fs.writeFileSync(path.resolve(__dirname, '../router/docRoutes.ts'), template, 'utf-8');
+  fs.writeFileSync(path.resolve(__dirname, '../src/router/docRoutes.ts'), template, 'utf-8');
 
   // 生成菜单
   Object.entries(langMenusMap).forEach(entry => {
     let fileName = `menu.${entry[0]}.ts`;
+    let menus = Object.entries(entry[1]);
+    // 对菜单进行排序
+    let newMenus = menuCategoryOrder.map((categoryItem, index) => {
+      let categoryCode = categoryItem.code;
+      let categoryIndex = menus.findIndex(entry => entry[0] === categoryCode);
+      return menus[categoryIndex];
+    });
     let menuContent = `
 // 由 generateRoutes.js 自动构建的菜单文件
 export interface MenuItem {
@@ -84,10 +107,11 @@ export interface Menus {
 /* eslint-disable */
 let menus: Menus[] = [
 ${
-Object.entries(entry[1]).map(menuEntry => {
+newMenus.map(menuEntry => {
   return `{
-    type: '${menuEntry[0]}',
-    children: ${JSON.stringify(menuEntry[1])}
+    type: '${menuEntry[1].typeName}',
+    typeCode: '${menuEntry[0]}',
+    children: ${JSON.stringify(menuEntry[1].children)}
   }`;
 }).join(',')
 }
@@ -95,7 +119,7 @@ Object.entries(entry[1]).map(menuEntry => {
 
 export default menus;
     `;
-    fs.writeFileSync(path.resolve(__dirname, `../router/${fileName}`), menuContent.trim(), 'utf-8');
+    fs.writeFileSync(path.resolve(__dirname, `../src/router/${fileName}`), menuContent.trim(), 'utf-8');
   });
 
   console.log('----构建文档路由 end----');

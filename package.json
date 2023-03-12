@@ -9,7 +9,7 @@
     "vite:dev": "npm run gen-version && npm run gen-doc-router && vite serve doc-site",
     "vite:build": "vue-tsc && vite build",
     "vite:preview": "vite preview",
-    "gen-doc-router": "node ./doc-site/src/script/generateRoutes.js",
+    "gen-doc-router": "node ./doc-site/script/generateRoutes.js",
     "gen-version": "node ./script/generate-version.js"
   },
   "dependencies": {
