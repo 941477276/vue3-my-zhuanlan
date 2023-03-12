@@ -1,6 +1,7 @@
 ---
 category: Components
 type: 数据录入
+typeCode: data_input
 title: Select
 subtitle: 选择器
 ---

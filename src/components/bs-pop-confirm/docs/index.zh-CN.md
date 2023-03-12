@@ -1,6 +1,7 @@
 ---
 category: Components
 type: 反馈
+typeCode: feedback
 title: PopConfirm
 subtitle: 气泡确认
 ---

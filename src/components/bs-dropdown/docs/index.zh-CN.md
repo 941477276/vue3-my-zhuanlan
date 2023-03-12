@@ -1,6 +1,7 @@
 ---
 category: Components
 type: 通用
+typeCode: generic
 title: Dropdown
 subtitle: 下拉菜单
 ---

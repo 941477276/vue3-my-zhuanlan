@@ -1,6 +1,7 @@
 ---
 category: Components
 type: 反馈
+typeCode: feedback
 title: Progress
 subtitle: 进度条
 ---

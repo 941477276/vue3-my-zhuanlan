@@ -1,6 +1,7 @@
 ---
 category: Components
 type: 反馈
+typeCode: feedback
 title: Message
 subtitle: 消息提示
 ---

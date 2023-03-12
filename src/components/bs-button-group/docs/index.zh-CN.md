@@ -1,6 +1,7 @@
 ---
 category: Components
 type: 通用
+typeCode: generic
 title: Button Group
 subtitle: 按钮组
 ---

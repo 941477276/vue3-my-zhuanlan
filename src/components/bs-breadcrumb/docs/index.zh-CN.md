@@ -1,6 +1,7 @@
 ---
 category: Components
 type: 导航
+typeCode: navigation
 title: Breadcrumb
 subtitle: 面包屑导航
 ---

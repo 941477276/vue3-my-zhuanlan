@@ -1,6 +1,7 @@
 ---
 category: Components
 type: 导航
+typeCode: navigation
 title: Pagination
 subtitle: 分页
 ---

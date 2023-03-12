@@ -1,6 +1,7 @@
 ---
 category: Components
 type: 反馈
+typeCode: feedback
 title: Modal
 subtitle: 模态弹窗
 ---

@@ -1,6 +1,7 @@
 ---
 category: Components
 type: 数据展示
+typeCode: data_display
 title: Popover
 subtitle: 文字提示
 ---

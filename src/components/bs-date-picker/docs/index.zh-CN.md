@@ -1,6 +1,7 @@
 ---
 category: Components
 type: 数据录入
+typeCode: data_input
 title: DatePicker
 subtitle: 日期选择器
 ---

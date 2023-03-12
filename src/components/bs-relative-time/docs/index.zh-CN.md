@@ -1,6 +1,7 @@
 ---
 category: Components
 type: 其他
+typeCode: other
 title: RelativeTime
 subtitle: 相对时间
 ---

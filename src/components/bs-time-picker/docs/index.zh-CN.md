@@ -1,6 +1,7 @@
 ---
 category: Components
 type: 数据录入
+typeCode: data_input
 title: TimePicker
 subtitle: 时间选择器
 ---

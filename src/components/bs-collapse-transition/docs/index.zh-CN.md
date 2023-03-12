@@ -1,6 +1,7 @@
 ---
 category: Components
 type: 工具组件
+typeCode: tool_component
 title: CollapseTransition
 subtitle: 折叠过渡
 ---

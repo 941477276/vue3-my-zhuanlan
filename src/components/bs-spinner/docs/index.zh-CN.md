@@ -1,6 +1,7 @@
 ---
 category: Components
 type: 数据展示
+typeCode: data_display
 title: Spinner
 subtitle: 旋转图标
 ---
