@@ -20,6 +20,7 @@ const componentNameReg = /components\/([a-z0-9A-Z_\-]+)\/demos/;
 export function exampleAndDocTransform () {
   let mt = new MarkdownIt();
   console.log('removeDoc插件启动了');
+  let reg = /【【/g;
   return {
     name: 'exampleAndDocTransform',
     transform (code: string, id: string) {
@@ -39,11 +40,12 @@ export function exampleAndDocTransform () {
           }
         }
         let docsContent = getCodeByTagName(code, 'docs', true).trim();
-        let matterResult = matter(docsContent);
+        // 将 ` 符号转成 【 号，matter遇到` 符号在会报错
+        let matterResult = matter(docsContent.replace(/`/g, '【【'));
         let titles = matterResult.data.title || {};
         let descriptions = matterResult.data.description || {};
-        let descCN = descriptions['zh-CN'] ? mt.render(descriptions['zh-CN']) : '';
-        let descEN = descriptions['zh-EN'] ? mt.render(descriptions['zh-EN']) : '';
+        let descCN = descriptions['zh-CN'] ? mt.render(descriptions['zh-CN'].replace(reg, '`')) : '';
+        let descEN = descriptions['zh-EN'] ? mt.render(descriptions['zh-EN'].replace(reg, '`')) : '';
 
         let templateCode = getCodeByTagName(code, 'template', true).trim();
         let script = getCodeByTagName(code, 'script');
