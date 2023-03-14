@@ -5,6 +5,7 @@ package-lock.json
 src/version.ts
 doc-site/src/router/docRoutes.ts
 doc-site/src/router/menu.*.ts
+doc-site/src/apiDocs
 
 # local env files
 .env.local

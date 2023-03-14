@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 // 从字符串或文件解析front-matter。快速、可靠、使用方便。默认情况下解析YAML前端内容
 const matter = require('gray-matter');
+const MarkdownIt = require('markdown-it');
 
 // 菜单分类排序
 const menuCategoryOrder = [
@@ -17,7 +18,6 @@ const menuCategoryOrder = [
   { title: '其他', code: 'other' }
 ];
 ;(async function () {
-  console.log('----构建文档路由 start----');
   // 用于模式匹配目录文件
   const globby = await import('globby');
   // 获取所有组件文档md文件路径
@@ -26,20 +26,25 @@ const menuCategoryOrder = [
 
   // 菜单集合
   let langMenusMap = {};
+  // 路由集合
+  let baseRouteMap = {};
+  // 文档集合
+  let docInfoMap = {};
 
-  // 组件文档内容
-  const componentDocs = mdPaths.reduce(function (result, mdPath) {
+  mdPaths.forEach(function (mdPath) {
     let componentName = mdPath.split('/')[2].replace(/^bs-/, '');
     let mdFileName = path.parse(mdPath).name; // 取到的文件名是不带后缀名的
     let lang = mdFileName.split('.');
     lang = lang[lang.length - 1];
     let matterResult = matter.read(mdPath);
     let matterData = matterResult.data;
-    result[componentName] = {
-      markdownString: matterResult.content,
-      matter: matterData,
-      lang
-    };
+    if (lang == 'zh-CN') {
+      baseRouteMap[componentName] = {
+        // markdownString: matterResult.content,
+        matter: matterData,
+        lang
+      };
+    }
 
     if (!langMenusMap[lang]) {
       langMenusMap[lang] = {};
@@ -61,9 +66,28 @@ const menuCategoryOrder = [
       componentName
     });
 
-    return result;
-  }, {});
+    if (!docInfoMap[lang]) {
+      docInfoMap[lang] = {};
+    }
+    docInfoMap[lang][componentName] = {
+      type: matterData.type,
+      typeCode: typeCode,
+      title: matterData.title,
+      subtitle: matterData.subtitle,
+      componentName,
+      markdownString: matterResult.content
+    };
+  });
+  // 生成路由
+  generateRoutes(baseRouteMap);
+  // 生成菜单
+  generateMenus(langMenusMap);
+  // 生成组件文档
+  generateApiDocs(docInfoMap);
+})();
 
+function generateRoutes (componentDocs) {
+  console.time('----构建文档路由----');
   let template = `
 // 由 generateRoutes.js 自动构建的路由文件
 /* eslint-disable */
@@ -80,8 +104,11 @@ export default [
 ];`;
 
   fs.writeFileSync(path.resolve(__dirname, '../src/router/docRoutes.ts'), template, 'utf-8');
+  console.timeEnd('----构建文档路由----');
+}
 
-  // 生成菜单
+function generateMenus (langMenusMap) {
+  console.time('----构建文档菜单----');
   Object.entries(langMenusMap).forEach(entry => {
     let fileName = `menu.${entry[0]}.ts`;
     let menus = Object.entries(entry[1]);
@@ -94,6 +121,8 @@ export default [
     let menuContent = `
 // 由 generateRoutes.js 自动构建的菜单文件
 export interface MenuItem {
+  type: string;
+  typeCode: string;
   title: string;
   subtitle?: string;
   componentName: string;
@@ -101,26 +130,59 @@ export interface MenuItem {
 
 export interface Menus {
   type: string;
+  typeCode: string;
   children: MenuItem[];
 }
 
 /* eslint-disable */
 let menus: Menus[] = [
 ${
-newMenus.map(menuEntry => {
-  return `{
+      newMenus.map(menuEntry => {
+        return `{
     type: '${menuEntry[1].typeName}',
     typeCode: '${menuEntry[0]}',
     children: ${JSON.stringify(menuEntry[1].children)}
   }`;
-}).join(',')
-}
+      }).join(',')
+    }
 ];
 
 export default menus;
     `;
     fs.writeFileSync(path.resolve(__dirname, `../src/router/${fileName}`), menuContent.trim(), 'utf-8');
   });
+  console.timeEnd('----构建文档菜单----');
+};
 
-  console.log('----构建文档路由 end----');
-})();
+function generateApiDocs (docInfoMap) {
+  console.time('----构建api文档----');
+  let mt = new MarkdownIt();
+  Object.entries(docInfoMap).forEach(([lang, langDocMap]) => {
+    Object.entries(langDocMap).forEach(([componentName, docInfo]) => {
+      let markdownString = docInfo.markdownString;
+      // 获取markdown第一个标题标识符的位置
+      let mdHeaderIdentityIndex = markdownString.indexOf('## ');
+      if (mdHeaderIdentityIndex < 0) {
+        return;
+      }
+      let mdDesc = markdownString.substring(0, mdHeaderIdentityIndex);
+      let newMarkdownString = markdownString.substring(mdHeaderIdentityIndex);
+      let desc = mt.render(mdDesc);
+      let apiContent = mt.render(newMarkdownString);
+      apiContent = apiContent.replace(/<h2>/g, '<h2 id="API">');
+      apiContent = apiContent.replace(/<table>/g, '<table class="api-table">');
+      let jsonContent = {
+        ...docInfo,
+        description: desc,
+        apiContent
+      };
+      delete jsonContent.markdownString;
+      let dir = path.resolve(__dirname, `../src/apiDocs/${componentName}`);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      fs.writeFileSync(dir + `/${lang}.json`, JSON.stringify(jsonContent, null, 2), 'utf-8');
+    });
+  });
+  console.timeEnd('----构建api文档----');
+};
