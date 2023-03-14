@@ -47,16 +47,6 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     top: scrollTop(),
     left: scrollLeft()
   };
-  let targetElOffsetParent = (targetEl.offsetParent || document.body) as HTMLElement;
-  console.log('targetEl offsetParent', targetElOffsetParent);
-  // 判断目标元素的position不为static的父级元素是否为body
-  let targetElOffsetParentIsDocument = !targetElOffsetParent || (documentNodeNames.includes(targetElOffsetParent.nodeName));
-  console.log('targetElOffsetParentIsDocument', targetElOffsetParentIsDocument);
-  let targetElOffsetParentOffset = { top: 0, left: 0 };
-  if (!targetElOffsetParentIsDocument) {
-    console.log('targetElOffsetParentIsDocument111111111111111111111');
-    targetElOffsetParentOffset = offset(targetElOffsetParent);
-  }
   // console.log('targetElOffsetParentOffset', targetElOffsetParentOffset);
   var referenceOffset = offset(referenceEl);
   // console.log('targetElOffsetParent', targetElOffsetParent, referenceOffset);
@@ -68,7 +58,21 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
   var styleOpacity = targetEl.style.opacity;
   var targetElDisplay = getStyle(targetEl, 'display');
   var targetElIsFixed = getStyle(targetEl, 'position') === 'fixed';
+  if (targetElDisplay === 'none') {
+    targetEl.style.opacity = '0';
+    targetEl.style.display = 'block';
+  }
   var needSubtractScrollOffset = true; // 判断元素是否处于滚动容器视口时是否需要减去浏览器滚动条滚动的距离
+  let targetElOffsetParent = (targetEl.offsetParent || document.body) as HTMLElement;
+  console.log('targetEl offsetParent', targetElOffsetParent);
+  // 判断目标元素的position不为static的父级元素是否为body
+  let targetElOffsetParentIsDocument = !targetElOffsetParent || (documentNodeNames.includes(targetElOffsetParent.nodeName));
+  console.log('targetElOffsetParentIsDocument', targetElOffsetParentIsDocument);
+  let targetElOffsetParentOffset = { top: 0, left: 0 };
+  if (!targetElOffsetParentIsDocument) {
+    console.log('targetElOffsetParentIsDocument111111111111111111111');
+    targetElOffsetParentOffset = offset(targetElOffsetParent);
+  }
   // var targetElOpacity = tool.getStyle(targetEl, 'opacity');
   if (referenceIsInFixedPosition) {
     var bodyOverflow = getStyle(document.body, 'overflow');
@@ -121,10 +125,6 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
   // console.log('eleWrapperScrollTop, eleWrapperScrollLeft', referenceElWrapperScrollTop, referenceElWrapperScrollLeft);
 
   // console.log('targetElDisplay', targetElDisplay);
-  if (targetElDisplay === 'none') {
-    targetEl.style.display = 'block';
-    targetEl.style.opacity = '0';
-  }
   var targetElRect = targetEl.getBoundingClientRect();
   var targetElTransform = getEleTranslateValue(getStyle(targetEl, 'transform'));
   // console.log('targetElRect', targetElRect, tool.getStyle(targetEl, 'transform'), targetElTransform);
