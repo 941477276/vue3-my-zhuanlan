@@ -10,7 +10,7 @@ export function apiDocTransform () {
   console.log('apiDocTransform插件启动了');
   // 获取api文档元数据正则
   // let metaDataReg = /---([\s\S]*)---/;
-  let componentNameReg = /bs-(\w+)/;
+  let componentNameReg = /bs-([\w\-]+)/;
   let envConfig = { mode: 'development', command: 'serve' };
   return {
     name: 'apiDocTransform',
