@@ -195,7 +195,8 @@ function generateApiDocs (docInfoMap) {
       let desc = mt.render(mdDesc);
       let apiContent = mt.render(newMarkdownString);
       apiContent = apiContent.replace(/<h2>/g, '<h2 class="api-h2" id="API_h2">');
-      apiContent = apiContent.replace(/<table>/g, '<table class="api-table table table-hover">');
+      apiContent = apiContent.replace(/<table>/g, '<div class="table-responsive"><table class="api-table table table-hover">');
+      apiContent = apiContent.replace(/<\/table>/g, '</table></div>');
       apiContent = apiContent.replace(/<thead>/g, '<thead class="thead-light">');
       let jsonContent = {
         ...docInfo,
