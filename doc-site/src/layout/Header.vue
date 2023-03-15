@@ -34,7 +34,7 @@
           </li>
           <li class="nav-item version-nav-item">
             <bs-dropdown placement="bottom-end">
-              <bs-button>1.0.0</bs-button>
+              <bs-button>{{ currentVersion }}</bs-button>
               <template #content>
                 <bs-dropdown-item>中文</bs-dropdown-item>
                 <bs-dropdown-item>English</bs-dropdown-item>
@@ -61,7 +61,8 @@ import {
 import { BsiGithub } from 'vue3-bootstrap-icon/es/icons/BsiGithub';
 import { BsiBootstrap } from 'vue3-bootstrap-icon/es/icons/BsiBootstrap';
 import { BsiBootstrapFill } from 'vue3-bootstrap-icon/es/icons/BsiBootstrapFill';
-import { BsiThreeDots } from "vue3-bootstrap-icon/es/icons/BsiThreeDots";
+import { BsiThreeDots } from 'vue3-bootstrap-icon/es/icons/BsiThreeDots';
+import version from '../../../src/version';
 
 export default defineComponent({
   name: 'Header',
@@ -73,6 +74,7 @@ export default defineComponent({
     BsiThreeDots
   },
   setup () {
+    let currentVersion = ref(version);
     let navbarBrandVisible = ref(true);
     let matchMedia576 = matchMedia('(max-width: 576px)');
     // 屏幕宽度小于576px的处理函数
@@ -90,7 +92,8 @@ export default defineComponent({
       matchMedia576.removeEventListener('change', handleScreenWidthLess576);
     });
     return {
-      navbarBrandVisible
+      navbarBrandVisible,
+      currentVersion
     };
   }
 });
