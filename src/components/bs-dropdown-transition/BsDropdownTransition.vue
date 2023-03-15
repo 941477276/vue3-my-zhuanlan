@@ -209,17 +209,15 @@ export default defineComponent({
       console.log('watch willVisible');
       if (props.useZoomTransition) {
         transitionName.value = 'bs-zoom';
-        console.log('-----sssssss------');
         return;
       }
+      console.log('-----------------------------watch willVisible start-----------------------------');
       if (!isVisible) {
-        console.log('-----12322323------');
         return;
       }
       let referenceRef = props.referenceRef;
       let referenceEl: HTMLElement|null = null;
       if (!referenceRef) {
-        console.log('-------------');
         return;
       }
       if (referenceRef.nodeName) {
@@ -243,6 +241,7 @@ export default defineComponent({
         transitionName.value = customTransitionName(displayDirection);
       }
       console.log('transitionName', transitionName.value);
+      console.log('-----------------------------watch willVisible end-----------------------------');
     });
 
     let onEnter = function (el:HTMLElement, done: () => void) {
@@ -251,7 +250,7 @@ export default defineComponent({
       //   clearTimeout(timer);
       let referenceRef = props.referenceRef;
       let referenceEl: HTMLElement|null = null;
-      console.log('referenceRef', referenceRef);
+      // console.log('referenceRef', referenceRef);
       if (!referenceRef) {
         console.log('referenceRef不存在!-----------------------');
         return;
@@ -288,7 +287,7 @@ export default defineComponent({
       referenceScrollParent = getScrollParent(referenceEl);
       let nodeName = referenceScrollParent?.nodeName || '';
 
-      console.log('referenceScrollParent', referenceScrollParent?.nodeName);
+      // console.log('referenceScrollParent', referenceScrollParent?.nodeName);
       // 如果参照元素有有滚动条的父级节点且不为body，则给该父级节点绑定scroll事件，在容器滚动的时候刷新下拉位置
       if (referenceScrollParent && !documentNodeNames.includes(nodeName)) {
         console.log('参照元素有有滚动条的父级节点且不是body');
