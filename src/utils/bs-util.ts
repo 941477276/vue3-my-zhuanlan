@@ -334,7 +334,7 @@ export function getScrollParent (ele: HTMLElement): HTMLElement|undefined {
   var eleParent = ele.parentElement;
   while (eleParent != null) {
     var scroll = eleHasScroll(eleParent);
-    console.log('getScrollParent', eleParent, scroll);
+    // console.log('getScrollParent', eleParent, scroll);
     if (scroll.vertical || scroll.horizontal) {
       return eleParent;
     }

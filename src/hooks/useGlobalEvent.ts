@@ -34,7 +34,7 @@ export const useGlobalEvent = {
           try {
             // @ts-ignore
             eventFn.call(this, evt);
-          } catch (e) {
+          } catch (e: any) {
             // 捕捉异常
             errors.push(e);
           }
