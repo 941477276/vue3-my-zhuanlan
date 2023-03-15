@@ -6,6 +6,7 @@ const path = require('path');
 // 从字符串或文件解析front-matter。快速、可靠、使用方便。默认情况下解析YAML前端内容
 const matter = require('gray-matter');
 const MarkdownIt = require('markdown-it');
+const Prism = require('prismjs');
 
 // 菜单分类排序
 const menuCategoryOrder = [
@@ -156,7 +157,31 @@ export default menus;
 
 function generateApiDocs (docInfoMap) {
   console.time('----构建api文档----');
-  let mt = new MarkdownIt();
+  let langMap = {
+    ts: 'typescript',
+    js: 'javascript'
+  };
+  let mt = new MarkdownIt({
+    highlight (str, lang) {
+      // console.log('highlight----------------');
+      // console.log(str);
+      console.log('highlight============');
+      // console.log(lang);
+      if (lang in langMap) {
+        lang = langMap[lang];
+      }
+      let html = '';
+      try {
+        html = Prism.highlight(str, Prism.languages[lang], lang);
+      } catch (e) {
+        console.error(e);
+      }
+      if (html) {
+        // console.log(html);
+        return `<pre class="language-${lang}">${html}</pre>`;
+      }
+    }
+  });
   Object.entries(docInfoMap).forEach(([lang, langDocMap]) => {
     Object.entries(langDocMap).forEach(([componentName, docInfo]) => {
       let markdownString = docInfo.markdownString;
@@ -169,8 +194,9 @@ function generateApiDocs (docInfoMap) {
       let newMarkdownString = markdownString.substring(mdHeaderIdentityIndex);
       let desc = mt.render(mdDesc);
       let apiContent = mt.render(newMarkdownString);
-      apiContent = apiContent.replace(/<h2>/g, '<h2 id="API">');
-      apiContent = apiContent.replace(/<table>/g, '<table class="api-table">');
+      apiContent = apiContent.replace(/<h2>/g, '<h2 class="api-h2" id="API_h2">');
+      apiContent = apiContent.replace(/<table>/g, '<table class="api-table table table-hover">');
+      apiContent = apiContent.replace(/<thead>/g, '<thead class="thead-light">');
       let jsonContent = {
         ...docInfo,
         description: desc,
