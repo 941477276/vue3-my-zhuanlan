@@ -12,8 +12,8 @@ subtitle: 旋转图标
 
 ### Spinner 属性
 
-| 参数        | 说明       | 类型                                                                                | 默认值        | 版本  |
-|-----------|----------|-----------------------------------------------------------------------------------|------------|-----|
-| text      | 旋转图标文本   | string                                                                            |        |     |
-| colorType | 颜色类型     | `primary`/ `secondary`/ `success`/ `danger`/ `warning`/ `info`/ `light`/ `dark`   | primary    |     |
-| grow      | 是否为增长式旋转器  | boolean                                                | false      |     |
+| 参数        | 说明       | 类型                                                                                | 默认值        |
+|-----------|----------|-----------------------------------------------------------------------------------|------------|
+| text      | 旋转图标文本   | string                                                                            |        |
+| colorType | 颜色类型     | `primary`/ `secondary`/ `success`/ `danger`/ `warning`/ `info`/ `light`/ `dark`   | primary    |
+| grow      | 是否为增长式旋转器  | boolean                                                | false      |
