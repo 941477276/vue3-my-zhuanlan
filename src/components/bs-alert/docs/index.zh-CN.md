@@ -12,21 +12,21 @@ subtitle: 警告
 
 ### Alert 属性
 
-| 参数       | 说明                                       | 类型                                                                              | 默认值        | 版本  |
-|----------|------------------------------------------|---------------------------------------------------------------------------------|------------|-----|
-| type     | 颜色类型                                     | `primary`/ `secondary`/ `success`/ `danger`/ `warning`/ `info`/ `light`/ `dark` | primary    |     |
-| title     | 标题                                       | string                                                                          |     |     |
-| description     | 辅助性文字。也可通过`description`插槽传入              | string                                                                          |     |     |
-| closeable     | 是否可关闭                                    | boolean                                                                         | false      |     |
-| closeText   | 关闭按钮文本                                   | string                                                                          |      |     |
-| beforeClose   | 关闭前的回调，若回调返回false，或返回Promise.reject则不会关闭 | function                                                                        |      |     |
+| 参数       | 说明                                       | 类型                                                                              | 默认值        |
+|----------|------------------------------------------|---------------------------------------------------------------------------------|------------|
+| type     | 颜色类型                                     | `primary`/ `secondary`/ `success`/ `danger`/ `warning`/ `info`/ `light`/ `dark` | primary    |
+| title     | 标题                                       | string                                                                          |     |
+| description     | 辅助性文字。也可通过`description`插槽传入              | string                                                                          |     |
+| closeable     | 是否可关闭                                    | boolean                                                                         | false      |
+| closeText   | 关闭按钮文本                                   | string                                                                          |      |
+| beforeClose   | 关闭前的回调，若回调返回false，或返回Promise.reject则不会关闭 | function                                                                        |      |
 
 
 ### Alert 事件
 
-| 事件名称  | 说明         | 回调参数    | 版本    |
-|-------|------------| ----------- |-------|
-| close | 警告提示关闭时触发  |  |       |
+| 事件名称  | 说明         | 回调参数    |
+|-------|------------| ----------- |
+| close | 警告提示关闭时触发  |  |
 
 ### Alert 插槽
 

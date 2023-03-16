@@ -12,10 +12,10 @@ subtitle: 徽章
 
 ### Badge 属性
 
-| 参数       | 说明              | 类型                                                                                | 默认值        | 版本  |
-|----------|-----------------|-----------------------------------------------------------------------------------|------------|-----|
-| tag      | 渲染dom都标签名称      | string                                                                            | span       |     |
-| type     | 颜色类型            | `primary`/ `secondary`/ `success`/ `danger`/ `warning`/ `info`/ `light`/ `dark`   | primary    |     |
-| pill     | 是否为胶囊样式         | boolean                                                | false      |     |
-| circle   | 是否为小圆点样式        | boolean                                               | false      |     |
+| 参数       | 说明              | 类型                                                                                | 默认值        |
+|----------|-----------------|-----------------------------------------------------------------------------------|------------|
+| tag      | 渲染dom都标签名称      | string                                                                            | span       |
+| type     | 颜色类型            | `primary`/ `secondary`/ `success`/ `danger`/ `warning`/ `info`/ `light`/ `dark`   | primary    |
+| pill     | 是否为胶囊样式         | boolean                                                | false      |
+| circle   | 是否为小圆点样式        | boolean                                               | false      |
 
