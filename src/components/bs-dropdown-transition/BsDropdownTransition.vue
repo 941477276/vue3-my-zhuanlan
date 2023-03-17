@@ -187,14 +187,14 @@ export default defineComponent({
       dropdownStyle.verticalFullInview = displayDirection.vertical;
       dropdownStyle.direction = direction;
       dropdownStyle.width = referenceElRect.width;
+      dropdownStyle.top = displayDirection.top;
+      dropdownStyle.left = displayDirection.left;
       if (bottom === null) {
-        dropdownStyle.top = displayDirection.top;
         dropdownStyle.bottom = null;
       } else {
         dropdownStyle.bottom = displayDirection.bottom;
       }
       if (right === null) {
-        dropdownStyle.left = displayDirection.left;
         dropdownStyle.right = null;
       } else {
         dropdownStyle.right = displayDirection.right;
