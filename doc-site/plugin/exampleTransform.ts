@@ -17,12 +17,12 @@ let deleteCache = function (now: number) {
 // 获取组件名称的正则
 const componentNameReg = /components\/([a-z0-9A-Z_\-]+)\/demos/;
 
-export function exampleAndDocTransform () {
+export function exampleTransform () {
   let mt = new MarkdownIt();
-  console.log('removeDoc插件启动了');
+  console.log('exampleTransform插件启动了');
   let reg = /【【/g;
   return {
-    name: 'exampleAndDocTransform',
+    name: 'exampleTransform',
     transform (code: string, id: string) {
       // console.log('id===============', id, id.includes('/demos/'));
       let now = new Date().getTime();

@@ -11,11 +11,13 @@ import initBootstrapComponents from '../../src/components/index';
 
 // 导入全局组件
 import DemoBox from './components/DemoBox.vue';
+import ComponentDoc from './components/ComponentDoc.vue';
 
 const app = createApp(App);
 
 initBootstrapComponents(app);
 app.component(DemoBox.name, DemoBox);
+app.component(ComponentDoc.name, ComponentDoc);
 app.use(router);
 
 app.mount('#app');
