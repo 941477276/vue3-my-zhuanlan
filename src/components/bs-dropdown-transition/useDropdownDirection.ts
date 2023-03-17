@@ -271,6 +271,10 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
         right -= bodyScrollWidth.vertical;
         console.log('right值减去浏览器垂直滚动条的宽度', right, bodyScrollWidth.vertical);
       }
+      if (bodyHasScroll.horizontal && bodyScrollVisible.horizontal) {
+        bottom -= bodyScrollWidth.horizontal;
+        console.log('right值减去浏览器垂直滚动条的宽度', right, bodyScrollWidth.vertical);
+      }
     } else {
       bottom = targetElOffsetParent.offsetHeight - (referenceOffset.top - targetElOffsetParentOffset.top);// + referenceElWrapperScrollTop;
       right = targetElOffsetParent.offsetWidth - (referenceOffset.left - targetElOffsetParentOffset.left) - referenceRect.width + referenceElWrapperScrollLeft;
@@ -361,12 +365,19 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     // 如果目标元素插入到了body中，则需减去参照元素有滚动条父级容器滚动条滚动到距离（调用eleIsInView函数前不需要减去，因为eleIsInView函数内部计算时会减去）
     top -= targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0;
     left -= targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0;
-    if (targetElOffsetParentIsDocument && targetIsInBody) {
+    if (targetIsInBody) {
       right = window.innerWidth - referenceOffset.left + referenceElWrapperScrollLeft;
       // 如果浏览器有垂直滚动条，则需减去垂直滚动条的宽度，因为前面计算right值的时候使用的是window.innerWidth，window.innerWidth包含了滚动条
       if (bodyHasScroll.vertical && bodyScrollVisible.vertical) {
         right -= bodyScrollWidth.vertical;
         console.log('right值减去浏览器垂直滚动条的宽度，----left', right, bodyScrollWidth.vertical);
+      }
+      if (isLeftBottom) {
+        if (bodyHasScroll.horizontal && bodyScrollVisible.horizontal) {
+          // @ts-ignore
+          bottom -= bodyScrollWidth.horizontal;
+          console.log('right值减去浏览器垂直滚动条的宽度', right, bodyScrollWidth.vertical);
+        }
       }
     } else {
       // let referenceIsTargetElOffsetParent = referenceEl === targetElOffsetParent;
@@ -462,10 +473,14 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     let newLeft = left - targetElOffsetParentOffset.left;
 
     if (targetIsInBody) {
-      if (bodyHasScroll.vertical && !bodyScrollVisible.vertical) {
-        if (isRightBottom) {
+      if (isRightBottom) {
+        if (bodyHasScroll.vertical && !bodyScrollVisible.vertical) {
           // @ts-ignore
           bottom -= scrollInfo.top;
+        }
+        if (bodyHasScroll.horizontal && bodyScrollVisible.horizontal) {
+          // @ts-ignore
+          bottom -= bodyScrollWidth.horizontal;
         }
       }
     }
