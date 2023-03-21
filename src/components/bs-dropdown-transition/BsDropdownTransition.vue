@@ -128,7 +128,6 @@ export default defineComponent({
     // 参照元素有滚动条的父级节点
     let referenceScrollParent: HTMLElement|undefined;
     let isVisible = ref(false);
-    let transitionName = ref('');
     let targetRef = ref<HTMLElement|null>(null);
     let documentNodeNames = ['HTML', 'BODY'];
     let zoomTransitionOrigin: StringKeyObject = {
@@ -163,6 +162,21 @@ export default defineComponent({
       let bottom = displayDirection.bottom;
       let right = displayDirection.right;
       let direction = displayDirection.direction;
+
+      /* let customTransitionName = props.customTransitionName;
+      if (!isFunction(customTransitionName)) {
+        if (slideUpTransitionPlacements.includes(direction)) {
+          transitionName.value = 'bs-slide-up';
+        } else if (slideDownTransitionPlacements.includes(direction)) {
+          transitionName.value = 'bs-slide-down';
+        } else {
+          transitionName.value = 'bs-zoom';
+        }
+      } else {
+        transitionName.value = customTransitionName(displayDirection);
+      } */
+      calcTransitionName(displayDirection);
+
       if (transitionName.value == 'bs-zoom') {
         let origin = zoomTransitionOrigin[direction];
         transitionOrigin.value = {
@@ -201,6 +215,24 @@ export default defineComponent({
       }
     };
 
+    // 过渡名称
+    let transitionName = ref('');
+    let calcTransitionName = function (displayDirection: any) {
+      let direction = displayDirection.direction;
+      let customTransitionName = props.customTransitionName;
+      if (!isFunction(customTransitionName)) {
+        if (slideUpTransitionPlacements.includes(direction)) {
+          transitionName.value = 'bs-slide-up';
+        } else if (slideDownTransitionPlacements.includes(direction)) {
+          transitionName.value = 'bs-slide-down';
+        } else {
+          transitionName.value = 'bs-zoom';
+        }
+      } else {
+        transitionName.value = customTransitionName(displayDirection);
+      }
+    };
+
     let slideUpTransitionPlacements = ['top', 'topEnd'];
     let slideDownTransitionPlacements = ['bottom', 'bottomEnd'];
     let transitionOrigin = ref<any>({});
@@ -228,7 +260,7 @@ export default defineComponent({
       let displayDirection: any = getDropdownDirection(referenceEl!, targetRef.value!, props.placement, props.tryAllPlacement);
       let direction = displayDirection.direction;
       console.log('watch willVisible direction', direction);
-      let customTransitionName = props.customTransitionName;
+      /* let customTransitionName = props.customTransitionName;
       if (!isFunction(customTransitionName)) {
         if (slideUpTransitionPlacements.includes(direction)) {
           transitionName.value = 'bs-slide-up';
@@ -239,7 +271,8 @@ export default defineComponent({
         }
       } else {
         transitionName.value = customTransitionName(displayDirection);
-      }
+      } */
+      calcTransitionName(displayDirection);
       console.log('transitionName', transitionName.value);
       console.log('-----------------------------watch willVisible end-----------------------------');
     });
