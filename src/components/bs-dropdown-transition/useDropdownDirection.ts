@@ -724,10 +724,33 @@ function eleIsInView (options: any) {
   }
   // console.log('left', left, right, scrollLeft);
   // console.log('top', top, bottom, scrollTop);
+  let verticalFullVisible = top > 0 && top < windowWH.height && bottom > 0 && bottom <= windowWH.height;
+  let horizontalFullVisible = left > 0 && left < windowWH.width && right > 0 && right <= windowWH.width;
+  // 目标元素垂直方向可见高度
+  let verticalVisibleHeight = -1;
+  let horizontalVisibleWidth = -1;
+  if (!verticalFullVisible) {
+    if (top < 0) {
+      verticalVisibleHeight = ele.offsetHeight + top;
+    } else if (bottom > windowWH.height) {
+      verticalVisibleHeight = bottom - windowWH.height;
+    }
+  }
+
+  if (!horizontalFullVisible) {
+    if (left < 0) {
+      horizontalVisibleWidth = ele.offsetWidth + left;
+    } else if (right > windowWH.width) {
+      horizontalVisibleWidth = right - windowWH.width;
+    }
+  }
+
   return {
     scrollParentHorizontal,
     scrollParentVertical,
-    vertical: top > 0 && top < windowWH.height && bottom > 0 && bottom <= windowWH.height,
-    horizontal: left > 0 && left < windowWH.width && right > 0 && right <= windowWH.width
+    horizontalVisibleWidth,
+    verticalVisibleHeight,
+    vertical: verticalFullVisible,
+    horizontal: horizontalFullVisible
   };
 }
