@@ -294,6 +294,7 @@ export default defineComponent({
         referenceScrollParent.addEventListener('scroll', scrollEvent, false);
       }
       useGlobalEvent.addEvent('window', 'scroll', scrollEvent);
+      useGlobalEvent.addEvent('window', resizeEventName, resizeEvent);
     };
 
     let onLeave = function (el: HTMLElement) {
@@ -304,6 +305,7 @@ export default defineComponent({
         referenceScrollParent.removeEventListener('scroll', scrollEvent, false);
       }
       useGlobalEvent.removeEvent('window', 'scroll', scrollEvent);
+      useGlobalEvent.removeEvent('window', resizeEventName, resizeEvent);
       referenceScrollParent = undefined;
       ctx.emit('after-leave', el);
     };
@@ -363,14 +365,15 @@ export default defineComponent({
       }
     };
 
-    onMounted(function () {
-      useGlobalEvent.addEvent('window', resizeEventName, resizeEvent);
+    /* onMounted(function () {
+      // useGlobalEvent.addEvent('window', resizeEventName, resizeEvent);
       // useGlobalEvent.addEvent('window', 'scroll', scrollEvent);
-    });
+    }); */
 
     onBeforeMount(function () {
+      // 防止下拉菜单为隐藏，组件就被销毁了
       useGlobalEvent.removeEvent('window', resizeEventName, resizeEvent);
-      // useGlobalEvent.removeEvent('window', 'scroll', scrollEvent);
+      useGlobalEvent.removeEvent('window', 'scroll', scrollEvent);
       targetEl = null;
       // 参照元素有滚动条的父级节点
       referenceScrollParent = undefined;
