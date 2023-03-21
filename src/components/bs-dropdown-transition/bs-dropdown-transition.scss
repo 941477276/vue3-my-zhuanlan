@@ -20,6 +20,7 @@
   &.bs-placement-bottom,
   &.bs-placement-bottom-end{
     margin-top: .35rem;
+    transform-origin: 0% 0%;
     //@include slide-down;
   }
   &.bs-placement-left,
@@ -34,6 +35,7 @@
   &.bs-placement-right,
   &.bs-placement-right-end{
     margin-left: .35rem;
+    transform-origin: 0% 0%;
     //@include slide-right;
   }
 }
