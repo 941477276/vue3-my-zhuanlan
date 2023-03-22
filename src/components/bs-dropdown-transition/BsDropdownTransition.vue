@@ -259,7 +259,7 @@ export default defineComponent({
       }
       let displayDirection: any = getDropdownDirection(referenceEl!, targetRef.value!, props.placement, props.tryAllPlacement);
       let direction = displayDirection.direction;
-      console.log('watch willVisible direction', direction);
+      // console.log('watch willVisible direction', direction);
       /* let customTransitionName = props.customTransitionName;
       if (!isFunction(customTransitionName)) {
         if (slideUpTransitionPlacements.includes(direction)) {
@@ -293,7 +293,7 @@ export default defineComponent({
       } else if (isObject(referenceRef) && referenceRef.$el) {
         referenceEl = referenceRef.$el;
       }
-      console.log('onEnter执行了', referenceEl?.nodeName, el);
+      // console.log('onEnter执行了', referenceEl?.nodeName, el);
       if (!referenceEl) {
         console.log('参照元素不存在!-----------------------');
         return;
@@ -366,7 +366,7 @@ export default defineComponent({
         return;
       }
       let now = new Date().getTime();
-      console.log('now - scrollTimer: ', now - scrollTimer);
+      // console.log('now - scrollTimer: ', now - scrollTimer);
       if (scrollTimer == 0 || now - scrollTimer >= 10) {
         let targetElPosition = getStyle(targetEl, 'position');
         if (targetElPosition == 'fixed') {
@@ -383,7 +383,7 @@ export default defineComponent({
           // currentScrollLeft = (target as HTMLElement).scrollLeft;
         }
         // @ts-ignore
-        console.log('currentScrollTop', currentScrollTop, lastScrollTop, target);
+        // console.log('currentScrollTop', currentScrollTop, lastScrollTop, target);
         /*
          由于 eleHasScroll() 函数判断元素是否有滚动条会触发滚动条事件，因此这里需要判断当前滚动条是否是由eleHasScroll函数触发的，如果是它触发的则不执行更新。
          如果滚动条是否是由eleHasScroll函数触发的，它的2次执行时间在10-20之间

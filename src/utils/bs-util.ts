@@ -171,6 +171,21 @@ export function isKorean (text: string): boolean {
   return /([(\uAC00-\uD7AF)|(\u3130-\u318F)])+/gi.test(text);
 }
 
+/**
+ * 检测终端
+ */
+export function checkTerminal (): { android: boolean; ios: boolean; pc: boolean } {
+  var u = navigator.userAgent;
+  var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; // g
+  var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); // ios终端
+
+  return {
+    android: isAndroid,
+    ios: isIOS,
+    pc: !isIOS && !isAndroid
+  };
+};
+
 /* **************************** DOM utils start ************************************* */
 
 // 获取浏览器宽高

@@ -131,7 +131,7 @@ export default defineComponent({
 
         if (!loaded.value) {
           loaded.value = true;
-          console.log('loaded.value为false');
+          // console.log('loaded.value为false');
           nextTick(function () {
             // willVisible必须比visible先行，以能确保dropdown-transition组件正确的计算过渡动画名称
             willVisible.value = true;
