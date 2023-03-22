@@ -185,7 +185,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       documentHasScroll: bodyHasScroll,
       documentScrollInfo: scrollInfo,
       scrollParent: referenceScrollParent, // 获取目标元素所处有滚动条的父级容器
-      windowWH
+      windowWH: { ...windowWH }
     });
     console.log(`----------handleBottom isInView${isBottomRight ? '====isBottomRight' : ''}: `, isInView);
     // 如果目标元素插入到了body中，则需减去参照元素有滚动条父级容器滚动条滚动到距离（调用eleIsInView函数前不需要减去，因为eleIsInView函数内部计算时会减去）
@@ -267,7 +267,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       documentHasScroll: bodyHasScroll,
       documentScrollInfo: scrollInfo,
       scrollParent: referenceScrollParent, // 获取目标元素所处有滚动条的父级容器
-      windowWH
+      windowWH: { ...windowWH }
     });
     console.log(`----------handleTop isInView${isTopRight ? '====isTopRight' : ''}: `, isInView);
     // 如果目标元素插入到了body中，则需减去参照元素有滚动条父级容器滚动条滚动到距离（调用eleIsInView函数前不需要减去，因为eleIsInView函数内部计算时会减去）
@@ -391,7 +391,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       documentHasScroll: bodyHasScroll,
       documentScrollInfo: scrollInfo,
       scrollParent: referenceScrollParent, // 获取目标元素所处有滚动条的父级容器
-      windowWH
+      windowWH: { ...windowWH }
     });
     console.log(`----------handleLeft isInView${isLeftBottom ? '====isLeftBottom' : ''}: `, isInView, targetIsInBody, targetElOffsetParentOffset.left);
     // 如果目标元素插入到了body中，则需减去参照元素有滚动条父级容器滚动条滚动到距离（调用eleIsInView函数前不需要减去，因为eleIsInView函数内部计算时会减去）
@@ -503,7 +503,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       documentHasScroll: bodyHasScroll,
       documentScrollInfo: scrollInfo,
       scrollParent: referenceScrollParent, // 获取目标元素所处有滚动条的父级容器
-      windowWH
+      windowWH: { ...windowWH }
     });
     console.log(`----------handleRight isInView${isRightBottom ? '====isRightBottom' : ''}: `, isInView);
     // 如果目标元素插入到了body中，则需减去参照元素有滚动条父级容器滚动条滚动到距离（调用eleIsInView函数前不需要减去，因为eleIsInView函数内部计算时会减去）
