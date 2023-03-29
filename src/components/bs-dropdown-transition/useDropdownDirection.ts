@@ -23,6 +23,21 @@ export interface DropdownOffset {
   // right?: number;
 }
 
+export interface DropdownDirection {
+  bottom: null|number;
+  direction: string;
+  horizontal: boolean;
+  horizontalVisibleWidth: number;
+  left: number;
+  right: number|number;
+  scrollParentHorizontal: boolean;
+  scrollParentVertical: boolean;
+  top: number;
+  vertical: boolean;
+  verticalVisibleHeight: number;
+  isRollback?: boolean; // 是否为回滚到了默认方向
+};
+
 /**
  * 计算绝对定位元素能完全出现在视口的展示方位
  * @param referenceEl 参照元素
@@ -33,7 +48,7 @@ export interface DropdownOffset {
  * @param dropdownOffset 下拉菜单距参照元素的偏移量
  */
 const endReg = /(\w+)End$/;
-export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLElement, direction: string, tryAllDirection = false, tryEndDirection = true, dropdownOffset?: DropdownOffset) {
+export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLElement, direction: string, tryAllDirection = false, tryEndDirection = true, dropdownOffset?: DropdownOffset): DropdownDirection {
   if (!referenceEl || !targetEl || !direction) {
     throw new Error('缺少referenceEl, targetEl, direction其中的某个参数');
   }
@@ -621,7 +636,8 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       break;
   }
 
-  let defaultDirectionResult = {};
+  let allDirectionResult: DropdownDirection[] = [];
+  let defaultDirectionResult = {} as DropdownDirection;
   // 尝试一遍当前方向的尾方向
   let tryReverse = function (allInView = false, flow: any) {
     let result = flow.handler(tryEndDirection ? !flow.isTail : flow.isTail);
@@ -634,7 +650,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     if (result.direction === defaultDirection) {
       defaultDirectionResult = result;
     }
-
+    allDirectionResult.push(result);
     if (flag) {
       calcedDirection = result;
       return true;
@@ -643,7 +659,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
   };
   // 寻找元素在水平、垂直方向都完全出现在视口中的方向
   directionCalcFlow.some(function (flow) {
-    let result = flow.handler(flow.isTail);
+    let result = flow.handler(flow.isTail) as DropdownDirection;
     // 判断在屏幕视口中是否完可视
     let inView = result.vertical && result.horizontal;
     // 判断在有滚动条的父级容器中是否完可视
@@ -652,6 +668,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     if (result.direction === defaultDirection) {
       defaultDirectionResult = result;
     }
+    allDirectionResult.push(result);
     if (inView) {
       // console.log('inView111, inScrollParentView', inView, inScrollParentView, result);
       if (!inScrollParentView) {
@@ -671,8 +688,25 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
   console.log('calcedDirection', calcedDirection);
   // 如果尝试了所有方位后都无法显示，则显示默认方位
   if (!calcedDirection) {
-    calcedDirection = defaultDirectionResult as any;
-    calcedDirection.isRollback = true;
+    let inViewDirection: DropdownDirection|null = null;
+    let inScrollParentViewDirection: DropdownDirection|null = null;
+    allDirectionResult.forEach(direction => {
+      if (!inViewDirection && (direction.horizontal && direction.vertical)) {
+        inViewDirection = direction;
+      }
+      if (!inScrollParentViewDirection && (direction.scrollParentHorizontal && direction.scrollParentVertical)) {
+        inScrollParentViewDirection = direction;
+      }
+    });
+    // 优先使用在滚动容器内完全可见的
+    if (inScrollParentViewDirection) {
+      calcedDirection = inScrollParentViewDirection;
+    } else if (inViewDirection) { // 其次使用在浏览器可视区域内可见的
+      calcedDirection = inViewDirection;
+    } else { // 最后使用默认的方位
+      calcedDirection = defaultDirectionResult as any;
+      calcedDirection.isRollback = true;
+    }
   }
   console.log('最终使用的方位：', calcedDirection);
   // 恢复目标元素的display、opacity属性
