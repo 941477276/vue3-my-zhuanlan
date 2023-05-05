@@ -802,7 +802,7 @@ export function scrollWidth (ele?: HTMLElement):{
  * @param onScroll 正在滚动中的回调
  * @returns {boolean}
  */
-export function scrollTo (ele: HTMLElement, direction = 'y', to: number, duration?: number, onDone?: () => void, onScroll?: () => void): boolean {
+export function scrollTo (ele: HTMLElement|Window, direction = 'y', to: number, duration?: number, onDone?: () => void, onScroll?: () => void): boolean {
   if (!ele) {
     return false;
   }
@@ -1067,6 +1067,28 @@ export function eleIsInScrollParentView (ele: HTMLElement, scrollEl: HTMLElement
   result.vertical = offsetStartInView2 && offsetEndInView2;
 
   return result;
+}
+
+interface ScrollIntoParentViewOffset {
+  top?: number;
+  left?: number;
+}
+
+/**
+ * 滚动至父级元素可见的位置
+ * @param targetEle 目标元素
+ * @param offsetInfo
+ */
+export function scrollIntoParentView (targetEle: HTMLElement, offsetInfo?: ScrollIntoParentViewOffset) {
+  let scrollParent = getScrollParent(targetEle) || document.body;
+  let scrollParentOffset = offset(scrollParent);
+  let scrollParentIsBody = scrollParent === document.body;
+  let targetElOffset = offset(targetEle);
+  let targetElDistanceY = targetElOffset.top - scrollParentOffset.top;
+  let targetElDistanceX = targetElOffset.left - scrollParentOffset.left;
+
+  scrollTo(scrollParentIsBody ? window : scrollParent, 'y', targetElDistanceY - (offsetInfo?.top || 0), 100);
+  scrollTo(scrollParentIsBody ? window : scrollParent, 'x', targetElDistanceX - (offsetInfo?.left || 0), 100);
 }
 
 /* **************************** DOM utils end ************************************* */

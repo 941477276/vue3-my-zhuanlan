@@ -1,6 +1,7 @@
 <template>
 <div class="default-layout header-fixed">
   <Header
+    id="docHeader"
     @navbar-toggler-click="showDrawer"></Header>
   <AsideMenu class="left-aside-menu"></AsideMenu>
   <main class="doc-main">
