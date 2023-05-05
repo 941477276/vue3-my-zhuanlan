@@ -7,7 +7,7 @@ title:
   en-US: Other type
 description:
   zh-CN: `Toast`组件共有`默认`、`primary`、`secondary`、`success`、`danger`、`warning`、`info`、`light`、`dark`8种类型;
-  en-US: The `Toast` component has eight types: `default`、`primary`、`secondary`、`success`、`danger`、`warning`、`info`、`light`、`dark`;
+  en-US: The `Toast` component has eight types：`default`、`primary`、`secondary`、`success`、`danger`、`warning`、`info`、`light`、`dark`;
 ---
 </docs>
 
