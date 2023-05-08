@@ -48,17 +48,24 @@ export interface DropdownDirection {
  * @param dropdownOffset 下拉菜单距参照元素的偏移量
  */
 const endReg = /(\w+)End$/;
+const centerReg = /(\w+)Center$/;
 export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLElement, direction: string, tryAllDirection = false, tryEndDirection = true, dropdownOffset?: DropdownOffset): DropdownDirection {
   if (!referenceEl || !targetEl || !direction) {
-    throw new Error('缺少referenceEl, targetEl, direction其中的某个参数');
+    throw new Error('One of the parameters of referenceEl, targetEl, direction is missing!');
   }
   direction = kebabCase2CamelCase(direction);
   let defaultDirection = direction;
   let defaultDirectionIsEnd = false;
+  let defaultDirectionIsCenter = false;
   if (endReg.test(direction)) {
     direction = RegExp.$1;
     defaultDirectionIsEnd = true;
   }
+  if (centerReg.test(direction)) {
+    direction = RegExp.$1;
+    defaultDirectionIsCenter = true;
+  }
+  console.log('direction', direction);
   let scrollInfo = {
     top: scrollTop(),
     left: scrollLeft()
@@ -163,12 +170,15 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
 
   var calcedDirection = null;
   var directionCalcFlow = []; // 存储按流程计算方向的函数，当下拉菜单在某个方向上不能完全展示时会自动切换一个方向
-  var handleBottom = function (isBottomRight: boolean) {
+  var handleBottom = function (isBottomRight: boolean, isCenter?: boolean) {
     // 当参照物在有滚动条的容器中且目标元素插入在body时需减去容器滚动条滚动的距离
     // var top = referenceOffset.top + referenceRect.height - (targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0);
     // var left = isBottomRight ? Math.floor(referenceOffset.left - (targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0) - (targetElRect.width - referenceRect.width)) : (referenceOffset.left - (targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0));
     var top = referenceOffset.top + referenceRect.height;
     var left = isBottomRight ? Math.floor(referenceOffset.left - (targetElRect.width - referenceRect.width)) : (referenceOffset.left);
+    if (!isBottomRight && isCenter) {
+      left -= (targetElRect.width - referenceRect.width) / 2;
+    }
     var bottom = null;
     var right = null;
     // console.log('targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0', targetElOffsetParentIsDocument, targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0);
@@ -241,20 +251,22 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     newLeft -= dropdownOffsetLeft;
     return {
       ...isInView,
-      direction: isBottomRight ? 'bottomEnd' : 'bottom',
+      direction: (!isBottomRight && isCenter) ? 'bottomCenter' : (isBottomRight ? 'bottomEnd' : 'bottom'),
       top: newTop,
       left: newLeft,
       bottom,
       right: isBottomRight ? right : null
     };
   };
-  let handleTop = function (isTopRight: boolean) {
+  let handleTop = function (isTopRight: boolean, isCenter?: boolean) {
     // console.log('referenceElWrapperScrollTop', referenceOffset.top, tool.scrollTop(), referenceElWrapperScrollTop);
     // var top = referenceOffset.top - targetElRect.height - (targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0);
     // var left = isTopRight ? Math.floor(referenceOffset.left - (targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0) - (targetElRect.width - referenceRect.width - (targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0))) : referenceOffset.left;
     var top = referenceOffset.top - targetElRect.height;
     var left = isTopRight ? Math.floor(referenceOffset.left - (targetElRect.width - referenceRect.width)) : referenceOffset.left;
-
+    if (!isTopRight && isCenter) {
+      left -= (targetElRect.width - referenceRect.width) / 2;
+    }
     // var isInView = eleIsInView(targetEl, top, left, needSubtractScrollOffset);
     top += dropdownOffsetTop;
     left += dropdownOffsetLeft;
@@ -339,7 +351,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     }); */
     return {
       ...isInView,
-      direction: isTopRight ? 'topEnd' : 'top',
+      direction: (!isTopRight && isCenter) ? 'topCenter' : (isTopRight ? 'topEnd' : 'top'),
       bottom,
       right: isTopRight ? right : null,
       // 计算top值时需减去目标元素position不为static的父级元素的top值
@@ -347,11 +359,14 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       left: newLeft
     };
   };
-  let handleLeft = function (isLeftBottom: boolean) {
+  let handleLeft = function (isLeftBottom: boolean, isCenter?: boolean) {
     // var top = isLeftBottom ? Math.floor(referenceOffset.top - (targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0) - (targetElRect.height - referenceRect.height)) : (referenceOffset.top - (targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0));
     // var left = referenceOffset.left - targetElRect.width - (targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0);
     var top = isLeftBottom ? Math.floor(referenceOffset.top - (targetElRect.height - referenceRect.height)) : (referenceOffset.top);
     var left = referenceOffset.left - targetElRect.width;
+    if (!isLeftBottom && isCenter) {
+      top -= (targetElRect.height - referenceRect.height) / 2;
+    }
     var bottom = null;
     var right = null;
 
@@ -465,18 +480,20 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       ...isInView,
       right,
       bottom,
-      direction: isLeftBottom ? 'leftEnd' : 'left',
+      direction: (!isLeftBottom && isCenter) ? 'leftCenter' : (isLeftBottom ? 'leftEnd' : 'left'),
       // 计算top值时需减去目标元素position不为static的父级元素的top值
       top: newTop,
       left: newLeft
     };
   };
-  let handleRight = function (isRightBottom: boolean) {
+  let handleRight = function (isRightBottom: boolean, isCenter?: boolean) {
     // var top = isRightBottom ? Math.floor(referenceOffset.top - (targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0) - (targetElRect.height - referenceRect.height)) : (referenceOffset.top - (targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0));
     // var left = referenceOffset.left + referenceRect.width - (targetElOffsetParentIsDocument ? referenceElWrapperScrollLeft : 0);
     var top = isRightBottom ? Math.floor(referenceOffset.top - (targetElRect.height - referenceRect.height)) : (referenceOffset.top);
     var left = referenceOffset.left + referenceRect.width;
-
+    if (!isRightBottom && isCenter) {
+      top -= (targetElRect.height - referenceRect.height) / 2;
+    }
     top += dropdownOffsetTop;
     left += dropdownOffsetLeft;
 
@@ -546,7 +563,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       ...isInView,
       right,
       bottom,
-      direction: isRightBottom ? 'rightEnd' : 'right',
+      direction: (!isRightBottom && isCenter) ? 'rightCenter' : (isRightBottom ? 'rightEnd' : 'right'),
       // 计算top值时需减去目标元素position不为static的父级元素的top值
       top: newTop,
       left: newLeft
@@ -555,14 +572,29 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
 
   switch (direction) {
     case 'bottom':
+      if (defaultDirectionIsCenter) {
+        directionCalcFlow.push({
+          isTail: false,
+          isCenter: true,
+          handler: handleBottom
+        });
+      }
       directionCalcFlow.push({
         isTail: defaultDirectionIsEnd,
         handler: handleBottom
       });
+      if (defaultDirectionIsCenter) {
+        directionCalcFlow.push({
+          isTail: false,
+          isCenter: true,
+          handler: handleTop
+        });
+      }
       directionCalcFlow.push({
         isTail: defaultDirectionIsEnd,
         handler: handleTop
       });
+
       if (tryAllDirection) {
         directionCalcFlow.push({
           isTail: false,
@@ -575,10 +607,24 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       }
       break;
     case 'top':
+      if (defaultDirectionIsCenter) {
+        directionCalcFlow.push({
+          isTail: false,
+          isCenter: true,
+          handler: handleTop
+        });
+      }
       directionCalcFlow.push({
         isTail: defaultDirectionIsEnd,
         handler: handleTop
       });
+      if (defaultDirectionIsCenter) {
+        directionCalcFlow.push({
+          isTail: false,
+          isCenter: true,
+          handler: handleBottom
+        });
+      }
       directionCalcFlow.push({
         isTail: defaultDirectionIsEnd,
         handler: handleBottom
@@ -595,10 +641,24 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       }
       break;
     case 'left':
+      if (defaultDirectionIsCenter) {
+        directionCalcFlow.push({
+          isTail: false,
+          isCenter: true,
+          handler: handleLeft
+        });
+      }
       directionCalcFlow.push({
         isTail: defaultDirectionIsEnd,
         handler: handleLeft
       });
+      if (defaultDirectionIsCenter) {
+        directionCalcFlow.push({
+          isTail: false,
+          isCenter: true,
+          handler: handleRight
+        });
+      }
       directionCalcFlow.push({
         isTail: defaultDirectionIsEnd,
         handler: handleRight
@@ -615,10 +675,24 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       }
       break;
     case 'right':
+      if (defaultDirectionIsCenter) {
+        directionCalcFlow.push({
+          isTail: false,
+          isCenter: true,
+          handler: handleRight
+        });
+      }
       directionCalcFlow.push({
         isTail: defaultDirectionIsEnd,
         handler: handleRight
       });
+      if (defaultDirectionIsCenter) {
+        directionCalcFlow.push({
+          isTail: false,
+          isCenter: true,
+          handler: handleLeft
+        });
+      }
       directionCalcFlow.push({
         isTail: defaultDirectionIsEnd,
         handler: handleLeft
@@ -640,7 +714,7 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
   let defaultDirectionResult = {} as DropdownDirection;
   // 尝试一遍当前方向的尾方向
   let tryReverse = function (allInView = false, flow: any) {
-    let result = flow.handler(tryEndDirection ? !flow.isTail : flow.isTail);
+    let result = flow.handler(tryEndDirection ? !flow.isTail : flow.isTail, flow.isCenter);
     let inView = result.vertical && result.horizontal;
     let inScrollParentView = result.scrollParentVertical && result.scrollParentHorizontal;
 
@@ -659,12 +733,13 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
   };
   // 寻找元素在水平、垂直方向都完全出现在视口中的方向
   directionCalcFlow.some(function (flow) {
-    let result = flow.handler(flow.isTail) as DropdownDirection;
+    let result = flow.handler(flow.isTail, flow.isCenter) as DropdownDirection;
     // 判断在屏幕视口中是否完可视
     let inView = result.vertical && result.horizontal;
     // 判断在有滚动条的父级容器中是否完可视
     let inScrollParentView = result.scrollParentVertical && result.scrollParentHorizontal;
 
+    console.log('result.direction', result.direction, defaultDirection);
     if (result.direction === defaultDirection) {
       defaultDirectionResult = result;
     }
@@ -672,17 +747,21 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     if (inView) {
       // console.log('inView111, inScrollParentView', inView, inScrollParentView, result);
       if (!inScrollParentView) {
-        let flag = tryReverse(true, flow);
-        if (flag) {
-          return true;
+        if (!flow.isCenter) { // 非中间方向则尝试反方向
+          let flag = tryReverse(true, flow);
+          if (flag) {
+            return true;
+          }
+          return false;
         }
-        return false;
       }
       calcedDirection = result;
       return true;
     } else {
       // console.log('inView222, inScrollParentView', inView, inScrollParentView, result);
-      return tryReverse(true, flow);
+      if (!flow.isCenter) { // 非中间方向则尝试反方向
+        return tryReverse(true, flow);
+      }
     }
   });
   console.log('calcedDirection', calcedDirection);

@@ -8,7 +8,8 @@
   @include zoom;
 
   &.bs-placement-top,
-  &.bs-placement-top-end{
+  &.bs-placement-top-end,
+  &.bs-placement-top-center{
     margin-top: -.35rem;
     &.use-bottom-position{
       margin-top: auto;
@@ -18,13 +19,15 @@
     //@include slide-top;
   }
   &.bs-placement-bottom,
-  &.bs-placement-bottom-end{
+  &.bs-placement-bottom-end,
+  &.bs-placement-bottom-center{
     margin-top: .35rem;
     transform-origin: 0% 0%;
     //@include slide-down;
   }
   &.bs-placement-left,
-  &.bs-placement-left-end{
+  &.bs-placement-left-end,
+  &.bs-placement-left-center{
     margin-left: -.35rem;
     //@include slide-left;
     &.use-right-position{
@@ -33,9 +36,10 @@
     }
   }
   &.bs-placement-right,
-  &.bs-placement-right-end{
+  &.bs-placement-right-end,
+  &.bs-placement-right-center{
     margin-left: .35rem;
-    transform-origin: 0% 0%;
+    //transform-origin: 0% 0%;
     //@include slide-right;
   }
 }

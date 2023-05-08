@@ -15,6 +15,18 @@
       </bs-dropdown>
     </header>
 
+    <div class="sticky-box">
+      <h6>sticky box</h6>
+      <bs-dropdown trigger="click" style="margin-left: 15px;">
+        <bs-button class="dropdown-toggle" type="primary">你好，vue3</bs-button>
+        <template #content>
+          <bs-dropdown-item>下拉框1</bs-dropdown-item>
+          <bs-dropdown-item>下拉框2</bs-dropdown-item>
+          <bs-dropdown-item>下拉框3</bs-dropdown-item>
+        </template>
+      </bs-dropdown>
+    </div>
+
     <div>
       <hr>
       <h3>基本使用</h3>
@@ -210,6 +222,20 @@ export default defineComponent({
   text-align: right;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   background-color: #fff;
+}
+.sticky-box{
+  display: flex;
+  align-items: center;
+  position: sticky;
+  left: 0;
+  width: 100%;
+  top: 65px;
+  z-index: 15;
+  height: 60px;
+  padding: 0 15px;
+  background-color: #fff;
+  border-top: 1px solid #eee;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 h3{
   margin-bottom: 0.8rem;
