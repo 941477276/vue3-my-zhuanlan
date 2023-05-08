@@ -14,7 +14,7 @@ subtitle: 下拉菜单
 
 | 参数                      | 说明                                                                | 类型                                                                              | 默认值       | 
 |-------------------------|-------------------------------------------------------------------|---------------------------------------------------------------------------------|-----------|
-| placement               | 下拉菜单弹出位置                                                          | `left`/`top`/`bottom`/`right`/`leftEnd`/`topEnd`/`bottomEnd`/`rightEnd`         | bottom    |
+| placement               | 下拉菜单弹出位置                                                          | `left`/`top`/`bottom`/`right`/`leftCenter`/`leftEnd`/`topCenter`/`topEnd`/`bottomCenter`/`bottomEnd`/`rightCenter`/`rightEnd`   | bottom    |
 | tryReverseDirection     | 当在指定的`direction`位置下拉菜单不能完全显示时，是否尝试反方向显示                           | boolean                                                                         | true      |
 | tryAllDirection     | 当在指定的`direction`位置下拉菜单不能完全显示时，是否尝试所有方向显示                          | boolean                                                                         | true      |
 | trigger                | 触发下拉菜单显示的方式                                                       | `click`/`hover`/`contextMenu`                                                   | hover     |

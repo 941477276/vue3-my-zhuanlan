@@ -1018,6 +1018,7 @@ export function eleIsInScrollParentView (ele: HTMLElement, scrollEl: HTMLElement
   var scrollElOffset = offset(scrollEl);
   var scrollElScrollTop = scrollTop(scrollEl);
   var scrollElScrollLeft = scrollLeft(scrollEl);
+  var scrollElScrollWidth = scrollWidth(scrollEl);
   var elOffset = {
     top,
     left
@@ -1047,8 +1048,8 @@ export function eleIsInScrollParentView (ele: HTMLElement, scrollEl: HTMLElement
   }
   // console.log('--------elOffset: ', {...elOffset}, scrollElScrollTop, scrollElScrollLeft);
 
-  var scrollElOffsetRight = scrollElOffset.left + scrollEl.offsetWidth;
-  var scrollElOffsetBottom = scrollElOffset.top + scrollEl.offsetHeight;
+  var scrollElOffsetRight = scrollElOffset.left + scrollEl.offsetWidth - scrollElScrollWidth.vertical;
+  var scrollElOffsetBottom = scrollElOffset.top + scrollEl.offsetHeight - scrollElScrollWidth.horizontal;
   var eleOffsetRight = elOffset.left + ele.offsetWidth;
   var eleOffsetBottom = elOffset.top + ele.offsetHeight;
 

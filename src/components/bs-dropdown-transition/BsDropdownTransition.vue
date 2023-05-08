@@ -137,8 +137,10 @@ export default defineComponent({
       bottomEnd: '100% 0',
       left: '100% 0',
       leftEnd: '100% 100%',
+      leftCenter: 'right center',
       right: '0 0',
-      rightEnd: '0 100%'
+      rightEnd: '0 100%',
+      rightCenter: '0 center'
     };
     // 外部自定义样式
     let styleCustom = ref<StringKeyObject>({});
@@ -233,8 +235,8 @@ export default defineComponent({
       }
     };
 
-    let slideUpTransitionPlacements = ['top', 'topEnd'];
-    let slideDownTransitionPlacements = ['bottom', 'bottomEnd'];
+    let slideUpTransitionPlacements = ['top', 'topCenter', 'topEnd'];
+    let slideDownTransitionPlacements = ['bottom', 'bottomCenter', 'bottomEnd'];
     let transitionOrigin = ref<any>({});
     // 监听willVisible，在下拉菜单显示出来前计算出下拉菜单显示位置，如过useZoomTransition为true可以略过
     watch(() => props.willVisible, function (isVisible) {
