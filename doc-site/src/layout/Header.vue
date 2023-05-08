@@ -25,10 +25,10 @@
           </li>
           <li class="nav-item lang-nav-item">
             <bs-dropdown placement="bottom-end" >
-              <bs-button>中文</bs-button>
+              <bs-button>{{ langCode == 'cn' ? '中文' : 'English' }}</bs-button>
               <template #content>
-                <bs-dropdown-item active>中文</bs-dropdown-item>
-                <bs-dropdown-item>English</bs-dropdown-item>
+                <bs-dropdown-item :active="langCode == 'cn'" @click="changeLang('cn')">中文</bs-dropdown-item>
+                <bs-dropdown-item :active="langCode == 'en'" @click="changeLang('en')">English</bs-dropdown-item>
               </template>
             </bs-dropdown>
           </li>
@@ -63,6 +63,8 @@ import { BsiBootstrap } from 'vue3-bootstrap-icon/es/icons/BsiBootstrap';
 import { BsiBootstrapFill } from 'vue3-bootstrap-icon/es/icons/BsiBootstrapFill';
 import { BsiThreeDots } from 'vue3-bootstrap-icon/es/icons/BsiThreeDots';
 import version from '../../../src/version';
+import { langCode } from '../store/lang';
+import { setI18nLanguage } from '../i18n/i18nUtil';
 
 export default defineComponent({
   name: 'Header',
@@ -93,7 +95,13 @@ export default defineComponent({
     });
     return {
       navbarBrandVisible,
-      currentVersion
+      currentVersion,
+      langCode,
+
+      changeLang (code: string) {
+        langCode.value = code;
+        setI18nLanguage(code);
+      }
     };
   }
 });

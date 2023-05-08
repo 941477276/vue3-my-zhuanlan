@@ -3,7 +3,7 @@
   <h1 class="component-name">{{ apiDoc.title }} <small v-if="apiDoc.subtitle">{{ apiDoc.subtitle }}</small></h1>
   <div class="component-description" v-html="apiDoc.description"></div>
   <div class="code-demonstration-container" ref="codeDemoContainerRef">
-    <h2 class="code-demonstration-h2">代码演示</h2>
+    <h2 class="code-demonstration-h2"><!--代码演示-->{{$t('codeDemonstration')}}</h2>
     <slot></slot>
   </div>
   <div class="api-container" v-html="apiDoc.apiContent">
@@ -22,9 +22,10 @@
 
 <script lang="ts">
 import {
-  defineComponent, reactive, ref, onMounted
+  defineComponent, reactive, ref, onMounted, watch, nextTick
 } from 'vue';
 import { scrollIntoParentView } from '../../../src/utils/bs-util';
+import { langCode } from '../store/lang';
 
 interface AnchorMenuItem {
   id: string;
@@ -40,12 +41,6 @@ export default defineComponent({
   },
   setup (props: any) {
     let apiDoc = ref({});
-    // 动态加载文档内容
-    import(/* webpackChunkName: "apiDoc-[request]" */ `../apiDocs/${props.componentName}/zh-CN.json`)
-      .then(res => {
-        console.log('apiDoc', res.default);
-        apiDoc.value = res.default;
-      });
 
     let codeDemoContainerRef = ref<HTMLElement|null>(null);
     // 右侧锚导航列表
@@ -75,7 +70,20 @@ export default defineComponent({
       scrollIntoParentView(demoBoxEl, { top: docHeaderHeight + 20 });
     };
 
-    onMounted(findAnchorMenu);
+    watch(langCode, function (newLangCode) {
+      let docFileName = newLangCode == 'cn' ? 'zh-CN' : 'en-US';
+      // 动态加载文档内容
+      import(/* webpackChunkName: "apiDoc-[request]" */ `../apiDocs/${props.componentName}/${docFileName}.json`)
+        .then(res => {
+          console.log('apiDoc', res.default);
+          apiDoc.value = res.default;
+        });
+      nextTick(function () {
+        findAnchorMenu();
+      });
+    }, { immediate: true });
+
+    // onMounted(findAnchorMenu);
     return {
       codeDemoContainerRef,
       apiDoc,

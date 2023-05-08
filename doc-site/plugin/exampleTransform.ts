@@ -45,7 +45,7 @@ export function exampleTransform () {
         let titles = matterResult.data.title || {};
         let descriptions = matterResult.data.description || {};
         let descCN = descriptions['zh-CN'] ? mt.render(descriptions['zh-CN'].replace(reg, '`')) : '';
-        let descEN = descriptions['zh-EN'] ? mt.render(descriptions['zh-EN'].replace(reg, '`')) : '';
+        let descEN = descriptions['en-US'] ? mt.render(descriptions['en-US'].replace(reg, '`')) : '';
 
         let templateCode = getCodeByTagName(code, 'template', true).trim();
         let script = getCodeByTagName(code, 'script');
@@ -65,6 +65,9 @@ ${style}`.trim();
         let componentName = id.match(componentNameReg)![1];
         componentName = componentName.replace('bs-', '');
         let domId = componentName + '_' + fileName;
+        if (id.endsWith('/bs-cascader/demos/disabled.vue')) {
+          console.log('templateCode', templateCode);
+        }
         // 新代码
         let newCode = `
           <template>

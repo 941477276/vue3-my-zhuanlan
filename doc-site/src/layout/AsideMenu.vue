@@ -20,7 +20,7 @@
             :key-index="menu.componentName"
             @click="handleMenuItemClick(menu)">
             {{ menu.title }}
-            <small v-if="menu.subtitle">{{ menu.subtitle }}</small>
+            <small v-if="menu.subtitle && langCode != 'en'">{{ menu.subtitle }}</small>
           </bs-menu-item>
         </bs-menu-item-group>
       </bs-menu>
@@ -36,12 +36,17 @@ import {
   onMounted
 } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import { langCode } from '../store/lang';
 import menuZhCN from '../router/menu.zh-CN';
+import menuEnUS from '../router/menu.en-US';
 
 export default defineComponent({
   name: 'AsideMenu',
   setup () {
-    let menus = ref(menuZhCN);
+    let menus = computed(function () {
+      let currentLang = langCode.value;
+      return currentLang == 'cn' ? menuZhCN : menuEnUS;
+    });
     let router = useRouter();
     let route = useRoute();
     let activeMenu = computed({
@@ -65,6 +70,7 @@ export default defineComponent({
       menus,
       showScroll,
       activeMenu,
+      langCode,
       handleMenuItemClick (menuItem) {
         router.push({ name: menuItem.componentName });
       }

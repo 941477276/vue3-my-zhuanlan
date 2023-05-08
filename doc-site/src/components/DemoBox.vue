@@ -1,7 +1,7 @@
 <template>
 <div class="demo-box">
   <div class="demo-box-header">
-    <h6 class="demo-title">{{ title.cn }}</h6>
+    <h6 class="demo-title">{{ title[langCode] }}</h6>
     <div class="demo-operate-area">
       <bs-tooltip content="在Playground中打开" placement="top" transition-name="scale">
         <bs-button size="sm">
@@ -23,7 +23,7 @@
       </bs-tooltip>
     </div>
   </div>
-  <div class="demo-description" v-html="decodeURIComponent(description.cn)"></div>
+  <div class="demo-description" v-html="desc"></div>
   <div class="demo-example">
     <slot></slot>
   </div>
@@ -42,7 +42,8 @@
 import {
   ref,
   defineComponent,
-  onMounted
+  onMounted,
+  computed
 } from 'vue';
 import { BsiPlayFill } from 'vue3-bootstrap-icon/es/icons/BsiPlayFill';
 import { BsiCode } from 'vue3-bootstrap-icon/es/icons/BsiCode';
@@ -52,6 +53,7 @@ import { BsiChevronUp } from 'vue3-bootstrap-icon/es/icons/BsiChevronUp';
 import { copyText } from '../common/utils';
 import { BsMessage } from '../../../src/components/bs-message';
 import prism from 'prismjs';
+import { langCode } from '../store/lang';
 
 export default defineComponent({
   name: 'DemoBox',
@@ -63,10 +65,6 @@ export default defineComponent({
     BsiChevronUp
   },
   props: {
-    langCode: { // 语言编码
-      type: String,
-      default: 'cn'
-    },
     title: { // 标题
       type: Object,
       default () {
@@ -94,12 +92,20 @@ export default defineComponent({
     let codeExpanded = ref(false);
     let exampleCodeRef = ref(null);
 
+    let desc = computed(function () {
+      console.log('props.description[langCode.value]', props.description[langCode.value]);
+      let content = decodeURIComponent(props.description[langCode.value]);
+      return content;
+    });
+
     onMounted(function () {
       prism.highlightElement(exampleCodeRef.value);
     });
     return {
       codeExpanded,
       exampleCodeRef,
+      langCode,
+      desc,
       copyExampleCode () { // 复制代码
         let copyStatus = copyText(decodeURIComponent(props.exampleCode));
         if (copyStatus == 1) {
