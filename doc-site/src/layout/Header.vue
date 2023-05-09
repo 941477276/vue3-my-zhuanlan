@@ -36,8 +36,9 @@
             <bs-dropdown placement="bottom-end">
               <bs-button>{{ currentVersion }}</bs-button>
               <template #content>
-                <bs-dropdown-item>中文</bs-dropdown-item>
-                <bs-dropdown-item>English</bs-dropdown-item>
+                <bs-dropdown-item
+                  v-for="(versionItem, index) in versionList"
+                  :key="index">{{ versionItem }}</bs-dropdown-item>
               </template>
             </bs-dropdown>
           </li>
@@ -90,6 +91,10 @@ export default defineComponent({
     };
     console.log('matchMedia576', matchMedia576);
     matchMedia576.addEventListener('change', handleScreenWidthLess576);
+
+    let versionList = ref([]);
+    versionList.value.push(version);
+
     onBeforeUnmount(function () {
       matchMedia576.removeEventListener('change', handleScreenWidthLess576);
     });
@@ -97,6 +102,7 @@ export default defineComponent({
       navbarBrandVisible,
       currentVersion,
       langCode,
+      versionList,
 
       changeLang (code: string) {
         langCode.value = code;
