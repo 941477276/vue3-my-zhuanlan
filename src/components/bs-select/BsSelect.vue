@@ -209,6 +209,7 @@ export default defineComponent({
         dropdownWillVisible.value = false;
         dropdownVisible.value = false;
         isFocus.value = false;
+        (bsSelectInputRef.value as any)?.clearSearchText();
         (bsSelectInputRef.value as any)?.blur();
       }, 120);
     };

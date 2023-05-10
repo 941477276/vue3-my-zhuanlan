@@ -104,5 +104,9 @@ export const bsSelectInputProps = {
   ariaLabel: { // area-label属性值
     type: String,
     default: ''
+  },
+  suffixIcon: { // 后缀图标名称
+    type: String,
+    default: 'chevron-down'
   }
 };

@@ -1,20 +1,39 @@
 .bs-select-input{
   position: relative;
-
+  .bs-input-wrap{
+    .form-control{
+      &:not(:disabled){
+        cursor: pointer;
+        background-color: #fff;
+      }
+    }
+    .custom-suffix-icon{
+      color: #a0a6ad;
+      cursor: pointer;
+    }
+    .bs-icon-chevron-down{
+      transition: transform .3s;
+    }
+    .bs-spinner{
+      width: 1em;
+      height: 1em;
+      border-width: 1px;
+    }
+  }
   .bs-tag{
     height: 1.75rem;
     line-height: calc(1.75rem - 2px);
     margin: 0 0 0.3125rem 0.375rem;
   }
-  /*.bs-input{
+  .bs-input{
     &.has-clear-content_icon{
       .custom-suffix-icon{
         display: none;
       }
     }
-  }*/
+  }
   &.is-focus{
-    /*.bs-input-wrap{
+    .bs-input-wrap{
       .form-control{
         border-color: #80bdff;
         outline: none;
@@ -25,9 +44,6 @@
       .bs-icon-chevron-down{
         transform: rotate(-180deg);
       }
-    }*/
-    .bs-icon-chevron-down{
-      transform: rotate(-180deg);
     }
   }
   &.bs-select-input-lg{
@@ -70,43 +86,6 @@
       cursor: default;
     }
   }
-}
-.bs-select-input-wrap{
-  .form-control{
-    &:not(:disabled){
-      cursor: pointer;
-      background-color: #fff;
-    }
-  }
-  .custom-suffix-icon{
-    color: #a0a6ad;
-    cursor: pointer;
-  }
-  .bs-icon-chevron-down{
-    transition: transform .3s;
-  }
-  .bs-spinner{
-    width: 1em;
-    height: 1em;
-    border-width: 1px;
-  }
-}
-.bs-select-input-suffix{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  z-index: 5;
-  right: 1px;
-  top: 1px;
-  bottom: 1px;
-  min-width: 2rem;
-  font-size: 1rem;
-  color: #aaa;
-  cursor: pointer;
-  /*&:hover{
-    color: #333;
-  }*/
 }
 .bs-select-input-tags{
   position: absolute;
