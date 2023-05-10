@@ -10,7 +10,7 @@
       }
     ]"
     @click="onRootClick">
-    <!--<bs-input
+    <bs-input
       ref="bsInputRef"
       :disabled="disabled"
       :readonly="bsInputReadonly"
@@ -34,42 +34,7 @@
           <BsiChevronDown></BsiChevronDown>
         </slot>
       </template>
-    </bs-input>-->
-    <div class="bs-select-input-wrap">
-      <input
-        type="text"
-        class="form-control"
-        ref="bsInputRef"
-        :class="[
-          {
-            'is-valid': validateStatus === 'success',
-            'is-invalid': validateStatus === 'error'
-          },
-          size ? `form-control-${size}` : ''
-        ]"
-        :disabled="disabled"
-        :readonly="bsInputReadonly"
-        :clearable="clearable"
-        :id="bsSelectInputId"
-        v-model="bsInputModelValue"
-        :name="name"
-        :placeholder="bsInputPlaceholder"
-        :ariaLabel="ariaLabel"
-        :style="inputTagsHeight == 0 ? {} : {
-          height: inputTagsHeight + 'px'
-        }"
-        autocomplete="off"
-        @focus="onBsInputFocus"
-        @blur="onBsInputBlur"
-        @clear="$emit('clear')" />
-      <div class="bs-select-input-suffix">
-        <bs-spinner v-if="loading" :color-type="loadingColorType" :text="loadingText"></bs-spinner>
-        <slot v-else name="suffixIcon">
-          <BsiChevronDown></BsiChevronDown>
-        </slot>
-      </div>
-    </div>
-
+    </bs-input>
     <div
       v-if="multiple"
       class="bs-select-input-tags"
@@ -106,7 +71,8 @@
         autocomplete="off"
         :style="{
           width: searchInputWidth > 0 ? (searchInputWidth + 'px') : ''
-        }">
+        }"
+        @blur="onSearchInputBlur">
       <span
         ref="auxiliaryCalcTextWidthBoxRef"
         class="bs-select-input-search auxiliary-calc-text-width-box">{{ searchText }}</span>
@@ -126,18 +92,20 @@ import {
   nextTick
 } from 'vue';
 import { BsiChevronDown } from 'vue3-bootstrap-icon/es/icons/BsiChevronDown';
+import BsInput from '../bs-input/BsInput.vue';
 import BsTag from '../bs-tag/BsTag.vue';
 import BsSpinner from '../bs-spinner/BsSpinner.vue';
 import SelectInputTagSlot from './widgets/SelectInputTagSlot.vue';
 import { bsSelectInputProps, ValueItem } from './bs-select-input-props';
 import { selectContextKey } from '../../ts-tokens/bootstrap/select';
 import { useInput } from './useInput';
-import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
+import { ValidateStatus } from '../../ts-tokens/bootstrap';
 
 let bsSelectInputCount = 0;
 export default defineComponent({
   name: 'BsSelectInput',
   components: {
+    BsInput,
     BsTag,
     BsSpinner,
     SelectInputTagSlot,
@@ -163,7 +131,6 @@ export default defineComponent({
       onBsInputBlur
     } = useInput(props, ctx, bsInputRef);
     let isFocus = ref(false);
-    let { validateStatus, setValidateStatus, getValidateStatus } = useSetValidateStatus();
 
     // 计算 .bs-select-input-tags 容器高度
     let inputTagsHeight = ref(0);
@@ -216,13 +183,13 @@ export default defineComponent({
       searchInputRef.value?.blur();
     };
     // 搜索框失去焦点事件
-    /* let onSearchInputBlur = function () {
+    let onSearchInputBlur = function () {
       // 解决用户点击不了下拉选项问题，因为搜索文本清空后被隐藏的下拉菜单会立即显示出来
       let timer = setTimeout(function () {
         clearTimeout(timer);
         searchText.value = '';
       }, 320);
-    }; */
+    };
 
     watch(searchText, function (newSearchText) {
       setTimeout(function () {
@@ -269,7 +236,6 @@ export default defineComponent({
       bsInputFocus,
       bsInputPlaceholder,
       isFocus,
-      validateStatus,
 
       inputTagsHeight,
       viewTagList,
@@ -310,19 +276,15 @@ export default defineComponent({
         }
         (bsInputRef.value as any)?.blur();
       },
-      /* setValidateStatus: function (status: ValidateStatus) {
+      setValidateStatus: function (status: ValidateStatus) {
         (bsInputRef.value as any).setValidateStatus(status);
-      }, */
-      setValidateStatus,
-      clearSearchText () {
-        searchText.value = '';
       },
 
       onBsInputFocus,
       onBsInputBlur,
       onTagClose,
-      onRootClick
-      // onSearchInputBlur
+      onRootClick,
+      onSearchInputBlur
     };
   }
 });

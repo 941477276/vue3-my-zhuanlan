@@ -52,6 +52,7 @@ export function useDropdown (props: any, bsCascaderInputRef: Ref<any>, bsCascade
       dropdownVisible.value = false;
       isFocus.value = false;
       (bsCascaderInputRef.value as any)?.blur();
+      (bsCascaderInputRef.value as any)?.clearSearchText();
     }, 120);
   };
 
