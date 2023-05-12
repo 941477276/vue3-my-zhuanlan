@@ -2,7 +2,7 @@
   //position: relative;
   display: inline-block;
   vertical-align: middle;
-  &.is-focus{
+  /*&.is-focus{
     .form-control{
       border-color: #80bdff;
       box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
@@ -15,8 +15,64 @@
         display: none;
       }
     }
+  }*/
+  .form-control{
+    padding-right: 2rem;
+  }
+  &.bs-date-time-editor-lg{
+    .form-control{
+      padding-right: 3rem;
+    }
+    .bs-date-time-editor-input-suffix{
+      min-width: 3rem;
+      font-size: 1.2rem;
+    }
+  }
+  &.bs-date-time-editor-sm{
+    .form-control{
+      padding-right: 1.5rem;
+    }
+    .bs-date-time-editor-input-suffix{
+      min-width: 1.5rem;
+      font-size: 0.8rem;
+    }
   }
 }
+.bs-date-time-editor-input-wrap{
+  position: relative;
+}
+.bs-date-time-editor-input-suffix{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  z-index: 5;
+  right: 1px;
+  top: 1px;
+  bottom: 1px;
+  min-width: 2rem;
+  font-size: 1rem;
+  color: #aaa;
+  //cursor: pointer;
+  /*&:hover{
+    color: #333;
+  }*/
+  .clear-icon{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 0.125rem;
+    transform: translate(-50%, -50%);
+    transition: opacity .2s;
+    opacity: 0;
+    cursor: pointer;
+    background-color: #fff;
+    &:hover{
+      opacity: 1;
+    }
+  }
+}
+
 .bs-picker-panel-container{
   border-radius: 0.24rem 0.25rem;
   border: 1px solid #efefef;

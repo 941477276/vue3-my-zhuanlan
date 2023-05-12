@@ -50,6 +50,10 @@
     <template #trigger>
       <slot></slot>
     </template>
+
+    <template #icon>
+      <BsiClock></BsiClock>
+    </template>
   </BsCommonPicker>
 </template>
 
@@ -69,6 +73,7 @@ import { bsPickerTimePanelProps } from './widgets/bs-picker-time-panel-props';
 import { bsCommonPickerProps } from '../bs-common-picker/bs-common-picker-props';
 import { useTimePicker, getUpdateModelValue } from './useTimePicker';
 import { dayjsUtil } from '../../utils/dayjsUtil';
+import { BsiClock } from 'vue3-bootstrap-icon/es/icons/BsiClock';
 import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
 import {
   isString
@@ -81,7 +86,8 @@ export default defineComponent({
   components: {
     BsPickerTimePanel,
     BsButton,
-    BsCommonPicker
+    BsCommonPicker,
+    BsiClock
   },
   props: {
     ...bsPickerTimePanelProps,
