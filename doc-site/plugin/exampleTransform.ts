@@ -65,9 +65,6 @@ ${style}`.trim();
         let componentName = id.match(componentNameReg)![1];
         componentName = componentName.replace('bs-', '');
         let domId = componentName + '_' + fileName;
-        if (id.endsWith('/bs-cascader/demos/disabled.vue')) {
-          console.log('templateCode', templateCode);
-        }
         // 新代码
         let newCode = `
           <template>

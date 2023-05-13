@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { exampleTransform } from './plugin/exampleTransform';
 import { apiDocTransform } from './plugin/apiDocTransform';
+import { siteDocTransform } from './plugin/siteDocTransform';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,9 +15,12 @@ export default defineConfig({
   plugins: [
     apiDocTransform(),
     exampleTransform(),
+    siteDocTransform(),
     vueJsx({
       // options are passed on to @vue/babel-plugin-jsx
     }),
-    vue()
+    vue({
+      include: [/\.vue$/, /\.md$/]
+    })
   ]
 });

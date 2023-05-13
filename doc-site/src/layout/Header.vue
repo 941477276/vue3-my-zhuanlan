@@ -17,8 +17,8 @@
 
       <div class="navbar-container" id="navbarSupportedContent">
         <ul class="navbar-nav">
-          <li class="nav-item" :class="{active: $route.path == '/' || $route.path == '/index' }">
-            <router-link class="nav-link" to="/home">文档</router-link>
+          <li class="nav-item" :class="{active: $route.path == '/doc/introduce' }">
+            <router-link class="nav-link" to="/doc/introduce">文档</router-link>
           </li>
           <li class="nav-item" :class="{active: $route.path.startsWith('/component') }">
             <router-link class="nav-link" to="/component">组件</router-link>

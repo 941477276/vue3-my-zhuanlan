@@ -132,7 +132,7 @@ import SelectInputTagSlot from './widgets/SelectInputTagSlot.vue';
 import { bsSelectInputProps, ValueItem } from './bs-select-input-props';
 import { selectContextKey } from '../../ts-tokens/bootstrap/select';
 import { useInput } from './useInput';
-import { useSetValidateStatus } from '@/hooks/useSetValidateStatus';
+import { useSetValidateStatus } from '../../hooks/useSetValidateStatus';
 
 let bsSelectInputCount = 0;
 export default defineComponent({

@@ -23,7 +23,7 @@
     left: 0;
     bottom: 0;
     width: 100%;
-    padding-top: 4.5rem;
+    padding-top: 0.5rem;
     overflow: hidden;
     &:hover{
       overflow: auto;
@@ -35,5 +35,8 @@
 
   .bs-menu-vertical{
     border-right: none;
+  }
+  &.show-search-box{
+    padding-top: 4.5rem;
   }
 }

@@ -14,6 +14,7 @@ import { langCode } from './store/lang';
 // 导入全局组件
 import DemoBox from './components/DemoBox.vue';
 import ComponentDoc from './components/ComponentDoc.vue';
+import BsVueDoc from './components/BsVueDoc.vue';
 
 const app = createApp(App);
 let defaultLangCode = getStorageLangCode() || 'cn';
@@ -27,6 +28,7 @@ app.use(i18n);
 initBootstrapComponents(app);
 app.component(DemoBox.name, DemoBox);
 app.component(ComponentDoc.name, ComponentDoc);
+app.component(BsVueDoc.name, BsVueDoc);
 app.use(router);
 
 app.mount('#app');
