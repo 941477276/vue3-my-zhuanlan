@@ -9,7 +9,7 @@
     ]">
     <BsOnlyChild>
       <slot name="trigger">
-        <BsInput
+        <!--<BsInput
           ref="bsInputRef"
           :model-value="inputModelValue"
           :disabled="disabled"
@@ -28,7 +28,35 @@
           @clear="$emit('clear')"
           @update:modelValue="$emit('update:inputModelValue', $event)">
           <slot name="suffix"></slot>
-        </BsInput>
+        </BsInput>-->
+        <div class="bs-date-time-editor-input-wrap">
+          <input
+            type="text"
+            class="form-control"
+            autocomplete="off"
+            ref="bsInputRef"
+            :class="[
+              {
+                'is-valid': validateStatus === 'success',
+                'is-invalid': validateStatus === 'error'
+              },
+              size ? `form-control-${size}` : ''
+            ]"
+            :value="inputModelValue"
+            :disabled="disabled"
+            :id="bsCommonPickerId"
+            :name="name"
+            :placeholder="placeholder"
+            :readonly="inputReadOnly"
+            @input="onInput"
+            @focus="onInputFocus"
+            @blur="onInputBlur"
+            @click="showDropdown" />
+          <div class="bs-date-time-editor-input-suffix">
+            <slot name="icon"><BsiCalendar></BsiCalendar></slot>
+            <BsiXCircle v-if="inputModelValue && clearable" class="clear-icon" @click.stop="handleClear"></BsiXCircle>
+          </div>
+        </div>
       </slot>
     </BsOnlyChild>
     <BsDropdownTransition
@@ -63,20 +91,25 @@ import {
   nextTick,
   PropType
 } from 'vue';
-import BsInput from '../bs-input/BsInput.vue';
+// import BsInput from '../bs-input/BsInput.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
 import BsOnlyChild from '../bs-slot/BsOnlyChild.vue';
 import { useForwardRef } from '../../hooks/useForwardRef';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import { bsCommonPickerProps } from './bs-common-picker-props';
+import { useSetValidateStatus } from '../../hooks/useSetValidateStatus';
+import { BsiCalendar } from 'vue3-bootstrap-icon/es/icons/BsiCalendar';
+import { BsiXCircle } from 'vue3-bootstrap-icon/es/icons/BsiXCircle';
 
 let bsCommonPickerCount = 0;
 export default defineComponent({
   name: 'BsCommonPicker',
   components: {
-    BsInput,
+    // BsInput,
     BsDropdownTransition,
-    BsOnlyChild
+    BsOnlyChild,
+    BsiCalendar,
+    BsiXCircle
   },
   props: {
     ...bsCommonPickerProps
@@ -142,8 +175,10 @@ export default defineComponent({
     });
 
     // 输入框输入事件
-    let onInput = function (value: string, evt: Event) {
+    let onInput = function (evt: Event) {
+      let value = (evt.target as HTMLInputElement)?.value;
       ctx.emit('input', value, evt);
+      ctx.emit('update:inputModelValue', value);
     };
     let onInputFocus = function (evt: Event) {
       ctx.emit('focus', evt);
@@ -152,10 +187,11 @@ export default defineComponent({
       ctx.emit('blur', evt);
     };
 
-    // 设置输入框校验状态
+    let { setValidateStatus, validateStatus } = useSetValidateStatus();
+    /* // 设置输入框校验状态
     let setValidateStatus = function (status: string) {
       (bsInputRef.value as any)?.setValidateStatus(status);
-    };
+    }; */
 
     return {
       bsPickerDropdownRef,
@@ -165,6 +201,7 @@ export default defineComponent({
       visible,
       triggerRef,
       bsCommonPickerId,
+      validateStatus,
 
       onInput,
       onInputBlur,
@@ -178,6 +215,9 @@ export default defineComponent({
       },
       blur () {
         (bsInputRef.value as any)?.blur();
+      },
+      handleClear () {
+        ctx.emit('clear');
       }
     };
   }

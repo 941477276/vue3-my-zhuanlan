@@ -6,6 +6,7 @@
   <Disabled></Disabled>
   <Sidebar></Sidebar>
   <PanelViewDate></PanelViewDate>
+  <Size></Size>
 </div>
 </template>
 
@@ -17,6 +18,7 @@ import CustomCell from './custom-cell.vue';
 import Disabled from './disabled.vue';
 import Sidebar from './sidebar.vue';
 import PanelViewDate from './panl-view-date.vue';
+import Size from './size.vue';
 
 export default defineComponent({
   name: 'DemoIndex',
@@ -26,7 +28,8 @@ export default defineComponent({
     CustomCell,
     Disabled,
     Sidebar,
-    PanelViewDate
+    PanelViewDate,
+    Size
   }
 });
 </script>

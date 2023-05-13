@@ -48,6 +48,12 @@
       <h3>默认显示日期</h3>
       <PanelViewDate></PanelViewDate>
     </div>
+
+    <div>
+      <hr>
+      <h3>不同大小</h3>
+      <Size></Size>
+    </div>
   </div>
 </template>
 
@@ -65,6 +71,7 @@ import CustomCell from './demos/custom-cell.vue';
 import Disabled from './demos/disabled.vue';
 import Sidebar from './demos/sidebar.vue';
 import PanelViewDate from './demos/panl-view-date.vue';
+import Size from './demos/size.vue';
 
 export default defineComponent({
   name: 'BsDatePickerUsage',
@@ -75,7 +82,8 @@ export default defineComponent({
     CustomCell,
     Disabled,
     Sidebar,
-    PanelViewDate
+    PanelViewDate,
+    Size
   },
   setup () {
     let disabledDate = function (currentDate: Dayjs) {
