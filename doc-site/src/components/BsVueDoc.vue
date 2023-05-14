@@ -42,5 +42,12 @@ export default {
   ul > li {
     list-style: circle;
   }
+  h1,h2,h3,h4,h5,h6{
+    line-height: 1.45;
+    margin-bottom: 1rem;
+  }
+  [class*='language-']{
+  margin-bottom: 2rem;
+}
 }
 </style>

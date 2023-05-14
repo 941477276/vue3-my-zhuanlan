@@ -165,7 +165,7 @@ function generateApiDocs (docInfoMap) {
     highlight (str, lang) {
       // console.log('highlight----------------');
       // console.log(str);
-      console.log('highlight============');
+      // console.log('highlight============');
       // console.log(lang);
       if (lang in langMap) {
         lang = langMap[lang];
@@ -174,11 +174,11 @@ function generateApiDocs (docInfoMap) {
       try {
         html = Prism.highlight(str, Prism.languages[lang], lang);
       } catch (e) {
-        console.error(e);
+        console.error(`[generateRoutes.js] Prism.highlight parse "${lang}" error: ${e.message}`);
       }
       if (html) {
         // console.log(html);
-        return `<pre class="language-${lang}">${html}</pre>`;
+        return `<pre class="language-${lang}"><code>${html}</code></pre>`;
       }
     }
   });

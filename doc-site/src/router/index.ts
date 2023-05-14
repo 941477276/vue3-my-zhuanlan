@@ -45,7 +45,17 @@ const routes: RouteRecordRaw[] = [
         name: 'introduce',
         component: dynamicImportDoc('introduce'),
         meta: {
-          title: '关于Bootstrap Vue'
+          title: '关于Bootstrap Vue',
+          enTitle: 'About Bootstrap Vue'
+        }
+      },
+      {
+        path: 'getting-started',
+        name: 'getting-started',
+        component: dynamicImportDoc('getting-started'),
+        meta: {
+          title: '快速上手',
+          enTitle: 'Getting Started'
         }
       }
     ]

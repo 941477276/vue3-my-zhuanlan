@@ -2,8 +2,10 @@
 import MarkdownIt from 'markdown-it';
 // @ts-ignore
 import path from 'path';
-import {isString} from '../../src/utils/bs-util';
-import {getCodeByTagName} from './fetchCode';
+import { isString } from '../../src/utils/bs-util';
+// @ts-ignore;
+import prism from 'prismjs';
+import 'prismjs/components/prism-bash';
 
 function kebabCase2CamelCase (kebabStr: string): string {
   if (!isString(kebabStr)) {
@@ -14,7 +16,23 @@ function kebabCase2CamelCase (kebabStr: string): string {
   });
 };
 export function siteDocTransform () {
-  let mt = new MarkdownIt();
+  let mt = new MarkdownIt({
+    highlight (str: string, lang: string) {
+      console.log('str', str);
+      // console.log('lang', lang);
+      if (lang) {
+        try {
+          let html = prism.highlight(str, prism.languages[lang], lang);
+          if (html) {
+            return `<pre class="language-${lang}"><code>${html}</code></pre>`;
+          }
+        } catch (e: any) {
+          console.error(`[siteDocTransform.js] Prism.highlight parse "${lang}" error: ${e.message}`);
+        }
+      }
+      return '';
+    }
+  });
   console.log('siteDocTransform插件启动了');
   return {
     name: 'exampleTransform',
@@ -30,7 +48,6 @@ export function siteDocTransform () {
         fileName = fileName.split('.')[0];
         let componentName = kebabCase2CamelCase(fileName);
         componentName = componentName.charAt(0).toUpperCase() + componentName.substring(1);
-
 
         // 新代码
         let newCode = `
