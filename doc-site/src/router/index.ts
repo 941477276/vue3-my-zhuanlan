@@ -57,6 +57,15 @@ const routes: RouteRecordRaw[] = [
           title: '快速上手',
           enTitle: 'Getting Started'
         }
+      },
+      {
+        path: 'change-log',
+        name: 'change-log',
+        component: dynamicImportDoc('change-log'),
+        meta: {
+          title: '更新日志',
+          enTitle: 'Change Log'
+        }
       }
     ]
   },
