@@ -54,7 +54,7 @@
             @click="showDropdown" />
           <div class="bs-date-time-editor-input-suffix">
             <slot name="icon"><BsiCalendar></BsiCalendar></slot>
-            <BsiXCircle v-if="inputModelValue && clearable" class="clear-icon" @click.stop="handleClear"></BsiXCircle>
+            <BsiXCircle v-if="inputModelValue && clearable && !disabled" class="clear-icon" @click.stop="handleClear"></BsiXCircle>
           </div>
         </div>
       </slot>
