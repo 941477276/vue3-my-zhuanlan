@@ -43,7 +43,16 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'introduce',
         name: 'introduce',
-        component: dynamicImportDoc('introduce'),
+        component: () => {
+          let langCode = getStorageLangCode();
+          // let langName = langCode == 'cn' ? 'zh-CN' : 'en-US';
+          if (langCode == 'cn') {
+            // @ts-ignore
+            return import('../siteDocs/introduce.zh-CN.md');
+          }
+          // @ts-ignore
+          // return import('../siteDocs/introduce.en-US.md');
+        },
         meta: {
           title: '关于Bootstrap Vue',
           enTitle: 'About Bootstrap Vue'
@@ -52,7 +61,16 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'getting-started',
         name: 'getting-started',
-        component: dynamicImportDoc('getting-started'),
+        component: () => {
+          let langCode = getStorageLangCode();
+          // let langName = langCode == 'cn' ? 'zh-CN' : 'en-US';
+          if (langCode == 'cn') {
+            // @ts-ignore
+            return import('../siteDocs/getting-started.zh-CN.md');
+          }
+          // @ts-ignore
+          // return import('../siteDocs/getting-started.en-US.md');
+        },
         meta: {
           title: '快速上手',
           enTitle: 'Getting Started'
@@ -61,7 +79,16 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'change-log',
         name: 'change-log',
-        component: dynamicImportDoc('change-log'),
+        component: () => {
+          let langCode = getStorageLangCode();
+          // let langName = langCode == 'cn' ? 'zh-CN' : 'en-US';
+          if (langCode == 'cn') {
+            // @ts-ignore
+            return import('../siteDocs/change-log.zh-CN.md');
+          }
+          // @ts-ignore
+          // return import('../siteDocs/change-log.en-US.md');
+        },
         meta: {
           title: '更新日志',
           enTitle: 'Change Log'
