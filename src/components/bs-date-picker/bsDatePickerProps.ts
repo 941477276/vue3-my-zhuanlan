@@ -113,5 +113,11 @@ export const bsDatePickerProps = {
   panelViewDate: { // 选择器打开时默认显示的时间
     type: [String, Object],
     default: ''
+  },
+  nativeAttrs: { // input原生属性
+    type: Object,
+    default () {
+      return {};
+    }
   }
 };

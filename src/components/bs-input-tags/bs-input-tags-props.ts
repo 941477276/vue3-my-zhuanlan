@@ -96,5 +96,11 @@ export const bsInputTagsProps = {
   showAddButton: { // 是否显示添加按钮
     type: Boolean,
     default: true
+  },
+  nativeAttrs: { // input原生属性
+    type: Object,
+    default () {
+      return {};
+    }
   }
 };

@@ -9,6 +9,7 @@
     <input
       ref="radioInputRef"
       class="form-check-input"
+      v-bind="nativeAttrs"
       type="radio"
       autocomplete="off"
       :class="{
@@ -95,6 +96,12 @@ export default defineComponent({
     ariaLabel: { // area-label属性值
       type: String,
       default: ''
+    },
+    nativeAttrs: { // input原生属性
+      type: Object,
+      default () {
+        return {};
+      }
     }
   },
   emits: ['update:modelValue', 'change', 'focus', 'blur'],

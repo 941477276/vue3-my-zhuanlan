@@ -2,10 +2,10 @@
   <BsCommonPicker
     class="bs-time-editor"
     ref="bsCommonPicker"
-    suffix-icon="clock"
     :class="{
       'bs-time-editor-disabled': disabled
     }"
+    :native-attrs="nativeAttrs"
     :size="size"
     :show-footer="showFooter"
     :input-model-value="viewDateText"

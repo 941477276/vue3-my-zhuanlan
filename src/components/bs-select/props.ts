@@ -118,5 +118,11 @@ export const bsSelectProps = {
   dropdownClass: { // .dropdown-menu的额外class
     type: [String, Object, Array],
     default: ''
+  },
+  nativeAttrs: { // input原生属性
+    type: Object,
+    default () {
+      return {};
+    }
   }
 };

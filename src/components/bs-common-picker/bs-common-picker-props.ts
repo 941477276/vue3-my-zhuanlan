@@ -60,5 +60,11 @@ export const bsCommonPickerProps = {
   dropdownClass: { // 下拉弹窗的额外classname
     type: [String, Object, Array],
     default: ''
+  },
+  nativeAttrs: { // input原生属性
+    type: Object,
+    default () {
+      return {};
+    }
   }
 };

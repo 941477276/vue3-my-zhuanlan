@@ -755,6 +755,7 @@ export default defineComponent({
       placeholder={ this.inputPlaceholder }
       input-readonly={ this.inputReadOnly }
       dropdown-class={ this.dropdownClass }
+      native-attrs={ this.nativeAttrs }
       {
         ...{
           'onUpdate:inputModelValue': ($event: any) => { this.viewDateText = $event; }

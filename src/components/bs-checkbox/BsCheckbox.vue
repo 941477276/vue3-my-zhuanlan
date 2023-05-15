@@ -15,6 +15,7 @@
         'is-valid': validateStatus === 'success',
         'is-invalid': validateStatus === 'error'
       }"
+      v-bind="nativeAttrs"
       type="checkbox"
       autocomplete="off"
       :name="name || null"
@@ -36,6 +37,7 @@
         'is-valid': validateStatus === 'success',
         'is-invalid': validateStatus === 'error'
       }"
+      v-bind="nativeAttrs"
       type="checkbox"
       autocomplete="off"
       v-model="checkboxVal"
@@ -132,6 +134,12 @@ export default defineComponent({
     ariaLabel: { // area-label属性值
       type: String,
       default: ''
+    },
+    nativeAttrs: { // input原生属性
+      type: Object,
+      default () {
+        return {};
+      }
     }
   },
   emits: ['update:modelValue', 'change', 'blur', 'focus'],

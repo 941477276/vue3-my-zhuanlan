@@ -15,6 +15,7 @@
     @click="onSelectRootClick">
     <BsSelectInput
       ref="bsSelectInputRef"
+      :native-attrs="nativeAttrs"
       :disabled="disabled || loading"
       :loading="loading"
       :loading-text="loadingText"

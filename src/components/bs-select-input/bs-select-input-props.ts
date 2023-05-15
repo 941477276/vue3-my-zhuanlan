@@ -104,5 +104,11 @@ export const bsSelectInputProps = {
   ariaLabel: { // area-label属性值
     type: String,
     default: ''
+  },
+  nativeAttrs: { // input原生属性
+    type: Object,
+    default () {
+      return {};
+    }
   }
 };

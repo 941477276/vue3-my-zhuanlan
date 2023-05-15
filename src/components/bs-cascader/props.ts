@@ -140,5 +140,11 @@ export const bsCascaderProps = {
     type: [String, Object, Array],
     default: ''
   },
+  nativeAttrs: { // input原生属性
+    type: Object,
+    default () {
+      return {};
+    }
+  },
   ...cascaderMenuProps
 };

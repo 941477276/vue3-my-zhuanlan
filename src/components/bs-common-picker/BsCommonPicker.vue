@@ -32,9 +32,10 @@
         <div class="bs-date-time-editor-input-wrap">
           <input
             type="text"
-            class="form-control"
             autocomplete="off"
             ref="bsInputRef"
+            v-bind="nativeAttrs"
+            class="form-control"
             :class="[
               {
                 'is-valid': validateStatus === 'success',

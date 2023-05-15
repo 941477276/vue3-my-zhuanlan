@@ -12,7 +12,7 @@ description:
 
 <template>
   <div>
-    <BsCascader v-model="cascader1" :options="options" multiple></BsCascader>
+    <BsCascader v-model="cascader1" :options="options" multiple clearable></BsCascader>
     <p>Value: {{ cascader1.length > 0 ? cascader1 : '--' }}</p>
   </div>
 </template>

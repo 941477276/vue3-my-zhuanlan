@@ -21,6 +21,7 @@
           :tag-closeable="tagCloseable"
           :suffix-icon="suffixIcon"
           :name="name"
+          :native-attrs="nativeAttrs"
           @tag-close="onTagClose"
           @filter-text-change="onFilterTextChange"
           @clear="onCascaderInputClear"></BsSelectInput>

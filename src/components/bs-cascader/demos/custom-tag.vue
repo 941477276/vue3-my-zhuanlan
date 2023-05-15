@@ -16,7 +16,8 @@ description:
     <BsCascader
       v-model="cascader1"
       :multiple="true"
-      :options="options">
+      :options="options"
+      clearable>
       <template #tag="tag">
         {{ tag.label }}
         <strong style="color: var(--primary);">(Node level: {{tag.optionPath.length}})</strong>
@@ -29,7 +30,8 @@ description:
       v-model="cascader1"
       :multiple="true"
       :options="options"
-      tag-type="primary">
+      tag-type="primary"
+      clearable>
     </BsCascader>
 
     <h6>Custom tag type2</h6>
@@ -40,7 +42,8 @@ description:
       :show-all-levels="true"
       :options="options2"
       :emit-path="true"
-      :check-strictly="false">
+      :check-strictly="false"
+      clearable>
     </BsCascader>
   </div>
 </template>

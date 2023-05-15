@@ -43,6 +43,7 @@
           class="form-control"
           autocomplete="off"
           ref="inputRef"
+          v-bind="nativeAttrs"
           :class="[
             {
               'is-valid': validateStatus === 'success',

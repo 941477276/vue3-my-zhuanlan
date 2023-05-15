@@ -89,5 +89,11 @@ export const bsInputNumberProps = {
   controlInner: { // 控制按钮是否在输入框内部
     type: Boolean,
     default: true
+  },
+  nativeAttrs: { // input原生属性
+    type: Object,
+    default () {
+      return {};
+    }
   }
 };

@@ -13,7 +13,7 @@ description:
 <template>
   <div>
     <h6>Trigger by <code>'click'</code></h6>
-    <BsCascader v-model="cascader1" :options="options"></BsCascader>
+    <BsCascader v-model="cascader1" :options="options" :native-attrs="{'data-index': 0}" clearable></BsCascader>
     <p>Value: {{ cascader1 || '--' }}</p>
     <h6>Trigger by <code>'hover'</code></h6>
     <BsCascader v-model="cascader1" :options="options" expand-trigger="hover"></BsCascader>

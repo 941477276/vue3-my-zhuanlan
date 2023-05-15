@@ -38,8 +38,9 @@
     <div class="bs-select-input-wrap">
       <input
         type="text"
-        class="form-control"
         ref="bsInputRef"
+        v-bind="nativeAttrs"
+        class="form-control"
         :class="[
           {
             'is-valid': validateStatus === 'success',

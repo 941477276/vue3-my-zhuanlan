@@ -48,6 +48,7 @@
           ref="inputerRef"
           v-model="searchText"
           :type="inputType"
+          v-bind="nativeAttrs"
           class="bs-input-tags-inputer"
           autocomplete="off"
           :id="inputTagsId"
