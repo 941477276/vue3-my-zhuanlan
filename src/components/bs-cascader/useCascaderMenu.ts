@@ -235,7 +235,7 @@ export function useCascaderMenu (options: any) {
         modelValue = [optionValues[optionValues.length - 1]];
       }
     }
-    if ([...localModelValue].sort().join(',') === [...modelValue].sort().join(',')) {
+    if ([...localModelValue].sort().join(',') === [...modelValue].sort().join(',') && modelValue.length > 0) {
       console.log('本地值与父组件值一致，不执行同步');
       return;
     }
