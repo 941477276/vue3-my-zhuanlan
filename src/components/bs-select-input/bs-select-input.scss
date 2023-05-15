@@ -69,6 +69,9 @@
     .bs-select-input-tags{
       cursor: default;
     }
+    .bs-select-input-suffix{
+      background-color: #E9ECEF;
+    }
   }
 }
 .bs-select-input-wrap{
@@ -101,12 +104,28 @@
   top: 1px;
   bottom: 1px;
   min-width: 2rem;
+  border-radius: 0 0.25rem 0.25rem 0;
   font-size: 1rem;
   color: #aaa;
   cursor: pointer;
+  background-color: #fff;
   /*&:hover{
     color: #333;
   }*/
+  .clear-icon{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 0.125rem;
+    transform: translate(-50%, -50%);
+    transition: opacity .2s;
+    opacity: 0;
+    cursor: pointer;
+    background-color: #fff;
+    &:hover{
+      opacity: 1;
+    }
+  }
 }
 .bs-select-input-tags{
   position: absolute;

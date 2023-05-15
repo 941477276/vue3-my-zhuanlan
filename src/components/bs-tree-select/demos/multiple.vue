@@ -13,11 +13,12 @@ description:
 
 <template>
   <div>
-    <bs-tree-select v-model="checkedKeys1" :tree-data="treeData1" multiple node-key="id"></bs-tree-select>
+    <bs-tree-select v-model="checkedKeys1" :tree-data="treeData1" multiple node-key="id" clearable></bs-tree-select>
     <h6>Show checkbox</h6>
     <bs-tree-select v-model="checkedKeys1" :tree-data="treeData1"
       :checkbox-visible="true"
       multiple
+      clearable
       node-key="id"></bs-tree-select>
     <h6>Check strictly(父子不强关联)</h6>
     <bs-tree-select

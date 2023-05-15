@@ -67,6 +67,7 @@
         <slot v-else name="suffixIcon">
           <BsiChevronDown></BsiChevronDown>
         </slot>
+        <BsiXCircle v-if="(bsInputModelValue || viewTagList.length > 0) && clearable && !loading && !disabled" class="clear-icon" @click.stop="handleClear"></BsiXCircle>
       </div>
     </div>
 
@@ -133,11 +134,13 @@ import { bsSelectInputProps, ValueItem } from './bs-select-input-props';
 import { selectContextKey } from '../../ts-tokens/bootstrap/select';
 import { useInput } from './useInput';
 import { useSetValidateStatus } from '../../hooks/useSetValidateStatus';
+import { BsiXCircle } from 'vue3-bootstrap-icon/es/icons/BsiXCircle';
 
 let bsSelectInputCount = 0;
 export default defineComponent({
   name: 'BsSelectInput',
   components: {
+    BsiXCircle,
     BsTag,
     BsSpinner,
     SelectInputTagSlot,
@@ -321,7 +324,10 @@ export default defineComponent({
       onBsInputFocus,
       onBsInputBlur,
       onTagClose,
-      onRootClick
+      onRootClick,
+      handleClear () {
+        ctx.emit('clear');
+      }
       // onSearchInputBlur
     };
   }

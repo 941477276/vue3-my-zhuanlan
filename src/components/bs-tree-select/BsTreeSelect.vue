@@ -25,6 +25,7 @@
       :size="size"
       :multiple="multiple"
       :filterable="filterable"
+      :name="name"
       :placeholder="placeholder"
       :max-tag-count="maxTagCount"
       :tag-type="tagType"

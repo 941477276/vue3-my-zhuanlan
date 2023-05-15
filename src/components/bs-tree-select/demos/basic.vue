@@ -5,7 +5,7 @@ order: 0
 title:
   zh-CN: 基本使用
   en-US: Basic usage
-description: 
+description:
   zh-CN: 最简单的用法
   en-US: 最简单的用法
 ---
@@ -13,7 +13,7 @@ description:
 
 <template>
   <div>
-    <bs-tree-select v-model="checkedKeys1" :tree-data="treeData1" node-key="id"></bs-tree-select>
+    <bs-tree-select v-model="checkedKeys1" :tree-data="treeData1" node-key="id" clearable></bs-tree-select>
     <h6>Show radio</h6>
     <bs-tree-select show-radio v-model="checkedKeys1" :tree-data="treeData1" node-key="id"></bs-tree-select>
     <h6>Only leaf nodes can be selected(只能选择叶子节点)</h6>
