@@ -237,6 +237,7 @@ export default defineComponent({
         }
         tag = { value: tag, label: tag };
       }
+      inputWidth.value = '10%'; // 解决添加tag后界面会出现抖动一下问题
       newModelValue.push(tag);
       ctx.emit('update:modelValue', newModelValue);
       searchText.value = '';
