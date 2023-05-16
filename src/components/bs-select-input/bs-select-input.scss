@@ -108,7 +108,8 @@
   font-size: 1rem;
   color: #aaa;
   cursor: pointer;
-  background-color: #fff;
+  // 不能加白色背景，因为会覆盖输入框校验通过或不通过的样式
+  //background-color: #fff;
   /*&:hover{
     color: #333;
   }*/
