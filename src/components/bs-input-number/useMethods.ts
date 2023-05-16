@@ -154,8 +154,10 @@ export function useInputNumberMethods (props: any, ctx: any, callFormItem: any, 
       return;
     }
     if (keyCode == 38) { // 上
+      evt.preventDefault();
       calculate(1);
     } else if (keyCode == 40) { // 下
+      evt.preventDefault();
       calculate(2);
     }
   };
