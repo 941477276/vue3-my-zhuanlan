@@ -8,23 +8,56 @@
   &.form-inline{
     align-items: flex-start;
   }
+  &.bs-form-has-required:not(.form-vertical){
+    .bs-form-item {
+      &.is-not-required{
+        & > .form-group {
+          .bs-form-label {
+            &::before {
+              display: inline-block;
+              opacity: 0;
+            }
+          }
+        }
+      }
+      &.is-required{
+        &.hide-required-asterisk{
+          &>.form-group {
+            .bs-form-label {
+              &::before {
+                display: inline-block;
+                opacity: 0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 .bs-form-item{
   margin-bottom: 1.45rem; /* 校验错误提示信息的高度 + 校验错误提示信息的margin-top */
   .form-group{
     margin-bottom: 0;
   }
+  &>.form-group{
+    .bs-form-label{
+      &::before{
+        display: none;
+        vertical-align: middle;
+        content: '*';
+        line-height: 1;
+        margin-right: 0.3rem;
+        font-size: 1.2em;
+        color: #dc3545;
+      }
+    }
+  }
   &.is-required{
     &>.form-group{
       .bs-form-label{
         &::before{
           display: inline-block;
-          vertical-align: middle;
-          content: '*';
-          line-height: 1;
-          margin-right: 0.3rem;
-          font-size: 1.2em;
-          color: #dc3545;
         }
       }
     }
@@ -46,6 +79,13 @@
     &  + .valid-feedback,
     &  + .invalid-feedback{
       margin-top: 0;
+    }
+  }
+  &.bs-form-item-horizontal{
+    &>.form-group{
+      .bs-form-item-content{
+        flex: 1;
+      }
     }
   }
 }

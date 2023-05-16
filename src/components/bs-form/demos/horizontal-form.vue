@@ -5,7 +5,7 @@ order: 0
 title:
   zh-CN: 水平表单
   en-US: Horizontal form
-description: 
+description:
   zh-CN: 设置`layout=horizontal`属性可以让表单域变为行内的表单域
   en-US: Setting the `layout=horizontal` attribute can make the form field an inline form field
 ---
@@ -44,6 +44,11 @@ description:
           v-model="formData.birthday"
           value-format="YYYY-MM-DD"
           placeholder="请选择生日"></bs-date-picker>
+      </bs-form-item>
+      <bs-form-item
+        label="身高"
+        name="height">
+        <bs-input v-model="formData.height" type="number" placeholder="请输入身高" suffix="厘米"></bs-input>
       </bs-form-item>
 
       <bs-form-item label=" ">
@@ -85,6 +90,11 @@ description:
           value-format="YYYY-MM-DD"
           placeholder="请选择生日"></bs-date-picker>
       </bs-form-item>
+      <bs-form-item
+        label="身高"
+        name="height">
+        <bs-input v-model="formData.height" type="number" placeholder="请输入身高" suffix="厘米"></bs-input>
+      </bs-form-item>
 
       <bs-form-item label=" ">
         <bs-button type="primary" @click="confirmForm2">提交</bs-button>
@@ -106,7 +116,8 @@ let formRef2 = ref(null);
 let formData = reactive({
   username: '',
   gender: '',
-  birthday: ''
+  birthday: '',
+  height: ''
 });
 let rules = computed(function () {
   return {
