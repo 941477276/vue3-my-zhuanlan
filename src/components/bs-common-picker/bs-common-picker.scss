@@ -22,11 +22,11 @@
   }
   &.bs-date-time-editor-lg{
     .form-control{
-      padding-right: 3rem;
+      padding-right: 2.5rem;
     }
     .bs-date-time-editor-input-suffix{
-      min-width: 3rem;
-      font-size: 1.2rem;
+      min-width: 2.5rem;
+      font-size: 1.25rem;
     }
   }
   &.bs-date-time-editor-sm{
@@ -35,7 +35,7 @@
     }
     .bs-date-time-editor-input-suffix{
       min-width: 1.5rem;
-      font-size: 0.8rem;
+      font-size: 0.875rem;
     }
   }
 }

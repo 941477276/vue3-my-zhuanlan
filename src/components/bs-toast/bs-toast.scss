@@ -1,3 +1,5 @@
+@import "../styles/bootstrap-variables";
+@import "bootstrap/scss/toasts";
 .bs-toast{
   flex-basis: 22rem; // 352px
   max-width: 22rem; // 352px

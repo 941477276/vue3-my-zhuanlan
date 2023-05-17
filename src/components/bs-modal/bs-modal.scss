@@ -1,3 +1,5 @@
+@import "../styles/bootstrap-variables";
+@import "bootstrap/scss/modal";
 .bs-modal{
   display: block;
   &.modal-opened{

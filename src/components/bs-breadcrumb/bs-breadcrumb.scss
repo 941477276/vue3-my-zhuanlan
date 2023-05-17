@@ -1,3 +1,5 @@
+@import "../styles/bootstrap-variables";
+@import "bootstrap/scss/breadcrumb";
 .bs-breadcrumb {
   .breadcrumb-item{
     &::before{

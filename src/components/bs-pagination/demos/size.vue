@@ -14,13 +14,13 @@ description:
 <template>
   <div>
     <h6>Large pagination(<code>size=lg</code>)</h6>
-    <bs-pagination v-model:current-page="page" size="lg" :total="100" layout="pager"></bs-pagination>
+    <bs-pagination v-model:current-page="page" size="lg" :total="100" layout="total,pager,sizes,jumper,slot"></bs-pagination>
 
     <h6>Default pagination</h6>
-    <bs-pagination v-model:current-page="page" :total="100" layout="pager"></bs-pagination>
+    <bs-pagination v-model:current-page="page" :total="100" layout="total,pager,sizes,jumper,slot"></bs-pagination>
 
     <h6>Small pagination(<code>size=sm</code>)</h6>
-    <bs-pagination v-model:current-page="page" size="sm" :total="100" layout="pager"></bs-pagination>
+    <bs-pagination v-model:current-page="page" size="sm" :total="100" layout="total,pager,sizes,jumper,slot"></bs-pagination>
   </div>
 </template>
 
