@@ -1,7 +1,6 @@
 import {
   h
 } from 'vue';
-import './bs-button-group.scss';
 
 const arrowSize = ['sm', 'lg'];
 const buttonGroupPrefix = 'btn-group';

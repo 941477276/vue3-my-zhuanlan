@@ -4,13 +4,15 @@ import App from './App.vue';
 // 导入router
 import router from './router';
 // 导入bootstrap css
-import 'bootstrap/scss/bootstrap.scss';
+// import 'bootstrap/scss/bootstrap.scss';
 // 导入代码高亮插件css
 import 'prism-themes/themes/prism-atom-dark.css';
+import '../../src/styles/index';
+import '../../src/styles/bootstrap-other.scss';
 import initBootstrapComponents from '../../src/components/index';
 import { setupI18n, getStorageLangCode } from './i18n/i18nUtil';
 import { langCode } from './store/lang';
-
+import '../../src/components/style';
 // 导入全局组件
 import DemoBox from './components/DemoBox.vue';
 import ComponentDoc from './components/ComponentDoc.vue';

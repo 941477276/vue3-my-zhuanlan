@@ -281,7 +281,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style lang="scss">
-@import "bs-modal";
-</style>

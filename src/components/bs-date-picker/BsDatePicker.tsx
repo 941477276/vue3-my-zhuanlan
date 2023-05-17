@@ -1,4 +1,3 @@
-import './bs-date-picker.scss';
 import {
   defineComponent,
   PropType,

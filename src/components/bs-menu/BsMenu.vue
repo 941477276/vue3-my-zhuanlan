@@ -183,7 +183,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style lang="scss">
-@import "bs-menu.scss";
-</style>

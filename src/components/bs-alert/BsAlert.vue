@@ -115,7 +115,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style lang="scss">
-@import "bs-alert";
-</style>

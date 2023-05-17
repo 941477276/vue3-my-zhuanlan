@@ -557,5 +557,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import "bs-date-picker";
+@import "style/bs-date-picker";
 </style>

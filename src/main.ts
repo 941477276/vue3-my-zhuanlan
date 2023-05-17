@@ -7,10 +7,10 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 
 import App from './App.vue';
-import './components/styles/index';
+import './styles/index';
 import initBootstrapComponents from './components/index';
 
-// import './components/style';
+import './components/style';
 
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
