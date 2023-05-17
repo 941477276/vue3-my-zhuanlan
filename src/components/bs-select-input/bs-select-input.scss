@@ -1,6 +1,8 @@
 .bs-select-input{
   position: relative;
-
+  .form-control{
+    padding-right: 2rem;
+  }
   .bs-tag{
     height: 1.75rem;
     line-height: calc(1.75rem - 2px);
@@ -39,11 +41,18 @@
       line-height: calc(2rem - 2px);
       margin: 0 0 0.5rem 0.75rem;
     }
+    .form-control{
+      padding-right: 2.5rem;
+    }
     .bs-select-input-search{
       height: 2rem;
       line-height: 2rem;
       margin: 0 0 0.5rem 0.75rem;
       font-size: 1rem;
+    }
+    .bs-select-input-suffix{
+      min-width: 2.5rem;
+      font-size: 1.2rem;
     }
   }
   &.bs-select-input-sm{
@@ -56,11 +65,18 @@
       line-height: calc(1.25rem - 2px);
       margin: 0 0 0.3125rem 0.25rem;
     }
+    .form-control{
+      padding-right: 1.5rem;
+    }
     .bs-select-input-search{
       height: 1.25rem;
       line-height: 1.25rem;
       margin: 0 0 0.3125rem 0.25rem;
       font-size: 0.75rem;
+    }
+    .bs-select-input-suffix{
+      min-width: 1.5rem;
+      font-size: 0.875rem;
     }
   }
   &.is-disabled{
@@ -108,7 +124,8 @@
   font-size: 1rem;
   color: #aaa;
   cursor: pointer;
-  background-color: #fff;
+  // 不能加白色背景，因为会覆盖输入框校验通过或不通过的样式
+  //background-color: #fff;
   /*&:hover{
     color: #333;
   }*/

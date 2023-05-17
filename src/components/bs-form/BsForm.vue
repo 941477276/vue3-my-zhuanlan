@@ -6,6 +6,7 @@
     'form-inline': layout == 'inline',
     'form-horizontal': layout == 'horizontal',
     'form-vertical': layout == 'vertical',
+    'bs-form-has-required': hasFormItemRequired
   }, size ? `bs-form-${size}` : '']">
   <slot></slot>
 </form>
@@ -80,6 +81,20 @@ export default defineComponent({
   setup (props: any, ctx: any) {
     // 存储<bs-form-item>子组件的上下文
     let formItemCtxs = ref<any[]>([]);
+    // 表单项是否有必填的
+    let hasFormItemRequired = ref(false);
+
+    let calcFormItemRequiredTimer: number;
+    // 计算表单项是否有必填的
+    let calcFormItemRequired = function () {
+      clearTimeout(calcFormItemRequiredTimer);
+      calcFormItemRequiredTimer = setTimeout(function () {
+        hasFormItemRequired.value = formItemCtxs.value.some(function (formItemCtx) {
+          // console.log('formItemCtx', formItemCtx.isRequired);
+          return formItemCtx.isRequired;
+        });
+      }, 60);
+    };
     /**
      * 添加form-item组件实例
      * @param formItem
@@ -87,6 +102,7 @@ export default defineComponent({
     let addFormItemCtx = function (formItem: any): void {
       if (!formItemCtxs.value.includes(formItem)) {
         formItemCtxs.value.push(formItem);
+        calcFormItemRequired();
       }
       // console.log('formItemCtxs', formItemCtxs.value);
     };
@@ -98,6 +114,7 @@ export default defineComponent({
       let index = formItemCtxs.value.indexOf(formItem);
       if (index > -1) {
         formItemCtxs.value.splice(index, 1);
+        calcFormItemRequired();
       }
     };
 
@@ -233,6 +250,7 @@ export default defineComponent({
     }));
 
     return {
+      hasFormItemRequired,
       addFormItemCtx,
       removeFormItemCtx,
       validate,

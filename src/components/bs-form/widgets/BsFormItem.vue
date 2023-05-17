@@ -6,6 +6,7 @@
       'bs-form-item-valid': validStatus === 'success',
       'bs-form-item-invalid': validStatus === 'error',
       'is-required': isRequired,
+      'is-not-required': !isRequired,
       'hide-required-asterisk': hideRequiredAsterisk,
       'has-feedback': feedbackIsShow
     }, `bs-form-item-${formLayout}`, formItemSize ? `bs-form-item-${formItemSize}` : '']">
@@ -454,6 +455,7 @@ export default defineComponent({
     // 提供一些上下文参数给<bs-form>父组件
     useDeliverContextToParent<FormContext>(formContextKey, {
       props,
+      isRequired,
       validate,
       clearValidate,
       resetField

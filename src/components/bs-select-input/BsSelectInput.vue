@@ -63,7 +63,7 @@
         @focus="onBsInputFocus"
         @blur="onBsInputBlur"
         @clear="$emit('clear')" />
-      <div class="bs-select-input-suffix">
+      <div class="bs-select-input-suffix" @click="handleInputSuffixClick">
         <bs-spinner v-if="loading" :color-type="loadingColorType" :text="loadingText"></bs-spinner>
         <slot v-else name="suffixIcon">
           <BsiChevronDown></BsiChevronDown>
@@ -258,6 +258,19 @@ export default defineComponent({
       ctx.emit('click', evt);
     };
 
+    let focus = function () {
+      if (props.disabled) {
+        return;
+      }
+      // console.log('focus dsdssss');
+      isFocus.value = true;
+      if (props.multiple) {
+        searchInputFocus();
+        return;
+      }
+      (bsInputRef.value as any)?.focus();
+    };
+
     let selectCtx = inject(selectContextKey);
     // console.log('parentCtx', selectCtx);
     provide('parentCtx', { ctx: selectCtx?.ctx || ctx });
@@ -287,18 +300,7 @@ export default defineComponent({
       searchInputFocus,
       searchInputBlur,
 
-      focus: function () {
-        if (props.disabled) {
-          return;
-        }
-        // console.log('focus dsdssss');
-        isFocus.value = true;
-        if (props.multiple) {
-          searchInputFocus();
-          return;
-        }
-        (bsInputRef.value as any)?.focus();
-      },
+      focus,
       blur: function () {
         if (props.disabled) {
           return;
@@ -328,6 +330,14 @@ export default defineComponent({
       onRootClick,
       handleClear () {
         ctx.emit('clear');
+        if (!props.disabled) {
+          focus();
+        }
+      },
+      handleInputSuffixClick () {
+        if (!props.disabled) {
+          focus();
+        }
       }
       // onSearchInputBlur
     };

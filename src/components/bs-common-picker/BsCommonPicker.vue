@@ -53,7 +53,7 @@
             @focus="onInputFocus"
             @blur="onInputBlur"
             @click="showDropdown" />
-          <div class="bs-date-time-editor-input-suffix">
+          <div class="bs-date-time-editor-input-suffix" @click="handleInputSuffixClick">
             <slot name="icon"><BsiCalendar></BsiCalendar></slot>
             <BsiXCircle v-if="inputModelValue && clearable && !disabled" class="clear-icon" @click.stop="handleClear"></BsiXCircle>
           </div>
@@ -193,6 +193,9 @@ export default defineComponent({
     let setValidateStatus = function (status: string) {
       (bsInputRef.value as any)?.setValidateStatus(status);
     }; */
+    let focus = function () {
+      (bsInputRef.value as any)?.focus();
+    };
 
     return {
       bsPickerDropdownRef,
@@ -211,14 +214,20 @@ export default defineComponent({
       setValidateStatus,
       showDropdown,
       hideDropdown,
-      focus () {
-        (bsInputRef.value as any)?.focus();
-      },
+      focus,
       blur () {
         (bsInputRef.value as any)?.blur();
       },
       handleClear () {
         ctx.emit('clear');
+        if (!props.disabled) {
+          focus();
+        }
+      },
+      handleInputSuffixClick () {
+        if (!props.disabled) {
+          focus();
+        }
       }
     };
   }

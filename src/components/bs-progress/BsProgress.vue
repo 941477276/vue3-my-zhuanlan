@@ -71,5 +71,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-
+@import "bs-progress";
 </style>

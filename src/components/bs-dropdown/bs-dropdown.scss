@@ -1,4 +1,6 @@
 @import "../../scss/slide-transition.mixin";
+@import "../styles/bootstrap-variables";
+@import "bootstrap/scss/dropdown";
 .bs-dropdown{
   display: inline-block;
   vertical-align: middle;
@@ -6,6 +8,15 @@
     opacity: 0.65;
     cursor: default;
     pointer-events: none;
+  }
+}
+
+.dropdown-item{
+  &.disabled{
+    cursor: not-allowed;
+  }
+  &:not(.disabled){
+    cursor: pointer;
   }
 }
 

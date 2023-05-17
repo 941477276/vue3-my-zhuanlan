@@ -43,7 +43,7 @@ export const bsCommonPickerProps = {
   },
   clearable: { // 输入框是否可清空
     type: Boolean,
-    default: true
+    default: false
   },
   setMinWidth: {
     type: Boolean,
