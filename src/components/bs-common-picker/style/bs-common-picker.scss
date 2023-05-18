@@ -93,6 +93,11 @@
     display: flex;
   }
 }
+.bs-picker-header{
+  .bs-icon{
+    vertical-align: 0.125rem;
+  }
+}
 .bs-picker-footer{
   border-top: 1px solid #efefef;
 }
