@@ -21,9 +21,9 @@ export interface CascaderExpandedMenuItem {
 };
 
 export interface CascaderFieldNames {
-  label: string;
-  value: string;
-  children: string;
-  disabled: string;
-  leaf: string;
+  label?: string;
+  value?: string;
+  children?: string;
+  disabled?: string;
+  leaf?: string;
 };

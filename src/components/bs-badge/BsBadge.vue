@@ -11,30 +11,11 @@
 <script lang="ts">
 import { defineComponent, computed, PropType } from 'vue';
 import { BsColorType, supportedBsColorTypes } from '../../ts-tokens/bootstrap';
+import { bsBadgeProps } from './bs-badge-types';
 
 export default defineComponent({
   name: 'BsBadge',
-  props: {
-    tag: { // 标签名
-      type: String,
-      default: 'span'
-    },
-    type: { // 类型
-      type: String as PropType<BsColorType>,
-      default: 'primary',
-      validator (typeVal: BsColorType) {
-        return supportedBsColorTypes.includes(typeVal);
-      }
-    },
-    pill: { // 是否为胶囊样式
-      type: Boolean,
-      default: false
-    },
-    circle: { // 是否为小圆点样式
-      type: Boolean,
-      default: false
-    }
-  },
+  props: bsBadgeProps,
   emits: ['click'],
   setup (props: any, ctx) {
     let badgeClass = computed<Array<string|unknown>>(() => {

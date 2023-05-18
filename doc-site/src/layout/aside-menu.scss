@@ -26,7 +26,7 @@
     padding-top: 1rem;
     overflow: hidden;
     &:hover{
-      overflow: auto;
+      overflow-y: auto;
     }
     &.scroll-auto{
       overflow: auto;

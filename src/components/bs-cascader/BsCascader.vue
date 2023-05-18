@@ -110,7 +110,7 @@ import BsSelectInput from '../bs-select-input/BsSelectInput.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
 import BsCascaderMenu from './widgets/bs-cascader-menu.vue';
 import BsOnlyChild from '../bs-slot/BsOnlyChild.vue';
-import { bsCascaderProps } from './props';
+import { bsCascaderProps } from './bs-cascader-types';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
 import { useForwardRef } from '../../hooks/useForwardRef';
@@ -141,15 +141,7 @@ const defaultFieldNames: CascaderFieldNames = {
 let cascaderCount = 0;
 export default defineComponent({
   name: 'BsCascader',
-  props: {
-    ...bsCascaderProps,
-    fieldNames: { // 自定义 options 中 label、 children、disabled 的字段名称
-      type: Object,
-      default () {
-        return {};
-      }
-    }
-  },
+  props: bsCascaderProps,
   components: {
     BsSelectInput,
     BsDropdownTransition,

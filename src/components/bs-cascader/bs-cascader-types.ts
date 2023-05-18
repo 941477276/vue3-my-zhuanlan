@@ -1,5 +1,6 @@
-import { PropType } from 'vue';
+import { PropType, ExtractPropTypes } from 'vue';
 import { BsColorType, BsSize } from '../../ts-tokens/bootstrap';
+import { CascaderFieldNames } from '../../ts-tokens/bootstrap/cascader';
 import { cascaderMenuProps } from './widgets/cascader-menu-props';
 
 export const bsCascaderProps = {
@@ -146,5 +147,13 @@ export const bsCascaderProps = {
       return {};
     }
   },
-  ...cascaderMenuProps
+  ...cascaderMenuProps,
+  fieldNames: { // 自定义 options 中 label、 children、disabled 的字段名称
+    type: Object as PropType<CascaderFieldNames>,
+    default () {
+      return {};
+    }
+  }
 };
+
+export type BsCascaderProps = ExtractPropTypes<typeof bsCascaderProps>;

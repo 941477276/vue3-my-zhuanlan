@@ -20,6 +20,7 @@ import {
   BreadcrumbContext,
   breadcrumbContextKey
 } from '../../ts-tokens/bootstrap/breadcrumb';
+import { bsBreadcrumbProps } from './bs-breadcrumb-types';
 
 type ItemCtx = {
   id: string;
@@ -28,12 +29,7 @@ type ItemCtx = {
 
 export default defineComponent({
   name: 'BsBreadcrumb',
-  props: {
-    separator: {
-      type: String,
-      default: '/'
-    }
-  },
+  props: bsBreadcrumbProps,
   setup (props: any) {
     let itemCtxs = ref<ItemCtx[]>([]);
     // 存储子组件上下文
