@@ -97,7 +97,7 @@ import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition
 import BsOnlyChild from '../bs-slot/BsOnlyChild.vue';
 import { useForwardRef } from '../../hooks/useForwardRef';
 import { useClickOutside } from '../../hooks/useClickOutside';
-import { bsCommonPickerProps } from './bs-common-picker-props';
+import { bsCommonPickerTypes } from './bs-common-picker-types';
 import { useSetValidateStatus } from '../../hooks/useSetValidateStatus';
 import { BsiCalendar } from 'vue3-bootstrap-icon/es/icons/BsiCalendar';
 import { BsiXCircle } from 'vue3-bootstrap-icon/es/icons/BsiXCircle';
@@ -113,7 +113,7 @@ export default defineComponent({
     BsiXCircle
   },
   props: {
-    ...bsCommonPickerProps
+    ...bsCommonPickerTypes
   },
   emits: ['update:inputModelValue', 'input', 'focus', 'blur', 'clear', 'show', 'shown', 'hidden'],
   setup (props: any, ctx: any) {

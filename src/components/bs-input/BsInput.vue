@@ -153,7 +153,7 @@ import {
 import { useSetValidateStatus } from '../../hooks/useSetValidateStatus';
 import { useInput } from './useInput';
 import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
-import { bsInputProps } from './bs-input-props';
+import { bsInputProps } from './bs-input-types';
 import { BsiXCircle } from 'vue3-bootstrap-icon/es/icons/BsiXCircle';
 import { BsiEye } from 'vue3-bootstrap-icon/es/icons/BsiEye';
 import { BsiEyeSlash } from 'vue3-bootstrap-icon/es/icons/BsiEyeSlash';
@@ -170,9 +170,7 @@ export default defineComponent({
     BsiEyeSlash,
     GhostTextarea
   },
-  props: {
-    ...bsInputProps
-  },
+  props: bsInputProps,
   emits: ['click', 'input', 'update:modelValue', 'change', 'blur', 'focus', 'clear', 'mouseenter', 'mouseleave', 'compositionstart', 'compositionupdate', 'compositionend', 'keydown'],
   setup (props: any, ctx: any) {
     let showPasswordIconDisplay = ref(false); // 切换输入框类型为“密码/文本”按钮是否显示

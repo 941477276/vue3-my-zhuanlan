@@ -65,7 +65,7 @@ import {
   onUnmounted,
   isRef
 } from 'vue';
-import { bsToastProps } from './bs-toast-props';
+import { bsToastProps } from './bs-toast-types';
 import {
   FixedToastItem,
   addToastCtx,

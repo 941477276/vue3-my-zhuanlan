@@ -11,7 +11,7 @@ import {
 } from '@vue/shared';
 import BsLoading from './BsLoading.vue';
 import { useGetContentInfo } from '../../hooks/useGetContentInfo';
-import { CreateLoadingOptions } from '../../ts-tokens/bootstrap/loading';
+import { CreateLoadingOptions } from './bs-loading-types';
 
 let loadingCount = 0;
 export function createLoadingComponent (options: CreateLoadingOptions = {} as (CreateLoadingOptions)) {

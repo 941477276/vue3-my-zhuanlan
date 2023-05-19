@@ -91,74 +91,11 @@ import {
   formItemContextKey
 } from '../../../ts-tokens/bootstrap';
 import { useDeliverContextToParent } from '../../../hooks/useDeliverContextToParent';
+import { bsFormItemProps } from '../bs-form-types';
 
 export default defineComponent({
   name: 'BsFormItem',
-  props: {
-    value: { // 当前表单项的值，仅用来校验当前表单项时使用
-      default: null
-    },
-    label: {
-      type: String,
-      default: ''
-    },
-    name: { // 字段在model中的key
-      type: String,
-      default: ''
-    },
-    rules: { // 当前表单的校验规则
-      type: [Array, Object],
-      default: () => []
-    },
-    showLabel: { // 是否显示label
-      type: Boolean,
-      default: true
-    },
-    labelFor: { // label的for属性
-      type: String,
-      default: ''
-    },
-    labelAlign: { // label标签的对齐方式
-      type: String as PropType<BsTextAlign>,
-      default: ''
-    },
-    labelClass: { // label标签的额外classname
-      type: [String, Array, Object],
-      default: ''
-    },
-    labelWidth: { // label标签的宽度
-      type: [String, Number],
-      default: ''
-    },
-    contentClass: { // 内容部分的额外class
-      type: [String, Array, Object],
-      default: ''
-    },
-    horizontal: { // label是否水平显示
-      type: Boolean,
-      default: undefined
-    },
-    hint: { // 提示文字
-      type: String,
-      default: ''
-    },
-    validSuccessText: { // 表单校验成功后的文案
-      type: String,
-      default: ''
-    },
-    required: { // 是否必填，如不设置，则会根据校验规则自动生成
-      type: Boolean,
-      default: false
-    },
-    hideRequiredAsterisk: { // 是否隐藏必填字段的标签旁边的红色星号
-      type: Boolean,
-      default: false
-    },
-    size: { // 表单大小
-      type: String as PropType<BsSize>,
-      default: ''
-    }
-  },
+  props: bsFormItemProps,
   setup (props: any, ctx: any) {
     let bsFormItemRef = ref<HTMLElement>();
     // 校验状态

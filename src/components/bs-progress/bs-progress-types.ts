@@ -1,8 +1,8 @@
-import { PropType } from 'vue';
+import { PropType, ExtractPropTypes } from 'vue';
 import { BsColorType, supportedBsColorTypes } from '../../ts-tokens/bootstrap';
 
 export type ColorFunctionType = (percentage: number) => string|Array<{color: string;percentage:number}>;
-export interface MultipleProgressDefine {
+export interface BsMultipleProgressDefine {
   percentage: number;
   colorType?: BsColorType;
   showText?: boolean;
@@ -12,13 +12,13 @@ export interface MultipleProgressDefine {
   animated?: boolean;
 };
 
-export default {
+export const bsProgressProps = {
   percentage: { // 进度值
     type: [Number, String],
     default: 0
   },
   progresses: { // 多个进度条，只有在multiple为true时有效
-    type: Array as PropType<MultipleProgressDefine[]>,
+    type: Array as PropType<BsMultipleProgressDefine[]>,
     default () {
       return [];
     }
@@ -55,3 +55,5 @@ export default {
     default: false
   }
 };
+
+export type BsProgressProps = ExtractPropTypes<typeof bsProgressProps>;

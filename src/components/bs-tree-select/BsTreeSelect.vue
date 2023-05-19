@@ -96,7 +96,7 @@ import {
 import { useClickOutside } from '../../hooks/useClickOutside';
 import BsTree from '../bs-tree/BsTree.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
-import { bsTreeSelectProps } from './props';
+import { bsTreeSelectProps } from './bs-tree-select-types';
 import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
 import { SelectContext, selectContextKey, SelectOptionItem } from '../../ts-tokens/bootstrap/select';
 
@@ -107,9 +107,7 @@ export default defineComponent({
     BsTree,
     BsDropdownTransition
   },
-  props: {
-    ...bsTreeSelectProps
-  },
+  props: bsTreeSelectProps,
   emits: ['update:modelValue', 'change', 'node-expand', 'check-change', 'node-click', 'node-destroy', 'show', 'hide'],
   setup (props: any, ctx: any) {
     let bsTreeSelectRef = ref<HTMLElement|null>(null);

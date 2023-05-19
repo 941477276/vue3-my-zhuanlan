@@ -106,7 +106,7 @@ import {
   nextTick
 } from 'vue';
 import { useSetValidateStatus } from '../../hooks/useSetValidateStatus';
-import { bsInputNumberProps } from './bs-input-number-props';
+import { bsInputNumberProps } from './bs-input-number-types';
 import { useInputNumberMethods } from './useMethods';
 import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
 import BsInputNumberOperateButton from './widgets/BsInputNumberOperateButton.vue';

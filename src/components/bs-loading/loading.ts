@@ -4,7 +4,6 @@ import {
   isFunction
 } from '@vue/shared';
 import { createLoadingComponent, LoadingInstance } from './createLoadingComponent';
-import { CreateLoadingOptions } from '../../ts-tokens/bootstrap/loading';
 import { StringKeyObject } from '../../ts-tokens/bootstrap';
 import {
   getStyle,
@@ -12,16 +11,9 @@ import {
   scrollLeft
 } from '../../utils/bs-util';
 import { useLockScroll } from '../../hooks/useLockScroll';
-import { bsLoadingProps } from './bs-loading-props';
+import { bsLoadingProps, BsLoadingOptions } from './bs-loading-types';
 
 let fullscreenLoading: any = null;
-
-export interface BsLoadingOptions extends CreateLoadingOptions {
-  target?: string|HTMLElement; // Loading 需要覆盖的 DOM 节点。可传入一个 DOM 对象或字符串
-  fullscreen?: boolean;
-  lock?: boolean;
-};
-
 export function BsLoading (options: BsLoadingOptions = {} as BsLoadingOptions) {
   let { target, fullscreen, lock } = options;
 

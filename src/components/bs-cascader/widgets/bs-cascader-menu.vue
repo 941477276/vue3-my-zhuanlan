@@ -70,7 +70,7 @@ import BsSpinner from '../../bs-spinner/BsSpinner.vue';
 import BsCascaderMenuItemLabel from './bs-cascader-menu-item-label';
 import {
   cascaderMenuProps
-} from './cascader-menu-props';
+} from '../bs-cascader-types';
 import {
   CascaderOptionItem,
   CascaderExpandedMenuItem,

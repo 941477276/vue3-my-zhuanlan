@@ -23,21 +23,12 @@ import {
   ref
 } from 'vue';
 import { useMenuLevel } from '../../../components/bs-menu/hooks/useMenuLevel';
+import { bsMenuItemGroupProps } from '../bs-menu-types';
 
 let bsMenuItemGroupCount = 0;
 export default defineComponent({
   name: 'BsMenuItemGroup',
-  props: {
-    title: { // 标题
-      type: String,
-      default: ''
-    },
-    keyIndex: { // 唯一标识，必填
-      type: String,
-      default: '',
-      required: true
-    }
-  },
+  props: bsMenuItemGroupProps,
   setup (props: any, ctx: any) {
     let currentIns = getCurrentInstance()!;
     let menuItemGroupId = `bs-menu-item-group_${++bsMenuItemGroupCount}`;

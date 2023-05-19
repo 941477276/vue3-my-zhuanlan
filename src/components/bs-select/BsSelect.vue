@@ -67,7 +67,7 @@
           <ul class="bs-select-option-list">
             <template v-if="options && Array.isArray(options)">
               <template
-                v-for="(option, index) in options">
+                v-for="(option, index) in options!">
                 <BsOptionGroup
                   v-if="option.options"
                   :key="`option_group-${index}`"
@@ -141,7 +141,7 @@ import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition
 import BsSpinner from '../bs-spinner/BsSpinner.vue';
 import BsOption from './widgets/BsOption.vue';
 import BsOptionGroup from './widgets/BsOptionGroup.vue';
-import { bsSelectProps } from './props';
+import { bsSelectProps } from './bs-select-types';
 import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
 
 let selectCount = 0;
@@ -154,9 +154,7 @@ export default defineComponent({
     BsOptionGroup,
     BsOption
   },
-  props: {
-    ...bsSelectProps
-  },
+  props: bsSelectProps,
   emits: ['update:modelValue', 'change', 'selectLimit', 'visibleChange'],
   setup (props: any, ctx: any) {
     let bsSelectRef = ref<HTMLElement|null>(null);

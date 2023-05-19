@@ -14,18 +14,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useCollapseTransition } from '../../hooks/useCollapseTransition';
+import { bsCollapseTransitionProps } from './bs-collapse-transition-types';
 
 /**
  * 元素折叠过度效果
  */
 export default defineComponent({
   name: 'BsCollapseTransition',
-  props: {
-    transitionName: {
-      type: String,
-      default: 'collapse-transition'
-    }
-  },
+  props: bsCollapseTransitionProps,
   emits: ['before-enter', 'enter', 'after-enter', 'before-leave', 'leave', 'after-leave'],
   setup (props: any, ctx: any) {
     let transitionEvents = useCollapseTransition(ctx, true);

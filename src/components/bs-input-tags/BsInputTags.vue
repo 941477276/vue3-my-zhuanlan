@@ -82,7 +82,7 @@ import {
 } from 'vue';
 import BsTag from '../bs-tag/BsTag.vue';
 import InputTagSlot from './widgets/InputTagsSlot.vue';
-import { bsInputTagsProps, ValueItem } from './bs-input-tags-props';
+import { bsInputTagsProps, BsInputTagsValueItem } from './bs-input-tags-types';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import {
   getStyle,
@@ -98,9 +98,7 @@ export default defineComponent({
     BsTag,
     InputTagSlot
   },
-  props: {
-    ...bsInputTagsProps
-  },
+  props: bsInputTagsProps,
   emits: ['update:modelValue', 'click', 'tag-close', 'blur', 'limited'],
   setup (props: any, ctx: any) {
     let inputTagsRef = ref<HTMLElement|null>(null);
@@ -208,13 +206,13 @@ export default defineComponent({
     }, { immediate: true });
 
     // tag 关闭事件
-    let onTagClose = function (tag: ValueItem) {
+    let onTagClose = function (tag: BsInputTagsValueItem) {
       // console.log('tag关闭了：', tag);
       if (props.disabled) {
         return;
       }
       let modelValue = [...props.modelValue];
-      let index = modelValue.findIndex((tagItem: ValueItem) => tagItem === tag);
+      let index = modelValue.findIndex((tagItem: BsInputTagsValueItem) => tagItem === tag);
       if (index > -1) {
         modelValue.splice(index, 1);
         ctx.emit('update:modelValue', modelValue);
@@ -224,7 +222,7 @@ export default defineComponent({
     };
 
     // 添加标签
-    let addTag = function (tag: string|ValueItem) {
+    let addTag = function (tag: string|BsInputTagsValueItem) {
       let tagLimit = props.tagLimit;
       let newModelValue = [...props.modelValue];
       if (props.disabled || (tagLimit && ((newModelValue.length + 1) > tagLimit))) {
@@ -269,7 +267,7 @@ export default defineComponent({
           return;
         }
         let newModelValue = [...props.modelValue].reverse();
-        let notDisabledItemIndex = newModelValue.findIndex((tagItem: ValueItem) => !tagItem.disabled);
+        let notDisabledItemIndex = newModelValue.findIndex((tagItem: BsInputTagsValueItem) => !tagItem.disabled);
         if (notDisabledItemIndex > -1) {
           newModelValue.splice(notDisabledItemIndex, 1);
           newModelValue.reverse();

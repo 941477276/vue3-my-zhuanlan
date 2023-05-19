@@ -26,7 +26,7 @@ import {
 import {
   isString
 } from '@vue/shared';
-import { bsMenuProps } from './bs-menu-props';
+import { bsMenuProps } from './bs-menu-types';
 import {
   bsSubMenuDisplayMode,
   bsMenuRootInjectKey,

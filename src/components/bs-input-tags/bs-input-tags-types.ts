@@ -1,7 +1,7 @@
-import { PropType } from 'vue';
+import { PropType, ExtractPropTypes } from 'vue';
 import { BsSize, BsColorType } from '../../ts-tokens/bootstrap';
 
-export type ValueItem = {
+export type BsInputTagsValueItem = {
   label: string;
   value: string|number|boolean;
   tagType?: BsColorType;
@@ -15,7 +15,7 @@ export const bsInputTagsProps = {
     default () {
       return [];
     },
-    validate (values: ValueItem[]) {
+    validate (values: BsInputTagsValueItem[]) {
       let flag = !values.some((valueItem: any) => {
         // eslint-disable-next-line no-prototype-builtins
         return !valueItem.hasOwnProperty('label');
@@ -104,3 +104,5 @@ export const bsInputTagsProps = {
     }
   }
 };
+
+export type BsInputTagsProps = ExtractPropTypes<typeof bsInputTagsProps>;

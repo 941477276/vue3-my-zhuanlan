@@ -21,19 +21,11 @@ import {
   SelectOptionGroupContext,
   selectOptionGroupContextKey
 } from '../../../ts-tokens/bootstrap/select';
+import { bsSelectOptionGroupProps } from '../bs-select-types';
 
 export default defineComponent({
   name: 'BsOptionGroup',
-  props: {
-    label: {
-      type: [String, Number],
-      default: ''
-    },
-    disabled: {
-      type: Boolean,
-      default: false
-    }
-  },
+  props: bsSelectOptionGroupProps,
   setup (props: any) {
     provide<SelectOptionGroupContext>(selectOptionGroupContextKey, reactive({
       props

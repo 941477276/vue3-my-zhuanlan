@@ -40,10 +40,7 @@ import {
   ref,
   defineComponent
 } from 'vue';
-import { bsPopperContentProps } from '../bs-popper/bs-popper-content-props';
-import { bsTooltipContentProps } from '../bs-tooltip/bs-tooltip-content-props';
-import { bsTooltipTriggerProps } from '../bs-tooltip/bs-tooltip-trigger-props';
-import { bsTooltipProps } from '../bs-tooltip/bs-tooltip-props';
+import { bsPopoverProps } from './bs-popover-types';
 
 let popoverCount = 0;
 export default defineComponent({
@@ -51,16 +48,7 @@ export default defineComponent({
   components: {
     BsTooltip
   },
-  props: {
-    hideDisabled: { // 是否禁用隐藏
-      type: Boolean,
-      default: false
-    },
-    ...bsPopperContentProps,
-    ...bsTooltipContentProps,
-    ...bsTooltipTriggerProps,
-    ...bsTooltipProps
-  },
+  props: bsPopoverProps,
   emits: ['before-show', 'before-hide', 'content-mouseenter', 'content-mouseleave', 'show', 'hide'],
   setup (props: any, ctx: any) {
     let popoverId = ref(props.id || `bs_popover-${++popoverCount}`);

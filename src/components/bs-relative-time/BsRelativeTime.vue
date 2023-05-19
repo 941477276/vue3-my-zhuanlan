@@ -17,6 +17,7 @@ import {
 import dayjs, { Dayjs } from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { dayjsUtil } from '../../utils/dayjsUtil';
+import { bsRelativeTimeProps } from './bs-relative-time-types';
 
 dayjs.extend(relativeTime);
 
@@ -24,34 +25,10 @@ let formMap: any = {
   date: 'YYYY-MM-DD',
   datetime: 'YYYY-MM-DD HH:mm:ss'
 };
-type ViewType = 'relative' | 'date' | 'datetime';
+
 export default defineComponent({
   name: 'BsRelativeTime',
-  props: {
-    time: { // 时间
-      type: [Number, Date, String],
-      default: ''
-    },
-    viewType: { // 显示类型
-      type: String as PropType<ViewType>,
-      default: 'relative',
-      validate (viewType: string) {
-        return ['relative', 'date', 'datetime'].some(item => item === viewType);
-      }
-    },
-    interval: { // 自动更新时间
-      type: Number,
-      default: 60
-    },
-    format: { // 格式化模板，只对date、datetime有效
-      type: String,
-      default: ''
-    },
-    lang: { // 语言
-      type: String,
-      default: ''
-    }
-  },
+  props: bsRelativeTimeProps,
   setup (props: any) {
     let viewTime = ref('');
     let timer: number;

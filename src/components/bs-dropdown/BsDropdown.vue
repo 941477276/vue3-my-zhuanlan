@@ -52,7 +52,7 @@ import {
 import { useClickOutside } from '../../hooks/useClickOutside';
 import {
   bsDropdownProps
-} from './props';
+} from './bs-dropdown-types';
 import {
   useZIndex
 } from '../../hooks/useZIndex';

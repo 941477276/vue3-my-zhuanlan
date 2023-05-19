@@ -1,4 +1,4 @@
-import { PropType } from 'vue';
+import { PropType, ExtractPropTypes } from 'vue';
 import { BsInputType, BsSize } from '../../ts-tokens/bootstrap';
 
 export const bsInputProps = {
@@ -102,3 +102,5 @@ export const bsInputProps = {
     default: false
   }
 };
+
+export type BsInputProps = ExtractPropTypes<typeof bsInputProps>;

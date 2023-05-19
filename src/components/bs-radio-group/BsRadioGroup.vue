@@ -12,27 +12,11 @@ import {
   radioGroupContextKey,
   RadioGroupContext
 } from '../../ts-tokens/bootstrap/radio';
+import { bsRadioGroupProps } from './bs-radio-group-types';
 
 export default defineComponent({
   name: 'BsRadioGroup',
-  props: {
-    modelValue: {
-      type: [String, Number, Boolean],
-      default: ''
-    },
-    value: {
-      type: [String, Number, Boolean],
-      default: ''
-    },
-    elTag: { // 标签名称
-      type: String,
-      default: 'div'
-    },
-    disabled: {
-      type: Boolean,
-      default: false
-    }
-  },
+  props: bsRadioGroupProps,
   emits: ['update:modelValue', 'change'],
   setup (props: any, ctx: any) {
     let changeVal = function (val: string|number|boolean) {

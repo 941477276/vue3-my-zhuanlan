@@ -1,5 +1,6 @@
-import { PropType } from 'vue';
+import { PropType, ExtractPropTypes } from 'vue';
 import { BsColorType, BsSize } from '../../ts-tokens/bootstrap';
+import { BsTreeProps, BsTreeNode } from '../bs-tree/bs-tree-types';
 // import { bsTreeProps } from '../bs-tree/bs-tree-props';
 
 export const bsTreeSelectProps = {
@@ -80,13 +81,13 @@ export const bsTreeSelectProps = {
     default: false
   },
   treeData: { // 树数据
-    type: Object,
+    type: Object as PropType<BsTreeNode>,
     default () {
       return {};
     }
   },
   treeProps: { // tree组件的属性
-    type: Object,
+    type: Object as PropType<BsTreeProps>,
     default () {
       return {};
     }
@@ -177,3 +178,5 @@ export const bsTreeSelectProps = {
     }
   }
 };
+
+export type BsTreeSelectProps = ExtractPropTypes<typeof bsTreeSelectProps>;

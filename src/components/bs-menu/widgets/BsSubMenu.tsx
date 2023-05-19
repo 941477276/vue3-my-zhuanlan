@@ -30,31 +30,14 @@ import {
   elementContains,
   parents
 } from '../../../utils/bs-util';
+import { bsSubmenuProps } from '../bs-menu-types';
 
 let subMenuCount = 0;
 let componentName = 'BsSubMenu';
 
 export default defineComponent({
   name: componentName,
-  props: {
-    keyIndex: { // 唯一标识，必填
-      type: String,
-      default: '',
-      required: true
-    },
-    title: { // 标题
-      type: String,
-      default: ''
-    },
-    disabled: { // 是否禁用
-      type: Boolean,
-      default: false
-    },
-    dropdownClass: { // 下拉子菜单的样式
-      type: [String, Object, Array],
-      default: ''
-    }
-  },
+  props: bsSubmenuProps,
   emits: ['expand'],
   setup (props: any, ctx: any) {
     let currentIns = getCurrentInstance()!;

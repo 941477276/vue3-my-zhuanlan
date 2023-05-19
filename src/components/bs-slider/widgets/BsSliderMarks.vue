@@ -27,10 +27,12 @@
 import {
   defineComponent,
   ref,
-  computed
+  computed,
+  PropType
 } from 'vue';
 import BsPropsSlot from '../../bs-props-slot/BsPropsSlot.vue';
 import { calcPercentage, getSliderHandlerNameByValue } from '../bsSliderUitl';
+import { BsSliderMask } from '../bs-slider-types';
 
 export default defineComponent({
   name: 'BsSliderMarks',
@@ -63,7 +65,7 @@ export default defineComponent({
       default: 100
     },
     marks: { // 刻度标记，key 的类型必须为 number 且取值在闭区间 [min, max] 内，每个标签可以单独设置样式
-      type: Object,
+      type: Object as PropType<BsSliderMask>,
       default () {
         return {};
       }
@@ -90,7 +92,7 @@ export default defineComponent({
       let max = props.max;
 
       let result = Object.entries(props.marks).map((entry) => {
-        let value = entry[0];
+        let value = Number(entry[0]);
         let label:any = entry[1];
         let isActive = false;
         if (props.included) {

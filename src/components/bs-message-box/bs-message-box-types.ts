@@ -1,7 +1,8 @@
 import {
   PropType,
   VNode,
-  Ref
+  Ref,
+  ExtractPropTypes
 } from 'vue';
 import {
   MessageBoxType,
@@ -181,3 +182,5 @@ export const bsMessageBoxProps = {
     default: ''
   }
 };
+
+export type BsMessageBoxProps = ExtractPropTypes<typeof bsMessageBoxProps>;

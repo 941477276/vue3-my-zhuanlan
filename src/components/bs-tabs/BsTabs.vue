@@ -37,48 +37,18 @@ import {
 import BsTabsNav from './widgets/BsTabsNav.vue';
 import {
   TabNavItem,
-  TabPosition,
-  TriggerTypeOnOverflow,
   TabsPaneContext,
   TabsContext,
   bsTabsContextKey
 } from '../../ts-tokens/bootstrap/tabs';
+import { bsTabsProps } from './bs-tabs-types';
 
 export default defineComponent({
   name: 'BsTabs',
   components: {
     BsTabsNav
   },
-  props: {
-    modelValue: { // 绑定值，选中选项卡的 name
-      type: String,
-      default: ''
-    },
-    tabPosition: { // 标签的位置
-      type: String as PropType<TabPosition>,
-      default: 'top'
-    },
-    triggerTypeOnOverflow: { // 当标签导航列表宽度超出父容器时选择超出部分标签导航的方式
-      type: String as PropType<TriggerTypeOnOverflow>,
-      default: 'auto'
-    },
-    hiddenTabsGreaterThan: { // 当triggerTypeOnOverflow为auto时，隐藏掉的标签导航个数达到该阈值时才会使用'more'
-      type: Number,
-      default: 10
-    },
-    tabBarMaxHeight: { // 标签导航最大高度
-      type: [String, Number],
-      default: 0
-    },
-    inkBarSpaceBetween: { // 标签导航高亮条向两端延伸的长度
-      type: Number,
-      default: 0
-    },
-    closeable: { // 是否可关闭
-      type: Boolean,
-      default: false
-    }
-  },
+  props: bsTabsProps,
   emit: ['close', 'click'],
   setup (props: any, ctx: any) {
     let activeTabId = ref('');

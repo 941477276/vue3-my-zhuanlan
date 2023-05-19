@@ -1,5 +1,6 @@
 import {
-  PropType
+  PropType,
+  ExtractPropTypes
 } from 'vue';
 import {
   BsMenuMode,
@@ -52,3 +53,55 @@ export const bsMenuProps = {
     default: ''
   }
 };
+
+export const bsSubmenuProps = {
+  keyIndex: { // 唯一标识，必填
+    type: String,
+    default: '',
+    required: true
+  },
+  title: { // 标题
+    type: String,
+    default: ''
+  },
+  disabled: { // 是否禁用
+    type: Boolean,
+    default: false
+  },
+  dropdownClass: { // 下拉子菜单的样式
+    type: [String, Object, Array]
+  }
+};
+
+export const bsMenuItemProps = {
+  keyIndex: { // 唯一标识，必填
+    type: String,
+    default: '',
+    required: true
+  },
+  title: { // 标题
+    type: String,
+    default: ''
+  },
+  disabled: { // 是否禁用
+    type: Boolean,
+    default: false
+  }
+};
+
+export const bsMenuItemGroupProps = {
+  title: { // 标题
+    type: String,
+    default: ''
+  },
+  keyIndex: { // 唯一标识，必填
+    type: String,
+    default: '',
+    required: true
+  }
+};
+
+export type BsMenuProps = ExtractPropTypes<typeof bsMenuProps>;
+export type BsSubMenuProps = ExtractPropTypes<typeof bsSubmenuProps>;
+export type BsMenuItemProps = ExtractPropTypes<typeof bsMenuItemProps>;
+export type BsMenuItemGroupProps = ExtractPropTypes<typeof bsMenuItemGroupProps>;

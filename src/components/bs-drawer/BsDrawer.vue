@@ -73,7 +73,7 @@
 import { defineComponent, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import BsButton from '../bs-button/BsButton.vue';
 import BsMask from '../bs-mask/bs-mask.vue';
-import { bsDrawerProps } from './props';
+import { bsDrawerProps } from './bs-drawer-types';
 import { useZIndex } from '../../hooks/useZIndex';
 import { useLockScroll } from '../../hooks/useLockScroll';
 import { useGlobalEvent } from '../../hooks/useGlobalEvent';

@@ -1,5 +1,12 @@
 import { Placement } from '@popperjs/core';
-import { PropType } from 'vue';
+import { PropType, ExtractPropTypes } from 'vue';
+
+export interface BsSliderMask {
+  [key: string|number]: string|{
+    label: string|number;
+    style?: Record<string, any>;
+  }
+}
 
 export const bsSliderProps = {
   modelValue: {
@@ -51,7 +58,7 @@ export const bsSliderProps = {
     default: true
   },
   marks: { // 刻度标记，key 的类型必须为 number 且取值在闭区间 [min, max] 内，每个标签可以单独设置样式
-    type: Object,
+    type: Object as PropType<BsSliderMask>,
     default () {
       return {};
     }
@@ -81,3 +88,5 @@ export const bsSliderProps = {
     default: false
   }
 };
+
+export type BsSliderProps = ExtractPropTypes<typeof bsSliderProps>;

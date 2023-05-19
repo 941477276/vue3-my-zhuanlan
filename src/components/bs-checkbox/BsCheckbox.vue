@@ -74,74 +74,13 @@ import {
   isNoneValue
 } from '../../utils/bs-util';
 import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
+import { bsCheckboxProps } from './bs-checkbox-types';
 
 // 统计复选框数量
 let checkboxCount = 0;
 export default defineComponent({
   name: 'BsCheckbox',
-  props: {
-    modelValue: {
-      type: [String, Number, Boolean, Array],
-      default: undefined
-    },
-    value: {
-      type: [String, Number, Boolean],
-      default: undefined
-    },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    checked: {
-      type: Boolean,
-      default: false
-    },
-    indeterminate: { // 是否为不确定状态
-      type: Boolean,
-      default: false
-    },
-    deliveContextToFormItem: { // 是否向form-item组件传递上下文信息
-      type: Boolean,
-      default: true
-    },
-    id: {
-      type: String,
-      default: '',
-      validator (idVal: string) {
-        if (/^\d/.test(idVal)) {
-          console.warn('id不能以数字开头');
-          return false;
-        }
-        return true;
-      }
-    },
-    trueValue: { // 选中时的值
-      type: [String, Number],
-      default: undefined
-    },
-    falseValue: { // 没有选中时的值
-      type: [String, Number],
-      default: undefined
-    },
-    name: { // input原生的name属性
-      type: String,
-      default: ''
-    },
-    label: { // checkbox的label
-      type: String,
-      default: ''
-    },
-    ariaLabel: { // area-label属性值
-      type: String,
-      default: ''
-    },
-    nativeAttrs: { // input原生属性
-      type: Object,
-      default () {
-        return {};
-      }
-    }
-  },
+  props: bsCheckboxProps,
   emits: ['update:modelValue', 'change', 'blur', 'focus'],
   setup (props: any, ctx: any) {
     let checkboxRef = ref<HTMLInputElement|null>(null);

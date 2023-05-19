@@ -1,5 +1,16 @@
-import { PropType } from 'vue';
+import { PropType, ExtractPropTypes } from 'vue';
 import { BsColorType, BsSize } from '../../ts-tokens/bootstrap';
+import { BsTagEffect } from '../bs-tag/bs-tag-types';
+
+export interface BsSelectOption {
+  label: string|number;
+  value: string|number|boolean;
+  disabled?: boolean;
+  tagType?: BsColorType;
+  tagClass?: string|string[]|Record<string, any>;
+  tagEffect?: BsTagEffect;
+  options?: BsSelectOption[]
+}
 
 export const bsSelectProps = {
   modelValue: {
@@ -19,7 +30,7 @@ export const bsSelectProps = {
     default: false
   },
   options: { // 下拉选项
-    type: Array,
+    type: Array as PropType<BsSelectOption[]>,
     default: null,
     validate (options: any[]) {
       if (!options) {
@@ -126,3 +137,41 @@ export const bsSelectProps = {
     }
   }
 };
+
+export const bsSelectOptionProps = {
+  value: {
+    type: [String, Number, Boolean],
+    default: null
+  },
+  label: {
+    type: [String, Number],
+    default: ''
+  },
+  disabled: {
+    type: Boolean,
+    default: false
+  },
+  tagType: { // 标签组件的type
+    type: String as PropType<BsColorType>,
+    default: 'secondary'
+  },
+  tagClass: {
+    type: [String, Array, Object],
+    default: ''
+  }
+};
+
+export const bsSelectOptionGroupProps = {
+  label: {
+    type: [String, Number],
+    default: ''
+  },
+  disabled: {
+    type: Boolean,
+    default: false
+  }
+};
+
+export type BsSelectProps = ExtractPropTypes<typeof bsSelectProps>;
+export type BsSelectOptionProps = ExtractPropTypes<typeof bsSelectOptionProps>;
+export type BsSelectOptionGroupProps = ExtractPropTypes<typeof bsSelectOptionGroupProps>;

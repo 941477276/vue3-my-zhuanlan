@@ -1,4 +1,4 @@
-import { PropType } from 'vue';
+import { PropType, ExtractPropTypes } from 'vue';
 import { BsSize } from '../../ts-tokens/bootstrap';
 
 type InputNumberType = 'text' | 'number';
@@ -97,3 +97,5 @@ export const bsInputNumberProps = {
     }
   }
 };
+
+export type BsInputNumberProps = ExtractPropTypes<typeof bsInputNumberProps>;

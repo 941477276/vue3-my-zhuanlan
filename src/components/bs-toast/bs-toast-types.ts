@@ -1,4 +1,4 @@
-import { PropType } from 'vue';
+import { PropType, ExtractPropTypes } from 'vue';
 import { ToastPlacement } from '../../ts-tokens/bootstrap/toast';
 import { BsColorType } from '../../ts-tokens/bootstrap';
 
@@ -16,24 +16,19 @@ export const bsToastProps = {
     default: ''
   },
   placement: { // 显示方位
-    type: String as PropType<ToastPlacement>,
-    default: ''
+    type: String as PropType<ToastPlacement>
   },
   type: { // 类型
-    type: String as PropType<BsColorType>,
-    default: ''
+    type: String as PropType<BsColorType>
   },
   id: {
-    type: String,
-    default: ''
+    type: String
   },
   customClass: {
-    type: [String, Array],
-    default: ''
+    type: [String, Array]
   },
   style: { // 自定义内联样式
-    type: [String, Object],
-    default: ''
+    type: [String, Object]
   },
   fixed: {
     type: Boolean,
@@ -76,3 +71,5 @@ export const bsToastProps = {
     default: true
   }
 };
+
+export type BsToastProps = ExtractPropTypes<typeof bsToastProps>;

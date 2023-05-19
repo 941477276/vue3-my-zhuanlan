@@ -39,7 +39,7 @@ import {
   onUnmounted
 } from 'vue';
 import BsSpinner from '../bs-spinner/BsSpinner.vue';
-import { bsLoadingProps } from './bs-loading-props';
+import { bsLoadingProps } from './bs-loading-types';
 import { supportedBsColorTypes } from '../../ts-tokens/bootstrap';
 
 export default defineComponent({

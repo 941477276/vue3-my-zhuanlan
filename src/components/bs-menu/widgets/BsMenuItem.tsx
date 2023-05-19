@@ -11,6 +11,7 @@ import {
 import BsTooltip from '../../bs-tooltip/BsTooltip.vue';
 import { useMenuLevel } from '../hooks/useMenuLevel';
 import { bsMenuRootInjectKey, bsSubMenuInjectKey } from '../../../ts-tokens/bootstrap/menu';
+import { bsMenuItemProps } from '../bs-menu-types';
 
 let menuItemCount = 0;
 let componentName = 'BsMenuItem';
@@ -20,21 +21,7 @@ export default defineComponent({
   components: {
     BsTooltip
   },
-  props: {
-    keyIndex: { // 唯一标识，必填
-      type: String,
-      default: '',
-      required: true
-    },
-    title: { // 标题
-      type: String,
-      default: ''
-    },
-    disabled: { // 是否禁用
-      type: Boolean,
-      default: false
-    }
-  },
+  props: bsMenuItemProps,
   emits: ['click'],
   setup (props: any, ctx: any) {
     let currentIns = getCurrentInstance()!;

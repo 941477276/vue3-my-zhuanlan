@@ -65,7 +65,7 @@ import {
   unref,
   watch
 } from 'vue';
-import { bsSliderProps } from './bs-slider-props';
+import { bsSliderProps } from './bs-slider-types';
 import BsSliderHandler from './widgets/BsSliderHandler.vue';
 import BsSliderStep from './widgets/BsSliderStep.vue';
 import BsSliderMarks from './widgets/BsSliderMarks.vue';

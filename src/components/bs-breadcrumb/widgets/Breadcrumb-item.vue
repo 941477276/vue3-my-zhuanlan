@@ -34,32 +34,13 @@ import {
   breadcrumbContextKey
 } from '../../../ts-tokens/bootstrap/breadcrumb';
 import { useDeliverContextToParent } from '../../../hooks/useDeliverContextToParent';
+import { bsBreadcrumbItemProps } from '../bs-breadcrumb-types';
+
 let breadcrumbCount = 0;
 
 export default defineComponent({
   name: 'BreadcrumbItem',
-  props: {
-    to: {
-      type: [String, Object],
-      default: ''
-    },
-    replace: { // 是否不将导航在历史记录中留下
-      type: Boolean,
-      default: false
-    },
-    disabled: { // 是否禁用
-      type: Boolean,
-      default: false
-    },
-    isUrl: { // 是否为普通链接
-      type: Boolean,
-      default: false
-    },
-    target: { // a标签的target属性
-      type: String,
-      default: ''
-    }
-  },
+  props: bsBreadcrumbItemProps,
   setup (props: any) {
     let id = `breadcrumb_item_${++breadcrumbCount}`;
     let { separator, lastChildId } = inject<BreadcrumbContext>(breadcrumbContextKey, {

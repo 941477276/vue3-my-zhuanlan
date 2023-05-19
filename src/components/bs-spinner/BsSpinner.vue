@@ -14,12 +14,10 @@
 import {
   defineComponent
 } from 'vue';
-import { bsSpinnerProps } from './bs-spinner-props';
+import { bsSpinnerProps } from './bs-spinner-types';
 
 export default defineComponent({
   name: 'BsSpinner',
-  props: {
-    ...bsSpinnerProps
-  }
+  props: bsSpinnerProps
 });
 </script>

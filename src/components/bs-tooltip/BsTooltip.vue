@@ -64,12 +64,9 @@ import BsPopper from '../bs-popper/BsPopper.vue';
 // import BsPopperTrigger from '../bs-popper/BsPopperTrigger.vue';
 // import BsPopperContent from '../bs-popper/BsPopperContent.vue';
 import BsPopperArrow from '../bs-popper/BsPopperArrow.vue';
-import { bsPopperContentProps } from '../bs-popper/bs-popper-content-props';
-import { bsTooltipContentProps } from './bs-tooltip-content-props';
-import { bsTooltipTriggerProps } from './bs-tooltip-trigger-props';
-import { bsTooltipProps } from './bs-tooltip-props';
 import BsTooltipContent from './BsTooltipContent.vue';
 import BsTooltipTrigger from './BsTooltipTrigger.vue';
+import { bsTooltipProps } from './bs-tooltip-types';
 
 let tooltipCount = 0;
 export default defineComponent({
@@ -82,28 +79,7 @@ export default defineComponent({
     BsTooltipContent,
     BsTooltipTrigger
   },
-  props: {
-    ...bsPopperContentProps,
-    ...bsTooltipContentProps,
-    ...bsTooltipTriggerProps,
-    ...bsTooltipProps,
-    pure: { // 是否为纯净的tooltip，如果是纯净的则会添加 bs-tooltip class类名
-      type: Boolean,
-      default: true
-    },
-    themeClass: { // 自定义主题class
-      type: String,
-      default: ''
-    },
-    showCondition: { // 显示时的条件
-      type: Function,
-      default: null
-    },
-    hideCondition: { // 隐藏时的条件
-      type: Function,
-      default: null
-    }
-  },
+  props: bsTooltipProps,
   emits: ['before-show', 'before-hide', 'content-mouseenter', 'content-mouseleave', 'show', 'hide'],
   setup (props: any, ctx: any) {
     let tooltipContentComRf = ref(null);

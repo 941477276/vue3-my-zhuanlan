@@ -24,27 +24,11 @@ import {
   CollapseContext,
   CollapseItemContext
 } from '../../ts-tokens/bootstrap/collapse';
+import { bsCollapseProps } from './bs-collapse-types';
 
 export default defineComponent({
   name: 'BsCollapse',
-  props: {
-    modelValue: { // 当前激活的面板的 name，可以使用 v-model 双向绑定
-      type: [String, Number, Array],
-      default: ''
-    },
-    accordion: { // 是否开启手风琴模式，开启后每次至多展开一个面板
-      type: Boolean,
-      default: false
-    },
-    simple: { // 是否为简洁模式
-      type: Boolean,
-      default: false
-    },
-    headerFocusEffect: {
-      type: Boolean,
-      default: true
-    }
-  },
+  props: bsCollapseProps,
   emits: ['update:modelValue', 'change'],
   setup (props: any, ctx: any) {
     let activeNames: Ref<(string|number)[]> = ref(Array.isArray(props.modelValue) ? props.modelValue : [props.modelValue]);

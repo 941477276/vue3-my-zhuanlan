@@ -35,7 +35,7 @@ import {
   SelectOptionItem
 } from '../../../ts-tokens/bootstrap/select';
 import { BsiCheckLg } from 'vue3-bootstrap-icon/es/icons/BsiCheckLg';
-import { BsColorType } from '../../../ts-tokens/bootstrap';
+import { bsSelectOptionProps } from '../bs-select-types';
 import {
   isFunction
 } from '../../../utils/bs-util';
@@ -46,28 +46,7 @@ export default defineComponent({
   components: {
     BsiCheckLg
   },
-  props: {
-    value: {
-      type: [String, Number, Boolean],
-      default: null
-    },
-    label: {
-      type: [String, Number],
-      default: ''
-    },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    tagType: { // 标签组件的type
-      type: String as PropType<BsColorType>,
-      default: 'secondary'
-    },
-    tagClass: {
-      type: String,
-      default: ''
-    }
-  },
+  props: bsSelectOptionProps,
   setup (props: any) {
     let bsOptionRef = ref<HTMLElement|null>(null);
     let optionId = `selectOption_${++selectOptionCount}`;

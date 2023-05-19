@@ -1,8 +1,8 @@
-import { PropType } from 'vue';
+import { PropType, ExtractPropTypes } from 'vue';
 import { PickerType } from '../../ts-tokens/bootstrap/date-picker';
 import { BsSize } from '../../ts-tokens/bootstrap';
 
-export const bsDatePickerProps = {
+export const bsDatePickerTypes = {
   modelValue: {
     type: [String, Object],
     default: ''
@@ -121,3 +121,5 @@ export const bsDatePickerProps = {
     }
   }
 };
+
+export type BsDatePickerProps = ExtractPropTypes<typeof bsDatePickerTypes>;

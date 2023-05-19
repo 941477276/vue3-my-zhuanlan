@@ -1,4 +1,4 @@
-import { PropType } from 'vue';
+import { PropType, ExtractPropTypes } from 'vue';
 import { BsColorType } from '../../ts-tokens/bootstrap';
 
 export const bsSpinnerProps = {
@@ -15,3 +15,5 @@ export const bsSpinnerProps = {
     default: false
   }
 };
+
+export type BsSpinnerProps = ExtractPropTypes<typeof bsSpinnerProps>;

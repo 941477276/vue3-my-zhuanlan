@@ -1,5 +1,6 @@
 import { PropType, ExtractPropTypes } from 'vue';
 import { BsPlacement, BsPlacementEnd, BsPlacementEndKebab } from '../../ts-tokens/bootstrap';
+
 export type BsDropdownTrigger = 'click' | 'hover' | 'contextMenu';
 
 export const bsDropdownProps = {

@@ -25,36 +25,12 @@ import {
   bsTabsContextKey
 } from '../../../ts-tokens/bootstrap/tabs';
 import { useDeliverContextToParent } from '../../../hooks/useDeliverContextToParent';
+import { bsTabPaneProps } from '../bs-tabs-types';
 
 let bsTabsPaneCount = 0;
 export default defineComponent({
   name: 'BsTabPane',
-  props: {
-    label: { // 选项卡标题
-      type: String,
-      default: ''
-    },
-    name: { // 与选项卡绑定值 modelValue 对应的标识符，表示选项卡别名
-      type: String,
-      default: ''
-    },
-    closeable: { // 是否可关闭
-      type: Boolean,
-      default: false
-    },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    lazy: { // 选项卡内容是否延迟渲染
-      type: Boolean,
-      default: false
-    },
-    contentLazyRender: { // 内容延迟渲染，只有在第一次选中后才会被渲染
-      type: Boolean,
-      default: true
-    }
-  },
+  props: bsTabPaneProps,
   setup (props: any, ctx: any) {
     let index = ++bsTabsPaneCount;
     let id = `bs_tabs_pane-${index}`;

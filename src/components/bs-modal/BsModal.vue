@@ -87,7 +87,7 @@ import {
 } from 'vue';
 import BsButton from '../bs-button/BsButton.vue';
 import BsMask from '../bs-mask/bs-mask.vue';
-import { bsModalProps } from './props';
+import { bsModalProps } from './bs-modal-types';
 import { useZIndex } from '../../hooks/useZIndex';
 import { useLockScroll } from '../../hooks/useLockScroll';
 import { useGlobalEvent } from '../../hooks/useGlobalEvent';

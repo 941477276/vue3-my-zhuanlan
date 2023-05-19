@@ -1,4 +1,6 @@
-export const bsTreeProps = {
+import { PropType, ExtractPropTypes } from 'vue';
+
+export const bsTreeCommonProps = {
   nodeKey: { // 每个树节点用来作为唯一标识的属性，整棵树应该是唯一的
     type: String,
     default: ''
@@ -104,3 +106,57 @@ export const bsTreeProps = {
     default: '显示全部'
   }
 };
+
+// 树子节点配置
+export interface BsTreeNodeProps {
+  label?: string;
+  children?: string;
+  disabled?: string;
+  isLeaf?: string;
+};
+
+export const bsTreeNodePropsDefault = {
+  label: 'label',
+  children: 'children',
+  disabled: 'disabled',
+  isLeaf: 'isLeaf'
+};
+
+export interface BsTreeNode extends Object {
+  label: string|number;
+  disabled?: boolean;
+  isLeaf?: boolean;
+  children?: BsTreeNode[];
+}
+
+export const bsTreeProps = {
+  ...bsTreeCommonProps,
+  treeData: { // 树数据
+    type: Object as PropType<BsTreeNode>,
+    default () {
+      return {};
+    }
+  },
+  props: { // 树节点配置
+    type: Object as PropType<BsTreeNodeProps>,
+    default () {
+      return {
+        ...bsTreeNodePropsDefault
+      };
+    }
+  },
+  emptyText: {
+    type: String,
+    default: '暂无数据'
+  },
+  loadingText: {
+    type: String,
+    default: '加载中...'
+  },
+  loading: {
+    type: Boolean,
+    default: false
+  }
+};
+
+export type BsTreeProps = ExtractPropTypes<typeof bsTreeProps>;

@@ -1,10 +1,10 @@
-import { PropType, VNode } from 'vue';
+import { PropType, VNode, ExtractPropTypes } from 'vue';
 import {
   MessageType,
   supportMessageTypes
 } from '../../ts-tokens/bootstrap/message';
 
-export const messageProps = {
+export const bsMessageProps = {
   type: { // 类型
     type: String as PropType<MessageType>,
     default: 'info',
@@ -65,3 +65,5 @@ export const messageProps = {
     default: 1
   }
 };
+
+export type BsMessageProps = ExtractPropTypes<typeof bsMessageProps>;

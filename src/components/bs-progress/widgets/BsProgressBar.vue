@@ -22,13 +22,13 @@ import {
   defineComponent,
   computed
 } from 'vue';
-import props from '../bs-progress-props';
+import { bsProgressProps } from '../bs-progress-types';
 
 export default defineComponent({
   name: 'BsProgressBar',
   components: {
   },
-  props,
+  props: bsProgressProps,
   setup (props: any, ctx: any) {
     let percentageNumber = computed(function () {
       let percentage = props.percentage;

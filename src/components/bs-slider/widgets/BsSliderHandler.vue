@@ -36,7 +36,7 @@ import {
   watch,
   onMounted
 } from 'vue';
-import { bsSliderProps } from '../bs-slider-props';
+import { bsSliderProps } from '../bs-slider-types';
 import BsTooltip from '../../bs-tooltip/BsTooltip.vue';
 import { BigNumber } from 'bignumber.js';
 import { useSliderHandler } from './useSliderHandler';

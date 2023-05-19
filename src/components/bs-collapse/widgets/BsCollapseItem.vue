@@ -51,6 +51,7 @@ import {
   bsCollapseContextKey,
   CollapseContext
 } from '../../../ts-tokens/bootstrap/collapse';
+import { bsCollapseItemProps } from '../bs-collapse-types';
 
 let collapseItemCount = 0;
 export default defineComponent({
@@ -59,28 +60,7 @@ export default defineComponent({
     BsiChevronRight,
     BsCollapseTransition
   },
-  props: {
-    title: { // 标题
-      type: [String, Number],
-      default: ''
-    },
-    name: { // 唯一标志符
-      type: [String, Number],
-      default: ''
-    },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    showArrow: {
-      type: Boolean,
-      default: true
-    },
-    arrowLeft: { // 箭头是否在左侧
-      type: Boolean,
-      default: false
-    }
-  },
+  props: bsCollapseItemProps,
   setup (props: any, ctx: any) {
     let countId = collapseItemCount++;
     let collapseItemId = ref(`bs_collapse_item-${countId}`);

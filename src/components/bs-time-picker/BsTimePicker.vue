@@ -69,8 +69,6 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import BsPickerTimePanel from './widgets/BsPickerTimePanel.vue';
 import BsButton from '../bs-button/BsButton.vue';
 import BsCommonPicker from '../bs-common-picker/BsCommonPicker.vue';
-import { bsPickerTimePanelProps } from './widgets/bs-picker-time-panel-props';
-import { bsCommonPickerProps } from '../bs-common-picker/bs-common-picker-props';
 import { useTimePicker, getUpdateModelValue } from './useTimePicker';
 import { dayjsUtil } from '../../utils/dayjsUtil';
 import { BsiClock } from 'vue3-bootstrap-icon/es/icons/BsiClock';
@@ -78,6 +76,7 @@ import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToForm
 import {
   isString
 } from '@vue/shared';
+import { bsTimePickerProps } from './bs-time-picker-types';
 
 dayjs.extend(customParseFormat);
 let bsTimePickerCount = 0;
@@ -89,10 +88,7 @@ export default defineComponent({
     BsCommonPicker,
     BsiClock
   },
-  props: {
-    ...bsPickerTimePanelProps,
-    ...bsCommonPickerProps
-  },
+  props: bsTimePickerProps,
   emits: ['update:modelValue', 'change', 'show', 'hide'],
   setup (props: any, ctx: any) {
     let bsPickerTimePanelRef = ref(null);

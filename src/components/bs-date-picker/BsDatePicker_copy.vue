@@ -112,7 +112,7 @@ import {
 } from 'vue';
 import { PickerType, datePickerCtx } from '@/ts-tokens/bootstrap/date-picker';
 import BsCommonPicker from '../bs-common-picker/BsCommonPicker.vue';
-import { bsDatePickerProps } from './bsDatePickerProps';
+import { bsDatePickerTypes } from './bs-date-picker-types';
 import BsDatePanel from './panels/bs-date-panel/BsDatePanel.vue';
 import BsMonthPanel from './panels/bs-month-panel/BsMonthPanel.vue';
 import BsQuarterPanel from './panels/bs-quarter-panel/BsQuarterPanel.vue';
@@ -148,7 +148,7 @@ export default defineComponent({
     // PanelSidebar
   },
   props: {
-    ...bsDatePickerProps
+    ...bsDatePickerTypes
   },
   emits: ['update:modelValue', 'change', 'open', 'hidden'],
   setup (props: any, ctx: any) {

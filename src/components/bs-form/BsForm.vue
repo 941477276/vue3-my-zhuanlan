@@ -21,63 +21,15 @@ import {
   reactive
 } from 'vue';
 import {
-  FormContext,
-  FormLayout,
   formContextKey,
-  BsSize,
-  BsTextAlign
 } from '../../ts-tokens/bootstrap';
+import { bsFormProps } from './bs-form-types';
 
 type ValidateCallback = (valid:boolean) => void;
 
 export default defineComponent({
   name: 'BsForm',
-  props: {
-    model: { // 表单数据对象
-      type: Object,
-      default () {
-        return {};
-      }
-    },
-    rules: { // 校验规则
-      type: Object,
-      default () {
-        return {};
-      }
-    },
-    showLabel: { // 是否显示label
-      type: Boolean,
-      default: true
-    },
-    showErrorMessage: { // 表单项校验失败时是否显示错误提示
-      type: Boolean,
-      default: true
-    },
-    layout: { // 表单布局模式
-      type: String as PropType<FormLayout>,
-      default: 'vertical'
-    },
-    labelClass: { // label标签的额外classname
-      type: [String, Array, Object],
-      default: ''
-    },
-    labelWidth: { // label标签的宽度
-      type: [String, Number],
-      default: ''
-    },
-    contentClass: { // 内容部分的额外class
-      type: [String, Array, Object],
-      default: ''
-    },
-    labelAlign: { // label标签的对齐方式
-      type: String as PropType<BsTextAlign>,
-      default: ''
-    },
-    size: { // 表单大小
-      type: String as PropType<BsSize>,
-      default: ''
-    }
-  },
+  props: bsFormProps,
   setup (props: any, ctx: any) {
     // 存储<bs-form-item>子组件的上下文
     let formItemCtxs = ref<any[]>([]);

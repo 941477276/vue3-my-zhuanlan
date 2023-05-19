@@ -1,7 +1,7 @@
-import { PropType } from 'vue';
+import { PropType, ExtractPropTypes } from 'vue';
 import { BsSize } from '../../ts-tokens/bootstrap';
 
-export const bsCommonPickerProps = {
+export const bsCommonPickerTypes = {
   showFooter: { // 是否显示底部
     type: Boolean,
     default: false
@@ -68,3 +68,5 @@ export const bsCommonPickerProps = {
     }
   }
 };
+
+export type BsCommonPickerProps = ExtractPropTypes<typeof bsCommonPickerTypes>;

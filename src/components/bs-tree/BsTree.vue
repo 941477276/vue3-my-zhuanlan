@@ -55,7 +55,7 @@ import {
 } from 'vue';
 import BsTreeNode from './widgets/BsTreeNode.vue';
 import BsTreeNodeOperate from './widgets/BsTreeNodeOperate.vue';
-import { bsTreeProps } from './bs-tree-props';
+import { bsTreeProps } from './bs-tree-types';
 import { BsNodeData, BsNodeInfo, bsTreeContextKey, TreeContext } from '../../ts-tokens/bootstrap/tree';
 import { StringKeyObject } from '../../ts-tokens/bootstrap';
 import {
@@ -78,35 +78,7 @@ export default defineComponent({
     BsTreeNode,
     BsTreeNodeOperate
   },
-  props: {
-    ...bsTreeProps,
-    treeData: { // 树数据
-      type: Object,
-      default () {
-        return {};
-      }
-    },
-    props: { // 树节点配置
-      type: Object,
-      default () {
-        return {
-          ...defaultTreeNodeProps
-        };
-      }
-    },
-    emptyText: {
-      type: String,
-      default: '暂无数据'
-    },
-    loadingText: {
-      type: String,
-      default: '加载中...'
-    },
-    loading: {
-      type: Boolean,
-      default: false
-    }
-  },
+  props: bsTreeProps,
   emits: ['node-expand', 'check-change', 'node-click', 'update:checkedKeys', 'node-destroy'],
   setup (props: any, ctx: any) {
     console.time('Tree组件Script执行耗时：');

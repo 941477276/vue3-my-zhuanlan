@@ -26,7 +26,7 @@ import {
   defineComponent,
   h
 } from 'vue';
-import props, { MultipleProgressDefine } from './bs-progress-props';
+import { bsProgressProps, BsMultipleProgressDefine } from './bs-progress-types';
 import BsProgressBar from './widgets/BsProgressBar.vue';
 
 export default defineComponent({
@@ -34,7 +34,7 @@ export default defineComponent({
   components: {
     BsProgressBar
   },
-  props,
+  props: bsProgressProps,
   setup (props: any, ctx: any) {
     return function () {
       let children;
@@ -43,7 +43,7 @@ export default defineComponent({
       if (!props.multiple) {
         children = h(BsProgressBar, props, slotDefault);
       } else {
-        children = props.progresses.map((progress: MultipleProgressDefine, index: number) => {
+        children = props.progresses.map((progress: BsMultipleProgressDefine, index: number) => {
           return h(BsProgressBar, {
             ...progress,
             key: `multiple_progress_item-${index}`

@@ -1,9 +1,10 @@
-import { PropType } from 'vue';
 import {
-  BsPlacementFour
-} from '../../ts-tokens/bootstrap';
+  PropType,
+  ExtractPropTypes
+} from 'vue';
+import { ModalSize } from '../../ts-tokens/bootstrap/modal';
 
-export const bsDrawerProps = {
+export const bsModalProps = {
   visible: { // 用于控制弹窗显隐
     type: Boolean,
     default: false
@@ -16,13 +17,9 @@ export const bsDrawerProps = {
     type: [String, Object],
     default: 'body'
   },
-  placement: { // 抽屉显示的方向
-    type: String as PropType<BsPlacementFour>,
-    default: 'right'
-  },
   transitionName: { // 过渡动画名称
     type: String,
-    default: 'slide'
+    default: 'fade'
   },
   title: { // 标题
     type: [String, Function, Object],
@@ -31,6 +28,22 @@ export const bsDrawerProps = {
   width: { // 宽度
     type: String,
     default: ''
+  },
+  size: { // 弹窗大小
+    type: String as PropType<ModalSize>,
+    default: ''
+  },
+  centered: { // 是否居中显示
+    type: Boolean,
+    default: false
+  },
+  cancelText: { // 取消按钮文案
+    type: String,
+    default: '取消'
+  },
+  okText: { // 确定按钮文案
+    type: String,
+    default: '确定'
   },
   mask: { // 是否显示遮罩
     type: Boolean,
@@ -44,17 +57,29 @@ export const bsDrawerProps = {
     type: Boolean,
     default: true
   },
+  fullscreen: { // 是否全屏
+    type: Boolean,
+    default: false
+  },
   lockScroll: { // 是否锁定滚动条
     type: Boolean,
     default: true
   },
-  showHeader: { // 是否显示头部
+  draggable: { // 是否可以拖拽移动
+    type: Boolean,
+    default: false
+  },
+  boundary: { // 拖拽时是否不能超出边界
     type: Boolean,
     default: true
   },
-  showFooter: { // 是否显示底部
+  scrollable: { // 弹窗内容部分是否可滚动
     type: Boolean,
     default: false
+  },
+  showFooter: { // 是否显示底部
+    type: Boolean,
+    default: true
   },
   showClose: { // 是否显示关闭按钮
     type: Boolean,
@@ -68,12 +93,14 @@ export const bsDrawerProps = {
     type: Boolean,
     default: true
   },
-  closeDisabled: { // 是否禁用关闭，若值为true，则任何方式都关闭不了，此功能可用于正在提交数据的场景
+  confirmLoading: { // 是否禁用关闭，若值为true，则任何方式都关闭不了，此功能可用于正在提交数据的场景
     type: Boolean,
     default: false
   },
-  drawerClass: { // 额外的classname
-    type: [String, Array, Object],
-    default: ''
+  onOk: { // 确认按钮点击事件
+    type: Function,
+    default: null
   }
 };
+
+export type BsModalProps = ExtractPropTypes<typeof bsModalProps>
