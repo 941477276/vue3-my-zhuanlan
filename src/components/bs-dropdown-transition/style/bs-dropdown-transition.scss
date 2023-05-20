@@ -1,5 +1,5 @@
-@import "../../../scss/slide-transition.mixin";
-@import "../../../scss/zoom-transition.mixin";
+@import "../../../styles/slide-transition.mixin";
+@import "../../../styles/zoom-transition.mixin";
 .bs-dropdown-transition{
   @include slide-top;
   @include slide-down;
