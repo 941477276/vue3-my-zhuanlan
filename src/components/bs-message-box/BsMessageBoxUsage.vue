@@ -108,8 +108,6 @@ import AsyncClose from './demos/async-close.vue';
 import Custom from './demos/custom.vue';
 import Centered from './demos/centered.vue';
 import ManualClose from './demos/manual-close.vue';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const imgSrc = require('@/assets/imgs/icons-hero.png');
 
 export default defineComponent({
   name: 'BsMessageBoxUsage',
