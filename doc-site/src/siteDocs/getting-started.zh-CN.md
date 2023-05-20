@@ -20,7 +20,7 @@ import 'bootstrap-vue/dist/index.css';
 
 const app = createApp(App);
 
-app.use(Antd).mount('#app');
+app.use(BsVue).mount('#app');
 ```
 
 ### 全局部分注册

@@ -8,7 +8,7 @@ import 'dayjs/locale/zh-cn';
 
 import App from './App.vue';
 import './styles/index';
-import initBootstrapComponents from './components/index';
+import BsVue from './components/index';
 
 import './components/style';
 
@@ -19,10 +19,11 @@ const app = createApp(App);
 
 dayjs.locale('zh-cn');
 // 初始化bootstrap组件
-initBootstrapComponents(app);
+// initBootstrapComponents(app);
 // initRouterDefend(router);
 // app.use(store);
 // app.use(router);
+app.use(BsVue);
 app.use(Antd);
 
 app.mount('#app');

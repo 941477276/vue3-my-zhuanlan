@@ -9,7 +9,7 @@ import router from './router';
 import 'prism-themes/themes/prism-atom-dark.css';
 import '../../src/styles/index';
 import '../../src/styles/bootstrap-other.scss';
-import initBootstrapComponents from '../../src/components/index';
+import BsVue from '../../src/components/index';
 import { setupI18n, getStorageLangCode } from './i18n/i18nUtil';
 import { langCode } from './store/lang';
 import '../../src/components/style';
@@ -26,8 +26,9 @@ const i18n = setupI18n({
 });
 langCode.value = defaultLangCode;
 app.use(i18n);
+app.use(BsVue);
 
-initBootstrapComponents(app);
+// initBootstrapComponents(app);
 app.component(DemoBox.name, DemoBox);
 app.component(ComponentDoc.name, ComponentDoc);
 app.component(BsVueDoc.name, BsVueDoc);
