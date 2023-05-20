@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 
 // import 'bootstrap/scss/bootstrap.scss';
-import './scss/index.scss';
+// import './scss/index.scss';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
