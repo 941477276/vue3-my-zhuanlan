@@ -6,6 +6,8 @@ src/version.ts
 doc-site/src/router/docRoutes.ts
 doc-site/src/router/menu.*.ts
 doc-site/src/apiDocs
+lib
+es
 
 # local env files
 .env.local
