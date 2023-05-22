@@ -125,7 +125,9 @@ import {
   defineComponent,
   provide,
   inject,
-  nextTick
+  nextTick,
+  onMounted,
+  onUnmounted
 } from 'vue';
 import { BsiChevronDown } from 'vue3-bootstrap-icon/es/icons/BsiChevronDown';
 import BsTag from '../bs-tag/BsTag.vue';
@@ -136,6 +138,7 @@ import { selectContextKey } from '../../ts-tokens/bootstrap/select';
 import { useInput } from './useInput';
 import { useSetValidateStatus } from '../../hooks/useSetValidateStatus';
 import { BsiXCircle } from 'vue3-bootstrap-icon/es/icons/BsiXCircle';
+import { useGlobalEvent } from '../../hooks/useGlobalEvent';
 
 let bsSelectInputCount = 0;
 export default defineComponent({
@@ -274,6 +277,23 @@ export default defineComponent({
     let selectCtx = inject(selectContextKey);
     // console.log('parentCtx', selectCtx);
     provide('parentCtx', { ctx: selectCtx?.ctx || ctx });
+
+    let resizeTimer = 0;
+    let resizeEvent = function () {
+      if (props.multiple) {
+        let now = new Date().getTime();
+        if (!resizeTimer || (now - resizeTimer > 100)) {
+          calcInputTagsHeight();
+          resizeTimer = now;
+        }
+      }
+    };
+    onMounted(function () {
+      useGlobalEvent.addEvent('window', 'resize', resizeEvent);
+    });
+    onUnmounted(function () {
+      useGlobalEvent.removeEvent('window', 'resize', resizeEvent);
+    });
 
     return {
       bsSelectInputId,
