@@ -37,8 +37,9 @@
                   {{ title }}
                 </h5>
               </slot>
-              <BsButton
+              <button
                 v-if="showClose"
+                type="button"
                 class="close"
                 data-dismiss="modal"
                 aria-label="Close"
@@ -46,7 +47,7 @@
                 <slot name="close">
                   <span aria-hidden="true">&times;</span>
                 </slot>
-              </BsButton>
+              </button>
             </div>
             <div class="modal-body">
               <slot></slot>

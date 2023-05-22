@@ -10,7 +10,7 @@ import BsForm from './bs-form';
 import BsDropdown from './bs-dropdown';
 import BsDropdownTransition from './bs-dropdown-transition';
 import BsPagination from './bs-pagination';
-import BsBadge from './bs-badge/BsBadge.vue';
+import BsBadge from './bs-badge';
 import BsMessage from './bs-message';
 import BsBreadcrumb from './bs-breadcrumb';
 import BsTag from './bs-tag';

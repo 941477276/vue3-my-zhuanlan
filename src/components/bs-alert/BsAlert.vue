@@ -39,7 +39,7 @@
         data-dismiss="alert"
         aria-label="Close"
         @click="close">
-        <span aria-hidden="true">{{ closeText ? closeText : '&times;' }}</span>
+        <span aria-hidden="true" :data-custome-text="!!closeText">{{ closeText ? closeText : '&times;' }}</span>
       </button>
     </div>
   </transition>

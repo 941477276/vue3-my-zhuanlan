@@ -39,16 +39,17 @@
                   {{ title }}
                 </h6>
               </slot>
-              <BsButton
+              <button
                 v-if="showClose"
                 class="close"
+                type="button"
                 data-dismiss="drawer"
                 aria-label="Close"
                 @click="close">
                 <slot name="close">
                   <span aria-hidden="true">&times;</span>
                 </slot>
-              </BsButton>
+              </button>
             </div>
             <div class="bs-drawer-body">
               <slot></slot>
@@ -71,7 +72,6 @@
 
 <script lang="ts">
 import { defineComponent, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
-import BsButton from '../bs-button/BsButton.vue';
 import BsMask from '../bs-mask/bs-mask.vue';
 import { bsDrawerProps } from './bs-drawer-types';
 import { useZIndex } from '../../hooks/useZIndex';
@@ -84,7 +84,6 @@ export default defineComponent({
   name: 'BsDrawer',
   props: bsDrawerProps,
   components: {
-    BsButton,
     BsMask
   },
   emits: ['update:visible', 'open', 'close'],
