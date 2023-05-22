@@ -263,7 +263,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style lang="scss">
-@import "bs-picker-time-panel";
-</style>
