@@ -14,11 +14,11 @@ import {
   CascaderExpandedMenuItem,
   CascaderFieldNames,
   CheckedOptions
-} from '../../ts-tokens/bootstrap/cascader';
-import { BsNodeInfo } from '../../ts-tokens/bootstrap/tree';
+} from './bs-cascader-types';
+import { BsNodeInfo } from '../bs-tree/bs-tree-types';
 import {
-  StringKeyObject
-} from '../../ts-tokens/bootstrap';
+  PlainObject
+} from '../types';
 import {
   findNodeInfoByValue2,
   findParentsByNodeValue2
@@ -46,7 +46,7 @@ export function useCascaderMenu (options: any) {
   // 选中项列表
   let checkedOptions = ref<CheckedOptions>({});
   // 半选中列表
-  let halfCheckedOptions = ref<StringKeyObject>({});
+  let halfCheckedOptions = ref<PlainObject>({});
   // 存储最近一个更新给父组件的值
   let localModelValue: any[] = [];
 

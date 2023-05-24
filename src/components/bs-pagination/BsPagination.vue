@@ -30,9 +30,6 @@ import {
   PropType,
   VNode
 } from 'vue';
-import {
-  BsSize
-} from '../../ts-tokens/bootstrap';
 import BsPager from './widgets/bs-pager/BsPager.vue';
 import Total from './widgets/total/Total.vue';
 import Sizes from './widgets/sizes/Sizes.vue';

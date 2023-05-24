@@ -1,6 +1,35 @@
 import { PropType, ExtractPropTypes } from 'vue';
-import { BsColorType, BsSize } from '../../ts-tokens/bootstrap';
-import { CascaderFieldNames } from '../../ts-tokens/bootstrap/cascader';
+import { BsColorType, BsSize } from '../types';
+
+export interface CascaderOptionItem {
+  id?: string;
+  value?: string|number;
+  label?: string|number;
+  labelSlot?: string|number;
+  disabled?: boolean;
+  tagType?: string;
+  children?: CascaderOptionItem[];
+};
+
+export interface CheckedOptions {
+  [key: string]: CascaderOptionItem[]
+};
+
+export interface CascaderExpandedMenuItem {
+  menuId: string;
+  menuItemValue?: string|number;
+  menuOptions: CascaderOptionItem[];
+};
+
+export interface CascaderFieldNames {
+  label: string;
+  value: string;
+  children: string;
+  disabled: string;
+  leaf: string;
+};
+
+export type BsCascaderFieldNames = Partial<CascaderFieldNames>;
 
 export const cascaderMenuProps = {
   expandTrigger: { // 次级菜单的展开方式，支持click、hover
@@ -185,7 +214,7 @@ export const bsCascaderProps = {
   },
   ...cascaderMenuProps,
   fieldNames: { // 自定义 options 中 label、 children、disabled 的字段名称
-    type: Object as PropType<CascaderFieldNames>,
+    type: Object as PropType<BsCascaderFieldNames>,
     default () {
       return {};
     }

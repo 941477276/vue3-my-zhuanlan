@@ -11,7 +11,7 @@ import {
 import {
   checkboxGroupContextKey,
   CheckboxGroupContext
-} from '../../ts-tokens/bootstrap';
+} from './bs-checkbox-types';
 
 export function useCheckbox (props: any, ctx: any, checkboxRef: Ref<HTMLInputElement|null>) {
   let selfModelVal = ref('');

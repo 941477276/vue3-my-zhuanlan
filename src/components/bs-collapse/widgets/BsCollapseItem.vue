@@ -48,10 +48,10 @@ import {
 import { BsiChevronRight } from 'vue3-bootstrap-icon/es/icons/BsiChevronRight';
 import BsCollapseTransition from '../../bs-collapse-transition/BsCollapseTransition.vue';
 import {
+  bsCollapseItemProps,
   bsCollapseContextKey,
   CollapseContext
-} from '../../../ts-tokens/bootstrap/collapse';
-import { bsCollapseItemProps } from '../bs-collapse-types';
+} from '../bs-collapse-types';
 
 let collapseItemCount = 0;
 export default defineComponent({

@@ -6,7 +6,6 @@ const arrowSize = ['sm', 'lg'];
 const buttonGroupPrefix = 'btn-group';
 export function BsButtonGroup (props: any, ctx: any) {
   let className = ['bs-button-group'];
-  console.log('props', props);
   let vertical = props.vertical;
   if (typeof vertical != 'undefined' && (vertical !== false && vertical !== 0)) {
     vertical = true;

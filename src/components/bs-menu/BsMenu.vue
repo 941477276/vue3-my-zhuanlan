@@ -26,13 +26,13 @@ import {
 import {
   isString
 } from '@vue/shared';
-import { bsMenuProps } from './bs-menu-types';
 import {
+  bsMenuProps,
   bsSubMenuDisplayMode,
   bsMenuRootInjectKey,
   MenuItemResgisted,
   ExpandedSubmenu
-} from '../../ts-tokens/bootstrap/menu';
+} from './bs-menu-types';
 import { getScrollParent, scrollTo, offset, getStyle } from '../../utils/bs-util';
 
 let menuCount = 0;

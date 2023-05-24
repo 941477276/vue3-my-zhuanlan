@@ -1,5 +1,5 @@
 import { PropType, ExtractPropTypes } from 'vue';
-import { BsColorType, BsSize } from '../../ts-tokens/bootstrap';
+import { BsColorType, BsSize } from '../types';
 
 export const bsSwitchProps = {
   modelValue: {

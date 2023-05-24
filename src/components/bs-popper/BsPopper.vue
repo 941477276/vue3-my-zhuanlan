@@ -19,7 +19,7 @@ import {
 import {
   BsPopperContext,
   bsPopperContextKey
-} from '../../ts-tokens/bootstrap/popper';
+} from './bs-popper-types';
 import { bsPopperProps } from './bs-popper-props';
 import {
   createPopper,

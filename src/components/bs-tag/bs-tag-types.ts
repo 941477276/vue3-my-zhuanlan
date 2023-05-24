@@ -1,5 +1,5 @@
 import { PropType, ExtractPropTypes } from 'vue';
-import { BsColorType, supportedBsColorTypes } from '../../ts-tokens/bootstrap';
+import { BsColorType, supportedBsColorTypes } from '../types';
 
 export type BsTagEffect = 'dark' | 'light' | 'plain';
 // type BsTagSize = 'medium' | 'small' | 'mini';

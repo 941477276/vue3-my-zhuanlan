@@ -32,10 +32,9 @@ import {
   SelectOptionGroupContext,
   selectContextKey,
   selectOptionGroupContextKey,
-  SelectOptionItem
-} from '../../../ts-tokens/bootstrap/select';
+  bsSelectOptionProps
+} from '../bs-select-types';
 import { BsiCheckLg } from 'vue3-bootstrap-icon/es/icons/BsiCheckLg';
-import { bsSelectOptionProps } from '../bs-select-types';
 import {
   isFunction
 } from '../../../utils/bs-util';

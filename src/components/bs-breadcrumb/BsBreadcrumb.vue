@@ -17,10 +17,10 @@ import {
   computed
 } from 'vue';
 import {
-  BreadcrumbContext,
+  bsBreadcrumbProps,
+  BsBreadcrumbContext,
   breadcrumbContextKey
-} from '../../ts-tokens/bootstrap/breadcrumb';
-import { bsBreadcrumbProps } from './bs-breadcrumb-types';
+} from './bs-breadcrumb-types';
 
 type ItemCtx = {
   id: string;
@@ -56,7 +56,7 @@ export default defineComponent({
       return null;
     });
 
-    provide<BreadcrumbContext>(breadcrumbContextKey, {
+    provide<BsBreadcrumbContext>(breadcrumbContextKey, {
       separator: toRef(props, 'separator'),
       lastChildId,
       addChildComponentContext,

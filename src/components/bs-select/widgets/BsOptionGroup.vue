@@ -18,10 +18,10 @@ import {
   reactive
 } from 'vue';
 import {
+  bsSelectOptionGroupProps,
   SelectOptionGroupContext,
   selectOptionGroupContextKey
-} from '../../../ts-tokens/bootstrap/select';
-import { bsSelectOptionGroupProps } from '../bs-select-types';
+} from '../bs-select-types';
 
 export default defineComponent({
   name: 'BsOptionGroup',

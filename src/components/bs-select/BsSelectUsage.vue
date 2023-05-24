@@ -63,7 +63,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue';
-import { SelectOptionItem } from '@/ts-tokens/bootstrap/select';
+import { SelectOptionContextItem } from './bs-select-types';
 import Basic from './demos/basic.vue';
 import Multiple from './demos/multiple.vue';
 import Group from './demos/group.vue';
@@ -119,7 +119,7 @@ export default defineComponent({
 
     let selectVal4 = ref('');
     let selectVal9 = ref(['html', 'javascript']);
-    let options4 = ref<SelectOptionItem[]>([]);
+    let options4 = ref<SelectOptionContextItem[]>([]);
     let loading4 = ref(true);
     let loadData4 = function () {
       loading4.value = true;

@@ -20,7 +20,7 @@ import {
 } from './bs-toast-ctxs';
 import {
   supportedBsColorTypes
-} from '../../ts-tokens/bootstrap';
+} from '../types';
 
 let toastCount = 0;
 function BsToast (options = {} as any, context?: AppContext | null) {

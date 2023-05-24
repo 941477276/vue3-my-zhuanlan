@@ -87,9 +87,8 @@ import {
   reactive
 } from 'vue';
 import {
-  ValidateStatus,
-  StringKeyObject
-} from '../../ts-tokens/bootstrap';
+  BsValidateStatus, PlainObject
+} from '../types';
 import {
   elementContains
 } from '../../utils/bs-util';
@@ -98,7 +97,7 @@ import BsTree from '../bs-tree/BsTree.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
 import { bsTreeSelectProps } from './bs-tree-select-types';
 import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
-import { SelectContext, selectContextKey, SelectOptionItem } from '../../ts-tokens/bootstrap/select';
+import { SelectContext, selectContextKey, SelectOptionContextItem } from '../bs-select/bs-select-types';
 
 let treeSelectCount = 0;
 export default defineComponent({
@@ -213,14 +212,14 @@ export default defineComponent({
         if (treeRef.value) {
           labels = labels || [];
           let labelsFromTree = (treeRef.value as any).getCheckedNodesLabel();
-          labelsFromTree.forEach((labelItem: StringKeyObject) => {
-            let index = labels.findIndex((label: StringKeyObject) => labelItem.value === label.value);
+          labelsFromTree.forEach((labelItem: PlainObject) => {
+            let index = labels.findIndex((label: PlainObject) => labelItem.value === label.value);
             // 优先使用从props中传递过来的label
             if (index > -1) {
               labelItem.label = labels[index].label;
             }
           });
-          viewText.value = labelsFromTree.map((labelItem: StringKeyObject) => {
+          viewText.value = labelsFromTree.map((labelItem: PlainObject) => {
             return {
               ...labelItem,
               label: labelItem.label
@@ -286,7 +285,7 @@ export default defineComponent({
 
     let { callFormItem } = useDeliverContextToFormItem(props, {
       id: selectId.value,
-      setValidateStatus: (status: ValidateStatus) => {
+      setValidateStatus: (status: BsValidateStatus) => {
         // console.log('调select组件的setValidateStatus方法l');
         if (bsSelectInputRef.value) {
           (bsSelectInputRef.value as any).setValidateStatus(status);
@@ -297,13 +296,13 @@ export default defineComponent({
     provide<SelectContext>(selectContextKey, reactive({
       props,
       ctx,
-      filterMethod (option: SelectOptionItem) {
+      filterMethod (option: SelectOptionContextItem) {
         return true;
       },
       changeVal (val: any, isDelete?: boolean) {
       //
       },
-      addOption (option: SelectOptionItem) {
+      addOption (option: SelectOptionContextItem) {
       //
       },
       removeOption (optionId: string, optionValue: any) {
@@ -326,7 +325,7 @@ export default defineComponent({
       viewText,
       treeModelValue,
 
-      setValidateStatus: function (status: ValidateStatus) {
+      setValidateStatus: function (status: BsValidateStatus) {
         (bsSelectInputRef.value as any).setValidateStatus(status);
       },
       refreshDropdown () { // 刷新下拉菜单位置

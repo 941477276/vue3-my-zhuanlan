@@ -49,7 +49,7 @@ import {
   ref,
   defineComponent
 } from 'vue';
-import { supportedBsColorTypes } from '@/ts-tokens/bootstrap';
+import { supportedBsColorTypes } from '../types';
 import Basic from './demos/basic.vue';
 import BorderRadius from './demos/border-radius.vue';
 import Size from './demos/size.vue';

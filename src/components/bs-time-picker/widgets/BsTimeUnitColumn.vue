@@ -24,7 +24,7 @@ import {
   onMounted,
   defineComponent
 } from 'vue';
-import { TimeDataUnit } from '../../../ts-tokens/bootstrap/time-picker';
+import { TimeDataUnit } from '../bs-time-picker-types';
 import {
   scrollTo
 } from '../../../utils/bs-util';

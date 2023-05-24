@@ -11,7 +11,7 @@ import { defineComponent, provide, reactive } from 'vue';
 import {
   checkboxGroupContextKey,
   CheckboxGroupContext
-} from '../../ts-tokens/bootstrap';
+} from '../bs-checkbox/bs-checkbox-types';
 import { bsCheckboxGroupProps } from './bs-checkbox-group-types';
 
 export default defineComponent({

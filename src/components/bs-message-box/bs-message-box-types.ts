@@ -7,12 +7,12 @@ import {
 import {
   MessageBoxType,
   supportMessageBoxTypes
-} from '../../ts-tokens/bootstrap/message';
+} from '../bs-message/bs-message-types';
 import {
   BsColorType,
   BsInputType,
   BsSize
-} from '../../ts-tokens/bootstrap';
+} from '../types';
 
 export const bsMessageBoxProps = {
   appContext: { // 上下文，一般用于获取全局注册组件、vuex 等内容

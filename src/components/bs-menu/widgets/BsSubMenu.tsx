@@ -19,18 +19,18 @@ import BsCollapseTransition from '../../bs-collapse-transition/BsCollapseTransit
 import { useMenuLevel } from '../hooks/useMenuLevel';
 import { useGlobalEvent } from '../../../hooks/useGlobalEvent';
 import {
+  bsSubmenuProps,
   bsMenuRootInjectKey,
   bsSubMenuInjectKey,
   bsSubMenuDisplayMode,
   MenuItemResgisted,
   ExpandedSubmenu
-} from '../../../ts-tokens/bootstrap/menu';
+} from '../bs-menu-types';
 import {
   isUndefined,
   elementContains,
   parents
 } from '../../../utils/bs-util';
-import { bsSubmenuProps } from '../bs-menu-types';
 
 let subMenuCount = 0;
 let componentName = 'BsSubMenu';

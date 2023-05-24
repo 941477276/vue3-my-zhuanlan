@@ -130,7 +130,7 @@ import BsButton from '../bs-button/BsButton.vue';
 import BsInput from '../bs-input/BsInput.vue';
 import BsFormItem from '../bs-form/widgets/BsFormItem.vue';
 import { bsMessageBoxProps } from './bs-message-box-types';
-import { MessageType } from '../../ts-tokens/bootstrap/message';
+import { MessageType } from '../bs-message/bs-message-types';
 import { useButtonClick } from './useButtonClick';
 import { useGlobalEvent } from '../../hooks/useGlobalEvent';
 import { isPromise } from '../../utils/bs-util';

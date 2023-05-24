@@ -2,7 +2,8 @@ import {
   PropType,
   ExtractPropTypes
 } from 'vue';
-import { ModalSize } from '../../ts-tokens/bootstrap/modal';
+
+export type ModalSize = 'xl' | 'lg' | 'sm';
 
 export const bsModalProps = {
   visible: { // 用于控制弹窗显隐

@@ -13,7 +13,7 @@ import {
   supportMessageTypes,
   MessageFn,
   Message
-} from '../../ts-tokens/bootstrap/message';
+} from './bs-message-types';
 import { useGetContentInfo } from '../../hooks/useGetContentInfo';
 
 type MessageQueueItem = {

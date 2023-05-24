@@ -1,5 +1,5 @@
 import { PropType } from 'vue';
-import { PopperTriggerType } from '../../ts-tokens/bootstrap/popper';
+import { PopperTriggerType } from '../bs-popper/bs-popper-types';
 
 export const bsTooltipTriggerProps = {
   disabled: {

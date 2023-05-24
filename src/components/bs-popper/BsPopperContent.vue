@@ -23,7 +23,7 @@ import {
 import {
   BsPopperContext,
   bsPopperContextKey
-} from '../../ts-tokens/bootstrap/popper';
+} from './bs-popper-types';
 import {
   createPopper,
   Instance as PopperInstance,

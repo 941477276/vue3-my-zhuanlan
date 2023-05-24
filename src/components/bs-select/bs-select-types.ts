@@ -1,5 +1,5 @@
-import { PropType, ExtractPropTypes } from 'vue';
-import { BsColorType, BsSize } from '../../ts-tokens/bootstrap';
+import { PropType, ExtractPropTypes, InjectionKey } from 'vue';
+import { BsColorType, BsSize } from '../types';
 import { BsTagEffect } from '../bs-tag/bs-tag-types';
 
 export interface BsSelectOption {
@@ -175,3 +175,28 @@ export const bsSelectOptionGroupProps = {
 export type BsSelectProps = ExtractPropTypes<typeof bsSelectProps>;
 export type BsSelectOptionProps = ExtractPropTypes<typeof bsSelectOptionProps>;
 export type BsSelectOptionGroupProps = ExtractPropTypes<typeof bsSelectOptionGroupProps>;
+
+export type SelectOptionContextItem = {
+  id?: string;
+  value: any;
+  label: string|number;
+  labelSlot?: string|number;
+  disabled?: boolean;
+};
+
+export type SelectContext = {
+  ctx?: any;
+  props: any;
+  filterText?: string;
+  filterMethod: (option: SelectOptionContextItem) => boolean;
+  changeVal: (val: any, isDelete?: boolean) => void;
+  addOption: (option: SelectOptionContextItem) => void;
+  removeOption: (optionId: string, value: any) => void;
+};
+
+export type SelectOptionGroupContext = {
+  props: any
+};
+
+export const selectContextKey: InjectionKey<SelectContext> = Symbol('select');
+export const selectOptionGroupContextKey: InjectionKey<SelectContext> = Symbol('selectOptionGroup');

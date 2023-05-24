@@ -1,4 +1,4 @@
-import { BsSize } from '../../ts-tokens/bootstrap';
+import { BsSize } from '../types';
 
 export interface BsButtonGroupProps {
   size?: BsSize;

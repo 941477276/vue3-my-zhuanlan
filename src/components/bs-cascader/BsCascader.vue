@@ -110,17 +110,17 @@ import BsSelectInput from '../bs-select-input/BsSelectInput.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
 import BsCascaderMenu from './widgets/bs-cascader-menu.vue';
 import BsOnlyChild from '../bs-slot/BsOnlyChild.vue';
-import { bsCascaderProps } from './bs-cascader-types';
-import { useClickOutside } from '../../hooks/useClickOutside';
-import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
-import { useForwardRef } from '../../hooks/useForwardRef';
-import { ValidateStatus } from '../../ts-tokens/bootstrap';
 import {
+  bsCascaderProps,
   CascaderOptionItem,
   CascaderExpandedMenuItem,
   CascaderFieldNames
-} from '../../ts-tokens/bootstrap/cascader';
-import { SelectContext, selectContextKey } from '../../ts-tokens/bootstrap/select';
+} from './bs-cascader-types';
+import { useClickOutside } from '../../hooks/useClickOutside';
+import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
+import { useForwardRef } from '../../hooks/useForwardRef';
+import { BsValidateStatus } from '../types';
+import { SelectContext, selectContextKey } from '../bs-select/bs-select-types';
 import { useDropdown } from './useDropdown';
 import { useCascaderMenu } from './useCascaderMenu';
 import {
@@ -129,7 +129,7 @@ import {
 } from '../../components/bs-tree/bs-tree-utils';
 import {
   BsNodeInfo
-} from '../../ts-tokens/bootstrap/tree';
+} from '../bs-tree/bs-tree-types';
 
 const defaultFieldNames: CascaderFieldNames = {
   label: 'label',
@@ -279,7 +279,7 @@ export default defineComponent({
     // 向父级<bs-form-item>组件传递当前组件上下文信息
     let { callFormItem } = useDeliverContextToFormItem(props, {
       id: cascaderId.value,
-      setValidateStatus: (status: ValidateStatus) => {
+      setValidateStatus: (status: BsValidateStatus) => {
         // console.log('调select组件的setValidateStatus方法l');
         (bsCascaderInputRef.value as any)?.setValidateStatus(status);
       }

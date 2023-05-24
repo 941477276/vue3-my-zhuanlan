@@ -4,7 +4,7 @@ import {
   isFunction
 } from '@vue/shared';
 import { createLoadingComponent, LoadingInstance } from './createLoadingComponent';
-import { StringKeyObject } from '../../ts-tokens/bootstrap';
+import { PlainObject } from '../types';
 import {
   getStyle,
   scrollTop,
@@ -101,7 +101,7 @@ export function BsLoading (options: BsLoadingOptions = {} as BsLoadingOptions) {
             if (!isLocked) {
               let elScrollTop = scrollTop(container);
               let elScrollLeft = scrollLeft(container);
-              let style: StringKeyObject = {};
+              let style: PlainObject = {};
               container.style.overflow = 'hidden';
               if (elScrollTop > 0) {
                 style.top = elScrollTop + 'px';

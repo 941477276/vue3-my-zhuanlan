@@ -1,4 +1,4 @@
-import { ExtractPropTypes } from 'vue';
+import { ExtractPropTypes, InjectionKey } from 'vue';
 
 export const bsCheckboxProps = {
   modelValue: {
@@ -61,3 +61,9 @@ export const bsCheckboxProps = {
 };
 
 export type BsCheckboxProps = ExtractPropTypes<typeof bsCheckboxProps>;
+
+export type CheckboxGroupContext = {
+  props: any;
+  changeVal: (val: string|number|boolean) => void;
+};
+export const checkboxGroupContextKey: InjectionKey<CheckboxGroupContext> = Symbol('checkboxGroup');

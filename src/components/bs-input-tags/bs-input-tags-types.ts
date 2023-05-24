@@ -1,5 +1,5 @@
 import { PropType, ExtractPropTypes } from 'vue';
-import { BsSize, BsColorType } from '../../ts-tokens/bootstrap';
+import { BsSize, BsColorType } from '../types';
 
 export type BsInputTagsValueItem = {
   label: string;

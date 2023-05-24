@@ -1,11 +1,15 @@
 import {
   PropType,
-  ExtractPropTypes
+  ExtractPropTypes,
+  ComputedRef,
+  Ref
 } from 'vue';
-import {
-  BsMenuMode,
-  BsSubMenuDisplayMode
-} from '../../ts-tokens/bootstrap/menu';
+
+// 菜单类型
+export type BsMenuMode = 'horizontal' | 'vertical' | 'h5';
+
+// 子菜单展现模式类型
+export type BsSubMenuDisplayMode = 'collapse' | 'dropdown' | 'drawer';
 
 export const bsMenuProps = {
   mode: { // 菜单类型
@@ -105,3 +109,29 @@ export type BsMenuProps = ExtractPropTypes<typeof bsMenuProps>;
 export type BsSubMenuProps = ExtractPropTypes<typeof bsSubmenuProps>;
 export type BsMenuItemProps = ExtractPropTypes<typeof bsMenuItemProps>;
 export type BsMenuItemGroupProps = ExtractPropTypes<typeof bsMenuItemGroupProps>;
+
+export interface MenuItemResgisted {
+  keyIndex: ComputedRef<string>;
+  id: string;
+  name: string;
+  disabled: Ref<boolean>;
+  parentsIdPath: Record<string, string>[];
+  // parentMenuId: string;
+  expandSubmenu?: (flag?: boolean) => void;
+};
+
+export interface ExpandedSubmenu {
+  keyIndex: ComputedRef<string>;
+  id: string;
+  shrinkSubmenu: () => void;
+}
+
+// 子菜单展现模式
+export const bsSubMenuDisplayMode = {
+  collapse: 'collapse',
+  dropdown: 'dropdown',
+  drawer: 'drawer'
+};
+
+export const bsMenuRootInjectKey = 'bsMenuRoot';
+export const bsSubMenuInjectKey = 'bsSubMenu';

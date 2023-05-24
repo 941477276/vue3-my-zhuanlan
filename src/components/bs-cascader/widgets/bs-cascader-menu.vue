@@ -69,13 +69,11 @@ import { BsiCheckLg } from 'vue3-bootstrap-icon/es/icons/BsiCheckLg';
 import BsSpinner from '../../bs-spinner/BsSpinner.vue';
 import BsCascaderMenuItemLabel from './bs-cascader-menu-item-label';
 import {
-  cascaderMenuProps
-} from '../bs-cascader-types';
-import {
+  cascaderMenuProps,
   CascaderOptionItem,
   CascaderExpandedMenuItem,
   CascaderFieldNames
-} from '../../../ts-tokens/bootstrap/cascader';
+} from '../bs-cascader-types';
 import {
   hasClass
 } from '../../../utils/bs-util';

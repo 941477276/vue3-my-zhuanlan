@@ -1,4 +1,5 @@
-import { PropType, ExtractPropTypes } from 'vue';
+import { PropType, ExtractPropTypes, Ref, InjectionKey } from 'vue';
+import { PlainObject } from '../types';
 
 export const bsTreeCommonProps = {
   nodeKey: { // 每个树节点用来作为唯一标识的属性，整棵树应该是唯一的
@@ -160,3 +161,26 @@ export const bsTreeProps = {
 };
 
 export type BsTreeProps = ExtractPropTypes<typeof bsTreeProps>;
+
+// 节点信息
+export interface BsNodeInfo {
+  node: PlainObject;
+  nodeLevelPath: string;
+  isDisabled: boolean;
+};
+
+export type BsNodeData = PlainObject;
+
+export type TreeContext = {
+  ctx: any;
+  flatTreeNodeInfoArr: Ref<BsNodeInfo[]>;
+  halfCheckedKeys: Ref<(string|number)[]>;
+  currentNode: any;
+  onNodeExpand: (flag: boolean, nodeData: BsNodeData, nodeState: any) => void;
+  addCheckedKey: (nodeKey: string|number, nodeData: BsNodeData, hasChildren: boolean) => void;
+  onNodeDestroy: (nodeData: BsNodeData) => void;
+  removeCheckedKey: (nodeKey: string|number, nodeData: BsNodeData, hasChildren: boolean) => void;
+  onNodeClick: (nodeData: BsNodeData, nodeState: any) => void;
+};
+
+export const bsTreeContextKey: InjectionKey<TreeContext> = Symbol('bsRootTree');

@@ -1,8 +1,8 @@
 import {
   BsNodeInfo,
   BsNodeData
-} from '../../ts-tokens/bootstrap/tree';
-import { StringKeyObject } from '../../ts-tokens/bootstrap';
+} from './bs-tree-types';
+import { PlainObject } from '../types';
 
 let caches: any = {};
 /**
@@ -136,7 +136,7 @@ export function findParentsByNodeValue2 (treeId: string, nodeValue: any, nodeKey
  * @return {{node: object; nodeLevelPath: string}}
  */
 export function findNodeInfoByValue2 (treeId: string, nodeValue: any, nodeKey: string, treeNodeInfoArr: BsNodeInfo[]) {
-  let resultNode: StringKeyObject = {
+  let resultNode: PlainObject = {
     node: null,
     nodeLevelPath: '',
     isDisabled: false

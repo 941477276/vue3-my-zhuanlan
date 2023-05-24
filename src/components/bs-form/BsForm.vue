@@ -20,10 +20,7 @@ import {
   ref,
   reactive
 } from 'vue';
-import {
-  formContextKey,
-} from '../../ts-tokens/bootstrap';
-import { bsFormProps } from './bs-form-types';
+import { bsFormProps, formContextKey } from './bs-form-types';
 
 type ValidateCallback = (valid:boolean) => void;
 

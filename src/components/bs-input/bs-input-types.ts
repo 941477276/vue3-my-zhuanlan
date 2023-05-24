@@ -1,5 +1,5 @@
 import { PropType, ExtractPropTypes } from 'vue';
-import { BsInputType, BsSize } from '../../ts-tokens/bootstrap';
+import { BsInputType, BsSize } from '../types';
 
 export const bsInputProps = {
   modelValue: {

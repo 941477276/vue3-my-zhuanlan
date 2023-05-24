@@ -48,7 +48,7 @@ import {
 import {
   FormItemContext,
   formItemContextKey
-} from '../../ts-tokens/bootstrap';
+} from '../bs-form/bs-form-types';
 import { bsSwitchProps } from './bs-switch-types';
 
 export default defineComponent({

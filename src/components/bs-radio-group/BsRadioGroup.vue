@@ -11,7 +11,7 @@ import { defineComponent, provide, reactive } from 'vue';
 import {
   radioGroupContextKey,
   RadioGroupContext
-} from '../../ts-tokens/bootstrap/radio';
+} from '../bs-radio/bs-radio-types';
 import { bsRadioGroupProps } from './bs-radio-group-types';
 
 export default defineComponent({

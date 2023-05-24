@@ -30,9 +30,8 @@ import {
   bsTooltipContextKey,
   bsPopperContextKey,
   BsTooltipContext,
-  BsPopperContext,
-  PopperTriggerType
-} from '../../ts-tokens/bootstrap/popper';
+  BsPopperContext
+} from '../bs-popper/bs-popper-types';
 
 export default defineComponent({
   name: 'BsTooltipTrigger',

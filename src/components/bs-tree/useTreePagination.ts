@@ -3,8 +3,8 @@ import {
   findNodeInfoByValue2,
   findChildrenInfoFlattarnByNodeValue2
 } from './bs-tree-utils';
-import { BsNodeData, BsNodeInfo } from '../../ts-tokens/bootstrap/tree';
-import { StringKeyObject } from '../../ts-tokens/bootstrap';
+import { BsNodeData, BsNodeInfo } from './bs-tree-types';
+import { PlainObject } from '../types';
 
 /**
  * 子节点分页处理
@@ -32,7 +32,7 @@ export function useTreePagination (props: any, treeId: string, flatTreeNodeInfoA
     }
     // 如果传递了过滤函数，则根据过滤函数的返回值进行查找
     if (typeof filterFn === 'function' && filterText !== '') {
-      result = result.map(function (nodeData: StringKeyObject) {
+      result = result.map(function (nodeData: PlainObject) {
         let show = false;
         // 如果节点有子孙节点，则只要子孙节点有一个匹配的那么该节点都应该显示出来
         if (nodeData[childrenKey]) {

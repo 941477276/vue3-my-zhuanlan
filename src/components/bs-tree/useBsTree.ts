@@ -4,7 +4,7 @@ import {
   findNodeInfoByValue2,
   findParentsByNodeValue2
 } from './bs-tree-utils';
-import { BsNodeData, BsNodeInfo } from '../../ts-tokens/bootstrap/tree';
+import { BsNodeData, BsNodeInfo } from './bs-tree-types';
 
 export const defaultTreeNodeProps = {
   label: 'label',

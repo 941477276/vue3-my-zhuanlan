@@ -1,7 +1,8 @@
 import { PropType, ExtractPropTypes } from 'vue';
-import { BsColorType, BsSize, supportedBsColorTypes } from '../../ts-tokens/bootstrap';
+import { BsColorType, BsSize, supportedBsColorTypes } from '../types';
 
 export type BsButtonColorType = BsColorType | 'link';
+
 // 定义按钮支持类型
 const nativeTypes = ['button', 'submit'];
 const supportedTypes = [...supportedBsColorTypes, 'link'];

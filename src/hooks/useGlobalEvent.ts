@@ -1,9 +1,8 @@
 /**
  * 给document、window绑定全局性的事件
  */
-import {
-  EventCallbackFn
-} from '../ts-tokens/bootstrap';
+
+type EventCallbackFn = (event?: any) => any;
 
 type EventTarget = 'document' | 'window';
 let eventMap = {

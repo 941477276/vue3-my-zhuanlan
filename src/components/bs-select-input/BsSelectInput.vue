@@ -134,7 +134,7 @@ import BsTag from '../bs-tag/BsTag.vue';
 import BsSpinner from '../bs-spinner/BsSpinner.vue';
 import SelectInputTagSlot from './widgets/SelectInputTagSlot.vue';
 import { bsSelectInputProps, ValueItem } from './bs-select-input-props';
-import { selectContextKey } from '../../ts-tokens/bootstrap/select';
+import { selectContextKey } from '../bs-select/bs-select-types';
 import { useInput } from './useInput';
 import { useSetValidateStatus } from '../../hooks/useSetValidateStatus';
 import { BsiXCircle } from 'vue3-bootstrap-icon/es/icons/BsiXCircle';

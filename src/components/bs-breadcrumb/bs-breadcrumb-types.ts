@@ -1,4 +1,4 @@
-import { ExtractPropTypes } from 'vue';
+import { ComputedRef, ExtractPropTypes, InjectionKey, Ref } from 'vue';
 
 export const bsBreadcrumbItemProps = {
   to: {
@@ -29,6 +29,17 @@ export const bsBreadcrumbProps = {
     default: '/'
   }
 };
+
+export type BsBreadcrumbContext = {
+  separator: Ref<string>;
+  lastChildId: ComputedRef<string|null>;
+  // 存储子组件上下文
+  addChildComponentContext: (childContext: any) => any;
+  // 移除子组件上下文
+  removeChildComponentContext: (childContext: any) => any;
+};
+
+export const breadcrumbContextKey: InjectionKey<BsBreadcrumbContext> = Symbol('breadcrumb');
 
 export type BsBreadcrumbItemProps = ExtractPropTypes<typeof bsBreadcrumbItemProps>;
 export type BsBreadcrumbProps = ExtractPropTypes<typeof bsBreadcrumbProps>;

@@ -6,20 +6,20 @@ import {
   isArray
 } from '@vue/shared';
 import {
-  StringKeyObject
-} from '../../ts-tokens/bootstrap';
+  PlainObject
+} from '../types';
 import {
   CascaderFieldNames,
   CascaderOptionItem,
   CheckedOptions
-} from '../../ts-tokens/bootstrap/cascader';
-import { BsNodeInfo } from '../../ts-tokens/bootstrap/tree';
+} from './bs-cascader-types';
+import { BsNodeInfo } from '../bs-tree/bs-tree-types';
 import {
   findParentsByNodeValue2,
   findChildrenByNodeValue2
 } from '../../components/bs-tree/bs-tree-utils';
 
-export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptions>, halfCheckedOptions: Ref<StringKeyObject>, fieldNameProps: ComputedRef<CascaderFieldNames>, flatternOptions: Ref<BsNodeInfo[]>, dropdownTransitionRef: Ref<any>, cascaderId: string) {
+export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptions>, halfCheckedOptions: Ref<PlainObject>, fieldNameProps: ComputedRef<CascaderFieldNames>, flatternOptions: Ref<BsNodeInfo[]>, dropdownTransitionRef: Ref<any>, cascaderId: string) {
   let findOptionParents = function (value: string, valueKey: string) {
     let optionParentNodeInfos = findParentsByNodeValue2(cascaderId, value, valueKey, flatternOptions.value);
     let optionParents = optionParentNodeInfos.map((nodeInfo: BsNodeInfo) => {
@@ -35,7 +35,7 @@ export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptio
    * @param optionItem 待添加节点
    * @param allowDisabledAdd 是否允许添加禁用的节点
    */
-  let addMultipleOptionsChecked = function (optionItem: any, allowDisabledAdd = false) {
+  let addMultipleOptionsChecked = function (optionItem: Record<string, any>, allowDisabledAdd = false) {
     let {
       value: valueKey,
       disabled: disabledKey,

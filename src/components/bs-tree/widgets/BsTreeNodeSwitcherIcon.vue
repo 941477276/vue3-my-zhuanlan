@@ -7,7 +7,7 @@ import {
 import {
   bsTreeContextKey,
   TreeContext
-} from '../../../ts-tokens/bootstrap/tree';
+} from '../bs-tree-types';
 
 export default defineComponent({
   name: 'BsTreeNodeSwitcherIcon',

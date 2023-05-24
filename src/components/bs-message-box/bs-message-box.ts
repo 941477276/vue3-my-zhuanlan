@@ -10,13 +10,13 @@ import {
 } from 'vue';
 import BsMessageBox from './BsMessageBox.vue';
 import {
-  StringKeyObject
-} from '../../ts-tokens/bootstrap';
+  PlainObject
+} from '../types';
 import {
   MessageBox,
   MessageBoxFn,
   supportMessageBoxTypes
-} from '../../ts-tokens/bootstrap/message';
+} from '../bs-message/bs-message-types';
 import {
   offset,
   isFunction
@@ -45,7 +45,7 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
   let inputAfter:any = null;
   let context = null;
   // 重新组装组件的props
-  let messageBoxProps: StringKeyObject = {};
+  let messageBoxProps: PlainObject = {};
   let { text, slotContent } = useGetContentInfo(options);
   // text, slotContent这2个都没有，则说明传递的options为一个普通的对象
   if (!text && !slotContent) {

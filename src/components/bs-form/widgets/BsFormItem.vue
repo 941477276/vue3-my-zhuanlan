@@ -82,16 +82,14 @@ import Schema from 'async-validator';
 import {
   FormContext,
   FormItemContext,
-  ValidateStatus,
   FormItemValidateCallback,
   SetValidateStatusContext,
-  BsTextAlign,
-  BsSize,
   formContextKey,
-  formItemContextKey
-} from '../../../ts-tokens/bootstrap';
+  formItemContextKey,
+  bsFormItemProps
+} from '../bs-form-types';
 import { useDeliverContextToParent } from '../../../hooks/useDeliverContextToParent';
-import { bsFormItemProps } from '../bs-form-types';
+import { BsValidateStatus } from '../../types';
 
 export default defineComponent({
   name: 'BsFormItem',
@@ -99,7 +97,7 @@ export default defineComponent({
   setup (props: any, ctx: any) {
     let bsFormItemRef = ref<HTMLElement>();
     // 校验状态
-    let validStatus = ref<ValidateStatus>('');
+    let validStatus = ref<BsValidateStatus>('');
     let formContext = inject<FormContext|null>(formContextKey, null);
     // 存储初始值，以遍在重置表单值时使用
     let initialVal:any = {};
@@ -291,7 +289,7 @@ export default defineComponent({
      * 设置表单项子组件的校验状态
      * @param status
      */
-    let setChildComponentsValidateStatus = function (status: ValidateStatus) {
+    let setChildComponentsValidateStatus = function (status: BsValidateStatus) {
       if (childComponentContext.value.length > 0) {
         childComponentContext.value.forEach((childCtx: SetValidateStatusContext) => {
           let setStatusFn = childCtx.setValidateStatus;

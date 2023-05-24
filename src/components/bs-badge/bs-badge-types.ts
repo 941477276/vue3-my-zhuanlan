@@ -1,5 +1,5 @@
 import { PropType, ExtractPropTypes } from 'vue';
-import { BsColorType, supportedBsColorTypes } from '../../ts-tokens/bootstrap';
+import { BsColorType, supportedBsColorTypes } from '../types';
 
 export const bsBadgeProps = {
   tag: { // 标签名

@@ -39,9 +39,9 @@ import {
   TabNavItem,
   TabsPaneContext,
   TabsContext,
-  bsTabsContextKey
-} from '../../ts-tokens/bootstrap/tabs';
-import { bsTabsProps } from './bs-tabs-types';
+  bsTabsContextKey,
+  bsTabsProps
+} from './bs-tabs-types';
 
 export default defineComponent({
   name: 'BsTabs',

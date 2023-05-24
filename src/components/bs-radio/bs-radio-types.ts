@@ -1,4 +1,4 @@
-import { ExtractPropTypes } from 'vue';
+import { ExtractPropTypes, InjectionKey } from 'vue';
 
 export const bsRadioProps = {
   modelValue: {
@@ -50,3 +50,9 @@ export const bsRadioProps = {
 };
 
 export type BsRadioProps = ExtractPropTypes<typeof bsRadioProps>;
+
+export type RadioGroupContext = {
+  props: any;
+  changeVal: (val: string|number|boolean) => void;
+};
+export const radioGroupContextKey: InjectionKey<RadioGroupContext> = Symbol('radioGroup');

@@ -14,7 +14,7 @@ import {
 } from '../../../utils/bs-util';
 import {
   HiddenTabInfo
-} from '../../../ts-tokens/bootstrap/tabs';
+} from '../bs-tabs-types';
 
 function getHiddenTabs (navScrollerRef: Ref<HTMLElement|null>, tabsNavRef: Ref<HTMLElement|null>, tabPosition: string) {
   let result = {

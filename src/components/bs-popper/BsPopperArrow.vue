@@ -16,7 +16,7 @@ import {
 import {
   BsPopperContext,
   bsPopperContextKey
-} from '../../ts-tokens/bootstrap/popper';
+} from './bs-popper-types';
 
 export default defineComponent({
   name: 'BsPopperArrow',

@@ -4,12 +4,12 @@ import {
 } from 'vue';
 import BsMask from './bs-mask.vue';
 import {
-  StringKeyObject
-} from '../../ts-tokens/bootstrap';
+  PlainObject
+} from '../types';
 import { useZIndex } from '../../hooks/useZIndex';
 
 let maskCount = 0;
-export function createMask (options: StringKeyObject = {}): { show: (zIndex?: number) => void; hide: (destroyed?: boolean) => void; } {
+export function createMask (options: PlainObject = {}): { show: (zIndex?: number) => void; hide: (destroyed?: boolean) => void; } {
   let destroyOnHide = !!options.destroyOnHide;
   let optionZIndex = options.zIndex;
   let id = `bs_mask-${++maskCount}`;

@@ -55,9 +55,8 @@ import {
 } from 'vue';
 import BsTreeNode from './widgets/BsTreeNode.vue';
 import BsTreeNodeOperate from './widgets/BsTreeNodeOperate.vue';
-import { bsTreeProps } from './bs-tree-types';
-import { BsNodeData, BsNodeInfo, bsTreeContextKey, TreeContext } from '../../ts-tokens/bootstrap/tree';
-import { StringKeyObject } from '../../ts-tokens/bootstrap';
+import { bsTreeProps, BsNodeData, BsNodeInfo, bsTreeContextKey, TreeContext } from './bs-tree-types';
+import { PlainObject } from '../types';
 import {
   findChildrenWhichHasChildren2,
   findNodeInfoByValue2,
@@ -158,7 +157,7 @@ export default defineComponent({
       }
       // console.time('linkParentCheckbox执行耗时：');
       // 已经处理过的节点的key
-      let processedKes: StringKeyObject = {};
+      let processedKes: PlainObject = {};
       let nodeKey = props.nodeKey;
       let { children: childKey, disabled: disabledKey } = treeNodeProps.value;
       let checkedKeys = checkedKeysRoot.value;

@@ -1,5 +1,5 @@
 import { PropType, ExtractPropTypes } from 'vue';
-import { BsSize } from '../../ts-tokens/bootstrap';
+import { BsSize } from '../types';
 
 export type BsPaginationLayoutKey = 'pager' | 'sizes' | 'total' | 'jumper' | 'slot';
 export const bsPaginationProps = {

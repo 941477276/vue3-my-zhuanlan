@@ -108,9 +108,8 @@ import BsTreeNodeLabel from './BsTreeNodeLabel.vue';
 import BsTreeNodeSwitcherIcon from './BsTreeNodeSwitcherIcon.vue';
 import BsTreeNodeOperate from './BsTreeNodeOperate.vue';
 import BsCollapseTransition from '../../bs-collapse-transition/BsCollapseTransition.vue';
-import { bsTreeContextKey, TreeContext } from '../../../ts-tokens/bootstrap/tree';
 import { useTreePagination } from '../useTreePagination';
-import { bsTreeProps } from '../bs-tree-types';
+import { bsTreeProps, bsTreeContextKey, TreeContext } from '../bs-tree-types';
 import { bsTreeNodeProps } from './bs-tree-node-props';
 import {
   isPromise,

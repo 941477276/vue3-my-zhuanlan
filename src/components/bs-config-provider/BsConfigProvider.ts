@@ -7,7 +7,7 @@ import {
 } from 'vue';
 import {
   BsSize
-} from '../../ts-tokens/bootstrap';
+} from '../types';
 
 export default defineComponent({
   name: 'BsConfigProvider',

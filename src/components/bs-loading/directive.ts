@@ -1,7 +1,8 @@
 import {
   isObject
 } from '@vue/shared';
-import { BsLoading, BsLoadingOptions } from './loading';
+import { BsLoading } from './loading';
+import { BsLoadingOptions } from './bs-loading-types';
 
 function resolveOptions (binding: any) {
   let text = '';

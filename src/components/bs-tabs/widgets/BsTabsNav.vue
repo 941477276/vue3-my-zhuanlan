@@ -90,7 +90,7 @@ import {
   TabNavItem,
   TabPosition,
   TriggerTypeOnOverflow
-} from '../../../ts-tokens/bootstrap/tabs';
+} from '../bs-tabs-types';
 import { useHiddenTabsInfo } from './useHiddenTabsInfo';
 import { useActiveTab } from './useActiveTab';
 import { useTabsNavMove } from './useTabsNavMove';

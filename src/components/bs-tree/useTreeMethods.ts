@@ -1,7 +1,7 @@
 import {
   Ref
 } from 'vue';
-import { BsNodeInfo } from '../../ts-tokens/bootstrap/tree';
+import { BsNodeInfo } from './bs-tree-types';
 import { findNodeInfoByValue2 } from '../../components/bs-tree/bs-tree-utils';
 
 export function useTreeMethods (props: any, flatTreeNodeInfoArr: Ref<BsNodeInfo[]>, checkedKeysRoot: Ref<(string|number)[]>, halfCheckedKeys: Ref<(string|number)[]>, treeId: string) {

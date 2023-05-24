@@ -21,11 +21,10 @@ import {
 } from 'vue';
 import {
   TabsContext,
-  TabsPaneContext,
-  bsTabsContextKey
-} from '../../../ts-tokens/bootstrap/tabs';
+  bsTabsContextKey,
+  bsTabPaneProps
+} from '../bs-tabs-types';
 import { useDeliverContextToParent } from '../../../hooks/useDeliverContextToParent';
-import { bsTabPaneProps } from '../bs-tabs-types';
 
 let bsTabsPaneCount = 0;
 export default defineComponent({

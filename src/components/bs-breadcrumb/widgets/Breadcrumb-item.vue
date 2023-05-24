@@ -29,12 +29,12 @@ import {
   computed,
   getCurrentInstance
 } from 'vue';
-import {
-  BreadcrumbContext,
-  breadcrumbContextKey
-} from '../../../ts-tokens/bootstrap/breadcrumb';
 import { useDeliverContextToParent } from '../../../hooks/useDeliverContextToParent';
-import { bsBreadcrumbItemProps } from '../bs-breadcrumb-types';
+import {
+  bsBreadcrumbItemProps,
+  BsBreadcrumbContext,
+  breadcrumbContextKey
+} from '../bs-breadcrumb-types';
 
 let breadcrumbCount = 0;
 
@@ -43,9 +43,9 @@ export default defineComponent({
   props: bsBreadcrumbItemProps,
   setup (props: any) {
     let id = `breadcrumb_item_${++breadcrumbCount}`;
-    let { separator, lastChildId } = inject<BreadcrumbContext>(breadcrumbContextKey, {
+    let { separator, lastChildId } = inject<BsBreadcrumbContext>(breadcrumbContextKey, {
       separator: ref('/')
-    } as BreadcrumbContext);
+    } as BsBreadcrumbContext);
 
     let ins = getCurrentInstance();
     let $router = ins && ins.appContext.config.globalProperties.$router;
@@ -66,7 +66,7 @@ export default defineComponent({
       return urlReg.test(props.to);
     });
 
-    useDeliverContextToParent<BreadcrumbContext>(breadcrumbContextKey, {
+    useDeliverContextToParent<BsBreadcrumbContext>(breadcrumbContextKey, {
       id
     });
 

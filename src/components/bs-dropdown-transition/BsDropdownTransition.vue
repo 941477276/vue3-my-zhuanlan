@@ -54,7 +54,7 @@ import {
 } from '../../utils/bs-util';
 import { getDropdownDirection } from './useDropdownDirection';
 import { useGlobalEvent } from '../../hooks/useGlobalEvent';
-import { StringKeyObject } from '../../ts-tokens/bootstrap';
+import { PlainObject } from '../types';
 import { bsDropdownTransitionProps } from './bs-dropdown-transition-types';
 
 export default defineComponent({
@@ -80,7 +80,7 @@ export default defineComponent({
     let isVisible = ref(false);
     let targetRef = ref<HTMLElement|null>(null);
     let documentNodeNames = ['HTML', 'BODY'];
-    let zoomTransitionOrigin: StringKeyObject = {
+    let zoomTransitionOrigin: PlainObject = {
       top: '0 100%',
       topEnd: '100% 100%',
       bottom: '0 0',
@@ -93,7 +93,7 @@ export default defineComponent({
       rightCenter: '0 center'
     };
     // 外部自定义样式
-    let styleCustom = ref<StringKeyObject>({});
+    let styleCustom = ref<PlainObject>({});
 
     // 刷新定位
     let refresh = function () {

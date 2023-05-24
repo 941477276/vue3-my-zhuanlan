@@ -8,3 +8,9 @@ export const bsTimePickerProps = {
 };
 
 export type BsTimePickerProps = ExtractPropTypes<typeof bsPickerTimePanelProps>;
+
+export type TimeDataUnit = {
+  label: string;
+  value: number;
+  disabled?: boolean;
+}

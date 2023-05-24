@@ -127,21 +127,19 @@ import {
   ComponentInternalInstance,
   computed
 } from 'vue';
-import {
-  ValidateStatus
-} from '../../ts-tokens/bootstrap';
+import { BsValidateStatus } from '../types';
 import { useClickOutside } from '../../hooks/useClickOutside';
-import {
-  SelectContext,
-  SelectOptionItem,
-  selectContextKey
-} from '../../ts-tokens/bootstrap/select';
 import BsSelectInput from '../bs-select-input/BsSelectInput.vue';
 import BsDropdownTransition from '../bs-dropdown-transition/BsDropdownTransition.vue';
 import BsSpinner from '../bs-spinner/BsSpinner.vue';
 import BsOption from './widgets/BsOption.vue';
 import BsOptionGroup from './widgets/BsOptionGroup.vue';
-import { bsSelectProps } from './bs-select-types';
+import {
+  bsSelectProps,
+  SelectContext,
+  SelectOptionContextItem,
+  selectContextKey
+} from './bs-select-types';
 import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
 
 let selectCount = 0;
@@ -167,7 +165,7 @@ export default defineComponent({
     let dropdownDisplayed = ref(false); // 下拉菜单是否已经渲染
     let dropdownWillVisible = ref(false); // 下拉菜单是否即将显示
     let dropdownVisible = ref(false); // 下拉菜单是否显示
-    let optionItems = ref<SelectOptionItem[]>([]); // 存储option的label及value
+    let optionItems = ref<SelectOptionContextItem[]>([]); // 存储option的label及value
 
     let nativeSelectModel = computed({
       get () {
@@ -269,8 +267,8 @@ export default defineComponent({
      * 添加option
      * @param option
      */
-    let addOption = function (option: SelectOptionItem) {
-      let optionExists = optionItems.value.some((optionItem: SelectOptionItem) => optionItem.id === option.id);
+    let addOption = function (option: SelectOptionContextItem) {
+      let optionExists = optionItems.value.some((optionItem: SelectOptionContextItem) => optionItem.id === option.id);
       // console.log('optionExists', optionExists);
       if (!optionExists) {
         optionItems.value.push(option);
@@ -281,7 +279,7 @@ export default defineComponent({
      * @param option
      */
     let removeOption = function (optionId: string, optionValue: any) {
-      let index = optionItems.value.findIndex((optionItem: SelectOptionItem) => optionItem.id === optionId);
+      let index = optionItems.value.findIndex((optionItem: SelectOptionContextItem) => optionItem.id === optionId);
       if (index > -1) {
         optionItems.value.splice(index, 1);
         // console.log('removeOption changeVal', optionValue);
@@ -291,10 +289,10 @@ export default defineComponent({
 
     let viewText = computed(function () {
       let modelValue = Array.isArray(props.modelValue) ? props.modelValue : [props.modelValue];
-      let selectedOptionLabels = optionItems.value.filter(function (option: SelectOptionItem) {
+      let selectedOptionLabels = optionItems.value.filter(function (option: SelectOptionContextItem) {
         // console.log('option.value', option.value);
         return modelValue.includes(option.value);
-      }).map(function (option: SelectOptionItem) {
+      }).map(function (option: SelectOptionContextItem) {
         let newOption = {
           ...option,
           label: option.label || option.labelSlot
@@ -330,7 +328,7 @@ export default defineComponent({
     };
 
     // 标签关闭事件
-    let onTagClose = function (option: SelectOptionItem) {
+    let onTagClose = function (option: SelectOptionContextItem) {
       changeVal(option.value, true);
     };
 
@@ -363,7 +361,7 @@ export default defineComponent({
 
     let { callFormItem } = useDeliverContextToFormItem(props, {
       id: selectId.value,
-      setValidateStatus: (status: ValidateStatus) => {
+      setValidateStatus: (status: BsValidateStatus) => {
         // console.log('调select组件的setValidateStatus方法l');
         (bsSelectInputRef.value as any)?.setValidateStatus(status);
       }
@@ -372,7 +370,7 @@ export default defineComponent({
     provide<SelectContext>(selectContextKey, reactive({
       props,
       ctx,
-      filterMethod: function (option: SelectOptionItem) {
+      filterMethod: function (option: SelectOptionContextItem) {
         let text = filterText.value;
         if (!props.filterable) {
           return true;
@@ -417,7 +415,7 @@ export default defineComponent({
       onSelectInputClear,
       dropdownShow,
       dropdownHide,
-      setValidateStatus: function (status: ValidateStatus) {
+      setValidateStatus: function (status: BsValidateStatus) {
         (bsSelectInputRef.value as any).setValidateStatus(status);
       },
 

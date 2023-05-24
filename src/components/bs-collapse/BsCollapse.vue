@@ -20,11 +20,10 @@ import {
   watch
 } from 'vue';
 import {
+  bsCollapseProps,
   bsCollapseContextKey,
-  CollapseContext,
-  CollapseItemContext
-} from '../../ts-tokens/bootstrap/collapse';
-import { bsCollapseProps } from './bs-collapse-types';
+  CollapseContext
+} from './bs-collapse-types';
 
 export default defineComponent({
   name: 'BsCollapse',

@@ -3,7 +3,7 @@ import { useDeliverContextToParent } from './useDeliverContextToParent';
 import {
   FormItemContext,
   formItemContextKey
-} from '../ts-tokens/bootstrap';
+} from '../components/bs-form/bs-form-types';
 
 /**
  * 将组件信息向上传递给<bs-form-item>组件

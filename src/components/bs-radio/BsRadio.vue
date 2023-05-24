@@ -46,12 +46,12 @@ import {
   onUpdated
 } from 'vue';
 import { useSetValidateStatus } from '../../hooks/useSetValidateStatus';
+import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
 import {
+  bsRadioProps,
   radioGroupContextKey,
   RadioGroupContext
-} from '../../ts-tokens/bootstrap/radio';
-import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
-import { bsRadioProps } from './bs-radio-types';
+} from './bs-radio-types';
 // 统计单选框数量
 let radioCount = 0;
 export default defineComponent({

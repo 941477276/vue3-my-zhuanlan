@@ -57,8 +57,7 @@ import {
   watch,
   reactive
 } from 'vue';
-import { bsMessageProps } from './bs-message-types';
-import { MessageType } from '../../ts-tokens/bootstrap/message';
+import { bsMessageProps, MessageType } from './bs-message-types';
 import BsBadge from '../../components/bs-badge/BsBadge.vue';
 import { BsiInfoCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiInfoCircleFill';
 import { BsiCheckCircleFill } from 'vue3-bootstrap-icon/es/icons/BsiCheckCircleFill';

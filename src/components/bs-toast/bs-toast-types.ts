@@ -1,6 +1,7 @@
 import { PropType, ExtractPropTypes } from 'vue';
-import { ToastPlacement } from '../../ts-tokens/bootstrap/toast';
-import { BsColorType } from '../../ts-tokens/bootstrap';
+import { BsColorType } from '../types';
+
+export type ToastPlacement = 'top-left' | 'top-right' | 'top-center' | 'bottom-left' | 'bottom-right' | 'bottom-center';
 
 export const bsToastProps = {
   title: { // 标题

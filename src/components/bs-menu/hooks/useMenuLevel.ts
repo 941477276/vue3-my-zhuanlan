@@ -7,7 +7,7 @@ import {
 import { isUndefined } from '../../../utils/bs-util';
 import {
   bsMenuRootInjectKey
-} from '../../../ts-tokens/bootstrap/menu';
+} from '../bs-menu-types';
 
 const MENU_NAME = 'BsMenu';
 const SUB_MENU_NAME = 'BsSubMenu';

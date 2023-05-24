@@ -18,7 +18,7 @@ import {
   defineComponent,
   PropType
 } from 'vue';
-import { BsSize } from '../../../../ts-tokens/bootstrap';
+import { BsSize } from '../../../types';
 import BsInput from '../../../bs-input/BsInput.vue';
 
 export default defineComponent({

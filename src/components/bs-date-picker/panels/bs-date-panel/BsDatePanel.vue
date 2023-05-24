@@ -49,7 +49,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil, isLeapYear, getMonthDays } from '../../../../utils/dayjsUtil';
 import PanelHeader from '../panel-header/PanelHeader.vue';
 import PanelBody from '../panel-body/PanelBody.vue';
-import { datePickerPrefixColumnSlotCtx } from '../../../../ts-tokens/bootstrap/date-picker';
+import { datePickerPrefixColumnSlotCtx } from '../../bs-date-picker-types';
 import { usePanelViewDate } from '../../hooks/usePanelViewDate';
 
 const totalCell = 42; // 单元格总数, 6行 * 7天（一周）
