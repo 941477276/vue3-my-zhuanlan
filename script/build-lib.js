@@ -27,8 +27,8 @@ const modifyExternalImportFileExtToJs = function () {
       order: 'pre', // 该钩子函数必须提前运行，否则不会执行到
       handler (source, importer, options) {
         // console.log('source: ', source);
-        // 将src目录下的所有文件都视为外部依赖
-        if ((source.startsWith('./') || source.startsWith('../'))) {
+        // 将src目录下的所有文件及vue3-bootstrap-icon图标都视为外部依赖
+        if ((source.startsWith('./') || source.startsWith('../')) || source.startsWith('vue3-bootstrap-icon')) {
           let result = {
             external: true,
             id: source
@@ -202,4 +202,4 @@ async function buildLib (format = 'es') {
   }
 };
 
-buildLib('cjs');
+buildLib();
