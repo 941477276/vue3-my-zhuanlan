@@ -16,7 +16,7 @@ const baseConfig = {
   plugins: [vue(), vueJsx()]
 };
 // 外部依赖列表
-// const externalList = ['vue', 'dayjs', 'vue3-bootstrap-icon', 'bignumber.js', 'async-validator', '@popperjs/core'];
+const externalList = ['vue', 'dayjs', 'vue3-bootstrap-icon', 'bignumber.js', 'async-validator', '@popperjs/core', '@vue/shared'];
 
 // 修改作为外部依赖的文件后缀名为.js的rollup插件
 const modifyExternalImportFileExtToJs = function () {
@@ -27,8 +27,9 @@ const modifyExternalImportFileExtToJs = function () {
       order: 'pre', // 该钩子函数必须提前运行，否则不会执行到
       handler (source, importer, options) {
         // console.log('source: ', source);
+        let isExternalListExternal = externalList.some(externalItem => source.startsWith(externalItem));
         // 将src目录下的所有文件及vue3-bootstrap-icon图标都视为外部依赖
-        if ((source.startsWith('./') || source.startsWith('../')) || source.startsWith('vue3-bootstrap-icon')) {
+        if ((source.startsWith('./') || source.startsWith('../')) || isExternalListExternal) {
           let result = {
             external: true,
             id: source
@@ -65,7 +66,8 @@ const modifyExternalImportFileExtToJs = function () {
 async function buildVueFileToJs (entry, outDir, fileName, formats = 'es') {
   const rollupOptions = {
     // 确保外部化处理那些你不想打包进库的依赖
-    external: ['vue', 'dayjs', 'vue3-bootstrap-icon', 'bignumber.js', 'async-validator', '@popperjs/core'],
+    // external: ['vue', 'dayjs', 'vue3-bootstrap-icon', 'bignumber.js', 'async-validator', '@popperjs/core'],
+    external: externalList,
     output: {
       globals: {
         vue: 'Vue' // 在 umd / iife 模式 中，将vue作为外部依赖
