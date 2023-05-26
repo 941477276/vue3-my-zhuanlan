@@ -93,4 +93,4 @@ export default {
     vueApp.use(BsConfigProvider);
     vueApp.use(BsRelativeTime);
   }
-}
+};

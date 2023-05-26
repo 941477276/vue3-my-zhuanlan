@@ -101,7 +101,7 @@ export default defineComponent({
         slot: slotDefault ? slotDefault() : null
       };
       let layoutArr = Array.isArray(props.layout) ? props.layout : props.layout?.split(',');
-      let children: Array<VNode | VNode[] | null> = (layoutArr || []).map((item: LayoutKey) => {
+      let children: Array<VNode | VNode[] | null> = (layoutArr || []).map((item: BsPaginationLayoutKey) => {
         (item as string) = item.trim();
         return layoutMap[item];
       });
