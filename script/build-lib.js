@@ -22,7 +22,7 @@ const externalList = ['vue', 'dayjs', 'vue3-bootstrap-icon', 'bignumber.js', 'as
 // 修改作为外部依赖的文件后缀名为.js的rollup插件
 const modifyExternalImportFileExtToJs = function () {
   let externalSuffixs = ['.vue', '.ts', '.tsx', '.jsx', '.scss'];
-  let excludeFiles = ['version.ts'];
+  let excludeFiles = ['/version.ts', '/version'];
   return {
     name: 'modify-external-import-file-ext-to-js',
     resolveId: {
