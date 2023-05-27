@@ -30,14 +30,15 @@ The most basic drop-down component, you can use it to implement any component wi
 
 ### DropdownTransition event
 
-| Event Name | Description | Callback Parameters |
-|--------------|--------------------------------|------|
-| before-enter | Same as `transition` component before-enter event | |
-| enter | Same as `transition` component enter event | |
-| after-enter | same as `transition` component after-enter event | |
-| before-leave | same as `transition` component before-leave event | |
-| leave | Same as `transition` component leave event | |
-| after-leave | Same as `transition` component after-leave event | |
+| Event Name | Description                                        | Callback Parameters |
+|--------------|----------------------------------------------------|------|
+| before-enter | Same as `transition` component before-enter event  | |
+| enter | Same as `transition` component enter event         | |
+| after-enter | same as `transition` component after-enter event   | |
+| before-leave | same as `transition` component before-leave event  | |
+| leave | Same as `transition` component leave event         | |
+| after-leave | Same as `transition` component after-leave event   | |
+| position-change | drop-down menu position information `change` event | function (positionInfo: object) |
 
 
 ### DropdownTransition function

@@ -61,3 +61,14 @@ export const bsDropdownTransitionProps = {
 };
 
 export type BsDropdownTransitionProps = ExtractPropTypes<typeof bsDropdownTransitionProps>;
+
+export interface BsDropdownPositionInfo {
+  direction: string;
+  width: number;
+  left: number;
+  top: number;
+  bottom: null|number;
+  right: null|number;
+  horizontalFullInview: boolean;
+  verticalFullInview: boolean;
+}

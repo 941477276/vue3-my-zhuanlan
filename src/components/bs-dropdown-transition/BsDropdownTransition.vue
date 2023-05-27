@@ -55,15 +55,15 @@ import {
 import { getDropdownDirection } from './useDropdownDirection';
 import { useGlobalEvent } from '../../hooks/useGlobalEvent';
 import { PlainObject } from '../types';
-import { bsDropdownTransitionProps } from './bs-dropdown-transition-types';
+import { bsDropdownTransitionProps, BsDropdownPositionInfo } from './bs-dropdown-transition-types';
 
 export default defineComponent({
   name: 'BsDropdownTransition',
   props: bsDropdownTransitionProps,
-  emits: ['before-enter', 'enter', 'after-enter', 'before-leave', 'leave', 'after-leave'],
+  emits: ['before-enter', 'enter', 'after-enter', 'before-leave', 'leave', 'after-leave', 'position-change'],
   setup (props: any, ctx: any) {
     // 下拉菜单样式
-    let dropdownStyle = reactive({
+    let dropdownStyle = reactive<BsDropdownPositionInfo>({
       // position: 'absolute',
       direction: 'bottom',
       width: 0,
@@ -165,6 +165,7 @@ export default defineComponent({
       } else {
         dropdownStyle.right = displayDirection.right;
       }
+      ctx.emit('position-change', { ...dropdownStyle });
     };
 
     // 过渡名称
