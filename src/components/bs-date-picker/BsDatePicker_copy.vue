@@ -110,9 +110,8 @@ import {
   provide,
   computed
 } from 'vue';
-import { PickerType, datePickerCtx } from '@/ts-tokens/bootstrap/date-picker';
 import BsCommonPicker from '../bs-common-picker/BsCommonPicker.vue';
-import { bsDatePickerTypes } from './bs-date-picker-types';
+import { bsDatePickerTypes, PickerType, datePickerCtx } from './bs-date-picker-types';
 import BsDatePanel from './panels/bs-date-panel/BsDatePanel.vue';
 import BsMonthPanel from './panels/bs-month-panel/BsMonthPanel.vue';
 import BsQuarterPanel from './panels/bs-quarter-panel/BsQuarterPanel.vue';

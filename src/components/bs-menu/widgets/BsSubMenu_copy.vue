@@ -101,7 +101,7 @@ import {
   bsSubMenuDisplayMode,
   MenuItemResgisted,
   ExpandedSubmenu
-} from '@/ts-tokens/bootstrap/menu';
+} from '../bs-menu-types';
 import {
   isUndefined,
   parents,

@@ -78,7 +78,7 @@ import {
 import BsTooltip from '../../bs-tooltip/BsTooltip.vue';
 import BsIcon from '../../bs-icon/BsIcon.vue';
 import { useMenuLevel } from '../hooks/useMenuLevel';
-import { bsMenuRootInjectKey, bsSubMenuInjectKey } from '@/ts-tokens/bootstrap/menu';
+import { bsMenuRootInjectKey, bsSubMenuInjectKey } from '../bs-menu-types';
 
 let menuItemCount = 0;
 let componentName = 'BsMenuItem';
