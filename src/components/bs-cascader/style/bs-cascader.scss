@@ -6,10 +6,13 @@
   overflow: auto;
   box-shadow: 0 1px 0.5rem rgba(0,0,0,0.15);
   background-color: #fff;
-  &[data-horizontal-fullinview="false"] {
+  /*&[data-horizontal-fullinview="false"] {
     .bs-cascader-panel{
       max-width: var(--cascader-refernce-width, calc(100vw - 2rem));
     }
+  }*/
+  .bs-cascader-panel{
+    max-width: var(--cascader-refernce-width, calc(100vw - var(--left, 0) - 2rem));
   }
 }
 .bs-cascader-panel{

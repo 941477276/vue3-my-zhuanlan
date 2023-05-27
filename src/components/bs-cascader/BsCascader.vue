@@ -39,7 +39,8 @@
         :set-min-width="setDropdownMinWidth || loading || (!loading && options.length == 0)"
         :will-visible="dropdownWillVisible"
         :try-end-placement="false"
-        @after-leave="handleDropdownHidden">
+        @after-leave="handleDropdownHidden"
+        @position-change="handlePositionChange">
         <div
           v-show="dropdownVisible"
           ref="bsSelectDropdownRef"
@@ -47,7 +48,8 @@
           :class="[{
             'is-multiple': multiple
           }, dropdownClass]"
-          :data-for-cascader="cascaderId">
+          :data-for-cascader="cascaderId"
+          :style="`--left: ${dropdownPositionInfo.left}px;`">
           <div
             ref="cascaderMenusRef"
             class="bs-cascader-panel">
@@ -130,6 +132,7 @@ import {
 import {
   BsNodeInfo
 } from '../bs-tree/bs-tree-types';
+import { BsDropdownPositionInfo } from '../bs-dropdown-transition/bs-dropdown-transition-types';
 
 const defaultFieldNames: CascaderFieldNames = {
   label: 'label',
@@ -408,6 +411,11 @@ export default defineComponent({
       // 下拉菜单隐藏后立即移除--cascader-refernce-width属性，否则会造成下拉菜单再次显示时位置计算不准确问题
       cascaderMenusRef.value?.style.removeProperty('--cascader-refernce-width');
     };
+    let dropdownPositionInfo = ref({} as BsDropdownPositionInfo);
+    // 下拉菜单位置信息change事件
+    let handlePositionChange = function (positionInfo: BsDropdownPositionInfo) {
+      dropdownPositionInfo.value = positionInfo;
+    };
 
     onUnmounted(function () {
       clearCachedNodeInfo(cascaderId.value);
@@ -430,6 +438,7 @@ export default defineComponent({
       viewText,
       fieldNameProps,
       // cascaderWidth,
+      dropdownPositionInfo,
 
       // onCascaderRootClick,
       onCascaderInputClear,
@@ -445,7 +454,8 @@ export default defineComponent({
       halfCheckedOptions,
       handleMenuItemOpen,
       handleMenuItemChecked,
-      handleDropdownHidden
+      handleDropdownHidden,
+      handlePositionChange
     };
   }
 });
