@@ -43,8 +43,10 @@ function drag (el: HTMLElement, binding: any) {
     const disY = evt.clientY - dialogHeaderEl.offsetTop;
     const dragDomWidth = dragDom.offsetWidth;
     const dragDomHeight = dragDom.offsetHeight;
-    const screenWidth = document.body.clientWidth || window.innerWidth;
-    const screenHeight = document.body.clientHeight || window.innerHeight;
+    // const screenWidth = document.body.clientWidth || window.innerWidth;
+    // const screenHeight = document.body.clientHeight || window.innerHeight;
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
     const minDragDomLeft = dragDom.offsetLeft;
     const maxDragDomLeft = screenWidth - dragDom.offsetLeft - dragDomWidth;
     const minDragDomTop = dragDom.offsetTop;
@@ -55,8 +57,8 @@ function drag (el: HTMLElement, binding: any) {
     let styT = getStyle(dragDom, 'top');
 
     if (styL.includes('%')) {
-      styL = +document.body.clientWidth * (+styL.replace(/%/g, '') / 100);
-      styT = +document.body.clientHeight * (+styT.replace(/%/g, '') / 100);
+      styL = +window.innerWidth * (+styL.replace(/%/g, '') / 100);
+      styT = +window.innerHeight * (+styT.replace(/%/g, '') / 100);
     } else {
       styL = +styL.replace(/px/g, '');
       styT = +styT.replace(/px/g, '');
