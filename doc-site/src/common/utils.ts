@@ -30,7 +30,7 @@ export function copyText (value: string | number) {
         textbox.focus();
       }
     };
-    const copyEl = document.createElement('input');
+    const copyEl = document.createElement('textarea'); // 不能使用input元素，会导致复制的内容丢失换行
     copyEl.style.position = 'fixed';
     copyEl.style.opacity = '0';
     copyEl.value = value as string;
