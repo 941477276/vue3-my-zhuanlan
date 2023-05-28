@@ -51,12 +51,19 @@ export function exampleTransform () {
         let script = getCodeByTagName(code, 'script');
         let style = getCodeByTagName(code, 'style');
 
+        let exampleScript = script;
+        let bsMessageIndex = -1;
+        // 替换示例代码中的相对路径引用
+        while ((bsMessageIndex = exampleScript.indexOf('../../bs-message')) > -1) {
+          exampleScript = exampleScript.replace('../../bs-message', 'bs-vue');
+        }
+
         // 示例代码
         let exampleCode =
 `<template>
   ${templateCode}
 </template>
-${script}
+${exampleScript}
 ${style}`.trim();
         // 将示例代码进行uri编码下，未编码的代码在编译时会报错
         exampleCode = encodeURIComponent(exampleCode);
