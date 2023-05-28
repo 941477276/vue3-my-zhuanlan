@@ -16,16 +16,18 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.5",
-    "@vue/babel-plugin-jsx": "^1.1.1",
     "async-validator": "^4.0.7",
     "bignumber.js": "^9.0.2",
     "bootstrap": "^4.6.1",
     "bootstrap-icons": "^1.8.1",
     "dayjs": "^1.11.4",
-    "vue": "^3.2.31",
     "vue3-bootstrap-icon": "^1.0.3"
   },
+  "peerDependencies": {
+    "vue": "^3.2.31"
+  },
   "devDependencies": {
+    "@vue/babel-plugin-jsx": "^1.1.1",
     "@babel/core": "^7.0.0-bridge.0",
     "@babel/preset-env": "^7.19.4",
     "@babel/preset-typescript": "^7.18.6",
