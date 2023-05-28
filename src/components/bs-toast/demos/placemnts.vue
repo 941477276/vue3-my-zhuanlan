@@ -28,10 +28,12 @@ description:
 
 <script setup>
 import { BsToast } from '../../bs-toast';
-import { getRandomNumber } from '../../../utils/bs-util';
 import dayjs from 'dayjs';
 
 const types = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'];
+const getRandomNumber = function (min, max) {
+  return parseInt((Math.random() * (max - min + 1) + min) + '');
+};
 let showToast = function (placement) {
   let type = types[getRandomNumber(0, types.length - 1)];
   BsToast({

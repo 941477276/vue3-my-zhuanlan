@@ -67,6 +67,7 @@ export default defineComponent({
     let stopWatchVisible: () => void;
     let stopWatchElBoundingClient: () => void;
     onMounted(function () {
+      // console.log('props.popperOptions', props.popperOptions);
       // 监听触发popper的元素，并创建popper实例
       stopWatchTriggerRef = watch(() => triggerRef.value, (triggerEl) => {
         let popperInstance = popperInstanceRef.value;

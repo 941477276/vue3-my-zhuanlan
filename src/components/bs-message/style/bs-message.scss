@@ -94,5 +94,10 @@
     max-width: calc(100% - 2.4rem);
     margin: 0 1.2rem;
     transform: translateX(0);
+    &.message_fade-enter-from,
+    &.message_fade-leave-to{
+      transform: translate(0, -100%);
+      opacity: 0;
+    }
   }
 }

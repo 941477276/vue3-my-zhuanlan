@@ -15,7 +15,7 @@ description:
   <div>
     <bs-tree-select v-model="checkedKeys1" :tree-data="treeData1" node-key="id" clearable></bs-tree-select>
     <h6>Show radio</h6>
-    <bs-tree-select show-radio v-model="checkedKeys1" :tree-data="treeData1" node-key="id"></bs-tree-select>
+    <bs-tree-select show-radio radio-visible v-model="checkedKeys1" :tree-data="treeData1" node-key="id"></bs-tree-select>
     <h6>Only leaf nodes can be selected(只能选择叶子节点)</h6>
     <bs-tree-select check-strictly v-model="checkedKeys2" :tree-data="treeData1" node-key="id"></bs-tree-select>
   </div>

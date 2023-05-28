@@ -81,8 +81,9 @@
   }
   &.is-disabled{
     cursor: not-allowed;
-    .custom-suffix-icon,
-    .bs-select-input-tags{
+    //.custom-suffix-icon,
+    .bs-select-input-tags,
+    .bs-select-input-suffix{
       cursor: default;
     }
     .bs-select-input-suffix{

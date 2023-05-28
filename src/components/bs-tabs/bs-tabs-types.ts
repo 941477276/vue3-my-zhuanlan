@@ -69,7 +69,7 @@ export const bsTabsProps = {
 
 export const bsTabPaneProps = {
   label: { // 选项卡标题
-    type: String,
+    type: [String, Function],
     default: ''
   },
   name: { // 与选项卡绑定值 modelValue 对应的标识符，表示选项卡别名

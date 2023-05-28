@@ -44,6 +44,11 @@ import BsConfigProvider from './bs-config-provider';
 import BsRelativeTime from './bs-relative-time';
 import version from '../version';
 
+export * from './bs-message';
+export * from './bs-message-box';
+export * from './bs-toast';
+export * from './bs-loading/loading';
+
 export default {
   name: 'BsVue',
   version,

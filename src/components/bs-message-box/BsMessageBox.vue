@@ -82,7 +82,8 @@
               ref="formItemRef"
               :value="inputModelVal"
               :label="inputLabel"
-              :rules="inputRules">
+              :rules="inputRules"
+              :showLabel="!!inputLabel && (inputLabel + '').trim().length != 0">
               <BsInput
                 v-model="inputModelVal"
                 v-bind="inputProps"

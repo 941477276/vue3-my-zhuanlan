@@ -176,15 +176,16 @@
   }
 }
 .bs-tabs-nav-close{
-  line-height: 0;
-  margin-left: 0;
+  //line-height: 1;
+  //margin-left: 0;
   //overflow: hidden;
   margin-left: .45rem;
-  transform: translateY(0.2rem);
+  //transform: translateY(0.2rem);
   //font-size: 1.1em;
   transition: all .3s;
   font-size: 1rem;
   .bs-icon{
+    vertical-align: middle;
     border-radius: 50%;
     transition: background-color .3s, color .2s;
     cursor: pointer;
