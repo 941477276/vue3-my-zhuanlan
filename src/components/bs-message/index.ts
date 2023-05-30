@@ -1,5 +1,5 @@
 import {
-  App
+  App, Plugin
 } from 'vue';
 import {
   closeAllMessage,
@@ -20,4 +20,4 @@ export default {
     app.config.globalProperties.$closeMessage = closeMessage;
     return app;
   }
-};
+} as Plugin;

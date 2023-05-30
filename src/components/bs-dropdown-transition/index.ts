@@ -1,4 +1,4 @@
-import { App } from 'vue';
+import { App, Plugin } from 'vue';
 import BsDropdownTransition from './BsDropdownTransition.vue';
 
 BsDropdownTransition.install = function (vueApp: App) {
@@ -6,4 +6,4 @@ BsDropdownTransition.install = function (vueApp: App) {
   return vueApp;
 };
 
-export default BsDropdownTransition;
+export default BsDropdownTransition as typeof BsDropdownTransition & Plugin;

@@ -3,6 +3,7 @@ import {
   closeMessageBox,
   closeAllMessageBox
 } from './bs-message-box';
+import { Plugin } from 'vue';
 
 export {
   BsMessageBox,
@@ -18,4 +19,4 @@ export default {
     app.config.globalProperties.$closeMessageBox = closeMessageBox;
     return app;
   }
-};
+} as Plugin;

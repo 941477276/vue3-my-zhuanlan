@@ -1,5 +1,5 @@
 import {
-  App
+  App, Plugin
 } from 'vue';
 import BsCascader from './BsCascader.vue';
 
@@ -8,4 +8,4 @@ BsCascader.install = function (vueApp: App) {
   return vueApp;
 };
 
-export default BsCascader;
+export default BsCascader as typeof BsCascader  & Plugin;

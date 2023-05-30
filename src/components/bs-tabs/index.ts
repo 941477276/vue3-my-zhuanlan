@@ -1,5 +1,6 @@
 import BsTabs from './BsTabs.vue';
 import BsTabPane from './widgets/BsTabPane.vue';
+import { Plugin } from 'vue';
 
 BsTabs.install = function (vueApp: any) {
   vueApp.component(BsTabs.name, BsTabs);
@@ -7,4 +8,4 @@ BsTabs.install = function (vueApp: any) {
   return vueApp;
 };
 
-export default BsTabs;
+export default BsTabs as typeof BsTabs & Plugin;

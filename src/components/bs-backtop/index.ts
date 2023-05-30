@@ -1,4 +1,4 @@
-import { App } from 'vue';
+import { App, Plugin } from 'vue';
 import BsBackTop from './BsBackTop.vue';
 
 BsBackTop.install = function (vueApp: App) {
@@ -6,4 +6,4 @@ BsBackTop.install = function (vueApp: App) {
   return vueApp;
 };
 
-export default BsBackTop;
+export default BsBackTop as typeof BsBackTop & Plugin;

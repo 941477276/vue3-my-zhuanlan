@@ -1,3 +1,4 @@
+import { Plugin } from 'vue';
 import BsButton from './BsButton.vue';
 
 BsButton.install = function (vueApp: any) {
@@ -5,4 +6,4 @@ BsButton.install = function (vueApp: any) {
   return vueApp;
 };
 
-export default BsButton;
+export default BsButton as typeof BsButton & Plugin;

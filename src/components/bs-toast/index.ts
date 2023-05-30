@@ -1,5 +1,5 @@
 import {
-  App
+  App, Plugin
 } from 'vue';
 import BsToastComponent from './BsToast.vue';
 import { BsToast } from './bs-toast';
@@ -12,5 +12,5 @@ BsToastComponent.install = function (vueApp: App) {
   return vueApp;
 };
 
-export default BsToastComponent;
+export default BsToastComponent as typeof BsToastComponent & Plugin;
 export { BsToast };

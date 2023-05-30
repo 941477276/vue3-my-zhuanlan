@@ -1,5 +1,5 @@
 import {
-  App
+  App, Plugin
 } from 'vue';
 import { BsLoading } from './loading';
 import { bsLoadingDirective } from './directive';
@@ -9,5 +9,5 @@ export default {
     vueApp.directive('bsloading', bsLoadingDirective);
     return vueApp;
   }
-};
+} as Plugin;
 export { BsLoading };

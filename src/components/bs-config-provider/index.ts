@@ -1,5 +1,5 @@
 import {
-  App
+  App, Plugin
 } from 'vue';
 import BsConfigProvider from './BsConfigProvider';
 
@@ -8,4 +8,4 @@ BsConfigProvider.install = function (vueApp: App): App {
   return vueApp;
 };
 
-export default BsConfigProvider;
+export default BsConfigProvider as typeof BsConfigProvider  & Plugin;

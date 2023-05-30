@@ -15,4 +15,4 @@ export const bsPopoverProps = {
   ...bsTooltipCommonProps
 };
 
-export type BsPopConfirmProps = ExtractPropTypes<typeof bsPopoverProps>;
+export type BsPopoverProps = ExtractPropTypes<typeof bsPopoverProps>;

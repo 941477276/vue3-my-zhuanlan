@@ -1,5 +1,5 @@
 import {
-  App
+  App, Plugin
 } from 'vue';
 import { BsButtonGroup } from './BsButtonGroup';
 
@@ -8,4 +8,4 @@ import { BsButtonGroup } from './BsButtonGroup';
   return vueApp;
 };
 
-export default BsButtonGroup;
+export default BsButtonGroup as typeof BsButtonGroup & Plugin;

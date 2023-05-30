@@ -1,7 +1,7 @@
 import { PropType, ExtractPropTypes } from 'vue';
 import { BsColorType } from '../types';
 
-export type ToastPlacement = 'top-left' | 'top-right' | 'top-center' | 'bottom-left' | 'bottom-right' | 'bottom-center';
+export type BsToastPlacement = 'top-left' | 'top-right' | 'top-center' | 'bottom-left' | 'bottom-right' | 'bottom-center';
 
 export const bsToastProps = {
   title: { // 标题
@@ -17,7 +17,7 @@ export const bsToastProps = {
     default: ''
   },
   placement: { // 显示方位
-    type: String as PropType<ToastPlacement>
+    type: String as PropType<BsToastPlacement>
   },
   type: { // 类型
     type: String as PropType<BsColorType>

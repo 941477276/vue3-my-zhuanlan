@@ -5,7 +5,6 @@ import {
   ExtractPropTypes
 } from 'vue';
 import {
-  MessageBoxType,
   supportMessageBoxTypes
 } from '../bs-message/bs-message-types';
 import {
@@ -14,14 +13,16 @@ import {
   BsSize
 } from '../types';
 
+export type BsMessageBoxType = 'success' | 'danger' | 'warning' | 'info' | 'prompt';
+
 export const bsMessageBoxProps = {
   appContext: { // 上下文，一般用于获取全局注册组件、vuex 等内容
     default: null
   },
   type: { // 类型
-    type: String as PropType<MessageBoxType>,
+    type: String as PropType<BsMessageBoxType>,
     default: 'info',
-    validator (typeVal: MessageBoxType) {
+    validator (typeVal: BsMessageBoxType) {
       return supportMessageBoxTypes.includes(typeVal);
     }
   },

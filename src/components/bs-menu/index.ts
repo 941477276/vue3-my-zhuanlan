@@ -1,5 +1,5 @@
 import {
-  App
+  App, Plugin
 } from 'vue';
 import BsMenu from './BsMenu.vue';
 import BsSubMenu from './widgets/BsSubMenu';
@@ -14,4 +14,4 @@ BsMenu.install = function (vueApp: App) {
   return vueApp;
 };
 
-export default BsMenu;
+export default BsMenu as typeof BsMenu & Plugin;

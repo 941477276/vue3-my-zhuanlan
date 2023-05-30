@@ -1,3 +1,4 @@
+import type { Plugin } from 'vue';
 import BsAlert from './BsAlert.vue';
 
 BsAlert.install = function (vueApp: any) {
@@ -5,4 +6,4 @@ BsAlert.install = function (vueApp: any) {
   return vueApp;
 };
 
-export default BsAlert;
+export default BsAlert as typeof BsAlert & Plugin;

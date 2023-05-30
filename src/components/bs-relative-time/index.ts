@@ -1,4 +1,4 @@
-import { App } from 'vue';
+import { App, Plugin } from 'vue';
 import BsRelativeTime from './BsRelativeTime.vue';
 
 BsRelativeTime.install = function (vueApp: App) {
@@ -6,4 +6,4 @@ BsRelativeTime.install = function (vueApp: App) {
   return vueApp;
 };
 
-export default BsRelativeTime;
+export default BsRelativeTime as typeof BsRelativeTime & Plugin;

@@ -1,5 +1,6 @@
 import BsInput from './BsInput.vue';
 import InputText from './widgets/InputeText';
+import { Plugin } from 'vue';
 
 BsInput.install = function (vueApp: any) {
   vueApp.component(BsInput.name, BsInput);
@@ -7,4 +8,4 @@ BsInput.install = function (vueApp: any) {
   return vueApp;
 };
 
-export default BsInput;
+export default BsInput as typeof BsInput & Plugin;
