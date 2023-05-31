@@ -39,7 +39,7 @@ import {
 let breadcrumbCount = 0;
 
 export default defineComponent({
-  name: 'BreadcrumbItem',
+  name: 'BsBreadcrumbItem',
   props: bsBreadcrumbItemProps,
   setup (props: any) {
     let id = `breadcrumb_item_${++breadcrumbCount}`;
