@@ -98,7 +98,7 @@ import 'bs-vue/es/components/bs-form/style'; // 导入的是.scss文件
 如果你使用的 Vite，你可以使用 [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components) 来进行按需加载
 
 1. 首先你需要将下面这段`unplugin-vue-components-resolver`插件代码复制到你的项目中
-```typescript
+```javascript
 import type { ComponentResolver, SideEffectsInfo } from 'unplugin-vue-components';
 
 export interface BsVueResolverOptions {
@@ -261,7 +261,7 @@ export function BsVueResolver(options: BsVueResolverOptions = {}): ComponentReso
 }
 ```
 2. 在你项目中的`vite.config.js`中使用该插件
-```typescript
+```javascript
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import Components from 'unplugin-vue-components/vite';

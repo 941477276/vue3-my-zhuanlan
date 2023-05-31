@@ -47,7 +47,8 @@ export default {
     margin-bottom: 1rem;
   }
   [class*='language-']{
-  margin-bottom: 2rem;
-}
+    max-height: 100vh;
+    margin-bottom: 2rem;
+  }
 }
 </style>
