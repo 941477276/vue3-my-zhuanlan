@@ -7,7 +7,7 @@
         'has-prefix': prefix,
         'is-disabled': disabled,
         'is-readonly': readonly,
-        'out-of-range': max && (modelValue || 0) > (max || 0),
+        'out-of-range': max && ((modelValue || 0) > (max || 0)),
         'control-inner': controlInner,
         'control-out': !controlInner
       },
@@ -27,7 +27,7 @@
         v-if="!controlInner"
         type="decrease"
         aria-label="Decrease Value"
-        :disabled="disabled || readonly || (min && modelValue <= min)"
+        :disabled="disabled || readonly || !!(min && modelValue <= min)"
         @focus="focus"
         @click="onControlBtnClick(2)"></BsInputNumberOperateButton>
 
@@ -70,13 +70,13 @@
           <BsInputNumberOperateButton
             type="increase"
             aria-label="Increase Value"
-            :disabled="disabled || readonly || (max && modelValue >= max)"
+            :disabled="disabled || readonly || !!(max && modelValue >= max)"
             @focus="focus"
             @click="onControlBtnClick(1)"></BsInputNumberOperateButton>
           <BsInputNumberOperateButton
             type="decrease"
             aria-label="Decrease Value"
-            :disabled="disabled || readonly || (min && modelValue <= min)"
+            :disabled="disabled || readonly || !!(min && modelValue <= min)"
             @focus="focus"
             @click="onControlBtnClick(2)"></BsInputNumberOperateButton>
         </div>
@@ -85,7 +85,7 @@
         v-if="!controlInner"
         type="increase"
         aria-label="Increase Value"
-        :disabled="disabled || readonly || (max && modelValue >= max)"
+        :disabled="disabled || readonly || !!(max && modelValue >= max)"
         @focus="focus"
         @click="onControlBtnClick(1)"></BsInputNumberOperateButton>
       <div class="input-group-append" v-if="$slots.append">
