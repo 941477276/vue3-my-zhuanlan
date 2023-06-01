@@ -289,3 +289,11 @@ export default defineConfig({
   ]
 });
 ```
+3. 此插件无法处理非组件模块，如BsMessage、BsToast、BsMessageBox，这种组件需要手动加载：
+```javascript
+import { BsMessage, BsToast, BsMessageBox } from 'bs-vue';
+
+import 'bs-vue/es/components/bs-message/style'; // 或 import 'bs-vue/es/components/bs-message/style/css';
+import 'bs-vue/es/components/bs-message-box/style';
+import 'bs-vue/es/components/bs-toast/style';
+```
