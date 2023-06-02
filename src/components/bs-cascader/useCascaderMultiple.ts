@@ -26,7 +26,6 @@ export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptio
       return nodeInfo.node;
     }) as CascaderOptionItem[];
     optionParents.reverse();
-    console.log('optionParents', optionParents);
     return optionParents;
   };
 
@@ -49,7 +48,6 @@ export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptio
     let optionParents = findOptionParents(value, valueKey);
 
     if (props.checkStrictly) {
-      console.log('多选，任意多选');
       checkedOptions.value[value] = optionParents;
     } else {
       if (!isArray(optionChildren) || optionChildren.length == 0) { // 节点没有子孙节点，直接添加进选中的节点列表
@@ -63,7 +61,6 @@ export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptio
       } else {
         // 找到节点的所有子孙节点
         let optionChildrens = findChildrenByNodeValue2(cascaderId, value, valueKey, childrenKey, flatternOptions.value);
-        console.log('addMultipleOptionsChecked optionChildrens', optionChildrens);
         // 没有子孙节点的节点
         let optionPureChildrens: CascaderOptionItem[] = [];
         // 有子孙节点的节点
@@ -136,7 +133,6 @@ export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptio
     } else {
       // 找到节点的所有子孙节点
       let optionChildrens = findChildrenByNodeValue2(cascaderId, value, valueKey, childrenKey, flatternOptions.value);
-      console.log('addMultipleOptionsChecked optionChildrens', optionChildrens);
       // 没有子孙节点的节点
       let optionPureChildrens: CascaderOptionItem[] = [];
       // 有子孙节点的节点
@@ -195,15 +191,11 @@ export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptio
     }
     let checkedOptionsList = checkedOptions.value;
     let halfCheckedOptionsList = halfCheckedOptions.value;
-    // console.log('halfCheckedOptionsList', halfCheckedOptionsList);
     options.forEach(function (optionItem: any) {
       let value = optionItem[valueKey];
       let children = optionItem[childrenKey];
-      // console.log('hasHalfChecked', value, value in halfCheckedOptionsList);
       if (isArray(children) && children.length > 0) {
-        // console.log('有子节点', value);
         if (value in halfCheckedOptionsList) { // 如果节点有子节点，则判断该节点是否为半选中状态
-          console.log(33333);
           allChecked = false;
           hasHalfChecked = true;
           hasAnyChecked = true;
@@ -225,7 +217,6 @@ export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptio
               hasAnyChecked = true;
             }
           });
-          console.log('pureChildrenLength', pureChildrenLength, pureChildrenCheckedCount);
           if (pureChildrenLength == pureChildrenCheckedCount) {
             allChecked = true;
           } else {
@@ -240,7 +231,6 @@ export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptio
         }
       }
     });
-    console.log('hasHalfChecked最终的值', hasHalfChecked);
     return {
       allChecked,
       hasHalfChecked,
@@ -251,7 +241,6 @@ export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptio
   // 设置父级节点选中/半选中状态
   let setParentsCheckedStatus = function (optionParents: CascaderOptionItem[]) {
     // let processedOption = {};
-    console.log('设置父级节点选中/半选中状态', [...optionParents].reverse());
     let {
       value: valueKey,
       children: childrenKey
@@ -261,19 +250,14 @@ export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptio
     [...optionParents].reverse().forEach((parentItem: any) => {
       let parentItemValue = parentItem[valueKey];
       let { allChecked, hasHalfChecked, hasAnyChecked } = getOptionsCheckedStatus(parentItem[childrenKey]);
-      console.log('子节点选中状态', parentItem, { allChecked, hasHalfChecked, hasAnyChecked });
       if (hasAnyChecked) {
-        // console.log('设置父节点状态111');
         if (allChecked && !hasHalfChecked) {
-          // console.log('设置父节点状态222');
           delete halfCheckedOptionsList[parentItemValue];
         } else {
-          // console.log('设置父节点状态333');
           halfCheckedOptionsList[parentItemValue] = 1;
         }
       } else {
         delete halfCheckedOptionsList[parentItemValue];
-        // console.log('设置父节点状态444');
       }
     });
   };

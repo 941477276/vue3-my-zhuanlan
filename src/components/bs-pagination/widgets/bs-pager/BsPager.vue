@@ -272,7 +272,6 @@ export default defineComponent({
       if (!pageItem) {
         return;
       }
-      // console.log('target', target, pageNumber);
       let newPage;
       let currentPage = props.currentPage;
       let isNewPageDisabled = false;
@@ -293,7 +292,6 @@ export default defineComponent({
         newPage = isNaN(pageNumber) ? 1 : pageNumber;
         isNewPageDisabled = props.disabledPage?.includes(newPage);
       }
-      // console.log('newPage', newPage);
       if (newPage && newPage !== currentPage && !isNewPageDisabled) {
         ctx.emit('change', newPage);
       }

@@ -93,7 +93,7 @@ export default defineComponent({
     let exampleCodeRef = ref(null);
 
     let desc = computed(function () {
-      console.log('props.description[langCode.value]', props.description[langCode.value]);
+      // console.log('props.description[langCode.value]', props.description[langCode.value]);
       let content = decodeURIComponent(props.description[langCode.value]);
       return content;
     });

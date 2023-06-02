@@ -54,7 +54,6 @@ export default defineComponent({
         return false;
       }
       let activeTabIdIndex = Number(activeTabId.split('-')[1]);
-      // console.log('activeTabIdIndex', activeTabIdIndex);
       let flag = activeTabIdIndex === index;
       return flag;
     });

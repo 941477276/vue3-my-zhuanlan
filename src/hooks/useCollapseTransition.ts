@@ -10,7 +10,6 @@ export function useCollapseTransition (ctx: any, emitEvents?: boolean) {
 
   return {
     collapseBeforeEnter (el: HTMLElement) {
-      // console.log('11, collapseBeforeEnter');
       oldPaddingBottom = el.style.paddingBottom;
       oldPaddingTop = el.style.paddingTop;
 
@@ -22,8 +21,6 @@ export function useCollapseTransition (ctx: any, emitEvents?: boolean) {
       }
     },
     collapseEnter (el: HTMLElement, done: () => void) {
-      // console.log('22, collapseEnter');
-
       oldOverflow = el.style.overflow;
       let elHeight = el.scrollHeight;
       if (elHeight > 0) {
@@ -38,7 +35,6 @@ export function useCollapseTransition (ctx: any, emitEvents?: boolean) {
       // done();
       let onTransitionDone = function () {
         done();
-        // console.log('enter onTransitionDone');
         el.removeEventListener('transitionend', onTransitionDone, false);
         el.removeEventListener('transitioncancel', onTransitionDone, false);
       };
@@ -51,8 +47,6 @@ export function useCollapseTransition (ctx: any, emitEvents?: boolean) {
       }
     },
     collapseAfterEnter (el: HTMLElement) {
-      // console.log('33, collapseAfterEnter');
-
       el.style.maxHeight = '';
       el.style.overflow = oldOverflow;
 
@@ -62,8 +56,6 @@ export function useCollapseTransition (ctx: any, emitEvents?: boolean) {
     },
 
     collapseBeforeLeave (el: HTMLElement) {
-      // console.log('44, collapseBeforeLeave', el.scrollHeight);
-
       oldPaddingBottom = el.style.paddingBottom;
       oldPaddingTop = el.style.paddingTop;
       oldOverflow = el.style.overflow;
@@ -76,8 +68,6 @@ export function useCollapseTransition (ctx: any, emitEvents?: boolean) {
       }
     },
     collapseLeave (el: HTMLElement, done: () => void) {
-      // console.log('55, collapseLeave', el.scrollHeight);
-
       if (el.scrollHeight !== 0) {
         el.style.maxHeight = '0';
         el.style.paddingBottom = '0';
@@ -86,7 +76,6 @@ export function useCollapseTransition (ctx: any, emitEvents?: boolean) {
       // done();
       let onTransitionDone = function () {
         done();
-        // console.log('leave onTransitionDone');
         el.removeEventListener('transitionend', onTransitionDone, false);
         el.removeEventListener('transitioncancel', onTransitionDone, false);
       };
@@ -99,7 +88,6 @@ export function useCollapseTransition (ctx: any, emitEvents?: boolean) {
       }
     },
     collapseAfterLeave (el: HTMLElement) {
-      // console.log('66, collapseAfterLeave');
       el.style.maxHeight = '';
       el.style.overflow = oldOverflow;
       el.style.paddingBottom = oldPaddingBottom;

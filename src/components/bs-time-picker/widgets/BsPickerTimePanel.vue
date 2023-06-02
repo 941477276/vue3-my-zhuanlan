@@ -195,12 +195,10 @@ export default defineComponent({
           disabledSeconds
         }
       });
-      console.log('newModelValue', newModelValue);
       ctx.emit('update:modelValue', newModelValue);
     };
     // 将值设为此刻
     let setNow = function () {
-      // console.log('BsPickerTimePanel setNow');
       let nowDate = dayjs();
       let period = nowDate.hour() > 12 ? 'pm' : 'am';
       let { disabledHours, disabledMinutes, disabledSeconds } = props;
@@ -221,7 +219,6 @@ export default defineComponent({
     };
 
     watch(() => props.parentVisible, function (isVisible: boolean) {
-      // console.log('watch parentVisible', isVisible);
       if (isVisible && !props.modelValue) {
         let disabledFn = () => false;
         let date: Dayjs = getUpdateModelValue({
@@ -239,7 +236,6 @@ export default defineComponent({
         hourColumnRef.value?.scroll2Top(0, date.hour());
         minuteColumnRef.value?.scroll2Top(0, date.minute());
         secondColumnRef.value?.scroll2Top(0, date.second());
-        // console.log('date', date);
       }
     });
 

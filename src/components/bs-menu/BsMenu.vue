@@ -93,7 +93,6 @@ export default defineComponent({
       }
       let scrollParentOffset = offset(scrollParent);
       let scrollParentPaddingTop = getStyle(scrollParent, 'padding-top');
-      console.log('scrollParentPaddingTop', scrollParentPaddingTop);
       let activeMenuOffset = offset(activeMenu as HTMLElement);
       scrollTo(scrollParent, 'y', activeMenuOffset.top - scrollParentOffset.top - scrollParentPaddingTop, 150);
     };

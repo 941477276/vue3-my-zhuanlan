@@ -24,11 +24,9 @@ export function useVisible (props: any) {
     if (isPromise(okCloseResult)) {
       okCloseResult.then(() => {
         visible.value = false;
-        console.log('关闭message box！');
       });
     } else {
       visible.value = false;
-      console.log('关闭message box！');
     }
   };
   return {

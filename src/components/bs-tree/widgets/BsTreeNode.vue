@@ -191,14 +191,13 @@ export default defineComponent({
     // 复选框的值
     let inputModel = computed({
       get () {
-        // console.log('treeNode,判断复选框是否选中');
+        // 判断复选框是否选中
         if (props.showCheckbox) {
           return isChecked.value;
         }
         return isChecked.value ? nodeValue.value : '';
       },
       set (newVal) {
-        // console.log('treeNode,复选框新的值：', newVal);
         if (newVal) {
           /* if (props.showCheckbox) {
             treeCtx.addCheckedKey(nodeValue.value, props.nodeData, nodeChildren.value.length > 0);
@@ -245,31 +244,24 @@ export default defineComponent({
         let loadDataFn = props.loadDataFn;
         let children = (props.nodeData[props.childrenKey] || []);
         if (!props.lazy || loadingData.value || dataLoaded.value || isLeaf.value || children.length > 0) {
-          // console.log('lazyLoadChildren 111');
           resolve(true);
           return;
         }
         if (typeof loadDataFn !== 'function') {
-          // console.error('loadDataFn is not a function!');
           resolve(true);
           return;
         }
-        // console.log('lazyLoadChildren 222');
         loadingData.value = true;
         let result = props.loadDataFn(props.nodeData, nodeState.value);
         if (isPromise(result)) {
-          // console.log('lazyLoadChildren 333');
           result.then(function (isLoaded: boolean) {
-            // console.log('lazyLoadChildren 444');
             loadingData.value = false;
             dataLoaded.value = !!isLoaded;
             resolve(isLoaded);
           }).catch(function () {
             loadingData.value = false;
-            // console.log('lazyLoadChildren 555');
           });
         } else {
-          // console.log('lazyLoadChildren 666');
           loadingData.value = false;
           resolve(true);
         }
@@ -305,7 +297,6 @@ export default defineComponent({
       // 点击节点可以选中
       if (props.checkOnClickNode && !isDisabled.value) {
         if (!props.showRadio || !isRadioDisabled.value) {
-          // console.log(1111);
           if (props.showRadio) {
             inputModel.value = nodeValue.value;
           } else {
@@ -316,7 +307,6 @@ export default defineComponent({
       if (!props.expandOnClickNode) {
         return;
       }
-      // console.log(111, target);
       if (props.lazy) {
         lazyLoadChildren()
           .then(function () {

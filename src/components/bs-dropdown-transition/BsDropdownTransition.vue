@@ -108,7 +108,6 @@ export default defineComponent({
         return;
       }
       let referenceElRect = referenceEl.getBoundingClientRect();
-      // console.log('referenceElRect', referenceElRect);
 
       let displayDirection: any = getDropdownDirection(referenceEl, targetEl, props.placement, props.tryAllPlacement, props.tryEndPlacement, props.offset);
       let bottom = displayDirection.bottom;
@@ -191,12 +190,10 @@ export default defineComponent({
     let transitionOrigin = ref<any>({});
     // 监听willVisible，在下拉菜单显示出来前计算出下拉菜单显示位置，如过useZoomTransition为true可以略过
     watch(() => props.willVisible, function (isVisible) {
-      console.log('watch willVisible');
       if (props.useZoomTransition) {
         transitionName.value = 'bs-zoom';
         return;
       }
-      console.log('-----------------------------watch willVisible start-----------------------------');
       if (!isVisible) {
         return;
       }
@@ -211,23 +208,8 @@ export default defineComponent({
         referenceEl = referenceRef.$el;
       }
       let displayDirection: any = getDropdownDirection(referenceEl!, targetRef.value!, props.placement, props.tryAllPlacement);
-      let direction = displayDirection.direction;
-      // console.log('watch willVisible direction', direction);
-      /* let customTransitionName = props.customTransitionName;
-      if (!isFunction(customTransitionName)) {
-        if (slideUpTransitionPlacements.includes(direction)) {
-          transitionName.value = 'bs-slide-up';
-        } else if (slideDownTransitionPlacements.includes(direction)) {
-          transitionName.value = 'bs-slide-down';
-        } else {
-          transitionName.value = 'bs-zoom';
-        }
-      } else {
-        transitionName.value = customTransitionName(displayDirection);
-      } */
+
       calcTransitionName(displayDirection);
-      console.log('transitionName', transitionName.value);
-      console.log('-----------------------------watch willVisible end-----------------------------');
     });
 
     let onEnter = function (el:HTMLElement, done: () => void) {
@@ -236,7 +218,6 @@ export default defineComponent({
       //   clearTimeout(timer);
       let referenceRef = props.referenceRef;
       let referenceEl: HTMLElement|null = null;
-      // console.log('referenceRef', referenceRef);
       if (!referenceRef) {
         console.log('referenceRef不存在!-----------------------');
         return;
@@ -273,10 +254,8 @@ export default defineComponent({
       referenceScrollParent = getScrollParent(referenceEl);
       let nodeName = referenceScrollParent?.nodeName || '';
 
-      // console.log('referenceScrollParent', referenceScrollParent?.nodeName);
       // 如果参照元素有有滚动条的父级节点且不为body，则给该父级节点绑定scroll事件，在容器滚动的时候刷新下拉位置
       if (referenceScrollParent && !documentNodeNames.includes(nodeName)) {
-        console.log('参照元素有有滚动条的父级节点且不是body');
         referenceScrollParent.addEventListener('scroll', scrollEvent, false);
       }
       useGlobalEvent.addEvent('window', 'scroll', scrollEvent);
@@ -319,7 +298,6 @@ export default defineComponent({
         return;
       }
       let now = new Date().getTime();
-      // console.log('now - scrollTimer: ', now - scrollTimer);
       if (scrollTimer == 0 || now - scrollTimer >= 10) {
         let targetElPosition = getStyle(targetEl, 'position');
         if (targetElPosition == 'fixed') {
@@ -335,16 +313,14 @@ export default defineComponent({
           currentScrollTop = (target as HTMLElement).scrollTop;
           // currentScrollLeft = (target as HTMLElement).scrollLeft;
         }
-        // @ts-ignore
-        // console.log('currentScrollTop', currentScrollTop, lastScrollTop, target);
         /*
          由于 eleHasScroll() 函数判断元素是否有滚动条会触发滚动条事件，因此这里需要判断当前滚动条是否是由eleHasScroll函数触发的，如果是它触发的则不执行更新。
          如果滚动条是否是由eleHasScroll函数触发的，它的2次执行时间在10-20之间
          */
-        if ((lastScrollTop == 0 && currentScrollTop == 1) || ((lastScrollTop == 0 && currentScrollTop == 0) && (now - scrollTimer < 20))) {
+        /* if ((lastScrollTop == 0 && currentScrollTop == 1) || ((lastScrollTop == 0 && currentScrollTop == 0) && (now - scrollTimer < 20))) {
           console.log('这里拦掉了');
           return;
-        }
+        } */
         lastScrollTop = currentScrollTop;
         refresh();
         scrollTimer = now;

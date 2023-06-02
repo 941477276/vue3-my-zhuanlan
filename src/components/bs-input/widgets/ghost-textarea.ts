@@ -37,7 +37,6 @@ export const GhostTextarea = defineComponent({
         } else {
           height = textareaRef.value?.scrollHeight || 0;
         }
-        // console.log('text offsetHeight: ', height);
         ctx.emit('height-change', height);
       });
     };

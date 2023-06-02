@@ -63,11 +63,6 @@ export default defineComponent({
     // 待展开的子组件
     let needExpandSubmenus: {submenuId: string; expand: () => void}[] = [];
 
-    /* console.log('submenu currentKeyIndex信息：', currentKeyIndex);
-    console.log('submenu keyIndexPath信息：', keyIndexPath);
-    console.log('submenu parentsIdPath信息：', parentsIdPath);
-    console.log('submenu paddingLeft信息：', paddingLeft);
-    console.log('---------------------------------------------'); */
     // 根菜单的属性
     let menuRootProps = computed(function () {
       let subMenuDisplayModeInner = menuRootCtx?.subMenuDisplayModeInner.value || bsSubMenuDisplayMode.collapse;
@@ -125,7 +120,6 @@ export default defineComponent({
         return selectedKeys;
       }
     ], function (newValues) {
-      // console.log('判断是否有子孙菜单选中', newValues);
       calcHasMenuItemSelected(newValues[0]);
     }, {
       // immediate: true,
@@ -144,13 +138,10 @@ export default defineComponent({
       for (let attr in registedMenuItems) {
         let menuItem = registedMenuItems[attr];
         if (!selectedKeys.includes(menuItem.keyIndex)) {
-          // console.log('菜单项未选中', menuItem.keyIndex);
           continue;
         }
-        // console.log('------------菜单项被选中', menuItem.keyIndex);
         let parentsIdPath = menuItem.parentsIdPath || [];
         selectedMnu = menuItem;
-        // console.log('parentsIdPath', parentsIdPath, subMenuId);
         let isInclude = parentsIdPath.map(item => {
           return item.id;
         }).includes(subMenuId);
@@ -159,7 +150,6 @@ export default defineComponent({
           break;
         }
       }
-      // console.log('hasMenuItemSelected', flag, selectedMnu?.keyIndex, subMenuId);
       hasMenuItemSelected.value = flag;
     }
 
@@ -201,11 +191,9 @@ export default defineComponent({
         menuRootCtx?.emit('openChange', currentKeyIndex.value, flag, keyIndexPath.value);
       };
       if (flag) {
-        // console.log('menuRootProps.value.triggerType', menuRootProps.value.triggerType);
         if (triggerType === 'hover') {
           useGlobalEvent.addEvent('document', 'mousemove', handleMouseleave);
         } else if (triggerType === 'click') {
-          console.log('给document绑定click事件', subMenuId);
           useGlobalEvent.addEvent('document', 'click', handleDocumentClick);
         }
         parentSubmenuCtx?.handleChildSubmenuExpand(expandedMenuInfo);
@@ -270,14 +258,12 @@ export default defineComponent({
       }
       let bsSubmenuTitleEle = bsSubmenuTitleRef.value as HTMLElement;
       let submenuPathVale = submenuPath.value;
-      // console.log('handleMouseleave', target, util.elementContains(bsSubmenuTitleEle, target));
       // 如果鼠标是在当前submenu的标题上，则不处理任何事情
       if (target === bsSubmenuTitleEle || elementContains(bsSubmenuTitleEle, target)) {
         return false;
       }
       // 获取子下拉菜单的根元素
       let childSubmenuDropdownRootEl = parents(target, 'bs-submenu-content');
-      // console.log('childSubmenuDropdownRootEl', childSubmenuDropdownRootEl);
       if (childSubmenuDropdownRootEl) {
         let childSubmenuPath = childSubmenuDropdownRootEl.dataset.submenuPath || '';
         // 鼠标在子下拉菜单中
@@ -310,7 +296,6 @@ export default defineComponent({
         return;
       }
       let target = evt.target as HTMLElement;
-      console.log('isChildrenShouldHide(target)', isChildrenShouldHide(target), target);
       if (isChildrenShouldHide(target)) {
         expandSubmenu(false);
       }
@@ -342,7 +327,6 @@ export default defineComponent({
 
     // 监听展开的子菜单的key
     watch(() => [...(menuRootCtx?.props.openedKeys || [])], function (openedKeys) {
-      console.log('监听 openedKeys', openedKeys);
       // 只有折叠形式显示子菜单才允许自动展开子菜单
       if (menuRootProps.value.subMenuDisplayMode !== 'collapse') {
         return;
@@ -352,10 +336,8 @@ export default defineComponent({
         nextTick(function () {
           // 如果是最顶层的submenu则直接展开，否则通知其父级submenu
           if (keyIndexPath.value.length == 1) {
-            console.log('自动展开菜单', subMenuId);
             expandSubmenu(true);
           } else {
-            console.log('自动展开菜单, 通知父组件展开', subMenuId);
             // 通知父组件展开，如果父组件没有展开，组件自己就展开了会导致折叠效果失效（计算不了元素高度）
             parentSubmenuCtx?.notifyParentExpand(subMenuId, () => {
               expandSubmenu(true);
@@ -409,7 +391,6 @@ export default defineComponent({
         });
         // 如果组件已经是最顶层的，则展开自己。否则再通知自己的父组件
         if (keyIndexPath.value.length == 1) {
-          console.log('处理子组件的展开请求通知，展开自己', subMenuId, [...needExpandSubmenus]);
           if (submenuVisible.value) { // 如果菜单已经展开了，直接调用子组件的展开函数
             clearTimeout(handleCollapseExpandTimer);
             handleCollapseExpandTimer = setTimeout(() => {
@@ -420,7 +401,7 @@ export default defineComponent({
             expandSubmenu(true);
           }
         } else {
-          console.log('处理子组件的展开请求通知，自己也需要通知父组件', subMenuId);
+          // 处理子组件的展开请求通知，自己也需要通知父组件
           parentSubmenuCtx?.notifyParentExpand(subMenuId, () => {
             expandSubmenu(true);
           });

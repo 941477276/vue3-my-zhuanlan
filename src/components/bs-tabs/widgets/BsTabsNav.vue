@@ -208,16 +208,6 @@ export default defineComponent({
     let onScroll = function (evt: WheelEvent) {
       evt = evt || window.event;
       let isDown = (evt as any).wheelDelta ? (evt as any).wheelDelta < 0 : evt.detail > 0;
-      // console.log('isDown', isDown);\
-      /* clearTimeout(timer);
-      timer = setTimeout(function () {
-        clearTimeout(timer);
-        if (isDown) {
-          scrollNext();
-        } else {
-          scrollPrev();
-        }
-      }, 300); */
       let now = new Date().getTime();
       if (lastScrollTime == 0 || now - lastScrollTime > 300) {
         lastScrollTime = now;
@@ -292,7 +282,6 @@ export default defineComponent({
     };
 
     let changeTab = function (tabId: string) {
-      // console.log('tabId', tabId);
       let tabItem = props.panes.find((item: TabNavItem) => item.id === tabId);
       if (tabItem.disabled) {
         return;

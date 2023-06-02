@@ -24,7 +24,6 @@ import {
 
 let toastCount = 0;
 function BsToast (options = {} as any, context?: AppContext | null) {
-  console.log('BsToast', options);
   if (!options || !isObject(options)) {
     return null;
   }
@@ -66,7 +65,6 @@ function BsToast (options = {} as any, context?: AppContext | null) {
   container.className = 'bs-toast-container';
   container.setAttribute('data-for-id', id);
 
-  // console.log('appendTo11', appendTo);
   appendTo = (appendTo && isString(appendTo)) ? document.querySelector(appendTo) : appendTo;
   if (!appendTo) {
     appendTo = document.body;
@@ -76,7 +74,6 @@ function BsToast (options = {} as any, context?: AppContext | null) {
   if (headerSlot) {
     slots.header = headerSlot;
   }
-  console.log('titleSlot', titleSlot);
   if (titleSlot) {
     slots.title = titleSlot.default;
   }
@@ -106,7 +103,6 @@ function BsToast (options = {} as any, context?: AppContext | null) {
     showClose,
     onShow,
     onHide () {
-      // console.log('执行了api传递的onClose！');
       // 销毁实例
       render(null, container);
       // 移除container
@@ -123,7 +119,6 @@ function BsToast (options = {} as any, context?: AppContext | null) {
     },
     onClick
   }, slots);
-  console.log('appendTo', appendTo);
   appendTo.appendChild(container);
 
   render(vm, container);

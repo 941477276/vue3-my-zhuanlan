@@ -108,7 +108,6 @@ export default defineComponent({
       }
       if (typeof modelValue === 'string') {
         viewDateText.value = modelValue;
-        console.log('set viewDateText 111', modelValue);
         return;
       }
       let format = formatInner.value;
@@ -126,7 +125,6 @@ export default defineComponent({
         viewDateText.value = '';
         return;
       }
-      // console.log('setViewDateTxt dayjsIns', dayjsIns, format);
       let viewText = '';
       if (pickerType == 'dateTime') {
         let { timePanelProps, datePanelProps } = props;
@@ -140,7 +138,6 @@ export default defineComponent({
         }
         format = datePanelFormat + props.formatSpliter + timePanelFormat;
         viewText = dayjsUtil.locale.format(dayjsIns, 'en', format);
-        console.log('---------dateTime setText', viewText);
       } else {
         viewText = dayjsIns.format(format);
       }
@@ -159,7 +156,6 @@ export default defineComponent({
         } else if (pickerType == 'week') {
           dayjsIns = dayjsUtil.parseWeek(modelValue, valueFormat || format, 'zh-cn');
         } else {
-          // console.log('modelValue1111111', modelValue);
           if (pickerType == 'dateTime' && typeof modelValue == 'string') {
             let upperCaseValue = modelValue.toUpperCase();
             let { timePanelProps, datePanelProps } = props;
@@ -171,8 +167,6 @@ export default defineComponent({
               tempFormat = datePanelValueFormat + props.valueFormatSpliter + timePanelValueFormat;
             }
             let dateTemp = dayjsUtil.parseToDayjs(modelValue, tempFormat || format);
-            // let dateTemp2 = dateTemp;
-            // console.log('================', modelValue, dateTemp, tempFormat || format);
             let hour = dateTemp.hour();
             let periods = '';
             if (upperCaseValue.endsWith('PM')) {
@@ -197,15 +191,11 @@ export default defineComponent({
                 dateTemp = dateTemp.hour(newHour - 12);
               }
             }
-            // let viewText = dateTemp.format(tempFormat) + ' ' + periods;
-            // console.log('dateTime hour', dateTemp, hour, viewText);
-            // console.log('dateTemp2', dateTemp2);
             dayjsIns = dateTemp;
           }
           if (!dayjsIns) {
             dayjsIns = dayjsUtil.parseToDayjs(modelValue, valueFormat || format);
           }
-          console.log('watch modelValue', modelValue, valueFormat || format, dayjsIns);
         }
         date.value = dayjsIns;
       }
@@ -335,7 +325,6 @@ export default defineComponent({
           });
           let dateValue = newDate.format(props.datePanelProps.valueFormat);
           value = dateValue + ' ' + timeValue;
-          console.log('setDate dateTime2222222', newDate, period, value);
         }
       } else {
         if (!valueFormat) {
@@ -386,13 +375,11 @@ export default defineComponent({
       let prevModeValue = prevMode.value;
       let nextMode = pickerType;
       let panelViewDate: Dayjs;
-      console.log('mode, prevModeValue', mode, prevModeValue, clonedDate);
       switch (mode) {
         case 'decade':
           // setDate(clonedDate ? clonedDate.year(newDate.year()) : newDate);
           panelViewDate = clonedDate ? clonedDate.year(newDate.year()) : newDate;
           nextMode = 'year';
-          // console.log('11111', newDate);
           break;
         case 'year':
           // setDate(clonedDate ? clonedDate.year(newDate.year()) : newDate);
@@ -400,7 +387,6 @@ export default defineComponent({
           if (['decade', 'month'].includes(prevModeValue) && pickerType !== 'quarter') {
             nextMode = 'month';
           }
-          // console.log('222222');
           /*  else {
             nextMode = 'date';
           } */
@@ -408,14 +394,11 @@ export default defineComponent({
         case 'month':
           // setDate(clonedDate ? clonedDate.month(newDate.month()) : newDate);
           panelViewDate = clonedDate ? clonedDate.month(newDate.month()) : newDate;
-          // console.log('3333');
           break;
       }
       setCurrentMode(nextMode);
       let timer = setTimeout(() => {
         clearTimeout(timer);
-        // console.log('refs[nextMode]', refs[nextMode + 'Ref'], refs[nextMode + 'Ref']?.value);
-        console.log('setPanelViewDate', panelViewDate);
         // viewDate
         viewDate.value = panelViewDate;
         refs[nextMode + 'Ref']?.value?.setPanelViewDate(panelViewDate);
@@ -424,12 +407,10 @@ export default defineComponent({
 
     //  日期控件model-value值改变事件
     let onDatePanelModelValueChange = function (newDate: Dayjs, hideDropdown: boolean) {
-      console.log('onDatePanelModelValueChange事件触发了');
       let pickerType = props.pickerType;
       let mode = currentMode.value;
       // 如果面板状态有值且面板状态不等于面板类型，此时用户只是在切换面板，并非在赋值
       if (mode && (pickerType != mode)) {
-        console.log('切换回原来的面板');
         handlePickerModeChange(mode, pickerType, newDate);
         return;
       }
@@ -455,7 +436,6 @@ export default defineComponent({
       isInputTextValid = false;
       if (pickerType == 'quarter' || pickerType == 'week') {
         let dayjsIns = pickerType == 'quarter' ? dayjsUtil.parseQuarter(value, format) : dayjsUtil.parseWeek(value, format, 'zh-cn');
-        console.log('onInput', value, format, dayjsIns);
         if (!dayjsIns) {
           return;
         }
@@ -497,7 +477,6 @@ export default defineComponent({
       if (!dayjsIns) {
         dayjsIns = dayjsUtil.strictDayjs(value, format);
       }
-      console.log('onInput', value, format, dayjsIns.isValid(), dayjsIns);
       if (dayjsIns.isValid()) {
         if (isFunction(disabledDate) && disabledDate(dayjsIns)) {
           return;
@@ -616,7 +595,6 @@ export default defineComponent({
       trigger: $slots.default
     };
 
-    // console.log('currentMode === pickerType', currentMode === pickerType, currentMode, pickerType);
     // 面板公共属性
     let panelcommonProps = {
       'model-value': this.date,
@@ -639,8 +617,6 @@ export default defineComponent({
       this.setCurrentMode('month');
       let timer = setTimeout(() => {
         clearTimeout(timer);
-        // console.log('onMonthButtonClick', this.viewDate);
-
         (this.$refs.monthRef as any)?.setPanelViewDate(this.viewDate);
       }, 0);
     };
@@ -657,7 +633,6 @@ export default defineComponent({
     };
     let onYearViewDateChange = (viewDate: Dayjs) => {
       this.viewDate = this.viewDate?.year(viewDate.year());
-      // console.log('设置年份', viewDate);
     };
     let onMonthViewDateChange = (viewDate: Dayjs) => {
       this.viewDate = this.viewDate?.month(viewDate.month());

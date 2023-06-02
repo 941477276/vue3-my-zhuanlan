@@ -154,7 +154,6 @@ export default defineComponent({
 
           let width = inputTagsWidth - (lastTagOffsetLeft + lastTagWidth + lastTagMarginRight) - inputWrapMarginLeft - inputWrapMarginRight - 1;
           let minWidth = props.minWidth;
-          // console.log('width', width, (lastTagOffsetLeft + lastTagWidth + lastTagMarginRight), inputWrapMarginRight);
           if (!minWidth || minWidth < 0) {
             minWidth = 60;
           }
@@ -207,7 +206,6 @@ export default defineComponent({
 
     // tag 关闭事件
     let onTagClose = function (tag: BsInputTagsValueItem) {
-      // console.log('tag关闭了：', tag);
       if (props.disabled) {
         return;
       }
@@ -249,11 +247,8 @@ export default defineComponent({
         return;
       }
       let keyCode = evt.keyCode;
-      // console.log('keycode', keyCode);
       let content = (evt.target as HTMLInputElement)?.value || '';
-      // console.log('输入框内容：', content);
       if (keyCode == 13) { // enter键
-        // console.log('Enter 键按下了');
         content = content.trim();
         if (content.length == 0) {
           return;
@@ -261,7 +256,6 @@ export default defineComponent({
         addTag({ label: content, value: content });
       }
       if (keyCode == 8) { // 删除键
-        // console.log('删除键按下了', content.length);
         let modelValue = props.modelValue;
         if (content.length != 0 || modelValue?.length == 0) {
           return;

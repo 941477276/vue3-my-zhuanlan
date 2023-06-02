@@ -24,7 +24,6 @@ export function treeDataToFlattarnArr2 (treeId: string, treeNodeInfoArr: BsNodeI
       cachedChildrenWhichHasChildren: {} // 缓存找到的节点有子节点的节点
     };
   }
-  // console.log('treeDataToFlattarnArr2 111', treeNodeInfoArr, childrenKey);
   treeNodeInfoArr.forEach((treeNode: any, index: number) => {
     if (!treeNode || typeof treeNode !== 'object') {
       return;
@@ -37,8 +36,6 @@ export function treeDataToFlattarnArr2 (treeId: string, treeNodeInfoArr: BsNodeI
     });
 
     let children = treeNode[childrenKey];
-    // console.log('treeDataToFlattarnArr2 222, children', children);
-    // console.log('children', children, childrenKey);
     if (children && (children?.length || 0) > 0) {
       treeDataToFlattarnArr2(treeId, children, childrenKey, disabledKey, nodeLevel + 1, nodeLevelPath, target);
     }
@@ -83,7 +80,7 @@ export function findParentsByNodeLevelPath2 (nodeLevelPath: string, treeNodeInfo
     // 从已查找到的父元素最近的位置开始往前查找
     for (let i = recentedParentIndex; i >= 0; i--) {
       let item = treeNodeInfoArr[i];
-      // console.log('往前查找父级！');
+      // 往前查找父级！
       if (item.nodeLevelPath === nodeLevelPath) {
         nodeParents.push(item);
         recentedParentIndex = i;
@@ -91,12 +88,11 @@ export function findParentsByNodeLevelPath2 (nodeLevelPath: string, treeNodeInfo
         break;
       }
     }
-    // console.log('往前查找完毕！！！');
     // 如果往前查找未查找到，则从已查找到的父元素最近的位置开始往后查找
     if (!searchResultFlag) {
       for (let i = recentedParentIndex, len = treeNodeInfoArr.length; i < len; i++) {
         let item = treeNodeInfoArr[i];
-        // console.log('往后查找父级！');
+        // 往后查找父级！
         if (item.nodeLevelPath === nodeLevelPath) {
           nodeParents.push(item);
           recentedParentIndex = i;
@@ -118,12 +114,10 @@ export function findParentsByNodeLevelPath2 (nodeLevelPath: string, treeNodeInfo
  */
 export function findParentsByNodeValue2 (treeId: string, nodeValue: any, nodeKey: string, treeNodeInfoArr: BsNodeInfo[]) {
   let nodeInfo = findNodeInfoByValue2(treeId, nodeValue, nodeKey, treeNodeInfoArr);
-  console.log('findParentsByNodeValue2 11', nodeInfo);
   if (!nodeInfo.node) {
     return [];
   }
   let parents = findParentsByNodeLevelPath2(nodeInfo.nodeLevelPath, treeNodeInfoArr);
-  console.log('findParentsByNodeValue2 22', parents);
 
   return parents;
 };
@@ -144,13 +138,11 @@ export function findNodeInfoByValue2 (treeId: string, nodeValue: any, nodeKey: s
   let cachedNodeInfo = caches[treeId].cachedNodeInfo;
   // 优先从缓存中取
   if (nodeValue in cachedNodeInfo) {
-    console.log('findNodeInfoByValue2 从缓存中取节点', treeId, nodeValue, cachedNodeInfo);
+    // 从缓存中取节点
     return cachedNodeInfo[nodeValue];
   }
-  // console.log('findNodeInfoByValue2 333', treeNodeInfoArr);
   for (let i = 0, len = treeNodeInfoArr.length; i < len; i++) {
     let nodeInfoItem = treeNodeInfoArr[i];
-    // console.log('nodeInfoItem', nodeInfoItem.node, nodeInfoItem.node[nodeKey]);
     if (nodeInfoItem.node[nodeKey] === nodeValue) {
       resultNode.node = nodeInfoItem.node;
       resultNode.nodeLevelPath = nodeInfoItem.nodeLevelPath;
@@ -199,16 +191,13 @@ export function findChildrenByNodeValue2 (treeId: string, nodeValue: any, nodeKe
 export function findChildrenWhichHasChildren2 (treeId: string, nodeValue: any, nodeKey: string, childKey: string, treeNodeInfoArr: BsNodeInfo[]) {
   let nodeInfo = findNodeInfoByValue2(treeId, nodeValue, nodeKey, treeNodeInfoArr);
   let result: any[] = [];
-  // console.log('findChildrenWhichHasChildren2 1111', nodeValue);
   if (!nodeInfo.node) {
     return result;
   }
-  // console.log('findChildrenWhichHasChildren2 222', nodeInfo);
 
   let cachedChildrenWhichHasChildrenInfo = caches[treeId].cachedChildrenWhichHasChildren;
   // 优先从缓存中取
   if (nodeValue in cachedChildrenWhichHasChildrenInfo) {
-    console.log('findChildrenWhichHasChildren2 从缓存中取节点', nodeValue, cachedChildrenWhichHasChildrenInfo);
     return cachedChildrenWhichHasChildrenInfo[nodeValue];
   }
   let findChildren = function (nodes: any[]) {

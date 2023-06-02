@@ -50,7 +50,6 @@ export default defineComponent({
           }, slotDefault);
         });
       }
-      // console.log('children', children);
       let classnames = ['bs-progress progress'];
       if (!props.multiple) {
         if (!props.color) {

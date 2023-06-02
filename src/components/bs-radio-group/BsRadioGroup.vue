@@ -20,7 +20,6 @@ export default defineComponent({
   emits: ['update:modelValue', 'change'],
   setup (props: any, ctx: any) {
     let changeVal = function (val: string|number|boolean) {
-      // console.log('input group值改变了');
       ctx.emit('update:modelValue', val);
       ctx.emit('change', val);
     };

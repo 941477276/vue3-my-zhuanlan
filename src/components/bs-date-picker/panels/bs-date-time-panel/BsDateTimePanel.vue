@@ -100,12 +100,10 @@ export default defineComponent({
     };
     // 日期change事件
     let onDateChange = function (newDate: Dayjs) {
-      console.log('日期改变了：', newDate);
       onInternalDateChange(newDate, 'date');
     };
     // 时间change事件
     let onTimeChange = function (newTime: Dayjs) {
-      console.log('时间改变了：', newTime);
       onInternalDateChange(newTime, 'time');
     };
     return {

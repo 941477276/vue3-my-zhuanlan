@@ -41,7 +41,6 @@ export const useForwardRefDirective = (setForwardRef: SetForwardRef) => {
         console.log('updated 新旧dom元素一样，不执行更新');
         return;
       }
-      console.log('el updated', el);
       oldEl = el;
       setForwardRef(el);
     },

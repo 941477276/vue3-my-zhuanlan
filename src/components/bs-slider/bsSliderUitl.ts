@@ -18,9 +18,7 @@ export function calcValueByPosition (mousePosition: number, sliderTotalWidth: nu
   // 步长值
   let valueOfSteps = new BigNumber(steps).multipliedBy(oneStepValue); // multipliedBy 乘法
   let value = valueOfSteps.multipliedBy(totalValue).dividedBy(100).plus(propsMin);
-  // console.log('oneStepValue', oneStepValue, steps, valueOfSteps.toNumber(), valueOfSteps.multipliedBy(totalValue).dividedBy(100).toNumber());
   let resultValue = convertValue(value.toNumber(), props, precision);
-  // console.log('calcValue', resultValue, value);
   return resultValue;
 };
 
@@ -51,7 +49,6 @@ export function convertValue (originValue: string|number, props: any, precision:
   } else {
     resultValue = Number(resultValue);
   }
-  // console.log('calcValue', resultValue, value);
   return resultValue;
 };
 
@@ -98,7 +95,7 @@ export function getNewValueWithRange (value1:string|number, value2:string|number
           value2 = convertValue(newValue.toNumber(), props, precision);
         } else {
           newValue = new BigNumber(value1).plus(new BigNumber(diff).minus(rangeMax));
-          console.log('两个滑块区间值大于最大区间值，右侧滑块值不动，滑块1的新值为：', newValue.toNumber(), new BigNumber(diff).minus(rangeMax).toNumber());
+          // 两个滑块区间值大于最大区间值，右侧滑块值不动
           if (newValue.gt(props.max) || new BigNumber(value2).minus(newValue).gt(rangeMax)) {
             return;
           }

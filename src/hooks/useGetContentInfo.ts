@@ -11,7 +11,6 @@ export function useGetContentInfo (option: string|VNode|unknown) {
   if (optionsType === 'string' || optionsType === 'number' || optionsType === 'undefined' || optionsType === null || isRef(option)) {
     text = option;
   } else if (isVNode(option)) {
-    // console.log('是vnode', options);
     slotContent = {
       default: () => option
     };

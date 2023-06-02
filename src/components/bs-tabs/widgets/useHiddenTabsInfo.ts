@@ -42,15 +42,12 @@ function getHiddenTabs (navScrollerRef: Ref<HTMLElement|null>, tabsNavRef: Ref<H
   if (tabPosition === 'top' || tabPosition === 'bottom') {
     let navScrollerWidth = navScrollerEl.offsetWidth;
     let tabsNavWidth = tabsNavEl.offsetWidth;
-    // console.log('tabsNavWidth', tabsNavWidth, navScrollerWidth);
-    // console.log('navScrollerOffset', navScrollerOffset);
     result.isOverflow = tabsNavWidth > navScrollerWidth;
     // 只有在标签列表有溢出的时候才会有隐藏的标签页
     if (result.isOverflow) {
       // let offsetRight = navScrollerOffset.left + navScrollerWidth;
       let navScrollerOffsetRight = navScrollerWidth;
       let tabsNavTranslateValue = getEleTranslateValue(getStyle(tabsNavEl, 'transform')) as {x: number; y: number; z: number; rotate: number};
-      // console.log('tabsNavTranslateX', tabsNavTranslateValue);
       let leftHiddenTabs: HTMLElement[] = [];
       let rightHiddenTabs: HTMLElement[] = [];
       // 右侧是否有完全隐藏的元素
@@ -72,11 +69,7 @@ function getHiddenTabs (navScrollerRef: Ref<HTMLElement|null>, tabsNavRef: Ref<H
         let offsetStartInView = elOffsetLeft >= 0 && elOffsetLeft < navScrollerOffsetRight;
         let offsetEndInView = elOffsetRight > 0 && elOffsetRight < navScrollerOffsetRight;
         let isFullHidden = !offsetStartInView && !offsetEndInView; // 是否完全隐藏
-        // console.log('offsetStartInView', offsetStartInView, offsetEndInView);
-
-        // console.log('offset.left', offset.left, navItem.offsetLeft);
         if (isFullHidden) {
-          // console.log('elOffsetRight', elOffsetRight);
           if (elOffsetRight <= 0) {
             leftHiddenTabs.push(navItem);
           } else if (elOffsetLeft >= navScrollerOffsetRight) {
@@ -88,11 +81,6 @@ function getHiddenTabs (navScrollerRef: Ref<HTMLElement|null>, tabsNavRef: Ref<H
 
         return isFullHidden;
       });
-      // console.log('leftHiddenTabs', leftHiddenTabs);
-      // console.log('rightHiddenTabs', rightHiddenTabs);
-      // console.log('rightFullHiddenElIndex', rightFullHiddenElIndex);
-      // console.log('hiddenTabs', hiddenTabs);
-      // console.log('-----------------');
       if (hasRightFullHiddenEl) {
         rightHiddenTabs.push(...elArr.slice(rightFullHiddenElIndex + 1));
       }
@@ -102,7 +90,6 @@ function getHiddenTabs (navScrollerRef: Ref<HTMLElement|null>, tabsNavRef: Ref<H
     }
   } else {
     result.isOverflow = tabsNavEl.offsetHeight > navScrollerEl.offsetHeight;
-    // console.log('navScrollerEl.offsetHeight', navScrollerEl.offsetHeight, tabsNavEl.offsetHeight);
     if (result.isOverflow) {
       // let offsetBottom = navScrollerOffset.top + navScrollerEl.offsetHeight;
       let navScrollerOffsetBottom = navScrollerEl.offsetHeight;
@@ -130,7 +117,6 @@ function getHiddenTabs (navScrollerRef: Ref<HTMLElement|null>, tabsNavRef: Ref<H
         let isFullHidden = !offsetStartInView && !offsetEndInView; // 是否完全隐藏
 
         if (isFullHidden) {
-          // console.log('elOffsetRight', elOffsetRight);
           if (elOffsetBottom <= 0) {
             topHiddenTabs.push(navItem);
           } else if (elOffsetTop >= navScrollerOffsetBottom) {
@@ -142,7 +128,6 @@ function getHiddenTabs (navScrollerRef: Ref<HTMLElement|null>, tabsNavRef: Ref<H
 
         return isFullHidden;
       });
-      // console.log('hiddenTabs', hiddenTabs);
       if (hasBottomFullHiddenEl) {
         bottomHiddenTabs.push(...elArr.slice(bottomFullHiddenElIndex + 1));
       }
@@ -171,7 +156,6 @@ export function useHiddenTabsInfo (props: any, activeTabId: Ref<string>, navScro
     let doCalc = function () {
       clearTimeout(timer);
       let hiddenTabsInfo = getHiddenTabs(navScrollerRef, tabsNavRef, props.tabPosition);
-      // console.log('hiddenTabsInfo', hiddenTabsInfo);
       hiddenTabsCount.value = hiddenTabsInfo.hiddenTabs.length;
       isOverflow.value = hiddenTabsInfo.isOverflow;
       hiddenTabs.value = hiddenTabsInfo.hiddenTabs;

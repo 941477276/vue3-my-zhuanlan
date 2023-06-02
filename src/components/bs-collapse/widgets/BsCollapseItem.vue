@@ -82,7 +82,6 @@ export default defineComponent({
 
     watch(collapseCtx?.activeNames, function (activeNames) {
       let flag = (activeNames || []).includes(nameOrCountId.value);
-      // console.log('activeNames', activeNames, flag);
       if (flag) {
         if (!rendered.value) {
           rendered.value = true;
@@ -91,7 +90,6 @@ export default defineComponent({
           });
           return;
         }
-        // console.log('isExpanded2的值为true');
         isExpanded2.value = true;
         return;
       }

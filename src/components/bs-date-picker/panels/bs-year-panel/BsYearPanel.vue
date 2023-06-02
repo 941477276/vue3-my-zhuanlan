@@ -96,7 +96,6 @@ export default defineComponent({
       let yearArr: any = [];
       let { currentYear, startYear, endYear } = yearNumberInfo.value;
       let baseYearDate = dayjs((startYear - 1) + '', 'YYYY');
-      // console.log('year', currentYear, startYear, endYear, baseYearDate);
       let tempYearArr = [];
       let disabledDate = props.disabledDate;
       while (tempYearArr.length < panelYearCount) {
@@ -141,7 +140,6 @@ export default defineComponent({
         let classnames: string[] = [];
         let { startYear, endYear } = yearNumberInfo.value;
         let yearNumber = dayjsIns.year();
-        // console.log('getCellClassname', cellData.disabled);
         if (modelValue && (modelValue.year() === yearNumber)) {
           classnames.push('is-selected');
         }

@@ -104,7 +104,6 @@ export default defineComponent({
     if (formContext) {
       initialVal = getPropValueByPath(formContext.props.model, props.name);
     }
-    // console.log('初始值: ', initialVal);
 
     // 获取当前表单的校验规则
     let rules = computed<Array<any>>(function () {
@@ -118,15 +117,12 @@ export default defineComponent({
         }
       }
       if (!props.name) {
-        // console.log('rules', 2);
         return [];
       }
       // 组件自己没有校验规则，再从<bs-form>父组件中的rules上取
       if (formContext && formContext.props.rules) {
-        // console.log('rules', 3);
         let parentRules = formContext.props.rules;
         if (parentRules && isObject(parentRules)) {
-          // console.log('rules', 4, rule);
           let itemRule = parentRules[props.name];
           if (Array.isArray(itemRule)) {
             return itemRule;
@@ -135,7 +131,6 @@ export default defineComponent({
           }
         }
       }
-      // console.log('rules', 5);
       return [];
     });
 
@@ -160,12 +155,9 @@ export default defineComponent({
      * @param childCtx
      */
     let addChildComponentContext = function (childCtx: SetValidateStatusContext) {
-      // console.log('调用了添加子组件方法');
       if (!childComponentContext.value.includes(childCtx)) {
-        // console.log('添加子组件', childCtx);
         childComponentContext.value.push(childCtx);
       }
-      // console.log('childComponentContext', childComponentContext.value);
     };
     /**
      * 移除存储的子组件
@@ -178,11 +170,8 @@ export default defineComponent({
         }
         return item == childCtx;
       });
-      // console.log('调用了移除子组件方法', childCtx, index);
       if (index > -1) {
-        // console.log('移除子组件');
         childComponentContext.value.splice(index, 1);
-        // console.log('childComponentContext', childComponentContext);
       }
     };
     // label标签的for属性值
@@ -203,9 +192,6 @@ export default defineComponent({
       }
       return true;
     });
-    /* watch(childComponents, function (newChildComponents: ComponentInternalInstance[]) {
-      console.log('newChildComponents 111', newChildComponents);
-    }, { immediate: true }); */
 
     let feedbackIsShow = computed(function () {
       let validStatusRaw = validStatus.value;
@@ -322,11 +308,9 @@ export default defineComponent({
       } else {
         fieldVal = props.value;
       }
-      // console.log('validate fieldVal', fieldVal);
       let rule = !trigger ? rules.value : rules.value.filter(ruleItem => {
         return Array.isArray(ruleItem.trigger) ? ruleItem.trigger.includes(trigger) : ruleItem.trigger === trigger;
       });
-      // console.log('validate rule', rule, trigger);
       if (rule.length === 0) {
         callback?.('');
         return;
@@ -337,11 +321,8 @@ export default defineComponent({
       };
 
       let validator = new Schema(descriptor); // 创建校验器
-      // console.log(validator);
       validator.validate({ [fieldName || 'unnamed_field']: fieldVal }, { firstFields: true }, (errors, fields) => {
-        // console.log('字段：', fields);
         if (errors) {
-          // console.log('错误：', errors, (errors as Array<any>)[0].message);
           let errorMsg: string = (errors as Array<any>)[0].message;
           validStatus.value = 'error';
           setChildComponentsValidateStatus('error');
@@ -350,7 +331,6 @@ export default defineComponent({
           return;
         }
         validStatus.value = 'success';
-        // console.log('校验成功！');
         setChildComponentsValidateStatus('success');
         invalidMessage.value = '';
         callback?.('');
@@ -368,7 +348,6 @@ export default defineComponent({
      *  重置表单结果
      */
     let resetField = function () {
-      console.log('重置表单：', initialVal.parentObj, initialVal.lastKey, initialVal.value);
       let currentVal = getPropValueByPath(formContext?.props.model, props.name);
       // 根据name查找到该属性目前最新的父对象，因为业务组件在使用时可能会替换掉父对象
       currentVal.parentObj[initialVal.lastKey] = initialVal.value;

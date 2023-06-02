@@ -67,7 +67,6 @@ export default defineComponent({
     let stopWatchVisible: () => void;
     let stopWatchElBoundingClient: () => void;
     onMounted(function () {
-      // console.log('props.popperOptions', props.popperOptions);
       // 监听触发popper的元素，并创建popper实例
       stopWatchTriggerRef = watch(() => triggerRef.value, (triggerEl) => {
         let popperInstance = popperInstanceRef.value;
@@ -76,13 +75,10 @@ export default defineComponent({
         }
         stopWatchElBoundingClient?.();
         if (triggerEl) {
-          console.log('创建新的popper！newEl', triggerEl);
           popperInstanceRef.value = createPopper(triggerEl as Element, popperContentRef.value as HTMLElement, buildPopperOptions(props, triggerEl));
-          console.log('popperInstanceRef.value', popperInstanceRef.value);
 
           // 在dom元素位置改变后及时的更新popper
           stopWatchElBoundingClient = watch(() => triggerEl.getBoundingClientRect?.(), function (clientRect: DOMRect) {
-            // console.log('clientRect', clientRect);
             updatePopper(false);
           }, { immediate: true });
         } else {

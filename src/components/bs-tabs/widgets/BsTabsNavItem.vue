@@ -97,7 +97,6 @@ export default defineComponent({
         'aria-label': props.label,
         disabled: props.disabled
       }, isFunction(props.itemSlot) ? props.itemSlot() : (isFunction(props.label) ? props.label() : props.label));
-      // console.log('itemSlot', typeof props.itemSlot === 'function' ? props.itemSlot() : props.label);
       return h('li', {
         'class': [
           'bs-tabs-nav-item',

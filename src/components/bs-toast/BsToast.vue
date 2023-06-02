@@ -176,7 +176,6 @@ export default defineComponent({
         return res;
       }, 0);
       result += offsetTop;
-      console.log(`【${toastId.value}】的显示位置为：${result}px!`);
       // positionStyle[isBottom ? 'bottom' : 'top'] = result + 'px';
       (toastRef.value as any).style[isBottom ? 'bottom' : 'top'] = result + 'px';
       if (offsetLeft > 0) {
@@ -243,7 +242,6 @@ export default defineComponent({
     // 隐藏
     let hide = function () {
       visible.value = false;
-      console.log('调用了hdie');
       clearTimer();
       if (props.fixed && allowedPlacements.includes(placement)) {
         // 移除fixed定位的toast id

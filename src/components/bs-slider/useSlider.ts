@@ -77,7 +77,6 @@ export function useSlider (props:any, ctx: any, value1: Ref<string|number>, valu
   });
 
   let setValue1 = function (newValue: string|number) {
-    // console.log('onSliderHandler1Change', newValue);
     let range = props.range;
     let modelValue = props.modelValue;
     // 不允许交叉
@@ -94,7 +93,6 @@ export function useSlider (props:any, ctx: any, value1: Ref<string|number>, valu
     ctx.emit('change', changedValue);
   };
   let setValue2 = function (newValue: string|number) {
-    // console.log('onSliderHandler2Change', newValue);
     let modelValue = props.modelValue;
     // 不允许交叉
     if (props.range && !props.enableCross && newValue < props.modelValue[0]) {

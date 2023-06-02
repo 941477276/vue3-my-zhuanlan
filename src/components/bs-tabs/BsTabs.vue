@@ -67,7 +67,6 @@ export default defineComponent({
       });
     });
     let onActiveTabChange = function (activeTab: TabNavItem) {
-      // console.log('active tab changed', activeTab);
       if (activeTab.id === activeTabId.value) {
         return;
       }

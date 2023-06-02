@@ -176,7 +176,6 @@ export default defineComponent({
         }
       },
       set (newVal: any) {
-        console.log('原生select修改值：', newVal);
       }
     });
     /**
@@ -222,7 +221,6 @@ export default defineComponent({
         if (isDelete === true) {
           let index = selectModelValue.indexOf(val);
           if (index > -1) {
-            // console.log('changeVal 2, isDelete=true', props.modelValue, val, index);
             selectModelValue.splice(index, 1);
             ctx.emit('update:modelValue', selectModelValue);
             ctx.emit('change', selectModelValue);
@@ -247,7 +245,6 @@ export default defineComponent({
       } else {
         if (isDelete === true) {
           if (props.modelValue === val) {
-            // console.log('changeVal 2, isDelete=true', props.modelValue, val);
             ctx.emit('update:modelValue', '');
             ctx.emit('change', '');
             dropdownHide();
@@ -269,7 +266,6 @@ export default defineComponent({
      */
     let addOption = function (option: SelectOptionContextItem) {
       let optionExists = optionItems.value.some((optionItem: SelectOptionContextItem) => optionItem.id === option.id);
-      // console.log('optionExists', optionExists);
       if (!optionExists) {
         optionItems.value.push(option);
       }
@@ -282,7 +278,6 @@ export default defineComponent({
       let index = optionItems.value.findIndex((optionItem: SelectOptionContextItem) => optionItem.id === optionId);
       if (index > -1) {
         optionItems.value.splice(index, 1);
-        // console.log('removeOption changeVal', optionValue);
         changeVal(optionValue, true);
       }
     };
@@ -290,7 +285,6 @@ export default defineComponent({
     let viewText = computed(function () {
       let modelValue = Array.isArray(props.modelValue) ? props.modelValue : [props.modelValue];
       let selectedOptionLabels = optionItems.value.filter(function (option: SelectOptionContextItem) {
-        // console.log('option.value', option.value);
         return modelValue.includes(option.value);
       }).map(function (option: SelectOptionContextItem) {
         let newOption = {
@@ -299,13 +293,11 @@ export default defineComponent({
         };
         return newOption;
       });
-      // console.log('selectedOptionLabels', selectedOptionLabels);
       return selectedOptionLabels;
     });
 
     let isClickOutside = useClickOutside([bsSelectRef, bsSelectDropdownRef]);
     watch(isClickOutside, (newVal: boolean) => {
-      // console.log('isClickOutside', isClickOutside.value);
       if (newVal && dropdownVisible.value) {
         dropdownHide();
       }
@@ -336,7 +328,6 @@ export default defineComponent({
     let filtering = ref(false); // 是否正在搜索中
     // 搜索文本change事件
     let onFilterTextChange = function (searchText: string) {
-      console.log('搜索文本：', searchText);
       filterText.value = searchText;
     };
     // 筛选通过的项
@@ -362,7 +353,6 @@ export default defineComponent({
     let { callFormItem } = useDeliverContextToFormItem(props, {
       id: selectId.value,
       setValidateStatus: (status: BsValidateStatus) => {
-        // console.log('调select组件的setValidateStatus方法l');
         (bsSelectInputRef.value as any)?.setValidateStatus(status);
       }
     });

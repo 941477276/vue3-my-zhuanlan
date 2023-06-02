@@ -38,7 +38,6 @@ export default defineComponent({
       let activeNamesArr = activeNames.value;
       if (expended) {
         if (isAccordion) {
-          // console.log('aaa');
           // 重新赋值一个新函数不起作用
           activeNamesArr.length = 0;
           activeNamesArr[0] = name;
@@ -47,10 +46,8 @@ export default defineComponent({
         }
       } else {
         if (isAccordion) {
-          // console.log(111);
           activeNamesArr.length = 0;
         } else {
-          // console.log(222);
           let index = activeNamesArr.findIndex(item => item == name);
           if (index > -1) {
             activeNamesArr.splice(index, 1);
@@ -58,18 +55,15 @@ export default defineComponent({
         }
       }
       let value = isAccordion ? activeNamesArr[0] : [...activeNamesArr];
-      // console.log('handleItemChange', name, expended, value);
       ctx.emit('update:modelValue', isAccordion ? activeNamesArr[0] : [...activeNamesArr]);
       ctx.emit('change', name, expended, value);
     };
 
     watch(() => props.modelValue, function (modelValue) {
       modelValue = Array.isArray(modelValue) ? modelValue : [modelValue];
-      // console.log('watch modelValue', modelValue, modelValue.join(','), activeNames.value.join(','));
       if (modelValue.join(',') == activeNames.value.join(',')) {
         return;
       }
-      // console.log('watch modelValue and set activeNames: ', [...modelValue]);
       // activeNames.value = [...modelValue];
       activeNames.value = [...modelValue];
     }, { immediate: true, deep: true });

@@ -69,12 +69,10 @@ export function useTimePicker (props: any) {
       }
       return;
     }
-    console.log('useTimePicker modelValue1', modelValue, typeof modelValue);
 
     if (typeof modelValue !== 'string') {
       modelValue = dayjsUtil.locale.format(modelValue, 'en', formatInner.value);
     }
-    console.log('useTimePicker modelValue2', modelValue);
     let periodFlag = modelValue.split(' ')[1];
     if (!periodFlag) {
       return;
@@ -134,7 +132,6 @@ export function getUpdateModelValue (options = {} as GetUpdateModelValueParams) 
     originDate = dayjs(originDate);
   }
   let valueFormat = options.valueFormat;
-  console.log('getUpdateModelValue originDate', originDate, originDate instanceof Date);
   let hour: number; //  = Number(timeUnitValues.hour);
   let minute: number;
   let second: number;
@@ -188,7 +185,6 @@ export function getUpdateModelValue (options = {} as GetUpdateModelValueParams) 
         return resultValue;
       }
     } else {
-      console.log('getUpdateModelValue', 5555, valueFormat, hour, minute, second);
       dayIns = dayjs(`${hour}:${minute}:${second}`, valueFormat);
       return dayjsUtil.locale.format(dayIns, 'en', valueFormat);
     }

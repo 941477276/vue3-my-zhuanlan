@@ -202,7 +202,6 @@ export default defineComponent({
         return;
       }
       let val = (evt.target as HTMLInputElement).value;
-      console.log('触发了input 事件');
       // inputValue.value = val;
       if (props.clearable && val.length > 0) {
         clearContentIconDisplay.value = true;
@@ -305,7 +304,6 @@ export default defineComponent({
       if (height == -1 && textareaLastHeight) {
         textareaEl.style.height = '';
         textareaLastHeight = height;
-        console.log('height == -1');
         return;
       }
       let minHeight = props.minHeight;
@@ -317,7 +315,6 @@ export default defineComponent({
           textareaEl.style.height = minHeight + 'px';
           textareaLastHeight = minHeight;
         }
-        console.log('height <= textareaHeight');
         return;
       }
       textareaEl.style.height = height + 'px';

@@ -82,14 +82,12 @@ export default defineComponent({
     let matchMedia576 = matchMedia('(max-width: 576px)');
     // 屏幕宽度小于576px的处理函数
     let handleScreenWidthLess576 = function (evt: MediaQueryListEvent) {
-      console.log('handleScreenWidthLess576', evt);
       if (evt.matches) {
         navbarBrandVisible.value = false;
       } else {
         navbarBrandVisible.value = true;
       }
     };
-    console.log('matchMedia576', matchMedia576);
     matchMedia576.addEventListener('change', handleScreenWidthLess576);
 
     let versionList = ref([]);

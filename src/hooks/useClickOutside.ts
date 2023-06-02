@@ -23,7 +23,6 @@ export function useClickOutside (eleRefs: Ref<HTMLElement|null>|Ref<HTMLElement|
         flag.value = !elementContains(eleRefs.value as HTMLElement, target);
       }
     }
-    // console.log('document click event', flag.value);
     if (typeof callback == 'function') {
       callback(flag.value);
     }

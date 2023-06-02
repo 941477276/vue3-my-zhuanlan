@@ -58,7 +58,6 @@ export default defineComponent({
     });
     // 处理当前页码变化
     let changeCurrentPage = function (currentPage: number) {
-      // console.log('currentPage', currentPage);
       if (typeof currentPage !== 'object' && currentPage !== props.currentPage && !props.disabledPage?.includes(currentPage)) {
         ctx.emit('update:currentPage', currentPage);
         ctx.emit('currentChange', currentPage);

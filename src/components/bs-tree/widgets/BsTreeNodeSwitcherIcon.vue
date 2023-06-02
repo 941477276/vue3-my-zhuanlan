@@ -38,7 +38,6 @@ export default defineComponent({
           innerHTML: '<svg class="switcher-arrow-svg" viewBox="0 0 1024 1024" fill="currentColor" width="1em" height="1em"><path d="M511.999488 819.413462 72.8374 204.586538 951.1626 204.586538Z"></path></svg>'
         });
       } else {
-        // console.log('有switcher插槽', treeCtx.ctx.slots);
         return treeCtx.ctx.slots['switcher-icon']({
           data: props.nodeData,
           node: props.node

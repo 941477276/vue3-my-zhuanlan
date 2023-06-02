@@ -33,14 +33,12 @@ export default defineComponent({
       ctx: {}
     })!;
     let now = dayjs();
-    // console.log('datePicker', datePicker);
     return function () {
       let cellData = props.cellData;
       let getCellNode = props.getCellNode;
       let slot;
       let pickerType = datePicker.pickerType?.value;
       let currentMode = datePicker.currentMode?.value;
-      // console.log('currentMode--------pickerType', currentMode, pickerType);
       // 当前展示的面板与面板类型一致时才允许自定义渲染，否则会导致所有面板都自定义渲染了
       let useCustomRender = (!currentMode) || pickerType == currentMode;
       let defaultSlot = ctx.slots.default;

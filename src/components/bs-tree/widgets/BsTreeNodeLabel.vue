@@ -55,7 +55,6 @@ export default defineComponent({
           }
         }
       } else {
-        // console.log('有默认插槽', treeCtx.ctx.slots);
         return treeCtx.ctx.slots.default({
           data: props.nodeData,
           nodeState: props.nodeState

@@ -57,7 +57,6 @@ export default defineComponent({
         if (!format) {
           format = formMap[viewType];
         }
-        console.log('format', format);
         viewTime.value = lang ? dayjsUtil.locale.format(date, 'lang', format) : date.format(format);
         return;
       }

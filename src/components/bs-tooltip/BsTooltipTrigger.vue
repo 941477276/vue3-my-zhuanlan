@@ -137,7 +137,6 @@ export default defineComponent({
     };
 
     let stopWatchClickOutSide = watch([isClickOutSide, isClickOutSideContent], function ([clickOutsideTrigger, clickOutsideContent]) {
-      // console.log('watch isClickOutSide', clickOutsideTrigger, clickOutsideContent);
       let trigger = props.trigger;
       if (!isShow.value && (trigger !== 'click' || trigger !== 'contextmenu')) {
         return;

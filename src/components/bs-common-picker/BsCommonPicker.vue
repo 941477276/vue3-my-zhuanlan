@@ -169,8 +169,6 @@ export default defineComponent({
     // 点击区域外面隐藏下拉
     useClickOutside([triggerRef, bsPickerDropdownRef], function (flag: boolean) {
       if (flag && visible.value) {
-        console.log('【<bs-common-picker>组件】检测到点击了picker外面');
-
         hideDropdown();
       }
     });

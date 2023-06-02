@@ -13,7 +13,6 @@ export function getPropValueByPath (obj: { [key: string]: any }, path: string): 
   path = path.replace(/\["?'?(\w+)"?'?\]/g, '.$1');
   // 将字符的首个"."去除掉
   path = path.replace(/^\./, '');
-  // console.log('path', path);
   let pathArr: string[] = path.split('.');
   let tempObj = obj;
   let value;
@@ -22,7 +21,6 @@ export function getPropValueByPath (obj: { [key: string]: any }, path: string): 
     // @ts-ignore
     key = pathArr.shift();
     tempObj = tempObj[key];
-    // console.log('key', key)
     // value = obj[key];
   }
   // @ts-ignore
@@ -287,8 +285,6 @@ export function eleHasScroll (ele: HTMLElement): {
     // return top > 0;
     result.vertical = top > 0; */
     var overflowY = getStyle(ele, 'overflow-y');
-    // console.log('overflowY', overflowY);
-    // console.log('(ele.scrollHeight, ele.clientHeight)', ele.scrollHeight, ele.offsetHeight);
     result.vertical = !noScrollOverflowValue.includes(overflowY) && (ele.scrollHeight > ele.clientHeight);
   }
   if (ele.scrollLeft > 0) {
@@ -303,7 +299,6 @@ export function eleHasScroll (ele: HTMLElement): {
     // return top > 0;
     result.horizontal = left > 0; */
     var overflowX = getStyle(ele, 'overflow-x');
-    // console.log('overflowX', overflowX);
     result.horizontal = !noScrollOverflowValue.includes(overflowX) && (ele.scrollWidth > ele.clientWidth);
   }
   return result;
@@ -349,7 +344,6 @@ export function getScrollParent (ele: HTMLElement): HTMLElement|undefined {
   var eleParent = ele.parentElement;
   while (eleParent != null) {
     var scroll = eleHasScroll(eleParent);
-    // console.log('getScrollParent', eleParent, scroll);
     if (scroll.vertical || scroll.horizontal) {
       return eleParent;
     }
@@ -379,14 +373,11 @@ export function getEleTranslateValue (transformValue: string): ElementTranslateF
     scaleX: 1,
     scaleY: 1
   };
-  // console.log('transformValue', transformValue);
   if (!transformValue || transformValue == 'none') {
     return resultObj;
   }
   var translates = transformValue.substring(6);
-  // console.log('translates', translates);
   var result = translates.match(/\(([^)]*)\)/);// 正则()内容
-  // console.log('result', result)
   // 获取Rotate值
   var getRotate = function (matrix: number[]) {
     var aa = Math.round(180 * Math.asin(matrix[0]) / Math.PI);
@@ -404,7 +395,6 @@ export function getEleTranslateValue (transformValue: string): ElementTranslateF
     return deg >= 360 ? 0 : deg;
   };
   var matrix = result ? result[1].split(',') : translates.split(',');
-  // console.log('matrix', matrix);
   resultObj.x = matrix.length > 6 ? parseFloat(matrix[12]) : parseFloat(matrix[4]);
   resultObj.y = matrix.length > 6 ? parseFloat(matrix[13]) : parseFloat(matrix[5]);
   resultObj.z = matrix.length > 6 ? parseFloat(matrix[14]) : 0;
@@ -718,7 +708,6 @@ export function eleInParent (ele: HTMLElement, parent: HTMLElement): boolean {
     }
     parentEle = parentEle.parentElement;
   }
-  // console.warn('eleInParent: ', flag);
   return flag;
 }
 
@@ -903,11 +892,9 @@ export function eleIsInView (ele: HTMLElement, top: number, left: number, needSu
     eleWrapperScrollTop = scrollTop(scrollParent);
     eleWrapperScrollLeft = scrollLeft(scrollParent);
     let scroll = eleIsInScrollParentView(ele, scrollParent, top, left, needSubtractScrollOffset);
-    // console.log('scrollParent scroll', scroll);
     scrollParentHorizontal = scroll.horizontal;
     scrollParentVertical = scroll.vertical;
   }
-  // console.log('scrollTop/scrollLeft', scrollTop, scrollLeft);
   if (!top || !left) {
     var offsetValue = offset(ele);
     if (!top) {
@@ -937,8 +924,6 @@ export function eleIsInView (ele: HTMLElement, top: number, left: number, needSu
   if (documentHasScroll.horizontal) {
     windowWH.height = windowWH.height - scrollWidth().horizontal;
   }
-  // console.log('left', left, right, scrollLeft);
-  // console.log('top', top, bottom, scrollTop);
   return {
     scrollParentHorizontal,
     scrollParentVertical,
@@ -976,13 +961,9 @@ export function eleIsInParentView (ele: HTMLElement, referenceEl: HTMLElement, e
   var eleOffsetRight = elOffset.left + ele.offsetWidth;
   var eleOffsetBottom = elOffset.top + ele.offsetHeight;
 
-  // console.log('eleInParentFullView, el.offset', offset, eleOffsetRight, eleOffsetBottom);
-  // console.log('eleInParentFullView, el.reference', referenceOffset, referenceOffsetRight, referenceOffsetBottom);
-
   // 元素的水平方向完全在可视区域中
   var offsetStartInView = elOffset.left >= referenceOffset.left && elOffset.left < referenceOffsetRight;
   var offsetEndInView = eleOffsetRight > referenceOffset.left && eleOffsetRight < referenceOffsetRight;
-  // console.log('offsetEndInView', offsetEndInView, eleOffsetRight, referenceOffsetRight);
 
   // 元素的垂直方向完全在可视区域中
   var offsetStartInView2 = elOffset.top >= referenceOffset.top && elOffset.top < referenceOffsetBottom;
@@ -1033,11 +1014,10 @@ export function eleIsInScrollParentView (ele: HTMLElement, scrollEl: HTMLElement
     }
   }
 
-  // console.log('--------elOffset: ', {...elOffset});
   elOffset.top -= scrollElScrollTop;
   elOffset.left -= scrollElScrollLeft;
   if (needSubtractScrollOffset) {
-    // console.log('eleInScrollParentFullView 需要减去浏览器滚动条的距离');
+    // 需要减去浏览器滚动条的距离
     var documentScrollTop = scrollTop();
     var documentScrollLeft = scrollLeft();
     elOffset.top -= documentScrollTop;
@@ -1046,15 +1026,10 @@ export function eleIsInScrollParentView (ele: HTMLElement, scrollEl: HTMLElement
     scrollElOffset.top -= documentScrollTop;
     scrollElOffset.left -= documentScrollLeft;
   }
-  // console.log('--------elOffset: ', {...elOffset}, scrollElScrollTop, scrollElScrollLeft);
-
   var scrollElOffsetRight = scrollElOffset.left + scrollEl.offsetWidth - scrollElScrollWidth.vertical;
   var scrollElOffsetBottom = scrollElOffset.top + scrollEl.offsetHeight - scrollElScrollWidth.horizontal;
   var eleOffsetRight = elOffset.left + ele.offsetWidth;
   var eleOffsetBottom = elOffset.top + ele.offsetHeight;
-
-  // console.log('eleInParentFullView, el.offset', offset, eleOffsetRight, eleOffsetBottom);
-  // console.log('eleInParentFullView, el.reference', scrollElOffset, scrollElOffsetRight, scrollElOffsetBottom);
 
   // 元素的水平方向完全在可视区域中
   var offsetStartInView = elOffset.left >= scrollElOffset.left && elOffset.left < scrollElOffsetRight;

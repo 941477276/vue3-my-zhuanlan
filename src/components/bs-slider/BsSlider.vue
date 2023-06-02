@@ -94,7 +94,6 @@ export default defineComponent({
     let value1 = ref(0);
     let value2 = ref(0);
     watch(() => props.modelValue, function (newModelValue) {
-      // console.log('newModelValue', newModelValue);
       if (props.range) {
         value1.value = newModelValue[0];
         value2.value = newModelValue[1];

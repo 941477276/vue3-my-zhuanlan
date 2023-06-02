@@ -15,14 +15,13 @@ function drag (el: HTMLElement, binding: any) {
   })();
   if ((el as any).dragInited) { // 已经开启过了拖拽功能，需防止重复开启（指令mounted、update都会进来）
     if (!binding.value.useDrag) {
-      console.log('禁用了拖拽', dialogHeaderEl.bs_mouseDown);
       dialogHeaderEl.style.cursor = '';
       dialogHeaderEl.removeEventListener('mousedown', dialogHeaderEl.bs_mouseDown, false);
       dialogHeaderEl.bs_mouseDown = null;
       (el as any).dragInited = false;
       return;
     } else {
-      console.log('指令已经初始化过了，无需重复初始化');
+      // 指令已经初始化过了，无需重复初始化
       return;
     }
   } else {
@@ -30,15 +29,12 @@ function drag (el: HTMLElement, binding: any) {
       return;
     }
   }
-  console.log('指令初始化了');
   dialogHeaderEl.style.cursor = 'move';
   (el as any).dragInited = true;
   let mouseDownEvent = (evt: MouseEvent) => {
     if (binding.value.useDrag === false) {
       return;
     }
-    // console.log(evt.clientX, evt.clientY);
-    // console.log(vnode); // 鼠标按下，计算当前元素距离可视区的距离
     const disX = evt.clientX - dialogHeaderEl.offsetLeft;
     const disY = evt.clientY - dialogHeaderEl.offsetTop;
     const dragDomWidth = dragDom.offsetWidth;
@@ -51,8 +47,6 @@ function drag (el: HTMLElement, binding: any) {
     const maxDragDomLeft = screenWidth - dragDom.offsetLeft - dragDomWidth;
     const minDragDomTop = dragDom.offsetTop;
     const maxDragDomTop = screenHeight - dragDom.offsetTop - dragDomHeight;
-    // console.log('minDragDomTop', minDragDomTop, maxDragDomTop)
-    // console.log('screenHeight', screenHeight) // 获取到的值带px 正则匹配替换
     let styL = getStyle(dragDom, 'left');
     let styT = getStyle(dragDom, 'top');
 
@@ -68,7 +62,6 @@ function drag (el: HTMLElement, binding: any) {
       // 通过事件委托，计算移动的距离
       let left = e.clientX - disX;
       let top = e.clientY - disY;
-      // console.log('mouseMoveEvent1', top, left, e.clientX, e.clientY);
       if (useBoundary) {
         // 边界处理
         if (-(left) > minDragDomLeft) {
@@ -76,7 +69,6 @@ function drag (el: HTMLElement, binding: any) {
         } else if (left > maxDragDomLeft) {
           left = maxDragDomLeft;
         }
-        // console.log('top maxDragDomTop', top, maxDragDomTop)
         if (-top > minDragDomTop) {
           top = -minDragDomTop;
         } else if (top > maxDragDomTop) {
@@ -119,12 +111,10 @@ export default {
     if (binding.value.useDrag === false) {
       return;
     }
-    // console.log('drag指令注册了');
     drag(el, binding);
     // (el as any).dragInited = true;
   },
   updated (el: HTMLElement, binding: any) {
-    // console.log('updated', el, binding);
     drag(el, binding);
   }
 };

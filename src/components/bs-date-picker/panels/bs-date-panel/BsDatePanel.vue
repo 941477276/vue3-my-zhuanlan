@@ -104,7 +104,6 @@ let getPrevMonthDayCount = function (date: Dayjs, lang:string) {
   let prevMonthDaysCount = Math.abs(firstDayOfWeek - firstDayOfWeekInMonth);
   // 月份面板中显示的上一个月份天数不能大于等于7天
   prevMonthDaysCount = prevMonthDaysCount >= 7 ? 0 : prevMonthDaysCount;
-  console.log('上一个月天数', prevMonthDaysCount, firstDayOfWeekInMonth);
   return prevMonthDaysCount;
 };
 export default defineComponent({
@@ -164,8 +163,6 @@ export default defineComponent({
   emits: ['update:modelValue', 'viewDateChange'],
   setup (props: any, ctx: any) {
     let now = dayjs(); // 今天
-    // console.log('now construct', now instanceof dayjs);
-
     // 用于面板展示的日期
     let {
       panelViewDate,
@@ -232,7 +229,6 @@ export default defineComponent({
       let nextMonthDaysCount = totalCell - currentMonthDaysCount - prevMonthDaysCount;
       let disabledDate = props.disabledDate;
 
-      console.log('year', year, month, firstDayOfWeekInMonth, currentMonthDaysCount, prevMonthDaysCount, nextMonthDaysCount, firstDayOfWeek);
       let currentMonthDaDays: any[] = getDates(currentDate, currentMonthDaysCount, disabledDate);
       let nextMonthDaDays: any[] = getDates(dayjsUtil.setMonth(currentDate, month + 1), nextMonthDaysCount, disabledDate);
       let prevMonthDays: any[] = [];
@@ -240,8 +236,6 @@ export default defineComponent({
       while (dayIndex < prevMonthDaysCount) {
         let dayjsIns = dayjsUtil.setDate(currentDate, -dayIndex);
         let disabled = typeof disabledDate === 'function' ? !!disabledDate(dayjsIns) : false;
-        console.log('disabled', disabled, typeof disabledDate === 'function');
-        // console.log('上个月：', dayjsIns.format('YYYY-MM-DD'), -dayIndex);
         prevMonthDays.unshift({
           dayjsIns,
           id: dayjsIns.format(defaultFormat),
@@ -256,7 +250,6 @@ export default defineComponent({
       }
       return dateArr;
     });
-    // console.log('tableBody', tableBody.value);
     // 单元格点击事件
     let onCellClick = function (cellData: any) {
       let modelValue = props.modelValue;
@@ -285,7 +278,6 @@ export default defineComponent({
         let modelValue = props.modelValue;
         let dayjsIns = cellData.dayjsIns;
         let classnames: string[] = [];
-        // console.log('getCellClassname', cellData.disabled);
         if (currentDate.format('YYYY-MM') === dayjsIns.format('YYYY-MM')) {
           classnames.push('active-cell');
         }

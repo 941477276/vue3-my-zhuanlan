@@ -98,7 +98,6 @@ export default defineComponent({
     let tableBody = computed(function () {
       let monthArr: any = [];
       let currentMonth = dayjsUtil.setDate(panelViewDate.value, 1);
-      // console.log('currentMonth', currentMonth);
       let monthsShort = dayjsUtil.locale.monthsShort('zh-cn');
       let disabledDate = props.disabledDate;
       let tempMonthArr = monthsShort.map((monthName: string, index: number) => {
@@ -132,18 +131,16 @@ export default defineComponent({
       ctx.emit('update:modelValue', cellData.date);
     };
 
-    // console.log('2022-08', dayjs('2022-08', 'YYYY-MM'));
     let dateRender = props.dateRender;
     return {
       yearName,
       tableBody,
       // 设置单元格的classname
       setCellClassname (cellData: any, cellIndex: number) {
-        let currentDate = panelViewDate.value;
+        // let currentDate = panelViewDate.value;
         let modelValue = props.modelValue;
         let dayjsIns = cellData.date;
         let classnames: string[] = ['active-cell'];
-        // console.log('getCellClassname', cellData.disabled);
         if (modelValue && (modelValue.format(defaultFormat) === dayjsIns.format(defaultFormat))) {
           classnames.push('is-selected');
         }

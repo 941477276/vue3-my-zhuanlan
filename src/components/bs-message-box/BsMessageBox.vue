@@ -211,11 +211,9 @@ export default defineComponent({
       if (isPromise(okCloseResult)) {
         okCloseResult.then(() => {
           visible.value = false;
-          console.log('关闭message box！');
         });
       } else {
         visible.value = false;
-        console.log('关闭message box！');
       }
     };
 
@@ -256,7 +254,6 @@ export default defineComponent({
 
     let handleKeydown = function (evt: KeyboardEvent) {
       evt = (evt || window.event) as any;
-      console.log('evt.keyCode', evt.keyCode);
       if (!visible.value) {
         return;
       }

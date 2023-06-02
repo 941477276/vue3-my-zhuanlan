@@ -124,7 +124,6 @@ export default defineComponent({
 
     useClickOutside(sliderHandlerRef, function (flag: boolean) {
       if (flag) {
-        // console.log('sliderHandlerRef clickouside');
         tooltipVisible.value = false;
       }
     });

@@ -48,7 +48,6 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
     document.addEventListener('touchend', documentMouseup, false);
     // @ts-ignore
     document.addEventListener('touchcancel', documentMouseup, false);
-    // console.log('onSliderMousedown', evt);
 
     if (evt.type === 'touchmove') {
       let touch = (evt as TouchEvent).touches[0];
@@ -61,14 +60,12 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
     sliderRect = unref(props.sliderRef).getBoundingClientRect();
     sliderTotalWidth = props.vertical ? sliderRect.height : sliderRect.width;
     sliderStartPosition = props.vertical ? sliderRect.top : sliderRect.left;
-    // console.log(sliderRect, mousedownClientX, mousedownClientY);
   };
 
   let mouseenterTimer: number;
   let onMouseenter = function () {
     isMouseentered = true;
 
-    console.log('mouseenter');
     clearTimeout(mouseenterTimer);
     mouseenterTimer = setTimeout(function () { // 防止鼠标快速来回滑动时频繁显示/隐藏tooltip的问题
       clearTimeout(mouseenterTimer);
@@ -85,11 +82,9 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
     mouseleaveTimer = setTimeout(function () { // 解决windows上滑动按钮scale(1.2)后会导致鼠标触发mouseenter事件后又立即触发mouseleave事件问题
       clearTimeout(mouseleaveTimer);
       if (isMouseentered) {
-        console.log('mouseleave后又立即触发了mouseenter事件');
         return;
       }
       if (!isDragging) {
-        console.log('onMouseleave hide tooltip');
         tooltipVisible.value = false;
       }
     }, 50);
@@ -113,7 +108,6 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
       clientY = (evt as MouseEvent).clientY;
     }
 
-    // console.log('mouse move', evt);
     evt.preventDefault();
     mousemoveTimer = now;
     tooltipVisible.value = true;
@@ -121,7 +115,6 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
     let mousePosition = props.vertical ? clientY : clientX;
     // 鼠标移动到的位置
     let positionInSlider = mousePosition - sliderStartPosition;
-    // console.log('positionInSlider origin', positionInSlider, oldValue.value);
     if (positionInSlider < 0) {
       positionInSlider = 0;
     }
@@ -149,7 +142,6 @@ export function useSliderHandler (props: any, ctx: any, tooltipComRef: any, tool
     document.removeEventListener('touchend', documentMouseup, false);
     // @ts-ignore
     document.removeEventListener('touchcancel', documentMouseup, false);
-    // console.log('documentMouseup');
     // tooltipVisible.value = false;
     isDragging = false;
     let target = evt.target as HTMLElement;

@@ -54,7 +54,6 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
     let { text: inputeAfterText, slotContent: inputAfterSlot } = useGetContentInfo(options.inputAfter);
     text = contentInfo.text;
     slotContent = contentInfo.slotContent;
-    console.log('slotContent', slotContent);
     id = options.id || `bs-message-box_${++messageBoxCount}`;
     title = options.title;
     messageBoxProps = {
@@ -102,7 +101,6 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
     slotContent.icon = icon;
   }
   if (isVNode(title)) {
-    console.log('title isVnode', title);
     slotContent.title = () => title;
   } else if (isFunction(title)) {
     slotContent.title = title;
@@ -110,11 +108,9 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
   if (inputBefore) {
     slotContent.inputBefore = inputBefore;
   }
-  console.log();
   if (inputAfter) {
     slotContent.inputAfter = inputAfter;
   }
-  // console.log('slotContent', slotContent);
 
   delete messageBoxProps.id;
   delete messageBoxProps.message;
@@ -152,15 +148,12 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
         let messageBoxRef = (vm.component?.proxy as any).messageBoxRef;
         // let messageBoxRect = messageBoxRef.getBoundingClientRect();
         let elOffset = offset(messageBoxRef);
-        // console.log('messageBoxRef', messageBoxRef.getBoundingClientRect());
         let x = mouseX - elOffset.left;
         let y = mouseY - elOffset.top;
-        // console.log('x, y', x, y);
         (vm.component?.proxy as any).setTransformOrigin(x, y);
       });
     },
     onHide () {
-      // console.log('隐藏了');
       mask.hide(true);
       render(null, container);
       setTimeout(function () {
@@ -181,7 +174,6 @@ const messageBox:MessageBoxFn & Partial<MessageBox> = function (options = {} as 
   }, slotContent);
   vm.appContext = context;
 
-  // console.log('vm', vm);
   // 锁定浏览器滚动条
   unLockScroll = useLockScroll();
   document.body.appendChild(container);

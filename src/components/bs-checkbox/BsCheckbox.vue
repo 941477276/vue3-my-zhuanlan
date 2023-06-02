@@ -94,20 +94,6 @@ export default defineComponent({
 
     /* eslint-disable */
     let on_change = function (evt: Event) {
-      // let isChecked = (evt.target as HTMLInputElement).checked;
-      // console.log('是否选中', isChecked);
-      /* if (typeof props.indeterminate === 'boolean') {
-        console.log('on_change，改变 isIndeterminate');
-        isIndeterminate.value = false;
-      } */
-
-      /* let value = '';
-      if (isChecked) {
-        value = !isNoneValue(props.value) ? props.value : (isNoneValue(props.trueValue) ? true : props.trueValue);
-      } else {
-        value = isNoneValue(props.value) ? props.value : (isNoneValue(props.falseValue) ? true : props.falseValue);
-      }
-      ctx.emit('change', value); */
       ctx.emit('change', evt, checkboxVal.value);
       callFormItem('validate', 'change');
     };
@@ -132,7 +118,6 @@ export default defineComponent({
       clearTimeout(watchIndeterminateTimer);
       // 这里加setTimeout的原因是：当 on_change 与 props.indeterminate 同时改变isIndeterminate时，on_change事件比这里的watch要慢，而isIndeterminate的值需要以props.indeterminate为主
       watchIndeterminateTimer = setTimeout(function () {
-        console.log('watch props.indeterminate-------------');
         isIndeterminate.value = indeterminate;
       }, 0);
     });
@@ -159,13 +144,11 @@ export default defineComponent({
       if (props.checked) {
         let checkboxValue = checkboxVal.value;
         if (Array.isArray(checkboxValue)) {
-          console.log('onUnmounted checkboxValue 11', checkboxValue);
           let index = checkboxValue.findIndex(item => item === props.value);
           if (index > -1) {
             checkboxValue.splice(index, 1);
           }
         } else {
-          console.log('onUnmounted checkboxValue 22', checkboxValue);
           checkboxVal.value = false;
         }
       }

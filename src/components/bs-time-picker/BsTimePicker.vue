@@ -108,7 +108,6 @@ export default defineComponent({
       if (!date) {
         return '';
       }
-      // console.log('getViewDateText', date);
 
       if (!format) {
         if (props.use12Hours) {
@@ -130,7 +129,6 @@ export default defineComponent({
       } else {
         dayIns = dayjs(date);
       }
-      console.log('getViewDateText2', dayIns, dayjsUtil.locale.format(dayIns, 'en', format));
 
       return dayjsUtil.locale.format(dayIns, 'en', format);
     };
@@ -166,9 +164,7 @@ export default defineComponent({
       }
       // 开启严格校验，如不开启严格校验，当遇到格式如HH:mm:ss，输入框初始值为11:03:20，用户想改成11:30:20，当用户选中“03”然后再输入“3”时值就改变了
       // let dayjsIns = dayjs(value, format, true);
-      console.log('format', format, value);
       let dayjsIns = dayjsUtil.strictDayjs(value, format);
-      // console.log('onInput', value, dayjsIns.isValid(), dayjsIns);
       if (dayjsIns.isValid()) {
         /* let period = '';
         if (props.use12Hours) {
@@ -212,12 +208,10 @@ export default defineComponent({
         } else {
           modelValueText = modelValue;
         }
-        // console.log('resultText, modelValueText', resultText, modelValueText);
+        // 新的结果与旧的一致，不执行更新
         if (resultText === modelValueText) {
-          console.log('新的结果与旧的一致，不执行更新');
           return;
         }
-        console.log('即将更新的modelValue：', result);
         ctx.emit('update:modelValue', result);
         ctx.emit('change', result);
         callFormItem('validate', 'change');
@@ -227,10 +221,8 @@ export default defineComponent({
     };
     let onInputBlur = function () {
       if (!isInputTextValid) {
-        // console.log('before -----onInputBlur', viewDateText.value);
         // viewDate.value = props.modelValue;
         viewDateText.value = getViewDateText();
-        // console.log('onInputBlur', viewDateText.value);
       }
     };
 
@@ -250,7 +242,6 @@ export default defineComponent({
 
     // <bs-time-panel>组件值更新事件
     let onUpdateTimePanelModelValue = function (newValue: string|Dayjs) {
-      // console.log('onUpdateTimePanelModelValue', newValue);
       viewDate.value = newValue;
       ctx.emit('update:modelValue', newValue);
       ctx.emit('change', newValue);
@@ -288,9 +279,7 @@ export default defineComponent({
         ctx.emit('hide');
       },
       hanleInputModelValueChange (newViewText: string) {
-        console.log('hanleInputModelValueChange', newViewText);
         viewDateText.value = newViewText;
-        console.log('hanleInputModelValueChange，viewDateText.value', viewDateText.value);
       },
 
       clear,

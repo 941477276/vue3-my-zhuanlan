@@ -51,7 +51,6 @@ export function useInput (props: any, ctx: any, bsInputRef: Ref<any>) {
       return bsInputValue.value;
     },
     set (newValue) {
-      console.log('newValue', newValue);
       ctx.emit('filter-text-change', newValue);
     }
   });

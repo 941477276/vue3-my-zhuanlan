@@ -50,42 +50,6 @@ export default defineComponent({
       popperInstanceRef
     });
 
-    /* let stopWatchRef: () => void;
-    onMounted(function () {
-      stopWatchRef = watch([triggerRef, popperContentRef], ([triggerEl, popperContentEl]) => {
-        if (!popperInstance.value) {
-          console.log('popperInstance.value', popperInstance.value);
-          if (!triggerEl || !popperContentEl) {
-            return;
-          }
-          console.log('newEl', triggerEl, popperContentEl);
-          popperInstance.value = createPopper(triggerEl as Element, popperContentEl as HTMLElement, {
-            placement: props.placement,
-            modifiers: [
-              { // 偏移量
-                name: 'offset',
-                options: {
-                  offset: [0, 8]
-                }
-              },
-              { // 箭头
-                name: 'arrow',
-                options: {
-                  element: popperArrowRef.value,
-                  padding: 5
-                }
-              }
-            ]
-          });
-          console.log('popperInstance.value', popperInstance.value);
-        }
-      }, { immediate: true });
-    });
-
-    onUnmounted(function () {
-      stopWatchRef();
-    }); */
-
     return {
       triggerRef,
       popperContentRef,

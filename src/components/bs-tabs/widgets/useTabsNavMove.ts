@@ -72,7 +72,6 @@ export function useTabsNavMove (props: any, navScrollerRef: Ref<HTMLElement|null
     // 判断元素在父容器中是否完全可见
     let elIsFullView = eleIsInParentView(tabEl, navScrollerRef.value as HTMLElement, -tabsNavTranslate.x, -tabsNavTranslate.y);
     let tabPositionIsHorizontal = props.tabPosition === 'top' || props.tabPosition === 'bottom';
-    // console.log('tabEl', tabEl, elIsFullView, tabEl.offsetLeft, props.tabPosition);
 
     if (tabPositionIsHorizontal) {
       // 元素在水平方向完全可见，则不做任何操作
@@ -80,8 +79,6 @@ export function useTabsNavMove (props: any, navScrollerRef: Ref<HTMLElement|null
         let offsetInfo = getOffsetInfo(tabEl, navScrollerRef.value as HTMLElement);
         let translateX = 0;
         if (offsetInfo.navItemOffsetLeft > 0) {
-          // console.log('navItemOffsetRight', offsetInfo.navItemOffsetLeft, offsetInfo.navItemOffsetRight, offsetInfo.navScrollerWidth);
-          // console.log('offsetInfo.navItemOffsetRight, offsetInfo.navScrollerWidth', offsetInfo.navItemOffsetRight, offsetInfo.navScrollerWidth);
           translateX = offsetInfo.navItemOffsetRight - offsetInfo.navScrollerWidth;
           // 如果translateX大于0，并且小于标签导航列表可视区域宽度，则说明当前标签页在最开始的位置
           if (-translateX > 0 && -translateX < offsetInfo.navScrollerWidth) {
@@ -90,7 +87,6 @@ export function useTabsNavMove (props: any, navScrollerRef: Ref<HTMLElement|null
         } else {
           translateX = 0;
         }
-        // console.log('translateX', translateX);
         tabsNavTranslate.x = translateX;
         tabsNavTranslate.y = 0;
         // tabsNavEl.style.transform = `translate(${-translateX}px, 0)`;
@@ -108,7 +104,6 @@ export function useTabsNavMove (props: any, navScrollerRef: Ref<HTMLElement|null
         } else {
           translateY = 0;
         }
-        // console.log('translateY', translateY);
         tabsNavTranslate.x = 0;
         tabsNavTranslate.y = translateY;
         // tabsNavEl.style.transform = `translate(${-translateY}px, 0)`;
@@ -174,8 +169,6 @@ export function useTabsNavMove (props: any, navScrollerRef: Ref<HTMLElement|null
     let currentOffset = isHorizontal ? tabsNavTranslate.x : tabsNavTranslate.y;
 
     if (tabsNavWidthOrHeight - currentOffset <= navScrollerWidthOrHeight) return;
-
-    // console.log('tabsNavWidthOrHeight - currentOffset > navScrollerWidthOrHeight * 2', tabsNavWidthOrHeight - currentOffset > navScrollerWidthOrHeight * 2);
 
     let newOffset = tabsNavWidthOrHeight - currentOffset > navScrollerWidthOrHeight * 2
       ? currentOffset + navScrollerWidthOrHeight

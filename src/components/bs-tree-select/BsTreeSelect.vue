@@ -168,7 +168,6 @@ export default defineComponent({
         isFocus.value = false;
         ctx.emit('hide');
       }
-      console.log('调用隐藏函数了');
     };
 
     // 树组件的modelValue
@@ -184,7 +183,6 @@ export default defineComponent({
         return modelValue;
       },
       set (treeModelNewVal: any) {
-        console.log('设置新的tree-select值：', treeModelNewVal);
         if (props.multiple) {
           // let modelValue: (string|number)[] = newVal;
           let result = [...treeModelNewVal];
@@ -193,7 +191,6 @@ export default defineComponent({
           callFormItem('validate', 'change');
         } else {
           let newVal = Array.isArray(treeModelNewVal) ? treeModelNewVal[0] : treeModelNewVal;
-          console.log('newVal', newVal);
           ctx.emit('update:modelValue', newVal);
           ctx.emit('change', newVal);
           callFormItem('validate', 'change');
@@ -238,7 +235,6 @@ export default defineComponent({
 
     let isClickOutside = useClickOutside([bsTreeSelectRef, bsSelectDropdownRef]);
     watch(isClickOutside, (newVal: boolean) => {
-      // console.log('isClickOutside', isClickOutside.value);
       if (newVal) {
         dropdownHide();
       }
@@ -270,7 +266,6 @@ export default defineComponent({
 
     //
     let onTagClose = function (option: any) {
-      console.log('onTagClose', option);
       if (option.disabled) {
         return;
       }
@@ -286,7 +281,6 @@ export default defineComponent({
     let { callFormItem } = useDeliverContextToFormItem(props, {
       id: selectId.value,
       setValidateStatus: (status: BsValidateStatus) => {
-        // console.log('调select组件的setValidateStatus方法l');
         if (bsSelectInputRef.value) {
           (bsSelectInputRef.value as any).setValidateStatus(status);
         }

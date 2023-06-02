@@ -18,7 +18,6 @@ export function BsLoading (options: BsLoadingOptions = {} as BsLoadingOptions) {
   let { target, fullscreen, lock } = options;
 
   if (fullscreen && fullscreenLoading) {
-    console.log('返回缓存的全局loading实例');
     return fullscreenLoading;
   }
 
@@ -27,13 +26,11 @@ export function BsLoading (options: BsLoadingOptions = {} as BsLoadingOptions) {
   let unlockScroll: any;
   let newOptions: any = {
     onDestroy () {
-      console.log('执行了onDestroy');
       if (fullscreen) {
         fullscreenLoading = null;
       }
     },
     onHide () {
-      console.log('执行了onHide');
       if (container && !fullscreen) {
         container.style.position = containerOriginStylePosition;
       }
@@ -41,7 +38,6 @@ export function BsLoading (options: BsLoadingOptions = {} as BsLoadingOptions) {
         options.onHide();
       }
       if (isFunction(unlockScroll)) {
-        // console.log('isFunction unlockScroll');
         unlockScroll();
         unlockScroll = null;
       }
@@ -50,7 +46,6 @@ export function BsLoading (options: BsLoadingOptions = {} as BsLoadingOptions) {
   for (let attr in bsLoadingProps) {
     newOptions[attr] = (options as any)[attr];
   }
-  // console.log('target', target);
   if (fullscreen) {
     container = document.body;
   } else {

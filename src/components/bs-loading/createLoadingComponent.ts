@@ -27,7 +27,6 @@ export function createLoadingComponent (options: CreateLoadingOptions = {} as (C
     ...optionsCopy,
     visible: false,
     onDestroy () {
-      console.log('v-bsloading, onDestroy');
       (vm as any) = null;
       if (isFunction(options.onDestroy)) {
         options.onDestroy();

@@ -77,12 +77,10 @@ export default defineComponent({
         endDecadeYear
       };
     });
-    console.log('decadeNumberInfo', decadeNumberInfo);
     let tableBody = computed(function () {
       let yearDecadeArr: any = [];
       let { currentYear, startDecadeYear, endDecadeYear } = decadeNumberInfo.value;
       let baseDecadeYearDate = dayjsUtil.addYear(dayjs(startDecadeYear + '', 'YYYY'), -10);
-      // console.log('year', currentYear, startDecadeYear, endDecadeYear, baseDecadeYearDate);
       let tempYearArr = [];
       let disabledDate = props.disabledDate;
       let lastDecadeEndDate = null;
@@ -133,7 +131,6 @@ export default defineComponent({
         let endYear = endDecadeDate.year();
         let modelValueYear = modelValue ? modelValue.year() : 0;
         let yearNow = now.year();
-        // console.log('getCellClassname', cellData.disabled);
         if (modelValueYear >= startYear && modelValueYear <= endYear) {
           classnames.push('is-selected');
         }
@@ -160,11 +157,9 @@ export default defineComponent({
         return `${startDecadeDate.year()}-${endDecadeDate.year()}`;
       },
       /* onSuperPrev () {
-        console.log('onSuperPrev');
         setPanelViewDate(dayjsUtil.addYear(panelViewDate.value, -10));
       },
       onSuperNext () {
-        console.log('onSuperPrev');
         setPanelViewDate(dayjsUtil.addYear(panelViewDate.value, 10));
       }, */
       onCellClick,

@@ -36,7 +36,6 @@ export function useTreePagination (props: any, treeId: string, flatTreeNodeInfoA
         let show = false;
         // 如果节点有子孙节点，则只要子孙节点有一个匹配的那么该节点都应该显示出来
         if (nodeData[childrenKey]) {
-          console.log('节点过滤，有子孙节点', nodeData[nodeKey]);
           let childrensIfno = findChildrenInfoFlattarnByNodeValue2(treeId, nodeData[nodeKey], nodeKey, flatTreeNodeInfoArr.value);
           childrensIfno.unshift({
             node: nodeData
@@ -54,7 +53,6 @@ export function useTreePagination (props: any, treeId: string, flatTreeNodeInfoA
         };
       });
     }
-    // console.log('result', result);
     return result;
   });
   // 总页数

@@ -29,7 +29,6 @@ export function useSliderRail (value1: Ref<string|number>, value2: Ref<string|nu
 
     let value = calcValueByPosition(mousePosition, sliderWidth, props, precision.value);
     value = convertValue(value, props, precision.value);
-    // console.log(evt, value);
     let sliderHandlerName = getSliderHandlerNameByValue(value as number, value1.value, value2.value, props);
     if (sliderHandlerName === 'sliderHandler1') {
       setValue1(value);

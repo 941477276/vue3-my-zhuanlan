@@ -10,8 +10,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-// 定义vue实例类型
-// type VueIns = InstanceType<typeof Vue>;
 export default defineComponent({
   name: 'BsDropdownItem',
   props: {
@@ -31,7 +29,6 @@ export default defineComponent({
   emits: ['click'],
   methods: {
     onDropdownItemClick (evt: MouseEvent) {
-      // console.log('this', this.$parent);
       // 寻找距离当前组件最近的<bs-dropdown>组件，找到后调用它的hide方法
       let findParentWhichIsBsDropdown = function (compentIns: any): any {
         if (compentIns.$options.name === 'BsDropdown') {

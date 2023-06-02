@@ -23,7 +23,6 @@ export default defineComponent({
       ctx.emit('update:modelValue', props.modelValue.length === 0 ? [] : props.modelValue.split(','));
     }
     let changeVal = function (val: string|number|boolean) {
-      // console.log('input group值改变了');
       ctx.emit('update:modelValue', val);
       ctx.emit('change', val);
     };

@@ -62,7 +62,7 @@ export default defineComponent({
 
     let menus = computed(function () {
       let currentLang = langCode.value;
-      console.log('当前路由：', route, isSiteDoc.value);
+      // console.log('当前路由：', route, isSiteDoc.value);
       if (isSiteDoc.value) {
         let routes = router.getRoutes();
         let siteDocRoutes = routes.filter(routeItem => routeItem.path.indexOf('/doc/') > -1);
@@ -75,7 +75,7 @@ export default defineComponent({
             componentName: routeItem.name
           };
         });
-        console.log('routes', routes);
+        // console.log('routes', routes);
         return siteDocMenus;
       }
       return currentLang == 'cn' ? menuZhCN : menuEnUS;
@@ -83,11 +83,11 @@ export default defineComponent({
 
     let activeMenu = computed({
       get () {
-        console.log('route.currentRoute', route);
+        // console.log('route.currentRoute', route);
         return [route.name];
       },
       set (newActiveMenu) {
-        console.log('set newActiveMenu', newActiveMenu);
+        // console.log('set newActiveMenu', newActiveMenu);
       }
     });
     let showScroll = ref(true);

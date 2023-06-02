@@ -112,7 +112,6 @@ const message:MessageFn & Partial<Message> & {_context: AppContext|null} = funct
 
   // 绑定 destroy 事件
   vm.props!.onDestroy = function () {
-    // console.log('销毁dom元素！');
     // 销毁dom元素
     render(null, container);
     let timer = setTimeout(function () {
@@ -135,7 +134,6 @@ const message:MessageFn & Partial<Message> & {_context: AppContext|null} = funct
     vm
   });
 
-  // console.log(vm);
   return id;
 };
 
@@ -194,12 +192,10 @@ export function closeMessage (id: string, userOnClose?: (vm: VNode) => void): vo
   } finally {
     let deletedItemHeight = deletedItem.vm.el?.offsetHeight + offsetTopBase;
     // 设置被移除的message后面的message的位置
-    // console.log('index', index, deletedItemHeight);
     for (let i = index, len = bsMessageInstanceQueue.length; i < len; i++) {
       let item: MessageQueueItem = bsMessageInstanceQueue[i];
       // 后面的message位置改变后重启启动定时器，否则会出现后面的message位置还未改变完就消失的问题
       (deletedItem.vm.component?.proxy as any).startTimer();
-      // console.log(111, item, (item.vm.component?.props as any), deletedItemHeight);
       (item.vm.component?.props as any).offsetTop = (item.vm.component?.props as any).offsetTop - deletedItemHeight;
     }
   }

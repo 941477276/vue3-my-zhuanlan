@@ -71,7 +71,6 @@ export default defineComponent({
 
     // 点击事件
     let handleClick = function (evt: MouseEvent) {
-      console.log('菜单点击了');
       if (props.disabled) {
         return;
       }

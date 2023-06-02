@@ -180,7 +180,6 @@ export const dayjsUtil = {
       return null;
     }
     let quarterNumber = Number(quarterNumberMatch[0]);
-    console.log('quarterNumber', quarterNumber);
     if (quarterNumber < 1) {
       quarterNumber = 1;
     }
@@ -211,7 +210,6 @@ export const dayjsUtil = {
       return null;
     }
     let weekNumber = Number(weekNumberMatch[0]);
-    // console.log('weekNumber', weekNumber, year, date.locale(getLocale(lang)).week(weekNumber));
     // 本来return date.locale(getLocale(lang)).week(weekNumber)就可以了，但不知道为什么这条语句会导致年份减1
     return date.locale(getLocale(lang)).week(weekNumber).year(year);
   },
@@ -236,7 +234,6 @@ export const dayjsUtil = {
      * @param lang
      */
     weekdaysMin (lang?: string): string[] {
-      // console.log('wekkdaysMin', dayjs().locale(getLocale(lang)).locale(), getLocale(lang), lang);
       return dayjs().locale(getLocale(lang)).localeData().weekdaysMin();
     },
     /**

@@ -100,10 +100,8 @@ export default defineComponent({
         if (targetScrollTop == 0) {
           visible.value = false;
         }
-        console.log('最近更新时间少于35毫秒');
         return;
       }
-      console.log('onScroll');
       if (!triggerEl || !target || isScrolling) {
         return;
       }
@@ -113,17 +111,14 @@ export default defineComponent({
       // @ts-ignore
       let targetHeight = target === window ? document.documentElement.offsetHeight : (target as HTMLElement).clientHeight;
       visibleHeight = parseNumber(visibleHeight, targetHeight);
-      // console.log('new visibleHeight', visibleHeight);
       let flag = targetScrollTop >= visibleHeight;
       visible.value = flag;
     };
 
     // 添加事件
     let addEvent = function (newTarget: Element|Window|null, isUpdate = false) {
-      console.log(`${isUpdate ? '更新' : '新增'}事件监听`);
       let currentTargetVal = currentTarget.value;
       if (isUpdate) {
-        console.log('更新Target，移除旧Target的事件');
         if (currentTargetVal === window) {
           useGlobalEvent.removeEvent('window', 'scroll', onScroll);
         } else {
@@ -133,7 +128,6 @@ export default defineComponent({
       currentTarget.value = newTarget;
       currentTargetVal = newTarget;
       if (currentTargetVal === window) {
-        console.log('新增事件，window');
         useGlobalEvent.addEvent('window', 'scroll', onScroll);
       } else {
         currentTargetVal?.addEventListener('scroll', onScroll, false);
@@ -141,7 +135,6 @@ export default defineComponent({
     };
     // 移除事件
     let removeEvent = function () {
-      console.log('移除事件监听');
       let currentTargetVal = currentTarget.value;
       if (currentTargetVal === window) {
         useGlobalEvent.removeEvent('window', 'scroll', onScroll);
@@ -163,7 +156,6 @@ export default defineComponent({
         targetTemp = propsTarget as Element;
       }
       if (!targetTemp && !currentTargetVal) {
-        console.log('没有target');
         return;
       }
       if (!targetTemp && currentTargetVal) {
@@ -215,7 +207,6 @@ export default defineComponent({
       right = parseNumber(right, clientLeft);
       right += targetScrollLeft;
 
-      console.log('top, right', top, right);
       triggerElStyle.top = top;
       triggerElStyle.right = right;
     };
@@ -234,14 +225,12 @@ export default defineComponent({
     });
 
     let doBackTop = function () {
-      console.log('返回顶部');
       let target = currentTarget.value as HTMLElement;
       if (!target || isScrolling) {
         return;
       }
       isScrolling = true;
       scrollTo(target, 'y', 0, props.duration || 150, function () {
-        // console.log('滚动至顶完毕');
         isScrolling = false;
         visible.value = false;
         ctx.emit('complete');

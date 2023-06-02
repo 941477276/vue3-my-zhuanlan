@@ -60,7 +60,6 @@ export default defineComponent({
       });
       menuList.push({ id: 'API_h2', title: 'API' });
       anchorMenuList.value = menuList;
-      console.log('anchorMenuList', menuList);
     };
 
     let componentDocRef = ref();
@@ -75,7 +74,7 @@ export default defineComponent({
       // 动态加载文档内容
       import(/* webpackChunkName: "apiDoc-[request]" */ `../apiDocs/${props.componentName}/${docFileName}.json`)
         .then(res => {
-          console.log('apiDoc', res.default);
+          // console.log('apiDoc', res.default);
           apiDoc.value = res.default;
         });
       nextTick(function () {

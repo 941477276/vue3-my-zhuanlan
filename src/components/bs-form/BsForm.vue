@@ -39,7 +39,6 @@ export default defineComponent({
       clearTimeout(calcFormItemRequiredTimer);
       calcFormItemRequiredTimer = setTimeout(function () {
         hasFormItemRequired.value = formItemCtxs.value.some(function (formItemCtx) {
-          // console.log('formItemCtx', formItemCtx.isRequired);
           return formItemCtx.isRequired;
         });
       }, 60);
@@ -53,7 +52,6 @@ export default defineComponent({
         formItemCtxs.value.push(formItem);
         calcFormItemRequired();
       }
-      // console.log('formItemCtxs', formItemCtxs.value);
     };
     /**
      * 移除form-item组件实例
@@ -83,7 +81,6 @@ export default defineComponent({
         });
       }
       let formItemsCtxArr = formItemCtxs.value;
-      console.log('<bs-form>validate函数，formItemsCtxArr：', formItemsCtxArr);
       let trueFlag = true;
       if (formItemsCtxArr.length === 0) {
         /* eslint-disable */
@@ -95,7 +92,6 @@ export default defineComponent({
         // 调用<bs-form-item>子组件的validate方法获取校验结果
         /* eslint-disable */
         formItemCtx.validate?.('', (errorMsg: string|undefined) => {
-          // console.log('11111111', errorMsg)
           if (errorMsg) {
             validateResult = false;
           }

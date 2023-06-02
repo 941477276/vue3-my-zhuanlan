@@ -138,14 +138,12 @@ export default defineComponent({
       let target = evt.target as HTMLElement;
 
       let tdEl = target.nodeName === 'TD' ? target : parents(target, 'bs-picker-cell');
-      // console.log('target', target, tdEl);
       if (!tdEl) {
         return;
       }
       let rowIndex = (tdEl.dataset.rowIndex as any) * 1;
       let cellIndex = (tdEl.dataset.cellIndex as any) * 1;
       let cellData = findCellData(props.bodyCells, rowIndex, cellIndex);
-      // console.log('cell-data', cellData, rowIndex, cellData);
       if (cellData.disabled) {
         return;
       }

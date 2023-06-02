@@ -47,7 +47,6 @@ export default defineComponent({
         return props.pageSize;
       },
       set (newVal: number) {
-        // console.log('设置每页显示条数：', newVal);
         if (newVal != props.pageSize && (newVal + '').length > 0) {
           ctx.emit('change', newVal);
         }

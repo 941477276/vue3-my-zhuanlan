@@ -76,7 +76,6 @@ export function useCascaderMenu (options: any) {
         menuItemValue: '',
         menuOptions: menuChildren
       };
-      console.log('111111', index, menuOption, cascaderMenuId);
       if (index > -1) {
         let removeCount = expandedMenuList.length - index;
         expandedMenuList[index].menuItemValue = menuItemValue;
@@ -88,7 +87,6 @@ export function useCascaderMenu (options: any) {
       }
       let cascaderMenusEl = cascaderMenusRef.value;
       if (cascaderMenusEl) {
-        console.log('滚动滚动条');
         nextTick(function () {
           // @ts-ignore
           scrollTo(cascaderMenusEl, 'x', cascaderMenusEl?.scrollWidth || 0, 200);
@@ -160,7 +158,6 @@ export function useCascaderMenu (options: any) {
         return nodeInfo.node;
       }) as CascaderOptionItem[];
       optionParents.reverse();
-      console.log('optionParents', optionParents);
       return optionParents;
     };
     let optionParents = findOptionParents();
@@ -169,7 +166,6 @@ export function useCascaderMenu (options: any) {
       checkedOptions.value = {
         [value]: optionParents
       };
-      console.log('values', optionParents);
     } else {
       addMultipleOptionsChecked(optionItem, !needUpdateModelValue);
     }
@@ -199,7 +195,6 @@ export function useCascaderMenu (options: any) {
     if (!props.multiple) {
       checkedOptions.value = {};
     } else {
-      console.log('移除选中项，很麻烦');
       removeMultipleOptionsChecked(optionItem);
     }
     if (needUpdateModelValue) {
@@ -209,12 +204,10 @@ export function useCascaderMenu (options: any) {
   };
 
   let handleMenuItemOpen = function (menu: CascaderOptionItem, cascaderMenuId: string, nexMenuCount: number) {
-    console.log('菜单项点击了：', menu, cascaderMenuId, nexMenuCount);
     pushMenuToExpanded(menu, cascaderMenuId, nexMenuCount);
   };
 
   let handleMenuItemChecked = function (optionItem: CascaderOptionItem, cascaderMenuId: string, isAdd: boolean | undefined) {
-    console.log('菜单选中了', optionItem, cascaderMenuId);
     if (typeof isAdd === 'undefined' || !!isAdd) {
       addOptionChecked(optionItem);
     } else {
@@ -227,7 +220,6 @@ export function useCascaderMenu (options: any) {
     let {
       multiple
     } = props;
-    console.log('watch props.modelValue', localModelValue, modelValue);
 
     if (isString(modelValue)) {
       let optionValues = modelValue.split(',');
@@ -236,7 +228,6 @@ export function useCascaderMenu (options: any) {
       }
     }
     if ([...localModelValue].sort().join(',') === [...modelValue].sort().join(',') && modelValue.length > 0) {
-      console.log('本地值与父组件值一致，不执行同步');
       return;
     }
     // 延迟60毫秒的原因是防止扁平化树时太慢而导致查找option不正确
@@ -271,7 +262,6 @@ export function useCascaderMenu (options: any) {
             option = currentOption.node;
           }
         }
-        console.log('新的选中项', option);
         addOptionChecked(option, false);
       });
     }, 60);

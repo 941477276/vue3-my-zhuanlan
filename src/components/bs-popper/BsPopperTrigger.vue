@@ -50,7 +50,6 @@ export default defineComponent({
       stopWatch = watch(() => props.virtualRef, function (el: HTMLElement|string|(() => HTMLElement)) {
         if (el && triggerRef) {
           let type = typeof el;
-          console.log('type', type);
           if (type === 'string') {
             // 如果传递的是一个字符串（css选择器），则需在dom更新后再去获取dom，这里使用nextTick函数是一样的
             setTimeout(function () {
@@ -73,11 +72,9 @@ export default defineComponent({
           eventsName.forEach(eventName => {
             let eventFn = props[eventName];
             eventName = eventName.slice(2).toLowerCase();
-            console.log('绑定事件');
             if (!eventFn) {
               return;
             }
-            // console.log('绑定事件', eventFn);
             triggerEl.addEventListener(eventName, eventFn, false);
             // 移除之前触发popper元素的事件
             if (prevTriggerEl && prevTriggerEl.nodeType == 1) {

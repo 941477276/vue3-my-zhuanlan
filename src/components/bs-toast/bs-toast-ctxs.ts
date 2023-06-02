@@ -17,13 +17,11 @@ export function addToastCtx (toastId: string, toastCtx: ToastCtx) {
     console.warn(`The later toast with the same ID will overwrite the previous one!(ID: ${toastId})`);
   }
   toastCtxs[toastId] = toastCtx;
-  // console.log('addToastCtx', toastCtxs);
 };
 
 // 移除toast上下文
 export function removeToastCtx (toastId: string) {
   delete toastCtxs[toastId];
-  // console.log('removeToastCtx', toastCtxs);
 };
 
 // 获取toast上下文

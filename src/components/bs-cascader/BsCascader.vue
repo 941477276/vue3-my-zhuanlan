@@ -177,10 +177,7 @@ export default defineComponent({
     watch(() => props.options, function (newOptions: CascaderOptionItem[]) {
       let { children: childrenKey, value: valueKey, disabled: disabledKey } = fieldNameProps.value;
       let flatternArr = treeDataToFlattarnArr2(cascaderId.value, newOptions as BsNodeInfo[], childrenKey, disabledKey, 1, '', []);
-      console.log('扁平化的options', flatternArr);
-      /* console.log('扁平化的options值', flatternArr.map((item: any) => {
-        return item.node.value;
-      })); */
+
       flatternOptions.value = flatternArr;
       if (!expandedMenus.value[0]) {
         expandedMenus.value[0] = {
@@ -226,7 +223,6 @@ export default defineComponent({
     // 点击外部隐藏下拉
     let isClickOutside = useClickOutside([bsCascaderRef, bsCascaderDropdownRef]);
     watch(isClickOutside, (newVal: boolean) => {
-      // console.log('isClickOutside', isClickOutside.value);
       if (newVal) {
         dropdownHide();
       }
@@ -251,7 +247,6 @@ export default defineComponent({
     let filterText = ref('');
     // 搜索文本change事件
     let onFilterTextChange = function (searchText: string) {
-      console.log('搜索文本：', searchText);
       filterText.value = searchText;
     };
     // 默认的搜索函数
@@ -283,7 +278,6 @@ export default defineComponent({
     let { callFormItem } = useDeliverContextToFormItem(props, {
       id: cascaderId.value,
       setValidateStatus: (status: BsValidateStatus) => {
-        // console.log('调select组件的setValidateStatus方法l');
         (bsCascaderInputRef.value as any)?.setValidateStatus(status);
       }
     });
@@ -309,7 +303,6 @@ export default defineComponent({
 
     // 标签关闭事件
     let onTagClose = function (option: CascaderOptionItem) {
-      console.log('标签关闭事件', option);
       removeCheckedOption(option);
     };
 

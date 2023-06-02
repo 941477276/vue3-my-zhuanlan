@@ -6,8 +6,7 @@
       :size="size"
       v-model="page"
       @blur="changeCurrentPage"
-      @keyup.enter.stop="changeCurrentPage"
-      @change="onInputChange"></bs-input>
+      @keyup.enter.stop="changeCurrentPage"></bs-input>
     页
   </div>
 </template>
@@ -77,13 +76,10 @@ export default defineComponent({
         ctx.emit('change', pageNum);
       }
     };
-    let onInputChange = function () {
-      console.log('input change');
-    };
+
     return {
       page,
-      changeCurrentPage,
-      onInputChange
+      changeCurrentPage
     };
   }
 });

@@ -155,7 +155,6 @@ export default defineComponent({
       if (typeof formatter === 'function') {
         return formatter(props.modelValue);
       }
-      // console.log('newValue', props.modelValue);
       return props.modelValue;
     });
 

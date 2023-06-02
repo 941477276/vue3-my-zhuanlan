@@ -8,7 +8,6 @@ import { BigNumber } from 'bignumber.js';
 // 转换数据
 let processValue = function (value: string|number, actionType: number, step: number, min: number, max: number, precision: number) {
   let preciseVal = new BigNumber(value || 0);
-  // console.log('preciseVal', preciseVal, value || 0);
 
   if (actionType == 1) { // 加
     preciseVal = preciseVal.plus(step || 1);
@@ -60,7 +59,6 @@ export function useInputNumberMethods (props: any, ctx: any, callFormItem: any, 
       if (typeof props.formatter === 'function') {
         inputViewVal = props.formatter(val);
       }
-      // console.log('targetVal', targetVal, val);
       if (targetVal !== (inputViewVal + '')) {
         inputEl.value = (inputViewVal + '');
       }
@@ -85,7 +83,6 @@ export function useInputNumberMethods (props: any, ctx: any, callFormItem: any, 
       callFormItem('validate', 'input');
       return;
     }
-    // console.log('on_blur', targetVal);
     if (targetVal.length == 0 && typeof min !== 'number') {
       ctx.emit('update:modelValue', '');
       ctx.emit('input', evt, '');
@@ -93,7 +90,6 @@ export function useInputNumberMethods (props: any, ctx: any, callFormItem: any, 
       callFormItem('validate', 'input');
       return;
     }
-    // console.log(22);
     if (isFunction(props.formatter) && !isFunction(parser)) {
       console.warn('formatter应与parser配合使用！');
     }
@@ -109,7 +105,6 @@ export function useInputNumberMethods (props: any, ctx: any, callFormItem: any, 
       isInvalidValue = true;
       return;
     }
-    // console.log('val', val);
     ctx.emit('update:modelValue', val);
     ctx.emit('input', evt, val);
     ctx.emit('change', val);

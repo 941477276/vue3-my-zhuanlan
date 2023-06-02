@@ -186,7 +186,6 @@ export default defineComponent({
     };
     watch(() => [...props.values], function () {
       if (props.multiple) {
-        // console.log('do calcInputTagsHeight');
         // 这里使用 nextTick 无效，会导致高度计算不准确
         setTimeout(function () {
           calcInputTagsHeight();
@@ -206,7 +205,6 @@ export default defineComponent({
     });
     // tag 关闭事件
     let onTagClose = function (tag: ValueItem) {
-      // console.log('tag关闭了：', tag);
       ctx.emit('tag-close', tag);
     };
 
@@ -265,7 +263,6 @@ export default defineComponent({
       if (props.disabled) {
         return;
       }
-      // console.log('focus dsdssss');
       isFocus.value = true;
       if (props.multiple) {
         searchInputFocus();
@@ -275,7 +272,6 @@ export default defineComponent({
     };
 
     let selectCtx = inject(selectContextKey);
-    // console.log('parentCtx', selectCtx);
     provide('parentCtx', { ctx: selectCtx?.ctx || ctx });
 
     let resizeTimer = 0;

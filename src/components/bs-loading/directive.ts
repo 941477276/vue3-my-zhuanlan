@@ -37,13 +37,11 @@ function resolveOptions (binding: any) {
 
 export const bsLoadingDirective = {
   mounted (el: HTMLElement, binding: any) {
-    console.log('bs-loading directive:mounted', binding);
     let { options, isLoading } = resolveOptions(binding);
 
     if (!options.fullscreen && !options.target) {
       options.target = el;
     }
-    console.log('options', options);
     let loadingIns = BsLoading(options);
     // 如果不是插入到全局，则将loading实例挂到dom元素中
     if (!options.fullscreen) {
@@ -61,7 +59,6 @@ export const bsLoadingDirective = {
   },
   // 及他自己的所有子节点都更新后调用
   updated (el: HTMLElement, binding: any) {
-    console.log('bs-loading directive:updated');
     let { options, isLoading } = resolveOptions(binding);
     if (options.fullscreen) {
       BsLoading(options).updateProps({
@@ -81,7 +78,6 @@ export const bsLoadingDirective = {
   },
   // 绑定元素的父组件卸载前调用
   beforeUnmount (el: HTMLElement, binding: any) {
-    console.log('bs-loading directive:beforeUnmount');
     let { options } = resolveOptions(binding);
     if (options.fullscreen) {
       BsLoading(options).hide();

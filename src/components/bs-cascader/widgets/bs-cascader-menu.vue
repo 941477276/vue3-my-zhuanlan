@@ -160,7 +160,6 @@ export default defineComponent({
       if (!lazy) {
         return hasChildren;
       }
-      // console.log('getChevronVisible', loadingStatus, (loadingStatus == 'success' && !hasChildren), isLeaf, optionItem);
       if (isLeaf === true || loadingStatus == 'loading' || (loadingStatus == 'success' && !hasChildren)) {
         return false;
       }
@@ -250,7 +249,6 @@ export default defineComponent({
     });
     // 多选框值改变事件
     let handleCheckboxChange = function (optionItem: CascaderOptionItem, evt: InputEvent) {
-      console.log('多选框值改变事件', optionItem, (evt.target as HTMLInputElement).checked);
       let isChecked = (evt.target as HTMLInputElement).checked;
       isChecked ? setChecked(optionItem) : removeChecked(optionItem);
     };
@@ -267,22 +265,18 @@ export default defineComponent({
       let children = optionItem[childrenKey];
       let hasChildren = Array.isArray(children) && children.length > 0;
       let loadingStatus = loadingMap[value];
-      console.log('loadingStatus', loadingStatus);
       // 懒加载节点数据
       if (props.lazy && (!loadingStatus || loadingStatus == 'fail')) { // 正在加载中或已加载完成不允许再次加载
         let lazyLoadFn = props.lazyLoadFn;
         lazyLoadFn = !isFunction(lazyLoadFn) ? function (optionData: any, setLoadStatus: any) {
           setLoadStatus();
         } : lazyLoadFn;
-        console.log('lazy 222');
         // 没有子节点或者非叶子节点才进行懒加载数据
         if (!hasChildren && optionItem[leafKey] !== true) {
           loadingMap[value] = 'loading';
-          console.log('lazy 333');
           lazyLoadFn(optionItem, function (loadSuccess: boolean) {
             let isLoadSuccess = typeof loadSuccess === 'undefined' ? true : !!loadSuccess;
             loadingMap[value] = isLoadSuccess ? 'success' : 'fail';
-            console.log('lazy 444');
             let newChildren = optionItem[childrenKey];
             if (Array.isArray(newChildren) && newChildren.length > 0) {
               // 防止因使用者先调用这个函数展开子节点，而节点还未设置children导致节点展开后未能高亮问题
@@ -305,7 +299,6 @@ export default defineComponent({
         disabled: disabledKey
       } = props.fieldNames;
       let target = evt.target as HTMLElement;
-      console.log('handlerItemClick');
       // 防止点击复选框、单选框后造成重复点击！
       if (target.nodeName === 'INPUT' && hasClass(target, 'form-check-input')) {
         return;

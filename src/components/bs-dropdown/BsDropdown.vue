@@ -131,7 +131,6 @@ export default defineComponent({
 
         if (!loaded.value) {
           loaded.value = true;
-          // console.log('loaded.value为false');
           nextTick(function () {
             // willVisible必须比visible先行，以能确保dropdown-transition组件正确的计算过渡动画名称
             willVisible.value = true;
@@ -209,7 +208,6 @@ export default defineComponent({
     // TODO 待完善
     let onKeydown = function (evt: KeyboardEvent) {
       let keyCode = evt.keyCode;
-      console.log('keyCode', keyCode);
       if (!arrowKeycodes.includes(keyCode)) {
         return;
       }
@@ -221,7 +219,6 @@ export default defineComponent({
         return domItem.nodeType == 1 && hasClass(domItem as HTMLElement, 'dropdown-item');
       });
       let maxIndex = menuItems.length - 1;
-      console.log('menuItems', menuItems);
       if (keyCode == 40 || keyCode == 38) {
         let hoveredMenuIndex = menuItems.findIndex(function (domItem) {
           return hasClass(domItem as HTMLElement, 'dropdown-item-hover');
@@ -287,7 +284,6 @@ export default defineComponent({
       }
     };
     watch([() => props.trigger, triggerRef], ([trigger, triggerEl], [oldTrigger]) => {
-      // console.log('[dropdown] watch trigger:', trigger, oldTrigger, triggerEl);
       if (!triggerEl) {
         return;
       }
@@ -298,14 +294,12 @@ export default defineComponent({
       }
       // @ts-ignore
       if (triggerEl._bs_dropdown_eventBinded) {
-        // console.log('先移除事件');
         // 先移除事件
         triggerEl.removeEventListener('mouseenter', onMouseEnter, false);
         triggerEl.removeEventListener('mouseleave', onMouseEnter, false);
         triggerEl.removeEventListener('contextmenu', onMouseEnter, false);
         triggerEl.removeEventListener('click', onMouseEnter, false);
       }
-      // console.log('绑定事件');
       // 再绑定事件
       switch (trigger) {
         case 'hover':

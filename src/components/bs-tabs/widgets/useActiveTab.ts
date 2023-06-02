@@ -24,7 +24,6 @@ export function useActiveTab (props: any, ctx: any, tabsNavRef: Ref<HTMLElement|
   // 激活的tab
   let activeTabId = ref('');
   let onNavItemClick = function (tab: { id: string; name: string; }) {
-    console.log('onNavItemClick', tab);
     activeTabId.value = tab.id;
     ctx.emit('click', tab);
   };

@@ -196,7 +196,6 @@ export default defineComponent({
     // 根元素点击事件
     let onRootElClick = function (evt: MouseEvent) {
       let target = evt.target;
-      // console.log('target', target);
       if (!props.maskClosable || target !== rootRef.value) {
         return;
       }
