@@ -296,10 +296,146 @@ async function buildLib (format = 'es') {
   doTsc(globby, targetFileParentDir);
 };
 
-buildLib();
+// buildLib();
 // buildLib('cjs');
 
-/*
+/**
+ * 构建浏览器可直接访问的js库
+ * @param format 构建的js库格式，支持iife、umd
+ * @returns {Promise<void>}
+ */
+async function buildDistLib (format) {
+  const outDir = path.resolve(__dirname, '../dist');
+  if (!format || (format && (format != 'iife' && format != 'umd'))) {
+    format = 'umd';
+  }
+  await build(defineConfig({
+    configFile: false,
+    publicDir: false,
+    plugins: [vue(), vueJsx()],
+    // logLevel: 'warn',
+    build: {
+      target: 'es2015',
+      sourcemap: true,
+      rollupOptions: {
+        // 确保外部化处理那些你不想打包进库的依赖
+        // external: ['vue', 'dayjs', 'vue3-bootstrap-icon', 'bignumber.js', 'async-validator', '@popperjs/core'],
+        external: ['vue'],
+        output: {
+          globals: {
+            vue: 'Vue' // 在 umd / iife 模式 中，将vue作为外部依赖
+          }
+          // exports: 'default' // 使用默认导出
+        },
+        plugins: [
+          {
+            writeBundle (options) { // 文件写入磁盘后的回调函数
+              // 重命名js文件
+              fs.renameSync(path.resolve(outDir, 'bs-vue.umd.js'), path.resolve(outDir, 'bs-vue.js'));
+              fs.renameSync(path.resolve(outDir, 'bs-vue.umd.js.map'), path.resolve(outDir, 'bs-vue.js.map'));
+            }
+          }
+        ]
+      },
+      emptyOutDir: false,
+      lib: {
+        entry: path.resolve(__dirname, '../src/components/dist.ts'),
+        name: 'BsVue',
+        fileName: 'bs-vue',
+        formats: [format]
+      },
+      outDir
+    },
+    define: {
+      'process.env': {}
+    },
+    css: {
+      postcss: {
+        plugins: [
+          require('autoprefixer')({
+            overrideBrowserslist: [
+              'Android 4.1',
+              'iOS 7.1',
+              'ie >= 10',
+              '> 0.3%'
+            ],
+            grid: true
+          })
+        ]
+      }
+    },
+    esbuild: {
+      drop: ['console', 'debugger'] // 移除代码中的console
+    }
+  }));
+
+  /**
+   * 构建css完成后的插件
+   * @param fileName 文件名称
+   * @returns {{writeBundle(*): void}}
+   */
+  let onGenerateCssEnd = function (fileName) {
+    return {
+      writeBundle (options) { // 文件写入磁盘后的回调函数
+        let jsFilePath = path.resolve(outDir, `./${fileName}.mjs`);
+        // 删除构建css后余留的js文件
+        utils.deleteFile(jsFilePath);
+        // 重命名style.css为bs-vue.css
+        fs.renameSync(path.resolve(outDir, 'style.css'), path.resolve(outDir, `${fileName}.css`));
+      }
+    };
+  };
+
+  /**
+   * 构建dist css
+   * @param entry 入口文件
+   * @param fileName css文件名称
+   * @returns {Promise<void>}
+   */
+  let buildDistCss = async function (entry, fileName) {
+    await build(defineConfig({
+      configFile: false,
+      publicDir: false,
+      plugins: [vue(), vueJsx()],
+      logLevel: 'warn',
+      build: {
+        target: 'es2015',
+        rollupOptions: {
+          plugins: [onGenerateCssEnd(fileName)]
+        },
+        emptyOutDir: false,
+        lib: {
+          entry: entry,
+          name: fileName,
+          fileName: fileName,
+          formats: ['es']
+        },
+        outDir
+      },
+      css: {
+        postcss: {
+          plugins: [
+            require('autoprefixer')({
+              overrideBrowserslist: [
+                'Android 4.1',
+                'iOS 7.1',
+                'ie >= 10',
+                '> 0.3%'
+              ],
+              grid: true
+            })
+          ]
+        }
+      }
+    }));
+  };
+
+  await buildDistCss(path.resolve(__dirname, '../src/components/dist-style.ts'), 'bs-vue');
+  await buildDistCss(path.resolve(__dirname, '../src/styles/bootstrap-other.scss'), 'bootstrap-other');
+}
+
+// buildDistLib();
+
 ;(async function (){
   let args = process.argv.slice(2);
   let formatParamNameIndex = args.findIndex(paramName => paramName === '--format');
@@ -309,11 +445,15 @@ buildLib();
   }
   if (format) {
     console.log(`【构建 ${format} 格式组件】`);
-    await buildLib(format);
+    if (format != 'iife' && format != 'umd') {
+      await buildLib(format);
+    } else {
+      await buildDistLib(format);
+    }
   } else {
     console.log('【构建所有格式组件】');
     await buildLib('es');
     await buildLib('cjs');
+    await buildDistLib();
   }
 })();
-*/
