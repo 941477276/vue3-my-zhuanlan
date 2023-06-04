@@ -126,6 +126,14 @@ export function isObject (val: any): boolean {
 }
 
 /**
+ * 判断传入的参数是否为数字
+ * @param val
+ */
+export function isNumber (val: any): boolean {
+  return val && !isNaN(Number(val));
+}
+
+/**
  * 获取两个数之间的随机值
  * @param min 最小值
  * @param max 最大值

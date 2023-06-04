@@ -112,9 +112,9 @@
     <!--<div class="box">
       <BsTimePickerUsage></BsTimePickerUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsDatePickerUsage></BsDatePickerUsage>
-    </div>
+    </div>-->
     <!--<div class="box">
       <BsBackTopUsage></BsBackTopUsage>
     </div>-->
@@ -134,6 +134,9 @@
       <BsMenuUsage></BsMenuUsage>
     </div>-->
     <!--<BsCollapseTransitionUsage></BsCollapseTransitionUsage>-->
+    <div class="box">
+      <BsTableUsage></BsTableUsage>
+    </div>
   </bs-config-provider>
 </template>
 
@@ -186,6 +189,7 @@ import BsLoadingUsage from '@/components/bs-loading/BsLoadingUsage.vue';
 import BsCascaderUsage from '@/components/bs-cascader/BsCascaderUsage.vue';
 import BsToastUsage from '@/components/bs-toast/BsToastUsage.vue';
 import BsMenuUsage from '@/components/bs-menu/BsMenuUsage.vue';
+import BsTableUsage from '@/components/bs-table/BsTableUsage.vue';
 
 export default defineComponent({
   name: 'App',
@@ -237,7 +241,8 @@ export default defineComponent({
     BsLoadingUsage,
     BsCascaderUsage,
     BsToastUsage,
-    BsMenuUsage
+    BsMenuUsage,
+    BsTableUsage
   },
   setup () {
     return {

@@ -40,5 +40,6 @@ import './bs-loading/style';
 import './bs-cascader/style';
 import './bs-toast/style';
 import './bs-menu/style';
+import './bs-table/style';
 // import './bs-config-provider/style';
 // import './bs-relative-time/style';

@@ -122,6 +122,8 @@ export { default as BsConfigProvider } from './bs-config-provider';
 export type { BsRelativeTimeViewType, BsRelativeTimeProps } from './bs-relative-time/bs-relative-time-types';
 export { default as BsRelativeTime } from './bs-relative-time';
 
+export { default as BsTable } from './bs-table';
+
 export type { BsMessageProps } from './bs-message/bs-message-types';
 export * from './bs-message';
 export type { BsMessageBoxProps, BsMessageBoxType } from './bs-message-box/bs-message-box-types';
