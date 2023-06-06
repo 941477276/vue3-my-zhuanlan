@@ -65,12 +65,12 @@ export default defineComponent({
     });
     // 单元格class
     let cellClasses = computed(function () {
-      let customCellClass = props.column.customCellClass;
-      if (isFunction(customCellClass)) {
-        customCellClass = customCellClass(props.rowData, props.cellIndex, props.column);
+      let cellClassName = props.column.cellClassName;
+      if (isFunction(cellClassName)) {
+        cellClassName = cellClassName(props.rowData, props.cellIndex, props.rowIndex, props.column);
       }
-      if (customCellClass) {
-        return customCellClass;
+      if (cellClassName) {
+        return cellClassName;
       }
       return '';
     });

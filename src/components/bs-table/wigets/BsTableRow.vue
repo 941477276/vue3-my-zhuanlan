@@ -1,5 +1,7 @@
 <template>
-  <tr class="bs-table-row">
+  <tr
+    class="bs-table-row"
+    :class="rowClasses">
     <template v-for="(column, columnIndex) in realColumns">
       <BsTableCell
         v-if="getCellShouldRender(columnIndex)"
@@ -15,7 +17,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, SetupContext, watch, inject, toRef, onBeforeUnmount, ref, Ref } from 'vue';
+import {
+  defineComponent,
+  PropType,
+  SetupContext,
+  watch,
+  inject,
+  toRef,
+  onBeforeUnmount,
+  ref,
+  Ref,
+  computed
+} from 'vue';
 import BsTableCell from './BsTableCell.vue';
 import { BsTableColumn, bsTableCtxKey, BsTableContext, BsTableRowSpanCellInfo } from '../bs-table-types';
 import { isFunction } from '@vue/shared';
@@ -49,6 +62,9 @@ export default defineComponent({
       default() {
         return {};
       }
+    },
+    rowClassName: { // 自定义数据行class
+      type: [String, Array, Object, Function]
     }
   },
   setup (props: any, ctx: SetupContext) {
@@ -143,6 +159,14 @@ export default defineComponent({
       // console.log('colSpanCells', colSpanCells);
     }, { immediate: true });
 
+    // 行class
+    let rowClasses = computed(function () {
+      let rowClassName = props.rowClassName;
+      if (isFunction(rowClassName)) {
+        rowClassName = rowClassName(props.rowData, props.rowIndex);
+      }
+      return rowClassName || '';
+    });
     onBeforeUnmount(function () {
       // console.log('props.rowIndex', props.rowIndex, {...props.rowData});
       rootTableCtx.removeRowSpanCell({
@@ -154,6 +178,7 @@ export default defineComponent({
 
     return {
       realColumns,
+      rowClasses,
       // rowSpanCells,
       getCellShouldRender (cellIndex: number) { // 判断列是否应该显示
         // 判断当前列是否在当前行的列合并范围内

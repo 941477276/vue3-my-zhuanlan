@@ -12,7 +12,7 @@ export interface BsTableColumn {
   customHeadCellAttrs?: (index: number, column: BsTableColumn) => Record<any, any>; // 自定义头部单元格属性
   customCell?: (data: Record<string, any>, cellIndex: number, rowIndex: number) => Record<any, any>; // 自定义数据单元格内容
   customCellAttrs?: (data: Record<string, any>, cellIndex: number, rowIndex: number, column: BsTableColumn) => Record<any, any>; // 自定义数据单元格属性
-  customCellClass?: string|string[]|((data: Record<string, any>, index: number, column: BsTableColumn) => (string|string[])); // 自定义数据单元格class
+  cellClassName?: string|string[]|((data: Record<string, any>, cellIndex: number, rowIndex: number, column: BsTableColumn) => (string|string[])); // 自定义数据单元格class
 };
 
 // 单元格需要行合并的信息
@@ -54,7 +54,11 @@ export const bsTableProps = {
     type: String as PropType<BsTableSize>
   },
   rowKey: { // 行数据的 Key，用来优化 Table 的渲染，可以是字符串或一个函数
-    type: [String, Function]
+    type: [String, Function],
+    required: true
+  },
+  rowClassName: { // 自定义数据行class
+    type: [String, Array, Object, Function]
   }
 };
 

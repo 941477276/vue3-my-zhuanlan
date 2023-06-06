@@ -34,7 +34,8 @@
           :row-data="row.data"
           :row-index="rowIndex"
           :table-slots="$slots"
-          :columns="columns">
+          :columns="columns"
+          :row-class-name="rowClassName">
           <!--<BsTableCell
             v-for="(column, columnIndex) in columns"
             :row-data="row"
