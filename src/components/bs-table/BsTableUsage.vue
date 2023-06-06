@@ -3,7 +3,7 @@
   <div>
     <h3>基础用法</h3>
     <!--<Basic></Basic>-->
-    <BsTable :columns="columns2" :data="data2" stripe border>
+    <BsTable :columns="columns2" :data="data2" stripe border data-row-key="key">
       <!--<template #homeTh="column">
         Home
         <br>
@@ -90,6 +90,16 @@ export default defineComponent({
               }
             };
           }
+          /* if (rowIndex === 3) {
+            return {
+              rowSpan: 2,
+              // colSpan: 2,
+              style: {
+                verticalAlign: 'middle',
+                textAlign: 'center'
+              }
+            };
+          } */
           /* if (rowIndex === 2) {
             return { rowSpan: 2, colSpan: 2 };
           } */
@@ -123,7 +133,7 @@ export default defineComponent({
       }
     ];
 
-    const data2 = [
+    const data2 = ref([
       {
         key: '1',
         name: 'John Brown',
@@ -164,7 +174,12 @@ export default defineComponent({
         phone: 18900010002,
         address: 'Dublin No. 2 Lake Park',
       },
-    ];
+    ]);
+
+    setTimeout(function () {
+      console.log('移除数据中的第3项');
+      data2.value.splice(1, 1);
+    }, 1500);
     return {
       columns1,
       columns2,

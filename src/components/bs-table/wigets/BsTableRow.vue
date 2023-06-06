@@ -15,9 +15,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, SetupContext, watch, inject } from 'vue';
+import { defineComponent, PropType, SetupContext, watch, inject, toRef, onBeforeUnmount, ref, Ref } from 'vue';
 import BsTableCell from './BsTableCell.vue';
-import { BsTableColumn, bsTableCtxKey, BsTableContext } from '../bs-table-types';
+import { BsTableColumn, bsTableCtxKey, BsTableContext, BsTableRowSpanCellInfo } from '../bs-table-types';
 import { isFunction } from '@vue/shared';
 import { isNumber, isObject } from '../../../utils/bs-util';
 
@@ -54,12 +54,17 @@ export default defineComponent({
   setup (props: any, ctx: SetupContext) {
     let rootTableCtx = inject<BsTableContext>(bsTableCtxKey, {} as BsTableContext);
 
-    let realColumns: (BsTableColumn & Record<string, any>)[] = [];
+    // 有合并行的列
+    // let rowSpanCells = toRef(rootTableCtx, 'rowSpanCells');
+
+    let realColumns: Ref<(BsTableColumn & Record<string, any>)[]> = ref([]);
     // 需要合并的列的信息
     let colSpanCells: ColSpanCellInfo[] = [];
-    watch(() => props.columns, function (columns) {
+    watch([() => props.columns, rootTableCtx.rowSpanCells], function ([columns]) {
       // let skipEndColumnIndex = -1; // 待跳过的单元格结束索引
       let { rowData, rowIndex } = props;
+      let realColumnsInner: (BsTableColumn & Record<string, any>)[] = [];
+      let colSpanCellsInner: ColSpanCellInfo[] = [];
       columns.forEach((column: BsTableColumn, index: number) => {
         let {
           customCellAttrs
@@ -129,16 +134,27 @@ export default defineComponent({
           delete cellAttrs.rowSpan;
         }
 
-        realColumns.push({
+        realColumnsInner.push({
           ...column,
           cellAttrs
         });
       });
+      realColumns.value = realColumnsInner;
       // console.log('colSpanCells', colSpanCells);
     }, { immediate: true });
 
+    onBeforeUnmount(function () {
+      // console.log('props.rowIndex', props.rowIndex, {...props.rowData});
+      rootTableCtx.removeRowSpanCell({
+        rowIndex: props.rowIndex,
+        rowSpan: 0,
+        cellIndex: -1
+      }, true);
+    });
+
     return {
       realColumns,
+      // rowSpanCells,
       getCellShouldRender (cellIndex: number) { // 判断列是否应该显示
         // 判断当前列是否在当前行的列合并范围内
         let inColSpan = colSpanCells.some(colSpanCell => {

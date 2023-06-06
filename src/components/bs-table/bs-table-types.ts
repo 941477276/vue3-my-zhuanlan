@@ -1,4 +1,4 @@
-import { PropType, VNode, InjectionKey } from 'vue';
+import { PropType, VNode, InjectionKey, Ref } from 'vue';
 
 // 表格列属性
 export interface BsTableColumn {
@@ -20,7 +20,7 @@ export interface BsTableRowSpanCellInfo {
   cellIndex: number; // 单元格索引
   rowIndex: number; // 行索引
   rowSpan: number; // 合并行的数量
-  colSpan: number; // 合并列的数量
+  colSpan?: number; // 合并列的数量
 };
 
 export type BsTableSize = 'sm' | '';
@@ -52,12 +52,16 @@ export const bsTableProps = {
   },
   size: { // 表格大小
     type: String as PropType<BsTableSize>
+  },
+  rowKey: { // 行数据的 Key，用来优化 Table 的渲染，可以是字符串或一个函数
+    type: [String, Function]
   }
 };
 
 export interface BsTableContext {
+  dataChangeRandom: Ref<boolean>;
   rowSpanCells: Record<string, BsTableRowSpanCellInfo>;
   addRowSpanCell: (rowSpanCellInfo: BsTableRowSpanCellInfo) => void;
-  removeRowSpanCell: (rowSpanCellInfo: BsTableRowSpanCellInfo) => void;
+  removeRowSpanCell: (rowSpanCellInfo: BsTableRowSpanCellInfo, removeCurrentRowCells?: boolean) => void;
 }
 export const bsTableCtxKey: InjectionKey<BsTableContext> = Symbol('bsTableCtx');
