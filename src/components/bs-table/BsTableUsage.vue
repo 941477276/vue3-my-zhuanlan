@@ -3,16 +3,7 @@
   <div>
     <h3>基础用法</h3>
     <!--<Basic></Basic>-->
-    <BsTable :columns="columns2" :data="data2" stripe border data-row-key="key">
-      <!--<template #homeTh="column">
-        Home
-        <br>
-        home
-      </template>-->
-
-      <template #name="{ row }">
-        <a href="###">{{ row.name }}</a>
-      </template>
+    <BsTable :columns="columns2" :data="data2" stripe border row-key="key">
     </BsTable>
   </div>
 
@@ -29,21 +20,6 @@ export default defineComponent({
     Basic
   },
   setup (props: any) {
-    const columns1 = [
-      {
-        label: 'Name',
-        prop: 'name'
-      },
-      {
-        label: 'Cash Assets',
-        className: 'column-money',
-        prop: 'money'
-      },
-      {
-        label: 'Address',
-        prop: 'address'
-      }
-    ];
 
     const columns2 = [
       {
@@ -55,72 +31,9 @@ export default defineComponent({
         prop: 'age'
       },
       {
-        // label: 'Home phone',
-        label (cellIndex: number) {
-          console.log('cellIndex', cellIndex);
-          return h('strong', {
-            style: {
-              color: '#f60'
-            }
-          }, 'Home');
-        },
-        colSpan: 2,
-        prop: 'tel',
-        headSlotName: 'homeTh',
-        customHeadCellAttrs () {
-          return {
-            style: {
-              fontSize: '1.2em'
-            },
-            'data-prop': 'tel'
-          };
-        },
-        customCellAttrs: (row: any, index: number, rowIndex: number) => {
-          /* if (index === 2 && (rowIndex == 2 || rowIndex == 3)) {
-            return { colSpan: 2 };
-          } */
-          // These two are merged into above cell
-          if (rowIndex === 1) {
-            return {
-              rowSpan: 3,
-              colSpan: 2,
-              style: {
-                verticalAlign: 'middle',
-                textAlign: 'center'
-              }
-            };
-          }
-          /* if (rowIndex === 3) {
-            return {
-              rowSpan: 2,
-              // colSpan: 2,
-              style: {
-                verticalAlign: 'middle',
-                textAlign: 'center'
-              }
-            };
-          } */
-          /* if (rowIndex === 2) {
-            return { rowSpan: 2, colSpan: 2 };
-          } */
-          /* if (index === 3) {
-            return { rowSpan: 0 };
-          }
-          if (index === 4) {
-            return { colSpan: 0 };
-          } */
-        },
-        customCell: (row: any, cellIndex: number, rowIndex: number) => {
-          if (rowIndex == 2 || rowIndex == 3) {
-            return h('div', {
-              style: {
-                color: '#007bff',
-                textAlign: 'center'
-              }
-            }, [row.tel]);
-          }
-          return row.tel;
-        }
+        label: 'Home phone',
+        // colSpan: 2,
+        prop: 'tel'
       },
       {
         label: 'Phone',
@@ -176,12 +89,7 @@ export default defineComponent({
       },
     ]);
 
-    setTimeout(function () {
-      console.log('移除数据中的第3项');
-      data2.value.splice(1, 1);
-    }, 1500);
     return {
-      columns1,
       columns2,
       data2
     };

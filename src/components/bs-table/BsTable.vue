@@ -16,14 +16,6 @@
         'table-borderless': borderless,
         'table-sm': size == 'sm'
       }">
-      <!--<thead class="bs-table-head">
-      <tr>
-        <th>#</th>
-        <th>First</th>
-        <th>Last</th>
-        <th>Handle</th>
-      </tr>
-      </thead>-->
       <BsTableHeader
         :columns="columns"
         :table-slots="$slots"></BsTableHeader>
