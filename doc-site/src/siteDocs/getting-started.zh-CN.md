@@ -80,6 +80,18 @@ app.config.globalProperties.$message = BsMessage;
 </script>
 ```
 
+## 浏览器引入
+
+在浏览器中使用`script`和`link`标签直接引入文件，并使用全局变量`BsVue`
+
+在 npm 发布包内的 `bd-vue/dist` 目录下有 `bs-vue.js`、`bs-vue.css`、`bootstrap-other.css`文件，你可以手动的引入它们
+```html
+<link rel="stylesheet" href="bs-vue.css">
+<!--导入除bootstrap组件样式外的其他样式（如果您需要的话），如栅格系统、导航栏、卡片、布局等-->
+<link rel="stylesheet" href="bootstrap-other.css">
+<script src="bs-vue.js"></script>
+```
+
 ## 按需加载
 ### 手动按需导入
 如果您未使用任何按需加载插件，您可以通过手动导入的方式来按需加载组件：
