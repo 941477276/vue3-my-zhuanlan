@@ -51,7 +51,7 @@ const routes: RouteRecordRaw[] = [
             return import('../siteDocs/introduce.zh-CN.md');
           }
           // @ts-ignore
-          // return import('../siteDocs/introduce.en-US.md');
+          return import('../siteDocs/introduce.en-US.md');
         },
         meta: {
           title: '关于Bootstrap Vue',
@@ -69,7 +69,7 @@ const routes: RouteRecordRaw[] = [
             return import('../siteDocs/getting-started.zh-CN.md');
           }
           // @ts-ignore
-          // return import('../siteDocs/getting-started.en-US.md');
+          return import('../siteDocs/getting-started.en-US.md');
         },
         meta: {
           title: '快速上手',
@@ -87,7 +87,7 @@ const routes: RouteRecordRaw[] = [
             return import('../siteDocs/change-log.zh-CN.md');
           }
           // @ts-ignore
-          // return import('../siteDocs/change-log.en-US.md');
+          return import('../siteDocs/change-log.en-US.md');
         },
         meta: {
           title: '更新日志',
