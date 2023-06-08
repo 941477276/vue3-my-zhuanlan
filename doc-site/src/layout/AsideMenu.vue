@@ -1,7 +1,7 @@
 <template>
   <aside class="aside-menu" :class="{'show-search-box': !isSiteDoc}">
     <div class="header-search-box" v-if="!isSiteDoc">
-      <bs-input class="header-search-input" placeholder="搜索文档..."></bs-input>
+      <bs-input class="header-search-input" :placeholder="$t('searchInputPlacement')" ></bs-input>
     </div>
     <div
       class="aside-menu-container"

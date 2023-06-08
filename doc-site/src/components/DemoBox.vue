@@ -3,17 +3,19 @@
   <div class="demo-box-header">
     <h6 class="demo-title">{{ title[langCode] }}</h6>
     <div class="demo-operate-area">
-      <bs-tooltip content="在Playground中打开" placement="top" transition-name="scale">
+      <!--在Playground中打开-->
+      <bs-tooltip :content="$t('openOnPlayground')" placement="top" transition-name="scale">
         <bs-button size="sm">
           <BsiPlayFill></BsiPlayFill>
         </bs-button>
       </bs-tooltip>
-      <bs-tooltip content="复制代码" placement="top" transition-name="scale">
+      <!--复制代码-->
+      <bs-tooltip :content="$t('copyCode')" placement="top" transition-name="scale">
         <bs-button size="sm" @click="copyExampleCode">
           <BsiFiles></BsiFiles>
         </bs-button>
       </bs-tooltip>
-      <bs-tooltip :content="codeExpanded ? '收起代码' : '展开代码'" placement="top" transition-name="scale">
+      <bs-tooltip :content="codeExpanded ? $t('shrinkCode') : $t('expandCode')" placement="top" transition-name="scale">
         <bs-button size="sm" @click="codeExpanded = !codeExpanded"
                    :class="{
                      'example-code-expanded': codeExpanded
@@ -32,7 +34,8 @@
 {{ decodeURIComponent(exampleCode) }}
     </pre>
     <div class="shrink-code-operate">
-      <bs-button block @click="codeExpanded = false"><BsiChevronUp></BsiChevronUp>收起代码</bs-button>
+      <!--收起代码-->
+      <bs-button block @click="codeExpanded = false"><BsiChevronUp></BsiChevronUp><!--收起代码-->{{ $t('shrinkCode') }}</bs-button>
     </div>
   </div>
 </div>

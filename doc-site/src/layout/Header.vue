@@ -2,7 +2,7 @@
   <header class="doc-header">
     <nav class="navbar navbar-expand-lg bg-primary">
       <transition name="brand-slide">
-        <router-link v-show="navbarBrandVisible" class="navbar-brand" to="/index">
+        <router-link v-show="navbarBrandVisible" class="navbar-brand" to="/component">
           <BsiBootstrap></BsiBootstrap>
           <BsiBootstrapFill></BsiBootstrapFill>
           <span class="brand-text">
@@ -18,10 +18,10 @@
       <div class="navbar-container" id="navbarSupportedContent">
         <ul class="navbar-nav">
           <li class="nav-item" :class="{active: $route.path == '/doc/introduce' }">
-            <router-link class="nav-link" to="/doc/introduce">文档</router-link>
+            <router-link class="nav-link" to="/doc/introduce"><!--文档-->{{ $t('doc') }}</router-link>
           </li>
           <li class="nav-item" :class="{active: $route.path.startsWith('/component') }">
-            <router-link class="nav-link" to="/component">组件</router-link>
+            <router-link class="nav-link" to="/component"><!--组件-->{{ $t('component') }}</router-link>
           </li>
           <li class="nav-item lang-nav-item">
             <bs-dropdown placement="bottom-end" >
@@ -43,7 +43,7 @@
             </bs-dropdown>
           </li>
           <li class="nav-item icon-nav-item">
-            <a href="https://github.com/941477276/vue3-bootstrap-icon" class="nav-link lib-github-link" title="Code github" target="_blank">
+            <a href="https://github.com/941477276/bs-vue" class="nav-link lib-github-link" title="Code github" target="_blank">
               <BsiGithub></BsiGithub>
             </a>
           </li>
