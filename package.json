@@ -1,7 +1,12 @@
 {
-  "name": "vue3-my-zhuanlan",
+  "name": "bs-vue",
   "version": "0.1.0",
-  "private": true,
+  "description": "`bs-vue` is a Vue component library based on `vue3.x` and `Bootstrap UI 4.x`! It enhances and improves on the basis of Bootstrap UI, making `bs-vue`\nIt is more beautiful than bootstrap ui and has a friendly experience.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/941477276/bs-vue.git"
+  },
+  "homepage": "https://github.com/941477276/bs-vue#readme",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -19,7 +24,6 @@
     "async-validator": "^4.0.7",
     "bignumber.js": "^9.0.2",
     "bootstrap": "^4.6.1",
-    "bootstrap-icons": "^1.8.1",
     "dayjs": "^1.11.4",
     "vue3-bootstrap-icon": "^1.0.3"
   },
@@ -68,11 +72,20 @@
     "webpack": "^4.46.0",
     "vue": "^3.2.31"
   },
+  "keywords": [
+    "bootstrap",
+    "bootstrap ui",
+    "bootstrap vue",
+    "vue3",
+    "bs-vue"
+  ],
   "files": [
     "es",
     "lib",
     "dist",
+    "imgs",
     "package.json",
-    "README.md"
+    "README.md",
+    "README-CN.md"
   ]
 }
