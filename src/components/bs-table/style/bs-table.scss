@@ -7,8 +7,12 @@
   margin-bottom: 0;
   thead th{
     border-bottom: none;
+    border-top: none;
   }
   &.table-sm{
     font-size: 0.875rem;
   }
+}
+.bs-table-wrapper{
+  overflow: auto;
 }

@@ -26,7 +26,7 @@ import { BsTableColumn } from '../bs-table-types';
 import { BsTableCellContent } from './BsTableCellContent';
 
 export default defineComponent({
-  name: 'BsTableHeader',
+  name: 'BsTableHead',
   props: {
     columns: { // 表格列
       type: Array as PropType<BsTableColumn[]>,

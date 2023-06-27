@@ -1,24 +1,34 @@
 <template>
 <div
+  ref="tableContainerRef"
   class="bs-table"
   :class="{
-    'bs-table-striped': stripe,
-    'bs-table-bordered': border,
-    'bs-table-borderless': borderless,
+    'table-striped': stripe,
+    'table-bordered': border,
+    'table-borderless': borderless,
     'bs-table-sm': size == 'sm'
   }">
   <div class="bs-table-wrapper">
     <table
+      ref="tableRef"
       class="table table-hover"
       :class="{
-        'table-striped': stripe,
-        'table-bordered': border,
-        'table-borderless': borderless,
         'table-sm': size == 'sm'
+      }"
+      :style="{
+        width: tableWidth > 0 ? (tableWidth + 'px') : ''
       }">
-      <BsTableHeader
+      <colgroup v-if="colgroup.length > 0">
+        <col
+          v-for="(item, index) in colgroup"
+          :key="index"
+          :style="{
+            width: item.width + 'px'
+          }"/>
+      </colgroup>
+      <BsTableHead
         :columns="columns"
-        :table-slots="$slots"></BsTableHeader>
+        :table-slots="$slots"></BsTableHead>
       <tbody class="bs-table-body">
         <BsTableRow
           v-for="(row, rowIndex) in realTableData"
@@ -28,13 +38,6 @@
           :table-slots="$slots"
           :columns="columns"
           :row-class-name="rowClassName">
-          <!--<BsTableCell
-            v-for="(column, columnIndex) in columns"
-            :row-data="row"
-            :row-index="rowIndex"
-            :table-slots="$slots"
-            :column="column"
-            :cell-index="columnIndex"></BsTableCell>-->
         </BsTableRow>
       </tbody>
     </table>
@@ -45,10 +48,10 @@
 <script lang="ts">
 import { defineComponent, nextTick, provide, reactive, ref, Ref, SetupContext, watch } from 'vue';
 import { bsTableProps, BsTableRowSpanCellInfo, BsTableContext, bsTableCtxKey, BsTableColumn } from './bs-table-types';
-import BsTableHeader from './wigets/BsTableHeader.vue';
+import BsTableHead from './wigets/BsTableHead.vue';
 import BsTableRow from './wigets/BsTableRow.vue';
 import { isFunction } from '@vue/shared';
-import { isNumber, isObject } from '@/utils/bs-util';
+import { getStyle } from '../../utils/bs-util';
 
 interface ColSpanCellInfo {
   colSpan: number; // 合并列数
@@ -59,7 +62,7 @@ export default defineComponent({
   name: 'BsTable',
   props: bsTableProps,
   components: {
-    BsTableHeader,
+    BsTableHead,
     BsTableRow
   },
   setup (props: any, ctx: SetupContext) {
@@ -111,6 +114,128 @@ export default defineComponent({
       });
     }, { immediate: true });
 
+    // 父级元素是否隐藏了
+    let parentElIsHidden = ref(false);
+    let calcParentElIsHiddenTimer: number;
+    // 判断父级元素是否隐藏了
+    let getParentElVisible = function () {
+      calcParentElIsHiddenTimer = setInterval(function () {
+        console.log('getParentElVisible: 判断父级元素是否隐藏了');
+        let isHidden = (tableContainerRef.value?.offsetWidth || 0) <= 0;
+        parentElIsHidden.value = isHidden;
+        if (!isHidden) {
+          clearInterval(calcParentElIsHiddenTimer);
+        }
+      }, 100);
+    };
+
+    // 表格的宽度
+    let tableWidth = ref(0);
+    let tableRef = ref<HTMLTableElement>();
+    let colgroup = ref<{ width: number; minWidth: number }[]>([]);
+    let tableContainerRef = ref<HTMLElement>();
+    // 计算列宽
+    let calcColumnWidth = function (columns: BsTableColumn[]) {
+      console.log('table width: ', tableContainerRef.value?.offsetWidth || 0);
+      if (parentElIsHidden.value) {
+        return;
+      }
+      let tableContainerWidth = tableContainerRef.value?.offsetWidth || 0;
+      let tableEl = tableRef.value;
+      let tableBorderLeft = getStyle(tableEl!, 'border-left') || 0;
+      let tableBorderRight = getStyle(tableEl!, 'border-right') || 0;
+      tableContainerWidth -= tableBorderLeft + tableBorderRight;
+      let needColGroup = columns.some(column => {
+        return !!column.width || !!column.minWidth;
+      });
+      if (!needColGroup) {
+        colgroup.value = [];
+        return;
+      }
+      let colGroupTemp: { width: number; minWidth: number; }[] = [];
+      columns.forEach((column: BsTableColumn) => {
+        let { width, minWidth } = column;
+        let widthNumber = parseFloat((width || '') as string);
+        let minWidthNumber = parseFloat((minWidth || '') as string);
+        colGroupTemp.push({
+          width: !isNaN(widthNumber) ? Math.abs(widthNumber) : 0,
+          minWidth: !isNaN(minWidthNumber) ? Math.abs(minWidthNumber) : 0
+        });
+      });
+      let notNeedColGroup = colGroupTemp.every(colItem => {
+        return !colItem.width && !colItem.minWidth;
+      });
+      if (notNeedColGroup) {
+        colgroup.value = [];
+        return;
+      }
+      let defaultWidth = 80;
+      let newColGroup = colGroupTemp.map(col => {
+        let { width, minWidth } = col;
+        let isDefaultWidth = false;
+        if (!width && !minWidth) {
+          width = defaultWidth;
+          isDefaultWidth = true;
+        }
+        return {
+          width,
+          minWidth,
+          isDefaultWidth
+        };
+      });
+      // 计算列总宽度
+      let colTotalWidth = newColGroup.reduce(function (result, col) {
+        let { width, minWidth } = col;
+        result += minWidth || width;
+        return result;
+      }, 0);
+      console.log('colTotalWidth', colTotalWidth);
+      if (colTotalWidth < tableContainerWidth) {
+        let widthDiff = tableContainerWidth - colTotalWidth;
+        console.log(3333, widthDiff);
+        // 查找需要平分剩余宽度的列
+        let needCalcWidthCols = newColGroup.filter(col => {
+          let { minWidth, isDefaultWidth } = col;
+          return !!minWidth || isDefaultWidth;
+        });
+        let totalWidth = needCalcWidthCols.reduce(function (result, col) {
+          result += col.minWidth || col.width;
+          return result;
+        }, 0);
+        needCalcWidthCols.forEach(col => {
+          let { width, minWidth } = col;
+          let rateWidth = minWidth || width;
+          let rate = rateWidth / totalWidth;
+          let newWidth = Number((rateWidth + widthDiff * rate).toFixed(3));
+          col.width = newWidth;
+        });
+        tableWidth.value = 0;
+      } else {
+        newColGroup.forEach(col => {
+          let { width, minWidth } = col;
+          if (minWidth) {
+            col.width = minWidth;
+          }
+        });
+        tableWidth.value = newColGroup.reduce(function (result, col) {
+          result += col.width;
+          return result;
+        }, 0);
+      }
+      colgroup.value = newColGroup;
+      console.log('colgroup', colgroup, tableWidth.value);
+    };
+
+    watch(() => [...props.columns], function (columns) {
+      nextTick(function () {
+        parentElIsHidden.value = (tableContainerRef.value?.offsetWidth || 0) <= 0;
+        if (parentElIsHidden.value) {
+          getParentElVisible();
+        }
+        calcColumnWidth(columns);
+      });
+    }, { immediate: true });
+
     provide(bsTableCtxKey, {
       dataChangeRandom,
       rowSpanCells,
@@ -118,7 +243,11 @@ export default defineComponent({
       removeRowSpanCell
     });
     return {
+      tableContainerRef,
+      tableRef,
       realTableData,
+      colgroup,
+      tableWidth,
       getRowKey (row: Record<string, any>, rowIndex: number) {
         let rowKey = props.rowKey;
         if (!rowKey) {

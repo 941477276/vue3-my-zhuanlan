@@ -24,7 +24,8 @@ export default defineComponent({
     const columns2 = [
       {
         label: 'Name',
-        prop: 'name'
+        prop: 'name',
+        minWidth: 120
       },
       {
         label: 'Age',
@@ -33,16 +34,19 @@ export default defineComponent({
       {
         label: 'Home phone',
         // colSpan: 2,
-        prop: 'tel'
+        prop: 'tel',
+        width: 150
       },
       {
         label: 'Phone',
         colSpan: 0,
-        prop: 'phone'
+        prop: 'phone',
+        minWidth: 140
       },
       {
         label: 'Address',
-        prop: 'address'
+        prop: 'address',
+        minWidth: 200
       }
     ];
 
