@@ -6,7 +6,11 @@
     'table-striped': stripe,
     'table-bordered': border,
     'table-borderless': borderless,
-    'bs-table-sm': size == 'sm'
+    'bs-table-sm': size == 'sm',
+    'bs-table-has-fixed-header': hasFixedHeader,
+    'bs-table-has-fixed-column': columnsInfo.hasFixedColumn,
+    'bs-table-has-fixed-left-column': columnsInfo.hasFixedLeft,
+    'bs-table-has-fixed-right-column': columnsInfo.hasFixedRight,
   }">
   <div
     class="bs-table-wrapper"
@@ -43,7 +47,7 @@
         </colgroup>
         <BsTableHead
           v-if="!hasFixedHeader"
-          :columns="columns"
+          :columns="columnsInfo.columns"
           :table-slots="$slots"></BsTableHead>
         <tbody class="bs-table-tbody">
         <BsTableRow
@@ -52,7 +56,7 @@
           :row-data="row.data"
           :row-index="rowIndex"
           :table-slots="$slots"
-          :columns="columns"
+          :columns="columnsInfo.columns"
           :row-class-name="rowClassName">
         </BsTableRow>
         </tbody>
@@ -118,6 +122,35 @@ export default defineComponent({
         }
       }
     };
+
+    // 列信息
+    let columnsInfo = computed(function () {
+      let columns = props.columns || [];
+      let fixedLeftColumns: BsTableColumn[] = [];
+      let fixedRightColumns: BsTableColumn[] = [];
+      let normalColumns: BsTableColumn[] = [];
+      let hasFixedLeft = false;
+      let hasFixedRight = false;
+      columns.forEach((column: BsTableColumn, index: number) => {
+        let isFixedLeft = column.fixed === true || (column.fixed + '').toLowerCase() == 'left';
+        let isFixedRight = (column.fixed + '').toLowerCase() == 'right';
+        if (isFixedLeft) {
+          hasFixedLeft = true;
+          fixedLeftColumns.push(column);
+        } else if (isFixedRight) {
+          hasFixedRight = true;
+          fixedRightColumns.push(column);
+        } else {
+          normalColumns.push(column);
+        }
+      });
+      return {
+        columns: [...fixedLeftColumns, ...normalColumns, ...fixedRightColumns],
+        hasFixedLeft,
+        hasFixedRight,
+        hasFixedColumn: hasFixedLeft || hasFixedRight
+      };
+    });
 
     let dataChangeRandom = ref();
     let realTableData = ref<any[]>([]);
@@ -316,6 +349,7 @@ export default defineComponent({
       tableHeight,
       tableMaxHeight,
       hasFixedHeader,
+      columnsInfo,
       handleTableBodyScroll,
       getRowKey (row: Record<string, any>, rowIndex: number) {
         let rowKey = props.rowKey;

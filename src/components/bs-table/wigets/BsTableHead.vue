@@ -1,11 +1,25 @@
 <template>
   <thead class="bs-table-thead">
     <tr>
-      <th
+      <BsTableCell
+        v-for="(cell, index) in headThs"
+        tag="th"
+        :row-index="0"
+        :table-slots="tableSlots"
+        :column="cell"
+        :cell-index="index"
+        :key="cell.prop"
+        :is-header-cell="true"
+        :cell-attrs="cell.cellAttrs"></BsTableCell>
+      <!--<th
         class="bs-table-cell"
         v-for="(cell, index) in headThs"
         v-bind="cell.cellAttrs"
-        :key="cell.prop">
+        :key="cell.prop"
+        :class="{
+          'bs-table-cell-fixed-left': cell.fixed === true || cell.fixed === 'left',
+          'bs-table-cell-fixed-right': cell.fixed === 'right'
+        }">
         <BsTableCellContent
           :cell-index="index"
           :label="cell.label"
@@ -13,7 +27,7 @@
           :is-head-cell="true"
           :table-slots="tableSlots"
           :slot-name="cell.headSlotName"></BsTableCellContent>
-      </th>
+      </th>-->
     </tr>
   </thead>
 </template>
@@ -23,7 +37,7 @@ import { defineComponent, PropType, computed, SetupContext, VNode } from 'vue';
 import { isFunction } from '@vue/shared';
 import { isNumber, isObject } from '../../../utils/bs-util';
 import { BsTableColumn } from '../bs-table-types';
-import { BsTableCellContent } from './BsTableCellContent';
+import BsTableCell from './BsTableCell.vue';
 
 export default defineComponent({
   name: 'BsTableHead',
@@ -39,7 +53,7 @@ export default defineComponent({
     }
   },
   components: {
-    BsTableCellContent
+    BsTableCell
   },
   setup (props: any, ctx: SetupContext) {
     let headThs = computed(function () {

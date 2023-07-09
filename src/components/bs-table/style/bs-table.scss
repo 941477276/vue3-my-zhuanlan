@@ -32,6 +32,11 @@
   flex: 1;
   overflow: auto;
 }
+.bs-table-cell-fixed-left,
+.bs-table-cell-fixed-right {
+  position: sticky!important;
+  background-color: #fff;
+}
 .bs-table{
   &.table-bordered{
     thead{
