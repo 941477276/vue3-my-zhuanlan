@@ -3,7 +3,7 @@
   <div>
     <h3>基础用法</h3>
     <!--<Basic></Basic>-->
-    <BsTable :columns="columns2" :data="data2" stripe border row-key="key">
+    <BsTable :columns="columns2" :data="data2" stripe border max-height="290" row-key="id">
     </BsTable>
   </div>
 
@@ -23,25 +23,14 @@ export default defineComponent({
 
     const columns2 = [
       {
-        label: 'Name',
-        prop: 'name',
-        minWidth: 120
-      },
-      {
-        label: 'Age',
-        prop: 'age'
-      },
-      {
-        label: 'Home phone',
-        // colSpan: 2,
-        prop: 'tel',
+        label: 'Date',
+        prop: 'date',
         width: 150
       },
       {
-        label: 'Phone',
-        colSpan: 0,
-        prop: 'phone',
-        minWidth: 140
+        label: 'Name',
+        prop: 'name',
+        width: 130
       },
       {
         label: 'Address',
@@ -52,45 +41,53 @@ export default defineComponent({
 
     const data2 = ref([
       {
-        key: '1',
+        id: '1',
         name: 'John Brown',
-        age: 32,
-        tel: '0571-22098909',
-        phone: 18889898989,
-        address: 'New York No. 1 Lake Park',
+        date: '2023-07-09',
+        address: 'New York No. 1 Lake Park'
       },
       {
-        key: '2',
+        id: '2',
         name: 'Jim Green',
-        tel: '0571-22098333',
-        phone: 18889898888,
-        age: 42,
-        address: 'London No. 1 Lake Park',
+        date: '2023-07-10',
+        address: 'London No. 1 Lake Park'
       },
       {
-        key: '3',
+        id: '3',
         name: 'Joe Black',
-        age: 32,
-        tel: '0575-22098909',
-        phone: 18900010002,
-        address: 'Sidney No. 1 Lake Park',
+        date: '2023-07-17',
+        address: 'Sidney No. 1 Lake Park'
       },
       {
-        key: '4',
+        id: '4',
         name: 'Jim Red',
-        age: 18,
-        tel: '0575-22098909',
-        phone: 18900010002,
-        address: 'London No. 2 Lake Park',
+        date: '2023-08-01',
+        address: 'London No. 2 Lake Park'
       },
       {
-        key: '5',
+        id: '5',
         name: 'Jake White',
-        age: 18,
-        tel: '0575-22098909',
-        phone: 18900010002,
-        address: 'Dublin No. 2 Lake Park',
+        date: '2023-08-13',
+        address: 'Dublin No. 2 Lake Park'
       },
+      {
+        id: '6',
+        name: 'Jake Lee',
+        date: '2023-08-19',
+        address: 'Dublin No. 2 Lake Park'
+      },
+      {
+        id: '7',
+        name: 'Optimus Prime',
+        date: '2023-08-23',
+        address: 'Dublin No. 2 Lake Park'
+      },
+      {
+        id: '8',
+        name: 'Bumblebee',
+        date: '2023-09-09',
+        address: 'Dublin No. 2 Lake Park'
+      }
     ]);
 
     return {

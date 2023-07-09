@@ -1,5 +1,5 @@
 <template>
-  <thead class="bs-table-head">
+  <thead class="bs-table-thead">
     <tr>
       <th
         class="bs-table-cell"

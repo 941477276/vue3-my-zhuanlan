@@ -8,28 +8,44 @@
     'table-borderless': borderless,
     'bs-table-sm': size == 'sm'
   }">
-  <div class="bs-table-wrapper">
-    <table
-      ref="tableRef"
-      class="table table-hover"
-      :class="{
-        'table-sm': size == 'sm'
-      }"
-      :style="{
-        width: tableWidth > 0 ? (tableWidth + 'px') : ''
-      }">
-      <colgroup v-if="colgroup.length > 0">
-        <col
-          v-for="(item, index) in colgroup"
-          :key="index"
-          :style="{
+  <div
+    class="bs-table-wrapper"
+    :style="{
+      height: tableHeight,
+      maxHeight: tableMaxHeight
+    }">
+    <BsTableFixedHeader
+      v-if="hasFixedHeader"
+      ref="tableFixedHeaderRef"
+      :width="tableWidth"
+      :columns="columns"
+      :colgroup="colgroup"
+      :table-slots="$slots"></BsTableFixedHeader>
+    <div
+      class="bs-table-body"
+      @scroll="handleTableBodyScroll">
+      <table
+        ref="tableRef"
+        class="table table-hover"
+        :class="{
+          'table-sm': size == 'sm'
+        }"
+        :style="{
+          width: tableWidth > 0 ? (tableWidth + 'px') : ''
+        }">
+        <colgroup v-if="colgroup.length > 0">
+          <col
+            v-for="(item, index) in colgroup"
+            :key="index"
+            :style="{
             width: item.width + 'px'
           }"/>
-      </colgroup>
-      <BsTableHead
-        :columns="columns"
-        :table-slots="$slots"></BsTableHead>
-      <tbody class="bs-table-body">
+        </colgroup>
+        <BsTableHead
+          v-if="!hasFixedHeader"
+          :columns="columns"
+          :table-slots="$slots"></BsTableHead>
+        <tbody class="bs-table-tbody">
         <BsTableRow
           v-for="(row, rowIndex) in realTableData"
           :key="getRowKey(row, rowIndex)"
@@ -39,19 +55,24 @@
           :columns="columns"
           :row-class-name="rowClassName">
         </BsTableRow>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, nextTick, provide, reactive, ref, Ref, SetupContext, watch } from 'vue';
+import {
+  computed, defineComponent, nextTick, provide, reactive, ref, Ref, SetupContext, watch,
+  ComponentPublicInstance
+} from 'vue';
 import { bsTableProps, BsTableRowSpanCellInfo, BsTableContext, bsTableCtxKey, BsTableColumn } from './bs-table-types';
+import BsTableFixedHeader from './wigets/BsTableFixedHeader.vue';
 import BsTableHead from './wigets/BsTableHead.vue';
 import BsTableRow from './wigets/BsTableRow.vue';
 import { isFunction } from '@vue/shared';
-import { getStyle } from '../../utils/bs-util';
+import { getStyle, isNumber, isString } from '../../utils/bs-util';
 
 interface ColSpanCellInfo {
   colSpan: number; // 合并列数
@@ -63,7 +84,8 @@ export default defineComponent({
   props: bsTableProps,
   components: {
     BsTableHead,
-    BsTableRow
+    BsTableRow,
+    BsTableFixedHeader
   },
   setup (props: any, ctx: SetupContext) {
     // 需要合并行的单元格信息
@@ -114,6 +136,34 @@ export default defineComponent({
       });
     }, { immediate: true });
 
+    let computeTableHeight = function (height: string|number): string {
+      if (isNumber(height)) {
+        if (height <= 0) {
+          return '';
+        }
+        return height + 'px';
+      }
+      if (isString(height)) {
+        let parsedNumber = parseFloat(height as string);
+        if ((height as string).length == 0 || (!isNaN(parsedNumber) && parsedNumber <= 0)) {
+          return '';
+        }
+        return height as string;
+      }
+      return '';
+    };
+    // table的高度及最大高度
+    let tableHeight = computed(function () {
+      return computeTableHeight(props.height);
+    });
+    let tableMaxHeight = computed(function () {
+      return computeTableHeight(props.maxHeight);
+    });
+    // 是否需要固定表头
+    let hasFixedHeader = computed(function () {
+      return !!(tableHeight.value || tableMaxHeight.value);
+    });
+
     // 父级元素是否隐藏了
     let parentElIsHidden = ref(false);
     let calcParentElIsHiddenTimer: number;
@@ -136,19 +186,20 @@ export default defineComponent({
     let tableContainerRef = ref<HTMLElement>();
     // 计算列宽
     let calcColumnWidth = function (columns: BsTableColumn[]) {
-      console.log('table width: ', tableContainerRef.value?.offsetWidth || 0);
+      console.log('table width: ', tableContainerRef.value?.clientWidth || 0);
       if (parentElIsHidden.value) {
         return;
       }
-      let tableContainerWidth = tableContainerRef.value?.offsetWidth || 0;
-      let tableEl = tableRef.value;
-      let tableBorderLeft = getStyle(tableEl!, 'border-left') || 0;
-      let tableBorderRight = getStyle(tableEl!, 'border-right') || 0;
-      tableContainerWidth -= tableBorderLeft + tableBorderRight;
+      let tableContainerWidth = tableContainerRef.value?.clientWidth || 0;
+      let isFixedHeaderRaw = hasFixedHeader.value;
+      // let tableEl = tableRef.value;
+      // let tableBorderLeft = getStyle(tableEl!, 'border-left') || 0;
+      // let tableBorderRight = getStyle(tableEl!, 'border-right') || 0;
+      // tableContainerWidth -= tableBorderLeft + tableBorderRight;
       let needColGroup = columns.some(column => {
         return !!column.width || !!column.minWidth;
       });
-      if (!needColGroup) {
+      if (!needColGroup && !isFixedHeaderRaw) {
         colgroup.value = [];
         return;
       }
@@ -165,7 +216,7 @@ export default defineComponent({
       let notNeedColGroup = colGroupTemp.every(colItem => {
         return !colItem.width && !colItem.minWidth;
       });
-      if (notNeedColGroup) {
+      if (notNeedColGroup && !isFixedHeaderRaw) {
         colgroup.value = [];
         return;
       }
@@ -236,6 +287,19 @@ export default defineComponent({
       });
     }, { immediate: true });
 
+    let tableFixedHeaderRef = ref<ComponentPublicInstance>();
+    // table 滚动事件
+    let handleTableBodyScroll = function (evt: MouseEvent) {
+      let target = evt.target as HTMLElement;
+      let scrollLeft = target.scrollLeft;
+      if (hasFixedHeader.value) {
+        let tableFixedHeaderEl = tableFixedHeaderRef.value?.$el;
+        if (tableFixedHeaderEl) {
+          tableFixedHeaderEl.scrollLeft = scrollLeft;
+        }
+      }
+    };
+
     provide(bsTableCtxKey, {
       dataChangeRandom,
       rowSpanCells,
@@ -244,10 +308,15 @@ export default defineComponent({
     });
     return {
       tableContainerRef,
+      tableFixedHeaderRef,
       tableRef,
       realTableData,
       colgroup,
       tableWidth,
+      tableHeight,
+      tableMaxHeight,
+      hasFixedHeader,
+      handleTableBodyScroll,
       getRowKey (row: Record<string, any>, rowIndex: number) {
         let rowKey = props.rowKey;
         if (!rowKey) {

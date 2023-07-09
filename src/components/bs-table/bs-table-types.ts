@@ -59,7 +59,11 @@ export const bsTableProps = {
   },
   rowClassName: { // 自定义数据行class
     type: [String, Array, Object, Function]
-  }
+  },
+  // 表格高度
+  height: [String, Number],
+  // 表格最大高度
+  maxHeight: [String, Number]
 };
 
 export interface BsTableContext {
