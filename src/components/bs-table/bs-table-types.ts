@@ -15,6 +15,12 @@ export interface BsTableColumn {
   cellClassName?: string|string[]|((data: Record<string, any>, cellIndex: number, rowIndex: number, column: BsTableColumn) => (string|string[])); // 自定义数据单元格class
 };
 
+export interface BsTableColumnInner extends BsTableColumn {
+  fixedIndex?: number;
+  fixedLeftColumnCount?: number; // 左侧固定列数量
+  fixedRightColumnCount?: number;
+}
+
 // 单元格需要行合并的信息
 export interface BsTableRowSpanCellInfo {
   cellIndex: number; // 单元格索引

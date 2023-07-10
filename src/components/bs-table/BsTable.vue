@@ -11,6 +11,8 @@
     'bs-table-has-fixed-column': columnsInfo.hasFixedColumn,
     'bs-table-has-fixed-left-column': columnsInfo.hasFixedLeft,
     'bs-table-has-fixed-right-column': columnsInfo.hasFixedRight,
+    'bs-table-ping-left': tableBodyScrollInfo.scrollLeft > 0,
+    'bs-table-ping-right': tableBodyScrollInfo.showRightPing && !tableBodyScrollInfo.isInScrollEnd
   }">
   <div
     class="bs-table-wrapper"
@@ -22,10 +24,11 @@
       v-if="hasFixedHeader"
       ref="tableFixedHeaderRef"
       :width="tableWidth"
-      :columns="columns"
+      :columns="columnsInfo.columns"
       :colgroup="colgroup"
       :table-slots="$slots"></BsTableFixedHeader>
     <div
+      ref="tableBodyRef"
       class="bs-table-body"
       @scroll="handleTableBodyScroll">
       <table
@@ -71,7 +74,10 @@ import {
   computed, defineComponent, nextTick, provide, reactive, ref, Ref, SetupContext, watch,
   ComponentPublicInstance
 } from 'vue';
-import { bsTableProps, BsTableRowSpanCellInfo, BsTableContext, bsTableCtxKey, BsTableColumn } from './bs-table-types';
+import {
+  bsTableProps, BsTableRowSpanCellInfo, BsTableContext, bsTableCtxKey, BsTableColumn,
+  BsTableColumnInner
+} from './bs-table-types';
 import BsTableFixedHeader from './wigets/BsTableFixedHeader.vue';
 import BsTableHead from './wigets/BsTableHead.vue';
 import BsTableRow from './wigets/BsTableRow.vue';
@@ -126,24 +132,31 @@ export default defineComponent({
     // 列信息
     let columnsInfo = computed(function () {
       let columns = props.columns || [];
-      let fixedLeftColumns: BsTableColumn[] = [];
-      let fixedRightColumns: BsTableColumn[] = [];
-      let normalColumns: BsTableColumn[] = [];
+      let fixedLeftColumns: BsTableColumnInner[] = [];
+      let fixedRightColumns: BsTableColumnInner[] = [];
+      let normalColumns: BsTableColumnInner[] = [];
       let hasFixedLeft = false;
       let hasFixedRight = false;
       columns.forEach((column: BsTableColumn, index: number) => {
         let isFixedLeft = column.fixed === true || (column.fixed + '').toLowerCase() == 'left';
         let isFixedRight = (column.fixed + '').toLowerCase() == 'right';
+        let newColumn = { ...column } as BsTableColumnInner;
         if (isFixedLeft) {
           hasFixedLeft = true;
-          fixedLeftColumns.push(column);
+          newColumn.fixedIndex = fixedLeftColumns.length;
+          fixedLeftColumns.push(newColumn);
         } else if (isFixedRight) {
           hasFixedRight = true;
-          fixedRightColumns.push(column);
+          newColumn.fixedIndex = fixedRightColumns.length;
+          fixedRightColumns.push(newColumn);
         } else {
-          normalColumns.push(column);
+          normalColumns.push(newColumn);
         }
       });
+      let fixedLeftColumnCount = fixedLeftColumns.length;
+      let fixedRightColumnCount = fixedRightColumns.length;
+      fixedLeftColumns.forEach((column: BsTableColumnInner) => column.fixedLeftColumnCount = fixedLeftColumnCount);
+      fixedRightColumns.forEach((column: BsTableColumnInner) => column.fixedRightColumnCount = fixedRightColumnCount);
       return {
         columns: [...fixedLeftColumns, ...normalColumns, ...fixedRightColumns],
         hasFixedLeft,
@@ -320,11 +333,34 @@ export default defineComponent({
       });
     }, { immediate: true });
 
+    let tableBodyScrollInfo = reactive({
+      scrollLeft: 0,
+      isInScrollEnd: false,
+      showRightPing: false
+    });
+    let tableBodyRef = ref<HTMLElement>();
+    let calcRightPingTimer: number;
+    // 计算是否要显示右侧固定定位列第1列的阴影
+    watch(columnsInfo, function (columnsInfoData) {
+      clearTimeout(calcRightPingTimer);
+      calcRightPingTimer = setTimeout(function () {
+        let tableBodyEl = tableBodyRef.value;
+        if (!columnsInfoData.hasFixedRight || !tableBodyEl) {
+          tableBodyScrollInfo.showRightPing = false;
+          return;
+        }
+        tableBodyScrollInfo.showRightPing = tableBodyEl.scrollWidth > tableBodyEl.offsetWidth;
+      }, 60);
+    }, { immediate: true });
+
     let tableFixedHeaderRef = ref<ComponentPublicInstance>();
     // table 滚动事件
     let handleTableBodyScroll = function (evt: MouseEvent) {
       let target = evt.target as HTMLElement;
       let scrollLeft = target.scrollLeft;
+      tableBodyScrollInfo.scrollLeft = scrollLeft;
+      tableBodyScrollInfo.isInScrollEnd = (target.offsetWidth + scrollLeft) == target.scrollWidth;
+      // console.log('(target.offsetWidth + scrollLeft) == target.scrollWidth', tableBodyScrollInfo.isInScrollEnd, target.offsetWidth, scrollLeft, target.scrollWidth)
       if (hasFixedHeader.value) {
         let tableFixedHeaderEl = tableFixedHeaderRef.value?.$el;
         if (tableFixedHeaderEl) {
@@ -342,6 +378,7 @@ export default defineComponent({
     return {
       tableContainerRef,
       tableFixedHeaderRef,
+      tableBodyRef,
       tableRef,
       realTableData,
       colgroup,
@@ -350,6 +387,7 @@ export default defineComponent({
       tableMaxHeight,
       hasFixedHeader,
       columnsInfo,
+      tableBodyScrollInfo,
       handleTableBodyScroll,
       getRowKey (row: Record<string, any>, rowIndex: number) {
         let rowKey = props.rowKey;

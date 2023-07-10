@@ -6,7 +6,9 @@
     class="bs-table-cell"
     :class="[
       {
+        'bs-table-cell-fixed-left-last': columnFixedInfo.isFixedLeft && (column.fixedIndex + 1) === column.fixedLeftColumnCount,
         'bs-table-cell-fixed-left': columnFixedInfo.isFixedLeft,
+        'bs-table-cell-fixed-right-first': columnFixedInfo.isFixedRight && column.fixedIndex === 0,
         'bs-table-cell-fixed-right': columnFixedInfo.isFixedRight
       },
       cellClasses
@@ -36,7 +38,7 @@
 <script lang="ts">
 import { defineComponent, computed, PropType, ref } from 'vue';
 import { BsTableCellContent } from './BsTableCellContent';
-import { BsTableColumn } from '../bs-table-types';
+import { BsTableColumnInner } from '../bs-table-types';
 import { isFunction } from '@vue/shared';
 
 export default defineComponent({
@@ -68,7 +70,7 @@ export default defineComponent({
       type: Object
     },
     column: { // 当前列配置
-      type: Object as PropType<BsTableColumn>,
+      type: Object as PropType<BsTableColumnInner>,
       default () {
         return {};
       }

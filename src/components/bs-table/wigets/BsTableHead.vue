@@ -36,14 +36,14 @@
 import { defineComponent, PropType, computed, SetupContext, VNode } from 'vue';
 import { isFunction } from '@vue/shared';
 import { isNumber, isObject } from '../../../utils/bs-util';
-import { BsTableColumn } from '../bs-table-types';
+import { BsTableColumnInner } from '../bs-table-types';
 import BsTableCell from './BsTableCell.vue';
 
 export default defineComponent({
   name: 'BsTableHead',
   props: {
     columns: { // 表格列
-      type: Array as PropType<BsTableColumn[]>,
+      type: Array as PropType<BsTableColumnInner[]>,
       default () {
         return [];
       }
@@ -60,7 +60,7 @@ export default defineComponent({
       let ths: any[] = [];
       let currentColumnIndex = -1;
       let skipEndColumnIndex = -1; // 待跳过的单元格结束索引
-      ;(props.columns || []).forEach((column: BsTableColumn, index: number) => {
+      ;(props.columns || []).forEach((column: BsTableColumnInner, index: number) => {
         let {
           label,
           prop,
@@ -68,6 +68,9 @@ export default defineComponent({
           width,
           minWidth,
           fixed,
+          fixedIndex,
+          fixedLeftColumnCount,
+          fixedRightColumnCount,
           headSlotName,
           customHeadCellAttrs
         } = column;
@@ -104,6 +107,9 @@ export default defineComponent({
           width,
           minWidth,
           fixed,
+          fixedIndex,
+          fixedLeftColumnCount,
+          fixedRightColumnCount,
           cellAttrs,
           headSlotName
         });
