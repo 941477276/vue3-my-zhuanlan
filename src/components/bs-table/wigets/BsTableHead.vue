@@ -4,13 +4,28 @@
       <BsTableCell
         v-for="(cell, index) in headThs"
         tag="th"
+        :ref="(com) => setRef(cell.prop, com)"
         :row-index="0"
         :table-slots="tableSlots"
         :column="cell"
         :cell-index="index"
         :key="cell.prop"
         :is-header-cell="true"
-        :cell-attrs="cell.cellAttrs"></BsTableCell>
+        :cell-attrs="cell.cellAttrs"
+        :class="{
+          'bs-table-cell-scrollbar-prev-neighbor': tableBodyHasScroll && (index == headThs.length - 1)
+        }"></BsTableCell>
+      <th
+        v-if="tableBodyHasScroll"
+        class="bs-table-cell bs-table-cell-scrollbar"
+        :class="{
+          'bs-table-cell-fixed-right': hasFixedRightColumn
+        }"
+        :style="{
+          width: (tableBodyScrollWidth && tableBodyScrollWidth > 0) ? tableBodyScrollWidth + 'px' : '',
+          position: hasFixedRightColumn ? 'sticky' : '',
+          right: hasFixedRightColumn ? '0' : ''
+        }"></th>
       <!--<th
         class="bs-table-cell"
         v-for="(cell, index) in headThs"
@@ -33,7 +48,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed, SetupContext, VNode } from 'vue';
+import {
+  defineComponent, PropType, computed, SetupContext, VNode, reactive,
+  onMounted, onUpdated
+} from 'vue';
 import { isFunction } from '@vue/shared';
 import { isNumber, isObject } from '../../../utils/bs-util';
 import { BsTableColumnInner } from '../bs-table-types';
@@ -50,6 +68,14 @@ export default defineComponent({
     },
     tableSlots: {
       type: Object
+    },
+    tableBodyHasScroll: {
+      type: Boolean,
+      default: false
+    },
+    tableBodyScrollWidth: {
+      type: Number,
+      default: 0
     }
   },
   components: {
@@ -116,8 +142,38 @@ export default defineComponent({
       });
       return ths;
     });
+
+    // 是否有右侧固定列
+    let hasFixedRightColumn = computed(function () {
+      let headThsRaw = headThs.value;
+      return headThsRaw.some(function (column) {
+        return column.fixedRightColumnCount && column.fixedRightColumnCount > 0;
+      });
+    });
+
+    let cellComponentRefs = reactive<Record<string, any>>({});
+    let setRef = function (key: string, com: any) {
+      console.log('setRef', key, com);
+      cellComponentRefs[key] = com;
+    };
+
+    onMounted(function () {
+      console.log('head组件mounted');
+      setTimeout(function () {
+        if (hasFixedRightColumn.value) { // 主动调用列组件的计算列样式函数，以防止固定列定位不正确
+          for (let key in cellComponentRefs) {
+            let cellComponent = cellComponentRefs[key];
+            console.log(111);
+            cellComponent.calcColumnStyle();
+          }
+        }
+      }, 60);
+    });
+
     return {
-      headThs
+      headThs,
+      hasFixedRightColumn,
+      setRef
     };
   }
 });

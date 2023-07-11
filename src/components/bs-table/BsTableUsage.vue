@@ -3,7 +3,7 @@
   <div>
     <h3>基础用法</h3>
     <!--<Basic></Basic>-->
-    <BsTable :columns="columns2" :data="data2" stripe border data-smax-height="400" row-key="id">
+    <BsTable :columns="columns2" :data="data2" stripe border max-height="400" row-key="id">
       <template #opt>
         <bs-button type="primary" size="sm">Edit</bs-button>
         <bs-button type="danger" size="sm" style="margin-left: 0.5rem;">Delete</bs-button>
@@ -65,7 +65,7 @@ export default defineComponent({
         label: 'Address',
         prop: 'address',
         minWidth: 200,
-        // fixed: 'right'
+        fixed: 'right'
       },
       {
         label: 'Operates',

@@ -19,7 +19,9 @@
       </colgroup>
       <BsTableHead
         :columns="columns"
-        :table-slots="tableSlots"></BsTableHead>
+        :table-slots="tableSlots"
+        :table-body-has-scroll="tableBodyHasScroll"
+        :table-body-scroll-width="tableBodyScrollWidth"></BsTableHead>
     </table>
   </div>
 </template>
@@ -57,6 +59,14 @@ export default defineComponent({
     },
     tableSlots: {
       type: Object
+    },
+    tableBodyHasScroll: {
+      type: Boolean,
+      default: false
+    },
+    tableBodyScrollWidth: {
+      type: Number,
+      default: 0
     }
   },
   setup (props: any, ctx: SetupContext) {

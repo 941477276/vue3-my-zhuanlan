@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType, ref } from 'vue';
+import { defineComponent, computed, PropType, ref, onUpdated, onMounted } from 'vue';
 import { BsTableCellContent } from './BsTableCellContent';
 import { BsTableColumnInner } from '../bs-table-types';
 import { isFunction } from '@vue/shared';
@@ -115,7 +115,51 @@ export default defineComponent({
       };
     });
 
+    // 计算列的样式
+    let calcColumnStyle = function () {
+      console.log('calcColumnStyle被调用了');
+      let cellEl = cellRef.value;
+      let left = '';
+      let right = '';
+      let { isFixedLeft, isFixedRight } = columnFixedInfo.value;
+      if (!isFixedLeft && !isFixedRight) {
+        if (cellEl) {
+          cellEl.style.position = '';
+          cellEl.style.left = '';
+          cellEl.style.right = '';
+        }
+        return {};
+      }
+      if (cellEl) {
+        let siblingsCells = [...(cellEl.parentElement?.children || [])];
+        let cellElIndex = siblingsCells.findIndex(nodeItem => nodeItem === cellEl);
+        if (isFixedLeft) {
+          left = siblingsCells.slice(0, cellElIndex).reduce(function (result: number, siblingItem: HTMLTableCellElement) {
+            result += siblingItem.offsetWidth;
+            return result;
+          }, 0) + 'px';
+        } else if (isFixedRight) {
+          console.log('siblingsCells.slice(cellElIndex + 1)', siblingsCells.slice(cellElIndex + 1));
+          right = siblingsCells.slice(cellElIndex + 1).reduce(function (result: number, siblingItem: HTMLTableCellElement) {
+            result += siblingItem.offsetWidth;
+            return result;
+          }, 0) + 'px';
+        }
+        console.log('right', right);
+        cellEl.style.position = 'sticky';
+        cellEl.style.left = left;
+        cellEl.style.right = right;
+      }
+
+      return {
+        position: 'sticky',
+        left,
+        right
+      };
+    };
     // 列的样式
+    let columnStyle = ref<Record<string, any>>({});
+    /* // 列的样式
     let columnStyle = computed(function () {
       let cellEl = cellRef.value;
       let left = '';
@@ -133,6 +177,7 @@ export default defineComponent({
             return result;
           }, 0) + 'px';
         } else if (isFixedRight) {
+          console.log('siblingsCells.slice(cellElIndex + 1)', siblingsCells.slice(cellElIndex + 1));
           right = siblingsCells.slice(cellElIndex + 1).reduce(function (result: number, siblingItem: HTMLTableCellElement) {
             result += siblingItem.offsetWidth;
             return result;
@@ -144,13 +189,27 @@ export default defineComponent({
         left,
         right
       };
+    }); */
+
+    onMounted(function () {
+      console.log('列组件mounted');
+      // columnStyle.value = calcColumnStyle();
+      calcColumnStyle();
     });
+
+    onUpdated(function () {
+      console.log('table column updated!');
+      calcColumnStyle();
+      // columnStyle.value = calcColumnStyle();
+    });
+
     return {
       cellRef,
       cellContent,
       cellClasses,
       columnFixedInfo,
-      columnStyle
+      columnStyle,
+      calcColumnStyle
     };
   }
 });

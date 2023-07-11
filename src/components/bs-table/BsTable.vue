@@ -26,7 +26,9 @@
       :width="tableWidth"
       :columns="columnsInfo.columns"
       :colgroup="colgroup"
-      :table-slots="$slots"></BsTableFixedHeader>
+      :table-slots="$slots"
+      :table-body-has-scroll="tableBodyScrollInfo.hasScroll"
+      :table-body-scroll-width="tableBodyScrollInfo.scrollWidth"></BsTableFixedHeader>
     <div
       ref="tableBodyRef"
       class="bs-table-body"
@@ -51,7 +53,9 @@
         <BsTableHead
           v-if="!hasFixedHeader"
           :columns="columnsInfo.columns"
-          :table-slots="$slots"></BsTableHead>
+          :table-slots="$slots"
+          :table-body-has-scroll="tableBodyScrollInfo.hasScroll"
+          :table-body-scroll-width="tableBodyScrollInfo.scrollWidth"></BsTableHead>
         <tbody class="bs-table-tbody">
         <BsTableRow
           v-for="(row, rowIndex) in realTableData"
@@ -82,7 +86,7 @@ import BsTableFixedHeader from './wigets/BsTableFixedHeader.vue';
 import BsTableHead from './wigets/BsTableHead.vue';
 import BsTableRow from './wigets/BsTableRow.vue';
 import { isFunction } from '@vue/shared';
-import { getStyle, isNumber, isString } from '../../utils/bs-util';
+import { scrollWidth, isNumber, isString } from '../../utils/bs-util';
 
 interface ColSpanCellInfo {
   colSpan: number; // 合并列数
@@ -336,7 +340,9 @@ export default defineComponent({
     let tableBodyScrollInfo = reactive({
       scrollLeft: 0,
       isInScrollEnd: false,
-      showRightPing: false
+      showRightPing: false,
+      hasScroll: false,
+      scrollWidth: 0
     });
     let tableBodyRef = ref<HTMLElement>();
     let calcRightPingTimer: number;
@@ -345,11 +351,18 @@ export default defineComponent({
       clearTimeout(calcRightPingTimer);
       calcRightPingTimer = setTimeout(function () {
         let tableBodyEl = tableBodyRef.value;
+        let hasScroll = false;
+        if (tableBodyEl) {
+          hasScroll = tableBodyEl.scrollWidth > tableBodyEl.offsetWidth;
+          console.log('滚动条宽度：', scrollWidth(tableBodyEl));
+          tableBodyScrollInfo.scrollWidth = scrollWidth(tableBodyEl).vertical;
+        }
+        tableBodyScrollInfo.hasScroll = hasScroll;
         if (!columnsInfoData.hasFixedRight || !tableBodyEl) {
           tableBodyScrollInfo.showRightPing = false;
           return;
         }
-        tableBodyScrollInfo.showRightPing = tableBodyEl.scrollWidth > tableBodyEl.offsetWidth;
+        tableBodyScrollInfo.showRightPing = hasScroll;
       }, 60);
     }, { immediate: true });
 

@@ -32,6 +32,7 @@
   flex: 1;
   overflow: auto;
 }
+
 .bs-table-cell-fixed-left,
 .bs-table-cell-fixed-right {
   position: sticky!important;
@@ -128,6 +129,19 @@
   }
 }
 .table-bordered{
+  .bs-table-cell{
+    &.bs-table-cell-scrollbar-prev-neighbor{
+      border-right-color: transparent;
+    }
+    &.bs-table-cell-scrollbar{
+      //border: none;
+      padding: 0;
+      border-left: none;
+      &::after{
+        display: none;
+      }
+    }
+  }
   .bs-table-cell-fixed-left{
     position: relative;
     &::after{ /* 解决边框不显示问题 */
