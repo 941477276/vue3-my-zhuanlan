@@ -31,6 +31,12 @@ export interface BsTableRowSpanCellInfo {
 
 export type BsTableSize = 'sm' | '';
 
+export interface BsColgroupItem {
+  width: number;
+  minWidth: number;
+  name: string;
+};
+
 export const bsTableProps = {
   columns: { // 表格列
     type: Array as PropType<BsTableColumn[]>,

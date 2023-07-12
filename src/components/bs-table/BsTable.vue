@@ -80,7 +80,7 @@ import {
 } from 'vue';
 import {
   bsTableProps, BsTableRowSpanCellInfo, BsTableContext, bsTableCtxKey, BsTableColumn,
-  BsTableColumnInner
+  BsTableColumnInner, BsColgroupItem
 } from './bs-table-types';
 import BsTableFixedHeader from './wigets/BsTableFixedHeader.vue';
 import BsTableHead from './wigets/BsTableHead.vue';
@@ -232,7 +232,7 @@ export default defineComponent({
     // 表格的宽度
     let tableWidth = ref(0);
     let tableRef = ref<HTMLTableElement>();
-    let colgroup = ref<{ width: number; minWidth: number }[]>([]);
+    let colgroup = ref<BsColgroupItem[]>([]);
     let tableContainerRef = ref<HTMLElement>();
     // 计算列宽
     let calcColumnWidth = function (columns: BsTableColumn[]) {
@@ -255,14 +255,15 @@ export default defineComponent({
         colgroup.value = [];
         return;
       }
-      let colGroupTemp: { width: number; minWidth: number; }[] = [];
+      let colGroupTemp: { width: number; minWidth: number; name: string; }[] = [];
       columns.forEach((column: BsTableColumn) => {
         let { width, minWidth } = column;
         let widthNumber = parseFloat((width || '') as string);
         let minWidthNumber = parseFloat((minWidth || '') as string);
         colGroupTemp.push({
           width: !isNaN(widthNumber) ? Math.abs(widthNumber) : 0,
-          minWidth: !isNaN(minWidthNumber) ? Math.abs(minWidthNumber) : 0
+          minWidth: !isNaN(minWidthNumber) ? Math.abs(minWidthNumber) : 0,
+          name: column.prop
         });
       });
       let notNeedColGroup = colGroupTemp.every(colItem => {
@@ -283,7 +284,8 @@ export default defineComponent({
         return {
           width,
           minWidth,
-          isDefaultWidth
+          isDefaultWidth,
+          name: col.name
         };
       });
       // 计算列总宽度

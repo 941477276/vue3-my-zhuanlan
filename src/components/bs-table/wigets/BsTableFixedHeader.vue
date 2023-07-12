@@ -33,7 +33,7 @@ import {
   SetupContext
 } from 'vue';
 import BsTableHead from './BsTableHead.vue';
-import { BsTableColumn, BsTableSize } from '../bs-table-types';
+import { BsTableColumn, BsTableSize, BsColgroupItem } from '../bs-table-types';
 
 export default defineComponent({
   name: 'BsTableFixedHeader',
@@ -43,7 +43,7 @@ export default defineComponent({
   props: {
     width: [String, Number],
     colgroup: {
-      type: Array as PropType<{ width: number; minWidth: number }[]>,
+      type: Array as PropType<BsColgroupItem[]>,
       default () {
         return [];
       }
