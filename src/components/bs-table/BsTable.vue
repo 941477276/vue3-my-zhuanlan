@@ -86,7 +86,7 @@ import BsTableFixedHeader from './wigets/BsTableFixedHeader.vue';
 import BsTableHead from './wigets/BsTableHead.vue';
 import BsTableRow from './wigets/BsTableRow.vue';
 import { isFunction } from '@vue/shared';
-import { scrollWidth, isNumber, isString } from '../../utils/bs-util';
+import { scrollWidth, isNumber, isString, hasScroll } from '../../utils/bs-util';
 
 interface ColSpanCellInfo {
   colSpan: number; // 合并列数
@@ -236,16 +236,18 @@ export default defineComponent({
     let tableContainerRef = ref<HTMLElement>();
     // 计算列宽
     let calcColumnWidth = function (columns: BsTableColumn[]) {
-      console.log('table width: ', tableContainerRef.value?.clientWidth || 0);
       if (parentElIsHidden.value) {
         return;
       }
-      let tableContainerWidth = tableContainerRef.value?.clientWidth || 0;
+      let tableContainerWidth = tableBodyRef.value?.clientWidth || 0;
       let isFixedHeaderRaw = hasFixedHeader.value;
       // let tableEl = tableRef.value;
       // let tableBorderLeft = getStyle(tableEl!, 'border-left') || 0;
       // let tableBorderRight = getStyle(tableEl!, 'border-right') || 0;
       // tableContainerWidth -= tableBorderLeft + tableBorderRight;
+      let tableContainerScrollWidth = scrollWidth(tableBodyRef.value).vertical;
+      console.log('tableContainerScrollWidth', tableContainerWidth, tableContainerScrollWidth);
+      tableContainerWidth -= tableContainerScrollWidth;
       let needColGroup = columns.some(column => {
         return !!column.width || !!column.minWidth;
       });
@@ -290,7 +292,6 @@ export default defineComponent({
         result += minWidth || width;
         return result;
       }, 0);
-      console.log('colTotalWidth', colTotalWidth);
       if (colTotalWidth < tableContainerWidth) {
         let widthDiff = tableContainerWidth - colTotalWidth;
         console.log(3333, widthDiff);
@@ -327,7 +328,7 @@ export default defineComponent({
       console.log('colgroup', colgroup, tableWidth.value);
     };
 
-    watch(() => [...props.columns], function (columns) {
+    /* watch(() => [...props.columns], function (columns) {
       nextTick(function () {
         parentElIsHidden.value = (tableContainerRef.value?.offsetWidth || 0) <= 0;
         if (parentElIsHidden.value) {
@@ -335,7 +336,7 @@ export default defineComponent({
         }
         calcColumnWidth(columns);
       });
-    }, { immediate: true });
+    }, { immediate: true }); */
 
     let tableBodyScrollInfo = reactive({
       scrollLeft: 0,
@@ -349,20 +350,27 @@ export default defineComponent({
     // 计算是否要显示右侧固定定位列第1列的阴影
     watch(columnsInfo, function (columnsInfoData) {
       clearTimeout(calcRightPingTimer);
+      nextTick(function () {
+        parentElIsHidden.value = (tableContainerRef.value?.offsetWidth || 0) <= 0;
+        if (parentElIsHidden.value) {
+          getParentElVisible();
+        }
+        calcColumnWidth(columnsInfoData.columns);
+      });
       calcRightPingTimer = setTimeout(function () {
         let tableBodyEl = tableBodyRef.value;
-        let hasScroll = false;
+        let tableBodyElHasScroll = false;
         if (tableBodyEl) {
-          hasScroll = tableBodyEl.scrollWidth > tableBodyEl.offsetWidth;
           console.log('滚动条宽度：', scrollWidth(tableBodyEl));
+          tableBodyElHasScroll = hasScroll(tableBodyEl).vertical;
           tableBodyScrollInfo.scrollWidth = scrollWidth(tableBodyEl).vertical;
         }
-        tableBodyScrollInfo.hasScroll = hasScroll;
+        tableBodyScrollInfo.hasScroll = tableBodyElHasScroll;
         if (!columnsInfoData.hasFixedRight || !tableBodyEl) {
           tableBodyScrollInfo.showRightPing = false;
           return;
         }
-        tableBodyScrollInfo.showRightPing = hasScroll;
+        tableBodyScrollInfo.showRightPing = tableBodyEl.scrollWidth > tableBodyEl.offsetWidth;
       }, 60);
     }, { immediate: true });
 

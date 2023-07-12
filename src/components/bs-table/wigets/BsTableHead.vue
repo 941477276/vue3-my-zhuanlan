@@ -13,36 +13,19 @@
         :is-header-cell="true"
         :cell-attrs="cell.cellAttrs"
         :class="{
-          'bs-table-cell-scrollbar-prev-neighbor': tableBodyHasScroll && (index == headThs.length - 1)
+          'bs-table-cell-scrollbar-prev-neighbor': tableBodyHasScroll && (tableBodyScrollWidth > 0) && (index == headThs.length - 1)
         }"></BsTableCell>
       <th
-        v-if="tableBodyHasScroll"
+        v-if="tableBodyHasScroll && tableBodyScrollWidth > 0"
         class="bs-table-cell bs-table-cell-scrollbar"
         :class="{
           'bs-table-cell-fixed-right': hasFixedRightColumn
         }"
         :style="{
-          width: (tableBodyScrollWidth && tableBodyScrollWidth > 0) ? tableBodyScrollWidth + 'px' : '',
+          width: (tableBodyHasScroll && tableBodyScrollWidth > 0) ? tableBodyScrollWidth + 'px' : '',
           position: hasFixedRightColumn ? 'sticky' : '',
           right: hasFixedRightColumn ? '0' : ''
         }"></th>
-      <!--<th
-        class="bs-table-cell"
-        v-for="(cell, index) in headThs"
-        v-bind="cell.cellAttrs"
-        :key="cell.prop"
-        :class="{
-          'bs-table-cell-fixed-left': cell.fixed === true || cell.fixed === 'left',
-          'bs-table-cell-fixed-right': cell.fixed === 'right'
-        }">
-        <BsTableCellContent
-          :cell-index="index"
-          :label="cell.label"
-          :column="cell"
-          :is-head-cell="true"
-          :table-slots="tableSlots"
-          :slot-name="cell.headSlotName"></BsTableCellContent>
-      </th>-->
     </tr>
   </thead>
 </template>
