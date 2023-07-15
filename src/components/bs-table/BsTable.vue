@@ -63,8 +63,10 @@
           :row-data="row.data"
           :row-index="rowIndex"
           :table-slots="$slots"
+          :table-attrs="$attrs"
           :columns="columnsInfo.columns"
-          :row-class-name="rowClassName">
+          :row-class-name="rowClassName"
+          @expand-change="handleExpandChange">
         </BsTableRow>
         </tbody>
       </table>
@@ -136,6 +138,7 @@ export default defineComponent({
     // 列信息
     let columnsInfo = computed(function () {
       let columns = props.columns || [];
+      let allowExpand = !!props.allowExpand;
       let fixedLeftColumns: BsTableColumnInner[] = [];
       let fixedRightColumns: BsTableColumnInner[] = [];
       let normalColumns: BsTableColumnInner[] = [];
@@ -157,9 +160,31 @@ export default defineComponent({
           normalColumns.push(newColumn);
         }
       });
+      if (allowExpand) {
+        let expandColumn: BsTableColumnInner = {
+          width: props.expandColumnWidth,
+          prop: 'bs_expand_column',
+          label: props.expandColumnLabel,
+          headSlotName: 'expandColumnHeader',
+          cellClassName: 'bs-table-expand-cell'
+        };
+        if (fixedLeftColumns.length > 0) {
+          expandColumn.fixed = 'left';
+          expandColumn.fixedIndex = 0;
+          fixedLeftColumns.unshift(expandColumn);
+        } else {
+          normalColumns.unshift(expandColumn);
+        }
+      }
+
       let fixedLeftColumnCount = fixedLeftColumns.length;
       let fixedRightColumnCount = fixedRightColumns.length;
-      fixedLeftColumns.forEach((column: BsTableColumnInner) => column.fixedLeftColumnCount = fixedLeftColumnCount);
+      fixedLeftColumns.forEach((column: BsTableColumnInner, index) => {
+        column.fixedLeftColumnCount = fixedLeftColumnCount;
+        if (allowExpand && index != 0) { // 如果有展开列，并且当前列非展开列，则当前的固定列索引加1
+          column.fixedIndex! += 1;
+        }
+      });
       fixedRightColumns.forEach((column: BsTableColumnInner) => column.fixedRightColumnCount = fixedRightColumnCount);
       return {
         columns: [...fixedLeftColumns, ...normalColumns, ...fixedRightColumns],
@@ -349,8 +374,8 @@ export default defineComponent({
     });
     let tableBodyRef = ref<HTMLElement>();
     let calcRightPingTimer: number;
-    // 计算是否要显示右侧固定定位列第1列的阴影
-    watch(columnsInfo, function (columnsInfoData) {
+    // 列信息变化事件
+    let handleColumnsChange = function (columnsInfoData: any) {
       clearTimeout(calcRightPingTimer);
       nextTick(function () {
         parentElIsHidden.value = (tableContainerRef.value?.offsetWidth || 0) <= 0;
@@ -374,7 +399,9 @@ export default defineComponent({
         }
         tableBodyScrollInfo.showRightPing = tableBodyEl.scrollWidth > tableBodyEl.offsetWidth;
       }, 60);
-    }, { immediate: true });
+    };
+    // 计算是否要显示右侧固定定位列第1列的阴影
+    watch(columnsInfo, handleColumnsChange, { immediate: true });
 
     let tableFixedHeaderRef = ref<ComponentPublicInstance>();
     // table 滚动事件
@@ -421,6 +448,9 @@ export default defineComponent({
           return rowKey(row.data, rowIndex) || row.uid;
         }
         return row.data[rowKey] || row.uid;
+      },
+      handleExpandChange () { // 行展开事件
+        handleColumnsChange(columnsInfo.value);
       }
     };
   }

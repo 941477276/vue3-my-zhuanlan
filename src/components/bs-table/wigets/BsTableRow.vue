@@ -1,7 +1,45 @@
 <template>
   <tr
     class="bs-table-row"
-    :class="rowClasses">
+    :class="[
+      rowClasses,
+      {
+        'bs-table-row-expanded': rowIsExpanded
+      }
+    ]">
+    <!--展开行操作列-->
+    <BsTableCell
+      v-if="!!expandColumn"
+      :row-data="rowData"
+      :row-index="rowIndex"
+      :table-slots="tableSlots"
+      :column="expandColumn"
+      :cell-index="0"
+      :key="`${rowIndex}_${expandColumn.prop}`">
+      <button
+        class="bs-table-row-expand-icon"
+        :class="{
+          'bs-table-row-expand-icon-expanded': rowIsExpanded
+        }"
+        tabindex="-1"
+        @click="toggleRowExpand">
+        <template v-if="!rowExpandLoading">
+          <BsiChevronRight v-if="!(tableSlots.expandCellIcon || tableSlots['expand-cell-icon'])"></BsiChevronRight>
+          <BsTableCellContent
+            v-else
+            :row-index="rowIndex"
+            :cell-index="0"
+            :row-data="rowData"
+            label=""
+            :table-slots="tableSlots"
+            :parent-slots="$slots"
+            slot-name="expandCellIcon">
+          </BsTableCellContent>
+        </template>
+        <bs-spinner v-else color-type="primary"></bs-spinner>
+      </button>
+    </BsTableCell>
+    <!--普通列-->
     <template v-for="(column, columnIndex) in realColumns">
       <BsTableCell
         v-if="getCellShouldRender(columnIndex)"
@@ -13,6 +51,21 @@
         :key="`${rowIndex}_${column.prop || columnIndex}`"
         :cell-attrs="column.cellAttrs"></BsTableCell>
     </template>
+  </tr>
+  <!--展开行-->
+  <tr class="bs-table-expand-row" v-if="rowIsExpanded">
+    <td
+      :colspan="realColumns.length + 1"
+      :style="hasFixedLeftColumn ? 'position: sticky;left: 0;overflow: hidden' : ''">
+      <BsTableCellContent
+        :row-index="rowIndex"
+        :cell-index="0"
+        :row-data="rowData"
+        label=""
+        :table-slots="tableSlots"
+        slot-name="expandRow">
+      </BsTableCellContent>
+    </td>
   </tr>
 </template>
 
@@ -30,9 +83,18 @@ import {
   computed
 } from 'vue';
 import BsTableCell from './BsTableCell.vue';
-import { BsTableColumn, bsTableCtxKey, BsTableContext, BsTableRowSpanCellInfo } from '../bs-table-types';
-import { isFunction } from '@vue/shared';
+import { BsTableCellContent } from './BsTableCellContent';
+import BsSpinner from '../../bs-spinner/BsSpinner.vue';
+import {
+  BsTableColumn,
+  bsTableCtxKey,
+  BsTableContext,
+  BsTableRowSpanCellInfo,
+  BsTableColumnInner
+} from '../bs-table-types';
+import { isFunction, isPromise } from '@vue/shared';
 import { isNumber, isObject } from '../../../utils/bs-util';
+import { BsiChevronRight } from 'vue3-bootstrap-icon/es/icons/BsiChevronRight';
 
 interface ColSpanCellInfo {
   colSpan: number; // 合并列数
@@ -42,7 +104,10 @@ interface ColSpanCellInfo {
 export default defineComponent({
   name: 'BsTableRow',
   components: {
-    BsTableCell
+    BsTableCell,
+    BsiChevronRight,
+    BsTableCellContent,
+    BsSpinner
   },
   props: {
     rowData: {
@@ -65,26 +130,49 @@ export default defineComponent({
     },
     rowClassName: { // 自定义数据行class
       type: [String, Array, Object, Function]
+    },
+    tableAttrs: { // table的属性及事件
+      type: Object,
+      default () {
+        return {};
+      }
     }
   },
+  emits: ['expand-change'],
   setup (props: any, ctx: SetupContext) {
     let rootTableCtx = inject<BsTableContext>(bsTableCtxKey, {} as BsTableContext);
 
     // 有合并行的列
     // let rowSpanCells = toRef(rootTableCtx, 'rowSpanCells');
 
-    let realColumns: Ref<(BsTableColumn & Record<string, any>)[]> = ref([]);
+    // 展开列
+    let expandColumn = ref<BsTableColumnInner|undefined>();
+    // 是否有左侧固定列
+    let hasFixedLeftColumn = ref(false);
+    // 真实的列信息
+    let realColumns: Ref<(BsTableColumnInner & Record<string, any>)[]> = ref([]);
     // 需要合并的列的信息
     let colSpanCells: ColSpanCellInfo[] = [];
     watch([() => props.columns, rootTableCtx.rowSpanCells], function ([columns]) {
       // let skipEndColumnIndex = -1; // 待跳过的单元格结束索引
       let { rowData, rowIndex } = props;
-      let realColumnsInner: (BsTableColumn & Record<string, any>)[] = [];
-      let colSpanCellsInner: ColSpanCellInfo[] = [];
-      columns.forEach((column: BsTableColumn, index: number) => {
+      let realColumnsInner: (BsTableColumnInner & Record<string, any>)[] = [];
+      // let colSpanCellsInner: ColSpanCellInfo[] = [];
+      let hasExpandRow = false;
+      let hasLeftFixed = false;
+      columns.forEach((column: BsTableColumnInner, index: number) => {
         let {
-          customCellAttrs
+          customCellAttrs,
+          prop
         } = column;
+        if (prop === 'bs_expand_column') { // 展开列不进行合并
+          expandColumn.value = column;
+          hasExpandRow = true;
+          return;
+        }
+        if ((column.fixedLeftColumnCount || 0) > 0) {
+          hasLeftFixed = true;
+        }
         // 跳过需要合并列的单元格
         /* if (skipEndColumnIndex > -1 && index < skipEndColumnIndex) {
           return;
@@ -155,6 +243,10 @@ export default defineComponent({
           cellAttrs
         });
       });
+      if (!hasExpandRow) {
+        expandColumn.value = void 0;
+      }
+      hasFixedLeftColumn.value = hasLeftFixed;
       realColumns.value = realColumnsInner;
       // console.log('colSpanCells', colSpanCells);
     }, { immediate: true });
@@ -167,6 +259,10 @@ export default defineComponent({
       }
       return rowClassName || '';
     });
+    // 行是否展开列
+    let rowIsExpanded = ref(false);
+    // 行是否正在展开中
+    let rowExpandLoading = ref(false);
     onBeforeUnmount(function () {
       // console.log('props.rowIndex', props.rowIndex, {...props.rowData});
       rootTableCtx.removeRowSpanCell({
@@ -179,6 +275,33 @@ export default defineComponent({
     return {
       realColumns,
       rowClasses,
+      expandColumn,
+      rowExpandLoading,
+      rowIsExpanded,
+      hasFixedLeftColumn,
+      toggleRowExpand () {
+        let onExpandChangeEventFunc = props.tableAttrs.onExpandChange;
+        let data = {
+          rowIndex: props.rowIndex,
+          row: props.rowData,
+          isExpand: false
+        };
+        if (isFunction(onExpandChangeEventFunc)) {
+          let isExpand = !rowIsExpanded.value;
+          data.isExpand = isExpand;
+          let doExpand = function () {
+            rowIsExpanded.value = isExpand;
+          };
+          let result = onExpandChangeEventFunc(data, doExpand);
+          if (isPromise(result)) {
+            result.then(doExpand);
+          }
+          return;
+        }
+        rowIsExpanded.value = !rowIsExpanded.value;
+        data.isExpand = rowIsExpanded.value;
+        ctx.emit('expand-change', data);
+      },
       // rowSpanCells,
       getCellShouldRender (cellIndex: number) { // 判断列是否应该显示
         // 判断当前列是否在当前行的列合并范围内

@@ -21,7 +21,9 @@
         :row-data="rowData"
         :label="cellContent"
         :table-slots="tableSlots"
-        :slot-name="column.prop"></BsTableCellContent>
+        :default-content="$slots.default"
+        :slot-name="slotName || column.prop">
+      </BsTableCellContent>
     </div>
     <BsTableCellContent
       v-else
@@ -31,7 +33,10 @@
       :table-slots="tableSlots"
       :is-head-cell="true"
       :column="column"
-      :slot-name="column.headSlotName"></BsTableCellContent>
+      :default-content="$slots.default"
+      :slot-name="slotName || column.headSlotName">
+      <slot></slot>
+    </BsTableCellContent>
   </component>
 </template>
 
@@ -80,9 +85,12 @@ export default defineComponent({
       default () {
         return {};
       }
+    },
+    slotName: { // 自定义内容插槽名称
+      type: String
     }
   },
-  setup (props: any) {
+  setup (props: any, ctx: any) {
     let cellRef = ref<HTMLTableCellElement>();
     let cellContent = computed(function () {
       let customCell = props.column.customCell;
@@ -117,7 +125,7 @@ export default defineComponent({
 
     // 计算列的样式
     let calcColumnStyle = function () {
-      console.log('calcColumnStyle被调用了');
+      // console.log('calcColumnStyle被调用了');
       let cellEl = cellRef.value;
       let left = '';
       let right = '';
@@ -139,13 +147,13 @@ export default defineComponent({
             return result;
           }, 0) + 'px';
         } else if (isFixedRight) {
-          console.log('siblingsCells.slice(cellElIndex + 1)', siblingsCells.slice(cellElIndex + 1));
+          // console.log('siblingsCells.slice(cellElIndex + 1)', siblingsCells.slice(cellElIndex + 1));
           right = siblingsCells.slice(cellElIndex + 1).reduce(function (result: number, siblingItem: HTMLTableCellElement) {
             result += siblingItem.offsetWidth;
             return result;
           }, 0) + 'px';
         }
-        console.log('right', right);
+        // console.log('right', right);
         cellEl.style.position = 'sticky';
         cellEl.style.left = left;
         cellEl.style.right = right;
@@ -192,13 +200,13 @@ export default defineComponent({
     }); */
 
     onMounted(function () {
-      console.log('列组件mounted');
+      // console.log('列组件mounted');
       // columnStyle.value = calcColumnStyle();
       calcColumnStyle();
     });
 
     onUpdated(function () {
-      console.log('table column updated!');
+      // console.log('table column updated!');
       calcColumnStyle();
       // columnStyle.value = calcColumnStyle();
     });

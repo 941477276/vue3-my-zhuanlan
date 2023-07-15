@@ -1,4 +1,5 @@
 import { isFunction } from '@vue/shared';
+import { camelCase2KebabCase } from '../../../utils/bs-util';
 
 /**
  * 单元格内容组件
@@ -6,10 +7,12 @@ import { isFunction } from '@vue/shared';
  * @constructor
  */
 export function BsTableCellContent (props: any) {
-  let slot = props.tableSlots?.[props.slotName];
+  let slot = props.tableSlots?.[props.slotName] || props.tableSlots?.[camelCase2KebabCase(props.slotName)];
+  let parentDefaultSlot = props.defaultContent;
   // 优先渲染插槽里的内容
-  if (slot) {
-    return slot({
+  if (parentDefaultSlot || slot) {
+    let slotFn = parentDefaultSlot || slot;
+    return slotFn({
       rowIndex: props.rowIndex,
       cellIndex: props.cellIndex,
       row: props.rowData
@@ -25,4 +28,4 @@ export function BsTableCellContent (props: any) {
   return label;
 };
 
-BsTableCellContent.props = ['label', 'tableSlots', 'slotName', 'rowIndex', 'rowData', 'cellIndex', 'column', 'isHeadCell'];
+BsTableCellContent.props = ['label', 'tableSlots', 'defaultContent', 'slotName', 'rowIndex', 'rowData', 'cellIndex', 'column', 'isHeadCell'];

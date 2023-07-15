@@ -75,7 +75,18 @@ export const bsTableProps = {
   // 表格高度
   height: [String, Number],
   // 表格最大高度
-  maxHeight: [String, Number]
+  maxHeight: [String, Number],
+  allowExpand: { // 是否允许展开
+    type: Boolean
+  },
+  expandColumnWidth: { // 展开列的宽度
+    type: [String, Number],
+    default: 50
+  },
+  expandColumnLabel: { // 展开列的列名称
+    type: [String, Number, Function],
+    default: ''
+  }
 };
 
 export interface BsTableContext {

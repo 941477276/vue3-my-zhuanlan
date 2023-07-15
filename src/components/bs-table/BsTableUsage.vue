@@ -3,7 +3,14 @@
   <div>
     <h3>基础用法</h3>
     <!--<Basic></Basic>-->
-    <BsTable :columns="columns2" :data="data2" stripe border max-height="400" row-key="id">
+    <BsTable :columns="columns2" :data="data2" stripe border max-height="400" allow-expand expand-column-width="100" row-key="id"
+      @expandChange="handleRowExpandChange">
+      <template #expandColumnHeader>
+        <mark>--</mark>
+      </template>
+      <template #expandRow="{row}">
+        {{ row }}
+      </template>
       <template #opt>
         <bs-button type="primary" size="sm">Edit</bs-button>
         <bs-button type="danger" size="sm" style="margin-left: 0.5rem;">Delete</bs-button>
@@ -166,9 +173,14 @@ export default defineComponent({
       }
     ]);
 
+    let handleRowExpandChange = function (rowData: any, done: () => void) {
+      console.log('行展开或收起了', rowData);
+      done();
+    };
     return {
       columns2,
-      data2
+      data2,
+      handleRowExpandChange
     };
   }
 });

@@ -60,7 +60,41 @@
     right: 100%;
   }
 }
+
+.bs-table-expand-cell{
+  .bs-table-cell-content{
+    text-align:  center;
+  }
+}
+.bs-table-expand-cell-head{
+  text-align:  center;
+}
+.bs-table-row-expand-icon{
+  line-height: 0;
+  padding: 0;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  .bs-icon-chevron-right{
+    vertical-align: middle;
+    transition: transform .2s;
+  }
+  .bs-spinner{
+    width: 1rem;
+    height: 1rem;
+    border-width: 1px;
+  }
+}
+.bs-table-row-expand-icon-expanded{
+  .bs-icon-chevron-right{
+    transform: rotate(90deg);
+  }
+}
 .bs-table{
+  .bs-table-cell{
+    vertical-align: middle;
+  }
   &.table-bordered{
     thead{
       th:first-child{

@@ -13,7 +13,8 @@
         :is-header-cell="true"
         :cell-attrs="cell.cellAttrs"
         :class="{
-          'bs-table-cell-scrollbar-prev-neighbor': tableBodyHasScroll && (tableBodyScrollWidth > 0) && (index == headThs.length - 1)
+          'bs-table-cell-scrollbar-prev-neighbor': tableBodyHasScroll && (tableBodyScrollWidth > 0) && (index == headThs.length - 1),
+          'bs-table-expand-cell-head': cell.prop == 'bs_expand_column'
         }"></BsTableCell>
       <th
         v-if="tableBodyHasScroll && tableBodyScrollWidth > 0"
@@ -136,17 +137,16 @@ export default defineComponent({
 
     let cellComponentRefs = reactive<Record<string, any>>({});
     let setRef = function (key: string, com: any) {
-      console.log('setRef', key, com);
+      // console.log('setRef', key, com);
       cellComponentRefs[key] = com;
     };
 
     onMounted(function () {
-      console.log('head组件mounted');
+      // console.log('head组件mounted');
       setTimeout(function () {
         if (hasFixedRightColumn.value) { // 主动调用列组件的计算列样式函数，以防止固定列定位不正确
           for (let key in cellComponentRefs) {
             let cellComponent = cellComponentRefs[key];
-            console.log(111);
             cellComponent.calcColumnStyle();
           }
         }
