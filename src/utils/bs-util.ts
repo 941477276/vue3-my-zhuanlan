@@ -192,6 +192,46 @@ export function checkTerminal (): { android: boolean; ios: boolean; pc: boolean 
   };
 };
 
+/**
+ * 获取随机字符串
+ * @param length 随机字符串长度
+ * @returns {string}
+ */
+export function getUUID (length = 32) {
+  let randomStr = Math.random().toString(32).substr(2);
+  while (randomStr.length < length) {
+    randomStr += Math.random().toString(32).substr(2);
+  }
+  // @ts-ignore
+  if (!getUUID._count) {
+    // @ts-ignore
+    getUUID._count = 0;
+  }
+  // @ts-ignore
+  getUUID._count++;
+  // @ts-ignore
+  randomStr = randomStr.replace(/[b-v]/, getUUID._count);
+  randomStr = randomStr.substr(0, length);
+  console.log('randomStr', randomStr);
+  return randomStr;
+}
+
+/**
+ * json按ASCII码表顺序排序
+ * @param json json对象
+ * @returns {*}
+ */
+export function jsonSort (json: Record<string, any>) {
+  let attrs = Object.keys(json);
+  // 使用数组的排序方法进行排序
+  attrs.sort();
+  let newJson = attrs.reduce((res, attr) => {
+    res[attr] = json[attr];
+    return res;
+  }, {} as Record<string, any>);
+  return newJson;
+};
+
 /* **************************** DOM utils start ************************************* */
 
 // 获取浏览器宽高

@@ -58,14 +58,19 @@
           :table-body-scroll-width="tableBodyScrollInfo.scrollWidth"></BsTableHead>
         <tbody class="bs-table-tbody">
         <BsTableRow
-          v-for="(row, rowIndex) in realTableData"
-          :key="getRowKey(row, rowIndex)"
-          :row-data="row.data"
+          v-for="(row, rowIndex) in realTableRows"
+          :key="row.uid"
+          :row-data="row.rowData"
           :row-index="rowIndex"
+          :row-id="row.uid"
           :table-slots="$slots"
           :table-attrs="$attrs"
           :columns="columnsInfo.columns"
           :row-class-name="rowClassName"
+          :children-key="childrenKey"
+          :is-tree-data="isTreeData"
+          :tree-level="row.treeLevel"
+          :tree-row-expand="row.treeDataRowExpand"
           @expand-change="handleExpandChange">
         </BsTableRow>
         </tbody>
@@ -82,13 +87,14 @@ import {
 } from 'vue';
 import {
   bsTableProps, BsTableRowSpanCellInfo, BsTableContext, bsTableCtxKey, BsTableColumn,
-  BsTableColumnInner, BsColgroupItem
+  BsTableColumnInner, BsColgroupItem, BsTableRealRow
 } from './bs-table-types';
 import BsTableFixedHeader from './wigets/BsTableFixedHeader.vue';
 import BsTableHead from './wigets/BsTableHead.vue';
 import BsTableRow from './wigets/BsTableRow.vue';
 import { isFunction } from '@vue/shared';
-import { scrollWidth, isNumber, isString, hasScroll } from '../../utils/bs-util';
+import { scrollWidth, isNumber, isString, hasScroll, getUUID, jsonSort } from '../../utils/bs-util';
+import { sm3HashHex } from '../../utils/sm3Hmac';
 
 interface ColSpanCellInfo {
   colSpan: number; // 合并列数
@@ -194,20 +200,83 @@ export default defineComponent({
       };
     });
 
-    let dataChangeRandom = ref();
-    let realTableData = ref<any[]>([]);
+    // 获取行数据哈希值
+    let getRowDataHash = function (rowData: Record<string, any>): string {
+      let newRowData = { ...rowData };
+      for (let attr in newRowData) {
+        let valType = typeof newRowData[attr];
+        // 只保留基本数据类型
+        if ((valType != 'string' && valType != 'number') || (attr + '').includes('time')) {
+          delete newRowData[attr];
+        }
+      }
+      let sortedJson = jsonSort(newRowData);
+      return sm3HashHex(JSON.stringify(sortedJson));
+    };
+
+    let realTableRows = ref<BsTableRealRow[]>([]);
+    // 数据是否为树状
+    let isTreeData = ref(false);
+    // 展开行的id
+    let expandedTreeRowIds: Set<string> = new Set();
+    // 构建表格行数据
+    let generateTableRow = function (treeData: Record<string, any>[], treeLevel = 1, callback?: (dataItem: Record<string, any>, newRow: BsTableRealRow) => void): BsTableRealRow[] {
+      let rowKey = props.rowKey;
+      return (treeData || []).map((dataItem: Record<string, any>) => {
+        if (isFunction(rowKey)) {
+          rowKey = rowKey(dataItem);
+        }
+        let uid = dataItem[rowKey] || getRowDataHash(dataItem);
+        let result = {
+          treeDataRowExpand: expandedTreeRowIds.has(uid), // 树状数据时，当前行是否展开了
+          treeLevel: treeLevel, // 树的层级
+          uid,
+          rowData: dataItem,
+          children: []
+        };
+        if (isFunction(callback)) {
+          callback(dataItem, result);
+        }
+        return result;
+      });
+    };
     // TODO 列合并、行合并功能是否应该提取到当前组件计算
     watch(() => [...props.data], function (data) {
       nextTick(function () {
-        let now = new Date().getTime();
-        realTableData.value = data?.map((dataItem: Record<string, any>, index: number) => {
-          return {
-            uid: `${index}_${now}`,
-            data: dataItem
-          };
+        let childrenKey = props.childrenKey;
+        let isTreeDataFlag = false;
+        let hasDefaultExpandRow = false;
+
+        realTableRows.value = generateTableRow(data, 1, function (dataItem, row) {
+          if (!isTreeDataFlag) {
+            let children = dataItem[childrenKey];
+            isTreeDataFlag = Array.isArray(children) && children.length > 0;
+          }
+          if (!hasDefaultExpandRow) {
+            hasDefaultExpandRow = row.treeDataRowExpand;
+          }
         });
-        // 数据变动后需要让子孙组件知道
-        dataChangeRandom.value = new Date().getTime();
+        isTreeData.value = isTreeDataFlag;
+        console.log('计算表格行：', [...realTableRows.value]);
+
+        let defaultExpandAllRows = !!props.defaultExpandAllRows;
+        // 默认展开的行
+        if (hasDefaultExpandRow || defaultExpandAllRows) {
+          let doExpandTreeRow = function (rows: BsTableRealRow[]) {
+            rows.forEach(row => {
+              if (row.treeDataRowExpand || defaultExpandAllRows) {
+                row.treeDataRowExpand = false; // 防止调用expandTreeRow函数进行展开时进入折叠逻辑
+                expandTreeRow(row.rowData, row.uid, false);
+              }
+              let childrenRows = row.children;
+              if (defaultExpandAllRows) {
+                doExpandTreeRow(childrenRows);
+              }
+            });
+          };
+          // console.log('realTableRows.value', realTableRows.value);
+          doExpandTreeRow([...realTableRows.value]);
+        }
       });
     }, { immediate: true });
 
@@ -419,18 +488,74 @@ export default defineComponent({
       }
     };
 
+    // 展开树状行
+    let expandTreeRow = function (rowData: any, rowId: string, expandChildRow = true, callback?: (flag: boolean) => void) {
+      let realTableRowsRaw = realTableRows.value;
+      let index = realTableRowsRaw.findIndex((rowItem) => rowItem.uid === rowId);
+
+      if (index == -1) {
+        return;
+      }
+      // console.log('expandTreeRow', 'expandTreeRow执行了');
+      let row = realTableRowsRaw[index];
+      let childrenKey = props.childrenKey;
+      let children = row.rowData[childrenKey];
+      if (!row.treeDataRowExpand) { // 展开
+        let rowChildren = generateTableRow(children, row.treeLevel + 1);
+        row.children = rowChildren;
+        row.treeDataRowExpand = true;
+        expandedTreeRowIds.add(row.uid);
+        // 在当前行的后面插入新的行
+        realTableRowsRaw.splice(index + 1, 0, ...rowChildren);
+
+        if (expandChildRow) { // 是展开子节点行，默认自动展开状态为已展开的子节点行
+          rowChildren.forEach(childRowItem => {
+            let childRowId = childRowItem.uid;
+            if (expandedTreeRowIds.has(childRowId)) { // 如果子节点之前是展开状态，那么此时应该再次展开它
+              childRowItem.treeDataRowExpand = false;
+              // console.log('展开下级节点：', childRowItem);
+              expandTreeRow(rowChildren[childrenKey], childRowItem.uid);
+            }
+          });
+        }
+      } else { // 收起
+        row.treeDataRowExpand = false;
+        expandedTreeRowIds.delete(row.uid);
+        console.log('realTableRowsRaw', realTableRowsRaw);
+        // realTableRowsRaw.splice(index + 1, children.length);
+        // 折叠子节点
+        let foldChildren = function (rowChildren: BsTableRealRow[]) {
+          rowChildren.forEach(curRow => {
+            let curRowId = curRow.uid;
+            let index = realTableRowsRaw.findIndex((rowItem) => rowItem.uid === curRowId);
+            if (index == -1) { // 如果子节点先折叠起来，那么在realTableRowsRaw中就会找不到，此时就不能再继续移除了
+              return;
+            }
+            realTableRowsRaw.splice(index, 1);
+            if (curRow.children.length > 0) {
+              foldChildren(curRow.children);
+            }
+          });
+        };
+        let timer = setTimeout(function () {
+          clearTimeout(timer);
+          foldChildren(row.children);
+        }, 0);
+      }
+    };
+
     provide(bsTableCtxKey, {
-      dataChangeRandom,
       rowSpanCells,
       addRowSpanCell,
-      removeRowSpanCell
+      removeRowSpanCell,
+      expandTreeRow
     });
     return {
       tableContainerRef,
       tableFixedHeaderRef,
       tableBodyRef,
       tableRef,
-      realTableData,
+      realTableRows,
       colgroup,
       tableWidth,
       tableHeight,
@@ -438,16 +563,17 @@ export default defineComponent({
       hasFixedHeader,
       columnsInfo,
       tableBodyScrollInfo,
+      isTreeData,
       handleTableBodyScroll,
-      getRowKey (row: Record<string, any>, rowIndex: number) {
+      getRowKey (row: BsTableRealRow, rowIndex: number) {
         let rowKey = props.rowKey;
         if (!rowKey) {
           return row.uid;
         }
         if (isFunction(rowKey)) {
-          return rowKey(row.data, rowIndex) || row.uid;
+          return row.rowData[rowKey(row.rowData, rowIndex)] || row.uid;
         }
-        return row.data[rowKey] || row.uid;
+        return row.rowData[rowKey] || row.uid;
       },
       handleExpandChange () { // 行展开事件
         handleColumnsChange(columnsInfo.value);

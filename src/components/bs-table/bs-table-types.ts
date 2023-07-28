@@ -1,4 +1,5 @@
 import { PropType, VNode, InjectionKey, Ref } from 'vue';
+import { getUUID } from '@/utils/bs-util';
 
 // 表格列属性
 export interface BsTableColumn {
@@ -86,13 +87,28 @@ export const bsTableProps = {
   expandColumnLabel: { // 展开列的列名称
     type: [String, Number, Function],
     default: ''
+  },
+  childrenKey: { // 树形数据结构中下级节点在数据中的 key
+    type: String,
+    default: 'children'
+  },
+  defaultExpandAllRows: { // 默认是否展开所有行
+    type: Boolean
   }
 };
 
+export interface BsTableRealRow {
+  treeDataRowExpand: boolean; // 树状数据时，当前行是否展开了
+  treeLevel: number; // 树的层级
+  uid: string;
+  rowData: Record<string, any>;
+  children: BsTableRealRow[]
+}
+
 export interface BsTableContext {
-  dataChangeRandom: Ref<boolean>;
   rowSpanCells: Record<string, BsTableRowSpanCellInfo>;
   addRowSpanCell: (rowSpanCellInfo: BsTableRowSpanCellInfo) => void;
   removeRowSpanCell: (rowSpanCellInfo: BsTableRowSpanCellInfo, removeCurrentRowCells?: boolean) => void;
+  expandTreeRow: (rowData: any, rowId: string, callback?: (dataItem: Record<string, any>, newRow: BsTableRealRow) => void) => void;
 }
 export const bsTableCtxKey: InjectionKey<BsTableContext> = Symbol('bsTableCtx');

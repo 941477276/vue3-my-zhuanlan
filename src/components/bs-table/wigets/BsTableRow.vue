@@ -5,7 +5,8 @@
       rowClasses,
       {
         'bs-table-row-expanded': rowIsExpanded
-      }
+      },
+      treeLevel > 1 ? `bs-table-row-level-${treeLevel}` : ''
     ]">
     <!--展开行操作列-->
     <BsTableCell
@@ -45,11 +46,16 @@
         v-if="getCellShouldRender(columnIndex)"
         :row-data="rowData"
         :row-index="rowIndex"
+        :row-id="rowId"
         :table-slots="tableSlots"
         :column="column"
         :cell-index="columnIndex"
         :key="`${rowIndex}_${column.prop || columnIndex}`"
-        :cell-attrs="column.cellAttrs"></BsTableCell>
+        :cell-attrs="column.cellAttrs"
+        :is-tree-data="isTreeData"
+        :has-children="hasChildren"
+        :tree-row-expand="treeRowExpand"
+        :tree-level="treeLevel"></BsTableCell>
     </template>
   </tr>
   <!--展开行-->
@@ -92,6 +98,7 @@ import {
   BsTableRowSpanCellInfo,
   BsTableColumnInner
 } from '../bs-table-types';
+import { bsTableCellProps } from './bs-table-cell-props';
 import { isFunction, isPromise } from '@vue/shared';
 import { isNumber, isObject } from '../../../utils/bs-util';
 import { BsiChevronRight } from 'vue3-bootstrap-icon/es/icons/BsiChevronRight';
@@ -110,24 +117,7 @@ export default defineComponent({
     BsSpinner
   },
   props: {
-    rowData: {
-      type: Object,
-      default() {
-        return {};
-      }
-    },
-    rowIndex: {
-      type: Number
-    },
-    tableSlots: {
-      type: Object
-    },
-    columns: { // 当前列配置
-      type: Object as PropType<BsTableColumn[]>,
-      default() {
-        return {};
-      }
-    },
+    ...bsTableCellProps,
     rowClassName: { // 自定义数据行class
       type: [String, Array, Object, Function]
     },
@@ -136,6 +126,16 @@ export default defineComponent({
       default () {
         return {};
       }
+    },
+    columns: { // 当前列配置
+      type: Object as PropType<BsTableColumn[]>,
+      default () {
+        return {};
+      }
+    },
+    childrenKey: { // 树形数据结构中下级节点在数据中的 key
+      type: String,
+      default: 'children'
     }
   },
   emits: ['expand-change'],
@@ -259,6 +259,12 @@ export default defineComponent({
       }
       return rowClassName || '';
     });
+    // 是否有子节点
+    let hasChildren = computed(function () {
+      let childrenKey = props.childrenKey;
+      let rowData = props.rowData;
+      return Array.isArray(rowData[childrenKey]) && rowData[childrenKey].length > 0;
+    });
     // 行是否展开列
     let rowIsExpanded = ref(false);
     // 行是否正在展开中
@@ -279,6 +285,7 @@ export default defineComponent({
       rowExpandLoading,
       rowIsExpanded,
       hasFixedLeftColumn,
+      hasChildren,
       toggleRowExpand () {
         let onExpandChangeEventFunc = props.tableAttrs.onExpandChange;
         let data = {

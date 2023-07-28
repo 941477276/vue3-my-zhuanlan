@@ -15,6 +15,37 @@
     ]"
     :style="columnStyle">
     <div class="bs-table-cell-content" v-if="!isHeaderCell">
+      <template v-if="cellIndex == 0 && isTreeData">
+        <span
+          v-for="item in (treeLevel - 1)"
+          :key="item"
+          class="bs-table-row-indent"
+          :class="[`row-indent-level-${treeLevel}`]"></span>
+        <button
+          v-if="hasChildren"
+          class="bs-table-row-expand-icon bs-table-tree-row-expand-icon"
+          :class="{
+            'bs-table-row-expand-icon-expanded': treeRowExpand
+          }"
+          tabindex="-1"
+          @click="toggleRowExpand">
+          <template v-if="!rowExpandLoading">
+            <BsiChevronRight v-if="!(tableSlots?.expandCellIcon || tableSlots?.['expand-cell-icon'])"></BsiChevronRight>
+            <BsTableCellContent
+              v-else
+              :row-index="rowIndex"
+              :cell-index="0"
+              :row-data="rowData"
+              label=""
+              :table-slots="tableSlots"
+              :parent-slots="$slots"
+              slot-name="expandCellIcon">
+            </BsTableCellContent>
+          </template>
+          <bs-spinner v-else color-type="primary"></bs-spinner>
+        </button>
+        <div v-else class="bs-table-row-expand-placeholder"></div>
+      </template>
       <BsTableCellContent
         :row-index="rowIndex"
         :cell-index="cellIndex"
@@ -41,38 +72,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType, ref, onUpdated, onMounted } from 'vue';
+import { defineComponent, computed, PropType, ref, onUpdated, onMounted, inject } from 'vue';
 import { BsTableCellContent } from './BsTableCellContent';
-import { BsTableColumnInner } from '../bs-table-types';
+import { BsTableColumnInner, bsTableCtxKey } from '../bs-table-types';
+import { bsTableCellProps } from './bs-table-cell-props';
 import { isFunction } from '@vue/shared';
+import BsSpinner from '../../../components/bs-spinner/BsSpinner.vue';
+import { BsiChevronRight } from 'vue3-bootstrap-icon/es/icons/BsiChevronRight';
 
 export default defineComponent({
   name: 'BsTableCell',
   components: {
+    BsiChevronRight,
+    BsSpinner,
     BsTableCellContent
   },
   props: {
+    ...bsTableCellProps,
     tag: {
       type: String,
       default: 'td'
-    },
-    rowData: {
-      type: Object,
-      default () {
-        return {};
-      }
-    },
-    rowIndex: {
-      type: Number
     },
     cellIndex: {
       type: Number
     },
     isHeaderCell: {
       type: Boolean
-    },
-    tableSlots: {
-      type: Object
     },
     column: { // 当前列配置
       type: Object as PropType<BsTableColumnInner>,
@@ -91,6 +116,9 @@ export default defineComponent({
     }
   },
   setup (props: any, ctx: any) {
+    // 表格根节点上下文
+    let tableRootCtx = inject(bsTableCtxKey)!;
+
     let cellRef = ref<HTMLTableCellElement>();
     let cellContent = computed(function () {
       let customCell = props.column.customCell;
@@ -167,37 +195,9 @@ export default defineComponent({
     };
     // 列的样式
     let columnStyle = ref<Record<string, any>>({});
-    /* // 列的样式
-    let columnStyle = computed(function () {
-      let cellEl = cellRef.value;
-      let left = '';
-      let right = '';
-      let { isFixedLeft, isFixedRight } = columnFixedInfo.value;
-      if (!isFixedLeft && !isFixedRight) {
-        return {};
-      }
-      if (cellEl) {
-        let siblingsCells = [...(cellEl.parentElement?.children || [])];
-        let cellElIndex = siblingsCells.findIndex(nodeItem => nodeItem === cellEl);
-        if (isFixedLeft) {
-          left = siblingsCells.slice(0, cellElIndex).reduce(function (result: number, siblingItem: HTMLTableCellElement) {
-            result += siblingItem.offsetWidth;
-            return result;
-          }, 0) + 'px';
-        } else if (isFixedRight) {
-          console.log('siblingsCells.slice(cellElIndex + 1)', siblingsCells.slice(cellElIndex + 1));
-          right = siblingsCells.slice(cellElIndex + 1).reduce(function (result: number, siblingItem: HTMLTableCellElement) {
-            result += siblingItem.offsetWidth;
-            return result;
-          }, 0) + 'px';
-        }
-      }
-      return {
-        position: 'sticky',
-        left,
-        right
-      };
-    }); */
+
+    // 行是否正在展开
+    let rowExpandLoading = ref(false);
 
     onMounted(function () {
       // console.log('列组件mounted');
@@ -217,7 +217,12 @@ export default defineComponent({
       cellClasses,
       columnFixedInfo,
       columnStyle,
-      calcColumnStyle
+      calcColumnStyle,
+      rowExpandLoading,
+      toggleRowExpand () {
+        // rowExpandLoading.value = !rowExpandLoading.value;
+        tableRootCtx.expandTreeRow(props.rowData, props.rowId);
+      }
     };
   }
 });

@@ -1,24 +1,18 @@
 <template>
-<div class="component-usage">
-  <div>
-    <h3>基础用法</h3>
-    <!--<Basic></Basic>-->
-    <BsTable :columns="columns2" :data="data2" stripe border max-height="400" allow-expand expand-column-width="100" row-key="id"
-      @expandChange="handleRowExpandChange">
-      <template #expandColumnHeader>
-        <mark>--</mark>
-      </template>
-      <template #expandRow="{row}">
-        {{ row }}
-      </template>
-      <template #opt>
-        <bs-button type="primary" size="sm">Edit</bs-button>
-        <bs-button type="danger" size="sm" style="margin-left: 0.5rem;">Delete</bs-button>
-      </template>
-    </BsTable>
-  </div>
+  <div class="component-usage">
+    <div>
+      <!--<h3>基础用法</h3>-->
+      <!--<Basic></Basic>-->
+      <BsTable :columns="columns2" :data="data2" stripe border max-height="400"
+               data-row-key="value" default-expand-all-rows>
+        <template #opt>
+          <bs-button type="primary" size="sm">Edit</bs-button>
+          <bs-button type="danger" size="sm" style="margin-left: 0.5rem;">Delete</bs-button>
+        </template>
+      </BsTable>
+    </div>
 
-</div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -28,159 +22,131 @@ import Basic from './demos/basic.vue';
 export default defineComponent({
   name: 'BsTableUsage',
   components: {
-    Basic
+    // Basic
   },
   setup (props: any) {
     const columns2 = [
       {
-        label: 'ID',
-        prop: 'id',
-        fixed: true
-      },
-      {
-        label: 'UserName',
-        prop: 'name',
-        width: 130,
-        fixed: 'left'
-      },
-      {
-        label: 'Email',
-        prop: 'email',
-        minWidth: 150
-      },
-      {
-        label: 'Phone',
-        prop: 'phone',
+        label: 'Area name',
+        prop: 'title',
         minWidth: 160
       },
       {
-        label: 'Hobbies',
-        prop: 'hobbies',
-        minWidth: 200
+        label: 'Key',
+        prop: 'key',
+        minWidth: 180
       },
       {
-        label: 'Job',
-        prop: 'job',
-        minWidth: 100
+        label: 'Value',
+        prop: 'value'
       },
       {
-        label: 'CreatedTime',
-        prop: 'createdTime',
-        width: 150
-      },
-      {
-        label: 'Address',
-        prop: 'address',
-        minWidth: 200,
-        fixed: 'right'
-      },
-      {
-        label: 'Operates',
+        label: 'Operate',
         prop: 'opt',
-        minWidth: 160,
-        fixed: 'right'
+        minWidth: 140
       }
     ];
 
     const data2 = ref([
       {
-        id: '1',
-        name: 'John Brown',
-        date: '2023-07-09',
-        email: 'user1@bts.com',
-        phone: '13112345678',
-        job: 'Web front developer',
-        createdTime: '2023-07-09 16:24:35',
-        hobbies: ['movies', 'music', 'code'],
-        address: 'New York No. 1 Lake Park'
+        'title': '佛山市',
+        'key': '64c204f08cdedc661690ffd9',
+        'value': '001003'
       },
       {
-        id: '2',
-        name: 'Jim Green',
-        date: '2023-07-10',
-        email: 'user2@bts.com',
-        phone: '13212345678',
-        job: 'java developer',
-        createdTime: '2023-07-09 16:24:35',
-        hobbies: ['movies', 'music', 'code'],
-        address: 'London No. 1 Lake Park'
+        'children': [
+          {
+            'title': '越秀区',
+            'key': '64c204e68cdedc661690ffd8',
+            'value': '001002002'
+          },
+          {
+            'title': '增城区',
+            'key': '64c204d98cdedc661690ffd7',
+            'value': '001002001'
+          }
+        ],
+        'title': '广州市',
+        'key': '64c204cb8cdedc661690ffd2',
+        'value': '001002'
       },
       {
-        id: '3',
-        name: 'Joe Black',
-        date: '2023-07-17',
-        email: 'user3@bts.com',
-        phone: '13312345678',
-        job: 'UI',
-        createdTime: '2023-07-09 16:24:35',
-        hobbies: ['movies', 'music', 'code'],
-        address: 'Sidney No. 1 Lake Park'
-      },
-      {
-        id: '4',
-        name: 'Jim Red',
-        date: '2023-08-01',
-        email: 'user4@bts.com',
-        phone: '13412345678',
-        job: 'tester',
-        createdTime: '2023-07-09 16:24:35',
-        hobbies: ['movies', 'music', 'code'],
-        address: 'London No. 2 Lake Park'
-      },
-      {
-        id: '5',
-        name: 'Jake White',
-        date: '2023-08-13',
-        email: 'user5@bts.com',
-        phone: '13512345678',
-        job: 'android developer',
-        createdTime: '2023-07-09 16:24:35',
-        hobbies: ['movies', 'music', 'code'],
-        address: 'Dublin No. 2 Lake Park'
-      },
-      {
-        id: '6',
-        name: 'Jake Lee',
-        date: '2023-08-19',
-        email: 'user6@bts.com',
-        phone: '13612345678',
-        job: 'ios developer',
-        createdTime: '2023-07-09 16:24:35',
-        hobbies: ['movies', 'music', 'code'],
-        address: 'Dublin No. 2 Lake Park'
-      },
-      {
-        id: '7',
-        name: 'Optimus Prime',
-        date: '2023-08-23',
-        email: 'user7@bts.com',
-        phone: '13712345678',
-        job: 'flutter developer',
-        createdTime: '2023-07-09 16:24:35',
-        hobbies: ['movies', 'music', 'code'],
-        address: 'Dublin No. 2 Lake Park'
-      },
-      {
-        id: '8',
-        name: 'Bumblebee',
-        date: '2023-09-09',
-        email: 'user8@bts.com',
-        phone: '13812345678',
-        job: 'Web front developer',
-        createdTime: '2023-07-09 16:24:35',
-        hobbies: ['movies', 'music', 'code'],
-        address: 'Dublin No. 2 Lake Park'
+        'children': [
+          {
+            'title': '福田区',
+            'key': '64c204138cdedc661690ffbd',
+            'value': '001001003'
+          },
+          {
+            'children': [
+              {
+                'title': '新安街道',
+                'key': '64c204c28cdedc661690ffd1',
+                'value': '001001002003'
+              },
+              {
+                'title': '西乡街道',
+                'key': '64c204b28cdedc661690ffd0',
+                'value': '001001002002'
+              }
+            ],
+            'title': '宝安区',
+            'key': '64c204098cdedc661690ffbc',
+            'value': '001001002'
+          },
+          {
+            'children': [
+              {
+                'title': '吉华街道',
+                'key': '64c2043d8cdedc661690ffc4',
+                'value': '001001001003'
+              },
+              {
+                'children': [
+                  {
+                    'title': '布吉一街',
+                    'key': '64c2045e8cdedc661690ffc9',
+                    'value': '001001001002001'
+                  },
+                  {
+                    'title': '荣超花园',
+                    'key': '64c204798cdedc661690ffca',
+                    'value': '001001001002002'
+                  }
+                ],
+                'title': '布吉街道',
+                'key': '64c2042a8cdedc661690ffc3',
+                'value': '001001001002'
+              },
+              {
+                'title': '坂田街道',
+                'key': '64c204228cdedc661690ffc2',
+                'value': '001001001001'
+              }
+            ],
+            'title': '龙岗区',
+            'key': '64b5e8c4fc205615f7314d9a',
+            'value': '001001001'
+          }
+        ],
+        'title': '深圳市',
+        'key': '64b5e8bafc205615f7314d95',
+        'value': '001001'
       }
     ]);
 
-    let handleRowExpandChange = function (rowData: any, done: () => void) {
-      console.log('行展开或收起了', rowData);
-      done();
-    };
+    setTimeout(function () {
+      console.log('表格数据更新了：');
+      data2.value.push({
+        'title': '清远市',
+        'key': '64c204f08cdedc661690eed9',
+        'value': '001004'
+      });
+    }, 1500);
+
     return {
       columns2,
-      data2,
-      handleRowExpandChange
+      data2
     };
   }
 });

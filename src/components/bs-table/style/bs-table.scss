@@ -86,10 +86,24 @@
     border-width: 1px;
   }
 }
+.bs-table-row-indent{
+  display: inline-block;
+  width: 1rem;
+  height: 1px;
+}
 .bs-table-row-expand-icon-expanded{
   .bs-icon-chevron-right{
     transform: rotate(90deg);
   }
+}
+.bs-table-tree-row-expand-icon{
+  margin-right: 0.5rem;
+}
+.bs-table-row-expand-placeholder{
+  display: inline-block;
+  width: 1rem;
+  height: 1px;
+  margin-right: 0.5rem;
 }
 .bs-table{
   .bs-table-cell{
