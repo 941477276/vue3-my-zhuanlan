@@ -55,7 +55,10 @@
         :is-tree-data="isTreeData"
         :has-children="hasChildren"
         :tree-row-expand="treeRowExpand"
-        :tree-level="treeLevel"></BsTableCell>
+        :tree-level="treeLevel"
+        :lazy="lazy"
+        :is-leaf-key="isLeafKey"
+        :children-key="childrenKey"></BsTableCell>
     </template>
   </tr>
   <!--展开行-->
@@ -132,10 +135,6 @@ export default defineComponent({
       default () {
         return {};
       }
-    },
-    childrenKey: { // 树形数据结构中下级节点在数据中的 key
-      type: String,
-      default: 'children'
     }
   },
   emits: ['expand-change'],

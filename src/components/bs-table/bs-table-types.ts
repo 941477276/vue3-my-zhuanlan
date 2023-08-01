@@ -92,8 +92,22 @@ export const bsTableProps = {
     type: String,
     default: 'children'
   },
+  isLeafKey: { // 懒加载模式下，树形数据结构中没有子下级节点的key，当值为true表示该行没有下级节点了
+    type: String,
+    default: 'isLeaf'
+  },
   defaultExpandAllRows: { // 默认是否展开所有行
     type: Boolean
+  },
+  defaultExpandedRowKeys: { // 默认展开的行
+    type: Array,
+    default: []
+  },
+  lazy: { // 是否懒加载树状数据
+    type: Boolean
+  },
+  load: { // 加载数据函数
+    type: Function
   }
 };
 
@@ -109,6 +123,6 @@ export interface BsTableContext {
   rowSpanCells: Record<string, BsTableRowSpanCellInfo>;
   addRowSpanCell: (rowSpanCellInfo: BsTableRowSpanCellInfo) => void;
   removeRowSpanCell: (rowSpanCellInfo: BsTableRowSpanCellInfo, removeCurrentRowCells?: boolean) => void;
-  expandTreeRow: (rowData: any, rowId: string, callback?: (dataItem: Record<string, any>, newRow: BsTableRealRow) => void) => void;
+  expandTreeRow: (rowData: any, rowId: string, expandChildRow?: boolean, callback?: (flag: boolean) => void) => void;
 }
 export const bsTableCtxKey: InjectionKey<BsTableContext> = Symbol('bsTableCtx');

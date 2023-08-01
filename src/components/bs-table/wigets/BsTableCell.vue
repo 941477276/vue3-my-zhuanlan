@@ -22,11 +22,12 @@
           class="bs-table-row-indent"
           :class="[`row-indent-level-${treeLevel}`]"></span>
         <button
-          v-if="hasChildren"
+          v-if="hasChildren || (lazy && !rowData[isLeafKey] && !lazyDataSuccessful)"
           class="bs-table-row-expand-icon bs-table-tree-row-expand-icon"
           :class="{
             'bs-table-row-expand-icon-expanded': treeRowExpand
           }"
+          :disabled="rowExpandLoading"
           tabindex="-1"
           @click="toggleRowExpand">
           <template v-if="!rowExpandLoading">
@@ -198,6 +199,8 @@ export default defineComponent({
 
     // 行是否正在展开
     let rowExpandLoading = ref(false);
+    // 懒数据是否加载成功
+    let lazyDataSuccessful = ref(false);
 
     onMounted(function () {
       // console.log('列组件mounted');
@@ -219,8 +222,21 @@ export default defineComponent({
       columnStyle,
       calcColumnStyle,
       rowExpandLoading,
+      lazyDataSuccessful,
       toggleRowExpand () {
-        // rowExpandLoading.value = !rowExpandLoading.value;
+        let childrenKey = props.childrenKey;
+        let children = props.rowData[childrenKey] || [];
+        if (props.lazy && children.length == 0) {
+          if (rowExpandLoading.value) {
+            return;
+          }
+          rowExpandLoading.value = true;
+          tableRootCtx.expandTreeRow(props.rowData, props.rowId, false, function (isLoadFailed?: boolean) {
+            rowExpandLoading.value = false;
+            lazyDataSuccessful.value = !isLoadFailed;
+          });
+          return;
+        }
         tableRootCtx.expandTreeRow(props.rowData, props.rowId);
       }
     };

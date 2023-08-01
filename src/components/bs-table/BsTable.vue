@@ -71,6 +71,8 @@
           :is-tree-data="isTreeData"
           :tree-level="row.treeLevel"
           :tree-row-expand="row.treeDataRowExpand"
+          :lazy="lazy"
+          :is-leaf-key="isLeafKey"
           @expand-change="handleExpandChange">
         </BsTableRow>
         </tbody>
@@ -92,7 +94,7 @@ import {
 import BsTableFixedHeader from './wigets/BsTableFixedHeader.vue';
 import BsTableHead from './wigets/BsTableHead.vue';
 import BsTableRow from './wigets/BsTableRow.vue';
-import { isFunction } from '@vue/shared';
+import { isFunction, NOOP } from '@vue/shared';
 import { scrollWidth, isNumber, isString, hasScroll, getUUID, jsonSort } from '../../utils/bs-util';
 import { sm3HashHex } from '../../utils/sm3Hmac';
 
@@ -242,6 +244,7 @@ export default defineComponent({
     };
     // TODO 列合并、行合并功能是否应该提取到当前组件计算
     watch(() => [...props.data], function (data) {
+      console.log('table数据发生变化：', data);
       nextTick(function () {
         let childrenKey = props.childrenKey;
         let isTreeDataFlag = false;
@@ -499,7 +502,10 @@ export default defineComponent({
       // console.log('expandTreeRow', 'expandTreeRow执行了');
       let row = realTableRowsRaw[index];
       let childrenKey = props.childrenKey;
-      let children = row.rowData[childrenKey];
+      let children = row.rowData[childrenKey] || [];
+      if (children.length == 0 && props.lazy) {
+        return;
+      }
       if (!row.treeDataRowExpand) { // 展开
         let rowChildren = generateTableRow(children, row.treeLevel + 1);
         row.children = rowChildren;
@@ -548,7 +554,24 @@ export default defineComponent({
       rowSpanCells,
       addRowSpanCell,
       removeRowSpanCell,
-      expandTreeRow
+      expandTreeRow (rowData: any, rowId: string, expandChildRow = true, callback?: (flag?: boolean) => void) {
+        let childrenKey = props.childrenKey;
+        let children = rowData[childrenKey] || [];
+        if (props.lazy && children.length == 0) {
+          let lazyLoadFn = isFunction(props.load) ? props.load : function () { callback!(true); };
+          // 调懒加载数据函数加载数据
+          lazyLoadFn(rowData, function (isFailed?: boolean) {
+            nextTick(function () {
+              callback!(isFailed);
+              if (!isFailed) {
+                expandTreeRow(rowData, rowId);
+              }
+            });
+          });
+        } else {
+          expandTreeRow(rowData, rowId);
+        }
+      }
     });
     return {
       tableContainerRef,
