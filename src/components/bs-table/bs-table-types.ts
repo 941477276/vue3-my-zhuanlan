@@ -66,7 +66,7 @@ export const bsTableProps = {
   size: { // 表格大小
     type: String as PropType<BsTableSize>
   },
-  rowKey: { // 行数据的 Key，用来优化 Table 的渲染，可以是字符串或一个函数
+  rowKey: { // 行数据的 Key，用来优化 Table 的渲染，可以是字符串或一个函数，支持`user.info.id`形式，但不支持`user.info[0].id`，此种情况请使用`Function`
     type: [String, Function],
     required: true
   },

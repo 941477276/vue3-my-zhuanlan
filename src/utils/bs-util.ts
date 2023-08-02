@@ -5,7 +5,7 @@
  * @returns {*}
  */
 
-export function getPropValueByPath (obj: { [key: string]: any }, path: string): { value?: any; lastKey?: string; parentObj?: any } {
+export function getPropValueByPath (obj: Record<string, any>, path: string): { value?: any; lastKey?: string; parentObj?: any } {
   if (!obj || !path || (path + '').length === 0) {
     return {};
   }

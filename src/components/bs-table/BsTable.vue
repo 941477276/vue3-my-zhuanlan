@@ -95,7 +95,7 @@ import BsTableFixedHeader from './wigets/BsTableFixedHeader.vue';
 import BsTableHead from './wigets/BsTableHead.vue';
 import BsTableRow from './wigets/BsTableRow.vue';
 import { isFunction, NOOP } from '@vue/shared';
-import { scrollWidth, isNumber, isString, hasScroll, getUUID, jsonSort } from '../../utils/bs-util';
+import { scrollWidth, isNumber, isString, hasScroll, getUUID, jsonSort, getPropValueByPath } from '../../utils/bs-util';
 import { sm3HashHex } from '../../utils/sm3Hmac';
 
 interface ColSpanCellInfo {
@@ -225,10 +225,12 @@ export default defineComponent({
     let generateTableRow = function (treeData: Record<string, any>[], treeLevel = 1, callback?: (dataItem: Record<string, any>, newRow: BsTableRealRow) => void): BsTableRealRow[] {
       let rowKey = props.rowKey;
       return (treeData || []).map((dataItem: Record<string, any>) => {
+        let uid = '';
         if (isFunction(rowKey)) {
-          rowKey = rowKey(dataItem);
+          uid = rowKey(dataItem);
+        } else {
+          uid = getPropValueByPath(dataItem, rowKey).value || getRowDataHash(dataItem);
         }
-        let uid = dataItem[rowKey] || getRowDataHash(dataItem);
         let result = {
           treeDataRowExpand: expandedTreeRowIds.has(uid), // 树状数据时，当前行是否展开了
           treeLevel: treeLevel, // 树的层级
@@ -588,16 +590,6 @@ export default defineComponent({
       tableBodyScrollInfo,
       isTreeData,
       handleTableBodyScroll,
-      getRowKey (row: BsTableRealRow, rowIndex: number) {
-        let rowKey = props.rowKey;
-        if (!rowKey) {
-          return row.uid;
-        }
-        if (isFunction(rowKey)) {
-          return row.rowData[rowKey(row.rowData, rowIndex)] || row.uid;
-        }
-        return row.rowData[rowKey] || row.uid;
-      },
       handleExpandChange () { // 行展开事件
         handleColumnsChange(columnsInfo.value);
       }
