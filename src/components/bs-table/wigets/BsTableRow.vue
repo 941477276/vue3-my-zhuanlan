@@ -40,6 +40,28 @@
         <bs-spinner v-else color-type="primary"></bs-spinner>
       </button>
     </BsTableCell>
+
+    <!--选择列-->
+    <BsTableCell
+      v-if="!!selectionColumn"
+      :row-data="rowData"
+      :row-index="rowIndex"
+      :table-slots="tableSlots"
+      :column="selectionColumn"
+      :cell-index="0"
+      :key="`${rowIndex}_${selectionColumn.prop}`">
+      <BsCheckbox
+        v-if="selection == 'checkbox'"
+        :delive-context-to-form-item="false"
+        :name="checkboxName"
+        :disabled="rowData.disabled"></BsCheckbox>
+      <BsRadio
+        v-if="selection == 'radio'"
+        :delive-context-to-form-item="false"
+        :name="radioName"
+        :disabled="rowData.disabled"></BsRadio>
+    </BsTableCell>
+
     <!--普通列-->
     <template v-for="(column, columnIndex) in realColumns">
       <BsTableCell
@@ -58,7 +80,10 @@
         :tree-level="treeLevel"
         :lazy="lazy"
         :is-leaf-key="isLeafKey"
-        :children-key="childrenKey"></BsTableCell>
+        :children-key="childrenKey"
+        :selection="selection"
+        :checkbox-name="checkboxName"
+        :radio-name="radioName"></BsTableCell>
     </template>
   </tr>
   <!--展开行-->
@@ -97,6 +122,7 @@ import BsSpinner from '../../bs-spinner/BsSpinner.vue';
 import {
   BsTableColumn,
   bsTableCtxKey,
+  bsSelectionColumnKey,
   BsTableContext,
   BsTableRowSpanCellInfo,
   BsTableColumnInner
@@ -105,6 +131,8 @@ import { bsTableCellProps } from './bs-table-cell-props';
 import { isFunction, isPromise } from '@vue/shared';
 import { isNumber, isObject } from '../../../utils/bs-util';
 import { BsiChevronRight } from 'vue3-bootstrap-icon/es/icons/BsiChevronRight';
+import BsCheckbox from '../../bs-checkbox/BsCheckbox.vue';
+import BsRadio from '../../bs-radio/BsRadio.vue';
 
 interface ColSpanCellInfo {
   colSpan: number; // 合并列数
@@ -117,7 +145,9 @@ export default defineComponent({
     BsTableCell,
     BsiChevronRight,
     BsTableCellContent,
-    BsSpinner
+    BsSpinner,
+    BsCheckbox,
+    BsRadio
   },
   props: {
     ...bsTableCellProps,
@@ -146,6 +176,8 @@ export default defineComponent({
 
     // 展开列
     let expandColumn = ref<BsTableColumnInner|undefined>();
+    // 选择列
+    let selectionColumn = ref<BsTableColumnInner|undefined>();
     // 是否有左侧固定列
     let hasFixedLeftColumn = ref(false);
     // 真实的列信息
@@ -158,6 +190,7 @@ export default defineComponent({
       let realColumnsInner: (BsTableColumnInner & Record<string, any>)[] = [];
       // let colSpanCellsInner: ColSpanCellInfo[] = [];
       let hasExpandRow = false;
+      let hasSelectionRow = false;
       let hasLeftFixed = false;
       columns.forEach((column: BsTableColumnInner, index: number) => {
         let {
@@ -167,6 +200,11 @@ export default defineComponent({
         if (prop === 'bs_expand_column') { // 展开列不进行合并
           expandColumn.value = column;
           hasExpandRow = true;
+          return;
+        }
+        if (prop === bsSelectionColumnKey) { // 选择列不进行合并
+          selectionColumn.value = column;
+          hasSelectionRow = true;
           return;
         }
         if ((column.fixedLeftColumnCount || 0) > 0) {
@@ -243,7 +281,10 @@ export default defineComponent({
         });
       });
       if (!hasExpandRow) {
-        expandColumn.value = void 0;
+        expandColumn.value = undefined;
+      }
+      if (!hasSelectionRow) {
+        selectionColumn.value = undefined;
       }
       hasFixedLeftColumn.value = hasLeftFixed;
       realColumns.value = realColumnsInner;
@@ -285,6 +326,7 @@ export default defineComponent({
       rowIsExpanded,
       hasFixedLeftColumn,
       hasChildren,
+      selectionColumn,
       toggleRowExpand () {
         let onExpandChangeEventFunc = props.tableAttrs.onExpandChange;
         let data = {
@@ -339,7 +381,7 @@ export default defineComponent({
           let inRowSpanInner = (rowIndex > rowSpanIndex) && (rowIndex <= (rowSpanIndex + rowSpan - 1));
           // console.log('inRowSpan inner', inRowSpanInner, colSpan);
           if (rowSpanCellIndex !== cellIndex) {
-            if (colSpan > 0 && inRowSpanInner) { // 当前列与行合并的列不是相同的列，但在列合并范围内
+            if (colSpan! > 0 && inRowSpanInner) { // 当前列与行合并的列不是相同的列，但在列合并范围内
               let inColSpan = cellIndex >= rowSpanCellIndex && (cellIndex <= (rowSpanCellIndex + colSpan - 1));
               // console.log('inColSpan', inColSpan, cellIndex, rowSpanCellIndex);
               if (inColSpan) {

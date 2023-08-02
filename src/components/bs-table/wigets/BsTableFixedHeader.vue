@@ -21,7 +21,8 @@
         :columns="columns"
         :table-slots="tableSlots"
         :table-body-has-scroll="tableBodyHasScroll"
-        :table-body-scroll-width="tableBodyScrollWidth"></BsTableHead>
+        :table-body-scroll-width="tableBodyScrollWidth"
+        :selection="selection"></BsTableHead>
     </table>
   </div>
 </template>
@@ -33,7 +34,7 @@ import {
   SetupContext
 } from 'vue';
 import BsTableHead from './BsTableHead.vue';
-import { BsTableColumn, BsTableSize, BsColgroupItem } from '../bs-table-types';
+import { BsTableColumn, BsTableSize, BsColgroupItem, BsTableSelectionType } from '../bs-table-types';
 
 export default defineComponent({
   name: 'BsTableFixedHeader',
@@ -67,6 +68,9 @@ export default defineComponent({
     tableBodyScrollWidth: {
       type: Number,
       default: 0
+    },
+    selection: { // 选择框的类型
+      type: String as PropType<BsTableSelectionType>
     }
   },
   setup (props: any, ctx: SetupContext) {

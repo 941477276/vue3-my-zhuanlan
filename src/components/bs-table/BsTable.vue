@@ -28,7 +28,8 @@
       :colgroup="colgroup"
       :table-slots="$slots"
       :table-body-has-scroll="tableBodyScrollInfo.hasScroll"
-      :table-body-scroll-width="tableBodyScrollInfo.scrollWidth"></BsTableFixedHeader>
+      :table-body-scroll-width="tableBodyScrollInfo.scrollWidth"
+      :selection="selection"></BsTableFixedHeader>
     <div
       ref="tableBodyRef"
       class="bs-table-body"
@@ -47,15 +48,16 @@
             v-for="(item, index) in colgroup"
             :key="index"
             :style="{
-            width: item.width + 'px'
-          }"/>
+              width: item.width + 'px'
+            }" />
         </colgroup>
         <BsTableHead
           v-if="!hasFixedHeader"
           :columns="columnsInfo.columns"
           :table-slots="$slots"
           :table-body-has-scroll="tableBodyScrollInfo.hasScroll"
-          :table-body-scroll-width="tableBodyScrollInfo.scrollWidth"></BsTableHead>
+          :table-body-scroll-width="tableBodyScrollInfo.scrollWidth"
+          :selection="selection"></BsTableHead>
         <tbody class="bs-table-tbody">
         <BsTableRow
           v-for="(row, rowIndex) in realTableRows"
@@ -73,6 +75,10 @@
           :tree-row-expand="row.treeDataRowExpand"
           :lazy="lazy"
           :is-leaf-key="isLeafKey"
+          :selection="selection"
+          :checkbox-name="checkboxName"
+          :radio-name="radioName"
+          :table-id="tableId"
           @expand-change="handleExpandChange">
         </BsTableRow>
         </tbody>
@@ -89,7 +95,7 @@ import {
 } from 'vue';
 import {
   bsTableProps, BsTableRowSpanCellInfo, BsTableContext, bsTableCtxKey, BsTableColumn,
-  BsTableColumnInner, BsColgroupItem, BsTableRealRow
+  BsTableColumnInner, BsColgroupItem, BsTableRealRow, bsSelectionColumnKey
 } from './bs-table-types';
 import BsTableFixedHeader from './wigets/BsTableFixedHeader.vue';
 import BsTableHead from './wigets/BsTableHead.vue';
@@ -103,6 +109,7 @@ interface ColSpanCellInfo {
   cellIndex: number; // 需要合并的列的索引
 }
 
+let bsTableCount = 0;
 export default defineComponent({
   name: 'BsTable',
   props: bsTableProps,
@@ -112,6 +119,7 @@ export default defineComponent({
     BsTableFixedHeader
   },
   setup (props: any, ctx: SetupContext) {
+    let tableId = `bs_table-${++bsTableCount}`;
     // 需要合并行的单元格信息
     let rowSpanCells: Record<string, BsTableRowSpanCellInfo> = reactive({});
     let addRowSpanCell = function (rowSpanCellInfo: BsTableRowSpanCellInfo) {
@@ -168,7 +176,7 @@ export default defineComponent({
           normalColumns.push(newColumn);
         }
       });
-      if (allowExpand) {
+      if (allowExpand) { // 添加一列展开列
         let expandColumn: BsTableColumnInner = {
           width: props.expandColumnWidth,
           prop: 'bs_expand_column',
@@ -182,6 +190,28 @@ export default defineComponent({
           fixedLeftColumns.unshift(expandColumn);
         } else {
           normalColumns.unshift(expandColumn);
+        }
+      }
+      let selection = (props.selection + '').toLowerCase();
+      if (selection == 'checkbox' || selection == 'radio') { // 添加一列选择列
+        let selectionColumn: BsTableColumnInner = {
+          width: props.selectionColumnWidth,
+          prop: bsSelectionColumnKey,
+          label: '',
+          headSlotName: 'selectionColumnHeader',
+          cellClassName: 'bs-table-selection-cell'
+        };
+        if (fixedLeftColumns.length > 0) {
+          selectionColumn.fixed = 'left';
+          if (allowExpand) { // 如果有展开列，那么选择列需要插入到展开列后面
+            var fixedLeftColumn1 = fixedLeftColumns[1];
+            fixedLeftColumns.splice(1, 1, fixedLeftColumn1, selectionColumn);
+          } else {
+            selectionColumn.fixedIndex = 1;
+            fixedLeftColumns.unshift(selectionColumn);
+          }
+        } else {
+          normalColumns.unshift(selectionColumn);
         }
       }
 
@@ -576,6 +606,7 @@ export default defineComponent({
       }
     });
     return {
+      tableId,
       tableContainerRef,
       tableFixedHeaderRef,
       tableBodyRef,

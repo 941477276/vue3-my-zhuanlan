@@ -38,6 +38,9 @@ export interface BsColgroupItem {
   name: string;
 };
 
+// 选框类型
+export type BsTableSelectionType = 'checkbox' | 'radio';
+
 export const bsTableProps = {
   columns: { // 表格列
     type: Array as PropType<BsTableColumn[]>,
@@ -108,6 +111,29 @@ export const bsTableProps = {
   },
   load: { // 加载数据函数
     type: Function
+  },
+  selection: { // 选择框的类型
+    type: String as PropType<BsTableSelectionType>
+  },
+  selectionColumnWidth: { // 选择列的宽度
+    type: [String, Number],
+    default: 40
+  },
+  checkboxName: { // 复选框的name
+    type: String
+  },
+  checkStrictly: { // 在显示复选框的情况下，是否严格的遵循父子不互相关联的做法，默认为 false
+    type: Boolean,
+    default: false
+  },
+  radioName: { // 单选框框的name
+    type: String
+  },
+  checkedKeys: { // 选中的节点的key数组（受控）
+    type: Array,
+    default () {
+      return [];
+    }
   }
 };
 
@@ -126,3 +152,5 @@ export interface BsTableContext {
   expandTreeRow: (rowData: any, rowId: string, expandChildRow?: boolean, callback?: (flag: boolean) => void) => void;
 }
 export const bsTableCtxKey: InjectionKey<BsTableContext> = Symbol('bsTableCtx');
+
+export const bsSelectionColumnKey = 'bs_selection_column';

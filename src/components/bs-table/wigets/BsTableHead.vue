@@ -1,21 +1,52 @@
 <template>
   <thead class="bs-table-thead">
     <tr>
-      <BsTableCell
-        v-for="(cell, index) in headThs"
-        tag="th"
-        :ref="(com) => setRef(cell.prop, com)"
-        :row-index="0"
-        :table-slots="tableSlots"
-        :column="cell"
-        :cell-index="index"
-        :key="cell.prop"
-        :is-header-cell="true"
-        :cell-attrs="cell.cellAttrs"
-        :class="{
-          'bs-table-cell-scrollbar-prev-neighbor': tableBodyHasScroll && (tableBodyScrollWidth > 0) && (index == headThs.length - 1),
-          'bs-table-expand-cell-head': cell.prop == 'bs_expand_column'
-        }"></BsTableCell>
+      <template v-for="(cell, index) in headThs">
+        <BsTableCell
+          v-if="cell.prop != selectionCellKey"
+          tag="th"
+          :ref="(com) => setRef(cell.prop, com)"
+          :row-index="0"
+          :table-slots="tableSlots"
+          :column="cell"
+          :cell-index="index"
+          :key="cell.prop"
+          :is-header-cell="true"
+          :cell-attrs="cell.cellAttrs"
+          :class="{
+            'bs-table-cell-scrollbar-prev-neighbor': tableBodyHasScroll && (tableBodyScrollWidth > 0) && (index == headThs.length - 1),
+            'bs-table-expand-cell-head': cell.prop == 'bs_expand_column'
+          }">
+        </BsTableCell>
+
+        <BsTableCell
+          v-else
+          tag="th"
+          :ref="(com) => setRef(cell.prop, com)"
+          :row-index="0"
+          :table-slots="tableSlots"
+          :column="cell"
+          :cell-index="index"
+          :key="cell.prop"
+          :is-header-cell="true"
+          :cell-attrs="cell.cellAttrs"
+          class="bs-table-selection-cell-head">
+          <template v-if="cell.prop == selectionCellKey && selection == 'checkbox'">
+            <BsCheckbox
+              :delive-context-to-form-item="false"></BsCheckbox>
+            <BsTableCellContent
+              v-if="!!tableSlots.headSelectionExtra"
+              :row-index="0"
+              :cell-index="index"
+              :table-slots="tableSlots"
+              :is-head-cell="true"
+              :column="cell"
+              slot-name="headSelectionExtra">
+            </BsTableCellContent>
+          </template>
+        </BsTableCell>
+      </template>
+
       <th
         v-if="tableBodyHasScroll && tableBodyScrollWidth > 0"
         class="bs-table-cell bs-table-cell-scrollbar"
@@ -38,8 +69,10 @@ import {
 } from 'vue';
 import { isFunction } from '@vue/shared';
 import { isNumber, isObject } from '../../../utils/bs-util';
-import { BsTableColumnInner } from '../bs-table-types';
+import { BsTableColumnInner, bsSelectionColumnKey, BsTableSelectionType } from '../bs-table-types';
 import BsTableCell from './BsTableCell.vue';
+import BsCheckbox from '../../bs-checkbox/BsCheckbox.vue';
+import { BsTableCellContent } from './BsTableCellContent';
 
 export default defineComponent({
   name: 'BsTableHead',
@@ -60,10 +93,15 @@ export default defineComponent({
     tableBodyScrollWidth: {
       type: Number,
       default: 0
+    },
+    selection: { // 选择框的类型
+      type: String as PropType<BsTableSelectionType>
     }
   },
   components: {
-    BsTableCell
+    BsTableCell,
+    BsCheckbox,
+    BsTableCellContent
   },
   setup (props: any, ctx: SetupContext) {
     let headThs = computed(function () {
@@ -156,6 +194,7 @@ export default defineComponent({
     return {
       headThs,
       hasFixedRightColumn,
+      selectionCellKey: bsSelectionColumnKey,
       setRef
     };
   }
