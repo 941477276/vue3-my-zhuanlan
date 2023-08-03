@@ -32,7 +32,7 @@
           @click="toggleRowExpand">
           <template v-if="!rowExpandLoading">
             <BsiChevronRight v-if="!(tableSlots?.expandCellIcon || tableSlots?.['expand-cell-icon'])"></BsiChevronRight>
-            <BsTableCellContent
+            <BsTableCustomContent
               v-else
               :row-index="rowIndex"
               :cell-index="0"
@@ -41,13 +41,13 @@
               :table-slots="tableSlots"
               :parent-slots="$slots"
               slot-name="expandCellIcon">
-            </BsTableCellContent>
+            </BsTableCustomContent>
           </template>
           <bs-spinner v-else color-type="primary"></bs-spinner>
         </button>
         <div v-else class="bs-table-row-expand-placeholder"></div>
       </template>
-      <BsTableCellContent
+      <BsTableCustomContent
         :row-index="rowIndex"
         :cell-index="cellIndex"
         :row-data="rowData"
@@ -55,9 +55,9 @@
         :table-slots="tableSlots"
         :default-content="$slots.default"
         :slot-name="slotName || column.prop">
-      </BsTableCellContent>
+      </BsTableCustomContent>
     </div>
-    <BsTableCellContent
+    <BsTableCustomContent
       v-else
       :row-index="rowIndex"
       :cell-index="cellIndex"
@@ -68,13 +68,13 @@
       :default-content="$slots.default"
       :slot-name="slotName || column.headSlotName">
       <slot></slot>
-    </BsTableCellContent>
+    </BsTableCustomContent>
   </component>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed, PropType, ref, onUpdated, onMounted, inject } from 'vue';
-import { BsTableCellContent } from './BsTableCellContent';
+import { BsTableCustomContent } from './BsTableCustomContent';
 import { BsTableColumnInner, bsTableCtxKey } from '../bs-table-types';
 import { bsTableCellProps } from './bs-table-cell-props';
 import { isFunction } from '@vue/shared';
@@ -86,7 +86,7 @@ export default defineComponent({
   components: {
     BsiChevronRight,
     BsSpinner,
-    BsTableCellContent
+    BsTableCustomContent
   },
   props: {
     ...bsTableCellProps,

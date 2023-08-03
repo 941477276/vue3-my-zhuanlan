@@ -34,7 +34,7 @@
           <template v-if="cell.prop == selectionCellKey && selection == 'checkbox'">
             <BsCheckbox
               :delive-context-to-form-item="false"></BsCheckbox>
-            <BsTableCellContent
+            <BsTableCustomContent
               v-if="!!tableSlots.headSelectionExtra"
               :row-index="0"
               :cell-index="index"
@@ -42,7 +42,7 @@
               :is-head-cell="true"
               :column="cell"
               slot-name="headSelectionExtra">
-            </BsTableCellContent>
+            </BsTableCustomContent>
           </template>
         </BsTableCell>
       </template>
@@ -72,7 +72,7 @@ import { isNumber, isObject } from '../../../utils/bs-util';
 import { BsTableColumnInner, bsSelectionColumnKey, BsTableSelectionType } from '../bs-table-types';
 import BsTableCell from './BsTableCell.vue';
 import BsCheckbox from '../../bs-checkbox/BsCheckbox.vue';
-import { BsTableCellContent } from './BsTableCellContent';
+import { BsTableCustomContent } from './BsTableCustomContent';
 
 export default defineComponent({
   name: 'BsTableHead',
@@ -101,7 +101,7 @@ export default defineComponent({
   components: {
     BsTableCell,
     BsCheckbox,
-    BsTableCellContent
+    BsTableCustomContent
   },
   setup (props: any, ctx: SetupContext) {
     let headThs = computed(function () {

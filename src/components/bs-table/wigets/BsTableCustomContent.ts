@@ -2,11 +2,11 @@ import { isFunction } from '@vue/shared';
 import { camelCase2KebabCase } from '../../../utils/bs-util';
 
 /**
- * 单元格内容组件
+ * 自定义内容组件
  * @param props
  * @constructor
  */
-export function BsTableCellContent (props: any) {
+export function BsTableCustomContent (props: any) {
   let slot = props.tableSlots?.[props.slotName] || props.tableSlots?.[camelCase2KebabCase(props.slotName)];
   let parentDefaultSlot = props.defaultContent;
   // 优先渲染插槽里的内容
@@ -28,4 +28,4 @@ export function BsTableCellContent (props: any) {
   return label;
 };
 
-BsTableCellContent.props = ['label', 'tableSlots', 'defaultContent', 'slotName', 'rowIndex', 'rowData', 'cellIndex', 'column', 'isHeadCell'];
+BsTableCustomContent.props = ['label', 'tableSlots', 'defaultContent', 'slotName', 'rowIndex', 'rowData', 'cellIndex', 'column', 'isHeadCell'];

@@ -26,7 +26,7 @@
         @click="toggleRowExpand">
         <template v-if="!rowExpandLoading">
           <BsiChevronRight v-if="!(tableSlots.expandCellIcon || tableSlots['expand-cell-icon'])"></BsiChevronRight>
-          <BsTableCellContent
+          <BsTableCustomContent
             v-else
             :row-index="rowIndex"
             :cell-index="0"
@@ -35,7 +35,7 @@
             :table-slots="tableSlots"
             :parent-slots="$slots"
             slot-name="expandCellIcon">
-          </BsTableCellContent>
+          </BsTableCustomContent>
         </template>
         <bs-spinner v-else color-type="primary"></bs-spinner>
       </button>
@@ -91,14 +91,14 @@
     <td
       :colspan="realColumns.length + 1"
       :style="hasFixedLeftColumn ? 'position: sticky;left: 0;overflow: hidden' : ''">
-      <BsTableCellContent
+      <BsTableCustomContent
         :row-index="rowIndex"
         :cell-index="0"
         :row-data="rowData"
         label=""
         :table-slots="tableSlots"
         slot-name="expandRow">
-      </BsTableCellContent>
+      </BsTableCustomContent>
     </td>
   </tr>
 </template>
@@ -117,7 +117,7 @@ import {
   computed
 } from 'vue';
 import BsTableCell from './BsTableCell.vue';
-import { BsTableCellContent } from './BsTableCellContent';
+import { BsTableCustomContent } from './BsTableCustomContent';
 import BsSpinner from '../../bs-spinner/BsSpinner.vue';
 import {
   BsTableColumn,
@@ -144,7 +144,7 @@ export default defineComponent({
   components: {
     BsTableCell,
     BsiChevronRight,
-    BsTableCellContent,
+    BsTableCustomContent,
     BsSpinner,
     BsCheckbox,
     BsRadio
