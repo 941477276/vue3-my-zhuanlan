@@ -31,9 +31,9 @@
       :gpu-acceleration="transitionName === 'scale' ? false : gpuAcceleration">
       <slot name="content">
         <div v-if="!isRawContent">
-          {{ content }}
+          {{ isRef(content) ? content.value : content }}
         </div>
-        <div v-else v-html="content"></div>
+        <div v-else v-html="isRef(content) ? content.value : content"></div>
       </slot>
 
       <BsPopperArrow
@@ -53,7 +53,8 @@ import {
   provide,
   toRef,
   readonly,
-  watch
+  watch,
+  isRef
 } from 'vue';
 import {
   BsTooltipContext,
@@ -190,6 +191,7 @@ export default defineComponent({
 
       show,
       hide,
+      isRef,
       updatePopper
     };
   }

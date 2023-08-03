@@ -14,6 +14,8 @@ export interface BsTableColumn {
   customCell?: (data: Record<string, any>, cellIndex: number, rowIndex: number) => Record<any, any>; // 自定义数据单元格内容
   customCellAttrs?: (data: Record<string, any>, cellIndex: number, rowIndex: number, column: BsTableColumn) => Record<any, any>; // 自定义数据单元格属性
   cellClassName?: string|string[]|((data: Record<string, any>, cellIndex: number, rowIndex: number, column: BsTableColumn) => (string|string[])); // 自定义数据单元格class
+  ellipsis?: boolean; // 文本溢出后是否显示3个点
+  showTooltip?: boolean; // 文本溢出后是否显示tooltip
 };
 
 export interface BsTableColumnInner extends BsTableColumn {

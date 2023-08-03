@@ -127,7 +127,7 @@ import {
   BsTableRowSpanCellInfo,
   BsTableColumnInner
 } from '../bs-table-types';
-import { bsTableCellProps } from './bs-table-cell-props';
+import { bsTableCellCommonProps } from './bs-table-cell-common-props';
 import { isFunction, isPromise } from '@vue/shared';
 import { isNumber, isObject } from '../../../utils/bs-util';
 import { BsiChevronRight } from 'vue3-bootstrap-icon/es/icons/BsiChevronRight';
@@ -150,7 +150,7 @@ export default defineComponent({
     BsRadio
   },
   props: {
-    ...bsTableCellProps,
+    ...bsTableCellCommonProps,
     rowClassName: { // 自定义数据行class
       type: [String, Array, Object, Function]
     },
@@ -165,6 +165,9 @@ export default defineComponent({
       default () {
         return {};
       }
+    },
+    tableId: { // 表格ID
+      type: String
     }
   },
   emits: ['expand-change'],

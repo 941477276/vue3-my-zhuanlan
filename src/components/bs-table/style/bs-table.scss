@@ -32,6 +32,13 @@
   flex: 1;
   overflow: auto;
 }
+.bs-table-cell-ellipsis{
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 .bs-table-cell-fixed-left,
 .bs-table-cell-fixed-right {

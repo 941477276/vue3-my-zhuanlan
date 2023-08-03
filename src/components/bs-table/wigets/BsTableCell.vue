@@ -47,15 +47,16 @@
         </button>
         <div v-else class="bs-table-row-expand-placeholder"></div>
       </template>
-      <BsTableCustomContent
+      <BsTableCellContent
         :row-index="rowIndex"
         :cell-index="cellIndex"
         :row-data="rowData"
         :label="cellContent"
         :table-slots="tableSlots"
         :default-content="$slots.default"
+        :column="column"
         :slot-name="slotName || column.prop">
-      </BsTableCustomContent>
+      </BsTableCellContent>
     </div>
     <BsTableCustomContent
       v-else
@@ -76,8 +77,10 @@
 import { defineComponent, computed, PropType, ref, onUpdated, onMounted, inject } from 'vue';
 import { BsTableCustomContent } from './BsTableCustomContent';
 import { BsTableColumnInner, bsTableCtxKey } from '../bs-table-types';
+import { bsTableCellCommonProps } from './bs-table-cell-common-props';
 import { bsTableCellProps } from './bs-table-cell-props';
 import { isFunction } from '@vue/shared';
+import BsTableCellContent from './BsTableCellContent';
 import BsSpinner from '../../../components/bs-spinner/BsSpinner.vue';
 import { BsiChevronRight } from 'vue3-bootstrap-icon/es/icons/BsiChevronRight';
 
@@ -86,35 +89,11 @@ export default defineComponent({
   components: {
     BsiChevronRight,
     BsSpinner,
-    BsTableCustomContent
+    BsTableCustomContent,
+    BsTableCellContent
   },
   props: {
-    ...bsTableCellProps,
-    tag: {
-      type: String,
-      default: 'td'
-    },
-    cellIndex: {
-      type: Number
-    },
-    isHeaderCell: {
-      type: Boolean
-    },
-    column: { // 当前列配置
-      type: Object as PropType<BsTableColumnInner>,
-      default () {
-        return {};
-      }
-    },
-    cellAttrs: {
-      type: Object,
-      default () {
-        return {};
-      }
-    },
-    slotName: { // 自定义内容插槽名称
-      type: String
-    }
+    ...bsTableCellProps
   },
   setup (props: any, ctx: any) {
     // 表格根节点上下文

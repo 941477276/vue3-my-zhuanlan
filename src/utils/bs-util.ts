@@ -1115,4 +1115,15 @@ export function scrollIntoParentView (targetEle: HTMLElement, offsetInfo?: Scrol
   scrollTo(scrollParentIsBody ? window : scrollParent, 'x', targetElDistanceX - (offsetInfo?.left || 0), 100);
 }
 
+/**
+ *  判断dom节点文本是否有溢出
+ * @param ele
+ */
+export function eleTextOverflow (ele: HTMLElement) {
+  if (!ele || ele.nodeType != 1) {
+    return false;
+  }
+  // 元素的clientWidth小于scrollWidth文本就有溢出，否则clientWidth会等于scrollWidth
+  return ele.clientWidth < ele.scrollWidth;
+}
 /* **************************** DOM utils end ************************************* */
