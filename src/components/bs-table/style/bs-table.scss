@@ -24,9 +24,25 @@
   .table{
     table-layout: fixed;
     th{
+      position: relative;
       border-bottom: 1px solid #dee2e6;
     }
   }
+}
+.bs-table-head{
+  th{
+    position: relative;
+  }
+}
+.bs-table-resize-handle{
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  right: -0.5rem;
+  bottom: 0;
+  width: 1rem;
+  background-color: #ccc;
+  cursor: col-resize;
 }
 .bs-table-body{
   flex: 1;

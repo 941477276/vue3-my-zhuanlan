@@ -1,5 +1,5 @@
 import { PropType } from 'vue';
-import { BsTableColumnInner, BsTableSelectionType } from '../bs-table-types';
+import { BsColgroupItem, BsTableColumnInner, BsTableSelectionType } from '../bs-table-types';
 import { bsTableCellCommonProps } from './bs-table-cell-common-props';
 export const bsTableCellProps = {
   ...bsTableCellCommonProps,
@@ -27,5 +27,11 @@ export const bsTableCellProps = {
   },
   slotName: { // 自定义内容插槽名称
     type: String
+  },
+  colgroup: { // 自定义内容插槽名称
+    type: Array as PropType<BsColgroupItem[]>,
+    default () {
+      return [];
+    }
   }
 };

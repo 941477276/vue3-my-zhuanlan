@@ -58,18 +58,20 @@
         :slot-name="slotName || column.prop">
       </BsTableCellContent>
     </div>
-    <BsTableCustomContent
-      v-else
-      :row-index="rowIndex"
-      :cell-index="cellIndex"
-      :label="column.label"
-      :table-slots="tableSlots"
-      :is-head-cell="true"
-      :column="column"
-      :default-content="$slots.default"
-      :slot-name="slotName || column.headSlotName">
-      <slot></slot>
-    </BsTableCustomContent>
+    <template v-else>
+      <BsTableCustomContent
+        :row-index="rowIndex"
+        :cell-index="cellIndex"
+        :label="column.label"
+        :table-slots="tableSlots"
+        :is-head-cell="true"
+        :column="column"
+        :default-content="$slots.default"
+        :slot-name="slotName || column.headSlotName">
+        <slot></slot>
+      </BsTableCustomContent>
+      <div class="bs-table-resize-handle" @mousedown="handleResizeBarMousedown"></div>
+    </template>
   </component>
 </template>
 
@@ -77,12 +79,12 @@
 import { defineComponent, computed, PropType, ref, onUpdated, onMounted, inject } from 'vue';
 import { BsTableCustomContent } from './BsTableCustomContent';
 import { BsTableColumnInner, bsTableCtxKey } from '../bs-table-types';
-import { bsTableCellCommonProps } from './bs-table-cell-common-props';
 import { bsTableCellProps } from './bs-table-cell-props';
 import { isFunction } from '@vue/shared';
 import BsTableCellContent from './BsTableCellContent';
 import BsSpinner from '../../../components/bs-spinner/BsSpinner.vue';
 import { BsiChevronRight } from 'vue3-bootstrap-icon/es/icons/BsiChevronRight';
+import { useGlobalEvent } from '../../../hooks/useGlobalEvent';
 
 export default defineComponent({
   name: 'BsTableCell',
@@ -181,6 +183,45 @@ export default defineComponent({
     // 懒数据是否加载成功
     let lazyDataSuccessful = ref(false);
 
+    // 处理拖拽列宽
+    let handleResizeBarMousedown = function (evt: MouseEvent) {
+      evt.preventDefault();
+      let target = evt.target as HTMLElement;
+      let clientX = evt.clientX;
+      let column = props.column;
+
+      let newWidth = 0;
+      let minWidth = 20;
+      let cellIndex = props.cellIndex;
+      let oldWidth = props.colgroup[cellIndex].width;
+      let mouseMoveEvt = function (moveEvt: MouseEvent) {
+        let newClientX = moveEvt.clientX;
+        let distance = newClientX - clientX;
+
+        /* let oldWidth = column?.minWidth || column?.width || 0;
+        if (!oldWidth) {
+          return;
+        } */
+        let width = oldWidth + distance;
+        if (width < minWidth) {
+          width = minWidth;
+        }
+        newWidth = width;
+        tableRootCtx.setColWidth(cellIndex, newWidth);
+        console.log('鼠标移动的距离：', cellIndex, distance, width);
+      };
+      let removeMouseMoveEvtFn = function () {
+        console.log('removeMouseMoveEvtFn执行了');
+        useGlobalEvent.removeEvent('document', 'mousemove', mouseMoveEvt);
+        useGlobalEvent.removeEvent('document', 'mouseup', removeMouseMoveEvtFn);
+        target.removeEventListener('mouseup', removeMouseMoveEvtFn, false);
+
+      };
+      useGlobalEvent.addEvent('document', 'mousemove', mouseMoveEvt);
+      useGlobalEvent.addEvent('document', 'mouseup', removeMouseMoveEvtFn);
+      target.addEventListener('mouseup', removeMouseMoveEvtFn, false);
+    };
+
     onMounted(function () {
       // console.log('列组件mounted');
       // columnStyle.value = calcColumnStyle();
@@ -202,6 +243,7 @@ export default defineComponent({
       calcColumnStyle,
       rowExpandLoading,
       lazyDataSuccessful,
+      handleResizeBarMousedown,
       toggleRowExpand () {
         let childrenKey = props.childrenKey;
         let children = props.rowData[childrenKey] || [];

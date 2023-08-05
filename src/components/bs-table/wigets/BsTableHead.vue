@@ -13,6 +13,7 @@
           :key="cell.prop"
           :is-header-cell="true"
           :cell-attrs="cell.cellAttrs"
+          :colgroup="colgroup"
           :class="{
             'bs-table-cell-scrollbar-prev-neighbor': tableBodyHasScroll && (tableBodyScrollWidth > 0) && (index == headThs.length - 1),
             'bs-table-expand-cell-head': cell.prop == 'bs_expand_column'
@@ -30,6 +31,7 @@
           :key="cell.prop"
           :is-header-cell="true"
           :cell-attrs="cell.cellAttrs"
+          :colgroup="colgroup"
           class="bs-table-selection-cell-head">
           <template v-if="cell.prop == selectionCellKey && selection == 'checkbox'">
             <BsCheckbox
@@ -69,7 +71,7 @@ import {
 } from 'vue';
 import { isFunction } from '@vue/shared';
 import { isNumber, isObject } from '../../../utils/bs-util';
-import { BsTableColumnInner, bsSelectionColumnKey, BsTableSelectionType } from '../bs-table-types';
+import { BsTableColumnInner, bsSelectionColumnKey, BsTableSelectionType, BsColgroupItem } from '../bs-table-types';
 import BsTableCell from './BsTableCell.vue';
 import BsCheckbox from '../../bs-checkbox/BsCheckbox.vue';
 import { BsTableCustomContent } from './BsTableCustomContent';
@@ -96,6 +98,12 @@ export default defineComponent({
     },
     selection: { // 选择框的类型
       type: String as PropType<BsTableSelectionType>
+    },
+    colgroup: { // 自定义内容插槽名称
+      type: Array as PropType<BsColgroupItem[]>,
+      default () {
+        return [];
+      }
     }
   },
   components: {

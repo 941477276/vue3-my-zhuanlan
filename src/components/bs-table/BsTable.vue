@@ -48,7 +48,8 @@
             v-for="(item, index) in colgroup"
             :key="index"
             :style="{
-              width: item.width + 'px'
+              width: item.width + 'px',
+              minWidth: item.width + 'px'
             }" />
         </colgroup>
         <BsTableHead
@@ -57,7 +58,8 @@
           :table-slots="$slots"
           :table-body-has-scroll="tableBodyScrollInfo.hasScroll"
           :table-body-scroll-width="tableBodyScrollInfo.scrollWidth"
-          :selection="selection"></BsTableHead>
+          :selection="selection"
+          :colgroup="colgroup"></BsTableHead>
         <tbody class="bs-table-tbody">
         <BsTableRow
           v-for="(row, rowIndex) in realTableRows"
@@ -611,6 +613,7 @@ export default defineComponent({
       rowSpanCells,
       addRowSpanCell,
       removeRowSpanCell,
+      // 展开树状结构行
       expandTreeRow (rowData: any, rowId: string, expandChildRow = true, callback?: (flag?: boolean) => void) {
         let childrenKey = props.childrenKey;
         let children = rowData[childrenKey] || [];
@@ -639,6 +642,14 @@ export default defineComponent({
         if (index > -1) {
           childrenResizeEvts.splice(index, 1);
         }
+      },
+      // 设置列宽
+      setColWidth (colIndex: number, width: number) {
+        let col = colgroup.value[colIndex];
+        if (!col) {
+          return;
+        }
+        col.width = width;
       }
     });
     return {

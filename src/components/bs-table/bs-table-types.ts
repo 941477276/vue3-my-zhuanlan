@@ -1,5 +1,4 @@
 import { PropType, VNode, InjectionKey, Ref } from 'vue';
-import { getUUID } from '@/utils/bs-util';
 
 // 表格列属性
 export interface BsTableColumn {
@@ -16,6 +15,7 @@ export interface BsTableColumn {
   cellClassName?: string|string[]|((data: Record<string, any>, cellIndex: number, rowIndex: number, column: BsTableColumn) => (string|string[])); // 自定义数据单元格class
   ellipsis?: boolean; // 文本溢出后是否显示3个点
   showTooltip?: boolean|object; // 文本溢出后是否显示tooltip
+  resizeable?: boolean; // 列宽是否可以拖拽
 };
 
 export interface BsTableColumnInner extends BsTableColumn {
@@ -154,6 +154,7 @@ export interface BsTableContext {
   expandTreeRow: (rowData: any, rowId: string, expandChildRow?: boolean, callback?: (flag?: boolean) => void) => void;
   addResizeEvent: (callback: () => void) => void;
   removeResizeEvent: (callback: () => void) => void;
+  setColWidth: (colIndex: number, width: number) => void;
 }
 export const bsTableCtxKey: InjectionKey<BsTableContext> = Symbol('bsTableCtx');
 

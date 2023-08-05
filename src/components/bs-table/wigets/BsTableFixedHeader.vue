@@ -6,7 +6,7 @@
         'table-sm': size == 'sm'
       }"
       :style="{
-        tableLayout: 'fixed',
+        // tableLayout: 'fixed',
         width: width > 0 ? (width + 'px') : ''
       }">
       <colgroup v-if="colgroup.length > 0">
@@ -14,7 +14,8 @@
           v-for="(item, index) in colgroup"
           :key="index"
           :style="{
-            width: item.width + 'px'
+            width: item.width + 'px',
+            minWidth: item.width + 'px'
           }"/>
       </colgroup>
       <BsTableHead
@@ -22,7 +23,8 @@
         :table-slots="tableSlots"
         :table-body-has-scroll="tableBodyHasScroll"
         :table-body-scroll-width="tableBodyScrollWidth"
-        :selection="selection"></BsTableHead>
+        :selection="selection"
+        :colgroup="colgroup"></BsTableHead>
     </table>
   </div>
 </template>
