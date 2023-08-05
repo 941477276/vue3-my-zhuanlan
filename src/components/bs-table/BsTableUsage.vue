@@ -143,6 +143,10 @@ export default defineComponent({
       }
     ]);
 
+    setTimeout(function () {
+      data2.value[0].key = '阿什拉夫卢卡斯金六福酒快睡觉false发链接库萨分类扫房埃里克分类可撒娇法律手段flsd';
+    }, 1500);
+
     return {
       columns2,
       data2

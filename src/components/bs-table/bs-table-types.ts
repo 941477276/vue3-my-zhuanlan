@@ -15,7 +15,7 @@ export interface BsTableColumn {
   customCellAttrs?: (data: Record<string, any>, cellIndex: number, rowIndex: number, column: BsTableColumn) => Record<any, any>; // 自定义数据单元格属性
   cellClassName?: string|string[]|((data: Record<string, any>, cellIndex: number, rowIndex: number, column: BsTableColumn) => (string|string[])); // 自定义数据单元格class
   ellipsis?: boolean; // 文本溢出后是否显示3个点
-  showTooltip?: boolean; // 文本溢出后是否显示tooltip
+  showTooltip?: boolean|object; // 文本溢出后是否显示tooltip
 };
 
 export interface BsTableColumnInner extends BsTableColumn {
@@ -151,7 +151,9 @@ export interface BsTableContext {
   rowSpanCells: Record<string, BsTableRowSpanCellInfo>;
   addRowSpanCell: (rowSpanCellInfo: BsTableRowSpanCellInfo) => void;
   removeRowSpanCell: (rowSpanCellInfo: BsTableRowSpanCellInfo, removeCurrentRowCells?: boolean) => void;
-  expandTreeRow: (rowData: any, rowId: string, expandChildRow?: boolean, callback?: (flag: boolean) => void) => void;
+  expandTreeRow: (rowData: any, rowId: string, expandChildRow?: boolean, callback?: (flag?: boolean) => void) => void;
+  addResizeEvent: (callback: () => void) => void;
+  removeResizeEvent: (callback: () => void) => void;
 }
 export const bsTableCtxKey: InjectionKey<BsTableContext> = Symbol('bsTableCtx');
 

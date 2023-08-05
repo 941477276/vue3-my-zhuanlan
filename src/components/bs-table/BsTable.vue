@@ -91,7 +91,7 @@
 <script lang="ts">
 import {
   computed, defineComponent, nextTick, provide, reactive, ref, Ref, SetupContext, watch,
-  ComponentPublicInstance
+  ComponentPublicInstance, onBeforeUnmount
 } from 'vue';
 import {
   bsTableProps, BsTableRowSpanCellInfo, BsTableContext, bsTableCtxKey, BsTableColumn,
@@ -103,6 +103,7 @@ import BsTableRow from './wigets/BsTableRow.vue';
 import { isFunction, NOOP } from '@vue/shared';
 import { scrollWidth, isNumber, isString, hasScroll, getUUID, jsonSort, getPropValueByPath } from '../../utils/bs-util';
 import { sm3HashHex } from '../../utils/sm3Hmac';
+import { useGlobalEvent } from '../../hooks/useGlobalEvent';
 
 interface ColSpanCellInfo {
   colSpan: number; // 合并列数
@@ -582,6 +583,30 @@ export default defineComponent({
       }
     };
 
+    // window resize事件
+    let lastResizeTime = 0;
+    let childrenResizeEvts: (() => void) [] = [];
+    let onResize = function () {
+      let now = new Date().getTime();
+      if (lastResizeTime != 0 && now - lastResizeTime < 100) {
+        return;
+      }
+      lastResizeTime = now;
+      console.log('resize 事件执行了');
+      handleColumnsChange(columnsInfo.value);
+      [...childrenResizeEvts].forEach(evtFn => {
+        try {
+          evtFn();
+        } catch (e) {
+          console.error(e);
+        }
+      });
+    };
+    useGlobalEvent.addEvent('window', 'resize', onResize);
+    onBeforeUnmount(function () {
+      useGlobalEvent.removeEvent('window', 'resize', onResize);
+    });
+
     provide(bsTableCtxKey, {
       rowSpanCells,
       addRowSpanCell,
@@ -602,6 +627,17 @@ export default defineComponent({
           });
         } else {
           expandTreeRow(rowData, rowId);
+        }
+      },
+      addResizeEvent (callback: () => void) {
+        if (!childrenResizeEvts.includes(callback)) {
+          childrenResizeEvts.push(callback);
+        }
+      },
+      removeResizeEvent (callback: () => void) {
+        let index = childrenResizeEvts.findIndex(item => item === callback);
+        if (index > -1) {
+          childrenResizeEvts.splice(index, 1);
         }
       }
     });
