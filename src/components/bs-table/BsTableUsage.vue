@@ -39,12 +39,14 @@ export default defineComponent({
         label: 'Key',
         prop: 'key',
         minWidth: 180,
-        showTooltip: true
+        showTooltip: true,
+        resizeable: true
       },
       {
         label: 'Value',
         prop: 'value',
-        ellipsis: true
+        ellipsis: true,
+        resizeable: true
       },
       {
         label: 'Operate',

@@ -14,8 +14,7 @@
           v-for="(item, index) in colgroup"
           :key="index"
           :style="{
-            width: item.width + 'px',
-            minWidth: item.width + 'px'
+            width: item.width + 'px'
           }"/>
       </colgroup>
       <BsTableHead
@@ -24,7 +23,8 @@
         :table-body-has-scroll="tableBodyHasScroll"
         :table-body-scroll-width="tableBodyScrollWidth"
         :selection="selection"
-        :colgroup="colgroup"></BsTableHead>
+        :colgroup="colgroup"
+        :table-width="tableWidth"></BsTableHead>
     </table>
   </div>
 </template>
@@ -73,6 +73,10 @@ export default defineComponent({
     },
     selection: { // 选择框的类型
       type: String as PropType<BsTableSelectionType>
+    },
+    tableWidth: { // 表格宽度
+      type: Number,
+      default: 0
     }
   },
   setup (props: any, ctx: SetupContext) {

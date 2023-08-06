@@ -14,6 +14,7 @@
           :is-header-cell="true"
           :cell-attrs="cell.cellAttrs"
           :colgroup="colgroup"
+          :table-width="tableWidth"
           :class="{
             'bs-table-cell-scrollbar-prev-neighbor': tableBodyHasScroll && (tableBodyScrollWidth > 0) && (index == headThs.length - 1),
             'bs-table-expand-cell-head': cell.prop == 'bs_expand_column'
@@ -32,6 +33,7 @@
           :is-header-cell="true"
           :cell-attrs="cell.cellAttrs"
           :colgroup="colgroup"
+          :table-width="tableWidth"
           class="bs-table-selection-cell-head">
           <template v-if="cell.prop == selectionCellKey && selection == 'checkbox'">
             <BsCheckbox
@@ -104,6 +106,10 @@ export default defineComponent({
       default () {
         return [];
       }
+    },
+    tableWidth: { // 表格宽度
+      type: Number,
+      default: 0
     }
   },
   components: {
@@ -128,6 +134,7 @@ export default defineComponent({
           fixedLeftColumnCount,
           fixedRightColumnCount,
           headSlotName,
+          resizeable,
           customHeadCellAttrs
         } = column;
         // 跳过需要合并的单元格
@@ -167,7 +174,8 @@ export default defineComponent({
           fixedLeftColumnCount,
           fixedRightColumnCount,
           cellAttrs,
-          headSlotName
+          headSlotName,
+          resizeable
         });
       });
       return ths;

@@ -41,8 +41,18 @@
   right: -0.5rem;
   bottom: 0;
   width: 1rem;
-  background-color: #ccc;
   cursor: col-resize;
+  &.bs-table-resize-handle-active{
+    &::after{
+      position: absolute;
+      content: ' ';
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 1px;
+      background-color: var(--primary);
+    }
+  }
 }
 .bs-table-body{
   flex: 1;

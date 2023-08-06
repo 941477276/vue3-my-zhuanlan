@@ -70,7 +70,13 @@
         :slot-name="slotName || column.headSlotName">
         <slot></slot>
       </BsTableCustomContent>
-      <div class="bs-table-resize-handle" @mousedown="handleResizeBarMousedown"></div>
+      <div
+        v-if="cellIndex != colgroup.length - 1 && column.resizeable"
+        class="bs-table-resize-handle"
+        :class="{
+          'bs-table-resize-handle-active': resizeBarActive
+        }"
+        @mousedown="handleResizeBarMousedown"></div>
     </template>
   </component>
 </template>
@@ -78,7 +84,7 @@
 <script lang="ts">
 import { defineComponent, computed, PropType, ref, onUpdated, onMounted, inject } from 'vue';
 import { BsTableCustomContent } from './BsTableCustomContent';
-import { BsTableColumnInner, bsTableCtxKey } from '../bs-table-types';
+import { BsColgroupItem, BsTableColumnInner, bsTableCtxKey } from '../bs-table-types';
 import { bsTableCellProps } from './bs-table-cell-props';
 import { isFunction } from '@vue/shared';
 import BsTableCellContent from './BsTableCellContent';
@@ -184,34 +190,90 @@ export default defineComponent({
     let lazyDataSuccessful = ref(false);
 
     // 处理拖拽列宽
+    let resizeBarActive = ref(false);
     let handleResizeBarMousedown = function (evt: MouseEvent) {
       evt.preventDefault();
+      resizeBarActive.value = true;
       let target = evt.target as HTMLElement;
       let clientX = evt.clientX;
-      let column = props.column;
+      // let column = props.column;
 
       let newWidth = 0;
       let minWidth = 20;
       let cellIndex = props.cellIndex;
-      let oldWidth = props.colgroup[cellIndex].width;
+      let colgroup = props.colgroup!;
+      let oldWidth = colgroup[cellIndex].width;
+      let lastMouseMoveClientX: number|null = null;
+      let direction = ''; // 拖拽方向
+      let colgroupOldWidths = colgroup.map((col: BsColgroupItem, index: number) => {
+        return col.width;
+      });
       let mouseMoveEvt = function (moveEvt: MouseEvent) {
         let newClientX = moveEvt.clientX;
         let distance = newClientX - clientX;
 
-        /* let oldWidth = column?.minWidth || column?.width || 0;
-        if (!oldWidth) {
-          return;
-        } */
+        if (lastMouseMoveClientX === null) {
+          direction = newClientX < clientX ? 'left' : 'right';
+        } else {
+          if (newClientX < lastMouseMoveClientX) {
+            direction = 'left';
+          } else if (newClientX > lastMouseMoveClientX) {
+            direction = 'right';
+          }
+        }
+        lastMouseMoveClientX = newClientX;
+
         let width = oldWidth + distance;
         if (width < minWidth) {
           width = minWidth;
+          distance += minWidth - width;
         }
         newWidth = width;
         tableRootCtx.setColWidth(cellIndex, newWidth);
-        console.log('鼠标移动的距离：', cellIndex, distance, width);
+
+        console.log('direction:', direction, distance);
+        let newColGroupWidth = props.colgroup!.reduce(function (result: number, item: BsColgroupItem) {
+          result += item.width;
+          return result;
+        }, 0);
+        // 当前列后面的列宽
+        let rearColWidths = colgroupOldWidths.slice(cellIndex + 1);
+        // console.log('鼠标移动的距离：', cellIndex, distance, width, oldWidth, props.tableWidth, newColGroupWidth, direction);
+        if (distance < 0) {
+          let avgDistance = Number((Math.abs(distance) / rearColWidths.length).toFixed(2));
+          // console.log('rearColWidths', rearColWidths, avgDistance);
+          // 如果列宽改变后总列宽小于表格宽度，那么需要将distance平均分配给当前列后面的所有列的宽度
+          if (newColGroupWidth < props.tableWidth) {
+            colgroupOldWidths.forEach((colWidth: number, index: number) => {
+              if (index <= cellIndex) {
+                return;
+              }
+              tableRootCtx.setColWidth(index, colWidth + avgDistance);
+            });
+          } else {
+            if (direction == 'right') {
+              let avgDistance = distance / rearColWidths.length;
+              // console.log('rearColWidths222', rearColWidths, avgDistance);
+
+              // 如果列宽改变后总列宽大于表格宽度，并且当前列后面的列宽大于之前的宽度，那么当前列后面的所有列的宽度需要减去distance的平均值
+              colgroupOldWidths.forEach((colWidth: number, index: number) => {
+                if (index <= cellIndex) {
+                  return;
+                }
+                let newColWidth = colWidth - avgDistance;
+                let oldColWidth = colgroupOldWidths[index];
+                if (distance >= 0) { // 恢复原来的宽度
+                  newColWidth = oldColWidth;
+                }
+                tableRootCtx.setColWidth(index, newColWidth);
+              });
+            }
+          }
+        }
       };
       let removeMouseMoveEvtFn = function () {
         console.log('removeMouseMoveEvtFn执行了');
+        resizeBarActive.value = false;
         useGlobalEvent.removeEvent('document', 'mousemove', mouseMoveEvt);
         useGlobalEvent.removeEvent('document', 'mouseup', removeMouseMoveEvtFn);
         target.removeEventListener('mouseup', removeMouseMoveEvtFn, false);
@@ -243,6 +305,7 @@ export default defineComponent({
       calcColumnStyle,
       rowExpandLoading,
       lazyDataSuccessful,
+      resizeBarActive,
       handleResizeBarMousedown,
       toggleRowExpand () {
         let childrenKey = props.childrenKey;

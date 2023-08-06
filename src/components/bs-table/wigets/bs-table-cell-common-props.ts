@@ -51,5 +51,9 @@ export const bsTableCellCommonProps = {
   },
   radioName: { // 单选框框的name
     type: String
+  },
+  tableWidth: { // 表格宽度
+    type: Number,
+    default: 0
   }
 };

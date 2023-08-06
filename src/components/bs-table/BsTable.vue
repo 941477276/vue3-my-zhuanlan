@@ -29,7 +29,8 @@
       :table-slots="$slots"
       :table-body-has-scroll="tableBodyScrollInfo.hasScroll"
       :table-body-scroll-width="tableBodyScrollInfo.scrollWidth"
-      :selection="selection"></BsTableFixedHeader>
+      :selection="selection"
+      :table-width="tableWidth || tableWrapWidth"></BsTableFixedHeader>
     <div
       ref="tableBodyRef"
       class="bs-table-body"
@@ -48,8 +49,7 @@
             v-for="(item, index) in colgroup"
             :key="index"
             :style="{
-              width: item.width + 'px',
-              minWidth: item.width + 'px'
+              width: item.width + 'px'
             }" />
         </colgroup>
         <BsTableHead
@@ -59,7 +59,8 @@
           :table-body-has-scroll="tableBodyScrollInfo.hasScroll"
           :table-body-scroll-width="tableBodyScrollInfo.scrollWidth"
           :selection="selection"
-          :colgroup="colgroup"></BsTableHead>
+          :colgroup="colgroup"
+          :table-width="tableWidth || tableWrapWidth"></BsTableHead>
         <tbody class="bs-table-tbody">
         <BsTableRow
           v-for="(row, rowIndex) in realTableRows"
@@ -363,6 +364,7 @@ export default defineComponent({
 
     // 表格的宽度
     let tableWidth = ref(0);
+    let tableWrapWidth = ref(0);
     let tableRef = ref<HTMLTableElement>();
     let colgroup = ref<BsColgroupItem[]>([]);
     let tableContainerRef = ref<HTMLElement>();
@@ -380,6 +382,7 @@ export default defineComponent({
       let tableContainerScrollWidth = scrollWidth(tableBodyRef.value).vertical;
       console.log('tableContainerScrollWidth', tableContainerWidth, tableContainerScrollWidth);
       tableContainerWidth -= tableContainerScrollWidth;
+      tableWrapWidth.value = tableContainerWidth;
       let needColGroup = columns.some(column => {
         return !!column.width || !!column.minWidth;
       });
@@ -482,14 +485,16 @@ export default defineComponent({
     let tableBodyRef = ref<HTMLElement>();
     let calcRightPingTimer: number;
     // 列信息变化事件
-    let handleColumnsChange = function (columnsInfoData: any) {
+    let handleColumnsChange = function (columnsInfoData: any, calcColumnWidthFlag = true) {
       clearTimeout(calcRightPingTimer);
       nextTick(function () {
         parentElIsHidden.value = (tableContainerRef.value?.offsetWidth || 0) <= 0;
         if (parentElIsHidden.value) {
           getParentElVisible();
         }
-        calcColumnWidth(columnsInfoData.columns);
+        if (calcColumnWidthFlag !== false) {
+          calcColumnWidth(columnsInfoData.columns);
+        }
       });
       calcRightPingTimer = setTimeout(function () {
         let tableBodyEl = tableBodyRef.value;
@@ -609,7 +614,9 @@ export default defineComponent({
       useGlobalEvent.removeEvent('window', 'resize', onResize);
     });
 
+    let setColWidthTimer: number;
     provide(bsTableCtxKey, {
+      tableWidth,
       rowSpanCells,
       addRowSpanCell,
       removeRowSpanCell,
@@ -645,11 +652,17 @@ export default defineComponent({
       },
       // 设置列宽
       setColWidth (colIndex: number, width: number) {
-        let col = colgroup.value[colIndex];
+        let colgroupRaw = colgroup.value;
+        let col = colgroupRaw[colIndex];
         if (!col) {
           return;
         }
-        col.width = width;
+        col.width = Number(width.toFixed(2));
+        clearTimeout(setColWidthTimer);
+        setColWidthTimer = setTimeout(function () {
+          clearTimeout(setColWidthTimer);
+          handleColumnsChange(columnsInfo.value, false);
+        }, 0);
       }
     });
     return {
@@ -661,6 +674,7 @@ export default defineComponent({
       realTableRows,
       colgroup,
       tableWidth,
+      tableWrapWidth,
       tableHeight,
       tableMaxHeight,
       hasFixedHeader,

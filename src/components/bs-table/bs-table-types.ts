@@ -148,6 +148,7 @@ export interface BsTableRealRow {
 }
 
 export interface BsTableContext {
+  tableWidth: Ref<number>;
   rowSpanCells: Record<string, BsTableRowSpanCellInfo>;
   addRowSpanCell: (rowSpanCellInfo: BsTableRowSpanCellInfo) => void;
   removeRowSpanCell: (rowSpanCellInfo: BsTableRowSpanCellInfo, removeCurrentRowCells?: boolean) => void;
