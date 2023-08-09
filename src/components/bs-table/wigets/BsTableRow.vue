@@ -125,7 +125,8 @@ import {
   bsSelectionColumnKey,
   BsTableContext,
   BsTableRowSpanCellInfo,
-  BsTableColumnInner
+  BsTableColumnInner,
+  bsExpandColumnKey
 } from '../bs-table-types';
 import { bsTableCellCommonProps } from './bs-table-cell-common-props';
 import { isFunction, isPromise } from '@vue/shared';
@@ -200,7 +201,7 @@ export default defineComponent({
           customCellAttrs,
           prop
         } = column;
-        if (prop === 'bs_expand_column') { // 展开列不进行合并
+        if (prop === bsExpandColumnKey) { // 展开列不进行合并
           expandColumn.value = column;
           hasExpandRow = true;
           return;

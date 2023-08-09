@@ -17,7 +17,7 @@
           :table-width="tableWidth"
           :class="{
             'bs-table-cell-scrollbar-prev-neighbor': tableBodyHasScroll && (tableBodyScrollWidth > 0) && (index == headThs.length - 1),
-            'bs-table-expand-cell-head': cell.prop == 'bs_expand_column'
+            'bs-table-expand-cell-head': cell.prop == bsExpandColumnKey
           }">
         </BsTableCell>
 
@@ -73,7 +73,13 @@ import {
 } from 'vue';
 import { isFunction } from '@vue/shared';
 import { isNumber, isObject } from '../../../utils/bs-util';
-import { BsTableColumnInner, bsSelectionColumnKey, BsTableSelectionType, BsColgroupItem } from '../bs-table-types';
+import {
+  BsTableColumnInner,
+  bsSelectionColumnKey,
+  bsExpandColumnKey,
+  BsTableSelectionType,
+  BsColgroupItem
+} from '../bs-table-types';
 import BsTableCell from './BsTableCell.vue';
 import BsCheckbox from '../../bs-checkbox/BsCheckbox.vue';
 import { BsTableCustomContent } from './BsTableCustomContent';
@@ -210,6 +216,7 @@ export default defineComponent({
     return {
       headThs,
       hasFixedRightColumn,
+      bsExpandColumnKey,
       selectionCellKey: bsSelectionColumnKey,
       setRef
     };

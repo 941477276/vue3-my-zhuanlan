@@ -160,3 +160,4 @@ export interface BsTableContext {
 export const bsTableCtxKey: InjectionKey<BsTableContext> = Symbol('bsTableCtx');
 
 export const bsSelectionColumnKey = 'bs_selection_column';
+export const bsExpandColumnKey = 'bs_expand_column';

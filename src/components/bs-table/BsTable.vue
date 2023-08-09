@@ -98,7 +98,7 @@ import {
 } from 'vue';
 import {
   bsTableProps, BsTableRowSpanCellInfo, BsTableContext, bsTableCtxKey, BsTableColumn,
-  BsTableColumnInner, BsColgroupItem, BsTableRealRow, bsSelectionColumnKey
+  BsTableColumnInner, BsColgroupItem, BsTableRealRow, bsSelectionColumnKey, bsExpandColumnKey
 } from './bs-table-types';
 import BsTableFixedHeader from './wigets/BsTableFixedHeader.vue';
 import BsTableHead from './wigets/BsTableHead.vue';
@@ -183,7 +183,7 @@ export default defineComponent({
       if (allowExpand) { // 添加一列展开列
         let expandColumn: BsTableColumnInner = {
           width: props.expandColumnWidth,
-          prop: 'bs_expand_column',
+          prop: bsExpandColumnKey,
           label: props.expandColumnLabel,
           headSlotName: 'expandColumnHeader',
           cellClassName: 'bs-table-expand-cell'

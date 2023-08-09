@@ -71,7 +71,7 @@
         <slot></slot>
       </BsTableCustomContent>
       <div
-        v-if="cellIndex != colgroup.length - 1 && column.resizeable"
+        v-if="column.resizeable"
         class="bs-table-resize-handle"
         :class="{
           'bs-table-resize-handle-active': resizeBarActive
@@ -84,7 +84,7 @@
 <script lang="ts">
 import { defineComponent, computed, PropType, ref, onUpdated, onMounted, inject } from 'vue';
 import { BsTableCustomContent } from './BsTableCustomContent';
-import { BsColgroupItem, BsTableColumnInner, bsTableCtxKey } from '../bs-table-types';
+import { BsColgroupItem, BsTableColumnInner, bsTableCtxKey, bsSelectionColumnKey, bsExpandColumnKey } from '../bs-table-types';
 import { bsTableCellProps } from './bs-table-cell-props';
 import { isFunction } from '@vue/shared';
 import BsTableCellContent from './BsTableCellContent';
@@ -201,11 +201,13 @@ export default defineComponent({
       let newWidth = 0;
       let minWidth = 20;
       let cellIndex = props.cellIndex;
-      let colgroup = props.colgroup!;
-      let oldWidth = colgroup[cellIndex].width;
+      let oldColgroup = props.colgroup!.map((item: BsColgroupItem) => {
+        return { ...item };
+      });
+      let oldWidth = oldColgroup[cellIndex].width;
       let lastMouseMoveClientX: number|null = null;
       let direction = ''; // 拖拽方向
-      let colgroupOldWidths = colgroup.map((col: BsColgroupItem, index: number) => {
+      let colgroupOldWidths = oldColgroup.map((col: BsColgroupItem, index: number) => {
         return col.width;
       });
       let mouseMoveEvt = function (moveEvt: MouseEvent) {
@@ -232,42 +234,66 @@ export default defineComponent({
         tableRootCtx.setColWidth(cellIndex, newWidth);
 
         console.log('direction:', direction, distance);
-        let newColGroupWidth = props.colgroup!.reduce(function (result: number, item: BsColgroupItem) {
+        let isLastCell = cellIndex == oldColgroup.length - 1;
+        let newColgroup = props.colgroup!;
+        let newColGroupWidth = newColgroup.reduce(function (result: number, item: BsColgroupItem) {
           result += item.width;
           return result;
         }, 0);
         // 当前列后面的列宽
-        let rearColWidths = colgroupOldWidths.slice(cellIndex + 1);
+        let rearColWidths = !isLastCell ? colgroupOldWidths.slice(cellIndex + 1) : [];
         // console.log('鼠标移动的距离：', cellIndex, distance, width, oldWidth, props.tableWidth, newColGroupWidth, direction);
         if (distance < 0) {
-          let avgDistance = Number((Math.abs(distance) / rearColWidths.length).toFixed(2));
-          // console.log('rearColWidths', rearColWidths, avgDistance);
-          // 如果列宽改变后总列宽小于表格宽度，那么需要将distance平均分配给当前列后面的所有列的宽度
-          if (newColGroupWidth < props.tableWidth) {
-            colgroupOldWidths.forEach((colWidth: number, index: number) => {
-              if (index <= cellIndex) {
-                return;
-              }
-              tableRootCtx.setColWidth(index, colWidth + avgDistance);
-            });
-          } else {
-            if (direction == 'right') {
-              let avgDistance = distance / rearColWidths.length;
-              // console.log('rearColWidths222', rearColWidths, avgDistance);
-
-              // 如果列宽改变后总列宽大于表格宽度，并且当前列后面的列宽大于之前的宽度，那么当前列后面的所有列的宽度需要减去distance的平均值
+          if (!isLastCell) {
+            let avgDistance = Number((Math.abs(distance) / rearColWidths.length).toFixed(2));
+            // console.log('rearColWidths', rearColWidths, avgDistance);
+            // 如果列宽改变后总列宽小于表格宽度，那么需要将distance平均分配给当前列后面的所有列的宽度
+            if (newColGroupWidth < props.tableWidth) {
+              // 当前列宽度减少，后面的列宽度就需要增加
               colgroupOldWidths.forEach((colWidth: number, index: number) => {
                 if (index <= cellIndex) {
                   return;
                 }
-                let newColWidth = colWidth - avgDistance;
-                let oldColWidth = colgroupOldWidths[index];
-                if (distance >= 0) { // 恢复原来的宽度
-                  newColWidth = oldColWidth;
-                }
-                tableRootCtx.setColWidth(index, newColWidth);
+                tableRootCtx.setColWidth(index, colWidth + avgDistance);
               });
+            } else {
+              if (direction == 'right') {
+                let avgDistance = distance / rearColWidths.length;
+                // console.log('rearColWidths222', rearColWidths, avgDistance);
+
+                // 如果列宽改变后总列宽大于表格宽度，并且当前列后面的列宽大于之前的宽度，那么当前列后面的所有列的宽度需要减去distance的平均值
+                colgroupOldWidths.forEach((colWidth: number, index: number) => {
+                  if (index <= cellIndex) {
+                    return;
+                  }
+                  let newColWidth = colWidth - avgDistance;
+                  let oldColWidth = colgroupOldWidths[index];
+                  if (distance >= 0) { // 恢复原来的宽度
+                    newColWidth = oldColWidth;
+                  }
+                  tableRootCtx.setColWidth(index, newColWidth);
+                });
+              }
             }
+          } else {
+            let rearColWidths2: number[] = [];
+            let lastCellIndex = oldColgroup.length - 1;
+            newColgroup.forEach(function (item: BsColgroupItem, index: number) {
+              let { name, width } = item;
+              // 把展开列、选择列排除掉
+              if (name != bsExpandColumnKey && name != bsSelectionColumnKey && index != lastCellIndex) {
+                rearColWidths2.push(width);
+              }
+            });
+            let avgDistance2 = Number((Math.abs(distance) / rearColWidths2.length).toFixed(2));
+            console.log('avgDistance2', avgDistance2, rearColWidths2.length);
+            // 最后一列宽度增加，前面的列宽度就需要减少
+            oldColgroup.forEach(function (item: BsColgroupItem, index: number) {
+              let { name, width } = item;
+              if (name != bsExpandColumnKey && name != bsSelectionColumnKey && index != lastCellIndex) {
+                tableRootCtx.setColWidth(index, width + avgDistance2);
+              }
+            });
           }
         }
       };

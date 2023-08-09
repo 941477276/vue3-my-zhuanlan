@@ -6,8 +6,8 @@ title:
   zh-CN: 拖拽调整列宽
   en-US: Ellipsis with tooltip
 description:
-  zh-CN: 给某一列设置属性`resizable`为`true`，可以拖拽调整该列的宽度，但最后一列无效。
-  en-US: Set the attribute `resizable` to `true` for a certain column, you can drag and drop to adjust the width of the column, but the last column is invalid.
+  zh-CN: 给某一列设置属性`resizable`为`true`，可以拖拽调整该列的宽度。
+  en-US: Set the attribute `resizable` to `true` for a certain column, you can drag and drop to adjust the width of the column.
 ---
 </docs>
 
@@ -44,7 +44,8 @@ const columns2 = [
   {
     label: 'Operate',
     prop: 'opt',
-    minWidth: 140
+    minWidth: 140,
+    resizeable: true
   }
 ];
 

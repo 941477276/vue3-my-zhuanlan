@@ -51,7 +51,8 @@ export default defineComponent({
       {
         label: 'Operate',
         prop: 'opt',
-        minWidth: 140
+        minWidth: 140,
+        resizeable: true
       }
     ];
 
