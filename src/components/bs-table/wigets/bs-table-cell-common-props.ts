@@ -1,5 +1,5 @@
 import { PropType } from 'vue';
-import { BsTableSelectionType } from '../bs-table-types';
+import { BsTableSelectionConfig } from '../bs-table-types';
 export const bsTableCellCommonProps = {
   rowData: {
     type: Object,
@@ -39,18 +39,11 @@ export const bsTableCellCommonProps = {
     type: String,
     default: 'children'
   },
-  selection: { // 选择框的类型
-    type: String as PropType<BsTableSelectionType>
-  },
-  checkboxName: { // 复选框的name
-    type: String
-  },
-  checkStrictly: { // 在显示复选框的情况下，是否严格的遵循父子不互相关联的做法，默认为 false
-    type: Boolean,
-    default: false
-  },
-  radioName: { // 单选框框的name
-    type: String
+  selectionConfig: { // 选择项配置
+    type: Object as PropType<BsTableSelectionConfig>,
+    default () {
+      return {};
+    }
   },
   tableWidth: { // 表格宽度
     type: Number,

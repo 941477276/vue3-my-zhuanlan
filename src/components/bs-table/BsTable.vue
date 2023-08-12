@@ -29,7 +29,7 @@
       :table-slots="$slots"
       :table-body-has-scroll="tableBodyScrollInfo.hasScroll"
       :table-body-scroll-width="tableBodyScrollInfo.scrollWidth"
-      :selection="selection"
+      :selection-config="selectionConfig"
       :table-width="tableWidth || tableWrapWidth"></BsTableFixedHeader>
     <div
       ref="tableBodyRef"
@@ -58,7 +58,7 @@
           :table-slots="$slots"
           :table-body-has-scroll="tableBodyScrollInfo.hasScroll"
           :table-body-scroll-width="tableBodyScrollInfo.scrollWidth"
-          :selection="selection"
+          :selection-config="selectionConfig"
           :colgroup="colgroup"
           :table-width="tableWidth || tableWrapWidth"></BsTableHead>
         <tbody class="bs-table-tbody">
@@ -78,9 +78,7 @@
           :tree-row-expand="row.treeDataRowExpand"
           :lazy="lazy"
           :is-leaf-key="isLeafKey"
-          :selection="selection"
-          :checkbox-name="checkboxName"
-          :radio-name="radioName"
+          :selection-config="selectionConfig"
           :table-id="tableId"
           @expand-change="handleExpandChange">
         </BsTableRow>
@@ -196,8 +194,8 @@ export default defineComponent({
           normalColumns.unshift(expandColumn);
         }
       }
-      let selection = (props.selection + '').toLowerCase();
-      if (selection == 'checkbox' || selection == 'radio') { // 添加一列选择列
+      let selectionType = (props.selectionConfig?.type + '').toLowerCase();
+      if (selectionType == 'checkbox' || selectionType == 'radio') { // 添加一列选择列
         let selectionColumn: BsTableColumnInner = {
           width: props.selectionColumnWidth,
           prop: bsSelectionColumnKey,

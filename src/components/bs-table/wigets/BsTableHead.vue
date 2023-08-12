@@ -35,15 +35,16 @@
           :colgroup="colgroup"
           :table-width="tableWidth"
           class="bs-table-selection-cell-head">
-          <template v-if="cell.prop == selectionCellKey && selection == 'checkbox'">
+          <template v-if="cell.prop == selectionCellKey && !!selectionConfig?.type">
             <BsCheckbox
               :delive-context-to-form-item="false"></BsCheckbox>
             <BsTableCustomContent
-              v-if="!!tableSlots.headSelectionExtra"
+              v-if="!!tableSlots.headSelectionExtra || !!selectionConfig?.columnTitle"
               :row-index="0"
               :cell-index="index"
               :table-slots="tableSlots"
               :is-head-cell="true"
+              :label="selectionConfig?.columnTitle"
               :column="cell"
               slot-name="headSelectionExtra">
             </BsTableCustomContent>
@@ -78,7 +79,8 @@ import {
   bsSelectionColumnKey,
   bsExpandColumnKey,
   BsTableSelectionType,
-  BsColgroupItem
+  BsColgroupItem,
+  BsTableSelectionConfig
 } from '../bs-table-types';
 import BsTableCell from './BsTableCell.vue';
 import BsCheckbox from '../../bs-checkbox/BsCheckbox.vue';
@@ -104,8 +106,11 @@ export default defineComponent({
       type: Number,
       default: 0
     },
-    selection: { // 选择框的类型
-      type: String as PropType<BsTableSelectionType>
+    selectionConfig: { // 选择框的类型
+      type: Object as PropType<BsTableSelectionConfig>,
+      default () {
+        return {};
+      }
     },
     colgroup: { // 自定义内容插槽名称
       type: Array as PropType<BsColgroupItem[]>,

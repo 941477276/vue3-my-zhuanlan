@@ -51,15 +51,15 @@
       :cell-index="0"
       :key="`${rowIndex}_${selectionColumn.prop}`">
       <BsCheckbox
-        v-if="selection == 'checkbox'"
+        v-if="selectionConfig?.type == 'checkbox'"
         :delive-context-to-form-item="false"
-        :name="checkboxName"
-        :disabled="rowData.disabled"></BsCheckbox>
+        :name="selectionConfig?.checkboxName"
+        :disabled="getRowDisabled()"></BsCheckbox>
       <BsRadio
-        v-if="selection == 'radio'"
+        v-if="selectionConfig?.type == 'radio'"
         :delive-context-to-form-item="false"
-        :name="radioName"
-        :disabled="rowData.disabled"></BsRadio>
+        :name="selectionConfig?.radioName"
+        :disabled="getRowDisabled()"></BsRadio>
     </BsTableCell>
 
     <!--普通列-->
@@ -81,9 +81,7 @@
         :lazy="lazy"
         :is-leaf-key="isLeafKey"
         :children-key="childrenKey"
-        :selection="selection"
-        :checkbox-name="checkboxName"
-        :radio-name="radioName"></BsTableCell>
+        :selection-config="selectionConfig"></BsTableCell>
     </template>
   </tr>
   <!--展开行-->
@@ -400,6 +398,14 @@ export default defineComponent({
         });
         // 列不在行合并的列中，则显示
         return !inRowSpan;
+      },
+      // 判断行是否允许选择
+      getRowDisabled () {
+        let rowDisabled = props.selectionConfig?.rowDisabled;
+        if (isFunction(rowDisabled)) {
+          return !!rowDisabled(props.rowData, props.rowIndex);
+        }
+        return false;
       }
     };
   }
