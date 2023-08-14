@@ -62,9 +62,10 @@
           :colgroup="colgroup"
           :table-width="tableWidth || tableWrapWidth"></BsTableHead>
         <tbody class="bs-table-tbody">
-          <template v-for="(row, rowIndex) in flattenTableRows" :key="row.uid">
+          <template v-for="(row, rowIndex) in flattenTableRows">
             <BsTableRow
               v-if="row.visible"
+              :key="row.uid"
               :row-data="row.node"
               :row-index="rowIndex"
               :row-id="row.uid"
@@ -110,7 +111,8 @@ import { useGlobalEvent } from '../../hooks/useGlobalEvent';
 import {
   treeDataToFlattarnArr2,
   findNodeByUid,
-  findChildrenNodesByUid
+  findChildrenNodesByUid,
+  findParentsByNodeLevelPath2
 } from '../bs-tree/bs-tree-utils';
 
 let bsTableCount = 0;
@@ -315,6 +317,33 @@ export default defineComponent({
             clearTimeout(timer);
             needExpandRows.forEach(rowItem => {
               expandTreeRow(rowItem.node, rowItem.uid, defaultExpandAllRows);
+            });
+          }, 0);
+        }
+
+        // 默认展开的行
+        let defaultExpandedRowKeys: string[] = props.defaultExpandedRowKeys || [];
+        if (defaultExpandedRowKeys.length > 0 && !isLazy && !defaultExpandAllRows) {
+          let timer2 = setTimeout(function () {
+            clearTimeout(timer2);
+            let flattenTableRowsRaw = flattenTableRows.value;
+            defaultExpandedRowKeys.forEach(rowKey => {
+              let row = findNodeByUid(tableId, rowKey, flattenTableRowsRaw);
+              if (!row) {
+                return;
+              }
+              let rowParents = findParentsByNodeLevelPath2(row.nodeLevelPath, flattenTableRowsRaw);
+              // 先展开所有父级
+              rowParents.forEach(parentItem => {
+                if (parentItem.treeDataRowExpand) {
+                  return;
+                }
+                expandTreeRow(parentItem.node, parentItem.uid, false);
+              });
+              // 再展开自己
+              if (!row.treeDataRowExpand) {
+                expandTreeRow(row.node, rowKey, false);
+              }
             });
           }, 0);
         }

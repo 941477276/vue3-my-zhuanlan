@@ -16,7 +16,7 @@
       :table-slots="tableSlots"
       :column="expandColumn"
       :cell-index="0"
-      :key="`${rowIndex}_${expandColumn.prop}`">
+      :key="`cell_${rowIndex}_${expandColumn.prop}`">
       <button
         class="bs-table-row-expand-icon"
         :class="{
@@ -49,7 +49,7 @@
       :table-slots="tableSlots"
       :column="selectionColumn"
       :cell-index="0"
-      :key="`${rowIndex}_${selectionColumn.prop}`">
+      :key="`cell_${rowIndex}_${selectionColumn.prop}`">
       <BsCheckbox
         v-if="selectionConfig?.type == 'checkbox'"
         :delive-context-to-form-item="false"
@@ -74,7 +74,7 @@
         :table-slots="tableSlots"
         :column="column"
         :cell-index="columnIndex"
-        :key="`${rowIndex}_${column.prop || columnIndex}`"
+        :key="`cell_${rowIndex}_${column.prop || columnIndex}`"
         :cell-attrs="column.cellAttrs"
         :is-tree-data="isTreeData"
         :has-children="hasChildren"

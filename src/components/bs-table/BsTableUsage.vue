@@ -4,7 +4,7 @@
       <!--<h3>基础用法</h3>-->
       <!--<Basic></Basic>-->
       <BsTable :columns="columns2" :data="data2" stripe border max-height="400"
-               row-key="value" selection="radio" :default-expand-all-rows="true">
+               row-key="value" selection="radio" :default-expand-all-rows="false" :default-expanded-row-keys="expandedRowKeys">
         <!--<template #headSelectionExtra>
           More
         </template>-->
@@ -150,9 +150,11 @@ export default defineComponent({
       data2.value[0].key = '阿什拉夫卢卡斯金六福酒快睡觉false发链接库萨分类扫房埃里克分类可撒娇法律手段flsd';
     }, 1500);
 
+    let expandedRowKeys = ref(['001001001002002', '001002']);
     return {
       columns2,
-      data2
+      data2,
+      expandedRowKeys
     };
   }
 });

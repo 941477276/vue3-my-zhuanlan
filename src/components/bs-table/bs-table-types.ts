@@ -121,8 +121,10 @@ export const bsTableProps = {
     type: Boolean
   },
   defaultExpandedRowKeys: { // 默认展开的行
-    type: Array,
-    default: []
+    type: Array as PropType<string[]>,
+    default () {
+      return [];
+    }
   },
   lazy: { // 是否懒加载树状数据
     type: Boolean
