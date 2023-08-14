@@ -164,7 +164,9 @@ export type BsTreeProps = ExtractPropTypes<typeof bsTreeProps>;
 
 // 节点信息
 export interface BsNodeInfo {
+  uid?: string;
   node: PlainObject;
+  nodeLevel: number;
   nodeLevelPath: string;
   isDisabled: boolean;
 };

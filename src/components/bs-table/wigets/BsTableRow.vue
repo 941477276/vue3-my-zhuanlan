@@ -54,12 +54,14 @@
         v-if="selectionConfig?.type == 'checkbox'"
         :delive-context-to-form-item="false"
         :name="selectionConfig?.checkboxName"
-        :disabled="getRowDisabled()"></BsCheckbox>
+        :disabled="getRowDisabled()"
+        :value="rowId"></BsCheckbox>
       <BsRadio
         v-if="selectionConfig?.type == 'radio'"
         :delive-context-to-form-item="false"
         :name="selectionConfig?.radioName"
-        :disabled="getRowDisabled()"></BsRadio>
+        :disabled="getRowDisabled()"
+        :value="rowId"></BsRadio>
     </BsTableCell>
 
     <!--普通列-->

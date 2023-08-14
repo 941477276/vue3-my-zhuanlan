@@ -2,42 +2,52 @@ import {
   BsNodeInfo,
   BsNodeData
 } from './bs-tree-types';
+import { isFunction } from '../../utils/bs-util';
 import { PlainObject } from '../types';
 
 let caches: any = {};
 /**
  * 将树形结构扁平化转成普通对象
- * @param treeNodeInfoArr 树数据
+ * @param treeData 树数据
  * @param childrenKey 节点的子节点属性名
  * @param disabledKey 节点是否禁用的属性名
  * @param nodeLevel 节点的层级
  * @package parentNodeLevelPath 父级节点层级路径
  * @param target 目标对象
  */
-export function treeDataToFlattarnArr2 (treeId: string, treeNodeInfoArr: BsNodeInfo[], childrenKey: string, disabledKey: string, nodeLevel = 1, parentNodeLevelPath = '', target: BsNodeInfo[] = []) {
-  if (!Array.isArray(treeNodeInfoArr)) {
-    treeNodeInfoArr = [treeNodeInfoArr];
+export function treeDataToFlattarnArr2 (treeId: string, treeData: Record<string, any>|Record<string, any>[], childrenKey: string, disabledKey: string, nodeLevel = 1, parentNodeLevelPath = '', target: BsNodeInfo[] = [], callback?: (nodeInfoItem: BsNodeInfo) => void) {
+  if (!Array.isArray(treeData)) {
+    treeData = [treeData];
   }
-  if (!(treeId in caches)) {
+  /* if (!(treeId in caches)) {
     caches[treeId] = {
       cachedNodeInfo: {}, // 缓存找到过的节点
       cachedChildrenWhichHasChildren: {} // 缓存找到的节点有子节点的节点
     };
-  }
-  treeNodeInfoArr.forEach((treeNode: any, index: number) => {
+  } */
+  caches[treeId] = {
+    cachedNodeInfo: {}, // 缓存找到过的节点
+    cachedChildrenWhichHasChildren: {} // 缓存找到的节点有子节点的节点
+  };
+  treeData.forEach((treeNode: any, index: number) => {
     if (!treeNode || typeof treeNode !== 'object') {
       return;
     }
     let nodeLevelPath = parentNodeLevelPath ? (parentNodeLevelPath + '_' + (index + 1)) : '' + (index + 1);
-    target.push({
+    let nodeInfoItem = {
       nodeLevelPath,
+      nodeLevel,
       node: treeNode,
       isDisabled: !!treeNode[disabledKey]
-    });
+    };
+    if (callback && isFunction(callback)) {
+      callback(nodeInfoItem);
+    }
+    target.push(nodeInfoItem);
 
     let children = treeNode[childrenKey];
     if (children && (children?.length || 0) > 0) {
-      treeDataToFlattarnArr2(treeId, children, childrenKey, disabledKey, nodeLevel + 1, nodeLevelPath, target);
+      treeDataToFlattarnArr2(treeId, children, childrenKey, disabledKey, nodeLevel + 1, nodeLevelPath, target, callback);
     }
   });
   return target;
@@ -237,7 +247,7 @@ export function findTopParentByNodeValue2 (treeId: string, nodeValue: any, nodeK
  * @param nodeKey
  * @param treeNodeInfoArr
  */
-export function findChildrenInfoFlattarnByNodeValue2 (treeId: string, nodeValue: any, nodeKey: string, treeNodeInfoArr: BsNodeInfo[]) {
+export function findDecentantsInfoFlattarnByNodeValue2 (treeId: string, nodeValue: any, nodeKey: string, treeNodeInfoArr: BsNodeInfo[]) {
   let currentNodeInfo = findNodeInfoByValue2(treeId, nodeValue, nodeKey, treeNodeInfoArr);
   if (!currentNodeInfo.node) {
     return [];
@@ -246,6 +256,52 @@ export function findChildrenInfoFlattarnByNodeValue2 (treeId: string, nodeValue:
   // 层级路径以当前节点的层级路径开头的都是当前节点的子孙级节点
   let flattarnChildren = treeNodeInfoArr.filter(nodeInfo => nodeInfo.nodeLevelPath.startsWith(nodeLevelPath + '_'));
   return flattarnChildren;
+}
+
+/**
+ * 根据节点的ID查找节点
+ * @param uid 节点的id
+ * @param treeNodeInfoArr 扁平化的树数组
+ * @return {{node: object; nodeLevelPath: string}}
+ */
+export function findNodeByUid (treeId: string, uid: any, treeNodeInfoArr: BsNodeInfo[]) {
+  let resultNode: null|BsNodeInfo = null;
+  let cachedNodeInfo = caches[treeId].cachedNodeInfo;
+  // 优先从缓存中取
+  if (uid in cachedNodeInfo) {
+    // 从缓存中取节点
+    return cachedNodeInfo[uid];
+  }
+  for (let i = 0, len = treeNodeInfoArr.length; i < len; i++) {
+    let nodeInfoItem = treeNodeInfoArr[i];
+    if (nodeInfoItem.uid === uid) {
+      resultNode = nodeInfoItem;
+      break;
+    }
+  }
+  cachedNodeInfo[uid] = resultNode;
+  return resultNode;
+};
+
+/**
+ * 根据节点ID获取节点的子级节点（平铺开来的子节点数组）
+ * @param treeId 树id
+ * @param uid 节点id
+ * @param treeNodeInfoArr 扁平化的树数组
+ */
+export function findChildrenNodesByUid<T extends BsNodeInfo> (treeId: string, uid: any, treeNodeInfoArr: BsNodeInfo[]) {
+  let currentNodeInfo: T = findNodeByUid(treeId, uid, treeNodeInfoArr);
+  if (!currentNodeInfo) {
+    return [];
+  }
+  let nodeLevelPath = currentNodeInfo.nodeLevelPath;
+  let childrenNodes = treeNodeInfoArr.filter(nodeInfo => {
+    let nodeLevels = nodeInfo.nodeLevelPath.split('_');
+    nodeLevels.pop();
+    // 节点层级路径移除最后一项后等于当前节点的层级路径就是当前节点子级节点
+    return nodeLevels.join('_') === nodeLevelPath;
+  }) as T[];
+  return childrenNodes;
 }
 
 /**

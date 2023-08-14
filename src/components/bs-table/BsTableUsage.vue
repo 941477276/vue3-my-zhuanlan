@@ -4,7 +4,7 @@
       <!--<h3>基础用法</h3>-->
       <!--<Basic></Basic>-->
       <BsTable :columns="columns2" :data="data2" stripe border max-height="400"
-               row-key="value" selection="radio" default-expand-all-rows>
+               row-key="value" selection="radio" :default-expand-all-rows="true">
         <!--<template #headSelectionExtra>
           More
         </template>-->

@@ -1,4 +1,5 @@
 import { PropType, VNode, InjectionKey, Ref } from 'vue';
+import type { BsNodeInfo } from '../bs-tree/bs-tree-types';
 
 // 表格列属性
 export interface BsTableColumn {
@@ -143,6 +144,15 @@ export interface BsTableRealRow {
   uid: string;
   rowData: Record<string, any>;
   children: BsTableRealRow[]
+}
+
+export interface BsTableRowData extends BsNodeInfo {
+  treeDataRowExpand: boolean; // 树状数据时，当前行是否展开了
+  // treeLevel: number; // 树的层级
+  uid: string;
+  visible: boolean; // 当前行是否显示
+  // rowData: Record<string, any>;
+  // children: BsTableRealRow[]
 }
 
 export interface BsTableContext {
