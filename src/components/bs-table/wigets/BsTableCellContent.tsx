@@ -94,6 +94,9 @@ export default defineComponent({
         disabled: this.tooltipContent.length == 0 || !this.textIsOverflow,
         content: this.tooltipContent
       };
+      if (tooltipProps.disabled) {
+        return (<div ref="textElRef" class={[ellipsisClass, 'bs-table-cell-show-tooltip']}>{customContent()}</div>);
+      }
       return (
         <BsTooltip {...tooltipProps}>
           <div ref="textElRef" class={[ellipsisClass, 'bs-table-cell-show-tooltip']}>{ customContent() }</div>

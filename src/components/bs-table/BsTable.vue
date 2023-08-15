@@ -226,7 +226,7 @@ export default defineComponent({
           if (allowExpand) { // 如果有展开列，那么选择列需要插入到展开列后面
             selectionColumn.fixedIndex = 1;
             let arr = [fixedLeftColumn1, selectionColumn].filter(item => !!item);
-            fixedLeftColumns.splice(1, 1, ...arr);
+            fixedLeftColumns.splice(1, 0, ...arr);
           } else {
             selectionColumn.fixedIndex = 0;
             fixedLeftColumns.unshift(selectionColumn);
@@ -234,7 +234,7 @@ export default defineComponent({
         } else {
           if (allowExpand) { // 如果有展开列，那么选择列需要插入到展开列后面
             let arr = [fixedLeftColumn1, selectionColumn].filter(item => !!item);
-            normalColumns.splice(1, 1, ...arr);
+            normalColumns.splice(1, 0, ...arr);
           } else {
             normalColumns.unshift(selectionColumn);
           }
