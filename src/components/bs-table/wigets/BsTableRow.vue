@@ -89,7 +89,7 @@
   <!--展开行-->
   <tr class="bs-table-expand-row" v-if="rowIsExpanded">
     <td
-      :colspan="realColumns.length + 1"
+      :colspan="columns.length"
       :style="hasFixedLeftColumn ? 'position: sticky;left: 0;overflow: hidden' : ''">
       <BsTableCustomContent
         :row-index="rowIndex"
@@ -169,6 +169,18 @@ export default defineComponent({
     },
     tableId: { // 表格ID
       type: String
+    },
+    checkedKeys: { // 选中行的key
+      type: Set,
+      default () {
+        return new Set();
+      }
+    },
+    halfCheckedKeys: { // 半选中行的key
+      type: Set,
+      default () {
+        return new Set();
+      }
     }
   },
   emits: ['expand-change'],
@@ -303,12 +315,32 @@ export default defineComponent({
       }
       return rowClassName || '';
     });
+
     // 是否有子节点
     let hasChildren = computed(function () {
       let childrenKey = props.childrenKey;
       let rowData = props.rowData;
       return Array.isArray(rowData[childrenKey]) && rowData[childrenKey].length > 0;
     });
+    // 是否选中
+    let isChecked = computed(function () {
+      return props.checkedKeys.includes(props.rowId);
+    });
+    // 是否为半选中状态
+    let isIndeterminate = computed(function () {
+      return props.halfCheckedKeys.includes(props.rowId);
+    });
+    // 是否禁用
+    let isDisabled = ref(false);
+    // 是否为叶子节点
+    let isLeaf = computed(function () {
+      return !!props.rowData[props.isLeafKey];
+    });
+    // 单选框是否只能选择叶子节点
+    let isRadioDisabled = computed(function () {
+      return props.selectionConfig.checkStrictly && !isLeaf.value;
+    });
+
     // 行是否展开列
     let rowIsExpanded = ref(false);
     // 行是否正在展开中
@@ -404,10 +436,13 @@ export default defineComponent({
       // 判断行是否允许选择
       getRowDisabled () {
         let rowDisabled = props.selectionConfig?.rowDisabled;
+        let disabled = false;
         if (isFunction(rowDisabled)) {
-          return !!rowDisabled(props.rowData, props.rowIndex);
+          disabled = !!rowDisabled(props.rowData, props.rowIndex);
         }
-        return false;
+        // isDisabled.value = disabled;
+        rootTableCtx.setRowSelectionDisabled(props.rowId, disabled);
+        return disabled;
       }
     };
   }

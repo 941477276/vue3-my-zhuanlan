@@ -94,7 +94,7 @@
 <script lang="ts">
 import {
   computed, defineComponent, nextTick, provide, reactive, ref, Ref, SetupContext, watch,
-  ComponentPublicInstance, onBeforeUnmount
+  ComponentPublicInstance, onBeforeUnmount, WatchStopHandle
 } from 'vue';
 import {
   bsTableProps, BsTableRowSpanCellInfo, BsTableContext, bsTableCtxKey, BsTableColumn,
@@ -211,25 +211,33 @@ export default defineComponent({
         }
       }
       let selectionType = (props.selectionConfig?.type + '').toLowerCase();
-      if (selectionType == 'checkbox' || selectionType == 'radio') { // 添加一列选择列
+      let hasSelectionColumn = selectionType == 'checkbox' || selectionType == 'radio';
+      if (hasSelectionColumn) { // 添加一列选择列
         let selectionColumn: BsTableColumnInner = {
-          width: props.selectionColumnWidth,
+          width: props.selectionConfig?.columnWidth || 50,
           prop: bsSelectionColumnKey,
           label: '',
           headSlotName: 'selectionColumnHeader',
           cellClassName: 'bs-table-selection-cell'
         };
+        var fixedLeftColumn1 = fixedLeftColumns[1];
         if (fixedLeftColumns.length > 0) {
           selectionColumn.fixed = 'left';
           if (allowExpand) { // 如果有展开列，那么选择列需要插入到展开列后面
-            var fixedLeftColumn1 = fixedLeftColumns[1];
-            fixedLeftColumns.splice(1, 1, fixedLeftColumn1, selectionColumn);
-          } else {
             selectionColumn.fixedIndex = 1;
+            let arr = [fixedLeftColumn1, selectionColumn].filter(item => !!item);
+            fixedLeftColumns.splice(1, 1, ...arr);
+          } else {
+            selectionColumn.fixedIndex = 0;
             fixedLeftColumns.unshift(selectionColumn);
           }
         } else {
-          normalColumns.unshift(selectionColumn);
+          if (allowExpand) { // 如果有展开列，那么选择列需要插入到展开列后面
+            let arr = [fixedLeftColumn1, selectionColumn].filter(item => !!item);
+            normalColumns.splice(1, 1, ...arr);
+          } else {
+            normalColumns.unshift(selectionColumn);
+          }
         }
       }
 
@@ -237,7 +245,11 @@ export default defineComponent({
       let fixedRightColumnCount = fixedRightColumns.length;
       fixedLeftColumns.forEach((column: BsTableColumnInner, index) => {
         column.fixedLeftColumnCount = fixedLeftColumnCount;
-        if (allowExpand && index != 0) { // 如果有展开列，并且当前列非展开列，则当前的固定列索引加1
+        if (allowExpand) {
+          if (index != 0) { // 如果有展开列，并且当前列非展开列，则当前的固定列索引加1
+            column.fixedIndex! += 1;
+          }
+        } else if (hasSelectionColumn && index != 0) {
           column.fixedIndex! += 1;
         }
       });
@@ -264,7 +276,10 @@ export default defineComponent({
       return sm3HashHex(JSON.stringify(sortedJson));
     };
 
-    let realTableRows = ref<BsTableRealRow[]>([]);
+    // 选中行的key
+    let checkedKeys: Ref<Set<string>> = ref(new Set());
+    // 半选中行的key
+    let halfCheckedKeys: Ref<Set<string>> = ref(new Set());
     // 数据是否为树状
     let isTreeData = ref(false);
     // 展开行的id
@@ -279,9 +294,7 @@ export default defineComponent({
         let isTreeDataFlag = false;
 
         let newFlattenTableRowData: BsTableRowData[] = [];
-        let rowKey = props.rowKey;
         let defaultExpandAllRows = !!props.defaultExpandAllRows;
-        let isLazy = props.lazy;
 
         // 默认需要展开的行
         let needExpandRows: BsTableRowData[] = [];
@@ -321,34 +334,44 @@ export default defineComponent({
           }, 0);
         }
 
-        // 默认展开的行
-        let defaultExpandedRowKeys: string[] = props.defaultExpandedRowKeys || [];
-        if (defaultExpandedRowKeys.length > 0 && !isLazy && !defaultExpandAllRows) {
-          let timer2 = setTimeout(function () {
-            clearTimeout(timer2);
-            let flattenTableRowsRaw = flattenTableRows.value;
-            defaultExpandedRowKeys.forEach(rowKey => {
-              let row = findNodeByUid(tableId, rowKey, flattenTableRowsRaw);
-              if (!row) {
-                return;
-              }
-              let rowParents = findParentsByNodeLevelPath2(row.nodeLevelPath, flattenTableRowsRaw);
-              // 先展开所有父级
-              rowParents.forEach(parentItem => {
-                if (parentItem.treeDataRowExpand) {
-                  return;
-                }
-                expandTreeRow(parentItem.node, parentItem.uid, false);
-              });
-              // 再展开自己
-              if (!row.treeDataRowExpand) {
-                expandTreeRow(row.node, rowKey, false);
-              }
-            });
-          }, 0);
-        }
+        // 展开默认需要展开的行
+        expandDefaultExpandedRows();
       });
     }, { immediate: true });
+
+    // 展开默认需要展开的行
+    let expandDefaultExpandedRows = function () {
+      let defaultExpandedRowKeys: string[] = props.defaultExpandedRowKeys || [];
+      if (defaultExpandedRowKeys.length > 0 && !props.lazy && !props.defaultExpandAllRows && stopWatchDefaultExpandedRows) {
+        let timer2 = setTimeout(function () {
+          clearTimeout(timer2);
+          stopWatchDefaultExpandedRows?.(); // defaultExpandedRowKeys只执行一次
+          stopWatchDefaultExpandedRows = null;
+          let flattenTableRowsRaw = flattenTableRows.value;
+          defaultExpandedRowKeys.forEach(rowKey => {
+            let row = findNodeByUid(tableId, rowKey, flattenTableRowsRaw);
+            if (!row) {
+              return;
+            }
+            let rowParents = findParentsByNodeLevelPath2(row.nodeLevelPath, flattenTableRowsRaw);
+            // 先展开所有父级
+            rowParents.forEach(parentItem => {
+              if (parentItem.treeDataRowExpand) {
+                return;
+              }
+              expandTreeRow(parentItem.node, parentItem.uid, false);
+            });
+            // 再展开自己
+            if (!row.treeDataRowExpand) {
+              expandTreeRow(row.node, rowKey, false);
+            }
+          });
+        }, 0);
+      }
+    };
+    let stopWatchDefaultExpandedRows: WatchStopHandle|null = watch(() => [...props.defaultExpandedRowKeys], function () {
+      expandDefaultExpandedRows();
+    });
 
     let computeTableHeight = function (height: string|number): string {
       if (isNumber(height)) {
@@ -406,12 +429,9 @@ export default defineComponent({
       }
       let tableContainerWidth = tableBodyRef.value?.clientWidth || 0;
       let isFixedHeaderRaw = hasFixedHeader.value;
-      // let tableEl = tableRef.value;
-      // let tableBorderLeft = getStyle(tableEl!, 'border-left') || 0;
-      // let tableBorderRight = getStyle(tableEl!, 'border-right') || 0;
-      // tableContainerWidth -= tableBorderLeft + tableBorderRight;
+
       let tableContainerScrollWidth = scrollWidth(tableBodyRef.value).vertical;
-      console.log('tableContainerScrollWidth', tableContainerWidth, tableContainerScrollWidth);
+      // console.log('tableContainerScrollWidth', tableContainerWidth, tableContainerScrollWidth);
       tableContainerWidth -= tableContainerScrollWidth;
       tableWrapWidth.value = tableContainerWidth;
       let needColGroup = columns.some(column => {
@@ -707,6 +727,14 @@ export default defineComponent({
           clearTimeout(setColWidthTimer);
           handleColumnsChange(columnsInfo.value, false);
         }, 0);
+      },
+      // 设置行选择禁用
+      setRowSelectionDisabled (rowId: string, disabled: boolean) {
+        let row = findNodeByUid(tableId, rowId, flattenTableRows.value);
+        if (!row) {
+          return;
+        }
+        row.isDisabled = disabled;
       }
     });
     return {
@@ -716,7 +744,6 @@ export default defineComponent({
       tableFixedHeaderRef,
       tableBodyRef,
       tableRef,
-      realTableRows,
       colgroup,
       tableWidth,
       tableWrapWidth,
@@ -726,6 +753,8 @@ export default defineComponent({
       columnsInfo,
       tableBodyScrollInfo,
       isTreeData,
+      checkedKeys,
+      halfCheckedKeys,
       // 移除行的下级节点
       removeRowChildren (rowData: Record<string, any>) {
         let uid = '';

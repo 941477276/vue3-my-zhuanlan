@@ -60,6 +60,7 @@
 }
 .bs-table-cell-ellipsis{
   display: inline-block;
+  vertical-align: middle;
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;

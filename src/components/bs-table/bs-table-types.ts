@@ -166,6 +166,7 @@ export interface BsTableContext {
   addResizeEvent: (callback: () => void) => void;
   removeResizeEvent: (callback: () => void) => void;
   setColWidth: (colIndex: number, width: number) => void;
+  setRowSelectionDisabled: (rowId: string, disabled: boolean) => void;
 }
 export const bsTableCtxKey: InjectionKey<BsTableContext> = Symbol('bsTableCtx');
 
