@@ -1,7 +1,7 @@
 import { computed, ref, Ref } from 'vue';
 import {
   findNodeInfoByValue2,
-  findDecentantsInfoFlattarnByNodeValue2
+  findDescendantByNodeValue2
 } from './bs-tree-utils';
 import { BsNodeData, BsNodeInfo } from './bs-tree-types';
 import { PlainObject } from '../types';
@@ -36,7 +36,7 @@ export function useTreePagination (props: any, treeId: string, flatTreeNodeInfoA
         let show = false;
         // 如果节点有子孙节点，则只要子孙节点有一个匹配的那么该节点都应该显示出来
         if (nodeData[childrenKey]) {
-          let childrensIfno = findDecentantsInfoFlattarnByNodeValue2(treeId, nodeData[nodeKey], nodeKey, flatTreeNodeInfoArr.value);
+          let childrensIfno = findDescendantByNodeValue2(treeId, nodeData[nodeKey], nodeKey, flatTreeNodeInfoArr.value);
           childrensIfno.unshift({
             node: nodeData
           } as BsNodeInfo);

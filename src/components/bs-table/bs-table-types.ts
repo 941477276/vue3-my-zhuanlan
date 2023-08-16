@@ -44,6 +44,17 @@ export interface BsColgroupItem {
 // 选框类型
 export type BsTableSelectionType = 'checkbox' | 'radio';
 
+export interface BsTableSelectionChangeResult {
+  row: Record<string, any>|null;
+  isSelected: boolean;
+  isHalfSelected: boolean;
+  operateType: 'selectSingle' | 'selectAll' | 'selectNone'; // 操作类型
+  selectedRowKeys: string[];
+  selectedRows: Record<string, any>[];
+  halfSelectedRowKeys: string[]
+  halfSelectedRows: Record<string, any>[];
+};
+
 // 行选择功能的配置项
 export interface BsTableSelectionConfig {
   type: 'checkbox'|'radio'; // 选择框的类型
@@ -52,11 +63,11 @@ export interface BsTableSelectionConfig {
   checkboxName?: string; // 复选框的name
   checkStrictly?: boolean; // 在显示复选框的情况下，是否严格的遵循父子不互相关联的做法，默认为 false
   radioName?: string; // 单选框框的name
-  selectedRowKeys?: string[]; //  单选框框的name
+  // selectedRowKeys?: string[]; //  单选框框的name
   reserveSelectedRowKeys?: boolean; // 当数据被删除时仍然保留选项的 key
-  rowDisabled?: (row: Record<string, any>, rowIndex: number) => boolean; // 行禁用函数
-  onChange?: (selectedRowKeys: string[], selectedRows: Record<string, any>[]) => void; // 选中项发生变化时的回调
-  onSelect?: (row: Record<string, any>, isSelected: boolean, selectedRows: Record<string, any>[]) => void; // 用户手动选择/取消选择某列的回调
+  rowDisabled?: (row: Record<string, any>, rowIndex: number) => boolean|void; // 行禁用函数
+  // onChange?: (selectedRowKeys: string[], selectedRows: Record<string, any>[]) => void; // 选中项发生变化时的回调
+  onSelectChange?: (selection: BsTableSelectionChangeResult) => void; // 用户手动选择/取消选择某列的回调
 }
 
 export const bsTableProps = {
@@ -137,6 +148,12 @@ export const bsTableProps = {
     default () {
       return {};
     }
+  },
+  checkedKeys: { // 选中行的key
+    type: Array as PropType<string[]>,
+    default () {
+      return [];
+    }
   }
 };
 
@@ -160,6 +177,8 @@ export interface BsTableRowData extends BsNodeInfo {
 export interface BsTableContext {
   tableWidth: Ref<number>;
   rowSpanCells: Record<string, BsTableRowSpanCellInfo>;
+  checkedKeysRoot: Ref<Set<string>>;
+  halfCheckedKeys: Ref<Set<string>>;
   addRowSpanCell: (rowSpanCellInfo: BsTableRowSpanCellInfo) => void;
   removeRowSpanCell: (rowSpanCellInfo: BsTableRowSpanCellInfo, removeCurrentRowCells?: boolean) => void;
   expandTreeRow: (rowData: any, rowId: string, expandChildRow?: boolean, callback?: (flag?: boolean) => void) => void;
@@ -167,6 +186,11 @@ export interface BsTableContext {
   removeResizeEvent: (callback: () => void) => void;
   setColWidth: (colIndex: number, width: number) => void;
   setRowSelectionDisabled: (rowId: string, disabled: boolean) => void;
+  addCheckedKey: (rowId: string, nodeData: Record<string, any>, hasChildren: boolean) => void;
+  removeCheckedKey: (rowId: string, nodeData: Record<string, any>, hasChildren: boolean) => void;
+  getSelectionInfo: () => any;
+  selectAll: () => void;
+  selectNone: () => void;
 }
 export const bsTableCtxKey: InjectionKey<BsTableContext> = Symbol('bsTableCtx');
 

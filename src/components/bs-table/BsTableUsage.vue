@@ -3,8 +3,14 @@
     <div>
       <!--<h3>基础用法</h3>-->
       <!--<Basic></Basic>-->
-      <BsTable :columns="columns2" :data="data2" stripe border max-height="400"
-               row-key="value" selection="radio" :default-expand-all-rows="false" :default-expanded-row-keys="expandedRowKeys">
+      <BsTable :columns="columns2" :data="data2" stripe border max-height="400" row-key="value" selection="radio"
+               :default-expand-all-rows="false" :default-expanded-row-keys="expandedRowKeys" :checked-keys="checkedKeys"
+                :selection-config="{
+                  type: 'checkbox',
+                  rowDisabled,
+                  checkStrictly: false,
+                  onSelectChange
+                }">
         <!--<template #headSelectionExtra>
           More
         </template>-->
@@ -150,11 +156,28 @@ export default defineComponent({
       data2.value[0].key = '阿什拉夫卢卡斯金六福酒快睡觉false发链接库萨分类扫房埃里克分类可撒娇法律手段flsd';
     }, 1500);
 
+    setTimeout(function () {
+      data2.value.push({
+        'title': '清远市',
+        'key': '64c204f08cdedc661690eed9',
+        'value': '001004'
+      });
+    }, 1500);
+
     let expandedRowKeys = ref(['001001001002002', '001002']);
+    let checkedKeys = ref(['001001001001', '001001001002002', '001001001002001', '001002']);
     return {
       columns2,
       data2,
-      expandedRowKeys
+      expandedRowKeys,
+      checkedKeys,
+      rowDisabled (row: Record<string, any>) {
+        // return ['坂田街道', '吉华街道'].includes(row.title);
+      },
+      onSelectChange (selection: any) {
+        console.log('selection', selection);
+        // checkedKeys.value = selection.selectedRowKeys;
+      }
     };
   }
 });

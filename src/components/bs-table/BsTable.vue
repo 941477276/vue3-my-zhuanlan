@@ -30,7 +30,9 @@
       :table-body-has-scroll="tableBodyScrollInfo.hasScroll"
       :table-body-scroll-width="tableBodyScrollInfo.scrollWidth"
       :selection-config="selectionConfig"
-      :table-width="tableWidth || tableWrapWidth"></BsTableFixedHeader>
+      :table-width="tableWidth || tableWrapWidth"
+      :table-rows-count="flattenTableRows.length"
+      :checked-rows-count="checkedKeysRoot.size"></BsTableFixedHeader>
     <div
       ref="tableBodyRef"
       class="bs-table-body"
@@ -60,7 +62,9 @@
           :table-body-scroll-width="tableBodyScrollInfo.scrollWidth"
           :selection-config="selectionConfig"
           :colgroup="colgroup"
-          :table-width="tableWidth || tableWrapWidth"></BsTableHead>
+          :table-width="tableWidth || tableWrapWidth"
+          :table-rows-count="flattenTableRows.length"
+          :checked-rows-count="checkedKeysRoot.size"></BsTableHead>
         <tbody class="bs-table-tbody">
           <template v-for="(row, rowIndex) in flattenTableRows">
             <BsTableRow
@@ -81,6 +85,8 @@
               :is-leaf-key="isLeafKey"
               :selection-config="selectionConfig"
               :table-id="tableId"
+              :checked-keys="checkedKeysRoot"
+              :half-checked-keys="halfCheckedKeys"
               @expand-change="handleExpandChange">
             </BsTableRow>
           </template>
@@ -94,7 +100,7 @@
 <script lang="ts">
 import {
   computed, defineComponent, nextTick, provide, reactive, ref, Ref, SetupContext, watch,
-  ComponentPublicInstance, onBeforeUnmount, WatchStopHandle
+  ComponentPublicInstance, onBeforeUnmount, WatchStopHandle, toRef, onUnmounted
 } from 'vue';
 import {
   bsTableProps, BsTableRowSpanCellInfo, BsTableContext, bsTableCtxKey, BsTableColumn,
@@ -112,8 +118,10 @@ import {
   treeDataToFlattarnArr2,
   findNodeByUid,
   findChildrenNodesByUid,
-  findParentsByNodeLevelPath2
+  findParentsByNodeLevelPath2,
+  clearCachedNodeInfo
 } from '../bs-tree/bs-tree-utils';
+import { useBsTableTree } from './useBsTableTree';
 
 let bsTableCount = 0;
 export default defineComponent({
@@ -276,17 +284,58 @@ export default defineComponent({
       return sm3HashHex(JSON.stringify(sortedJson));
     };
 
-    // 选中行的key
-    let checkedKeys: Ref<Set<string>> = ref(new Set());
-    // 半选中行的key
-    let halfCheckedKeys: Ref<Set<string>> = ref(new Set());
+    // 扁平的表格数据
+    let flattenTableRows = ref<BsTableRowData[]>([]);
+
+    let checkedKeysRootOld: Set<string> = new Set();
+    let {
+      checkedKeysRoot, // 选中行的key
+      checkedRowsRoot, // 选中的行
+      halfCheckedKeys, // 半选中行的key
+      // treeNodeProps,
+
+      addCheckedKey,
+      addParentsChecked,
+      addSelfAndChildrenChecked,
+
+      removeRowChildren,
+      selectAll,
+      selectNone,
+      selectRow,
+      unSelectRow,
+      getSelectionInfo
+    } = useBsTableTree(props, flattenTableRows, tableId, toRef(props, 'childrenKey'), tableId, getRowDataHash);
+
     // 数据是否为树状
     let isTreeData = ref(false);
     // 展开行的id
     let expandedTreeRowIds: Set<string> = new Set();
-    // 扁平的表格数据
-    let flattenTableRows = ref<BsTableRowData[]>([]);
+    // 关联父级选择框
+    let linkParentCheckbox = function () {
+      console.log('linkParentCheckbox 111');
+      let checkedKeys = checkedKeysRoot.value;
+      if (props.selectionConfig.checkStrictly) {
+        checkedKeys.forEach((checkedKey: string) => {
+          addCheckedKey(checkedKey);
+        });
+        return;
+      }
+      console.log('linkParentCheckbox 222', checkedKeys);
+      // 已经处理过的节点的key
+      let processedKes: Record<string, any> = {};
+      checkedKeys.forEach((checkedKey: string) => {
+        if (checkedKey in processedKes) {
+          return;
+        }
+        console.log('linkParentCheckbox 333');
+        processedKes[checkedKey] = 1;
+        addSelfAndChildrenChecked(checkedKey);
+        addParentsChecked(checkedKey);
+      });
+    };
+
     // TODO 列合并、行合并功能是否应该提取到当前组件计算
+    let isInited = false;
     watch(() => [...props.data], function (data) {
       console.log('table数据发生变化：', data);
       nextTick(function () {
@@ -336,7 +385,55 @@ export default defineComponent({
 
         // 展开默认需要展开的行
         expandDefaultExpandedRows();
+
+        // 判断当数据被删除时是否仍然保留选项的key
+        if (!props.selectionConfig.reserveSelectedRowKeys) {
+          checkedKeysRoot.value = new Set(props.checkedKeys);
+          halfCheckedKeys.value = new Set();
+          checkedKeysRootOld = new Set();
+        } else {
+          checkedKeysRootOld = checkedKeysRoot.value;
+          checkedKeysRoot.value = new Set();
+        }
+
+        let timer = setTimeout(function () {
+          clearTimeout(timer);
+          clearCachedNodeInfo(tableId);
+          if (isInited) { // 还未进行初始化的时候不执行linkParentCheckbox函数，因为下面的watch props.checkedKeys会执行
+            linkParentCheckbox();
+          }
+          isInited = true;
+        }, 0);
       });
+    }, { immediate: true });
+
+    let watchCheckedKeysTimer: number;
+    watch(() => [...props.checkedKeys], function (checkedKeys) {
+      clearTimeout(watchCheckedKeysTimer);
+      console.log('watch checkedKeys 111');
+      watchCheckedKeysTimer = setTimeout(function () {
+        clearTimeout(watchCheckedKeysTimer);
+        let checkedKeysRootArr = Array.from(checkedKeysRoot.value);
+        let checkedKeysSorted = checkedKeys.slice(0).sort();
+        let checkedKeysRootSorted = checkedKeysRootArr.sort();
+        console.log('watch checkedKeys 222');
+        // 当用户手动改变了复选框的值，那么 checkedKeys 会等于 checkedKeysRoot.value
+        if (checkedKeysSorted.join(',') === checkedKeysRootSorted.join(',')) {
+          return;
+        }
+        console.log('watch checkedKeys 333');
+        if (props.selectionConfig?.type == 'radio') {
+          checkedKeysRoot.value = new Set([checkedKeys[0]]);
+        } else {
+          checkedKeysRoot.value = new Set([...checkedKeys, ...Array.from(checkedKeysRootOld)]);
+        }
+
+        if (checkedKeys.length == 0) {
+          halfCheckedKeys.value = new Set();
+          return;
+        }
+        linkParentCheckbox();
+      }, 0);
     }, { immediate: true });
 
     // 展开默认需要展开的行
@@ -632,6 +729,172 @@ export default defineComponent({
       }
     };
 
+    /* // 获取选中行的信息
+    let getSelectionInfo = function () {
+      let flattenTableRowsRaw = flattenTableRows.value;
+
+      let selectedRowKeys = Array.from(checkedKeysRoot.value);
+      let selectedRows = selectedRowKeys.map(rowKey => {
+        return findNodeByUid(tableId, rowKey, flattenTableRowsRaw)?.node;
+      }).filter(row => !!row);
+
+      let halfSelectedRowKeys = Array.from(halfCheckedKeys.value);
+      let halfSelectedRows = halfSelectedRowKeys.map(rowKey => {
+        return findNodeByUid(tableId, rowKey, flattenTableRowsRaw)?.node;
+      }).filter(row => !!row);
+
+      return {
+        selectedRowKeys,
+        selectedRows,
+        halfSelectedRowKeys,
+        halfSelectedRows
+      };
+    };
+
+    // 选择所有行
+    let selectAll = function () {
+      let { type, checkStrictly, onSelectChange } = props.selectionConfig;
+      if (type != 'checkbox') {
+        return;
+      }
+      flattenTableRows.value.forEach(rowInfo => {
+        let { uid, isDisabled, nodeLevel } = rowInfo;
+        if (checkStrictly) {
+          addCheckedKey(uid);
+        } else {
+          if (nodeLevel == 1) { // 从最顶层开始选择
+            addSelfAndChildrenChecked(uid);
+          }
+        }
+      });
+      let selectionInfo = getSelectionInfo();
+      if (isFunction(onSelectChange)) {
+        onSelectChange({
+          row: null,
+          isSelected: true,
+          operateType: 'selectAll',
+          isHalfSelected: false,
+          ...selectionInfo
+        });
+      }
+    };
+
+    // 取消选择所有行
+    let selectNone = function () {
+      let { type, checkStrictly, onSelectChange } = props.selectionConfig;
+      if (type != 'checkbox') {
+        return;
+      }
+      flattenTableRows.value.forEach(rowInfo => {
+        let { uid, isDisabled, nodeLevel } = rowInfo;
+        if (checkStrictly) {
+          removeCheckedKey(uid);
+        } else {
+          if (nodeLevel == 1) { // 从最顶层开始选择
+            removeSelfAndChildrenChecked(uid);
+          }
+        }
+      });
+      let selectionInfo = getSelectionInfo();
+      if (isFunction(onSelectChange)) {
+        onSelectChange({
+          row: null,
+          isSelected: false,
+          operateType: 'selectNone',
+          isHalfSelected: false,
+          ...selectionInfo
+        });
+      }
+    };
+
+    // 添加选中行
+    let selectRow = function (rowKey: string, rowData?: Record<string, any>) {
+      if (!checkedKeysRoot.value.has(rowKey)) {
+        let { type, checkStrictly, onSelectChange } = props.selectionConfig;
+        if (type == 'checkbox') {
+          if (!checkStrictly) {
+            // 添加自己及子孙节点的选中状态
+            addSelfAndChildrenChecked(rowKey);
+            // 添加父级节点的选中状态
+            addParentsChecked(rowKey);
+          } else {
+            addCheckedKey(rowKey);
+          }
+        } else if (props.showRadio) {
+          checkedKeysRoot.value = new Set([rowKey]);
+        }
+        let selectionInfo = getSelectionInfo();
+        if (isFunction(onSelectChange)) {
+          if (!rowData) {
+            rowData = findNodeByUid(tableId, rowKey, flattenTableRows.value)?.node;
+          }
+          onSelectChange({
+            row: rowData,
+            isSelected: true,
+            operateType: 'selectSingle',
+            isHalfSelected: halfCheckedKeys.value.has(rowKey),
+            ...selectionInfo
+          });
+        }
+      }
+    };
+
+    // 移除选中项
+    let unSelectRow = function (rowKey: string, rowData?: Record<string, any>) {
+      let { type, checkStrictly, onSelectChange } = props.selectionConfig;
+      if (type == 'checkbox') {
+        if (!checkStrictly) {
+          // 移除自己及子孙节点的选中状态
+          removeSelfAndChildrenChecked(rowKey);
+          // 移除父级节点的选中状态
+          removeParentsChecked(rowKey);
+        } else {
+          removeCheckedKey(rowKey);
+        }
+      } else {
+        removeCheckedKey(rowKey);
+      }
+      let selectionInfo = getSelectionInfo();
+      if (isFunction(onSelectChange)) {
+        if (!rowData) {
+          rowData = findNodeByUid(tableId, rowKey, flattenTableRows.value)?.node;
+        }
+        onSelectChange({
+          row: rowData,
+          isSelected: false,
+          operateType: 'selectSingle',
+          isHalfSelected: halfCheckedKeys.value.has(rowKey),
+          ...selectionInfo
+        });
+      }
+    };
+
+    // 移除行的下级节点（给外部使用的）
+    let removeRowChildren = function (rowData: Record<string, any>) {
+      let uid = '';
+      let rowKey = props.rowKey;
+      if (isFunction(rowKey)) {
+        uid = rowKey(rowData);
+      } else {
+        uid = getPropValueByPath(rowData, rowKey).value || getRowDataHash(rowData);
+      }
+      let flattenTableRowsRaw = flattenTableRows.value;
+      let rowIndex = flattenTableRowsRaw.findIndex(rowItem => rowItem.uid == uid);
+
+      if (rowIndex < 0) {
+        return;
+      }
+      let row = flattenTableRowsRaw[rowIndex];
+      let nodeLevelPath = row.nodeLevel;
+      for (let i = flattenTableRowsRaw.length - 1; i > rowIndex; i--) {
+        let rowItem = flattenTableRowsRaw[i];
+        if (rowItem.nodeLevelPath.startsWith(nodeLevelPath + '_')) {
+          flattenTableRowsRaw.splice(i, 1);
+        }
+      }
+      delete row.node[props.childrenKey];
+    }; */
+
     // window resize事件
     let lastResizeTime = 0;
     let childrenResizeEvts: (() => void) [] = [];
@@ -662,6 +925,8 @@ export default defineComponent({
       rowSpanCells,
       addRowSpanCell,
       removeRowSpanCell,
+      checkedKeysRoot,
+      halfCheckedKeys,
       // 展开树状结构行
       expandTreeRow (rowData: any, rowId: string, expandChildRow = true, callback?: (flag?: boolean) => void) {
         let childrenKey = props.childrenKey;
@@ -735,8 +1000,25 @@ export default defineComponent({
           return;
         }
         row.isDisabled = disabled;
-      }
+      },
+      // 获取选中项信息
+      getSelectionInfo,
+      // 添加选中项
+      addCheckedKey (nodeValue: string, nodeData: Record<string, any>, hasChildren: boolean) {
+        selectRow(nodeValue, nodeData);
+      },
+      // 移除选中项
+      removeCheckedKey (nodeValue: string, nodeData: Record<string, any>, hasChildren: boolean) {
+        unSelectRow(nodeValue, nodeData);
+      },
+      selectAll,
+      selectNone
     });
+
+    onUnmounted(function () {
+      clearCachedNodeInfo(tableId);
+    });
+
     return {
       tableId,
       flattenTableRows,
@@ -753,37 +1035,20 @@ export default defineComponent({
       columnsInfo,
       tableBodyScrollInfo,
       isTreeData,
-      checkedKeys,
+      checkedKeysRoot,
       halfCheckedKeys,
-      // 移除行的下级节点
-      removeRowChildren (rowData: Record<string, any>) {
-        let uid = '';
-        let rowKey = props.rowKey;
-        if (isFunction(rowKey)) {
-          uid = rowKey(rowData);
-        } else {
-          uid = getPropValueByPath(rowData, rowKey).value || getRowDataHash(rowData);
-        }
-        let flattenTableRowsRaw = flattenTableRows.value;
-        let rowIndex = flattenTableRowsRaw.findIndex(rowItem => rowItem.uid == uid);
-
-        if (rowIndex < 0) {
-          return;
-        }
-        let row = flattenTableRowsRaw[rowIndex];
-        let nodeLevelPath = row.nodeLevel;
-        for (let i = flattenTableRowsRaw.length - 1; i > rowIndex; i--) {
-          let rowItem = flattenTableRowsRaw[i];
-          if (rowItem.nodeLevelPath.startsWith(nodeLevelPath + '_')) {
-            flattenTableRowsRaw.splice(i, 1);
-          }
-        }
-        delete row.node[props.childrenKey];
-      },
       handleTableBodyScroll,
       handleExpandChange () { // 行展开事件
         handleColumnsChange(columnsInfo.value);
-      }
+      },
+
+      // 对外暴露的函数
+      getSelectionInfo,
+      removeRowChildren,
+      selectAll,
+      selectNone,
+      selectRow,
+      unSelectRow
     };
   }
 });

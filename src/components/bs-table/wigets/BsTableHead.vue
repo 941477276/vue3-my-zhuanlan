@@ -37,6 +37,8 @@
           class="bs-table-selection-cell-head">
           <template v-if="cell.prop == selectionCellKey && !!selectionConfig?.type">
             <BsCheckbox
+              v-model="selectAllValue"
+              :indeterminate="isIndeterminate"
               :delive-context-to-form-item="false"></BsCheckbox>
             <BsTableCustomContent
               v-if="!!tableSlots.headSelectionExtra || !!selectionConfig?.columnTitle"
@@ -70,7 +72,7 @@
 <script lang="ts">
 import {
   defineComponent, PropType, computed, SetupContext, VNode, reactive,
-  onMounted, onUpdated
+  onMounted, onUpdated, inject
 } from 'vue';
 import { isFunction } from '@vue/shared';
 import { isNumber, isObject } from '../../../utils/bs-util';
@@ -80,7 +82,7 @@ import {
   bsExpandColumnKey,
   BsTableSelectionType,
   BsColgroupItem,
-  BsTableSelectionConfig
+  BsTableSelectionConfig, BsTableContext, bsTableCtxKey
 } from '../bs-table-types';
 import BsTableCell from './BsTableCell.vue';
 import BsCheckbox from '../../bs-checkbox/BsCheckbox.vue';
@@ -121,6 +123,14 @@ export default defineComponent({
     tableWidth: { // 表格宽度
       type: Number,
       default: 0
+    },
+    tableRowsCount: { // 表格行总数量
+      type: Number,
+      default: 0
+    },
+    checkedRowsCount: { // 已选择的行总数量
+      type: Number,
+      default: 0
     }
   },
   components: {
@@ -129,6 +139,8 @@ export default defineComponent({
     BsTableCustomContent
   },
   setup (props: any, ctx: SetupContext) {
+    let rootTableCtx = inject<BsTableContext>(bsTableCtxKey, {} as BsTableContext);
+
     let headThs = computed(function () {
       let ths: any[] = [];
       let currentColumnIndex = -1;
@@ -200,6 +212,26 @@ export default defineComponent({
       });
     });
 
+    // 复选框是否为半选中状态
+    let isIndeterminate = computed(function () {
+      let { tableRowsCount, checkedRowsCount } = props;
+      return tableRowsCount != 0 && checkedRowsCount != 0 && (tableRowsCount != checkedRowsCount);
+    });
+
+    let selectAllValue = computed({
+      get () {
+        return props.tableRowsCount != 0 && props.tableRowsCount == props.checkedRowsCount;
+      },
+      set (newVal) {
+        console.log(111, newVal);
+        if (newVal) {
+          rootTableCtx.selectAll();
+        } else {
+          rootTableCtx.selectNone();
+        }
+      }
+    });
+
     let cellComponentRefs = reactive<Record<string, any>>({});
     let setRef = function (key: string, com: any) {
       // console.log('setRef', key, com);
@@ -221,6 +253,8 @@ export default defineComponent({
     return {
       headThs,
       hasFixedRightColumn,
+      selectAllValue,
+      isIndeterminate,
       bsExpandColumnKey,
       selectionCellKey: bsSelectionColumnKey,
       setRef

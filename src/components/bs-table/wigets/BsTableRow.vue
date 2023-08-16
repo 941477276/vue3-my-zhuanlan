@@ -4,7 +4,8 @@
     :class="[
       rowClasses,
       {
-        'bs-table-row-expanded': rowIsExpanded
+        'bs-table-row-expanded': rowIsExpanded,
+        'bs-table-row-selected': isChecked
       },
       treeLevel > 1 ? `bs-table-row-level-${treeLevel}` : ''
     ]">
@@ -52,12 +53,15 @@
       :key="`cell_${rowIndex}_${selectionColumn.prop}`">
       <BsCheckbox
         v-if="selectionConfig?.type == 'checkbox'"
+        v-model="inputModel"
         :delive-context-to-form-item="false"
+        :indeterminate="isIndeterminate"
         :name="selectionConfig?.checkboxName"
         :disabled="getRowDisabled()"
         :value="rowId"></BsCheckbox>
       <BsRadio
         v-if="selectionConfig?.type == 'radio'"
+        v-model="inputModel"
         :delive-context-to-form-item="false"
         :name="selectionConfig?.radioName"
         :disabled="getRowDisabled()"
@@ -324,14 +328,14 @@ export default defineComponent({
     });
     // 是否选中
     let isChecked = computed(function () {
-      return props.checkedKeys.includes(props.rowId);
+      return props.checkedKeys.has(props.rowId);
     });
     // 是否为半选中状态
     let isIndeterminate = computed(function () {
-      return props.halfCheckedKeys.includes(props.rowId);
+      return props.halfCheckedKeys.has(props.rowId);
     });
     // 是否禁用
-    let isDisabled = ref(false);
+    // let isDisabled = ref(false);
     // 是否为叶子节点
     let isLeaf = computed(function () {
       return !!props.rowData[props.isLeafKey];
@@ -339,6 +343,31 @@ export default defineComponent({
     // 单选框是否只能选择叶子节点
     let isRadioDisabled = computed(function () {
       return props.selectionConfig.checkStrictly && !isLeaf.value;
+    });
+
+    // 复选框的值
+    let inputModel = computed({
+      get () {
+        // 判断复选框是否选中
+        if (props.selectionConfig?.type == 'checkbox') {
+          return isChecked.value;
+        }
+        return isChecked.value ? props.rowId : '';
+      },
+      set (newVal) {
+        let { rowData, childrenKey } = props;
+        let children = rowData[childrenKey] || [];
+        if (newVal) {
+          /* if (props.showCheckbox) {
+            treeCtx.addCheckedKey(nodeValue.value, props.nodeData, nodeChildren.value.length > 0);
+            return;
+          } */
+          rootTableCtx.addCheckedKey(props.rowId, rowData, children.length > 0);
+        } else {
+          // radio组件的值改变时不会进入这里，因此不用担心
+          rootTableCtx.removeCheckedKey(props.rowId, rowData, children.length > 0);
+        }
+      }
     });
 
     // 行是否展开列
@@ -363,6 +392,9 @@ export default defineComponent({
       hasFixedLeftColumn,
       hasChildren,
       selectionColumn,
+      isIndeterminate,
+      inputModel,
+      isChecked,
       toggleRowExpand () {
         let onExpandChangeEventFunc = props.tableAttrs.onExpandChange;
         let data = {
@@ -437,6 +469,11 @@ export default defineComponent({
       getRowDisabled () {
         let rowDisabled = props.selectionConfig?.rowDisabled;
         let disabled = false;
+        if (props.selectionConfig?.type == 'radio') {
+          disabled = isRadioDisabled.value;
+          rootTableCtx.setRowSelectionDisabled(props.rowId, disabled);
+          return disabled;
+        }
         if (isFunction(rowDisabled)) {
           disabled = !!rowDisabled(props.rowData, props.rowIndex);
         }

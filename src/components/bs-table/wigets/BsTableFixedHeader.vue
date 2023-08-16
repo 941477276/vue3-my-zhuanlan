@@ -24,7 +24,9 @@
         :table-body-scroll-width="tableBodyScrollWidth"
         :selection-config="selectionConfig"
         :colgroup="colgroup"
-        :table-width="tableWidth"></BsTableHead>
+        :table-width="tableWidth"
+        :table-rows-count="tableRowsCount"
+        :checked-rows-count="checkedRowsCount"></BsTableHead>
     </table>
   </div>
 </template>
@@ -84,6 +86,14 @@ export default defineComponent({
       }
     },
     tableWidth: { // 表格宽度
+      type: Number,
+      default: 0
+    },
+    tableRowsCount: { // 表格行总数量
+      type: Number,
+      default: 0
+    },
+    checkedRowsCount: { // 已选择的行总数量
       type: Number,
       default: 0
     }

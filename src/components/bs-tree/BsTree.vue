@@ -268,7 +268,7 @@ export default defineComponent({
       // flatTreeNodeInfoArr.value = flatTreeDataToObject(treeData, nodeProps.children, 1, '', {});
       flatTreeNodeInfoArr.value = treeDataToFlattarnArr2(treeId, treeData, nodeProps.children, nodeProps.disabled, 1, '', []);
 
-      let children = findChildrenWhichHasChildren2(treeId, '001', 'value', 'children', flatTreeNodeInfoArr.value);
+      // let children = findChildrenWhichHasChildren2(treeId, '001', 'value', 'children', flatTreeNodeInfoArr.value);
 
       clearCachedNodeInfo(treeId);
       if (isInited) { // 还未进行初始化的时候不执行linkParentCheckbox函数，因为下面的watch props.checkedKeys会执行
