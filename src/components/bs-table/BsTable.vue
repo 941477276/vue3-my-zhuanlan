@@ -31,7 +31,7 @@
       :table-body-scroll-width="tableBodyScrollInfo.scrollWidth"
       :selection-config="selectionConfig"
       :table-width="tableWidth || tableWrapWidth"
-      :table-rows-count="flattenTableRows.length"
+      :table-rows-count="flattenTableRows2.length"
       :checked-rows-count="checkedKeysRoot.size"></BsTableFixedHeader>
     <div
       ref="tableBodyRef"
@@ -63,10 +63,10 @@
           :selection-config="selectionConfig"
           :colgroup="colgroup"
           :table-width="tableWidth || tableWrapWidth"
-          :table-rows-count="flattenTableRows.length"
+          :table-rows-count="flattenTableRows2.length"
           :checked-rows-count="checkedKeysRoot.size"></BsTableHead>
         <tbody class="bs-table-tbody">
-          <template v-for="(row, rowIndex) in flattenTableRows">
+          <template v-for="(row, rowIndex) in flattenTableRows2">
             <BsTableRow
               v-if="row.visible"
               :key="row.uid"
@@ -285,13 +285,15 @@ export default defineComponent({
 
     // 扁平的表格数据
     let flattenTableRows = ref<BsTableRowData[]>([]);
+    // 真正用于展示的表格数据（防止数据更新后表格出现抖动问题）
+    let flattenTableRows2 = ref<BsTableRowData[]>([]);
 
     let checkedKeysRootOld: Set<string> = new Set();
     let {
       checkedKeysRoot, // 选中行的key
       checkedRowsRoot, // 选中的行
       halfCheckedKeys, // 半选中行的key
-      expandedTreeRowIds,
+      expandedTreeRowIds, // 展开行的id
       // treeNodeProps,
 
       addCheckedKey,
@@ -309,8 +311,6 @@ export default defineComponent({
 
     // 数据是否为树状
     let isTreeData = ref(false);
-    // 展开行的id
-    // let expandedTreeRowIds: Set<string> = new Set();
     // 关联父级选择框
     let linkParentCheckbox = function () {
       console.log('linkParentCheckbox 111');
@@ -337,7 +337,7 @@ export default defineComponent({
 
     // TODO 列合并、行合并功能是否应该提取到当前组件计算
     let isInited = false;
-    watch(() => [...props.data], function (data) {
+    watch(() => [...props.data], function (data, oldData) {
       console.log('table数据发生变化：', data);
       nextTick(function () {
         let childrenKey = props.childrenKey;
@@ -374,39 +374,45 @@ export default defineComponent({
         isTreeData.value = isTreeDataFlag;
         flattenTableRows.value = newFlattenTableRowData;
 
+        let { reserveSelectedRowKeys, selectedRowKeys, type } = props.selectionConfig || {};
+        // 判断当数据被删除时是否仍然保留选项的key
+        if (!reserveSelectedRowKeys) {
+          // checkedKeysRoot.value = new Set([]);
+          if (type == 'checkbox') {
+            checkedKeysRoot.value = new Set(selectedRowKeys || []);
+          } else {
+            checkedKeysRoot.value = new Set((selectedRowKeys || []).slice(0, 1));
+          }
+          halfCheckedKeys.value = new Set();
+          checkedKeysRootOld = new Set();
+        } else {
+          let checkedKeysRootRaw = checkedKeysRoot.value;
+          checkedKeysRootOld = checkedKeysRootRaw;
+
+          let arr = [...(selectedRowKeys || []), ...Array.from(checkedKeysRootRaw)];
+          if (type == 'checkbox') {
+            checkedKeysRoot.value = new Set(arr);
+          } else {
+            checkedKeysRoot.value = new Set(arr.slice(0, 1));
+          }
+        }
+
+        clearCachedNodeInfo(tableId);
+
+        // 展开需要展开的行
         if (needExpandRows.length > 0) {
-          // console.log('defaultExpandAllRows', defaultExpandAllRows);
-          let timer = setTimeout(function () {
-            clearTimeout(timer);
-            console.log('展开需要展开的行：', needExpandRows);
-            needExpandRows.forEach(rowItem => {
-              expandTreeRow(rowItem.node, rowItem.uid, defaultExpandAllRows, true);
-            });
-          }, 0);
+          console.log('展开需要展开的行：', needExpandRows);
+          needExpandRows.forEach(rowItem => {
+            expandTreeRow(rowItem.node, rowItem.uid, defaultExpandAllRows, true);
+          });
         }
 
         // 展开默认需要展开的行
         expandDefaultExpandedRows();
-
-        let { reserveSelectedRowKeys, selectedRowKeys } = props.selectionConfig || {};
-        // 判断当数据被删除时是否仍然保留选项的key
-        if (!reserveSelectedRowKeys) {
-          checkedKeysRoot.value = new Set(selectedRowKeys || []);
-          halfCheckedKeys.value = new Set();
-          checkedKeysRootOld = new Set();
-        } else {
-          checkedKeysRootOld = checkedKeysRoot.value;
-          checkedKeysRoot.value = new Set();
-        }
-
-        let timer = setTimeout(function () {
-          clearTimeout(timer);
-          clearCachedNodeInfo(tableId);
-          if (isInited) { // 还未进行初始化的时候不执行linkParentCheckbox函数，因为下面的watch props.selectionConfig.selectedRowKeys 会执行
-            linkParentCheckbox();
-          }
-          isInited = true;
-        }, 0);
+        linkParentCheckbox();
+        isInited = true;
+        // 执行完展开行、选中行后再渲染，防止数据更新后（如新增行、删除行）表格出现宽高抖动问题
+        flattenTableRows2.value = newFlattenTableRowData;
       });
     }, { immediate: true });
 
@@ -428,7 +434,7 @@ export default defineComponent({
         if (props.selectionConfig?.type == 'radio') {
           checkedKeysRoot.value = new Set([checkedKeys[0]]);
         } else {
-          checkedKeysRoot.value = new Set([...checkedKeys, ...Array.from(checkedKeysRootOld)]);
+          checkedKeysRoot.value = new Set([...checkedKeys, ...Array.from(checkedKeysRoot.value)]);
         }
 
         if (checkedKeys.length == 0) {
@@ -437,7 +443,7 @@ export default defineComponent({
         }
         linkParentCheckbox();
       }, 0);
-    }, { immediate: true });
+    }, { immediate: false });
 
     // 展开默认需要展开的行
     let expandDefaultExpandedRows = function () {
@@ -808,7 +814,7 @@ export default defineComponent({
 
     return {
       tableId,
-      flattenTableRows,
+      flattenTableRows2,
       tableContainerRef,
       tableFixedHeaderRef,
       tableBodyRef,

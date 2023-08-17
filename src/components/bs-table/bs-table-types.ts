@@ -154,6 +154,9 @@ export const bsTableProps = {
     default () {
       return [];
     }
+  },
+  reserveExpandedRowKeys: { // 当数据更新后是否仍然之前展开行的key
+    type: Boolean
   }
 };
 

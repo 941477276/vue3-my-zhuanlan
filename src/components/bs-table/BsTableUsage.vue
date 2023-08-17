@@ -4,12 +4,13 @@
       <!--<h3>基础用法</h3>-->
       <!--<Basic></Basic>-->
       <BsTable :columns="columns2" :data="data2" stripe border max-height="400" row-key="value" selection="radio"
-               :default-expand-all-rows="false" :default-expanded-row-keys="expandedRowKeys" :checked-keys="checkedKeys"
+               :default-expand-all-rows="false" :default-expanded-row-keys="expandedRowKeys"
                 :selection-config="{
                   type: 'checkbox',
                   selectedRowKeys,
                   rowDisabled,
                   checkStrictly: false,
+                  reserveSelectedRowKeys: true,
                   onSelectChange
                 }">
         <!--<template #headSelectionExtra>
@@ -163,7 +164,7 @@ export default defineComponent({
         'key': '64c204f08cdedc661690eed9',
         'value': '001004'
       });
-    }, 1500);
+    }, 3500);
 
     let expandedRowKeys = ref(['001001001002002', '001002']);
     let selectedRowKeys = ref(['001001001001', '001001001002002', '001001001002001', '001002']);
