@@ -7,6 +7,7 @@
                :default-expand-all-rows="false" :default-expanded-row-keys="expandedRowKeys" :checked-keys="checkedKeys"
                 :selection-config="{
                   type: 'checkbox',
+                  selectedRowKeys,
                   rowDisabled,
                   checkStrictly: false,
                   onSelectChange
@@ -165,12 +166,12 @@ export default defineComponent({
     }, 1500);
 
     let expandedRowKeys = ref(['001001001002002', '001002']);
-    let checkedKeys = ref(['001001001001', '001001001002002', '001001001002001', '001002']);
+    let selectedRowKeys = ref(['001001001001', '001001001002002', '001001001002001', '001002']);
     return {
       columns2,
       data2,
       expandedRowKeys,
-      checkedKeys,
+      selectedRowKeys,
       rowDisabled (row: Record<string, any>) {
         // return ['坂田街道', '吉华街道'].includes(row.title);
       },

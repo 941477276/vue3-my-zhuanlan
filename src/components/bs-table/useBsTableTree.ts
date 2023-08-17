@@ -304,7 +304,7 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
         } else {
           addCheckedKey(rowKey);
         }
-      } else if (props.showRadio) {
+      } else {
         checkedKeysRoot.value = new Set([rowKey]);
       }
       let selectionInfo = getSelectionInfo();
@@ -379,10 +379,70 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
     delete row.node[props.childrenKey];
   };
 
+  // 展开行的id
+  let expandedTreeRowIds: Set<string> = new Set();
+  /**
+   * 展开树状行
+   * @param rowData 行数据
+   * @param rowId 行id
+   * @param expandChildRow 是否展开子节点
+   * @param forceExpand 是否强制展开行
+   * @param callback 回调函数
+   */
+  let expandTreeRow = function (rowData: any, rowId: string, expandChildRow = true, forceExpand = false, callback?: (flag: boolean) => void) {
+    let flattenTableRowsRaw = flattenTreeDatas.value;
+    let row = findNodeByUid(tableId, rowId, flattenTableRowsRaw);
+    if (!row) {
+      return;
+    }
+
+    let childrenKey = props.childrenKey;
+    let children = row.node[childrenKey] || [];
+    if (children.length == 0) {
+      return;
+    }
+    let childrenRows = findChildrenNodesByUid<BsTableRowData>(tableId, rowId, flattenTableRowsRaw);
+    if (!row.treeDataRowExpand || forceExpand) { // 展开
+      // console.log('展开行：', rowId, rowData, childrenRows);
+      row.treeDataRowExpand = true;
+      expandedTreeRowIds.add(row.uid);
+      // 显示子节点
+      childrenRows.forEach((childRow) => {
+        childRow.visible = true;
+      });
+      // console.log('expandChildRow', expandChildRow);
+      childrenRows.forEach(childRowItem => {
+        let childRowId = childRowItem.uid;
+        if (expandedTreeRowIds.has(childRowId)) { // 如果子节点之前是展开状态，那么此时应该再次展开它
+          childRowItem.treeDataRowExpand = false;
+          expandTreeRow(childRowItem.node, childRowId, expandChildRow, forceExpand, callback);
+        } else if (expandChildRow) {
+          expandTreeRow(childRowItem.node, childRowId, expandChildRow, forceExpand, callback);
+        }
+      });
+    } else { // 收起
+      row.treeDataRowExpand = false;
+      expandedTreeRowIds.delete(row.uid);
+      // console.log('收起行：', rowId, rowData);
+      // 折叠子节点
+      let foldChildren = function (rows: BsTableRowData[]) {
+        rows.forEach(childRowItem => {
+          childRowItem.visible = false;
+          let children = findChildrenNodesByUid<BsTableRowData>(tableId, childRowItem.uid, flattenTableRowsRaw);
+          if (children.length > 0) {
+            foldChildren(children);
+          }
+        });
+      };
+      foldChildren(childrenRows);
+    }
+  };
+
   return {
     checkedKeysRoot,
     halfCheckedKeys,
     checkedRowsRoot,
+    expandedTreeRowIds,
     // treeNodeProps,
 
     addCheckedKey,
@@ -400,6 +460,7 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
     selectNone,
     selectRow,
     unSelectRow,
-    getSelectionInfo
+    getSelectionInfo,
+    expandTreeRow
   };
 };

@@ -63,8 +63,8 @@ export interface BsTableSelectionConfig {
   checkboxName?: string; // 复选框的name
   checkStrictly?: boolean; // 在显示复选框的情况下，是否严格的遵循父子不互相关联的做法，默认为 false
   radioName?: string; // 单选框框的name
-  // selectedRowKeys?: string[]; //  单选框框的name
-  reserveSelectedRowKeys?: boolean; // 当数据被删除时仍然保留选项的 key
+  selectedRowKeys?: string[]; //  选中行的key
+  reserveSelectedRowKeys?: boolean; // 当数据更新后是否仍然保留之前选中行的key
   rowDisabled?: (row: Record<string, any>, rowIndex: number) => boolean|void; // 行禁用函数
   // onChange?: (selectedRowKeys: string[], selectedRows: Record<string, any>[]) => void; // 选中项发生变化时的回调
   onSelectChange?: (selection: BsTableSelectionChangeResult) => void; // 用户手动选择/取消选择某列的回调

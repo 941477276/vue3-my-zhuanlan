@@ -117,7 +117,6 @@ import { useGlobalEvent } from '../../hooks/useGlobalEvent';
 import {
   treeDataToFlattarnArr2,
   findNodeByUid,
-  findChildrenNodesByUid,
   findParentsByNodeLevelPath2,
   clearCachedNodeInfo
 } from '../bs-tree/bs-tree-utils';
@@ -292,6 +291,7 @@ export default defineComponent({
       checkedKeysRoot, // 选中行的key
       checkedRowsRoot, // 选中的行
       halfCheckedKeys, // 半选中行的key
+      expandedTreeRowIds,
       // treeNodeProps,
 
       addCheckedKey,
@@ -303,13 +303,14 @@ export default defineComponent({
       selectNone,
       selectRow,
       unSelectRow,
-      getSelectionInfo
+      getSelectionInfo,
+      expandTreeRow
     } = useBsTableTree(props, flattenTableRows, tableId, toRef(props, 'childrenKey'), tableId, getRowDataHash);
 
     // 数据是否为树状
     let isTreeData = ref(false);
     // 展开行的id
-    let expandedTreeRowIds: Set<string> = new Set();
+    // let expandedTreeRowIds: Set<string> = new Set();
     // 关联父级选择框
     let linkParentCheckbox = function () {
       console.log('linkParentCheckbox 111');
@@ -377,8 +378,9 @@ export default defineComponent({
           // console.log('defaultExpandAllRows', defaultExpandAllRows);
           let timer = setTimeout(function () {
             clearTimeout(timer);
+            console.log('展开需要展开的行：', needExpandRows);
             needExpandRows.forEach(rowItem => {
-              expandTreeRow(rowItem.node, rowItem.uid, defaultExpandAllRows);
+              expandTreeRow(rowItem.node, rowItem.uid, defaultExpandAllRows, true);
             });
           }, 0);
         }
@@ -386,9 +388,10 @@ export default defineComponent({
         // 展开默认需要展开的行
         expandDefaultExpandedRows();
 
+        let { reserveSelectedRowKeys, selectedRowKeys } = props.selectionConfig || {};
         // 判断当数据被删除时是否仍然保留选项的key
-        if (!props.selectionConfig.reserveSelectedRowKeys) {
-          checkedKeysRoot.value = new Set(props.checkedKeys);
+        if (!reserveSelectedRowKeys) {
+          checkedKeysRoot.value = new Set(selectedRowKeys || []);
           halfCheckedKeys.value = new Set();
           checkedKeysRootOld = new Set();
         } else {
@@ -399,7 +402,7 @@ export default defineComponent({
         let timer = setTimeout(function () {
           clearTimeout(timer);
           clearCachedNodeInfo(tableId);
-          if (isInited) { // 还未进行初始化的时候不执行linkParentCheckbox函数，因为下面的watch props.checkedKeys会执行
+          if (isInited) { // 还未进行初始化的时候不执行linkParentCheckbox函数，因为下面的watch props.selectionConfig.selectedRowKeys 会执行
             linkParentCheckbox();
           }
           isInited = true;
@@ -408,7 +411,7 @@ export default defineComponent({
     }, { immediate: true });
 
     let watchCheckedKeysTimer: number;
-    watch(() => [...props.checkedKeys], function (checkedKeys) {
+    watch(() => [...(props.selectionConfig?.selectedRowKeys || [])], function (checkedKeys) {
       clearTimeout(watchCheckedKeysTimer);
       console.log('watch checkedKeys 111');
       watchCheckedKeysTimer = setTimeout(function () {
@@ -456,11 +459,11 @@ export default defineComponent({
               if (parentItem.treeDataRowExpand) {
                 return;
               }
-              expandTreeRow(parentItem.node, parentItem.uid, false);
+              expandTreeRow(parentItem.node, parentItem.uid, false, true);
             });
             // 再展开自己
             if (!row.treeDataRowExpand) {
-              expandTreeRow(row.node, rowKey, false);
+              expandTreeRow(row.node, rowKey, false, true);
             }
           });
         }, 0);
@@ -678,222 +681,6 @@ export default defineComponent({
         }
       }
     };
-
-    // 展开树状行
-    let expandTreeRow = function (rowData: any, rowId: string, expandChildRow = true, callback?: (flag: boolean) => void) {
-      let flattenTableRowsRaw = flattenTableRows.value;
-      let row = findNodeByUid(tableId, rowId, flattenTableRowsRaw);
-      if (!row) {
-        return;
-      }
-
-      let childrenKey = props.childrenKey;
-      let children = row.node[childrenKey] || [];
-      if (children.length == 0) {
-        return;
-      }
-      let childrenRows = findChildrenNodesByUid<BsTableRowData>(tableId, rowId, flattenTableRowsRaw);
-      if (!row.treeDataRowExpand) { // 展开
-        // console.log('展开行：', rowId, rowData, childrenRows);
-        row.treeDataRowExpand = true;
-        expandedTreeRowIds.add(row.uid);
-        // 显示子节点
-        childrenRows.forEach((childRow) => {
-          childRow.visible = true;
-        });
-        // console.log('expandChildRow', expandChildRow);
-        childrenRows.forEach(childRowItem => {
-          let childRowId = childRowItem.uid;
-          if (expandedTreeRowIds.has(childRowId)) { // 如果子节点之前是展开状态，那么此时应该再次展开它
-            childRowItem.treeDataRowExpand = false;
-            expandTreeRow(childRowItem.node, childRowId, expandChildRow, callback);
-          } else if (expandChildRow) {
-            expandTreeRow(childRowItem.node, childRowId, expandChildRow, callback);
-          }
-        });
-      } else { // 收起
-        row.treeDataRowExpand = false;
-        expandedTreeRowIds.delete(row.uid);
-        // console.log('收起行：', rowId, rowData);
-        // 折叠子节点
-        let foldChildren = function (rows: BsTableRowData[]) {
-          rows.forEach(childRowItem => {
-            childRowItem.visible = false;
-            let children = findChildrenNodesByUid<BsTableRowData>(tableId, childRowItem.uid, flattenTableRowsRaw);
-            if (children.length > 0) {
-              foldChildren(children);
-            }
-          });
-        };
-        foldChildren(childrenRows);
-      }
-    };
-
-    /* // 获取选中行的信息
-    let getSelectionInfo = function () {
-      let flattenTableRowsRaw = flattenTableRows.value;
-
-      let selectedRowKeys = Array.from(checkedKeysRoot.value);
-      let selectedRows = selectedRowKeys.map(rowKey => {
-        return findNodeByUid(tableId, rowKey, flattenTableRowsRaw)?.node;
-      }).filter(row => !!row);
-
-      let halfSelectedRowKeys = Array.from(halfCheckedKeys.value);
-      let halfSelectedRows = halfSelectedRowKeys.map(rowKey => {
-        return findNodeByUid(tableId, rowKey, flattenTableRowsRaw)?.node;
-      }).filter(row => !!row);
-
-      return {
-        selectedRowKeys,
-        selectedRows,
-        halfSelectedRowKeys,
-        halfSelectedRows
-      };
-    };
-
-    // 选择所有行
-    let selectAll = function () {
-      let { type, checkStrictly, onSelectChange } = props.selectionConfig;
-      if (type != 'checkbox') {
-        return;
-      }
-      flattenTableRows.value.forEach(rowInfo => {
-        let { uid, isDisabled, nodeLevel } = rowInfo;
-        if (checkStrictly) {
-          addCheckedKey(uid);
-        } else {
-          if (nodeLevel == 1) { // 从最顶层开始选择
-            addSelfAndChildrenChecked(uid);
-          }
-        }
-      });
-      let selectionInfo = getSelectionInfo();
-      if (isFunction(onSelectChange)) {
-        onSelectChange({
-          row: null,
-          isSelected: true,
-          operateType: 'selectAll',
-          isHalfSelected: false,
-          ...selectionInfo
-        });
-      }
-    };
-
-    // 取消选择所有行
-    let selectNone = function () {
-      let { type, checkStrictly, onSelectChange } = props.selectionConfig;
-      if (type != 'checkbox') {
-        return;
-      }
-      flattenTableRows.value.forEach(rowInfo => {
-        let { uid, isDisabled, nodeLevel } = rowInfo;
-        if (checkStrictly) {
-          removeCheckedKey(uid);
-        } else {
-          if (nodeLevel == 1) { // 从最顶层开始选择
-            removeSelfAndChildrenChecked(uid);
-          }
-        }
-      });
-      let selectionInfo = getSelectionInfo();
-      if (isFunction(onSelectChange)) {
-        onSelectChange({
-          row: null,
-          isSelected: false,
-          operateType: 'selectNone',
-          isHalfSelected: false,
-          ...selectionInfo
-        });
-      }
-    };
-
-    // 添加选中行
-    let selectRow = function (rowKey: string, rowData?: Record<string, any>) {
-      if (!checkedKeysRoot.value.has(rowKey)) {
-        let { type, checkStrictly, onSelectChange } = props.selectionConfig;
-        if (type == 'checkbox') {
-          if (!checkStrictly) {
-            // 添加自己及子孙节点的选中状态
-            addSelfAndChildrenChecked(rowKey);
-            // 添加父级节点的选中状态
-            addParentsChecked(rowKey);
-          } else {
-            addCheckedKey(rowKey);
-          }
-        } else if (props.showRadio) {
-          checkedKeysRoot.value = new Set([rowKey]);
-        }
-        let selectionInfo = getSelectionInfo();
-        if (isFunction(onSelectChange)) {
-          if (!rowData) {
-            rowData = findNodeByUid(tableId, rowKey, flattenTableRows.value)?.node;
-          }
-          onSelectChange({
-            row: rowData,
-            isSelected: true,
-            operateType: 'selectSingle',
-            isHalfSelected: halfCheckedKeys.value.has(rowKey),
-            ...selectionInfo
-          });
-        }
-      }
-    };
-
-    // 移除选中项
-    let unSelectRow = function (rowKey: string, rowData?: Record<string, any>) {
-      let { type, checkStrictly, onSelectChange } = props.selectionConfig;
-      if (type == 'checkbox') {
-        if (!checkStrictly) {
-          // 移除自己及子孙节点的选中状态
-          removeSelfAndChildrenChecked(rowKey);
-          // 移除父级节点的选中状态
-          removeParentsChecked(rowKey);
-        } else {
-          removeCheckedKey(rowKey);
-        }
-      } else {
-        removeCheckedKey(rowKey);
-      }
-      let selectionInfo = getSelectionInfo();
-      if (isFunction(onSelectChange)) {
-        if (!rowData) {
-          rowData = findNodeByUid(tableId, rowKey, flattenTableRows.value)?.node;
-        }
-        onSelectChange({
-          row: rowData,
-          isSelected: false,
-          operateType: 'selectSingle',
-          isHalfSelected: halfCheckedKeys.value.has(rowKey),
-          ...selectionInfo
-        });
-      }
-    };
-
-    // 移除行的下级节点（给外部使用的）
-    let removeRowChildren = function (rowData: Record<string, any>) {
-      let uid = '';
-      let rowKey = props.rowKey;
-      if (isFunction(rowKey)) {
-        uid = rowKey(rowData);
-      } else {
-        uid = getPropValueByPath(rowData, rowKey).value || getRowDataHash(rowData);
-      }
-      let flattenTableRowsRaw = flattenTableRows.value;
-      let rowIndex = flattenTableRowsRaw.findIndex(rowItem => rowItem.uid == uid);
-
-      if (rowIndex < 0) {
-        return;
-      }
-      let row = flattenTableRowsRaw[rowIndex];
-      let nodeLevelPath = row.nodeLevel;
-      for (let i = flattenTableRowsRaw.length - 1; i > rowIndex; i--) {
-        let rowItem = flattenTableRowsRaw[i];
-        if (rowItem.nodeLevelPath.startsWith(nodeLevelPath + '_')) {
-          flattenTableRowsRaw.splice(i, 1);
-        }
-      }
-      delete row.node[props.childrenKey];
-    }; */
 
     // window resize事件
     let lastResizeTime = 0;
