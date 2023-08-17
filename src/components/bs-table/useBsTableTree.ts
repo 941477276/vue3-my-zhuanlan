@@ -12,8 +12,10 @@ import { getPropValueByPath, isFunction } from '../../utils/bs-util';
 export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData[]>, treeId: string, childrenKey: Ref<string>, tableId: string, getRowDataHash: (rowData: Record<string, any>) => string) {
   // 选中行的key
   let checkedKeysRoot: Ref<Set<string>> = ref(new Set());
-  // 选中的行
-  let checkedRowsRoot: Ref<Record<string, any>> = ref({});
+  // 当前数据中选中的行
+  let checkedRowsCurrent: Ref<Map<string, any>> = ref(new Map());
+  // 所有选中的行
+  let checkedRows: Ref<Map<string, any>> = ref(new Map());
   // 半选中行的key
   let halfCheckedKeys: Ref<Set<string>> = ref(new Set());
 
@@ -25,14 +27,20 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
         return false;
       }
     }
-    if (!checkedKeysRoot.value.has(uid)) {
-      checkedRowsRoot.value[uid] = nodeInfo.node;
+    // console.log('添加进选中项：', uid, nodeInfo.node);
+    checkedRowsCurrent.value.set(uid, nodeInfo.node);
+    checkedRows.value.set(uid, nodeInfo.node);
+    checkedKeysRoot.value.add(uid);
+    /* if (!checkedKeysRoot.value.has(uid)) {
       checkedKeysRoot.value.add(uid);
-    }
+    } */
     return true;
   };
   let removeCheckedKey = function (uid: string, isDisabled?: boolean) {
     let nodeInfo = findNodeByUid(treeId, uid, flattenTreeDatas.value);
+    checkedRowsCurrent.value.delete(uid);
+    checkedRows.value.delete(uid);
+    // console.log('移除选中项：', uid, nodeInfo.node);
     if (isDisabled || !nodeInfo || nodeInfo.isDisabled) {
       // 如果被禁用的节点没有子节点，则不移除
       if (!nodeInfo || !nodeInfo.node[childrenKey.value]) {
@@ -218,9 +226,11 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
     let flattenTableRowsRaw = flattenTreeDatas.value;
 
     let selectedRowKeys = Array.from(checkedKeysRoot.value);
-    let selectedRows = selectedRowKeys.map(rowKey => {
+    /* let selectedRows = selectedRowKeys.map(rowKey => {
       return findNodeByUid(tableId, rowKey, flattenTableRowsRaw)?.node;
-    }).filter(row => !!row);
+    }).filter(row => !!row); */
+    // console.log('所有选中项：', checkedRows.value.values());
+    let selectedRows = [...checkedRows.value.values()];
 
     let halfSelectedRowKeys = Array.from(halfCheckedKeys.value);
     let halfSelectedRows = halfSelectedRowKeys.map(rowKey => {
@@ -441,8 +451,9 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
   return {
     checkedKeysRoot,
     halfCheckedKeys,
-    checkedRowsRoot,
+    checkedRowsCurrent,
     expandedTreeRowIds,
+    checkedRows,
     // treeNodeProps,
 
     addCheckedKey,

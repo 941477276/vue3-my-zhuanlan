@@ -32,7 +32,7 @@
       :selection-config="selectionConfig"
       :table-width="tableWidth || tableWrapWidth"
       :table-rows-count="flattenTableRows2.length"
-      :checked-rows-count="checkedKeysRoot.size"></BsTableFixedHeader>
+      :checked-rows-count="checkedRowsCurrent.size"></BsTableFixedHeader>
     <div
       ref="tableBodyRef"
       class="bs-table-body"
@@ -64,7 +64,7 @@
           :colgroup="colgroup"
           :table-width="tableWidth || tableWrapWidth"
           :table-rows-count="flattenTableRows2.length"
-          :checked-rows-count="checkedKeysRoot.size"></BsTableHead>
+          :checked-rows-count="checkedRowsCurrent.size"></BsTableHead>
         <tbody class="bs-table-tbody">
           <template v-for="(row, rowIndex) in flattenTableRows2">
             <BsTableRow
@@ -188,6 +188,11 @@ export default defineComponent({
       return uid;
     };
 
+    // 是否有选择列（这里不能采用computed计算，如果采用computed，当props.selectionConfig变化时会导致columnsInfo重新计算。selectionColumnWidth同理）
+    let hasSelectionColumn = ref(false);
+    // 选择列列宽
+    let selectionColumnWidth = ref<string|number>(50);
+
     // 列信息
     let columnsInfo = computed(function () {
       let columns = props.columns || [];
@@ -197,6 +202,7 @@ export default defineComponent({
       let normalColumns: BsTableColumnInner[] = [];
       let hasFixedLeft = false;
       let hasFixedRight = false;
+      console.log('计算列信息', 111111);
       columns.forEach((column: BsTableColumn, index: number) => {
         let isFixedLeft = column.fixed === true || (column.fixed + '').toLowerCase() == 'left';
         let isFixedRight = (column.fixed + '').toLowerCase() == 'right';
@@ -229,11 +235,10 @@ export default defineComponent({
           normalColumns.unshift(expandColumn);
         }
       }
-      let selectionType = (props.selectionConfig?.type + '').toLowerCase();
-      let hasSelectionColumn = selectionType == 'checkbox' || selectionType == 'radio';
-      if (hasSelectionColumn) { // 添加一列选择列
+
+      if (hasSelectionColumn.value) { // 添加一列选择列
         let selectionColumn: BsTableColumnInner = {
-          width: props.selectionConfig?.columnWidth || 50,
+          width: selectionColumnWidth.value,
           prop: bsSelectionColumnKey,
           label: '',
           headSlotName: 'selectionColumnHeader',
@@ -300,12 +305,13 @@ export default defineComponent({
     // 真正用于展示的表格数据（防止数据更新后表格出现抖动问题）
     let flattenTableRows2 = ref<BsTableRowData[]>([]);
 
-    let checkedKeysRootOld: Set<string> = new Set();
+    // let checkedKeysRootOld: Set<string> = new Set();
     let {
       checkedKeysRoot, // 选中行的key
-      checkedRowsRoot, // 选中的行
+      checkedRowsCurrent, // 当前数据中选中的行
       halfCheckedKeys, // 半选中行的key
       expandedTreeRowIds, // 展开行的id
+      checkedRows, // 所有选中的行
       // treeNodeProps,
 
       addCheckedKey,
@@ -325,7 +331,7 @@ export default defineComponent({
     let isTreeData = ref(false);
     // 关联父级选择框
     let linkParentCheckbox = function () {
-      console.log('linkParentCheckbox 111');
+      // console.log('linkParentCheckbox 111');
       let checkedKeys = checkedKeysRoot.value;
       if (props.selectionConfig.checkStrictly) {
         checkedKeys.forEach((checkedKey: string) => {
@@ -333,14 +339,14 @@ export default defineComponent({
         });
         return;
       }
-      console.log('linkParentCheckbox 222', checkedKeys);
+      // console.log('linkParentCheckbox 222', checkedKeys);
       // 已经处理过的节点的key
       let processedKes: Record<string, any> = {};
       checkedKeys.forEach((checkedKey: string) => {
         if (checkedKey in processedKes) {
           return;
         }
-        console.log('linkParentCheckbox 333');
+        // console.log('linkParentCheckbox 333');
         processedKes[checkedKey] = 1;
         addSelfAndChildrenChecked(checkedKey);
         addParentsChecked(checkedKey);
@@ -382,24 +388,25 @@ export default defineComponent({
             needExpandRows.push(treeNodeInfo);
           }
         });
-        console.log('isTreeDataFlag', isTreeDataFlag, defaultExpandAllRows, newFlattenTableRowData);
+        // console.log('isTreeDataFlag', isTreeDataFlag, defaultExpandAllRows, newFlattenTableRowData);
         isTreeData.value = isTreeDataFlag;
         flattenTableRows.value = newFlattenTableRowData;
 
-        let { reserveSelectedRowKeys, selectedRowKeys, type } = props.selectionConfig || {};
+        let { reserveSelectedRowKeys, type } = props.selectionConfig || {};
+        let selectedRowKeys = props.selectedRowKeys;
         // 判断当数据被删除时是否仍然保留选项的key
         if (!reserveSelectedRowKeys) {
-          // checkedKeysRoot.value = new Set([]);
           if (type == 'checkbox') {
+            // 如果在 selectionConfig.onSelectChange 事件中同步了 props.selectedRowKeys ，那么它和selectionConfig.reserveSelectedRowKeys=true的效果一样
             checkedKeysRoot.value = new Set(selectedRowKeys || []);
           } else {
             checkedKeysRoot.value = new Set((selectedRowKeys || []).slice(0, 1));
           }
           halfCheckedKeys.value = new Set();
-          checkedKeysRootOld = new Set();
+          checkedRows.value = new Map();
         } else {
           let checkedKeysRootRaw = checkedKeysRoot.value;
-          checkedKeysRootOld = checkedKeysRootRaw;
+          // checkedKeysRootOld = checkedKeysRootRaw;
 
           let arr = [...(selectedRowKeys || []), ...Array.from(checkedKeysRootRaw)];
           if (type == 'checkbox') {
@@ -408,6 +415,8 @@ export default defineComponent({
             checkedKeysRoot.value = new Set(arr.slice(0, 1));
           }
         }
+        // 清空上一份数据中已选择的行
+        checkedRowsCurrent.value = new Map();
 
         clearCachedNodeInfo(tableId);
 
@@ -429,7 +438,7 @@ export default defineComponent({
     }, { immediate: true });
 
     let watchCheckedKeysTimer: number;
-    watch(() => [...(props.selectionConfig?.selectedRowKeys || [])], function (checkedKeys) {
+    watch(() => [...(props.selectedRowKeys || [])], function (checkedKeys) {
       clearTimeout(watchCheckedKeysTimer);
       console.log('watch checkedKeys 111');
       watchCheckedKeysTimer = setTimeout(function () {
@@ -456,6 +465,12 @@ export default defineComponent({
         linkParentCheckbox();
       }, 0);
     }, { immediate: false });
+
+    watch(() => (props.selectionConfig || {}), function (selectionConfig) {
+      let { type, columnWidth } = selectionConfig;
+      hasSelectionColumn.value = type == 'checkbox' || type == 'radio';
+      selectionColumnWidth.value = columnWidth || 50;
+    }, { immediate: true });
 
     // 展开默认需要展开的行
     let expandDefaultExpandedRows = function () {
@@ -842,6 +857,7 @@ export default defineComponent({
       isTreeData,
       checkedKeysRoot,
       halfCheckedKeys,
+      checkedRowsCurrent,
       handleTableBodyScroll,
       handleExpandChange () { // 行展开事件
         handleColumnsChange(columnsInfo.value);
