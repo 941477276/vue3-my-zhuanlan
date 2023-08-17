@@ -9,7 +9,8 @@
         'bs-table-cell-fixed-left-last': columnFixedInfo.isFixedLeft && (column.fixedIndex + 1) === column.fixedLeftColumnCount,
         'bs-table-cell-fixed-left': columnFixedInfo.isFixedLeft,
         'bs-table-cell-fixed-right-first': columnFixedInfo.isFixedRight && column.fixedIndex === 0,
-        'bs-table-cell-fixed-right': columnFixedInfo.isFixedRight
+        'bs-table-cell-fixed-right': columnFixedInfo.isFixedRight,
+        'bs-table-cell-last': cellIndex == (colgroup?.length || 0) - 1
       },
       cellClasses
     ]"

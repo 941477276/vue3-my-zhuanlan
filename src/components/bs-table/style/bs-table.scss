@@ -29,7 +29,7 @@
     }
   }
 }
-.bs-table-head{
+.bs-table-thead{
   th{
     position: relative;
   }
@@ -51,6 +51,17 @@
       left: 50%;
       width: 1px;
       background-color: var(--primary);
+    }
+  }
+}
+.bs-table-cell-last{
+  .bs-table-resize-handle{
+    right: 0;
+    &.bs-table-resize-handle-active{
+      &::after{
+        left: auto;
+        right: 0;
+      }
     }
   }
 }
