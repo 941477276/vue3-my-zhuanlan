@@ -448,6 +448,26 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
     }
   };
 
+  // 展开全部
+  let expandAll = function () {
+    flattenTreeDatas.value.forEach(rowItem => {
+      rowItem.visible = true;
+      rowItem.treeDataRowExpand = true;
+      expandedTreeRowIds.add(rowItem.uid);
+    });
+  };
+
+  // 收起全部
+  let expandNone = function () {
+    flattenTreeDatas.value.forEach(rowItem => {
+      rowItem.treeDataRowExpand = false;
+      if (rowItem.nodeLevel != 1) {
+        rowItem.visible = false;
+        expandedTreeRowIds.delete(rowItem.uid);
+      }
+    });
+  };
+
   return {
     checkedKeysRoot,
     halfCheckedKeys,
@@ -472,6 +492,8 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
     selectRow,
     unSelectRow,
     getSelectionInfo,
-    expandTreeRow
+    expandTreeRow,
+    expandAll,
+    expandNone
   };
 };

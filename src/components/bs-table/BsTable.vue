@@ -324,7 +324,9 @@ export default defineComponent({
       selectRow,
       unSelectRow,
       getSelectionInfo,
-      expandTreeRow
+      expandTreeRow,
+      expandAll,
+      expandNone
     } = useBsTableTree(props, flattenTableRows, tableId, toRef(props, 'childrenKey'), tableId, getRowDataHash);
 
     // 数据是否为树状
@@ -892,7 +894,9 @@ export default defineComponent({
       selectAll,
       selectNone,
       selectRow,
-      unSelectRow
+      unSelectRow,
+      expandAll,
+      expandNone
     };
   }
 });
