@@ -825,10 +825,33 @@ export default defineComponent({
       getSelectionInfo,
       // 添加选中项
       addCheckedKey (nodeValue: string, nodeData: Record<string, any>, hasChildren: boolean) {
+        if (props.selectionConfig?.type == 'radio') {
+          checkedRows.value.clear();
+          checkedRowsCurrent.value.clear();
+          checkedKeysRoot.value.clear();
+          addCheckedKey(nodeValue);
+
+          let onSelectChange = props.selectionConfig?.onSelectChange;
+          if (isFunction(onSelectChange)) {
+            let selectionInfo = getSelectionInfo();
+            onSelectChange({
+              row: nodeData,
+              isSelected: true,
+              operateType: 'selectSingle',
+              isHalfSelected: false,
+              ...selectionInfo
+            });
+          }
+          return;
+        }
         selectRow(nodeValue, nodeData);
       },
       // 移除选中项
       removeCheckedKey (nodeValue: string, nodeData: Record<string, any>, hasChildren: boolean) {
+        if (props.selectionConfig?.type == 'radio') {
+          // console.log('removeCheckedKey radio');
+          return;
+        }
         unSelectRow(nodeValue, nodeData);
       },
       selectAll,

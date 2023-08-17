@@ -37,6 +37,7 @@
           class="bs-table-selection-cell-head">
           <template v-if="cell.prop == selectionCellKey && !!selectionConfig?.type">
             <BsCheckbox
+              v-if="selectionConfig?.type == 'checkbox'"
               v-model="selectAllValue"
               :indeterminate="isIndeterminate"
               :delive-context-to-form-item="false"></BsCheckbox>

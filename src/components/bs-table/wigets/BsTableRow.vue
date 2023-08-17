@@ -357,6 +357,10 @@ export default defineComponent({
       set (newVal) {
         let { rowData, childrenKey } = props;
         let children = rowData[childrenKey] || [];
+        if (props.selectionConfig?.type == 'radio') {
+          rootTableCtx.addCheckedKey(props.rowId, rowData, children.length > 0);
+          return;
+        }
         if (newVal) {
           /* if (props.showCheckbox) {
             treeCtx.addCheckedKey(nodeValue.value, props.nodeData, nodeChildren.value.length > 0);

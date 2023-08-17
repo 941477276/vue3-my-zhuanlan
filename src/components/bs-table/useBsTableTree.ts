@@ -27,7 +27,7 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
         return false;
       }
     }
-    // console.log('添加进选中项：', uid, nodeInfo.node);
+    console.log('添加进选中项：', uid, nodeInfo.node);
     checkedRowsCurrent.value.set(uid, nodeInfo.node);
     checkedRows.value.set(uid, nodeInfo.node);
     checkedKeysRoot.value.add(uid);
@@ -40,7 +40,7 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
     let nodeInfo = findNodeByUid(treeId, uid, flattenTreeDatas.value);
     checkedRowsCurrent.value.delete(uid);
     checkedRows.value.delete(uid);
-    // console.log('移除选中项：', uid, nodeInfo.node);
+    console.log('移除选中项：', uid, nodeInfo.node);
     if (isDisabled || !nodeInfo || nodeInfo.isDisabled) {
       // 如果被禁用的节点没有子节点，则不移除
       if (!nodeInfo || !nodeInfo.node[childrenKey.value]) {
@@ -317,8 +317,8 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
       } else {
         checkedKeysRoot.value = new Set([rowKey]);
       }
-      let selectionInfo = getSelectionInfo();
       if (isFunction(onSelectChange)) {
+        let selectionInfo = getSelectionInfo();
         if (!rowData) {
           rowData = findNodeByUid(tableId, rowKey, flattenTreeDatas.value)?.node;
         }
@@ -348,8 +348,8 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
     } else {
       removeCheckedKey(rowKey);
     }
-    let selectionInfo = getSelectionInfo();
     if (isFunction(onSelectChange)) {
+      let selectionInfo = getSelectionInfo();
       if (!rowData) {
         rowData = findNodeByUid(tableId, rowKey, flattenTreeDatas.value)?.node;
       }
