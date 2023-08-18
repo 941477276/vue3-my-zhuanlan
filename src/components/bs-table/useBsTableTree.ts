@@ -1,9 +1,9 @@
-import { computed, ref, Ref } from 'vue';
+import { computed, ref, Ref, watch, WatchStopHandle } from 'vue';
 import {
   findNodeByUid,
   findParentsByUid,
   findChildrenWhichHasChildrenByUid,
-  findChildrenNodesByUid
+  findChildrenNodesByUid, findParentsByNodeLevelPath2
 } from '../bs-tree/bs-tree-utils';
 import { BsNodeData } from '../bs-tree/bs-tree-types';
 import { BsTableRowData } from './bs-table-types';
@@ -389,6 +389,32 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
     delete row.node[props.childrenKey];
   };
 
+  // 关联父级选择框
+  let linkParentCheckbox = function () {
+    // console.log('linkParentCheckbox 111');
+    let checkedKeys = checkedKeysRoot.value;
+    if (props.selectionConfig.checkStrictly) {
+      checkedKeys.forEach((checkedKey: string) => {
+        addCheckedKey(checkedKey);
+      });
+      return;
+    }
+    // console.log('linkParentCheckbox 222', checkedKeys);
+    // 已经处理过的节点的key
+    let processedKes: Record<string, any> = {};
+    checkedKeys.forEach((checkedKey: string) => {
+      if (checkedKey in processedKes) {
+        return;
+      }
+      // console.log('linkParentCheckbox 333');
+      processedKes[checkedKey] = 1;
+      addSelfAndChildrenChecked(checkedKey);
+      addParentsChecked(checkedKey);
+    });
+  };
+
+  /* **************************************展开树状行相关代码 start*********************************************** */
+
   // 展开行的id
   let expandedTreeRowIds: Set<string> = new Set();
   /**
@@ -468,6 +494,40 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
     });
   };
 
+  // 展开默认需要展开的行
+  let expandDefaultExpandedRows = function () {
+    let defaultExpandedRowKeys: string[] = props.defaultExpandedRowKeys || [];
+    if (defaultExpandedRowKeys.length > 0 && !props.lazy && !props.defaultExpandAllRows && stopWatchDefaultExpandedRows) {
+      let timer2 = setTimeout(function () {
+        clearTimeout(timer2);
+        stopWatchDefaultExpandedRows?.(); // defaultExpandedRowKeys只执行一次
+        stopWatchDefaultExpandedRows = null;
+        let flattenTableRowsRaw = flattenTreeDatas.value;
+        defaultExpandedRowKeys.forEach(rowKey => {
+          let row = findNodeByUid(tableId, rowKey, flattenTableRowsRaw);
+          if (!row) {
+            return;
+          }
+          let rowParents = findParentsByNodeLevelPath2<BsTableRowData>(row.nodeLevelPath, flattenTableRowsRaw);
+          // 先展开所有父级
+          rowParents.forEach(parentItem => {
+            if (parentItem.treeDataRowExpand) {
+              return;
+            }
+            expandTreeRow(parentItem.node, parentItem.uid, false, true);
+          });
+          // 再展开自己
+          if (!row.treeDataRowExpand) {
+            expandTreeRow(row.node, rowKey, false, true);
+          }
+        });
+      }, 0);
+    }
+  };
+  let stopWatchDefaultExpandedRows: WatchStopHandle|null = watch(() => [...props.defaultExpandedRowKeys], function () {
+    expandDefaultExpandedRows();
+  });
+
   return {
     checkedKeysRoot,
     halfCheckedKeys,
@@ -485,6 +545,8 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
     addSelfAndChildrenChecked,
     removeSelfAndChildrenChecked,
     nodesIsAllChecked,
+    linkParentCheckbox,
+    expandDefaultExpandedRows,
 
     removeRowChildren,
     selectAll,
