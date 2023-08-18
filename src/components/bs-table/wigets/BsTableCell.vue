@@ -60,7 +60,7 @@
       </BsTableCellContent>
     </div>
     <template v-else>
-      <BsTableCustomContent
+      <!--<BsTableCustomContent
         :row-index="rowIndex"
         :cell-index="cellIndex"
         :label="column.label"
@@ -77,7 +77,10 @@
         :class="{
           'bs-table-resize-handle-active': resizeBarActive
         }"
-        @mousedown="handleResizeBarMousedown"></div>
+        @mousedown="handleResizeBarMousedown"></div>-->
+      <BsTableHeadCellContent
+        v-bind="$props"
+        :default-slot="$slots.default"></BsTableHeadCellContent>
     </template>
   </component>
 </template>
@@ -85,13 +88,13 @@
 <script lang="ts">
 import { defineComponent, computed, PropType, ref, onUpdated, onMounted, inject } from 'vue';
 import { BsTableCustomContent } from './BsTableCustomContent';
+import BsTableHeadCellContent from './BsTableHeadCellContent.vue';
 import { BsColgroupItem, BsTableColumnInner, bsTableCtxKey, bsSelectionColumnKey, bsExpandColumnKey } from '../bs-table-types';
 import { bsTableCellProps } from './bs-table-cell-props';
 import { isFunction } from '@vue/shared';
 import BsTableCellContent from './BsTableCellContent';
 import BsSpinner from '../../../components/bs-spinner/BsSpinner.vue';
 import { BsiChevronRight } from 'vue3-bootstrap-icon/es/icons/BsiChevronRight';
-import { useGlobalEvent } from '../../../hooks/useGlobalEvent';
 
 export default defineComponent({
   name: 'BsTableCell',
@@ -99,7 +102,8 @@ export default defineComponent({
     BsiChevronRight,
     BsSpinner,
     BsTableCustomContent,
-    BsTableCellContent
+    BsTableCellContent,
+    BsTableHeadCellContent
   },
   props: {
     ...bsTableCellProps
@@ -190,7 +194,7 @@ export default defineComponent({
     // 懒数据是否加载成功
     let lazyDataSuccessful = ref(false);
 
-    // 处理拖拽列宽
+    /* // 处理拖拽列宽
     let resizeBarActive = ref(false);
     let handleResizeBarMousedown = function (evt: MouseEvent) {
       evt.preventDefault();
@@ -309,7 +313,7 @@ export default defineComponent({
       useGlobalEvent.addEvent('document', 'mousemove', mouseMoveEvt);
       useGlobalEvent.addEvent('document', 'mouseup', removeMouseMoveEvtFn);
       target.addEventListener('mouseup', removeMouseMoveEvtFn, false);
-    };
+    }; */
 
     onMounted(function () {
       // console.log('列组件mounted');
@@ -332,8 +336,8 @@ export default defineComponent({
       calcColumnStyle,
       rowExpandLoading,
       lazyDataSuccessful,
-      resizeBarActive,
-      handleResizeBarMousedown,
+      // resizeBarActive,
+      // handleResizeBarMousedown,
       toggleRowExpand () {
         let childrenKey = props.childrenKey;
         let children = props.rowData[childrenKey] || [];

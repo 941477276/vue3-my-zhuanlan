@@ -1,6 +1,8 @@
 import { PropType, VNode, InjectionKey, Ref } from 'vue';
 import type { BsNodeInfo } from '../bs-tree/bs-tree-types';
 
+type SortDirection = 'ascend' | 'descend';// 列支持的排序方式，支持`ascend`（升序）、`descend`（降序）
+
 // 表格列属性
 export interface BsTableColumn {
   label: string|number|((index: number, column: BsTableColumn) => string|number|VNode); // 列名
@@ -17,6 +19,10 @@ export interface BsTableColumn {
   ellipsis?: boolean; // 文本溢出后是否显示3个点
   showTooltip?: boolean|object; // 文本溢出后是否显示tooltip
   resizeable?: boolean; // 列宽是否可以拖拽
+  sorter?: (rowData1: Record<string, any>, rowData2: Record<string, any>) => number; // 行排序函数，参考 Array.sort 的 compareFunction
+  sortOrder?: SortDirection; // 列的排序方式，可设置为`ascend`（升序）、`descend`（降序）
+  sortDirections?: SortDirection[]; // 支持的排序方式，支持`ascend`（升序）、`descend`（降序）
+  defaultSortOrder?: SortDirection; // 默认排序顺序，设置该值后默认会对表格进行一次排序
 };
 
 export interface BsTableColumnInner extends BsTableColumn {

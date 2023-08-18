@@ -1,22 +1,7 @@
 <template>
   <div class="component-usage">
     <div>
-      <!--<h3>基础用法</h3>-->
-      <!--<Basic></Basic>-->
-      <BsTable :columns="columns2" :data="data2" stripe border max-height="400" row-key="value" selection="radio"
-               :default-expand-all-rows="false" :default-expanded-row-keys="expandedRowKeys"
-                :selection-config="{
-                  type: 'checkbox',
-                  selectedRowKeys,
-                  rowDisabled,
-                  checkStrictly: false,
-                  reserveSelectedRowKeys: true,
-                  onSelectChange
-                }">
-        <!--<template #headSelectionExtra>
-          More
-        </template>-->
-
+      <BsTable ref="bTableRef" :columns="columns3" :data="data3" border row-key="id">
         <template #opt>
           <bs-button type="primary" size="sm">Edit</bs-button>
           <bs-button type="danger" size="sm" style="margin-left: 0.5rem;">Delete</bs-button>
@@ -37,154 +22,116 @@ export default defineComponent({
     // Basic
   },
   setup (props: any) {
-    const columns2 = [
+    let expandedRowKeys = ref([]/* ['001001001002002', '001002'] */);
+    let tableRef = ref();
+
+    const columns3 = [
       {
-        label: 'Area name',
-        prop: 'title',
-        minWidth: 160
+        label: 'Name',
+        prop: 'name'
       },
       {
-        label: 'Key',
-        prop: 'key',
-        minWidth: 180,
+        label: 'Age',
+        prop: 'age'
+      },
+      {
+        label: 'Address',
+        prop: 'address',
         showTooltip: true,
+        minWidth: 120,
         resizeable: true
       },
       {
-        label: 'Value',
-        prop: 'value',
-        ellipsis: true,
-        resizeable: true
+        label: 'Hobbies',
+        prop: 'hobbies',
+        customCell (rowData: Record<string, any>) {
+          return rowData.hobbies.join(', ');
+        }
       },
       {
         label: 'Operate',
         prop: 'opt',
-        minWidth: 140,
         resizeable: true
       }
     ];
 
-    const data2 = ref([
+    const data3 = ref([
       {
-        'title': '佛山市',
-        'key': '64c204f08cdedc661690ffd9',
-        'value': '001003'
+        'name': 'John',
+        'age': 25,
+        'address': '123 Main St, New York, NY',
+        'id': 'A123456',
+        'hobbies': ['hiking', 'photography']
       },
       {
-        'children': [
-          {
-            'title': '越秀区',
-            'key': '64c204e68cdedc661690ffd8',
-            'value': '001002002'
-          },
-          {
-            'title': '增城区',
-            'key': '64c204d98cdedc661690ffd7',
-            'value': '001002001'
-          }
-        ],
-        'title': '广州市',
-        'key': '64c204cb8cdedc661690ffd2',
-        'value': '001002'
+        'name': 'Alice',
+        'age': 30,
+        'address': '456 Elm St, Los Angeles, CA',
+        'id': 'B789012',
+        'hobbies': ['reading', 'painting']
       },
       {
-        'children': [
-          {
-            'title': '福田区',
-            'key': '64c204138cdedc661690ffbd',
-            'value': '001001003',
-            'isLeaf': true
-          },
-          {
-            'children': [
-              {
-                'title': '新安街道',
-                'key': '64c204c28cdedc661690ffd1',
-                'value': '001001002003'
-              },
-              {
-                'title': '西乡街道',
-                'key': '64c204b28cdedc661690ffd0',
-                'value': '001001002002'
-              }
-            ],
-            'title': '宝安区',
-            'key': '64c204098cdedc661690ffbc',
-            'value': '001001002'
-          },
-          {
-            'children': [
-              {
-                'title': '吉华街道',
-                'key': '64c2043d8cdedc661690ffc4',
-                'value': '001001001003',
-                'isLeaf': true
-              },
-              {
-                'children': [
-                  {
-                    'title': '布吉一街',
-                    'key': '64c2045e8cdedc661690ffc9',
-                    'value': '001001001002001'
-                  },
-                  {
-                    'title': '荣超花园',
-                    'key': '64c204798cdedc661690ffca',
-                    'value': '001001001002002'
-                  }
-                ],
-                'title': '布吉街道',
-                'key': '64c2042a8cdedc661690ffc3',
-                'value': '001001001002'
-              },
-              {
-                'title': '坂田街道',
-                'key': '64c204228cdedc661690ffc2',
-                'value': '001001001001'
-              }
-            ],
-            'title': '龙岗区',
-            'key': '64b5e8c4fc205615f7314d9a',
-            'value': '001001001'
-          }
-        ],
-        'title': '深圳市',
-        'key': '64b5e8bafc205615f7314d95',
-        'value': '001001'
+        'name': 'Daniel',
+        'age': 29,
+        'address': '654 Birch St, Miami, FL',
+        'id': 'E567890',
+        'hobbies': ['traveling', 'dancing']
+      },
+      {
+        'name': 'Olivia',
+        'age': 24,
+        'address': '321 Cedar St, Seattle, WA',
+        'id': 'F234567',
+        'hobbies': ['yoga', 'movies']
+      },
+      {
+        'name': 'Sophia',
+        'age': 32,
+        'address': '876 Maple St, Boston, MA',
+        'id': 'G890123',
+        'hobbies': ['sports', 'cooking']
+      },
+      {
+        'name': 'William',
+        'age': 31,
+        'address': '234 Spruce St, Austin, TX',
+        'id': 'H456789',
+        'hobbies': ['gaming', 'coding']
+      },
+      {
+        'name': 'James',
+        'age': 23,
+        'address': '567 Cherry St, Denver, CO',
+        'id': 'I012345',
+        'hobbies': ['swimming', 'writing']
+      },
+      {
+        'name': 'Emma',
+        'age': 26,
+        'address': '789 Rose St, Philadelphia, PA',
+        'id': 'J678901',
+        'hobbies': ['singing', 'shopping']
       }
     ]);
 
-    setTimeout(function () {
-      data2.value[0].key = '阿什拉夫卢卡斯金六福酒快睡觉false发链接库萨分类扫房埃里克分类可撒娇法律手段flsd';
-    }, 1500);
-
-    setTimeout(function () {
-      data2.value.push({
-        'title': '清远市',
-        'key': '64c204f08cdedc661690eed9',
-        'value': '001004'
-      });
-    }, 3500);
-
-    let expandedRowKeys = ref(['001001001002002', '001002']);
-    let selectedRowKeys = ref(['001001001001', '001001001002002', '001001001002001', '001002']);
     return {
-      columns2,
-      data2,
       expandedRowKeys,
-      selectedRowKeys,
-      rowDisabled (row: Record<string, any>) {
-        // return ['坂田街道', '吉华街道'].includes(row.title);
-      },
-      onSelectChange (selection: any) {
-        console.log('selection', selection);
-        // checkedKeys.value = selection.selectedRowKeys;
-      }
+      tableRef,
+      columns3,
+      data3
     };
   }
 });
 </script>
 
 <style lang="scss" scoped>
+::v-deep(.highlight-row) {
+  color: #fff;
+  background-color: #59a9ff;
+}
 
+::v-deep(.custom-classname-cell) {
+  color: #fff;
+  background-color: #f90;
+}
 </style>

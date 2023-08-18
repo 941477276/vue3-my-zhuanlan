@@ -223,6 +223,8 @@ export default defineComponent({
     let flattenTableRows = ref<BsTableRowData[]>([]);
     // 真正用于展示的表格数据（防止数据更新后表格出现抖动问题）
     let flattenTableRows2 = ref<BsTableRowData[]>([]);
+    // 未经过排序的扁平的数据
+    let unsortedFlattenTableRows: BsTableRowData[] = [];
 
     // 树形结构及选择功能相关信息
     let {

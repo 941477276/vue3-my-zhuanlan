@@ -144,21 +144,11 @@ export default defineComponent({
 
     let headThs = computed(function () {
       let ths: any[] = [];
-      let currentColumnIndex = -1;
+      // let currentColumnIndex = -1;
       let skipEndColumnIndex = -1; // 待跳过的单元格结束索引
       ;(props.columns || []).forEach((column: BsTableColumnInner, index: number) => {
         let {
-          label,
-          prop,
           colSpan,
-          width,
-          minWidth,
-          fixed,
-          fixedIndex,
-          fixedLeftColumnCount,
-          fixedRightColumnCount,
-          headSlotName,
-          resizeable,
           customHeadCellAttrs
         } = column;
         // 跳过需要合并的单元格
@@ -188,18 +178,8 @@ export default defineComponent({
           cellAttrs.colSpan = colSpan;
         }
         ths.push({
-          label,
-          prop,
-          colSpan,
-          width,
-          minWidth,
-          fixed,
-          fixedIndex,
-          fixedLeftColumnCount,
-          fixedRightColumnCount,
-          cellAttrs,
-          headSlotName,
-          resizeable
+          ...column,
+          colSpan
         });
       });
       return ths;
