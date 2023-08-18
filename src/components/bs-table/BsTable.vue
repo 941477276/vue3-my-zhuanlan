@@ -572,7 +572,11 @@ export default defineComponent({
       let needColGroup = columns.some(column => {
         return !!column.width || !!column.minWidth;
       });
-      if (!needColGroup && !isFixedHeaderRaw) {
+      let hasResizeableColumn = columns.some(column => {
+        return !!column.resizeable;
+      });
+      // 有固定列、有拖拽列宽功能时必须要设置colgroup
+      if (!needColGroup && !isFixedHeaderRaw && !hasResizeableColumn) {
         colgroup.value = [];
         return;
       }
@@ -590,7 +594,7 @@ export default defineComponent({
       let notNeedColGroup = colGroupTemp.every(colItem => {
         return !colItem.width && !colItem.minWidth;
       });
-      if (notNeedColGroup && !isFixedHeaderRaw) {
+      if (notNeedColGroup && !isFixedHeaderRaw && !hasResizeableColumn) {
         colgroup.value = [];
         return;
       }

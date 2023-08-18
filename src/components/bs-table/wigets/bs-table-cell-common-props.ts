@@ -14,7 +14,7 @@ export const bsTableCellCommonProps = {
     type: Object
   },
   rowId: { // 行id
-    type: String
+    type: [String, Number]
   },
   isTreeData: { // 是否为树状数据
     type: Boolean

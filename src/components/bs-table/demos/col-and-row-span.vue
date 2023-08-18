@@ -55,7 +55,7 @@ const columns = [
     colSpan: 2, // table head merge
     prop: 'tel',
     headSlotName: 'homeTh', // custom table head
-    customHeadCellAttrs () { // set cell attributes
+    customHeadCellAttrs () { // set head cell attributes
       return {
         style: {
           fontSize: '1.2em'
@@ -100,7 +100,7 @@ const columns2 = [
     },
     colSpan: 2,
     prop: 'tel',
-    customHeadCellAttrs () { // set cell attributes
+    customHeadCellAttrs () { // set head cell attributes
       return {
         style: {
           fontSize: '1.2em'

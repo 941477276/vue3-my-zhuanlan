@@ -245,6 +245,7 @@ export default defineComponent({
             cellAttrs = {};
           }
         }
+        cellAttrs = { ...cellAttrs };
         // 计算需要合并的列
         if (cellAttrs.colSpan && isNumber(cellAttrs.colSpan)) {
           colSpan = Math.floor(cellAttrs.colSpan);
