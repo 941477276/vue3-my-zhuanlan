@@ -34,7 +34,7 @@ const columns2 = [
     label: 'Age',
     prop: 'age',
     resizeable: true,
-    customHeadCellAttrs (index: number, column: any) { // 自定义头部单元格属性及样式
+    customHeadCellAttrs (index: number, column: any) { // Customize header cell properties and styles(自定义头部单元格属性及样式)
       return {
         class: 'custom-classname-head-cell',
         style: {
@@ -44,7 +44,7 @@ const columns2 = [
         }
       };
     },
-    customCellAttrs (rowData: any, cellIndex: number, rowIndex: number, column: any) { // 自定义数据单元格属性及样式
+    customCellAttrs (rowData: any, cellIndex: number, rowIndex: number, column: any) { // Custom data cell properties and styles(自定义数据单元格属性及样式)
       if (rowIndex == 1) {
         return {
           title: 'a custom style cell',
@@ -68,6 +68,11 @@ const columns2 = [
         };
       }
     }
+    /* cellClassName (rowData: any, cellIndex: number, rowIndex: number, column: any) { // Custom data cell class(自定义数据单元格class)
+      if (rowIndex == 5) {
+        return 'custom-classname-cell';
+      }
+    } */
   },
   {
     label: 'Operate',

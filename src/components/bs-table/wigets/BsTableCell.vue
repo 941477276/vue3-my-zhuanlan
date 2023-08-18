@@ -11,7 +11,8 @@
         'bs-table-cell-fixed-right-first': columnFixedInfo.isFixedRight && column.fixedIndex === 0,
         'bs-table-cell-fixed-right': columnFixedInfo.isFixedRight,
         'bs-table-cell-last': cellIndex == (colgroup?.length || 0) - 1
-      }
+      },
+      cellClasses
     ]"
     :style="columnStyle">
     <div class="bs-table-cell-content" v-if="!isHeaderCell">
@@ -115,7 +116,7 @@ export default defineComponent({
       }
       return props.rowData[props.column.prop];
     });
-    /* // 单元格class
+    // 单元格class
     let cellClasses = computed(function () {
       let cellClassName = props.column.cellClassName;
       if (isFunction(cellClassName)) {
@@ -125,7 +126,7 @@ export default defineComponent({
         return cellClassName;
       }
       return '';
-    }); */
+    });
 
     // 列是否为固定列
     let columnFixedInfo = computed(function () {
@@ -325,7 +326,7 @@ export default defineComponent({
     return {
       cellRef,
       cellContent,
-      // cellClasses,
+      cellClasses,
       columnFixedInfo,
       columnStyle,
       calcColumnStyle,
