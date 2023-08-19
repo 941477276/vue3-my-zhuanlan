@@ -478,7 +478,15 @@ export default defineComponent({
         setColWidthTimer = setTimeout(function () {
           clearTimeout(setColWidthTimer);
           handleColumnsChange(columnsInfo.value, false);
-        }, 0);
+          // 设置完列宽后也需要执行resize事件
+          [...childrenResizeEvts].forEach(evtFn => {
+            try {
+              evtFn();
+            } catch (e) {
+              console.error(e);
+            }
+          });
+        }, 20);
       },
       // 设置行选择禁用
       setRowSelectionDisabled (rowId: string, disabled: boolean) {
