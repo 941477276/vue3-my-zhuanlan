@@ -1,16 +1,40 @@
 <template>
   <div class="bs-table-head-cell-content">
-    <BsTableCustomContent
-      :row-index="rowIndex"
-      :cell-index="cellIndex"
-      :label="column.label"
-      :table-slots="tableSlots"
-      :is-head-cell="true"
-      :column="column"
-      :default-content="defaultSlot"
-      :slot-name="slotName || column.headSlotName">
-      <!--<slot></slot>-->
-    </BsTableCustomContent>
+    <div class="bs-table-head-cell-title">
+      <BsTableCustomContent
+        :row-index="rowIndex"
+        :cell-index="cellIndex"
+        :label="column.label"
+        :table-slots="tableSlots"
+        :is-head-cell="true"
+        :column="column"
+        :default-content="defaultSlot"
+        :slot-name="slotName || column.headSlotName">
+        <!--<slot></slot>-->
+      </BsTableCustomContent>
+    </div>
+    <!--排序触发器-->
+    <div
+      datav-if="column.hasSorter"
+      class="bs-table-column-sorters">
+      <BsTooltip v-if="sortDirections.includes('ascend')" :disabled="!!column.showSorterTooltip" placement="top" transition-name="scale" :content="onSortedInfo.direction != 'ascend' ? '升序排序' : '取消排序'">
+        <BsiCaretUpFill
+          class="bs-table-column-sort-handler"
+          :class="{
+            'is-on-sort': onSortedInfo.direction == 'ascend'
+          }"
+          @click="setSort('ascend')"></BsiCaretUpFill>
+      </BsTooltip>
+      <BsTooltip v-if="sortDirections.includes('descend')" :disabled="!column.showSorterTooltip" placement="bottom" transition-name="scale" :content="onSortedInfo.direction != 'descend' ? '降序排序' : '取消排序'">
+        <BsiCaretDownFill
+          class="bs-table-column-sort-handler"
+          :class="{
+            'is-on-sort': onSortedInfo.direction == 'descend'
+          }"
+          @click="setSort('descend')"></BsiCaretDownFill>
+      </BsTooltip>
+    </div>
+
     <div
       v-if="column.resizeable"
       class="bs-table-resize-handle"
@@ -23,16 +47,30 @@
 
 <script lang="ts">
 import {
-  ref, defineComponent, AppContext, onUpdated, onMounted, inject, SetupContext
+  ref, defineComponent, AppContext, onUpdated, onMounted, inject, SetupContext, computed, onBeforeUnmount
 } from 'vue';
 import { BsTableCustomContent } from './BsTableCustomContent';
 import { bsTableCellProps } from './bs-table-cell-props';
 import { useGlobalEvent } from '../../../hooks/useGlobalEvent';
-import { BsColgroupItem, bsExpandColumnKey, bsSelectionColumnKey, bsTableCtxKey } from '../bs-table-types';
+import {
+  BsColgroupItem,
+  bsExpandColumnKey,
+  bsSelectionColumnKey,
+  bsTableCtxKey,
+  BsTableSortDirection,
+  bsTableSortDirections
+} from '../bs-table-types';
+import BsTooltip from '../../bs-tooltip/BsTooltip.vue';
+import { BsiCaretDownFill } from 'vue3-bootstrap-icon/es/icons/BsiCaretDownFill';
+import { BsiCaretUpFill } from 'vue3-bootstrap-icon/es/icons/BsiCaretUpFill';
+
 export default defineComponent({
   name: 'BsTableHeadCellContent',
   components: {
-    BsTableCustomContent
+    BsTableCustomContent,
+    BsTooltip,
+    BsiCaretUpFill,
+    BsiCaretDownFill
   },
   props: {
     ...bsTableCellProps,
@@ -164,9 +202,59 @@ export default defineComponent({
       target.addEventListener('mouseup', removeMouseMoveEvtFn, false);
     };
 
+    // 允许的排序方向
+    let sortDirections = computed(function () {
+      let sortDirectionsFromProp = props.column?.sortDirections;
+      if (Array.isArray(props.column?.sortDirections)) {
+        return sortDirectionsFromProp;
+      }
+      return [...bsTableSortDirections];
+    });
+
+    // 正在排序的信息
+    let onSortedInfo = computed(function () {
+      let sortInfoRoot = tableRootCtx.sortInfo;
+      // console.log('sortInfoRoot', sortInfoRoot);
+      let columnId = props.column.prop;
+      let result = {
+        hasOnSort: false,
+        direction: '' as BsTableSortDirection
+      };
+      if (sortInfoRoot.columnId == columnId) {
+        result.hasOnSort = true;
+        result.direction = sortInfoRoot.direction;
+      }
+      return result;
+    });
+
+    // 设置排序
+    let setSort = function (direction: BsTableSortDirection) {
+      let onSortedInfoRaw = onSortedInfo.value;
+      let columnId = props.column.prop;
+      let cellIndex = props.cellIndex;
+      if (onSortedInfoRaw.direction == direction) {
+        tableRootCtx.cancelSort(columnId, cellIndex, direction);
+      } else {
+        tableRootCtx.doSort(columnId, cellIndex, direction);
+      }
+    };
+
+    onBeforeUnmount(function () {
+      let {
+        hasOnSort,
+        direction
+      } = onSortedInfo.value;
+      if (hasOnSort) {
+        tableRootCtx.cancelSort(props.column.prop, props.cellIndex, direction);
+      }
+    });
+
     return {
       resizeBarActive,
-      handleResizeBarMousedown
+      sortDirections,
+      onSortedInfo,
+      handleResizeBarMousedown,
+      setSort
     };
   }
 });

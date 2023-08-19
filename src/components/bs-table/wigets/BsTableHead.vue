@@ -17,7 +17,8 @@
           :table-width="tableWidth"
           :class="{
             'bs-table-cell-scrollbar-prev-neighbor': tableBodyHasScroll && (tableBodyScrollWidth > 0) && (index == headThs.length - 1),
-            'bs-table-expand-cell-head': cell.prop == bsExpandColumnKey
+            'bs-table-expand-cell-head': cell.prop == bsExpandColumnKey,
+            'bs-table-column-has-sorter': cell.hasSorter
           }">
         </BsTableCell>
 
@@ -149,6 +150,7 @@ export default defineComponent({
       ;(props.columns || []).forEach((column: BsTableColumnInner, index: number) => {
         let {
           colSpan,
+          sorter,
           customHeadCellAttrs
         } = column;
         // 跳过需要合并的单元格
@@ -177,8 +179,11 @@ export default defineComponent({
         if (colSpan! > 0) {
           cellAttrs.colSpan = colSpan;
         }
+        // 列是否需要排序
+        let hasSorter = isFunction(sorter);
         ths.push({
           ...column,
+          hasSorter,
           colSpan
         });
       });

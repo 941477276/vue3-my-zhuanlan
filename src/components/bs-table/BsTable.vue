@@ -116,7 +116,7 @@ import {
 } from 'vue';
 import {
   bsTableProps, BsTableRowSpanCellInfo, bsTableCtxKey,
-  BsTableRowData
+  BsTableRowData, BsTableSortDirection
 } from './bs-table-types';
 import BsTableFixedHeader from './wigets/BsTableFixedHeader.vue';
 import BsTableHead from './wigets/BsTableHead.vue';
@@ -203,6 +203,8 @@ export default defineComponent({
       hasFixedHeader,
       tableBodyScrollInfo,
       tableContainerRef,
+      hasSelectionColumn,
+      hasExpandColumn,
 
       handleColumnsChange
     } = useTableInfo(props);
@@ -249,6 +251,27 @@ export default defineComponent({
       expandAll,
       expandNone
     } = useBsTableTree(props, flattenTableRows, tableId, toRef(props, 'childrenKey'), tableId, getRowDataHash);
+
+    // 列排序信息
+    let sortInfo = reactive({
+      columnId: '',
+      columnIndex: -1,
+      direction: '' as BsTableSortDirection
+    });
+    let doSort = function (columnId: string, columnIndex: number, sortDirection: BsTableSortDirection) {
+      console.log('doSort:', columnId, sortDirection);
+      sortInfo.columnId = columnId;
+      sortInfo.columnIndex = columnIndex;
+      sortInfo.direction = sortDirection;
+    };
+    let cancelSort = function (columnId: string, columnIndex: number, sortDirection: BsTableSortDirection) {
+      if (columnId != sortInfo.columnId) {
+        return;
+      }
+      sortInfo.columnId = '';
+      sortInfo.columnIndex = -1;
+      sortInfo.direction = '';
+    };
 
     // 数据是否为树状
     let isTreeData = ref(false);
@@ -414,6 +437,11 @@ export default defineComponent({
       removeRowSpanCell,
       checkedKeysRoot,
       halfCheckedKeys,
+      sortInfo,
+      hasSelectionColumn,
+      hasExpandColumn,
+      doSort,
+      cancelSort,
       // 展开树状结构行
       expandTreeRow (rowData: any, rowId: string, expandChildRow = true, callback?: (flag?: boolean) => void) {
         let childrenKey = props.childrenKey;

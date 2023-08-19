@@ -70,7 +70,8 @@ export function useTableInfo (props: any) {
         prop: bsExpandColumnKey,
         label: props.expandColumnLabel,
         headSlotName: 'expandColumnHeader',
-        cellClassName: 'bs-table-expand-cell'
+        cellClassName: 'bs-table-expand-cell',
+        hasSorter: false
       };
       if (fixedLeftColumns.length > 0) {
         expandColumn.fixed = 'left';
@@ -87,7 +88,8 @@ export function useTableInfo (props: any) {
         prop: bsSelectionColumnKey,
         label: '',
         headSlotName: 'selectionColumnHeader',
-        cellClassName: 'bs-table-selection-cell'
+        cellClassName: 'bs-table-selection-cell',
+        hasSorter: false
       };
       var fixedLeftColumn1 = fixedLeftColumns[1];
       if (fixedLeftColumns.length > 0) {
@@ -316,6 +318,11 @@ export function useTableInfo (props: any) {
     handleColumnsChange(columnsInfo);
   }, { immediate: true });
 
+  // 是否有展开列
+  let hasExpandColumn = computed(function () {
+    return !!props.allowExpand;
+  });
+
   return {
     columnsInfo,
     tableBodyRef,
@@ -328,6 +335,8 @@ export function useTableInfo (props: any) {
     hasFixedHeader,
     tableBodyScrollInfo,
     tableContainerRef,
+    hasSelectionColumn,
+    hasExpandColumn,
     handleColumnsChange
   };
 };

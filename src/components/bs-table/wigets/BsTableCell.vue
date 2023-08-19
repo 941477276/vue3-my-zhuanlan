@@ -10,7 +10,8 @@
         'bs-table-cell-fixed-left': columnFixedInfo.isFixedLeft,
         'bs-table-cell-fixed-right-first': columnFixedInfo.isFixedRight && column.fixedIndex === 0,
         'bs-table-cell-fixed-right': columnFixedInfo.isFixedRight,
-        'bs-table-cell-last': cellIndex == (colgroup?.length || 0) - 1
+        'bs-table-cell-last': cellIndex == (colgroup?.length || 0) - 1,
+        'bs-table-column-on-sort': isOnSort
       },
       cellClasses
     ]"
@@ -86,7 +87,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType, ref, onUpdated, onMounted, inject } from 'vue';
+import { defineComponent, computed, PropType, ref, onUpdated, onMounted, inject, unref } from 'vue';
 import { BsTableCustomContent } from './BsTableCustomContent';
 import BsTableHeadCellContent from './BsTableHeadCellContent.vue';
 import { BsColgroupItem, BsTableColumnInner, bsTableCtxKey, bsSelectionColumnKey, bsExpandColumnKey } from '../bs-table-types';
@@ -315,6 +316,27 @@ export default defineComponent({
       target.addEventListener('mouseup', removeMouseMoveEvtFn, false);
     }; */
 
+    // 列是否在使用排序
+    let isOnSort = computed(function () {
+      let {
+        hasSelectionColumn,
+        hasExpandColumn
+      } = tableRootCtx;
+      let columnIndex = tableRootCtx.sortInfo.columnIndex;
+      let cellIndex = props.cellIndex;
+      if (props.isHeaderCell) {
+        return columnIndex == cellIndex;
+      }
+      // 因为表格body中的单元格索引没有将选择列、展开列、索引列的索引计算进去，因此在这里需要减去它们
+      if (unref(hasSelectionColumn)) {
+        columnIndex--;
+      }
+      if (unref(hasExpandColumn)) {
+        columnIndex--;
+      }
+      return columnIndex == cellIndex;
+    });
+
     onMounted(function () {
       // console.log('列组件mounted');
       // columnStyle.value = calcColumnStyle();
@@ -336,6 +358,7 @@ export default defineComponent({
       calcColumnStyle,
       rowExpandLoading,
       lazyDataSuccessful,
+      isOnSort,
       // resizeBarActive,
       // handleResizeBarMousedown,
       toggleRowExpand () {

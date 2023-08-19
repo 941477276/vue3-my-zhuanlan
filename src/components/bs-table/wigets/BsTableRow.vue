@@ -16,7 +16,7 @@
       :row-index="rowIndex"
       :table-slots="tableSlots"
       :column="expandColumn"
-      :cell-index="0"
+      :cell-index="!!selectionColumn ? -2 : -1"
       :key="`cell_${rowIndex}_${expandColumn.prop}`">
       <button
         class="bs-table-row-expand-icon"
@@ -49,7 +49,7 @@
       :row-index="rowIndex"
       :table-slots="tableSlots"
       :column="selectionColumn"
-      :cell-index="0"
+      :cell-index="-1"
       :key="`cell_${rowIndex}_${selectionColumn.prop}`">
       <BsCheckbox
         v-if="selectionConfig?.type == 'checkbox'"

@@ -1,7 +1,7 @@
-import { PropType, VNode, InjectionKey, Ref } from 'vue';
+import { PropType, VNode, InjectionKey, Ref, UnwrapNestedRefs, ComputedRef } from 'vue';
 import type { BsNodeInfo } from '../bs-tree/bs-tree-types';
 
-type SortDirection = 'ascend' | 'descend';// 列支持的排序方式，支持`ascend`（升序）、`descend`（降序）
+export type BsTableSortDirection = 'ascend' | 'descend' | '';// 列支持的排序方式，支持`ascend`（升序）、`descend`（降序）
 
 // 表格列属性
 export interface BsTableColumn {
@@ -20,15 +20,17 @@ export interface BsTableColumn {
   showTooltip?: boolean|object; // 文本溢出后是否显示tooltip
   resizeable?: boolean; // 列宽是否可以拖拽
   sorter?: (rowData1: Record<string, any>, rowData2: Record<string, any>) => number; // 行排序函数，参考 Array.sort 的 compareFunction
-  sortOrder?: SortDirection; // 列的排序方式，可设置为`ascend`（升序）、`descend`（降序）
-  sortDirections?: SortDirection[]; // 支持的排序方式，支持`ascend`（升序）、`descend`（降序）
-  defaultSortOrder?: SortDirection; // 默认排序顺序，设置该值后默认会对表格进行一次排序
+  sortOrder?: BsTableSortDirection; // 列的排序方式，可设置为`ascend`（升序）、`descend`（降序）
+  sortDirections?: BsTableSortDirection[]; // 支持的排序方式，支持`ascend`（升序）、`descend`（降序）
+  defaultSortOrder?: BsTableSortDirection; // 默认排序顺序，设置该值后默认会对表格进行一次排序
+  showSorterTooltip?: boolean|object; // 表头显示下一次排序的 tooltip 提示
 };
 
 export interface BsTableColumnInner extends BsTableColumn {
   fixedIndex?: number;
   fixedLeftColumnCount?: number; // 左侧固定列数量
   fixedRightColumnCount?: number;
+  hasSorter: boolean; // 列是否有排序
 }
 
 // 单元格需要行合并的信息
@@ -188,6 +190,13 @@ export interface BsTableContext {
   rowSpanCells: Record<string, BsTableRowSpanCellInfo>;
   checkedKeysRoot: Ref<Set<string>>;
   halfCheckedKeys: Ref<Set<string>>;
+  sortInfo: UnwrapNestedRefs<{
+    columnId: string;
+    columnIndex: number;
+    direction: BsTableSortDirection
+  }>;
+  hasSelectionColumn: ComputedRef<boolean>;
+  hasExpandColumn: ComputedRef<boolean>;
   addRowSpanCell: (rowSpanCellInfo: BsTableRowSpanCellInfo) => void;
   removeRowSpanCell: (rowSpanCellInfo: BsTableRowSpanCellInfo, removeCurrentRowCells?: boolean) => void;
   expandTreeRow: (rowData: any, rowId: string, expandChildRow?: boolean, callback?: (flag?: boolean) => void) => void;
@@ -200,8 +209,14 @@ export interface BsTableContext {
   getSelectionInfo: () => any;
   selectAll: () => void;
   selectNone: () => void;
+  doSort: (columnId: string, columnIndex: number, sortDirection: BsTableSortDirection) => void;
+  cancelSort: (columnId: string, columnIndex: number, sortDirection: BsTableSortDirection) => void;
 }
+
 export const bsTableCtxKey: InjectionKey<BsTableContext> = Symbol('bsTableCtx');
 
 export const bsSelectionColumnKey = 'bs_selection_column';
 export const bsExpandColumnKey = 'bs_expand_column';
+
+// 表格支持的排序方向
+export const bsTableSortDirections = ['ascend', 'descend'];
