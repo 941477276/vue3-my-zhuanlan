@@ -12,6 +12,7 @@ export interface BsTableColumn {
   width?: string|number;
   minWidth?: string|number;
   fixed?: boolean|'left'|'right'; // 列是否固定住
+  align?: 'left' | 'center' | 'right'; // 文字对齐方向
   customHeadCellAttrs?: (index: number, column: BsTableColumn) => Record<any, any>; // 自定义头部单元格属性
   customCell?: (data: Record<string, any>, cellIndex: number, rowIndex: number) => Record<any, any>; // 自定义数据单元格内容
   customCellAttrs?: (data: Record<string, any>, cellIndex: number, rowIndex: number, column: BsTableColumn) => Record<any, any>; // 自定义数据单元格属性及样式

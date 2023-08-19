@@ -13,6 +13,7 @@
         'bs-table-cell-last': cellIndex == (colgroup?.length || 0) - 1,
         'bs-table-column-on-sort': isOnSort
       },
+      column.align ? `bs-table-cell-align-${column.align}` : null,
       cellClasses
     ]"
     :style="columnStyle">

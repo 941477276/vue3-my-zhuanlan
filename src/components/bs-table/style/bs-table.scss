@@ -21,6 +21,17 @@
   display: flex;
   flex-direction: column;
 }
+.bs-table-cell{
+  &.bs-table-cell-align-left{
+    text-align: left;
+  }
+  &.bs-table-cell-align-center{
+    text-align: center;
+  }
+  &.bs-table-cell-align-right{
+    text-align: right;
+  }
+}
 .bs-table-header{
   flex-shrink: 0;
   overflow: hidden;
