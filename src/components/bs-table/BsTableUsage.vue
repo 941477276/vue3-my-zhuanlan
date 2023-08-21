@@ -28,18 +28,33 @@ export default defineComponent({
     const columns3 = [
       {
         label: 'Name',
-        prop: 'name'
+        prop: 'name',
+        // After the sorting function is executed, it is in ascending order, and the value of sortOrder needs to be `ascend`
+        // 排序函数执行完成后为升序，sortOrder的值需为`ascend`
+        sortOrder: 'ascend',
+        sorter (rowData1: Record<string, any>, rowData2: Record<string, any>) {
+          return rowData1.name.length - rowData2.name.length;
+        }
       },
       {
         label: 'Age',
-        prop: 'age'
+        prop: 'age',
+        sortOrder: 'ascend',
+        defaultSortOrder: 'descend', // default descending sort（默认降序排序）
+        sorter (rowData1: Record<string, any>, rowData2: Record<string, any>) {
+          return rowData1.age - rowData2.age;
+        }
       },
       {
         label: 'Address',
         prop: 'address',
         showTooltip: true,
-        minWidth: 120,
-        resizeable: true
+        minWidth: 160,
+        resizeable: true,
+        sortDirections: ['descend'], // Only supports descending order（只支持降序排序）
+        sorter (rowData1: Record<string, any>, rowData2: Record<string, any>) {
+          return rowData2.address.length - rowData1.address.length;
+        }
       },
       {
         label: 'Hobbies',

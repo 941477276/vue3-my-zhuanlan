@@ -225,8 +225,6 @@ export default defineComponent({
     let flattenTableRows = ref<BsTableRowData[]>([]);
     // 真正用于展示的表格数据（防止数据更新后表格出现抖动问题）
     let flattenTableRows2 = ref<BsTableRowData[]>([]);
-    // 未经过排序的扁平的数据
-    let unsortedFlattenTableRows: BsTableRowData[] = [];
 
     // 树形结构及选择功能相关信息
     let {
@@ -258,16 +256,43 @@ export default defineComponent({
       columnIndex: -1,
       direction: '' as BsTableSortDirection
     });
-    let doSort = function (columnId: string, columnIndex: number, sortDirection: BsTableSortDirection) {
-      console.log('doSort:', columnId, sortDirection);
+    let doSort = function (columnId: string, sortDirection: BsTableSortDirection) {
+      // console.log('doSort:', columnId, sortDirection);
+      let columnIndex = columnsInfo.value.columns.findIndex(columnItem => columnItem.prop == columnId);
+      if (columnIndex == -1) {
+        console.warn(`column [${columnId}] is not found!`);
+        return;
+      }
+      if (columnId == sortInfo.columnId) { // 如果该列之前已经排过序了，那么只需要将数组反过来即可
+        flattenTableRows2.value.reverse();
+      } else {
+        let column = columnsInfo.value.columns[columnIndex];
+        let {
+          sorter,
+          sortOrder
+        } = column;
+        flattenTableRows2.value.sort(function (row1, row2) {
+          return sorter!(row1.node, row2.node);
+        });
+        // 默认认为sorter执行完成后为升序，当 sortOrder 为降序的时候，必须将数组反转过来
+        if (sortOrder == 'ascend' && sortDirection == 'descend') {
+          flattenTableRows2.value.reverse();
+        }
+      }
       sortInfo.columnId = columnId;
       sortInfo.columnIndex = columnIndex;
       sortInfo.direction = sortDirection;
     };
-    let cancelSort = function (columnId: string, columnIndex: number, sortDirection: BsTableSortDirection) {
+    let cancelSort = function (columnId: string, sortDirection?: BsTableSortDirection) {
       if (columnId != sortInfo.columnId) {
         return;
       }
+      let columnIndex = columnsInfo.value.columns.findIndex(columnItem => columnItem.prop == columnId);
+      if (columnIndex == -1) {
+        console.warn(`column [${columnId}] is not found!`);
+        return;
+      }
+      initFlattenData(props.data);
       sortInfo.columnId = '';
       sortInfo.columnIndex = -1;
       sortInfo.direction = '';
@@ -278,7 +303,7 @@ export default defineComponent({
 
     // TODO 列合并、行合并功能是否应该提取到当前组件计算
     let isInited = false;
-    watch(() => [...props.data], function (data, oldData) {
+    let initFlattenData = function (data: Record<string, any>[]) {
       console.log('table数据发生变化：', data);
       nextTick(function () {
         let childrenKey = props.childrenKey;
@@ -355,8 +380,28 @@ export default defineComponent({
         expandDefaultExpandedRows();
         linkParentCheckbox();
         isInited = true;
+
         // 执行完展开行、选中行后再渲染，防止数据更新后（如新增行、删除行）表格出现宽高抖动问题
         flattenTableRows2.value = newFlattenTableRowData;
+      });
+    };
+    watch(() => [...props.data], function (data) {
+      initFlattenData(data);
+      nextTick(function () {
+        // 清除排序信息
+        sortInfo.columnId = '';
+        sortInfo.columnIndex = -1;
+        sortInfo.direction = '';
+
+        let {
+          defaultSortOrder,
+          defaultSortOrderIndex
+        } = columnsInfo.value;
+        // 执行默认排序
+        if (defaultSortOrderIndex > -1) {
+          let columnId = columnsInfo.value.columns[defaultSortOrderIndex].prop;
+          doSort(columnId, defaultSortOrder);
+        }
       });
     }, { immediate: true });
 
@@ -597,7 +642,9 @@ export default defineComponent({
       selectRow,
       unSelectRow,
       expandAll,
-      expandNone
+      expandNone,
+      doSort,
+      cancelSort
     };
   }
 });

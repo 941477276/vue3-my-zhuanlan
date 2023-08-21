@@ -3,8 +3,9 @@ import {
   BsColgroupItem,
   bsExpandColumnKey,
   bsSelectionColumnKey,
+  bsTableSortDirections,
   BsTableColumn,
-  BsTableColumnInner
+  BsTableColumnInner, BsTableSortDirection
 } from './bs-table-types';
 import { hasScroll, isNumber, isString, scrollWidth } from '../../utils/bs-util';
 
@@ -125,11 +126,25 @@ export function useTableInfo (props: any) {
       }
     });
     fixedRightColumns.forEach((column: BsTableColumnInner) => column.fixedRightColumnCount = fixedRightColumnCount);
+
+    let newColumns = [...fixedLeftColumns, ...normalColumns, ...fixedRightColumns];
+
+    let defaultSortOrder = '' as BsTableSortDirection;
+    // 默认排序列的索引
+    let defaultSortOrderIndex = newColumns.findIndex(columnItem => {
+      let flag = bsTableSortDirections.includes(columnItem.defaultSortOrder || '');
+      if (flag) {
+        defaultSortOrder = columnItem.defaultSortOrder!;
+      }
+      return flag;
+    });
     return {
-      columns: [...fixedLeftColumns, ...normalColumns, ...fixedRightColumns],
+      columns: newColumns,
       hasFixedLeft,
       hasFixedRight,
-      hasFixedColumn: hasFixedLeft || hasFixedRight
+      hasFixedColumn: hasFixedLeft || hasFixedRight,
+      defaultSortOrder,
+      defaultSortOrderIndex
     };
   });
 

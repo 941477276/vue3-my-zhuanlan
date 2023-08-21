@@ -15,7 +15,7 @@
     </div>
     <!--排序触发器-->
     <div
-      datav-if="column.hasSorter"
+      v-if="column.hasSorter"
       class="bs-table-column-sorters">
       <BsTooltip v-if="sortDirections.includes('ascend')" :disabled="!!column.showSorterTooltip" placement="top" transition-name="scale" :content="onSortedInfo.direction != 'ascend' ? '升序排序' : '取消排序'">
         <BsiCaretUpFill
@@ -25,7 +25,7 @@
           }"
           @click="setSort('ascend')"></BsiCaretUpFill>
       </BsTooltip>
-      <BsTooltip v-if="sortDirections.includes('descend')" :disabled="!column.showSorterTooltip" placement="bottom" transition-name="scale" :content="onSortedInfo.direction != 'descend' ? '降序排序' : '取消排序'">
+      <BsTooltip v-if="sortDirections.includes('descend')" :disabled="!!column.showSorterTooltip" placement="bottom" transition-name="scale" :content="onSortedInfo.direction != 'descend' ? '降序排序' : '取消排序'">
         <BsiCaretDownFill
           class="bs-table-column-sort-handler"
           :class="{
@@ -231,11 +231,11 @@ export default defineComponent({
     let setSort = function (direction: BsTableSortDirection) {
       let onSortedInfoRaw = onSortedInfo.value;
       let columnId = props.column.prop;
-      let cellIndex = props.cellIndex;
+      // let cellIndex = props.cellIndex;
       if (onSortedInfoRaw.direction == direction) {
-        tableRootCtx.cancelSort(columnId, cellIndex, direction);
+        tableRootCtx.cancelSort(columnId, direction);
       } else {
-        tableRootCtx.doSort(columnId, cellIndex, direction);
+        tableRootCtx.doSort(columnId, direction);
       }
     };
 

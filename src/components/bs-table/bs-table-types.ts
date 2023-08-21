@@ -21,7 +21,7 @@ export interface BsTableColumn {
   showTooltip?: boolean|object; // 文本溢出后是否显示tooltip
   resizeable?: boolean; // 列宽是否可以拖拽
   sorter?: (rowData1: Record<string, any>, rowData2: Record<string, any>) => number; // 行排序函数，参考 Array.sort 的 compareFunction
-  sortOrder?: BsTableSortDirection; // 列的排序方式，可设置为`ascend`（升序）、`descend`（降序）
+  sortOrder?: BsTableSortDirection; // 列的排序方向（sorter执行后的排序方向），可设置为`ascend`（升序）、`descend`（降序），默认为升序
   sortDirections?: BsTableSortDirection[]; // 支持的排序方式，支持`ascend`（升序）、`descend`（降序）
   defaultSortOrder?: BsTableSortDirection; // 默认排序顺序，设置该值后默认会对表格进行一次排序
   showSorterTooltip?: boolean|object; // 表头显示下一次排序的 tooltip 提示
@@ -196,7 +196,7 @@ export interface BsTableContext {
     columnIndex: number;
     direction: BsTableSortDirection
   }>;
-  hasSelectionColumn: ComputedRef<boolean>;
+  hasSelectionColumn: Ref<boolean>;
   hasExpandColumn: ComputedRef<boolean>;
   addRowSpanCell: (rowSpanCellInfo: BsTableRowSpanCellInfo) => void;
   removeRowSpanCell: (rowSpanCellInfo: BsTableRowSpanCellInfo, removeCurrentRowCells?: boolean) => void;
@@ -210,8 +210,8 @@ export interface BsTableContext {
   getSelectionInfo: () => any;
   selectAll: () => void;
   selectNone: () => void;
-  doSort: (columnId: string, columnIndex: number, sortDirection: BsTableSortDirection) => void;
-  cancelSort: (columnId: string, columnIndex: number, sortDirection: BsTableSortDirection) => void;
+  doSort: (columnId: string, sortDirection: BsTableSortDirection) => void;
+  cancelSort: (columnId: string, sortDirection?: BsTableSortDirection) => void;
 }
 
 export const bsTableCtxKey: InjectionKey<BsTableContext> = Symbol('bsTableCtx');
