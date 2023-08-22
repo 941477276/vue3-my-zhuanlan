@@ -102,6 +102,17 @@
               </slot>
             </td>
           </tr>
+          <BsTableFoot
+            v-if="flattenTableRows2.length > 0"
+            :columns="columnsInfo.columns"
+            :table-slots="$slots"
+            :table-body-has-scroll="tableBodyScrollInfo.hasScroll"
+            :table-body-scroll-width="tableBodyScrollInfo.scrollWidth"
+            :selection-config="selectionConfig"
+            :colgroup="colgroup"
+            :table-width="tableWidth || tableWrapWidth"
+            :table-rows-count="flattenTableRows2.length"
+            :checked-rows-count="checkedRowsCurrent.size"></BsTableFoot>
         </tbody>
       </table>
     </div>
@@ -120,6 +131,7 @@ import {
 } from './bs-table-types';
 import BsTableFixedHeader from './wigets/BsTableFixedHeader.vue';
 import BsTableHead from './wigets/BsTableHead.vue';
+import BsTableFoot from './wigets/BsTableFoot.vue';
 import BsTableRow from './wigets/BsTableRow.vue';
 import { isFunction, NOOP } from '@vue/shared';
 import { jsonSort, getPropValueByPath } from '../../utils/bs-util';
@@ -155,7 +167,8 @@ export default defineComponent({
   components: {
     BsTableHead,
     BsTableRow,
-    BsTableFixedHeader
+    BsTableFixedHeader,
+    BsTableFoot
   },
   setup (props: any, ctx: SetupContext) {
     let tableId = `bs_table-${++bsTableCount}`;

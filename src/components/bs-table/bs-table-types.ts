@@ -80,6 +80,13 @@ export interface BsTableSelectionConfig {
   onSelectChange?: (selection: BsTableSelectionChangeResult) => void; // 用户手动选择/取消选择某列的回调
 }
 
+// 表尾列配置
+export interface BsTableFootColumn {
+  label?: string|number|((tableData: Record<string, any>[], columnIndex: number, column: BsTableColumn, rowIndex: number) => string|number|VNode); // 单元格显示的内容
+  customCellAttrs?:Record<any, any> | ((tableData: Record<string, any>[], columnIndex: number, column: BsTableColumn, rowIndex: number) => Record<any, any>); // 自定义数据单元格属性及样式
+  slotName?: string; // 自定义内容插槽名称
+}
+
 export const bsTableProps = {
   columns: { // 表格列
     type: Array as PropType<BsTableColumn[]>,
@@ -167,6 +174,12 @@ export const bsTableProps = {
   },
   emptyText: { // 表格空数据提示文字
     type: [String, Number]
+  },
+  footerColumns: { // 表格尾部列
+    type: Array as PropType<BsTableFootColumn[][]>
+  },
+  footerMethod: { // 高度自定义表格尾部列函数
+    type: Function as PropType<(tableData: Record<string, any>[], columns: BsTableColumn[]) => BsTableFootColumn[][]>
   }
 };
 
