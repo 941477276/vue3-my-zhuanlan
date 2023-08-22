@@ -165,8 +165,8 @@ export const bsTableProps = {
       return [];
     }
   },
-  reserveExpandedRowKeys: { // 当数据更新后是否仍然之前展开行的key
-    type: Boolean
+  emptyText: { // 表格空数据提示文字
+    type: [String, Number]
   }
 };
 
