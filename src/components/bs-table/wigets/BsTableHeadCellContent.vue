@@ -34,6 +34,16 @@
           @click="setSort('descend')"></BsiCaretDownFill>
       </BsTooltip>
     </div>
+    <!--筛选器-->
+    <BsTableCustomContent
+      v-if="!!column.filterSlotName"
+      :row-index="rowIndex"
+      :cell-index="cellIndex"
+      :table-slots="tableSlots"
+      :is-head-cell="true"
+      :column="column"
+      :slot-name="column.filterSlotName">
+    </BsTableCustomContent>
 
     <div
       v-if="column.resizeable"

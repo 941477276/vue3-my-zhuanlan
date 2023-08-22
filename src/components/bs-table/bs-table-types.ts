@@ -8,6 +8,7 @@ export interface BsTableColumn {
   label: string|number|((index: number, column: BsTableColumn) => string|number|VNode); // 列名
   prop: string; // 列数据字段名称
   headSlotName?: string; // 头部单元格插槽名称
+  filterSlotName?: string; // 头部单元格筛选器插槽名称
   colSpan?: number|((index: number, column: BsTableColumn) => number); // 头部单元格合并数量
   width?: string|number;
   minWidth?: string|number;

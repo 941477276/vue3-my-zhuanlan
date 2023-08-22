@@ -7,23 +7,31 @@ import { camelCase2KebabCase } from '../../../utils/bs-util';
  * @constructor
  */
 export function BsTableCustomContent (props: any) {
-  let slot = props.tableSlots?.[props.slotName] || props.tableSlots?.[camelCase2KebabCase(props.slotName)];
+  let {
+    slotName,
+    rowIndex,
+    cellIndex,
+    rowData,
+    column
+  } = props;
+  let slot = props.tableSlots?.[slotName] || props.tableSlots?.[camelCase2KebabCase(slotName)];
   let parentDefaultSlot = props.defaultContent;
   // 优先渲染插槽里的内容
   if (parentDefaultSlot || slot) {
     let slotFn = parentDefaultSlot || slot;
     return slotFn({
-      rowIndex: props.rowIndex,
-      cellIndex: props.cellIndex,
-      row: props.rowData
+      rowIndex,
+      cellIndex,
+      row: rowData,
+      column
     });
   }
   let label = props.label;
   if (isFunction(label)) {
     if (props.isHeadCell) {
-      return label(props.cellIndex, props.column);
+      return label(cellIndex, column);
     }
-    return label(props.rowData, props.cellIndex, props.rowIndex);
+    return label(rowData, cellIndex, rowIndex);
   }
   return label;
 };

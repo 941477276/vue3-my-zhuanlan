@@ -128,7 +128,7 @@ import { useGlobalEvent } from '../../hooks/useGlobalEvent';
 import {
   treeDataToFlattarnArr2,
   findNodeByUid,
-  clearCachedNodeInfo
+  clearCachedNodeInfo, findDescendantByBid
 } from '../bs-tree/bs-tree-utils';
 import { useBsTableTree } from './useBsTableTree';
 import { useTableInfo } from './useTableInfo';
@@ -256,6 +256,11 @@ export default defineComponent({
       columnIndex: -1,
       direction: '' as BsTableSortDirection
     });
+    /**
+     * 排序函数
+     * @param columnId 列id
+     * @param sortDirection 排序方向
+     */
     let doSort = function (columnId: string, sortDirection: BsTableSortDirection) {
       // console.log('doSort:', columnId, sortDirection);
       let columnIndex = columnsInfo.value.columns.findIndex(columnItem => columnItem.prop == columnId);
@@ -283,6 +288,11 @@ export default defineComponent({
       sortInfo.columnIndex = columnIndex;
       sortInfo.direction = sortDirection;
     };
+    /**
+     * 取消排序
+     * @param columnId 列id
+     * @param sortDirection 排序方向
+     */
     let cancelSort = function (columnId: string, sortDirection?: BsTableSortDirection) {
       if (columnId != sortInfo.columnId) {
         return;
@@ -296,6 +306,52 @@ export default defineComponent({
       sortInfo.columnId = '';
       sortInfo.columnIndex = -1;
       sortInfo.direction = '';
+    };
+    let clearSort = function () {
+      initFlattenData(props.data);
+      sortInfo.columnId = '';
+      sortInfo.columnIndex = -1;
+      sortInfo.direction = '';
+    };
+    /**
+     * 表格过滤
+     * @param filterFn 过滤回调函数
+     */
+    let filter = function (filterFn: (rowData: Record<string, any>, index: number) => boolean) {
+      let isTreeDataRaw = isTreeData.value;
+      let childrenKey = props.childrenKey;
+      let filteredData = flattenTableRows.value.filter(function (row, index) {
+        let rowData = row.node;
+        let flag = filterFn(rowData, index);
+        let hasChildren = isTreeDataRaw && Array.isArray(rowData[childrenKey]) && rowData[childrenKey].length > 0;
+        // 如果节点有子节点，那么该节点必须显示出来
+        if (hasChildren) {
+          return true;
+        }
+        return !!flag;
+      }).map(function (row) {
+        return {
+          ...row
+        };
+      });
+
+      if (isTreeDataRaw) {
+        let newFilteredData = filteredData.filter(function (row, index) {
+          let rowData = row.node;
+          let hasChildren = isTreeDataRaw && Array.isArray(rowData[childrenKey]) && rowData[childrenKey].length > 0;
+          if (!hasChildren) {
+            return true;
+          }
+          // 判断过滤后的有子孙节点的节点的子孙是否有显示出来的
+          let hasFilteredChildren = findDescendantByBid(tableId, row.uid, filteredData).length > 0;
+          return hasFilteredChildren;
+        });
+        filteredData = newFilteredData;
+      }
+      flattenTableRows2.value = filteredData;
+    };
+    let clearFilter = function () {
+      flattenTableRows2.value = flattenTableRows.value;
     };
 
     // 数据是否为树状
@@ -644,7 +700,10 @@ export default defineComponent({
       expandAll,
       expandNone,
       doSort,
-      cancelSort
+      cancelSort,
+      clearSort,
+      filter,
+      clearFilter
     };
   }
 });
