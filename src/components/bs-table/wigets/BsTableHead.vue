@@ -89,51 +89,12 @@ import {
 import BsTableCell from './BsTableCell.vue';
 import BsCheckbox from '../../bs-checkbox/BsCheckbox.vue';
 import { BsTableCustomContent } from './BsTableCustomContent';
+import { bsTableHeadProps } from './bs-table-head-props';
 
 export default defineComponent({
   name: 'BsTableHead',
   props: {
-    columns: { // 表格列
-      type: Array as PropType<BsTableColumnInner[]>,
-      default () {
-        return [];
-      }
-    },
-    tableSlots: {
-      type: Object
-    },
-    tableBodyHasScroll: {
-      type: Boolean,
-      default: false
-    },
-    tableBodyScrollWidth: {
-      type: Number,
-      default: 0
-    },
-    selectionConfig: { // 选择框的类型
-      type: Object as PropType<BsTableSelectionConfig>,
-      default () {
-        return {};
-      }
-    },
-    colgroup: { // 自定义内容插槽名称
-      type: Array as PropType<BsColgroupItem[]>,
-      default () {
-        return [];
-      }
-    },
-    tableWidth: { // 表格宽度
-      type: Number,
-      default: 0
-    },
-    tableRowsCount: { // 表格行总数量
-      type: Number,
-      default: 0
-    },
-    checkedRowsCount: { // 已选择的行总数量
-      type: Number,
-      default: 0
-    }
+    ...bsTableHeadProps
   },
   components: {
     BsTableCell,
