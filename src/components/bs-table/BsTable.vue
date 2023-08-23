@@ -102,18 +102,19 @@
               </slot>
             </td>
           </tr>
-          <BsTableFoot
-            v-if="flattenTableRows2.length > 0"
-            :columns="columnsInfo.columns"
-            :table-slots="$slots"
-            :table-body-has-scroll="tableBodyScrollInfo.hasScroll"
-            :table-body-scroll-width="tableBodyScrollInfo.scrollWidth"
-            :selection-config="selectionConfig"
-            :colgroup="colgroup"
-            :table-width="tableWidth || tableWrapWidth"
-            :table-rows-count="flattenTableRows2.length"
-            :checked-rows-count="checkedRowsCurrent.size"></BsTableFoot>
         </tbody>
+        <!--表尾-->
+        <BsTableFoot
+          v-if="showTableFoot"
+          :columns="columnsInfo.columns"
+          :table-slots="$slots"
+          :table-body-has-scroll="tableBodyScrollInfo.hasScroll"
+          :table-body-scroll-width="tableBodyScrollInfo.scrollWidth"
+          :table-data="flattenTableRows2"
+          :colgroup="colgroup"
+          :table-width="tableWidth || tableWrapWidth"
+          :footer-method="footerMethod"
+          :footer-rows="footerRows"></BsTableFoot>
       </table>
     </div>
   </div>
@@ -218,6 +219,7 @@ export default defineComponent({
       tableContainerRef,
       hasSelectionColumn,
       hasExpandColumn,
+      showTableFoot,
 
       handleColumnsChange
     } = useTableInfo(props);
@@ -698,6 +700,7 @@ export default defineComponent({
       checkedKeysRoot,
       halfCheckedKeys,
       checkedRowsCurrent,
+      showTableFoot,
       handleTableBodyScroll,
       handleExpandChange () { // 行展开事件
         handleColumnsChange(columnsInfo.value);

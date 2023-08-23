@@ -7,7 +7,7 @@ import {
   BsTableColumn,
   BsTableColumnInner, BsTableSortDirection
 } from './bs-table-types';
-import { hasScroll, isNumber, isString, scrollWidth } from '../../utils/bs-util';
+import { hasScroll, isNumber, isString, scrollWidth, isFunction } from '../../utils/bs-util';
 
 const formatHeight = function (height: string|number): string {
   if (isNumber(height)) {
@@ -338,6 +338,18 @@ export function useTableInfo (props: any) {
     return !!props.allowExpand;
   });
 
+  // 是否显示表尾
+  let showTableFoot = computed(function () {
+    let {
+      footerRows,
+      footerMethod
+    } = props;
+    if (isFunction(footerMethod)) {
+      return true;
+    }
+    return Array.isArray(footerRows) && footerRows.length > 0;
+  });
+
   return {
     columnsInfo,
     tableBodyRef,
@@ -352,6 +364,7 @@ export function useTableInfo (props: any) {
     tableContainerRef,
     hasSelectionColumn,
     hasExpandColumn,
+    showTableFoot,
     handleColumnsChange
   };
 };

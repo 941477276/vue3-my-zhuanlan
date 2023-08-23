@@ -82,9 +82,15 @@ export interface BsTableSelectionConfig {
 
 // 表尾列配置
 export interface BsTableFootColumn {
-  label?: string|number|((tableData: Record<string, any>[], columnIndex: number, column: BsTableColumn, rowIndex: number) => string|number|VNode); // 单元格显示的内容
-  customCellAttrs?:Record<any, any> | ((tableData: Record<string, any>[], columnIndex: number, column: BsTableColumn, rowIndex: number) => Record<any, any>); // 自定义数据单元格属性及样式
+  label?: string|number|((tableData: Record<string, any>[], rowIndex: number, columns: BsTableColumn[]) => string|number|VNode); // 单元格显示的内容
+  cellAttrs?:Record<any, any> | ((tableData: Record<string, any>[], rowIndex: number, columns: BsTableColumn[]) => Record<any, any>); // 自定义数据单元格属性及样式
   slotName?: string; // 自定义内容插槽名称
+}
+
+// 表尾行配置
+export interface BsTableFootRow {
+  rowAttrs?:Record<any, any> | ((tableData: Record<string, any>[], rowIndex: number) => Record<any, any>); // 自定义数据单元格属性及样式
+  columns: BsTableFootColumn[]
 }
 
 export const bsTableProps = {
@@ -175,11 +181,11 @@ export const bsTableProps = {
   emptyText: { // 表格空数据提示文字
     type: [String, Number]
   },
-  footerColumns: { // 表格尾部列
-    type: Array as PropType<BsTableFootColumn[][]>
+  footerRows: { // 表格尾部行
+    type: Array as PropType<BsTableFootRow[]>
   },
   footerMethod: { // 高度自定义表格尾部列函数
-    type: Function as PropType<(tableData: Record<string, any>[], columns: BsTableColumn[]) => BsTableFootColumn[][]>
+    type: Function as PropType<(tableData: Record<string, any>[], columns: BsTableColumn[]) => BsTableFootRow[]>
   }
 };
 

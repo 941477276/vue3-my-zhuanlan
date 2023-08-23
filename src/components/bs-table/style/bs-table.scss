@@ -132,6 +132,7 @@ th.bs-table-column-on-sort{
 .bs-table-cell-fixed-left,
 .bs-table-cell-fixed-right {
   position: sticky!important;
+  z-index: 10;
   background-color: #fff;
 }
 .bs-table-cell-fixed-left-last,
@@ -214,7 +215,8 @@ th.bs-table-column-on-sort{
         border-right: none;
       }
     }
-   tbody{
+   tbody,
+   tfoot{
      tr:last-child{
        td{
          border-bottom: none;
@@ -267,6 +269,18 @@ th.bs-table-column-on-sort{
         .bs-table-cell-fixed-left,
         .bs-table-cell-fixed-right{
           background-color: #ececec;
+        }
+      }
+    }
+  }
+}
+.table-hover{
+  tbody{
+    tr{
+      &:hover{
+        .bs-table-cell-fixed-left,
+        .bs-table-cell-fixed-right{
+          background-color: transparent;
         }
       }
     }
