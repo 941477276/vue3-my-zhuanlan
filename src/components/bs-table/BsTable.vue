@@ -105,7 +105,7 @@
         </tbody>
         <!--表尾-->
         <BsTableFoot
-          v-if="showTableFoot"
+          v-if="showTableFoot && !tableHeight && !tableMaxHeight"
           :columns="columnsInfo.columns"
           :table-slots="$slots"
           :table-body-has-scroll="tableBodyScrollInfo.hasScroll"
@@ -117,6 +117,19 @@
           :footer-rows="footerRows"></BsTableFoot>
       </table>
     </div>
+    <!--固定定位的表尾-->
+    <BsTableFixedFooter
+      v-if="showTableFoot && (tableHeight || tableMaxHeight)"
+      ref="tableFixedFooterRef"
+      :columns="columnsInfo.columns"
+      :table-slots="$slots"
+      :table-body-has-scroll="tableBodyScrollInfo.hasScroll"
+      :table-body-scroll-width="tableBodyScrollInfo.scrollWidth"
+      :table-data="flattenTableRows2"
+      :colgroup="colgroup"
+      :table-width="tableWidth || tableWrapWidth"
+      :footer-method="footerMethod"
+      :footer-rows="footerRows"></BsTableFixedFooter>
   </div>
 </div>
 </template>
@@ -132,6 +145,7 @@ import {
 } from './bs-table-types';
 import BsTableFixedHeader from './wigets/BsTableFixedHeader.vue';
 import BsTableHead from './wigets/BsTableHead.vue';
+import BsTableFixedFooter from './wigets/BsTableFixedFooter.vue';
 import BsTableFoot from './wigets/BsTableFoot.vue';
 import BsTableRow from './wigets/BsTableRow.vue';
 import { isFunction, NOOP } from '@vue/shared';
@@ -169,7 +183,8 @@ export default defineComponent({
     BsTableHead,
     BsTableRow,
     BsTableFixedHeader,
-    BsTableFoot
+    BsTableFoot,
+    BsTableFixedFooter
   },
   setup (props: any, ctx: SetupContext) {
     let tableId = `bs_table-${++bsTableCount}`;
@@ -506,6 +521,7 @@ export default defineComponent({
     }, { immediate: false });
 
     let tableFixedHeaderRef = ref<ComponentPublicInstance>();
+    let tableFixedFooterRef = ref<ComponentPublicInstance>();
     // table 滚动事件
     let handleTableBodyScroll = function (evt: MouseEvent) {
       let target = evt.target as HTMLElement;
@@ -518,6 +534,9 @@ export default defineComponent({
         if (tableFixedHeaderEl) {
           tableFixedHeaderEl.scrollLeft = scrollLeft;
         }
+      }
+      if (tableFixedFooterRef.value) {
+        tableFixedFooterRef.value!.$el.scrollLeft = scrollLeft;
       }
     };
 
@@ -686,6 +705,7 @@ export default defineComponent({
       flattenTableRows2,
       tableContainerRef,
       tableFixedHeaderRef,
+      tableFixedFooterRef,
       tableBodyRef,
       tableRef,
       colgroup,

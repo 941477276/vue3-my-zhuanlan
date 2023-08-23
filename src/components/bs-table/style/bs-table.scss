@@ -334,3 +334,7 @@ th.bs-table-column-on-sort{
   line-height: 1;
   font-size: 4rem;
 }
+.bs-table-footer{
+  flex-shrink: 0;
+  overflow: auto;
+}

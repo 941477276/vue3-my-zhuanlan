@@ -84,6 +84,7 @@ export interface BsTableSelectionConfig {
 export interface BsTableFootColumn {
   label?: string|number|((tableData: Record<string, any>[], rowIndex: number, columns: BsTableColumn[]) => string|number|VNode); // 单元格显示的内容
   cellAttrs?:Record<any, any> | ((tableData: Record<string, any>[], rowIndex: number, columns: BsTableColumn[]) => Record<any, any>); // 自定义数据单元格属性及样式
+  fixed?: boolean|'left'|'right'; // 列是否固定住
   slotName?: string; // 自定义内容插槽名称
 }
 

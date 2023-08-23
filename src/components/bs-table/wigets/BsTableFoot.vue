@@ -8,8 +8,18 @@
       <td
         class="bs-table-cell bs-table-foot-cell"
         v-for="(cell, index) in row.columns"
+        v-bind="cell.attrs"
         :key="index"
-        v-bind="cell.attrs">
+        :class="{
+          'bs-table-cell-fixed-left-last': cell.isFixedLeft && (index + 1) === cell.fixedLeftCount,
+          'bs-table-cell-fixed-left': cell.isFixedLeft,
+          'bs-table-cell-fixed-right-first': cell.isFixedRight && (index - cell.fixedRightCount) === 0,
+          'bs-table-cell-fixed-right': cell.isFixedRight,
+          'bs-table-cell-last': row.columns.length - 1 == index
+        }"
+        :style="{
+          position: (cell.isFixedLeft || cell.isFixedRight) ? 'sticky' : ''
+        }">
         <BsTableCellContent
           :row-index="rowIndex"
           :cell-index="index as number"
@@ -46,59 +56,18 @@ import {
   BsTableSize
 } from '../bs-table-types';
 import { isFunction } from '@vue/shared';
+import { bsTableFootProps } from './bs-table-foot-props';
 import BsTableCellContent from './BsTableCellContent';
-import BsTableCell from './BsTableCell.vue';
+// import BsTableCell from './BsTableCell.vue';
 
 export default defineComponent({
   name: 'BsTableFoot',
   components: {
-    BsTableCellContent,
-    BsTableCell
+    BsTableCellContent
+    // BsTableCell
   },
   props: {
-    width: [String, Number],
-    colgroup: {
-      type: Array as PropType<BsColgroupItem[]>,
-      default () {
-        return [];
-      }
-    },
-    size: {
-      type: String as PropType<BsTableSize>
-    },
-    columns: { // 表格列
-      type: Array as PropType<BsTableColumn[]>,
-      default () {
-        return [];
-      }
-    },
-    tableSlots: {
-      type: Object
-    },
-    tableBodyHasScroll: {
-      type: Boolean,
-      default: false
-    },
-    tableBodyScrollWidth: {
-      type: Number,
-      default: 0
-    },
-    tableWidth: { // 表格宽度
-      type: Number,
-      default: 0
-    },
-    tableData: { // 表格数据
-      type: Array as PropType<BsTableRowData[]>,
-      default () {
-        return [];
-      }
-    },
-    footerRows: { // 表格尾部行
-      type: Array as PropType<BsTableFootRow[]>
-    },
-    footerMethod: { // 高度自定义表格尾部列函数
-      type: Function as PropType<(tableData: Record<string, any>[], columns: BsTableColumn[]) => BsTableFootRow[]>
-    }
+    ...bsTableFootProps
   },
   setup (props: any, ctx: SetupContext) {
     let rows = computed(function () {
@@ -118,8 +87,10 @@ export default defineComponent({
           columns: [],
           tableDataRaw
         };
+        let fixedLeftCount = 0;
+        let fixedRightCount = 0;
         newRow.columns = row.columns.map((column: BsTableFootColumn, columnIndex: number) => {
-          let { label, cellAttrs, slotName } = column;
+          let { label, cellAttrs, slotName, fixed } = column;
           let newLabel = label;
           if (isFunction(label)) {
             // @ts-ignore
@@ -133,15 +104,30 @@ export default defineComponent({
             ...columns[columnIndex],
             prop: 'label'
           }; */
+          if (fixed === true) {
+            fixed = 'left';
+          }
+          let isFixedLeft = fixed == 'left';
+          let isFixedRight = fixed == 'right';
+          fixedLeftCount += isFixedLeft ? 1 : 0;
+          fixedRightCount += isFixedRight ? 1 : 0;
           return {
             // column: columnItem,
             label: newLabel,
             /* data: {
               label: newLabel
             }, */
+            isFixedLeft,
+            isFixedRight,
             attrs,
+            fixedLeftCount: 0,
+            fixedRightCount: 0,
             slotName
           };
+        });
+        newRow.columns.forEach(columnItem => {
+          columnItem.fixedLeftCount = fixedLeftCount;
+          columnItem.fixedRightCount = fixedRightCount;
         });
         return newRow;
       });

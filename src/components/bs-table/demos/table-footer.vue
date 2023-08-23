@@ -13,7 +13,26 @@ description:
 
 <template>
   <div>
-    <BsTable :columns="columns2" :data="data2" :footer-rows="footerRows" border row-key="value">
+    <h6>Demo1</h6>
+    <BsTable :columns="columns2" :data="data2" :footer-rows="footerRows" border row-key="value"
+      :selection-config="{
+        type: 'checkbox'
+      }">
+      <template #customFootCell="{ row }">
+        <strong style="color: var(--primary)">table record count: {{ row.length }}</strong>
+      </template>
+
+      <template #opt>
+        <bs-button type="primary" size="sm">Edit</bs-button>
+        <bs-button type="danger" size="sm" style="margin-left: 0.5rem;">Delete</bs-button>
+      </template>
+    </BsTable>
+
+    <h6>Demo2</h6>
+    <BsTable :columns="columns2" :data="data2" :footer-rows="footerRows2" border row-key="value" max-height="400px"
+      :selection-config="{
+        type: 'checkbox'
+      }">
       <template #customFootCell="{ row }">
         <strong style="color: var(--primary)">table record count: {{ row.length }}</strong>
       </template>
@@ -116,69 +135,81 @@ const data2 = ref([
   }
 ]);
 
-let footerRows = [
-  {
-    columns: [
-      {
-        label: 'Average age',
-        cellAttrs: {
-          colSpan: 2
-        }
-      },
-      {
-        label: data2.value.reduce(function (result, item) {
-          result += item.age;
-          return result;
-        }, 0) / data2.value.length
-      },
-      { label: '--', slotName: 'customFootCell' }, // Customize Cell Content(自定义单元格内容)
-      { label: '--' },
-      { label: '--' }
-    ]
-  },
-  {
-    columns: [
-      {
-        label: 'Most people\'s hobby',
-        cellAttrs: {
-          colSpan: 4
-        }
-      },
-      {
-        label (tableData: Record<string, any>[], rowIndex: number) { // Customize Cell Content(自定义单元格内容)
-          let hobbyMap: Record<string, number> = tableData.reduce(function (result, dataItem) {
-            let hobbies = dataItem.hobbies;
-            hobbies.forEach((hobby: string) => {
-              if (hobby in result) {
-                result[hobby]++;
-              } else {
-                result[hobby] = 1;
-              }
-            });
-            return result;
-          }, {});
-          let mostPeopleHobby = '';
-          let mostPeopleHobbyCount = 0;
-
-          for (let attr in hobbyMap) {
-            if (hobbyMap[attr] > mostPeopleHobbyCount) {
-              mostPeopleHobbyCount = hobbyMap[attr];
-              mostPeopleHobby = attr;
+let getFooterRows = function (column1Fixed?: boolean) {
+  return [
+    {
+      columns: [
+        {
+          label: 'Average age',
+          // Set the column as a fixed column（设置列为固定列）
+          fixed: column1Fixed ? 'left' : false,
+          cellAttrs: {
+            colSpan: 2,
+            style: {
+              // When the column is a fixed column, the style.left value of the column must be set
+              // 当列为固定列时，必须设置列的style.left值
+              left: 0
             }
           }
-          // return mostPeopleHobby;
-          return h('mark', {
-            style: {
-              padding: '0.25rem 0.5rem',
-              fontWeight: 'bold'
-            }
-          }, `${mostPeopleHobby}(${mostPeopleHobbyCount})`);
         },
-        cellAttrs: {
-          colSpan: 2
+        {
+          label: data2.value.reduce(function (result, item) {
+            result += item.age;
+            return result;
+          }, 0) / data2.value.length
+        },
+        { label: '--', slotName: 'customFootCell' }, // Customize Cell Content(自定义单元格内容)
+        { label: '--' },
+        { label: '--' }
+      ]
+    },
+    {
+      columns: [
+        {
+          label: 'Most people\'s hobby',
+          cellAttrs: {
+            colSpan: 4
+          }
+        },
+        {
+          label (tableData: Record<string, any>[], rowIndex: number) { // Customize Cell Content(自定义单元格内容)
+            let hobbyMap: Record<string, number> = tableData.reduce(function (result, dataItem) {
+              let hobbies = dataItem.hobbies;
+              hobbies.forEach((hobby: string) => {
+                if (hobby in result) {
+                  result[hobby]++;
+                } else {
+                  result[hobby] = 1;
+                }
+              });
+              return result;
+            }, {});
+            let mostPeopleHobby = '';
+            let mostPeopleHobbyCount = 0;
+
+            for (let attr in hobbyMap) {
+              if (hobbyMap[attr] > mostPeopleHobbyCount) {
+                mostPeopleHobbyCount = hobbyMap[attr];
+                mostPeopleHobby = attr;
+              }
+            }
+            // return mostPeopleHobby;
+            return h('mark', {
+              style: {
+                padding: '0.25rem 0.5rem',
+                fontWeight: 'bold'
+              }
+            }, `${mostPeopleHobby}(${mostPeopleHobbyCount})`);
+          },
+          cellAttrs: {
+            colSpan: 2
+          }
         }
-      }
-    ]
-  }
-];
+      ]
+    }
+  ];
+};
+
+let footerRows = getFooterRows();
+let footerRows2 = getFooterRows(true);
 </script>

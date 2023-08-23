@@ -2,7 +2,7 @@
   <div class="component-usage">
     <div>
       <BsTable ref="tableRef" :columns="columns3" :data="data3" border default-expand-all-rows row-key="id"
-        :footer-rows="footerRows"
+        :footer-rows="footerRows" max-height="400px" style="max-width: 600px;"
         :selection-config="{
           type: 'checkbox'
         }">
@@ -72,6 +72,7 @@ export default defineComponent({
         // 排序函数执行完成后为升序，sortOrder的值需为`ascend`
         sortOrder: 'ascend',
         fixed: 'left',
+        minWidth: 130,
         sorter (rowData1: Record<string, any>, rowData2: Record<string, any>) {
           return rowData1.name.length - rowData2.name.length;
         },
@@ -90,7 +91,7 @@ export default defineComponent({
         label: 'Address',
         prop: 'address',
         showTooltip: true,
-        minWidth: 160,
+        minWidth: 240,
         resizeable: true,
         sortDirections: ['descend'], // Only supports descending order（只支持降序排序）
         sorter (rowData1: Record<string, any>, rowData2: Record<string, any>) {
@@ -100,6 +101,7 @@ export default defineComponent({
       {
         label: 'Hobbies',
         prop: 'hobbies',
+        minWidth: 160,
         customCell (rowData: Record<string, any>) {
           return rowData.hobbies.join(', ');
         }
@@ -107,6 +109,7 @@ export default defineComponent({
       {
         label: 'Operate',
         prop: 'opt',
+        minWidth: 140,
         resizeable: true
       }
     ];
@@ -286,8 +289,12 @@ export default defineComponent({
         columns: [
           {
             label: 'Average age',
+            fixed: 'left',
             cellAttrs: {
-              colSpan: 2
+              colSpan: 2,
+              style: {
+                left: 0 // 设置sticky定位的left值
+              }
             }
           },
           {
