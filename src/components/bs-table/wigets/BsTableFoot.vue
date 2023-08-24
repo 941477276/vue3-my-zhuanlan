@@ -87,6 +87,12 @@ export default defineComponent({
           columns: [],
           tableDataRaw
         };
+        let attrs = row.rowAttrs;
+        if (isFunction(attrs)) {
+          attrs = attrs(tableDataRaw, index);
+        }
+        newRow.attrs = attrs;
+
         let fixedLeftCount = 0;
         let fixedRightCount = 0;
         newRow.columns = row.columns.map((column: BsTableFootColumn, columnIndex: number) => {
