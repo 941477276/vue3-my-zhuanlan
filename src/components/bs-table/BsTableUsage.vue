@@ -1,28 +1,13 @@
 <template>
   <div class="component-usage">
     <div>
-      <BsTable ref="tableRef" :columns="columns3" :data="data3" :table-hover="true" stripe border default-expand-all-rows row-key="id"
-        :footer-rows="footerRows" max-height="400px" style="max-width: 600px;"
-        :selection-config="{
-          type: 'checkbox'
-        }">
-        <template #nameFilter>
-          <bs-dropdown ref="dropdownRef" trigger="click" placement="bottom-end" dropdown-class="name-filter-dropdown" :show-toggle-arrow="false">
-            <FilterIcon></FilterIcon>
-            <template #content>
-              <bs-input v-model="filterName" size="sm" placeholder="Search name"></bs-input>
-              <div class="name-filter-btns">
-                <bs-button size="sm" type="primary" @click="doFilter">Search</bs-button>
-                <bs-button size="sm" style="margin-left: 0.5rem;" plain @click="clearFilter">Reset</bs-button>
-              </div>
-            </template>
-          </bs-dropdown>
-        </template>
+      <div class="operate-area">
+        <BsButton type="primary" @click="addChildrenForYuexiu">Add children for 越秀区</BsButton>
+        <BsButton type="danger" @click="removeChildrenFromShenzhen">Remove children from 深圳市</BsButton>
+      </div>
 
-        <template #customFootCell="{ row }">
-          <strong style="color: var(--primary)">table record count: {{ row.length }}</strong>
-        </template>
-
+      <BsTable ref="tableRef" :columns="columns2" :data="data2" :selection-config="selectionConfig" :selected-row-keys="selectedRowKeys"
+               stripe border default-expand-all-rows row-key="value">
         <template #opt>
           <bs-button type="primary" size="sm">Edit</bs-button>
           <bs-button type="danger" size="sm" style="margin-left: 0.5rem;">Delete</bs-button>
@@ -34,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, h } from 'vue';
+import { defineComponent, ref, reactive, h, nextTick } from 'vue';
 import Basic from './demos/basic.vue';
 
 function FilterIcon () {
@@ -284,78 +269,39 @@ export default defineComponent({
       }
     ]);
 
-    let footerRows = [
-      {
-        columns: [
-          {
-            label: 'Average age',
-            fixed: 'left',
-            cellAttrs: {
-              colSpan: 2,
-              style: {
-                left: 0 // 设置sticky定位的left值
-              }
-            }
-          },
-          {
-            label: data3.value.reduce(function (result, item) {
-              result += item.age;
-              return result;
-            }, 0) / data3.value.length
-          },
-          { label: '--', slotName: 'customFootCell' }, // Customize Cell Content(自定义单元格内容)
-          { label: '--' },
-          { label: '--' }
-        ]
-      },
-      {
-        columns: [
-          {
-            label: 'Most people\'s hobby',
-            cellAttrs: {
-              colSpan: 4
-            }
-          },
-          {
-            label (tableData: Record<string, any>[], rowIndex: number) { // Customize Cell Content(自定义单元格内容)
-              let hobbyMap: Record<string, number> = tableData.reduce(function (result, dataItem) {
-                let hobbies = dataItem.hobbies;
-                hobbies.forEach((hobby: string) => {
-                  if (hobby in result) {
-                    result[hobby]++;
-                  } else {
-                    result[hobby] = 1;
-                  }
-                });
-                return result;
-              }, {});
-              let mostPeopleHobby = '';
-              let mostPeopleHobbyCount = 0;
+    /* setTimeout(function () {
+      console.log('给越秀区添加子节点');
+      let yuexiuArea = data2.value[1].children[0];
+      yuexiuArea.children = [
+        {
+          'title': '人民街道',
+          'key': '64b5e8lsfc2l5x15f7314dl9',
+          'value': '001002002001'
+        },
+        {
+          'title': '东山街道',
+          'key': '98b5e8lafc2l8k15f7314do9',
+          'value': '001002002002'
+        }
+      ];
+      // tableRef.value.updateRow(yuexiuArea);
+      tableRef.value.updateRow(yuexiuArea.value);
+    }, 1000); */
 
-              for (let attr in hobbyMap) {
-                if (hobbyMap[attr] > mostPeopleHobbyCount) {
-                  mostPeopleHobbyCount = hobbyMap[attr];
-                  mostPeopleHobby = attr;
-                }
-              }
-              // return mostPeopleHobby;
-              return h('mark', {
-                style: {
-                  padding: '0.25rem 0.5rem',
-                  fontWeight: 'bold'
-                }
-              }, `${mostPeopleHobby}(${mostPeopleHobbyCount})`);
-            },
-            cellAttrs: {
-              colSpan: 2
-            }
-          }
-        ]
-      }
-    ];
+    /* setTimeout(function () {
+      console.log('移除龙岗区');
+      let shenzhen = data2.value[2];
+      shenzhen.children.splice(2, 1);
+      tableRef.value.updateRow(shenzhen);
+    }, 2500); */
 
     let dropdownRef = ref();
     let filterName = ref('');
+
+    let selectionConfig = {
+      type: 'checkbox'
+    };
+    let selectedRowKeys = ['001002002001', '001001002003', '001001003', '001001002002', '001001001003', '001001001002002', '001001001002001'];
     return {
       expandedRowKeys,
       tableRef,
@@ -365,19 +311,38 @@ export default defineComponent({
       filterName,
       columns2,
       data2,
-      doFilter () {
-        let filterText = filterName.value;
-        tableRef.value.filter(function (rowData: Record<string, any>) {
-          return rowData.name.includes(filterText);
-        });
-        dropdownRef.value.hide();
+
+      selectionConfig,
+      selectedRowKeys,
+
+      addChildrenForYuexiu () {
+        let yuexiuArea = data2.value[1].children[0];
+        yuexiuArea.children = [
+          {
+            'title': '人民街道',
+            'key': '64b5e8lsfc2l5x15f7314dl9',
+            'value': '001002002001'
+          },
+          {
+            'title': '东山街道',
+            'key': '98b5e8lafc2l8k15f7314do9',
+            'value': '001002002002'
+          }
+        ];
+        // tableRef.value.updateRow(yuexiuArea);
+        tableRef.value.updateRow(yuexiuArea.value);
+        setTimeout(function () {
+          console.log('selectedAreaName:', tableRef.value.getSelectionInfo());
+        }, 0);
       },
-      clearFilter () {
-        filterName.value = '';
-        tableRef.value.clearFilter();
-        dropdownRef.value.hide();
-      },
-      footerRows
+      removeChildrenFromShenzhen () {
+        let shenzhen = data2.value[2];
+        shenzhen.children.splice(2, 1);
+        tableRef.value.updateRow(shenzhen);
+        setTimeout(function () {
+          console.log('selectedAreaName:', tableRef.value.getSelectionInfo());
+        }, 0);
+      }
     };
   }
 });
@@ -411,5 +376,12 @@ export default defineComponent({
 ::v-global(.name-filter-btns) {
   padding-top: 0.5rem;
   text-align: right;
+}
+
+.operate-area{
+  margin-bottom: 1rem;
+  .bs-button{
+    margin-right: 1rem;
+  }
 }
 </style>

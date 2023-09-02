@@ -7,7 +7,7 @@ import {
 } from '../bs-tree/bs-tree-utils';
 import { BsNodeData } from '../bs-tree/bs-tree-types';
 import { BsTableRowData } from './bs-table-types';
-import { getPropValueByPath, isFunction } from '../../utils/bs-util';
+import { isFunction, isString } from '../../utils/bs-util';
 
 export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData[]>, treeId: string, childrenKey: Ref<string>, tableId: string, getRowDataHash: (rowData: Record<string, any>) => string) {
   // 选中行的key
@@ -226,10 +226,6 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
     let flattenTableRowsRaw = flattenTreeDatas.value;
 
     let selectedRowKeys = Array.from(checkedKeysRoot.value);
-    /* let selectedRows = selectedRowKeys.map(rowKey => {
-      return findNodeByUid(tableId, rowKey, flattenTableRowsRaw)?.node;
-    }).filter(row => !!row); */
-    // console.log('所有选中项：', checkedRows.value.values());
     let selectedRows = [...checkedRows.value.values()];
 
     let halfSelectedRowKeys = Array.from(halfCheckedKeys.value);
@@ -301,9 +297,14 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
     }
   };
 
-  // 添加选中行
-  let selectRow = function (rowKey: string, rowData?: Record<string, any>) {
-    if (!checkedKeysRoot.value.has(rowKey)) {
+  /**
+   * 添加选中行
+   * @param rowKey 行的key
+   * @param rowData 行数据，可选
+   * @param forceSelect 是否强制选中
+   */
+  let selectRow = function (rowKey: string, rowData?: Record<string, any>, forceSelect?: boolean) {
+    if (!checkedKeysRoot.value.has(rowKey) || !!forceSelect) {
       let { type, checkStrictly, onSelectChange } = props.selectionConfig;
       if (type == 'checkbox') {
         if (!checkStrictly) {
@@ -363,32 +364,6 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
     }
   };
 
-  // 移除行的下级节点（给外部使用的）
-  let removeRowChildren = function (rowData: Record<string, any>) {
-    let uid = '';
-    let rowKey = props.rowKey;
-    if (isFunction(rowKey)) {
-      uid = rowKey(rowData);
-    } else {
-      uid = getPropValueByPath(rowData, rowKey).value || getRowDataHash(rowData);
-    }
-    let flattenTableRowsRaw = flattenTreeDatas.value;
-    let rowIndex = flattenTableRowsRaw.findIndex(rowItem => rowItem.uid == uid);
-
-    if (rowIndex < 0) {
-      return;
-    }
-    let row = flattenTableRowsRaw[rowIndex];
-    let nodeLevelPath = row.nodeLevel;
-    for (let i = flattenTableRowsRaw.length - 1; i > rowIndex; i--) {
-      let rowItem = flattenTableRowsRaw[i];
-      if (rowItem.nodeLevelPath.startsWith(nodeLevelPath + '_')) {
-        flattenTableRowsRaw.splice(i, 1);
-      }
-    }
-    delete row.node[props.childrenKey];
-  };
-
   // 关联父级选择框
   let linkParentCheckbox = function () {
     // console.log('linkParentCheckbox 111');
@@ -434,14 +409,18 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
 
     let childrenKey = props.childrenKey;
     let children = row.node[childrenKey] || [];
+    // console.log('childrenKey', rowId, row);
     if (children.length == 0) {
       return;
     }
     let childrenRows = findChildrenNodesByUid<BsTableRowData>(tableId, rowId, flattenTableRowsRaw);
+    // console.log('childrenRows', childrenRows);
     if (!row.treeDataRowExpand || forceExpand) { // 展开
       // console.log('展开行：', rowId, rowData, childrenRows);
       row.treeDataRowExpand = true;
+      row.visible = true;
       expandedTreeRowIds.add(row.uid);
+      // console.log('显示子节点：', row, childrenRows);
       // 显示子节点
       childrenRows.forEach((childRow) => {
         childRow.visible = true;
@@ -548,7 +527,6 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
     linkParentCheckbox,
     expandDefaultExpandedRows,
 
-    removeRowChildren,
     selectAll,
     selectNone,
     selectRow,
