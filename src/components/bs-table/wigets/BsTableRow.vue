@@ -5,7 +5,9 @@
       rowClasses,
       {
         'bs-table-row-expanded': rowIsExpanded,
-        'bs-table-row-selected': isChecked
+        'bs-table-row-selected': isChecked,
+        'bs-table-row-hover': tableHover,
+        'bs-table-row-striped': stripe
       },
       treeLevel > 1 ? `bs-table-row-level-${treeLevel}` : ''
     ]">
@@ -185,6 +187,12 @@ export default defineComponent({
       default () {
         return new Set();
       }
+    },
+    tableHover: { // 鼠标移动到行上时是否改变行的背景色
+      type: Boolean
+    },
+    stripe: { // 是否为带斑马纹表格
+      type: Boolean
     }
   },
   emits: ['expand-change'],

@@ -5,12 +5,14 @@
   table-layout: fixed;
   border-spacing: 0;
   margin-bottom: 0;
-  thead th{
+  th{
     border-bottom: none;
     border-top: none;
+    background-color: #fff;
   }
-  tbody tr{
+  td{
     transition: color .2s, background-color .2s;
+    background-color: #fff;
   }
   &.table-sm{
     font-size: 0.875rem;
@@ -114,7 +116,7 @@
   flex: 1;
   overflow: auto;
 }
-.bs-table-column-on-sort{
+td.bs-table-column-on-sort{
   background-color: #ececec;
 }
 th.bs-table-column-on-sort{
@@ -254,7 +256,7 @@ th.bs-table-column-on-sort{
     }
   }
 }
-.table-striped{
+/*.table-striped{
   tbody{
     tr{
       &:nth-of-type(odd) {
@@ -273,8 +275,8 @@ th.bs-table-column-on-sort{
       }
     }
   }
-}
-.table-hover{
+}*/
+/*.table-hover{
   tbody{
     tr{
       &:hover{
@@ -283,6 +285,20 @@ th.bs-table-column-on-sort{
           background-color: transparent;
         }
       }
+    }
+  }
+}*/
+.bs-table-row-striped{
+  &:nth-of-type(odd) {
+    &>td{
+      background-color: #f2f2f2;
+    }
+  }
+}
+.bs-table-row-hover{
+  &:hover{
+    &>td{
+      background-color: #ececec;
     }
   }
 }

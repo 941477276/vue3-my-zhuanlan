@@ -161,6 +161,10 @@ export const bsTableProps = {
       return [];
     }
   },
+  tableHover: { // 鼠标移动到行上时是否改变行的背景色
+    type: Boolean,
+    default: true
+  },
   lazy: { // 是否懒加载树状数据
     type: Boolean
   },

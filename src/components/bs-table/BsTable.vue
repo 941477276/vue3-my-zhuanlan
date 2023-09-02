@@ -3,7 +3,6 @@
   ref="tableContainerRef"
   class="bs-table"
   :class="{
-    'table-striped': stripe,
     'table-bordered': border,
     'table-borderless': borderless,
     'bs-table-sm': size == 'sm',
@@ -39,7 +38,7 @@
       @scroll="handleTableBodyScroll">
       <table
         ref="tableRef"
-        class="table table-hover"
+        class="table"
         :class="{
           'table-sm': size == 'sm'
         }"
@@ -87,6 +86,8 @@
               :table-id="tableId"
               :checked-keys="checkedKeysRoot"
               :half-checked-keys="halfCheckedKeys"
+              :table-hover="tableHover"
+              :stripe="stripe"
               @expand-change="handleExpandChange">
             </BsTableRow>
           </template>

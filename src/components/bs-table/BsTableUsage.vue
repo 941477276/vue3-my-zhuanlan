@@ -1,7 +1,7 @@
 <template>
   <div class="component-usage">
     <div>
-      <BsTable ref="tableRef" :columns="columns3" :data="data3" border default-expand-all-rows row-key="id"
+      <BsTable ref="tableRef" :columns="columns3" :data="data3" :table-hover="true" stripe border default-expand-all-rows row-key="id"
         :footer-rows="footerRows" max-height="400px" style="max-width: 600px;"
         :selection-config="{
           type: 'checkbox'
