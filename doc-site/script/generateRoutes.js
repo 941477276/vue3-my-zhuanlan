@@ -64,12 +64,14 @@ const menuCategoryOrder = [
       typeCode: typeCode,
       title: matterData.title,
       subtitle: matterData.subtitle,
+      startVersion: matterData.startVersion,
       componentName
     });
 
     if (!docInfoMap[lang]) {
       docInfoMap[lang] = {};
     }
+    // console.log('matterData', matterData)
     docInfoMap[lang][componentName] = {
       type: matterData.type,
       typeCode: typeCode,
@@ -126,6 +128,7 @@ export interface MenuItem {
   typeCode: string;
   title: string;
   subtitle?: string;
+  startVersion?: string;
   componentName: string;
 };
 
