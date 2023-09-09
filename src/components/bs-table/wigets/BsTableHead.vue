@@ -43,14 +43,14 @@
               :indeterminate="isIndeterminate"
               :delive-context-to-form-item="false"></BsCheckbox>
             <BsTableCustomContent
-              v-if="!!tableSlots.headSelectionExtra || !!selectionConfig?.columnTitle"
+              v-if="!!tableSlots.selectionHeadExtra || !!selectionConfig?.columnTitle"
               :row-index="0"
               :cell-index="index"
               :table-slots="tableSlots"
               :is-head-cell="true"
               :label="selectionConfig?.columnTitle"
               :column="cell"
-              slot-name="headSelectionExtra">
+              slot-name="selectionHeadExtra">
             </BsTableCustomContent>
           </template>
         </BsTableCell>
