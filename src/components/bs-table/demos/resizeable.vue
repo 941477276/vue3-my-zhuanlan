@@ -34,6 +34,7 @@ const columns2 = [
     label: 'Key',
     prop: 'key',
     width: 120,
+    showTooltip: true,
     resizeable: true
   },
   {

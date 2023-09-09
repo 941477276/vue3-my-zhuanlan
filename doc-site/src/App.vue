@@ -1,9 +1,9 @@
 <template>
-  <!--<router-view></router-view>-->
-  <BsTableUsage></BsTableUsage>
+  <router-view></router-view>
+  <!--<BsTableUsage></BsTableUsage>-->
 </template>
 
-<script setup>
+<!--<script setup>
 import BsTableUsage from '../../src/components/bs-table/BsTableUsage.vue';
 </script>
 
@@ -12,3 +12,4 @@ body{
   padding: 20px;
 }
 </style>
+-->

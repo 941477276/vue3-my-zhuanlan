@@ -6,8 +6,8 @@ title:
   zh-CN: 排序
   en-US: Sort
 description:
-  zh-CN: 给列设置`sorter`函数可以显示该列的排序按钮。`sorter: function(rowA, rowB) { ... }`， rowA、rowB 为比较的两个行数据。`<bs-table>`默认认为`sorter`是升序的，如果`sorter`是降序的可以通过`sortOrder`修改。
-  en-US: Setting the `sorter` function on a column will display the sort button for that column. `sorter: function(rowA, rowB) { ... }`, rowA and rowB are two row data to be compared. `<bs-table>` assumes that `sorter` is in ascending order by default, if `sorter` is in descending order, it can be modified by `sortOrder`.
+  zh-CN: 给列设置`sorter`函数可以显示该列的排序按钮。`sorter： function(rowA, rowB) { ... }`， rowA、rowB 为比较的两个行数据。`<bs-table>`默认认为`sorter`是升序的，如果`sorter`是降序的可以通过`sortOrder`修改。
+  en-US: Setting the `sorter` function on a column will display the sort button for that column. `sorter： function(rowA, rowB) { ... }`, rowA and rowB are two row data to be compared. `<bs-table>` assumes that `sorter` is in ascending order by default, if `sorter` is in descending order, it can be modified by `sortOrder`.
 ---
 </docs>
 
@@ -39,6 +39,7 @@ const columns2 = [
   {
     label: 'Age',
     prop: 'age',
+    width: 100,
     sortOrder: 'ascend',
     defaultSortOrder: 'descend', // default descending sort（默认降序排序）
     sorter (rowData1: Record<string, any>, rowData2: Record<string, any>) {
@@ -66,6 +67,7 @@ const columns2 = [
   {
     label: 'Operate',
     prop: 'opt',
+    width: 140,
     resizeable: true
   }
 ];

@@ -55,7 +55,8 @@ const columns2 = [
   },
   {
     label: 'Age',
-    prop: 'age'
+    prop: 'age',
+    width: 80
   },
   {
     label: 'Address',
@@ -72,7 +73,8 @@ const columns2 = [
   },
   {
     label: 'Operate',
-    prop: 'opt'
+    prop: 'opt',
+    width: 140
   }
 ];
 

@@ -3,8 +3,8 @@
 ---
 order: 0
 title:
-  zh-CN: 更新行
-  en-US: Update row
+  zh-CN: 更新子节点
+  en-US: Update row children
 description:
   zh-CN: 在树形表格中，修改行的`children`属性，界面并不会更新，此时需要调用`table`组件的`updateRow`函数去触发更新
   en-US: In the tree table, if you modify the `children` attribute of the row, the dom will not be updated. At this time, you need to call the `updateRow` function of the `table` component to trigger the update.

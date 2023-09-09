@@ -13,7 +13,7 @@ description:
 
 <template>
   <div>
-    <BsTable style="max-width: 600px;" :columns="columns2" :data="data2" stripe border max-height="400" row-key="value">
+    <BsTable style="max-width: 900px;" :columns="columns2" :data="data2" stripe border max-height="400" row-key="value">
       <template #opt>
         <bs-button type="primary" size="sm">Edit</bs-button>
         <bs-button type="danger" size="sm" style="margin-left: 0.5rem;">Delete</bs-button>
@@ -33,7 +33,6 @@ const columns2 = [
   {
     label: 'Key',
     prop: 'key',
-    width: 120,
     showTooltip: true
   },
   {
@@ -57,12 +56,12 @@ const data2 = ref([
   {
     'title': '广州市',
     'key': '64c204cb8cdedc661690ffd2',
-    'value': '001002'
+    'value': '001002001002001002001002'
   },
   {
     'title': '深圳市',
     'key': '64b5e8bafc205615f7314d95',
-    'value': '001001'
+    'value': '001001001001001001001001'
   },
   {
     'title': '清远市',

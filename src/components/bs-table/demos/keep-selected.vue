@@ -13,13 +13,14 @@ description:
 
 <template>
   <div>
-    <h6>Selected count: {{ selectedRows2.length }}</h6>
+    <h6>Selected count: {{ selectedRowsKeys.length }}</h6>
     <BsTable ref="bTableRef" :columns="columns2" :data="data2" stripe border row-key="id"
       :selection-config="{
         type: 'checkbox',
         reserveSelectedRowKeys: true,
         onSelectChange
-      }">
+      }"
+      :selected-row-keys="selectedRowsKeys">
       <template #opt>
         <bs-button type="primary" size="sm">Edit</bs-button>
         <bs-button type="danger" size="sm" style="margin-left: 0.5rem;">Delete</bs-button>
@@ -58,6 +59,7 @@ const columns2 = [
 let bTableRef = ref();
 let page = ref(1);
 let selectedRows2 = ref([]);
+let selectedRowsKeys = ref(['1|0', '1|2', '1|3', '2|1', '2|2', '2|5']);
 const generateData = function () {
   return Array.from({ length: 10 }).map((_, index) => {
     return {
@@ -72,11 +74,11 @@ const data2 = ref(generateData());
 
 const onSelectChange = function (selection) {
   console.log('selection info:', selection);
-  selectedRows2.value = selection.selectedRows;
+  // selectedRows2.value = selection.selectedRows;
+  selectedRowsKeys.value = selection.selectedRowKeys;
 };
 const handlePageChange = function () {
   data2.value = generateData();
-  selectedRows2.value = [];
   setTimeout(function () {
     console.log('selection info：', bTableRef.value.getSelectionInfo());
   }, 0);

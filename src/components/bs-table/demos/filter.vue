@@ -13,7 +13,7 @@ description:
 
 <template>
   <div>
-    <BsTable :columns="columns2" :data="data2" border row-key="value">
+    <BsTable ref="tableRef" :columns="columns2" :data="data2" border row-key="value">
       <template #nameFilter>
         <bs-dropdown ref="dropdownRef" trigger="click" placement="bottom-end" dropdown-class="name-filter-dropdown" :show-toggle-arrow="false">
           <FilterIcon></FilterIcon>
@@ -63,7 +63,8 @@ const columns2 = [
   },
   {
     label: 'Age',
-    prop: 'age'
+    prop: 'age',
+    width: 60
   },
   {
     label: 'Address',
@@ -76,11 +77,13 @@ const columns2 = [
     prop: 'hobbies',
     customCell (rowData: Record<string, any>) {
       return rowData.hobbies.join(', ');
-    }
+    },
+    width: 140
   },
   {
     label: 'Operate',
     prop: 'opt',
+    width: 140,
     resizeable: true
   }
 ];
@@ -151,7 +154,7 @@ let filterName = ref('');
 const doFilter = function () {
   let filterText = filterName.value;
   tableRef.value.filter(function (rowData: Record<string, any>) {
-    return rowData.name.includes(filterText);
+    return rowData.name.toLowerCase().includes(filterText);
   });
   dropdownRef.value.hide();
 };

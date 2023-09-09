@@ -13,7 +13,7 @@ description:
 
 <template>
   <div>
-    <BsTable :columns="columns" :data="data" stripe border max-height="290" row-key="id">
+    <BsTable :columns="columns" :data="data" stripe border max-height="290" row-key="id"></BsTable>
   </div>
 </template>
 

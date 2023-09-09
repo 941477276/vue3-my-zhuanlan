@@ -14,6 +14,11 @@ description:
 <template>
   <div>
     <BsTable :columns="columns" :data="data" stripe border row-key="id">
+      <template #opt>
+        <bs-button type="primary" size="sm">Edit</bs-button>
+        <bs-button type="danger" size="sm" style="margin-left: 0.5rem;">Delete</bs-button>
+      </template>
+    </BsTable>
   </div>
 </template>
 
