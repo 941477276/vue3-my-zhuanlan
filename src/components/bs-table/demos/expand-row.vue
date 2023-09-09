@@ -46,6 +46,7 @@ description:
 
 <script setup>
 import { ref } from 'vue';
+import { BsMessage } from '../../bs-message';
 
 const columns = [
   {
@@ -200,8 +201,26 @@ let handleRowExpandChange = function (rowData, done) {
 
 let handleRowExpandChange2 = function (rowData, done) {
   console.log('row expand2', rowData);
-  return new Promise(function (resolve, reject) {
-    setTimeout(resolve, getRandomNumber(500, 2500));
-  });
+  let isLoadFailed = getRandomNumber(0, 10) % 3 == 0;
+  setTimeout(function () {
+    if (isLoadFailed) {
+      BsMessage?.warning('Data Load failed!');
+      done(true);
+    } else {
+      done();
+    }
+  }, getRandomNumber(500, 2500));
+
+  // the another way（另一种实现方式）
+  /* return new Promise(function (resolve, reject) {
+    setTimeout(function () {
+      if (isLoadFailed) {
+        BsMessage?.warning('Data Load failed!');
+        reject();
+      } else {
+        resolve();
+      }
+    }, getRandomNumber(500, 2500));
+  }); */
 };
 </script>

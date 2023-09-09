@@ -415,19 +415,27 @@ export default defineComponent({
           row: props.rowData,
           isExpand: false
         };
-        if (isFunction(onExpandChangeEventFunc)) {
-          let isExpand = !rowIsExpanded.value;
-          data.isExpand = isExpand;
-          let doExpand = function () {
-            rowIsExpanded.value = isExpand;
+        let rowIsExpandedRaw = rowIsExpanded.value;
+        // 异步展开
+        if (isFunction(onExpandChangeEventFunc) && !rowIsExpandedRaw) {
+          // let isExpand = !rowIsExpanded.value;
+          rowExpandLoading.value = true;
+          let doExpand = function (isLoadFailed?: boolean) {
+            if (isLoadFailed !== true) {
+              data.isExpand = true;
+              rowIsExpanded.value = true;
+            }
+            rowExpandLoading.value = false;
           };
           let result = onExpandChangeEventFunc(data, doExpand);
           if (isPromise(result)) {
-            result.then(doExpand);
+            result.then(doExpand).finally(function () {
+              rowExpandLoading.value = false;
+            });
           }
           return;
         }
-        rowIsExpanded.value = !rowIsExpanded.value;
+        rowIsExpanded.value = !rowIsExpandedRaw;
         data.isExpand = rowIsExpanded.value;
         ctx.emit('expand-change', data);
       },

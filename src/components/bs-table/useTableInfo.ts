@@ -48,7 +48,6 @@ export function useTableInfo (props: any) {
     let normalColumns: BsTableColumnInner[] = [];
     let hasFixedLeft = false;
     let hasFixedRight = false;
-    console.log('计算列信息', 111111);
     columns.forEach((column: BsTableColumn, index: number) => {
       let isFixedLeft = column.fixed === true || (column.fixed + '').toLowerCase() == 'left';
       let isFixedRight = (column.fixed + '').toLowerCase() == 'right';
@@ -277,7 +276,7 @@ export function useTableInfo (props: any) {
       }, 0);
     }
     colgroup.value = newColGroup;
-    console.log('colgroup', colgroup, tableWidth.value);
+    // console.log('colgroup', colgroup, tableWidth.value);
   };
 
   /* watch(() => [...props.columns], function (columns) {
@@ -316,7 +315,7 @@ export function useTableInfo (props: any) {
       let tableBodyEl = tableBodyRef.value;
       let tableBodyElHasScroll = false;
       if (tableBodyEl) {
-        console.log('滚动条宽度：', scrollWidth(tableBodyEl));
+        // console.log('滚动条宽度：', scrollWidth(tableBodyEl));
         tableBodyElHasScroll = hasScroll(tableBodyEl).vertical;
         tableBodyScrollInfo.scrollWidth = scrollWidth(tableBodyEl).vertical;
       }
