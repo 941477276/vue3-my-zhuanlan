@@ -94,6 +94,18 @@ const data2 = ref(generateData());
 
 const rowClassName = function (row: any, rowIndex: number) {
   console.log('rowClassName', row, rowIndex);
-  return rowIndex == 3 ? 'highlight-row' : '';
+  return (rowIndex == 3 || rowIndex == 7) ? 'highlight-row' : '';
 };
 </script>
+
+<style lang="scss">
+.custom-classname-cell{
+  color: #fff!important;
+  background-color: #f60!important;
+}
+.highlight-row{
+  td{
+    background-color: #EAF5FC;
+  }
+}
+</style>

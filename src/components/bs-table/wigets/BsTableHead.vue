@@ -82,9 +82,8 @@ import {
   BsTableColumnInner,
   bsSelectionColumnKey,
   bsExpandColumnKey,
-  BsTableSelectionType,
-  BsColgroupItem,
-  BsTableSelectionConfig, BsTableContext, bsTableCtxKey
+  BsTableContext,
+  bsTableCtxKey
 } from '../bs-table-types';
 import BsTableCell from './BsTableCell.vue';
 import BsCheckbox from '../../bs-checkbox/BsCheckbox.vue';
@@ -145,7 +144,8 @@ export default defineComponent({
         ths.push({
           ...column,
           hasSorter,
-          colSpan
+          colSpan,
+          cellAttrs
         });
       });
       return ths;
