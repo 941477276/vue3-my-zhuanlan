@@ -29,7 +29,7 @@ description:
     </BsTable>
 
     <h6>Demo2</h6>
-    <BsTable :columns="columns2" :data="data2" :footer-rows="footerRows2" border row-key="value" max-height="400px"
+    <BsTable :columns="columns2" :data="data2" :footer-method="footerMethod" border row-key="value" max-height="400px"
       :selection-config="{
         type: 'checkbox'
       }">
@@ -213,5 +213,42 @@ let getFooterRows = function (column1Fixed?: boolean) {
 };
 
 let footerRows = getFooterRows();
-let footerRows2 = getFooterRows(true);
+let footerMethod = function () {
+  let rows = getFooterRows(true);
+  let firstRow = rows[0];
+
+  firstRow.columns[0].cellAttrs.style.color = '#fff';
+  firstRow.columns[0].cellAttrs.style.backgroundColor = '#007BFF';
+
+  rows.splice(1, 0, {
+    rowAttrs: {
+      class: 'foot-row-custom',
+      style: {
+        backgroundColor: '#f60'
+      }
+    },
+    columns: [
+      {
+        label: 'Custom row',
+        cellAttrs: {
+          colSpan: 2
+        }
+      },
+      {
+        label: '--',
+        cellAttrs: {
+          colSpan: 2
+        }
+      },
+      {
+        label: '--',
+        cellAttrs: {
+          colSpan: 2
+        }
+      }
+    ]
+  });
+
+  return rows;
+};
 </script>
