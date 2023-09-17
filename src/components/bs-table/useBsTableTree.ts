@@ -9,7 +9,7 @@ import { BsNodeData } from '../bs-tree/bs-tree-types';
 import { BsTableRowData } from './bs-table-types';
 import { isFunction, isString } from '../../utils/bs-util';
 
-export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData[]>, treeId: string, childrenKey: Ref<string>, tableId: string, getRowDataHash: (rowData: Record<string, any>) => string) {
+export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData[]>, treeId: string, childrenKey: Ref<string>) {
   // 选中行的key
   let checkedKeysRoot: Ref<Set<string>> = ref(new Set());
   // 当前数据中选中的行
@@ -230,7 +230,7 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
 
     let halfSelectedRowKeys = Array.from(halfCheckedKeys.value);
     let halfSelectedRows = halfSelectedRowKeys.map(rowKey => {
-      return findNodeByUid(tableId, rowKey, flattenTableRowsRaw)?.node;
+      return findNodeByUid(treeId, rowKey, flattenTableRowsRaw)?.node;
     }).filter(row => !!row);
 
     return {
@@ -321,7 +321,7 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
       if (isFunction(onSelectChange)) {
         let selectionInfo = getSelectionInfo();
         if (!rowData) {
-          rowData = findNodeByUid(tableId, rowKey, flattenTreeDatas.value)?.node;
+          rowData = findNodeByUid(treeId, rowKey, flattenTreeDatas.value)?.node;
         }
         onSelectChange({
           row: rowData,
@@ -352,7 +352,7 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
     if (isFunction(onSelectChange)) {
       let selectionInfo = getSelectionInfo();
       if (!rowData) {
-        rowData = findNodeByUid(tableId, rowKey, flattenTreeDatas.value)?.node;
+        rowData = findNodeByUid(treeId, rowKey, flattenTreeDatas.value)?.node;
       }
       onSelectChange({
         row: rowData,
@@ -402,7 +402,7 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
    */
   let expandTreeRow = function (rowData: any, rowId: string, expandChildRow = true, forceExpand = false, callback?: (flag: boolean) => void) {
     let flattenTableRowsRaw = flattenTreeDatas.value;
-    let row = findNodeByUid(tableId, rowId, flattenTableRowsRaw);
+    let row = findNodeByUid(treeId, rowId, flattenTableRowsRaw);
     if (!row) {
       return;
     }
@@ -413,7 +413,7 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
     if (children.length == 0) {
       return;
     }
-    let childrenRows = findChildrenNodesByUid<BsTableRowData>(tableId, rowId, flattenTableRowsRaw);
+    let childrenRows = findChildrenNodesByUid<BsTableRowData>(treeId, rowId, flattenTableRowsRaw);
     // console.log('childrenRows', childrenRows);
     if (!row.treeDataRowExpand || forceExpand) { // 展开
       // console.log('展开行：', rowId, rowData, childrenRows);
@@ -443,7 +443,7 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
       let foldChildren = function (rows: BsTableRowData[]) {
         rows.forEach(childRowItem => {
           childRowItem.visible = false;
-          let children = findChildrenNodesByUid<BsTableRowData>(tableId, childRowItem.uid, flattenTableRowsRaw);
+          let children = findChildrenNodesByUid<BsTableRowData>(treeId, childRowItem.uid, flattenTableRowsRaw);
           if (children.length > 0) {
             foldChildren(children);
           }
@@ -483,7 +483,7 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
         stopWatchDefaultExpandedRows = null;
         let flattenTableRowsRaw = flattenTreeDatas.value;
         defaultExpandedRowKeys.forEach(rowKey => {
-          let row = findNodeByUid(tableId, rowKey, flattenTableRowsRaw);
+          let row = findNodeByUid(treeId, rowKey, flattenTableRowsRaw);
           if (!row) {
             return;
           }

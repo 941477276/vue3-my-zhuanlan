@@ -279,7 +279,7 @@ export default defineComponent({
       expandTreeRow,
       expandAll,
       expandNone
-    } = useBsTableTree(props, flattenTableRows2, tableId, toRef(props, 'childrenKey'), tableId, getRowDataHash);
+    } = useBsTableTree(props, flattenTableRows2, tableId, toRef(props, 'childrenKey'));
 
     // 列排序信息
     let sortInfo = reactive({
