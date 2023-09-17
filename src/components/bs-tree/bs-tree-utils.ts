@@ -1,6 +1,5 @@
 import {
-  BsNodeInfo,
-  BsNodeData
+  BsNodeInfo
 } from './bs-tree-types';
 import { isFunction } from '../../utils/bs-util';
 import { PlainObject } from '../types';
@@ -280,6 +279,7 @@ export function findNodeByUid <T extends BsNodeInfo> (treeId: string, uid: any, 
     }
   }
   cachedNodeInfo[uid] = resultNode;
+  console.log('resultNode', resultNode);
   return resultNode;
 };
 
