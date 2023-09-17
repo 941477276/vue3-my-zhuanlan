@@ -316,7 +316,12 @@ export function useBsTableTree (props: any, flattenTreeDatas: Ref<BsTableRowData
           addCheckedKey(rowKey);
         }
       } else {
-        checkedKeysRoot.value = new Set([rowKey]);
+        // TODO 这里是否应该判断节点禁用的情况
+        checkedRows.value.clear();
+        checkedRowsCurrent.value.clear();
+        checkedKeysRoot.value.clear();
+        // checkedKeysRoot.value = new Set([rowKey]);
+        addCheckedKey(rowKey);
       }
       if (isFunction(onSelectChange)) {
         let selectionInfo = getSelectionInfo();

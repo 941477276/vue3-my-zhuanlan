@@ -664,7 +664,7 @@ export default defineComponent({
       getSelectionInfo,
       // 添加选中项
       addCheckedKey (nodeValue: string, nodeData: Record<string, any>, hasChildren: boolean) {
-        if (props.selectionConfig?.type == 'radio') {
+        /* if (props.selectionConfig?.type == 'radio') {
           checkedRows.value.clear();
           checkedRowsCurrent.value.clear();
           checkedKeysRoot.value.clear();
@@ -682,7 +682,7 @@ export default defineComponent({
             });
           }
           return;
-        }
+        } */
         selectRow(nodeValue, nodeData);
       },
       // 移除选中项
