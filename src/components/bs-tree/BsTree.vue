@@ -193,7 +193,6 @@ export default defineComponent({
         let newFlattenTree: BsNodeInfo[] = [];
         treeDataToFlattarnArr2(treeId, treeData, nodeProps.children, nodeProps.disabled, 1, '', newFlattenTree, function (treeNodeItem) {
           let uid = nodeKey ? treeNodeItem.node[nodeKey] : getObjectHash(treeNodeItem.node);
-          console.log('uid', uid);
           treeNodeItem.uid = uid;
         });
 
@@ -253,7 +252,7 @@ export default defineComponent({
             expandedKeys.forEach((expandedKey: string | number) => {
               // let nodeInfo = findNodeInfoByValue2(treeId, expandedKey, nodeKey, flatTreeMapData);
               let nodeInfo = findNodeByUid(treeId, expandedKey, flatTreeMapData);
-              console.log('findNodeByUid', treeId, expandedKey, flatTreeMapData);
+              // console.log('findNodeByUid', treeId, expandedKey, flatTreeMapData);
               if (!nodeInfo) {
                 return;
               }
@@ -264,7 +263,6 @@ export default defineComponent({
             });
           }
           expandedKeysRoot.value = Array.from(new Set([...expandedKeys, ...parentKeys, ...expandedKeysRoot.value]));
-          console.log('expandedKeysRoot.value', expandedKeysRoot.value);
         }
       }, 0);
     }, { immediate: true });
