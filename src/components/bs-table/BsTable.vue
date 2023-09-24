@@ -158,9 +158,9 @@ import {
   findNodeByUid,
   clearCachedNodeInfo, findDescendantByBid
 } from '../../utils/bs-tree-utils';
-import { useBsTableTree } from './useBsTableTree';
 import { useTableInfo } from './useTableInfo';
-import index from '../../../doc-site/src/views/Index.vue';
+import { useTableExpandRow } from './useTableExpandRow';
+import { useBsTree } from '../bs-tree/useBsTree';
 
 let bsTableCount = 0;
 
@@ -263,23 +263,38 @@ export default defineComponent({
       checkedKeysRoot, // 选中行的key
       checkedRowsCurrent, // 当前数据中选中的行
       halfCheckedKeys, // 半选中行的key
-      expandedTreeRowIds, // 展开行的id
       checkedRows, // 所有选中的行
       // treeNodeProps,
 
       addCheckedKey,
-      expandDefaultExpandedRows,
       linkParentCheckbox,
 
       selectAll,
       selectNone,
       selectRow,
       unSelectRow,
-      getSelectionInfo,
+      getSelectionInfo
+    } = useBsTree(flattenTableRows2, tableId, {
+      getChildrenKey () {
+        return props.childrenKey;
+      },
+      getDisabledKey () {
+        return '_bs_table_row_disabled';
+      },
+      getSelectionConfig () {
+        return props.selectionConfig || {};
+      }
+    });
+
+    // 树展开/收起功能
+    let {
+      expandedTreeRowIds,
+
+      expandDefaultExpandedRows,
       expandTreeRow,
       expandAll,
       expandNone
-    } = useBsTableTree(props, flattenTableRows2, tableId, toRef(props, 'childrenKey'));
+    } = useTableExpandRow(props, flattenTableRows2, tableId);
 
     // 列排序信息
     let sortInfo = reactive({
@@ -391,7 +406,7 @@ export default defineComponent({
     // TODO 列合并、行合并功能是否应该提取到当前组件计算
     let isInited = false;
     let initFlattenData = function (data: Record<string, any>[]) {
-      console.log('table数据发生变化：', data);
+      // console.log('table数据发生变化：', data);
       nextTick(function () {
         let childrenKey = props.childrenKey;
         let isTreeDataFlag = false;

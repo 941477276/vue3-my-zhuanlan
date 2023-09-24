@@ -136,7 +136,7 @@ export default defineComponent({
         newWidth = width;
         tableRootCtx.setColWidth(cellIndex, newWidth);
 
-        console.log('direction:', direction, distance);
+        // console.log('direction:', direction, distance);
         let isLastCell = cellIndex == oldColgroup.length - 1;
         let newColgroup = props.colgroup!;
         let newColGroupWidth = newColgroup.reduce(function (result: number, item: BsColgroupItem) {

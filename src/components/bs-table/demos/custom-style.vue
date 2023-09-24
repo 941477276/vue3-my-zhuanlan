@@ -93,7 +93,7 @@ const generateData = function () {
 const data2 = ref(generateData());
 
 const rowClassName = function (row: any, rowIndex: number) {
-  console.log('rowClassName', row, rowIndex);
+  // console.log('rowClassName', row, rowIndex);
   return (rowIndex == 3 || rowIndex == 7) ? 'highlight-row' : '';
 };
 </script>

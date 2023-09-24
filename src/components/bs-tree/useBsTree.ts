@@ -36,7 +36,7 @@ export function useBsTree (flattenTreeDatas: Ref<BsNodeInfo[]>, treeId: string, 
   let addCheckedKey = function (uid: string, isDisabled?: boolean) {
     let nodeInfo = findNodeByUid(treeId, uid, flattenTreeDatas.value);
     let disabledKey = getDisabledKey();
-    if (isDisabled || !nodeInfo || nodeInfo.node[disabledKey]) {
+    if (isDisabled || !nodeInfo || nodeInfo.node[disabledKey] || nodeInfo.isDisabled) {
       // 如果被禁用的节点没有子节点，则不添加进去
       if (!nodeInfo || !nodeInfo.node[getChildrenKey()]) {
         return false;
@@ -55,7 +55,7 @@ export function useBsTree (flattenTreeDatas: Ref<BsNodeInfo[]>, treeId: string, 
     let nodeInfo = findNodeByUid(treeId, uid, flattenTreeDatas.value);
     // console.log('移除选中项：', uid, nodeInfo.node);
     let disabledKey = getDisabledKey();
-    if (isDisabled || !nodeInfo || nodeInfo.node[disabledKey]) {
+    if (isDisabled || !nodeInfo || nodeInfo.node[disabledKey] || nodeInfo.isDisabled) {
       // 如果被禁用的节点没有子节点，则不移除
       if (!nodeInfo || !nodeInfo.node[getChildrenKey()]) {
         // 节点为禁用的且没有子节点
@@ -130,10 +130,10 @@ export function useBsTree (flattenTreeDatas: Ref<BsNodeInfo[]>, treeId: string, 
         return;
       }
       if (childrenCheckedInfo.hasChecked || childrenCheckedInfo.hasHalfChecked) {
-        removeCheckedKey(parentNodeValue, parentNodeInfo.node[disabledKey]);
+        removeCheckedKey(parentNodeValue, parentNodeInfo.node[disabledKey] || parentNodeInfo.isDisabled);
         addHalfCheckedKey(parentNodeValue);
       } else {
-        removeCheckedKey(parentNodeValue, parentNodeInfo.node[disabledKey]);
+        removeCheckedKey(parentNodeValue, parentNodeInfo.node[disabledKey] || parentNodeInfo.isDisabled);
         removeHalfCheckedKey(parentNodeValue);
       }
     });
@@ -149,13 +149,13 @@ export function useBsTree (flattenTreeDatas: Ref<BsNodeInfo[]>, treeId: string, 
       let childrenCheckedInfo = nodesIsAllChecked(findChildrenNodesByUid(treeId, parentNodeValue, flattenTreeDatasRaw));
 
       if (childrenCheckedInfo.allChecked) {
-        addCheckedKey(parentNodeValue, parentNodeInfo.node[disabledKey]);
+        addCheckedKey(parentNodeValue, parentNodeInfo.node[disabledKey] || parentNodeInfo.isDisabled);
         removeHalfCheckedKey(parentNodeValue);
       } else if (childrenCheckedInfo.hasHalfChecked || childrenCheckedInfo.hasChecked) {
-        removeCheckedKey(parentNodeValue, parentNodeInfo.node[disabledKey]);
+        removeCheckedKey(parentNodeValue, parentNodeInfo.node[disabledKey] || parentNodeInfo.isDisabled);
         addHalfCheckedKey(parentNodeValue);
       } else {
-        removeCheckedKey(parentNodeValue, parentNodeInfo.node[disabledKey]);
+        removeCheckedKey(parentNodeValue, parentNodeInfo.node[disabledKey] || parentNodeInfo.isDisabled);
         removeHalfCheckedKey(parentNodeValue);
       }
     });
@@ -178,23 +178,23 @@ export function useBsTree (flattenTreeDatas: Ref<BsNodeInfo[]>, treeId: string, 
       let nodeChildren = findChildrenNodesByUid(treeId, nodeDataItem.uid, flattenTreeDatasRaw);
       let nodeDataItemValue = nodeDataItem.uid;
       if (nodeChildren.length == 0) {
-        removeCheckedKey(nodeDataItemValue, nodeDataItem.node[disabledKey]);
+        removeCheckedKey(nodeDataItemValue, nodeDataItem.node[disabledKey] || nodeDataItem.isDisabled);
         return;
       }
       nodeChildren.forEach((childNode) => {
-        removeCheckedKey(childNode.uid, childNode.node[disabledKey]);
+        removeCheckedKey(childNode.uid, childNode.node[disabledKey] || childNode.isDisabled);
       });
       let childrenCheckedInfo = nodesIsAllChecked(nodeChildren);
       if (childrenCheckedInfo.allChecked) {
-        addCheckedKey(nodeDataItemValue, nodeDataItem.node[disabledKey]);
+        addCheckedKey(nodeDataItemValue, nodeDataItem.node[disabledKey] || nodeDataItem.isDisabled);
         removeHalfCheckedKey(nodeDataItemValue);
         return;
       }
       if (!childrenCheckedInfo.hasChecked && !childrenCheckedInfo.hasHalfChecked) {
-        removeCheckedKey(nodeDataItemValue, nodeDataItem.node[disabledKey]);
+        removeCheckedKey(nodeDataItemValue, nodeDataItem.node[disabledKey] || nodeDataItem.isDisabled);
         removeHalfCheckedKey(nodeDataItemValue);
       } else {
-        removeCheckedKey(nodeDataItemValue, nodeDataItem.isDisabled);
+        removeCheckedKey(nodeDataItemValue, nodeDataItem.node[disabledKey] || nodeDataItem.isDisabled);
         addHalfCheckedKey(nodeDataItemValue);
       }
     });
@@ -219,23 +219,23 @@ export function useBsTree (flattenTreeDatas: Ref<BsNodeInfo[]>, treeId: string, 
       let nodeChildren = findChildrenNodesByUid(treeId, nodeDataItem.uid, flattenTreeDatasRaw);
       let nodeDataItemValue = nodeDataItem.uid;
       if (nodeChildren.length == 0) {
-        addCheckedKey(nodeDataItemValue, nodeDataItem.node[disabledKey]);
+        addCheckedKey(nodeDataItemValue, nodeDataItem.node[disabledKey] || nodeDataItem.isDisabled);
         return;
       }
       nodeChildren.forEach((childNodeData) => {
-        addCheckedKey(childNodeData.uid, childNodeData.node[disabledKey]);
+        addCheckedKey(childNodeData.uid, childNodeData.node[disabledKey] || childNodeData.isDisabled);
       });
       let childrenCheckedInfo = nodesIsAllChecked(nodeChildren);
       if (childrenCheckedInfo.allChecked) {
-        addCheckedKey(nodeDataItemValue, nodeDataItem.node[disabledKey]);
+        addCheckedKey(nodeDataItemValue, nodeDataItem.node[disabledKey] || nodeDataItem.isDisabled);
         removeHalfCheckedKey(nodeDataItemValue);
         return;
       }
       if (childrenCheckedInfo.hasChecked || childrenCheckedInfo.hasHalfChecked) {
-        removeCheckedKey(nodeDataItemValue, nodeDataItem.node[disabledKey]);
+        removeCheckedKey(nodeDataItemValue, nodeDataItem.node[disabledKey] || nodeDataItem.isDisabled);
         addHalfCheckedKey(nodeDataItemValue);
       } else {
-        removeCheckedKey(nodeDataItemValue, nodeDataItem.node[disabledKey]);
+        removeCheckedKey(nodeDataItemValue, nodeDataItem.node[disabledKey] || nodeDataItem.isDisabled);
         removeHalfCheckedKey(nodeDataItemValue);
       }
     });
@@ -339,7 +339,8 @@ export function useBsTree (flattenTreeDatas: Ref<BsNodeInfo[]>, treeId: string, 
           addCheckedKey(rowKey);
         }
       } else {
-        if (!rowData?.[getDisabledKey()]) { // 非禁用状态才允许清空
+        let treeNode = findNodeByUid(treeId, rowKey, flattenTreeDatas.value);
+        if (!rowData?.[getDisabledKey()] && !treeNode?.isDisabled) { // 非禁用状态才允许清空
           checkedRows.value.clear();
           checkedRowsCurrent.value.clear();
           checkedKeysRoot.value.clear();
