@@ -64,7 +64,7 @@ import {
 } from '../../utils/bs-tree-utils';
 import { useTreePagination } from './useTreePagination';
 import { useTreeMethods } from './useTreeMethods';
-import { useBsTree } from './useBsTree';
+import { useBsTree } from '../../hooks/useBsTree';
 import { jsonSort } from '../../utils/bs-util';
 import { sm3HashHex } from '../../utils/sm3Hmac';
 

@@ -4,9 +4,9 @@ import {
   findParentsByUid,
   findChildrenWhichHasChildrenByUid,
   findChildrenNodesByUid
-} from '../../utils/bs-tree-utils';
-import { BsNodeData, BsNodeInfo } from './bs-tree-types';
-import { isFunction, isString } from '../../utils/bs-util';
+} from '../utils/bs-tree-utils';
+import { BsNodeData, BsNodeInfo } from '../components/bs-tree/bs-tree-types';
+import { isFunction, isString } from '../utils/bs-util';
 
 interface UseBsTreeOptions {
   getChildrenKey: () => string; // 获取子节点key的函数

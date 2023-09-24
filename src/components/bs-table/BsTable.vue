@@ -160,7 +160,7 @@ import {
 } from '../../utils/bs-tree-utils';
 import { useTableInfo } from './useTableInfo';
 import { useTableExpandRow } from './useTableExpandRow';
-import { useBsTree } from '../bs-tree/useBsTree';
+import { useBsTree } from '../../hooks/useBsTree';
 
 let bsTableCount = 0;
 
