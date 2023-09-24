@@ -176,7 +176,9 @@ export default defineComponent({
     let flatternOptions = ref<BsNodeInfo[]>([]);
     watch(() => props.options, function (newOptions: CascaderOptionItem[]) {
       let { children: childrenKey, value: valueKey, disabled: disabledKey } = fieldNameProps.value;
-      let flatternArr = treeDataToFlattarnArr2(cascaderId.value, newOptions as BsNodeInfo[], childrenKey, disabledKey, 1, '', []);
+      let flatternArr = treeDataToFlattarnArr2(cascaderId.value, newOptions, childrenKey, disabledKey, 1, '', [], function (treeNode) {
+        treeNode.uid = treeNode.node[valueKey];
+      });
 
       flatternOptions.value = flatternArr;
       if (!expandedMenus.value[0]) {

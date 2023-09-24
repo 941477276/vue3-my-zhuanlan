@@ -279,7 +279,7 @@ export function findNodeByUid <T extends BsNodeInfo> (treeId: string, uid: any, 
     }
   }
   cachedNodeInfo[uid] = resultNode;
-  console.log('resultNode', resultNode);
+  // console.log('resultNode', resultNode);
   return resultNode;
 };
 
