@@ -1,7 +1,7 @@
 import { computed, ComputedRef, ref, Ref } from 'vue';
 import {
   findDescendantByBid
-} from './bs-tree-utils';
+} from '../../utils/bs-tree-utils';
 import { BsNodeData, BsNodeInfo } from './bs-tree-types';
 import { PlainObject } from '../types';
 

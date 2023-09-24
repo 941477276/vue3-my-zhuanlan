@@ -4,7 +4,7 @@ import {
   findParentsByUid,
   findChildrenWhichHasChildrenByUid,
   findChildrenNodesByUid
-} from './bs-tree-utils';
+} from '../../utils/bs-tree-utils';
 import { BsNodeData, BsNodeInfo } from './bs-tree-types';
 import { isFunction, isString } from '../../utils/bs-util';
 
@@ -18,7 +18,7 @@ interface UseBsTreeOptions {
   }
 }
 
-export function useBsTree2 (flattenTreeDatas: Ref<BsNodeInfo[]>, treeId: string, options: UseBsTreeOptions) {
+export function useBsTree (flattenTreeDatas: Ref<BsNodeInfo[]>, treeId: string, options: UseBsTreeOptions) {
   let {
     getChildrenKey,
     getDisabledKey,

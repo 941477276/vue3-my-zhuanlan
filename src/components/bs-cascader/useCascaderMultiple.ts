@@ -17,7 +17,7 @@ import { BsNodeInfo } from '../bs-tree/bs-tree-types';
 import {
   findParentsByUid,
   findDescendantByBid
-} from '../../components/bs-tree/bs-tree-utils';
+} from '../../utils/bs-tree-utils';
 
 export function useCascaderMultiple (props:any, checkedOptions: Ref<CheckedOptions>, halfCheckedOptions: Ref<PlainObject>, fieldNameProps: ComputedRef<CascaderFieldNames>, flatternOptions: Ref<BsNodeInfo[]>, dropdownTransitionRef: Ref<any>, cascaderId: string) {
   let findOptionParents = function (value: string, valueKey: string) {

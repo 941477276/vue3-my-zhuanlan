@@ -22,7 +22,7 @@ import {
 import {
   findNodeByUid,
   findParentsByUid
-} from '../../components/bs-tree/bs-tree-utils';
+} from '../../utils/bs-tree-utils';
 import {
   useCascaderMultiple
 } from './useCascaderMultiple';

@@ -3,7 +3,7 @@ import {
   Ref
 } from 'vue';
 import { BsNodeInfo } from './bs-tree-types';
-import { findNodeByUid } from '../../components/bs-tree/bs-tree-utils';
+import { findNodeByUid } from '../../utils/bs-tree-utils';
 
 export function useTreeMethods (props: any, treeId: string, flatTreeNodeInfoArr: Ref<BsNodeInfo[]>, getSelectionInfo: () => any, treeNodeProps: ComputedRef<Record<string, any>>) {
 // 根据节点值查找节点

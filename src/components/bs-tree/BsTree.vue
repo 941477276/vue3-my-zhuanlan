@@ -61,10 +61,10 @@ import {
   findParentsByNodeLevelPath2,
   treeDataToFlattarnArr2,
   clearCachedNodeInfo, findNodeByUid, findParentsByUid
-} from './bs-tree-utils';
+} from '../../utils/bs-tree-utils';
 import { useTreePagination } from './useTreePagination';
 import { useTreeMethods } from './useTreeMethods';
-import { useBsTree2 } from './useBsTree2';
+import { useBsTree } from './useBsTree';
 import { jsonSort } from '../../utils/bs-util';
 import { sm3HashHex } from '../../utils/sm3Hmac';
 
@@ -159,7 +159,7 @@ export default defineComponent({
       getSelectionInfo,
       selectAll,
       selectNone
-    } = useBsTree2(
+    } = useBsTree(
       flattenTreeNodeInfos,
       treeId,
       {

@@ -128,7 +128,7 @@ import { useCascaderMenu } from './useCascaderMenu';
 import {
   treeDataToFlattarnArr2,
   clearCachedNodeInfo
-} from '../../components/bs-tree/bs-tree-utils';
+} from '../../utils/bs-tree-utils';
 import {
   BsNodeInfo
 } from '../bs-tree/bs-tree-types';

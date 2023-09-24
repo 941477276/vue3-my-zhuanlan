@@ -4,7 +4,7 @@ import {
   findParentsByUid,
   findChildrenWhichHasChildrenByUid,
   findChildrenNodesByUid, findParentsByNodeLevelPath2
-} from '../bs-tree/bs-tree-utils';
+} from '../../utils/bs-tree-utils';
 import { BsNodeData } from '../bs-tree/bs-tree-types';
 import { BsTableRowData } from './bs-table-types';
 import { isFunction, isString } from '../../utils/bs-util';

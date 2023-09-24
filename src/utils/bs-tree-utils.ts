@@ -1,7 +1,7 @@
 import {
   BsNodeInfo
-} from './bs-tree-types';
-import { isFunction } from '../../utils/bs-util';
+} from '../components/bs-tree/bs-tree-types';
+import { isFunction } from './bs-util';
 
 let caches: any = {};
 /**

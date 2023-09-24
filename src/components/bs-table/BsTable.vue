@@ -157,7 +157,7 @@ import {
   treeDataToFlattarnArr2,
   findNodeByUid,
   clearCachedNodeInfo, findDescendantByBid
-} from '../bs-tree/bs-tree-utils';
+} from '../../utils/bs-tree-utils';
 import { useBsTableTree } from './useBsTableTree';
 import { useTableInfo } from './useTableInfo';
 import index from '../../../doc-site/src/views/Index.vue';
