@@ -126,14 +126,15 @@ interface BsTableSelectionChangeResult {
 
 ### Table 插槽
 
-| 插槽名称      | 说明             | 版本  |
-|-----------|----------------|-----|
-| expandRow | 展开行的内容插槽       |     |
-| expandCellIcon | 展开行的图标         |     |
-| expandColumnHeader | 展开列的头部自定义内容    |     |
+| 插槽名称                  | 说明             | 版本  |
+|-----------------------|----------------|-----|
+| expandRow             | 展开行的内容插槽       |     |
+| expandCellIcon        | 展开行的图标         |     |
+| expandColumnHeader    | 展开列的头部自定义内容    |     |
 | selectionColumnHeader | 选择列的头部自定义内容    |     |
-| selectionHeadExtra | 选择列头部后面追加的额外内容 |     |
-| empty     | 空数据插槽          |     |
+| selectionHeadExtra    | 选择列头部后面追加的额外内容 |     |
+| empty                 | 空数据插槽          |     |
+| head                  | 头部单元格插槽        |     |
 
 
 ### Table 函数

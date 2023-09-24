@@ -125,14 +125,15 @@ interface BsTableSelectionChangeResult {
 
 ### Table slot
 
-| Slot Name | Description | Version |
-|-----------|----------------|-----|
-| expandRow | Expand the row's content slot | |
-| expandCellIcon | Expand row icon | |
-| expandColumnHeader | Expand the custom content of the column header | |
+| Slot Name             | Description | Version |
+|-----------------------|----------------|-----|
+| expandRow             | Expand the row's content slot | |
+| expandCellIcon        | Expand row icon | |
+| expandColumnHeader    | Expand the custom content of the column header | |
 | selectionColumnHeader | Select the custom content of the header of the column | |
-| selectionHeadExtra | Extra content appended after the header of the selection column | |
-| empty | Empty data slot | |
+| selectionHeadExtra    | Extra content appended after the header of the selection column | |
+| empty                 | Empty data slot | |
+| head                  | Table header cell slot | |
 
 
 ### Table function

@@ -9,7 +9,7 @@
         :is-head-cell="true"
         :column="column"
         :default-content="defaultSlot"
-        :slot-name="slotName || column.headSlotName">
+        :slot-name="slotName || column.headSlotName || 'head'">
         <!--<slot></slot>-->
       </BsTableCustomContent>
     </div>

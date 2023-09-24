@@ -6,6 +6,7 @@
     <FixedColumn></FixedColumn>
     <ExpandRow></ExpandRow>
     <CustomStyle></CustomStyle>
+    <CustomHeadAndContent></CustomHeadAndContent>
     <MultipleSelect></MultipleSelect>
     <SingleSelect></SingleSelect>
     <KeepSelect></KeepSelect>
@@ -28,6 +29,7 @@ import FixedHeader from './fixed-header.vue';
 import FixedColumn from './fixed-column.vue';
 import ExpandRow from './expand-row.vue';
 import CustomStyle from './custom-style.vue';
+import CustomHeadAndContent from './custom-head-and-content.vue';
 import MultipleSelect from './multiple-select.vue';
 import SingleSelect from './single-select.vue';
 import KeepSelect from './keep-selected.vue';
@@ -49,6 +51,7 @@ export default defineComponent({
     FixedColumn,
     ExpandRow,
     CustomStyle,
+    CustomHeadAndContent,
     MultipleSelect,
     SingleSelect,
     KeepSelect,
