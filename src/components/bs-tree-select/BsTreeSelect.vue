@@ -202,12 +202,16 @@ export default defineComponent({
     });
 
     let viewText = ref([]);
+    let timer: number;
     watch(() => props.modelValue, function () {
-      nextTick(function () {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        clearTimeout(timer);
         let labels = props.labels;
         if (props.lazy && !labels) {
           console.warn('labels is required when lazy=true!');
         }
+        console.log('watch modelValue', !!treeRef.value)
         if (treeRef.value) {
           labels = labels || [];
           let labelsFromTree = (treeRef.value as any).getCheckedNodesLabel();
@@ -218,6 +222,7 @@ export default defineComponent({
               labelItem.label = labels[index].label;
             }
           });
+          console.log('labelsFromTree', labelsFromTree)
           viewText.value = labelsFromTree.map((labelItem: PlainObject) => {
             return {
               ...labelItem,
@@ -232,7 +237,7 @@ export default defineComponent({
             (dropdownTransitionRef.value as any)?.refresh();
           }, 60);
         }
-      });
+      }, 60);
     }, { immediate: true });
 
     let isClickOutside = useClickOutside([bsTreeSelectRef, bsSelectDropdownRef]);
