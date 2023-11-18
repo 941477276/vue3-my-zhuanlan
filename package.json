@@ -8,7 +8,8 @@
   },
   "homepage": "https://github.com/941477276/bs-vue#readme",
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve:windows": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
+    "serve:mac": "export NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "vite:dev:site-doc": "npm run gen-version && npm run gen-doc-router && vite serve doc-site",
