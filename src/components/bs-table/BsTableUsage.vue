@@ -2,8 +2,8 @@
   <div class="component-usage">
     <div>
       <div class="operate-area">
-        <BsButton type="primary" @click="addChildrenForYuexiu">Add children for 越秀区</BsButton>
-        <BsButton type="danger" @click="removeChildrenFromShenzhen">Remove children from 深圳市</BsButton>
+        <BsButton type="primary" data-click="addChildrenForYuexiu">Add children for 越秀区</BsButton>
+        <BsButton type="danger" data-click="removeChildrenFromShenzhen">Remove children from 深圳市</BsButton>
       </div>
 
       <BsTable ref="tableRef" :columns="columns2" :data="data2" :selection-config="selectionConfig" :selected-row-keys="selectedRowKeys"
@@ -43,7 +43,7 @@ export default defineComponent({
   name: 'BsTableUsage',
   components: {
     // Basic
-    FilterIcon
+    // FilterIcon
   },
   setup (props: any) {
     let expandedRowKeys = ref([]/* ['001001001002002', '001002'] */);
@@ -313,9 +313,9 @@ export default defineComponent({
       data2,
 
       selectionConfig,
-      selectedRowKeys,
+      selectedRowKeys
 
-      addChildrenForYuexiu () {
+      /* addChildrenForYuexiu () {
         let yuexiuArea = data2.value[1].children[0];
         yuexiuArea.children = [
           {
@@ -342,7 +342,7 @@ export default defineComponent({
         setTimeout(function () {
           console.log('selectedAreaName:', tableRef.value.getSelectionInfo());
         }, 0);
-      }
+      } */
     };
   }
 });

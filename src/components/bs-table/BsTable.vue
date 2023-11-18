@@ -532,7 +532,7 @@ export default defineComponent({
             addCheckedKey(checkedKeys[0]);
           }
         } else {
-          let reserveSelectedRowKeys = props.selectionConfig.reserveSelectedRowKeys
+          let reserveSelectedRowKeys = props.selectionConfig.reserveSelectedRowKeys;
           checkedKeysRoot.value = new Set([...checkedKeys, ...(reserveSelectedRowKeys ? props.Array.from(checkedKeysRoot.value) : [])]);
         }
 
@@ -827,7 +827,7 @@ export default defineComponent({
           }
           let childrenTableRows: BsTableRowData[] = [];
           let isDefaultExpandAll = props.defaultExpandAllRows;
-
+          // @ts-ignore
           treeDataToFlattarnArr2(tableId, rowDataChildren, childrenKey, '', row.nodeLevel + 1, row.nodeLevelPath, childrenTableRows, function (treeNodeInfo: BsTableRowData) {
             let nodeData = treeNodeInfo.node;
             let uid = getRowUid(nodeData);

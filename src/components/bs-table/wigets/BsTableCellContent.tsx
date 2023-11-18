@@ -13,6 +13,7 @@ export default defineComponent({
   props: {
     ...bsTableCellProps
   },
+  // @ts-ignore
   setup (props: any, ctx: AppContext) {
     let tableCtx = inject(bsTableCtxKey)!;
 
@@ -60,18 +61,28 @@ export default defineComponent({
     let {
       ellipsis,
       showTooltip
+      // @ts-ignore
     } = this.column;
+    // @ts-ignore
     let $slots = this.$slots;
 
     let customContent = () => {
+      // @ts-ignore
       return (
         <BsTableCustomContent
+          // @ts-ignore
           row-index={ this.rowIndex }
+          // @ts-ignore
           cell-index={ this.cellIndex }
+          // @ts-ignore
           row-data={ this.rowData }
+          // @ts-ignore
           label={ this.cellContent }
+          // @ts-ignore
           table-slots={ this.tableSlots }
+          // @ts-ignore
           default-content={ $slots.default }
+          // @ts-ignore
           slot-name={ this.slotName || this.column.prop }>
         </BsTableCustomContent>
       );
@@ -79,19 +90,24 @@ export default defineComponent({
 
     let ellipsisClass = 'bs-table-cell-ellipsis';
 
-    if (!!showTooltip) {
+    if (showTooltip) {
       let timer = setTimeout(() => {
         clearTimeout(timer);
+        // @ts-ignore
         let textEl = this.$refs.textElRef;
         // console.log('textElRef.value', textEl.innerText);
+        // @ts-ignore
         this.calcTextIsOverflow();
+        // @ts-ignore
         this.tooltipContent = textEl?.innerText || textEl?.textContent || '';
       }, 60);
       let tooltipProps = {
         placement: 'top',
         transitionName: 'scale',
         ...(typeof showTooltip == 'object' ? showTooltip : {}),
+        // @ts-ignore
         disabled: this.tooltipContent.length == 0 || !this.textIsOverflow,
+        // @ts-ignore
         content: this.tooltipContent
       };
       if (tooltipProps.disabled) {
