@@ -12,8 +12,8 @@ import BsVue from './components/index';
 
 import './components/style';
 
-import Antd from 'ant-design-vue';
-import 'ant-design-vue/dist/antd.css';
+// import Antd from 'ant-design-vue';
+// import 'ant-design-vue/dist/antd.css';
 
 const app = createApp(App);
 
@@ -24,6 +24,6 @@ dayjs.locale('zh-cn');
 // app.use(store);
 // app.use(router);
 app.use(BsVue);
-app.use(Antd);
+// app.use(Antd);
 
 app.mount('#app');

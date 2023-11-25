@@ -139,7 +139,7 @@
       }
     }
   }
-  &:hover:not(.is-selected):not(.is-disabled):not(.cell-in-range):not(.cell-range-hover){
+  &:hover:not(.is-selected):not(.is-disabled):not(.bs-picker-cell-in-range):not(.bs-picker-cell-range-start):not(.bs-picker-cell-range-end):not(.bs-picker-cell-range-hover){
     .bs-picker-cell-inner{
       background-color: #f0f0f0;
     }

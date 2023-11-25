@@ -5,7 +5,7 @@ import {
   h,
   defineComponent
 } from 'vue';
-import { datePickerCtx, DatePickerCtx } from '../../bs-date-picker-types';
+import { datePickerCtx, DatePickerCtx } from '../../bs-date-range-picker-types';
 import dayjs from 'dayjs';
 
 export default defineComponent({
@@ -45,7 +45,7 @@ export default defineComponent({
       if (typeof getCellNode === 'function') {
         slot = useCustomRender ? getCellNode : defaultSlot;
       } else {
-        let dateRenderSlot = datePicker.ctx.slots?.dateRender;
+        let dateRenderSlot = datePicker.ctx.slots.dateRender;
         slot = useCustomRender ? (dateRenderSlot || defaultSlot) : defaultSlot;
       }
 

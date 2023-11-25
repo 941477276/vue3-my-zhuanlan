@@ -29,7 +29,6 @@
       :get-cell-title="setCellTitle"
       :get-cell-node="setCellNode"
       :has-prefix-column="hasPrefixColumn"
-      :external-data="{ panelViewDate }"
       @cell-click="onCellClick"></PanelBody>
   </div>
 </template>
@@ -44,20 +43,19 @@ import {
   PropType
 } from 'vue';
 import {
-  isFunction,
   NOOP
 } from '@vue/shared';
 import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil, isLeapYear, getMonthDays } from '../../../../utils/dayjsUtil';
 import PanelHeader from '../panel-header/PanelHeader.vue';
 import PanelBody from '../panel-body/PanelBody.vue';
-import { datePickerPrefixColumnSlotCtx } from '../../bs-date-picker-types';
+import { datePickerPrefixColumnSlotCtx } from '../../bs-date-range-picker-types';
 import { usePanelViewDate } from '../../hooks/usePanelViewDate';
 
 const totalCell = 42; // 单元格总数, 6行 * 7天（一周）
 const weekDayCount = 7;
 const defaultFormat = 'YYYY-MM-DD';
-let getDates = function (dayjsIns: Dayjs, count: number, yearMonth: string, disabledDate: (currentDate: Dayjs) => boolean) {
+let getDates = function (dayjsIns: Dayjs, count: number, disabledDate: (currentDate: Dayjs) => boolean) {
   let daysDateArr: any = [];
   let dayIndex = 1;
   while (dayIndex <= count) {
@@ -65,8 +63,7 @@ let getDates = function (dayjsIns: Dayjs, count: number, yearMonth: string, disa
     daysDateArr.push({
       dayjsIns: dayjsInsInner,
       id: dayjsInsInner.format(defaultFormat),
-      disabled: typeof disabledDate === 'function' ? !!disabledDate(dayjsInsInner) : false,
-      yearMonth
+      disabled: typeof disabledDate === 'function' ? !!disabledDate(dayjsInsInner) : false
     });
     dayIndex++;
   }
@@ -150,12 +147,6 @@ export default defineComponent({
         return () => [];
       }
     },
-    getCellClassname: { // 自定义表格单元格classname
-      type: Function,
-      default () {
-        return () => [];
-      }
-    },
     onYearClick: { // 年份按钮点击事件
       type: Function,
       default () {
@@ -169,7 +160,7 @@ export default defineComponent({
       }
     }
   },
-  emits: ['update:modelValue', 'viewDateChange', 'cell-click'],
+  emits: ['update:modelValue', 'viewDateChange'],
   setup (props: any, ctx: any) {
     let now = dayjs(); // 今天
     // 用于面板展示的日期
@@ -238,9 +229,8 @@ export default defineComponent({
       let nextMonthDaysCount = totalCell - currentMonthDaysCount - prevMonthDaysCount;
       let disabledDate = props.disabledDate;
 
-      let yearMonth = currentDate.format('YYYY-MM');
-      let currentMonthDaDays: any[] = getDates(currentDate, currentMonthDaysCount, yearMonth, disabledDate);
-      let nextMonthDaDays: any[] = getDates(dayjsUtil.setMonth(currentDate, month + 1), nextMonthDaysCount, yearMonth, disabledDate);
+      let currentMonthDaDays: any[] = getDates(currentDate, currentMonthDaysCount, disabledDate);
+      let nextMonthDaDays: any[] = getDates(dayjsUtil.setMonth(currentDate, month + 1), nextMonthDaysCount, disabledDate);
       let prevMonthDays: any[] = [];
       let dayIndex = 0; // 获取当前月份第一天的前一天下标是从0开始的
       while (dayIndex < prevMonthDaysCount) {
@@ -249,8 +239,7 @@ export default defineComponent({
         prevMonthDays.unshift({
           dayjsIns,
           id: dayjsIns.format(defaultFormat),
-          disabled,
-          yearMonth
+          disabled
         });
         dayIndex++;
       }
@@ -263,7 +252,7 @@ export default defineComponent({
     });
     // 单元格点击事件
     let onCellClick = function (cellData: any) {
-      // let modelValue = props.modelValue;
+      let modelValue = props.modelValue;
       if (cellData.disabled) {
         return;
       }
@@ -273,7 +262,6 @@ export default defineComponent({
         return;
       } */
       ctx.emit('update:modelValue', cellData.dayjsIns);
-      ctx.emit('cell-click', cellData);
     };
 
     provide(datePickerPrefixColumnSlotCtx, ctx);
@@ -281,12 +269,11 @@ export default defineComponent({
     let dateRender = props.dateRender;
     return {
       currentDateInfo,
-      panelViewDate,
 
       tableHeader,
       tableBody,
       // 设置单元格的classname
-      setCellClassname (cellData: any, cellIndex: number, rowIndex: number, externalData: Record<string, any>) {
+      setCellClassname (cellData: any, cellIndex: number) {
         let currentDate = panelViewDate.value;
         let modelValue = props.modelValue;
         let dayjsIns = cellData.dayjsIns;
@@ -302,13 +289,6 @@ export default defineComponent({
         }
         if (cellData.disabled) {
           classnames.push('is-disabled');
-        }
-        let getCellClassnames = props.getCellClassname;
-        if (isFunction(getCellClassnames)) {
-          let extraCellClassnames = getCellClassnames(cellData, cellIndex, rowIndex, externalData);
-          if (extraCellClassnames) {
-            classnames.push(extraCellClassnames);
-          }
         }
         return classnames;
       },
@@ -338,19 +318,6 @@ export default defineComponent({
       onCellClick,
       setPanelViewDate (date: Dayjs) {
         setPanelViewDate(date, false);
-      },
-      /**
-       * 获取单元格单数据
-       * @param rowIndex 行索引
-       * @param cellIndex 单元格索引
-       */
-      getCellData (rowIndex: number, cellIndex: number) {
-        let tableDataRaw = tableBody.value;
-        if (rowIndex < 0 || cellIndex < 0) {
-          return;
-        }
-        let rowData = tableDataRaw[rowIndex];
-        return rowData?.[cellIndex];
       }
     };
   }

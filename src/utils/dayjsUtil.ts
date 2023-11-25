@@ -1,4 +1,4 @@
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs, { Dayjs, ConfigType, OpUnitType } from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
 import weekday from 'dayjs/plugin/weekday';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
@@ -7,6 +7,7 @@ import advancedFormat from 'dayjs/plugin/advancedFormat';
 import isToday from 'dayjs/plugin/isToday';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import quarterOfYear from 'dayjs/plugin/quarterOfYear';
+import isBetween from 'dayjs/plugin/isBetween';
 
 dayjs.extend(weekday);
 // 设置国际化
@@ -22,6 +23,8 @@ dayjs.extend(isToday);
 dayjs.extend(customParseFormat);
 // 季度插件
 dayjs.extend(quarterOfYear);
+// 比较插件
+dayjs.extend(isBetween);
 
 const localeMap: Record<string, string> = {
   // ar_EG:
@@ -150,6 +153,22 @@ export const dayjsUtil = {
     } else {
       return dayjs(value);
     }
+  },
+  /**
+   * 判断指定日期是否在开始和结束日期之间
+   * @param dayIns 待比较的日期
+   * @param startDate 开始日期
+   * @param endDate 结束日期
+   * @param unitType 精度单位
+   * @param inclusivity 包含性
+   * // 第5个参数是两个字符 '[' 表示包含, '(' 表示不包含
+   * // '()' 不包含开始和结束的日期 (默认)
+   * // '[]' 包含开始和结束的日期
+   * // '[)' 包含开始日期但不包含结束日期
+   * // 例如，当想包含开始的日期作为比较依据，你应该使用“day”作为第三个参数。
+   */
+  isBetween: (dayIns: Dayjs, startDate: ConfigType, endDate: ConfigType, unitType?: OpUnitType, inclusivity?: '()' | '[]' | '[)' | '(]') => {
+    return dayIns.isBetween(startDate, endDate, unitType, inclusivity);
   },
   /**
    *  强校的验日期/时间
