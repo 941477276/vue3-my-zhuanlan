@@ -192,7 +192,7 @@ export default defineComponent({
         if (startDateRaw && endDateRaw) {
           // 日期在开始与结束日期之间且日期必须在当前显示的面板中
           if (dayjsUtil.isBetween(dayjsIns, startDateRaw, endDateRaw, 'date') && dateIsInCurrentPanelViewMonth) {
-            console.log(dayjsIns.format(format) + '在开始结束日期之间');
+            // console.log(dayjsIns.format(format) + '在开始结束日期之间');
             classnames.push('bs-picker-cell-in-range');
           }
         }
@@ -223,14 +223,28 @@ export default defineComponent({
         let endDateRaw = endDate.value;
 
         let dayjsIns = cellData.dayjsIns;
-        if (startDateRaw && !endDateRaw) {
-          endDate.value = dayjsIns;
-          hoverStartDate.value = hoverEndDate.value = null;
+        if (startDateRaw) {
+          if (!endDateRaw) {
+            console.log(111);
+            endDate.value = dayjsIns;
+            hoverStartDate.value = hoverEndDate.value = null;
+          } else {
+            console.log(222);
+            startDate.value = hoverStartDate.value = dayjsIns;
+            endDate.value = hoverEndDate.value = null;
+          }
         } else {
-          startDate.value = hoverStartDate.value = dayjsIns;
-          endDate.value = hoverEndDate.value = null;
+          if (!endDateRaw) {
+            startDate.value = hoverStartDate.value = dayjsIns;
+            endDate.value = hoverEndDate.value = null;
+            console.log(333);
+          } else {
+            // 当endDate有值，但startDate没有值，说明用户一开始框选的结束时间比开始时间要小，程序自动将开始时间变成了结束时间
+            startDate.value = dayjsIns;
+            hoverStartDate.value = hoverEndDate.value = null;
+            console.log(444);
+          }
         }
-
         hoverEndIsBeforeStart = false;
       },
       // 鼠标移动事件
@@ -242,7 +256,7 @@ export default defineComponent({
         if (!target || target.nodeType != 1) {
           return;
         }
-        console.log('onPanelsWrapMousemove', evt.target);
+        // console.log('onPanelsWrapMousemove', evt.target);
         let parentTd = target.nodeName == 'TD' ? target : parents(target, 'bs-picker-cell');
         if (!parentTd) {
           return;
