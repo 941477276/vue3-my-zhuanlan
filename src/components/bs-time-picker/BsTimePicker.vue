@@ -17,6 +17,7 @@
     :placeholder="placeholder"
     :name="name"
     :dropdown-class="dropdownClass"
+    :placement="placement"
     @update:inputModelValue="hanleInputModelValueChange"
     @input="onInput"
     @blur="onInputBlur"

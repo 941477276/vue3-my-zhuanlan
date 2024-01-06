@@ -66,7 +66,7 @@
       :try-all-placement="false"
       :set-min-width="setMinWidth"
       :will-visible="willVisible"
-      placement="bottom"
+      :placement="placement"
       @before-enter="$emit('show')"
       @after-enter="$emit('shown')"
       @after-leave="$emit('hidden')">
