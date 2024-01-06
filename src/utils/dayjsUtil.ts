@@ -147,7 +147,10 @@ export const dayjsUtil = {
   getYear: (dayIns: Dayjs) => dayIns.year(),
   getMonth: (dayIns: Dayjs) => dayIns.month(),
   getDate: (dayIns: Dayjs) => dayIns.date(),
-  parseToDayjs: (value: Dayjs|string, format: string) => {
+  parseToDayjs: (value: Dayjs|string|null, format: string) => {
+    if (!value) {
+      return null;
+    }
     if (typeof value === 'string') {
       return dayjs(value, format);
     } else {
@@ -184,7 +187,10 @@ export const dayjsUtil = {
    * @param quarterValue 季度值
    * @param format 格式化模板
    */
-  parseQuarter (quarterValue: Dayjs|string, format: string) {
+  parseQuarter (quarterValue: Dayjs|string|null, format: string) {
+    if (!quarterValue) {
+      return null;
+    }
     if (typeof quarterValue == 'object') {
       return quarterValue;
     }
@@ -213,7 +219,10 @@ export const dayjsUtil = {
    * @param weekValue 周字符串
    * @param format 格式化模板
    */
-  parseWeek (weekValue: Dayjs|string, format: string, lang: string) {
+  parseWeek (weekValue: Dayjs|string|null, format: string, lang: string) {
+    if (!weekValue) {
+      return null;
+    }
     if (typeof weekValue == 'object') {
       return weekValue;
     }
@@ -275,7 +284,10 @@ export const dayjsUtil = {
      * @param lang 语言
      * @param format 格式模板
      */
-    format (dayjsIns: Dayjs, lang:string, format: string) {
+    format (dayjsIns: Dayjs|null, lang:string, format: string) {
+      if (!dayjsIns) {
+        return '';
+      }
       dayjsIns = isDate(dayjsIns) ? dayjs(dayjsIns) : dayjsIns;
       return dayjsIns.locale(getLocale(lang)).format(format);
     },

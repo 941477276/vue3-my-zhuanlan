@@ -23,7 +23,7 @@
             class="bs-datetime-range-editor-input"
             type="text"
             autocomplete="off"
-            ref="bsInputRef"
+            ref="bsInputStartRef"
             v-bind="nativeAttrs"
             :class="[
               {
@@ -31,13 +31,13 @@
                 'is-invalid': validateStatus === 'error'
               }
             ]"
-            :value="inputModelValue"
+            :value="inputModelValue[0]"
             :disabled="disabled"
             :id="bsCommonPickerId"
             :name="name"
             :placeholder="placeholder"
             :readonly="inputReadOnly"
-            @input="onInput"
+            @input="onInput($event, 'start')"
             @focus="onInputFocus"
             @blur="onInputBlur"
             @click="showDropdown" />
@@ -48,21 +48,21 @@
             class="bs-datetime-range-editor-input"
             type="text"
             autocomplete="off"
-            ref="bsInputRef"
+            ref="bsInputEndRef"
             v-bind="nativeAttrs"
-            :value="inputModelValue"
+            :value="inputModelValue[1]"
             :disabled="disabled"
             :id="bsCommonPickerId"
             :name="name"
             :placeholder="placeholder"
             :readonly="inputReadOnly"
-            @input="onInput"
+            @input="onInput($event, 'end')"
             @focus="onInputFocus"
             @blur="onInputBlur"
             @click="showDropdown" />
           <div class="bs-datetime-range-editor-input-suffix" @click="handleInputSuffixClick">
             <slot name="icon"><BsiCalendar></BsiCalendar></slot>
-            <BsiXCircle v-if="inputModelValue && clearable && !disabled" class="clear-icon" @click.stop="handleClear"></BsiXCircle>
+            <BsiXCircle v-if="inputModelValue.length > 0 && clearable && !disabled" class="clear-icon" @click.stop="handleClear"></BsiXCircle>
           </div>
         </div>
       </slot>
@@ -123,11 +123,18 @@ export default defineComponent({
     BsiArrowLeftRight
   },
   props: {
-    ...bsCommonPickerTypes
+    ...bsCommonPickerTypes,
+    inputModelValue: { // 输入框的值
+      type: Array,
+      default () {
+        return [];
+      }
+    }
   },
   emits: ['update:inputModelValue', 'input', 'focus', 'blur', 'clear', 'show', 'shown', 'hidden'],
   setup (props: any, ctx: any) {
-    let bsInputRef = ref(null);
+    let bsInputStartRef = ref<HTMLInputElement|null>(null);
+    let bsInputEndRef = ref<HTMLInputElement|null>(null);
     let bsCommonPickerId = ref(props.id || `bs-common-picker_${++bsCommonPickerCount}`);
 
     // 触发元素
@@ -184,10 +191,20 @@ export default defineComponent({
     });
 
     // 输入框输入事件
-    let onInput = function (evt: Event) {
+    let onInput = function (evt: Event, name: string) {
       let value = (evt.target as HTMLInputElement)?.value;
-      ctx.emit('input', value, evt);
-      ctx.emit('update:inputModelValue', value);
+      let value2 = '';
+      let result = [];
+      if (name == 'start') {
+        value2 = bsInputEndRef.value!.value;
+        result = [value, value2];
+      } else {
+        value2 = bsInputStartRef.value!.value;
+        result = [value2, value];
+      }
+
+      ctx.emit('input', result, evt);
+      ctx.emit('update:inputModelValue', result);
     };
     let onInputFocus = function (evt: Event) {
       ctx.emit('focus', evt);
@@ -202,12 +219,13 @@ export default defineComponent({
       (bsInputRef.value as any)?.setValidateStatus(status);
     }; */
     let focus = function () {
-      (bsInputRef.value as any)?.focus();
+      (bsInputStartRef.value as any)?.focus();
     };
 
     return {
       bsPickerDropdownRef,
-      bsInputRef,
+      bsInputStartRef,
+      bsInputEndRef,
       display,
       willVisible,
       visible,
@@ -224,7 +242,8 @@ export default defineComponent({
       hideDropdown,
       focus,
       blur () {
-        (bsInputRef.value as any)?.blur();
+        (bsInputStartRef.value as any)?.blur();
+        (bsInputEndRef.value as any)?.blur();
       },
       handleClear () {
         ctx.emit('clear');
