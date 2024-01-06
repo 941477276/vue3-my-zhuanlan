@@ -14,8 +14,8 @@ export const allowedPickerType = ['date', 'dateTime', 'week', 'month', 'quarter'
 
 export const bsDateRangePickerTypes = {
   modelValue: {
-    type: [String, Object],
-    default: ''
+    type: [String, Object, Array],
+    default: []
   },
   pickerType: {
     type: String as PropType<PickerType>,

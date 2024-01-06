@@ -166,7 +166,7 @@ export default defineComponent({
             if (timePanelValueFormat && datePanelValueFormat) {
               tempFormat = datePanelValueFormat + props.valueFormatSpliter + timePanelValueFormat;
             }
-            let dateTemp = dayjsUtil.parseToDayjs(modelValue, tempFormat || format);
+            let dateTemp = dayjsUtil.parseToDayjs(modelValue, tempFormat || format)!;
             let hour = dateTemp.hour();
             let periods = '';
             if (upperCaseValue.endsWith('PM')) {

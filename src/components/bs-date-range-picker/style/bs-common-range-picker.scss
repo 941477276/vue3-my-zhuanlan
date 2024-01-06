@@ -1,8 +1,21 @@
 @import "../../../styles/bootstrap-variables";
 //@import "../../bs-common-picker/style/bs-common-picker";
-/*.bs-datetime-range-editor{
-  display: inline-block;
-}*/
+.bs-datetime-range-editor{
+  &.is-focus{
+    .bs-datetime-range-editor-input-wrap{
+      color: $input-focus-color;
+      background-color: $input-focus-bg;
+      border-color: $input-focus-border-color;
+      outline: 0;
+      @if $enable-shadows {
+        @include box-shadow($input-box-shadow, $input-focus-box-shadow);
+      } @else {
+        // Avoid using mixin so we can pass custom focus shadow properly
+        box-shadow: $input-focus-box-shadow;
+      }
+    }
+  }
+}
 .bs-datetime-range-editor-input-wrap{
   position: relative;
   display: flex;
@@ -22,6 +35,7 @@
   .bs-datetime-range-editor-input{
     flex: 1;
     width: 100%;
+    max-width: 6.5rem; // 120px
     height: add($input-line-height * 1em, add($input-padding-y * 2, 0, false));
     padding: 0;
     border: none;
@@ -60,9 +74,10 @@
       @include border-radius($input-border-radius-lg);
     }
     .bs-picker-range-separator{
-      margin: 0 0.75rem;
+      margin: 0 0.9rem 0 0.75rem;
     }
     input{
+      max-width: 7.5rem; // 120px
       // bootstrap的大的输入框高度为48px，且包含了边框；由于这个输入框不能包含输入框，因此它的高度需减去边框
       height: add($input-line-height-lg * 1em, add($input-padding-y-lg * 2, 0, false));// $input-height-lg;
       @include font-size($input-font-size-lg);
@@ -80,9 +95,10 @@
       @include border-radius($input-border-radius-sm);
     }
     .bs-picker-range-separator{
-      margin: 0 0.25rem;
+      margin: 0 0.4rem 0 0.25rem;
     }
     input{
+      max-width: 5rem; // 120px
       // bootstrap的大的输入框高度为48px，且包含了边框；由于这个输入框不能包含输入框，因此它的高度需减去边框
       height: add($input-line-height-sm * 1em, add($input-padding-y-sm * 2, 0, false));
       @include font-size($input-font-size-sm);
@@ -105,7 +121,7 @@
 }
 .bs-picker-range-separator{
   align-self: center;
-  margin: 0 0.5rem;
+  margin: 0 0.65rem 0 0.5rem;
   color: #6E757C;
   .bs-icon{
     vertical-align: middle;

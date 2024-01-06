@@ -45,17 +45,6 @@ let pickerCounts: any = {
 // js编写日历思路：https://www.cnblogs.com/zaijin-yang/p/12009727.html
 export default defineComponent({
   name: 'BsDateRangePicker',
-  // components: {
-  //   BsCommonPicker,
-  //   BsDatePanel,
-  //   BsMonthPanel,
-  //   BsQuarterPanel,
-  //   BsYearPanel,
-  //   BsDecadePanel,
-  //   BsWeekPanel,
-  //   BsDateTimePanel
-  //   // PanelSidebar
-  // },
   props: {
     ...bsDateRangePickerTypes
   },
@@ -99,34 +88,35 @@ export default defineComponent({
     };
 
     let date = ref<Dayjs|null>();
-    let viewDate = ref<Dayjs|null>();
+    let dates = ref<(Dayjs|null)[]>([]);
+    // 临时选中的日期
+    let tempDates = ref<Dayjs[]>([]);
+    // 用于预览的数据
+    let viewDates = ref<(Dayjs|null)[]>([]);
     // 显示的文本
-    let viewDateText = ref('');
-    let setViewDateTxt = function (modelValue: Dayjs|string) {
-      if (!modelValue) {
-        viewDateText.value = '';
-        return;
-      }
-      if (typeof modelValue === 'string') {
-        viewDateText.value = modelValue;
+    let viewDateText = ref<string[]>([]);
+    let setViewDateTxt = function (dates: (Dayjs|null)[]) {
+      if (dates.length == 0) {
+        viewDateText.value = [];
         return;
       }
       let format = formatInner.value;
-      let valueFormat = props.valueFormat;
-      let dayjsIns;
+      let dayjsInsStart;
+      let dayjsInsEnd;
       let pickerType = props.pickerType;
       if (pickerType == 'quarter') {
-        dayjsIns = dayjsUtil.parseQuarter(modelValue, format);
+        dayjsInsStart = dayjsUtil.parseQuarter(dates[0], format);
+        dayjsInsEnd = dayjsUtil.parseQuarter(dates[1], format);
       } else if (pickerType == 'week') {
-        dayjsIns = dayjsUtil.parseWeek(modelValue, format, 'zh-cn');
+        dayjsInsStart = dayjsUtil.parseWeek(dates[0], format, 'zh-cn');
+        dayjsInsEnd = dayjsUtil.parseWeek(dates[1], format, 'zh-cn');
       } else {
-        dayjsIns = dayjsUtil.parseToDayjs(modelValue, format);
+        dayjsInsStart = dayjsUtil.parseToDayjs(dates[0], format);
+        dayjsInsEnd = dayjsUtil.parseToDayjs(dates[1], format);
       }
-      if (!dayjsIns) {
-        viewDateText.value = '';
-        return;
-      }
-      let viewText = '';
+
+      let viewTextStart = '';
+      let viewTextEnd = '';
       if (pickerType == 'dateTime') {
         let { timePanelProps, datePanelProps } = props;
         let timePanelFormat = timePanelProps.format;
@@ -138,13 +128,15 @@ export default defineComponent({
           timePanelFormat = timePanelProps.user12Hours ? 'hh:mm:ss' : 'HH:mm:ss';
         }
         format = datePanelFormat + props.formatSpliter + timePanelFormat;
-        viewText = dayjsUtil.locale.format(dayjsIns, 'en', format);
+        viewTextStart = dayjsUtil.locale.format(dayjsInsStart, 'en', format);
+        viewTextEnd = dayjsUtil.locale.format(dayjsInsEnd, 'en', format);
       } else {
-        viewText = dayjsIns.format(format);
+        viewTextStart = dayjsInsStart ? dayjsInsStart.format(format) : '';
+        viewTextEnd = dayjsInsEnd ? dayjsInsEnd.format(format) : '';
       }
-      viewDateText.value = viewText;
+      viewDateText.value = [viewTextStart, viewTextEnd];
     };
-    watch(() => props.modelValue, function (modelValue: Dayjs|string) {
+    /* watch(() => props.modelValue, function (modelValue: Dayjs|string) {
       if (!modelValue) {
         date.value = null;
       } else {
@@ -202,8 +194,8 @@ export default defineComponent({
       }
 
       setViewDateTxt(date.value as Dayjs);
-      viewDate.value = date.value;
-    }, { immediate: true });
+      viewDates.value = date.value;
+    }, { immediate: true }); */
 
     // 输入框提示文字
     let inputPlaceholder = computed(function () {
@@ -234,28 +226,6 @@ export default defineComponent({
           break;
       }
       return '请选择' + pickerText;
-    });
-
-    // 今天是否被禁用
-    let todayIsDisabled = computed(function () {
-      let pickerType = props.pickerType;
-      if (pickerType != 'date' && pickerType != 'dateTime') {
-        return true;
-      }
-      let disabledDate = props.disabledDate;
-      if (typeof disabledDate !== 'function') {
-        return false;
-      }
-      let now = dayjs();
-      let flag = false;
-      if (pickerType == 'quarter') {
-        let quarterName = dayjsUtil.locale.format(now, 'zh-cn', '[Q]Q');
-        flag = disabledDate(now.quarter(), quarterName);
-      } else {
-        flag = disabledDate(now);
-      }
-
-      return flag;
     });
 
     // 是否显示footer
@@ -289,34 +259,43 @@ export default defineComponent({
     };
 
     // 设置值
-    let setDate = function (newDate?: Dayjs) {
-      if (!newDate) {
-        ctx.emit('update:modelValue', '');
-        ctx.emit('change', '', null);
+    let setDate = function (newDates?: Dayjs[]) {
+      console.log('setDate 11');
+      if (!newDates || newDates.length == 0) {
+        dates.value = [];
+        ctx.emit('update:modelValue', []);
+        ctx.emit('change', [], null);
         callFormItem('validate', 'change');
         return;
       }
+      console.log('setDate 22');
+      let [newDateStart, newDateEnd] = newDates;
       let valueFormat = props.valueFormat;
-      let value;
+      let startValue;
+      let endValue;
       if (props.pickerType == 'dateTime') {
-        let period = '';
+        let periodStart = '';
+        let periodEnd = '';
         let timePanelProps = props.timePanelProps;
         let datePanelProps = props.datePanelProps;
         let use12Hours = timePanelProps.use12Hours;
 
+        console.log('setDate 33');
         if (!timePanelProps.valueFormat || !datePanelProps.valueFormat) {
-          value = newDate.clone();
+          startValue = newDateStart.clone();
+          endValue = newDateEnd.clone();
         } else {
           if (use12Hours) {
-            period = newDate.hour() > 12 ? 'pm' : 'am';
+            periodStart = newDateStart.hour() > 12 ? 'pm' : 'am';
+            periodEnd = newDateEnd.hour() > 12 ? 'pm' : 'am';
           }
           let { disabledHours, disabledMinutes, disabledSeconds } = timePanelProps;
-          let timeValue = getUpdateModelValue({
+          let timeValueStart = getUpdateModelValue({
             valueFormat: timePanelProps.valueFormat,
             // valueFormat: valueFormat,
             use12Hours,
-            date: newDate,
-            period,
+            date: newDateStart,
+            period: periodStart,
             originDate: date.value as Dayjs,
             disabledFns: {
               disabledHours,
@@ -324,20 +303,41 @@ export default defineComponent({
               disabledSeconds
             }
           });
-          let dateValue = newDate.format(props.datePanelProps.valueFormat);
-          value = dateValue + ' ' + timeValue;
+          let timeValueEnd = getUpdateModelValue({
+            valueFormat: timePanelProps.valueFormat,
+            // valueFormat: valueFormat,
+            use12Hours,
+            date: newDateEnd,
+            period: periodEnd,
+            originDate: date.value as Dayjs,
+            disabledFns: {
+              disabledHours,
+              disabledMinutes,
+              disabledSeconds
+            }
+          });
+          let valueFormat = props.datePanelProps;
+          let dateValueStart = newDateStart.format(valueFormat);
+          let dateValueEnd = newDateEnd.format(valueFormat);
+          startValue = dateValueStart + ' ' + timeValueStart;
+          endValue = dateValueEnd + ' ' + timeValueEnd;
         }
       } else {
         if (!valueFormat) {
-          value = newDate.clone();
+          startValue = newDateStart.clone();
+          endValue = newDateEnd.clone();
         } else {
-          value = newDate.format(valueFormat);
+          startValue = newDateStart.format(valueFormat);
+          endValue = newDateEnd.format(valueFormat);
         }
       }
 
       // let value = !valueFormat ? date.clone() : date.format(valueFormat);
-      ctx.emit('update:modelValue', value);
-      ctx.emit('change', value, newDate.clone());
+      let result = [startValue, endValue];
+      dates.value = [newDateStart, newDateEnd];
+      console.log('setDate 44');
+      ctx.emit('update:modelValue', result);
+      ctx.emit('change', result);
       callFormItem('validate', 'change');
     };
     // 设置面板显示的日期
@@ -364,15 +364,11 @@ export default defineComponent({
     let show = function () {
       (bsCommonPicker.value as any)?.showDropdown(true);
     };
-    // 设置今天
-    let setNow = function () {
-      setDate(dayjs());
-    };
 
     // 面板状态变换事件处理函数
     let handlePickerModeChange = (mode: string, pickerType: string, newDate: Dayjs) => {
-      // 以当前面板中的日期为基础进行变换，没有则以选中的日期为基础进行变换，否则以当前日期为基础进行变换
-      let clonedDate = viewDate.value?.clone() || date.value?.clone() || dayjs();
+      /* // 以当前面板中的日期为基础进行变换，没有则以选中的日期为基础进行变换，否则以当前日期为基础进行变换
+      let clonedDate = viewDates.value?.clone() || date.value?.clone() || dayjs();
       let prevModeValue = prevMode.value;
       let nextMode = pickerType;
       let panelViewDate: Dayjs;
@@ -388,9 +384,9 @@ export default defineComponent({
           if (['decade', 'month'].includes(prevModeValue) && pickerType !== 'quarter') {
             nextMode = 'month';
           }
-          /*  else {
+          /!*  else {
             nextMode = 'date';
-          } */
+          } *!/
           break;
         case 'month':
           // setDate(clonedDate ? clonedDate.month(newDate.month()) : newDate);
@@ -401,41 +397,49 @@ export default defineComponent({
       let timer = setTimeout(() => {
         clearTimeout(timer);
         // viewDate
-        viewDate.value = panelViewDate;
+        viewDates.value = panelViewDate;
         refs[nextMode + 'Ref']?.value?.setPanelViewDate(panelViewDate);
-      }, 0);
+      }, 0); */
     };
 
     //  日期控件model-value值改变事件
-    let onDatePanelModelValueChange = function (newDate: Dayjs, hideDropdown: boolean) {
+    let onDatePanelModelValueChange = function (newDates: Dayjs|Dayjs[], hideDropdown: boolean) {
       let pickerType = props.pickerType;
       let mode = currentMode.value;
       // 如果面板状态有值且面板状态不等于面板类型，此时用户只是在切换面板，并非在赋值
       if (mode && (pickerType != mode)) {
-        handlePickerModeChange(mode, pickerType, newDate);
+        handlePickerModeChange(mode, pickerType, newDates as Dayjs);
         return;
       }
-      setDate(newDate);
+      // setDate(newDate);
       if (typeof hideDropdown === 'boolean' && !hideDropdown) { // 判断是否隐藏下拉面板
         return;
       }
       // 隐藏下拉面板
-      hide(300);
+      // hide(300);
+      tempDates.value = newDates as Dayjs[];
     };
 
     // 开启输入与操作同步功能
     let isInputTextValid = true;
     // 输入框输入事件
-    let onInput = function (value: string) {
-      if (!value) {
+    let onInput = function (value: string[]) {
+      console.log('onInput 11');
+      if (value.length == 0) {
         isInputTextValid = false;
         return;
       }
-      let format = formatInner.value;
+      let formatStart = formatInner.value;
+      let formatEnd = formatInner.value;
       let pickerType = props.pickerType;
       let disabledDate = props.disabledDate;
+
+      let startDateIns;
+      let endDateIns;
+      let periodsStart = '';
+      let periodsEnd = '';
       isInputTextValid = false;
-      if (pickerType == 'quarter' || pickerType == 'week') {
+      /* if (pickerType == 'quarter' || pickerType == 'week') {
         let dayjsIns = pickerType == 'quarter' ? dayjsUtil.parseQuarter(value, format) : dayjsUtil.parseWeek(value, format, 'zh-cn');
         if (!dayjsIns) {
           return;
@@ -455,40 +459,73 @@ export default defineComponent({
         setDate(dayjsIns);
         isInputTextValid = true;
         return;
-      }
-      let dayjsIns;
-      let periods = '';
+      } */
 
-      if (pickerType == 'dateTime' && typeof value == 'string') {
-        let upperCaseValue = value.toUpperCase();
-        if (upperCaseValue.endsWith('AM')) {
-          value = value.replace(/AM/i, '').trim();
-          periods = 'AM';
+      let [valueStart, valueEnd] = value;
+      if (pickerType == 'dateTime' && typeof valueStart == 'string') {
+        let upperCaseValueStart = valueStart.toUpperCase();
+        let upperCaseValueEnd = valueEnd.toUpperCase();
+        if (upperCaseValueStart.endsWith('AM')) {
+          valueStart = valueStart.replace(/AM/i, '').trim();
+          periodsStart = 'AM';
+        } else if (upperCaseValueStart.endsWith('PM')) {
+          valueStart = valueStart.replace(/PM/i, '').trim();
+          periodsStart = 'PM';
         }
-        if (upperCaseValue.endsWith('PM')) {
-          value = value.replace(/PM/i, '').trim();
-          periods = 'PM';
+        if (upperCaseValueEnd.endsWith('AM')) {
+          valueEnd = valueEnd.replace(/AM/i, '').trim();
+          periodsEnd = 'AM';
+        } else if (upperCaseValueEnd.endsWith('PM')) {
+          valueEnd = valueEnd.replace(/PM/i, '').trim();
+          periodsEnd = 'PM';
         }
-        // value = value.replace(/[am|pm]/ig, '').trim();
-        if (periods) {
-          format = format.replace(/[a|p]/ig, '').trim();
+        if (periodsStart) {
+          formatStart = formatStart.replace(/[a|p]/ig, '').trim();
+        }
+        if (periodsEnd) {
+          formatEnd = formatEnd.replace(/[a|p]/ig, '').trim();
         }
       }
       // 开启严格校验，如不开启严格校验，当遇到格式如HH:mm:ss，输入框初始值为11:03:20，用户想改成11:30:20，当用户选中“03”然后再输入“3”时值就改变了
-      if (!dayjsIns) {
-        dayjsIns = dayjsUtil.strictDayjs(value, format);
+      if (!startDateIns) {
+        startDateIns = dayjsUtil.strictDayjs(valueStart, formatStart);
       }
-      if (dayjsIns.isValid()) {
-        if (isFunction(disabledDate) && disabledDate(dayjsIns)) {
+      if (!endDateIns) {
+        endDateIns = dayjsUtil.strictDayjs(valueEnd, formatEnd);
+      }
+      if (startDateIns.isValid() && startDateIns.isValid()) {
+        console.log('onInput 22');
+        if (isFunction(disabledDate)) {
+          if (disabledDate(startDateIns) || disabledDate(endDateIns)) {
+            return;
+          }
+        }
+        // 结束日期不能小于开始日期
+        if (endDateIns.isBefore(startDateIns)) {
           return;
         }
-        let hour = dayjsIns.hour();
-        if (periods == 'AM' && hour > 12) {
-          dayjsIns = dayjsIns.hour(hour - 12);
-        } else if (periods == 'PM' && hour < 12) {
-          dayjsIns = dayjsIns.hour(hour + 12);
+        console.log('onInput 33');
+        let startHour = startDateIns.hour();
+        let endHour = endDateIns.hour();
+        if (periodsStart == 'AM') {
+          if (startHour > 12) {
+            startDateIns = startDateIns.hour(startHour - 12);
+          }
+        } else if (periodsStart == 'PM') {
+          if (startHour < 12) {
+            startDateIns = startDateIns.hour(startHour + 12);
+          }
         }
-        setDate(dayjsIns);
+        if (periodsEnd == 'AM') {
+          if (endHour > 12) {
+            endDateIns = endDateIns.hour(endHour - 12);
+          }
+        } else if (periodsEnd == 'PM') {
+          if (endHour < 12) {
+            endDateIns = endDateIns.hour(endHour + 12);
+          }
+        }
+        setDate([startDateIns, endDateIns]);
         isInputTextValid = true;
       } else {
         isInputTextValid = false;
@@ -525,16 +562,15 @@ export default defineComponent({
       visible,
       viewDateText,
       date,
-      viewDate,
+      dates,
+      viewDates,
       inputPlaceholder,
-      todayIsDisabled,
       footerVisible,
       currentMode,
 
       clear,
       hide,
       show,
-      setNow,
       setValidateStatus,
       setCurrentMode,
       setPanelViewDate,
@@ -548,18 +584,15 @@ export default defineComponent({
       dateTimeRef,
 
       onDatePanelModelValueChange,
-      onNowBtnClick () {
-        setNow();
-        hide(300);
-      },
       onConfirmBtnClick () {
         if (props.pickerType === 'dateTime') {
           if (!props.modelValue) {
-            setDate(dayjs());
+            // setDate(dayjs());
             hide(300);
             return;
           }
         }
+        setDate(tempDates.value);
         hide();
       },
       onInput,
@@ -582,6 +615,17 @@ export default defineComponent({
       onHidden () {
         visible.value = false;
         ctx.emit('hide');
+        // 重置面板中选中的日期
+        refs[props.pickerType + 'Ref'].value?.resetSelectedDates();
+
+        console.log('dates', dates.value);
+        setViewDateTxt(dates.value!);
+      },
+      // 预览数据改变事件
+      onPreviewDatesChange (previewDates: Dayjs[]) {
+        console.log('预览数据改变事件', previewDates);
+        viewDates.value = previewDates;
+        setViewDateTxt(previewDates);
       }
     };
   },
@@ -598,7 +642,7 @@ export default defineComponent({
 
     // 面板公共属性
     let panelcommonProps = {
-      'model-value': this.date,
+      'model-value': this.dates,
       'date-render': this.dateRender,
       'disabled-date': this.disabledDate,
       'show-header': this.showHeader,
@@ -610,7 +654,7 @@ export default defineComponent({
       this.setCurrentMode('year');
       let timer = setTimeout(() => {
         clearTimeout(timer);
-        (this.$refs.yearRef as any)?.setPanelViewDate(this.viewDate);
+        (this.$refs.yearRef as any)?.setPanelViewDate(this.viewDates);
       }, 0);
     };
     // 月份按钮点击事件
@@ -618,25 +662,25 @@ export default defineComponent({
       this.setCurrentMode('month');
       let timer = setTimeout(() => {
         clearTimeout(timer);
-        (this.$refs.monthRef as any)?.setPanelViewDate(this.viewDate);
+        (this.$refs.monthRef as any)?.setPanelViewDate(this.viewDates);
       }, 0);
     };
     // 十年按钮点击事件
     let onDecadeClick = () => {
       this.setCurrentMode('decade');
-      let timer = setTimeout(() => {
+      /* let timer = setTimeout(() => {
         clearTimeout(timer);
         (this.$refs.decadeRef as any)?.setPanelViewDate(this.viewDate);
-      }, 0);
+      }, 0); */
     };
     let onViewDateChange = (viewDate: Dayjs) => {
-      this.viewDate = viewDate;
+      // this.viewDates = viewDate;
     };
     let onYearViewDateChange = (viewDate: Dayjs) => {
-      this.viewDate = this.viewDate?.year(viewDate.year());
+      // this.viewDates = this.viewDates?.year(viewDate.year());
     };
     let onMonthViewDateChange = (viewDate: Dayjs) => {
-      this.viewDate = this.viewDate?.month(viewDate.month());
+      // this.viewDates = this.viewDates?.month(viewDate.month());
     };
 
     let panels: {[key: string]: () => VNode} = {
@@ -648,7 +692,12 @@ export default defineComponent({
           onMonthClick={ onMonthButtonClick }
           onViewDateChange={ onViewDateChange }></BsDatePanel>; */
         return <BsDatePanels
-          ref="dateRef"></BsDatePanels>;
+          ref="dateRef"
+          { ...panelcommonProps }
+          onYearClick={ onYearButtonClick }
+          onMonthClick={ onMonthButtonClick }
+          onViewDateChange={ onViewDateChange }
+          onPreviewDatesChange={ this.onPreviewDatesChange }></BsDatePanels>;
       },
       weekPanel: () => {
         return <BsWeekPanel
@@ -694,7 +743,6 @@ export default defineComponent({
           onYearClick={ onYearButtonClick }
           onMonthClick={ onMonthButtonClick }
           onViewDateChange={ onViewDateChange }
-
           { ...panelcommonProps }></BsDateTimePanel>;
       }
     };
@@ -711,7 +759,7 @@ export default defineComponent({
           }
         ]}>
         {$slots.sidebar ? $slots.sidebar({
-          date: this.date,
+          date: this.dates,
           show: this.show,
           hide: this.hide
         }) : null}
@@ -748,27 +796,17 @@ export default defineComponent({
           'has-panel-sidebar': this.showSidebar,
           'sidebar-in-right': this.sidebarInRight
         }]}>
-        {/* <!--<PanelSidebar v-if="showSidebar"></PanelSidebar>--> */}
-        {/* <div class="bs-panel-sidebar">
-          { $slots.sidebar ? $slots.sidebar({ date: this.date }) : null }
-        </div> */}
         { this.showSidebar && !this.sidebarInRight ? sideBar() : null }
         {/* { panels[(this.pickerType + 'Panel')]?.() } */}
         { pickerContent?.() }
         { this.showSidebar && this.sidebarInRight ? sideBar() : null }
       </div>
       {(this.footerVisible && (!currentMode || pickerType == currentMode)) ? <div class="bs-picker-footer">
+        { $slots.footer ? $slots.footer() : null }
         <div class="bs-picker-btns">
           {/* <!--TODO 按钮的禁用问题--> */}
-          {pickerType == 'date' && (!currentMode || currentMode == 'date') ? <BsButton class="bs-picker-today" size="sm" disabled={ this.todayIsDisabled } onClick={ this.onNowBtnClick }>今天</BsButton> : null}
-          {pickerType == 'dateTime' ? (
-            <>
-              <BsButton type="link" size="sm" disabled={ this.todayIsDisabled } onClick={ this.onNowBtnClick }>此刻</BsButton>
-              <BsButton class="bs-picker-ok" type="primary" size="sm" onClick={ this.onConfirmBtnClick }>确定</BsButton>
-            </>
-          ) : null}
-          {/* <slot name="footer"></slot> */}
-          { $slots.footer ? $slots.footer() : null }
+          {/* <BsButton type="link" size="sm" disabled={ this.todayIsDisabled } onClick={ this.onNowBtnClick }>此刻</BsButton> */}
+          <BsButton class="bs-picker-ok" type="primary" size="sm" onClick={ this.onConfirmBtnClick }>确定</BsButton>
         </div>
       </div> : null}
       {/* <template #trigger>
