@@ -107,6 +107,14 @@ export default defineComponent({
       },
       setPanelViewDate (date: Dayjs) {
         (datePanelRef.value as any)?.setPanelViewDate(date);
+      },
+      /**
+       * 获取单元格单数据
+       * @param rowIndex 行索引
+       * @param cellIndex 单元格索引
+       */
+      getCellData (rowIndex: number, cellIndex: number) {
+        return (datePanelRef.value as any)?.getCellData(rowIndex, cellIndex);
       }
     };
   }

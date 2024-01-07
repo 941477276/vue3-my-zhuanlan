@@ -170,6 +170,19 @@ export default defineComponent({
       onCellClick,
       setPanelViewDate (date: Dayjs) {
         setPanelViewDate(date, false);
+      },
+      /**
+       * 获取单元格单数据
+       * @param rowIndex 行索引
+       * @param cellIndex 单元格索引
+       */
+      getCellData (rowIndex: number, cellIndex: number) {
+        let tableDataRaw = tableBody.value;
+        if (rowIndex < 0 || cellIndex < 0) {
+          return;
+        }
+        let rowData = tableDataRaw[rowIndex];
+        return rowData?.[cellIndex];
       }
     };
   }
