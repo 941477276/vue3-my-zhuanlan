@@ -215,7 +215,7 @@ export default defineComponent({
         } else if (startViewDateYear == endViewDateYear) {
           sameYear = true;
         }
-        if (sameYear && endViewDate.month() < startViewDateMonth) {
+        if (sameYear && endViewDate.month() <= startViewDateMonth) {
           endViewDate = endViewDate.month(startViewDateMonth + 1);
         }
       }
