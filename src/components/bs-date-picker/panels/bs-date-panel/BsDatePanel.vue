@@ -53,6 +53,7 @@ import PanelHeader from '../panel-header/PanelHeader.vue';
 import PanelBody from '../panel-body/PanelBody.vue';
 import { datePickerPrefixColumnSlotCtx } from '../../bs-date-picker-types';
 import { usePanelViewDate } from '../../hooks/usePanelViewDate';
+import { bsDatePanelProps } from './bs-date-panel-props';
 
 const totalCell = 42; // 单元格总数, 6行 * 7天（一周）
 const weekDayCount = 7;
@@ -116,58 +117,7 @@ export default defineComponent({
     PanelBody
   },
   props: {
-    modelValue: {
-      type: Object as PropType<Dayjs>,
-      default: null
-    },
-    dateRender: { // 自定义日期单元格的内容
-      type: Function,
-      default: null
-    },
-    disabledDate: { // 禁用的日期
-      type: Function,
-      default: null
-    },
-    showHeader: { // 是否显头部
-      type: Boolean,
-      default: true
-    },
-    hasPrefixColumn: { // 是否有前置列
-      type: Boolean,
-      default: false
-    },
-    yearButtonDisabled: { // 是否禁用年份按钮
-      type: Boolean,
-      default: false
-    },
-    monthButtonDisabled: { // 是否禁用月份按钮
-      type: Boolean,
-      default: false
-    },
-    getRowClassname: { // 自定义表格行classname
-      type: Function,
-      default () {
-        return () => [];
-      }
-    },
-    getCellClassname: { // 自定义表格单元格classname
-      type: Function,
-      default () {
-        return () => [];
-      }
-    },
-    onYearClick: { // 年份按钮点击事件
-      type: Function,
-      default () {
-        return NOOP;
-      }
-    },
-    onMonthClick: { // 月份按钮点击事件
-      type: Function,
-      default () {
-        return NOOP;
-      }
-    }
+    ...bsDatePanelProps
   },
   emits: ['update:modelValue', 'viewDateChange', 'cell-click'],
   setup (props: any, ctx: any) {

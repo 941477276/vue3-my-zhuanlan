@@ -610,6 +610,10 @@ export default defineComponent({
             setPanelViewDate(panelViewDate);
           });
         }
+        nextTick(function () {
+          // 重置面板
+          refs[props.pickerType + 'Ref']?.value?.resetPanelMode();
+        });
         ctx.emit('show');
       },
       onHidden () {
