@@ -87,7 +87,8 @@ export default defineComponent({
     }); */
     let {
       panelViewDate,
-      setPanelViewDate
+      setPanelViewDate,
+      getPanelViewDate
     } = usePanelViewDate(props, ctx);
 
     let yearName = computed(function () {
@@ -171,6 +172,7 @@ export default defineComponent({
       setPanelViewDate (date: Dayjs) {
         setPanelViewDate(date, false);
       },
+      getPanelViewDate,
       /**
        * 获取单元格单数据
        * @param rowIndex 行索引

@@ -22,11 +22,16 @@ export function usePanelViewDate (props: any, ctx: SetupContext) {
     }
   };
 
+  let getPanelViewDate = function () {
+    return panelViewDate.value.clone();
+  };
+
   watch(() => props.modelValue, function (modelValue) {
     setPanelViewDate(modelValue || dayjs());
   });
   return {
     panelViewDate,
-    setPanelViewDate
+    setPanelViewDate,
+    getPanelViewDate
   };
 };

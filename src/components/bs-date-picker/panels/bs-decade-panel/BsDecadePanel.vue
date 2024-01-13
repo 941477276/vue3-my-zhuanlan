@@ -62,7 +62,8 @@ export default defineComponent({
     // 用于面板展示的日期
     let {
       panelViewDate,
-      setPanelViewDate
+      setPanelViewDate,
+      getPanelViewDate
     } = usePanelViewDate(props, ctx);
 
     // 年份区间信息
@@ -166,6 +167,7 @@ export default defineComponent({
       setPanelViewDate (date: Dayjs) {
         setPanelViewDate(date, false);
       },
+      getPanelViewDate,
       /**
        * 获取单元格单数据
        * @param rowIndex 行索引
