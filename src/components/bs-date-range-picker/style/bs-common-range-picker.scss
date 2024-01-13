@@ -35,7 +35,7 @@
   .bs-datetime-range-editor-input{
     flex: 1;
     width: 100%;
-    max-width: 6.5rem; // 120px
+    max-width: 8rem; // 128px
     height: add($input-line-height * 1em, add($input-padding-y * 2, 0, false));
     padding: 0;
     border: none;
@@ -46,6 +46,7 @@
     font-weight: $input-font-weight;
     line-height: add($input-line-height * 1em, add($input-padding-y * 2, 0, false));
     color: $input-color;
+    text-align: center;
     background-color: transparent;
     //background-color: $input-bg;
     //background-clip: padding-box;
@@ -76,8 +77,8 @@
     .bs-picker-range-separator{
       margin: 0 0.9rem 0 0.75rem;
     }
-    input{
-      max-width: 7.5rem; // 120px
+    .bs-datetime-range-editor-input{
+      max-width: 10rem; // 160px
       // bootstrap的大的输入框高度为48px，且包含了边框；由于这个输入框不能包含输入框，因此它的高度需减去边框
       height: add($input-line-height-lg * 1em, add($input-padding-y-lg * 2, 0, false));// $input-height-lg;
       @include font-size($input-font-size-lg);
@@ -97,8 +98,8 @@
     .bs-picker-range-separator{
       margin: 0 0.4rem 0 0.25rem;
     }
-    input{
-      max-width: 5rem; // 120px
+    .bs-datetime-range-editor-input{
+      max-width: 7rem; // 112px
       // bootstrap的大的输入框高度为48px，且包含了边框；由于这个输入框不能包含输入框，因此它的高度需减去边框
       height: add($input-line-height-sm * 1em, add($input-padding-y-sm * 2, 0, false));
       @include font-size($input-font-size-sm);
