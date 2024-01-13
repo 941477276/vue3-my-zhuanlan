@@ -35,7 +35,6 @@
         ref="startDatePanelRef"
         picker-type="date"
         :get-cell-classname="setCellClassname"
-        :model-value="startDate"
         :use-model-value="false"
         @update:modelValue="onDateCellClick"
         @panel-mode-change="onPanelModeChange"></BsDatePanelAssemble>
@@ -43,7 +42,6 @@
         ref="endDatePanelRef"
         picker-type="date"
         :get-cell-classname="setCellClassname"
-        :model-value="endDate"
         :use-model-value="false"
         @update:modelValue="onDateCellClick"
         @panel-mode-change="onPanelModeChange"></BsDatePanelAssemble>
@@ -58,7 +56,7 @@ import {
   watch,
   defineComponent,
   provide,
-  PropType, reactive
+  PropType, reactive, nextTick
 } from 'vue';
 import {
   NOOP
@@ -152,6 +150,11 @@ export default defineComponent({
       console.log('watch datePanels modelValue: ', modelValue);
       startDate.value = start || null;
       endDate.value = end || null;
+
+      nextTick(function () {
+        let viewDateStart = start || dayjs();
+        setPanelViewDate(viewDateStart, end);
+      });
     }, { immediate: true });
 
     let startDateInputValue = ref('');
@@ -182,6 +185,42 @@ export default defineComponent({
       }
     });
 
+    // 设置面版显示日期
+    let setPanelViewDate = function (startViewDate?: Dayjs|Date|null, endViewDate?: Dayjs|Date|null) {
+      console.log('调用了setPanelViewDate', startViewDate, endViewDate);
+      if (!startViewDate && !endViewDate) {
+        return;
+      }
+      if (startViewDate instanceof Date) {
+        startViewDate = dayjs(startViewDate);
+      }
+      if (endViewDate instanceof Date) {
+        endViewDate = dayjs(endViewDate);
+      }
+      if (startViewDate && !endViewDate) {
+        endViewDate = startViewDate.month(startViewDate.month() + 1);
+      } else if (endViewDate && !startViewDate) {
+        startViewDate = endViewDate.month(endViewDate.month() - 1);
+      }
+      if (startViewDate && endViewDate) {
+        let startViewDateYear = startViewDate.year();
+        let startViewDateMonth = startViewDate.month();
+        let endViewDateYear = endViewDate.year();
+        let sameYear = false;
+        if (endViewDateYear < startViewDateYear) {
+          endViewDate = endViewDate.year(startViewDateYear);
+          sameYear = true;
+        } else if (startViewDateYear == endViewDateYear) {
+          sameYear = true;
+        }
+        if (sameYear && endViewDate.month() < startViewDateMonth) {
+          endViewDate = endViewDate.month(startViewDateMonth + 1);
+        }
+      }
+      (startDatePanelRef.value as any)?.setPanelViewDate(startViewDate);
+      (endDatePanelRef.value as any)?.setPanelViewDate(endViewDate);
+    };
+
     // 重置选中的日期
     let resetSelectedDates = function () {
       let [start, end] = props.modelValue;
@@ -203,35 +242,7 @@ export default defineComponent({
       panelBodyExternalData,
 
       resetSelectedDates,
-      // 设置面版显示日期
-      setPanelViewDate (startViewDate: Dayjs|null, endViewDate: Dayjs|null) {
-        console.log('调用了setPanelViewDate');
-        if (!startViewDate && !endViewDate) {
-          return;
-        }
-        if (startViewDate && !endViewDate) {
-          endViewDate = startViewDate.month(startViewDate.month() + 1);
-        } else if (endViewDate && !startViewDate) {
-          startViewDate = endViewDate.month(endViewDate.month() - 1);
-        }
-        if (startViewDate && endViewDate) {
-          let startViewDateYear = startViewDate.year();
-          let startViewDateMonth = startViewDate.month();
-          let endViewDateYear = endViewDate.year();
-          let sameYear = false;
-          if (endViewDateYear < startViewDateYear) {
-            endViewDate = endViewDate.year(startViewDateYear);
-            sameYear = true;
-          } else if (startViewDateYear == endViewDateYear) {
-            sameYear = true;
-          }
-          if (sameYear && endViewDate.month() < startViewDateMonth) {
-            endViewDate = endViewDate.month(startViewDateMonth + 1);
-          }
-        }
-        (startDatePanelRef.value as any)?.setPanelViewDate(startViewDate);
-        (endDatePanelRef.value as any)?.setPanelViewDate(endViewDate);
-      },
+      setPanelViewDate,
       // 设置单元格classname
       setCellClassname (cellData: any, cellIndex: number, rowIndex: number, externalData: Record<string, any>) {
         let dayjsIns = cellData.dayjsIns;
