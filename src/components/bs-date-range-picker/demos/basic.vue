@@ -23,14 +23,19 @@ description:
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
-let date = ref('');
+let date = ref([]);
 let week = ref('');
 let month = ref('');
 let quarter = ref('');
 let year = ref('');
 let decade = ref('');
+
+watch(date, function (dateValue) {
+  console.log('选定日期变化了：', dateValue);
+  console.log('格式化后的选定日期：', dateValue[0].format('YYYY-MM-DD hh:mm:ss'), dateValue[1].format('YYYY-MM-DD hh:mm:ss'));
+});
 </script>
 '
 <style lang="scss" scoped>

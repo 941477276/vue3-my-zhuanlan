@@ -49,7 +49,7 @@ export default defineComponent({
     },
     ...bsDatePanelProps
   },
-  emits: ['update:modelValue', 'change', 'panel-mode-change'],
+  emits: ['update:modelValue', 'change', 'panel-mode-change', 'view-date-change'],
   setup (props: any, ctx: any) {
     let bsCommonPicker = ref();
     let pickerId = ref(props.id || `bs-date-panel-assemble_${props.pickerType}_${++pickerCounts[props.pickerType]}`);
@@ -58,13 +58,17 @@ export default defineComponent({
     // 面板当前状态
     let currentMode = ref('');
     let prevMode = ref(''); // 上一步的面板状态
-    let setCurrentMode = function (mode: string) {
+    let setCurrentMode = function (mode: string, panelViewDate?: Dayjs) {
       ctx.emit('panel-mode-change', mode);
       // 在宏任务中切换面板状态，防止错误的判断鼠标点击到了面板外面
       let timer = setTimeout(function () {
         clearTimeout(timer);
         prevMode.value = currentMode.value;
         currentMode.value = mode;
+        // 当用户切换面板模式与pickerType一致时需要像外抛出面板显示日期改变事件
+        if (mode == props.pickerType && panelViewDate) {
+          emitViewDateChange(panelViewDate);
+        }
       }, 0);
     };
 
@@ -93,6 +97,11 @@ export default defineComponent({
     let setPanelViewDate = function (date: Date | Dayjs) {
       let mode = currentMode.value || props.pickerType;
       refs[mode + 'Ref']?.value?.setPanelViewDate(date);
+    };
+    // 获取面板显示的日期
+    let getPanelViewDate = function () {
+      let mode = currentMode.value || props.pickerType;
+      return refs[mode + 'Ref']?.value?.getPanelViewDate();
     };
 
     // 面板状态变换事件处理函数
@@ -123,13 +132,16 @@ export default defineComponent({
           panelViewDate = clonedDate ? clonedDate.month(newDate.month()) : newDate;
           break;
       }
-      setCurrentMode(nextMode);
+      setCurrentMode(nextMode, panelViewDate!);
       let timer = setTimeout(() => {
         clearTimeout(timer);
-        // viewDate
-        // viewDate.value = panelViewDate;
+        viewDate.value = panelViewDate;
         refs[nextMode + 'Ref']?.value?.setPanelViewDate(panelViewDate);
       }, 0);
+    };
+    // 向外抛出面板显示时间改吧事件
+    let emitViewDateChange = function (viewDate: Dayjs) {
+      ctx.emit('view-date-change', viewDate.clone());
     };
 
     //  日期控件model-value值改变事件
@@ -167,6 +179,7 @@ export default defineComponent({
 
       setCurrentMode,
       setPanelViewDate,
+      getPanelViewDate,
       /**
        * 获取单元格单数据
        * @param rowIndex 行索引
@@ -175,6 +188,7 @@ export default defineComponent({
       getCellData (rowIndex: number, cellIndex: number) {
         return (refs[props.pickerType + 'Ref'] as any).value?.getCellData?.(rowIndex, cellIndex);
       },
+      emitViewDateChange,
 
       dateRef,
       weekRef,
@@ -232,6 +246,7 @@ export default defineComponent({
     };
     let onViewDateChange = (viewDate: Dayjs) => {
       this.viewDate = viewDate;
+      this.emitViewDateChange(viewDate);
     };
     let onYearViewDateChange = (viewDate: Dayjs) => {
       this.viewDate = this.viewDate?.year(viewDate.year());

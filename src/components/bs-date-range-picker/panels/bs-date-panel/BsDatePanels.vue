@@ -37,14 +37,16 @@
         :get-cell-classname="setCellClassname"
         :use-model-value="false"
         @update:modelValue="onDateCellClick"
-        @panel-mode-change="onPanelModeChange"></BsDatePanelAssemble>
+        @panel-mode-change="onPanelModeChange"
+        @view-date-change="onViewDateChange($event, 'start')"></BsDatePanelAssemble>
       <BsDatePanelAssemble
         ref="endDatePanelRef"
         picker-type="date"
         :get-cell-classname="setCellClassname"
         :use-model-value="false"
         @update:modelValue="onDateCellClick"
-        @panel-mode-change="onPanelModeChange"></BsDatePanelAssemble>
+        @panel-mode-change="onPanelModeChange"
+        @view-date-change="onViewDateChange($event, 'end')"></BsDatePanelAssemble>
     </div>
   </div>
 </template>
@@ -187,7 +189,7 @@ export default defineComponent({
 
     // 设置面版显示日期
     let setPanelViewDate = function (startViewDate?: Dayjs|Date|null, endViewDate?: Dayjs|Date|null) {
-      console.log('调用了setPanelViewDate', startViewDate, endViewDate);
+      console.log('调用了setPanelViewDate'/* , startViewDate, endViewDate */);
       if (!startViewDate && !endViewDate) {
         return;
       }
@@ -387,6 +389,24 @@ export default defineComponent({
       onPanelModeChange () {
         isHover.value = false;
         console.log('面板模式切换事件');
+      },
+      // 面板显示的日期切换事件
+      onViewDateChange (viewDate: Dayjs, panelName: string) {
+        // isHover.value = false;
+        console.log('面板显示的日期切换事件', viewDate);
+        let panelViewDateStart: Dayjs|null = null;
+        let panelViewDateEnd: Dayjs|null = null;
+        if (panelName == 'start') {
+          panelViewDateEnd = endDatePanelRef.value.getPanelViewDate();
+          if (viewDate.isAfter(panelViewDateEnd, 'month') || viewDate.isSame(panelViewDateEnd, 'month')) {
+            setPanelViewDate(viewDate, viewDate.month(viewDate.month() + 1));
+          }
+        } else {
+          panelViewDateStart = startDatePanelRef.value.getPanelViewDate();
+          if (viewDate.isBefore(panelViewDateStart, 'month') || viewDate.isSame(panelViewDateStart, 'month')) {
+            setPanelViewDate(viewDate.month(viewDate.month() - 1), viewDate);
+          }
+        }
       }
     };
   }
