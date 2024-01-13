@@ -136,66 +136,84 @@ export default defineComponent({
       }
       viewDateText.value = [viewTextStart, viewTextEnd];
     };
-    /* watch(() => props.modelValue, function (modelValue: Dayjs|string) {
-      if (!modelValue) {
-        date.value = null;
+    watch(() => props.modelValue, function (modelValue: (Dayjs|string)[]) {
+      if (!modelValue || modelValue.length == 0) {
+        dates.value = [];
       } else {
-        let dayjsIns;
+        let dayjsInsStart;
+        let dayjsInsEnd;
+        let [valueStart, valueEnd] = modelValue;
+        /* let valueStartType = getType(valueStart);
+        let valueEndType = getType(valueEnd); */
         let pickerType = props.pickerType;
         let format = formatInner.value;
         let valueFormat = props.valueFormat;
         if (props.pickerType == 'quarter') {
-          dayjsIns = dayjsUtil.parseQuarter(modelValue, valueFormat || format);
+          dayjsInsStart = dayjsUtil.parseQuarter(valueStart, valueFormat || format);
+          dayjsInsEnd = dayjsUtil.parseQuarter(valueEnd, valueFormat || format);
         } else if (pickerType == 'week') {
-          dayjsIns = dayjsUtil.parseWeek(modelValue, valueFormat || format, 'zh-cn');
+          dayjsInsStart = dayjsUtil.parseWeek(valueStart, valueFormat || format, 'zh-cn');
+          dayjsInsEnd = dayjsUtil.parseWeek(valueEnd, valueFormat || format, 'zh-cn');
         } else {
-          if (pickerType == 'dateTime' && typeof modelValue == 'string') {
-            let upperCaseValue = modelValue.toUpperCase();
+          if (pickerType == 'dateTime') {
             let { timePanelProps, datePanelProps } = props;
             let timePanelValueFormat = timePanelProps.valueFormat;
             let datePanelValueFormat = datePanelProps.valueFormat;
-            // let tempFormat = 'YYYY-MM-DD HH:mm:ss';
             let tempFormat = '';
             if (timePanelValueFormat && datePanelValueFormat) {
               tempFormat = datePanelValueFormat + props.valueFormatSpliter + timePanelValueFormat;
             }
-            let dateTemp = dayjsUtil.parseToDayjs(modelValue, tempFormat || format);
-            let hour = dateTemp.hour();
-            let periods = '';
-            if (upperCaseValue.endsWith('PM')) {
-              periods = 'PM';
-            }
-            if (upperCaseValue.endsWith('AM')) {
-              periods = 'AM';
-            }
-            if (timePanelProps.use12Hours && !upperCaseValue.endsWith('PM') && !upperCaseValue.endsWith('AM')) {
-              periods = hour > 12 ? 'PM' : 'AM';
-              modelValue += ' ' + periods;
-            }
-            if (periods == 'AM' && hour > 12) {
-              dateTemp = dateTemp.hour(hour - 12);
-            }
-            if (periods == 'PM' && hour < 12) {
-              dateTemp = dateTemp.hour(hour + 12);
-            }
-            if (timePanelProps.use12Hours) {
-              let newHour = dateTemp.hour();
-              if (newHour > 12) {
-                dateTemp = dateTemp.hour(newHour - 12);
+            let getDayjsInsByValue = function (dateTimeValue: string) {
+              let dateTemp = dayjsUtil.parseToDayjs(dateTimeValue, tempFormat || format);
+              if (!dateTemp) {
+                return null;
               }
+              let hour = dateTemp.hour();
+              let periods = '';
+              if (dateTimeValue.endsWith('PM')) {
+                periods = 'PM';
+              }
+              if (dateTimeValue.endsWith('AM')) {
+                periods = 'AM';
+              }
+              if (timePanelProps.use12Hours && !dateTimeValue.endsWith('PM') && !dateTimeValue.endsWith('AM')) {
+                periods = hour > 12 ? 'PM' : 'AM';
+                valueStart += ' ' + periods;
+              }
+              if (periods == 'AM' && hour > 12) {
+                dateTemp = dateTemp.hour(hour - 12);
+              }
+              if (periods == 'PM' && hour < 12) {
+                dateTemp = dateTemp.hour(hour + 12);
+              }
+              if (timePanelProps.use12Hours) {
+                let newHour = dateTemp.hour();
+                if (newHour > 12) {
+                  dateTemp = dateTemp.hour(newHour - 12);
+                }
+              }
+              return dateTemp;
+            };
+            if (typeof valueStart == 'string') {
+              dayjsInsStart = getDayjsInsByValue(valueStart.toUpperCase());
             }
-            dayjsIns = dateTemp;
+            if (typeof valueEnd == 'string') {
+              dayjsInsEnd = getDayjsInsByValue(valueEnd.toUpperCase());
+            }
           }
-          if (!dayjsIns) {
-            dayjsIns = dayjsUtil.parseToDayjs(modelValue, valueFormat || format);
+          if (!dayjsInsStart) {
+            dayjsInsStart = dayjsUtil.parseToDayjs(valueStart, valueFormat || format);
+          }
+          if (!dayjsInsEnd) {
+            dayjsInsEnd = dayjsUtil.parseToDayjs(valueEnd, valueFormat || format);
           }
         }
-        date.value = dayjsIns;
+        dates.value = [dayjsInsStart, dayjsInsEnd];
       }
 
-      setViewDateTxt(date.value as Dayjs);
-      viewDates.value = date.value;
-    }, { immediate: true }); */
+      setViewDateTxt(dates.value);
+      viewDates.value = dates.value.slice();
+    }, { immediate: true });
 
     // 输入框提示文字
     let inputPlaceholder = computed(function () {

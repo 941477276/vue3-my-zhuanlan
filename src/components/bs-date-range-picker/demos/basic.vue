@@ -25,7 +25,7 @@ description:
 <script setup>
 import { ref, watch } from 'vue';
 
-let date = ref([]);
+let date = ref([new Date('2023/05/05 12:00:00'), new Date('2023/08/05 12:00:00')]);
 let week = ref('');
 let month = ref('');
 let quarter = ref('');
