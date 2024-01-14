@@ -48,7 +48,7 @@
             :id="bsCommonPickerId"
             :name="name"
             :placeholder="placeholder"
-            :readonly="inputReadOnly"
+            :readonly="inputReadonly"
             @input="onInput"
             @focus="onInputFocus"
             @blur="onInputBlur"

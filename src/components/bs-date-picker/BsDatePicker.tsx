@@ -217,7 +217,7 @@ export default defineComponent({
           pickerText = '日期';
           break;
         case 'dateTime':
-          pickerText = '时间';
+          pickerText = '日期时间';
           break;
         case 'week':
           pickerText = '周';
@@ -715,8 +715,9 @@ export default defineComponent({
       </div>);
     };
 
+    let dropdownClass = `bs-${this.pickerType}-picker-dropdown`;
+    let pickerTypeClass = `bs-${this.pickerType}-editor`;
     return (<BsCommonPicker
-      class="bs-date-editor"
       ref="bsCommonPicker"
       suffix-icon="calendar"
       size={ this.size }
@@ -726,9 +727,10 @@ export default defineComponent({
       disabled={ this.disabled }
       id={ this.pickerId }
       name={ this.name }
+      class={ pickerTypeClass }
       placeholder={ this.inputPlaceholder }
-      input-readonly={ this.inputReadOnly }
-      dropdown-class={ this.dropdownClass }
+      input-readonly={ this.inputReadonly }
+      dropdown-class={ [this.dropdownClass, dropdownClass] }
       native-attrs={ this.nativeAttrs }
       {
         ...{
