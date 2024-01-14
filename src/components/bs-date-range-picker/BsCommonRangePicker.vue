@@ -13,24 +13,19 @@
       <slot name="trigger">
         <div
           class="bs-datetime-range-editor-input-wrap form-control"
-          :class="[
-            {
-              'is-valid': validateStatus === 'success',
-              'is-invalid': validateStatus === 'error'
-            }
-          ]">
+          :class="{
+            'is-valid': validateStatus === 'success',
+            'is-invalid': validateStatus === 'error'
+          }">
           <input
             class="bs-datetime-range-editor-input"
             type="text"
             autocomplete="off"
             ref="bsInputStartRef"
             v-bind="nativeAttrs"
-            :class="[
-              {
-                'is-valid': validateStatus === 'success',
-                'is-invalid': validateStatus === 'error'
-              }
-            ]"
+            :class="{
+              'date-is-disabled': inputValueDisabled[0]
+            }"
             :value="inputModelValue[0]"
             :disabled="disabled"
             :id="bsCommonPickerId"
@@ -50,6 +45,9 @@
             autocomplete="off"
             ref="bsInputEndRef"
             v-bind="nativeAttrs"
+            :class="{
+              'date-is-disabled': inputValueDisabled[1]
+            }"
             :value="inputModelValue[1]"
             :disabled="disabled"
             :id="bsCommonPickerId"
@@ -80,7 +78,7 @@
       <div
         ref="bsPickerDropdownRef"
         v-show="visible"
-        class="bs-picker-dropdown"
+        class="bs-picker-dropdown bs-range-picker-dropdown"
         :class="dropdownClass">
         <div class="bs-picker-panel-container">
           <slot></slot>
@@ -124,7 +122,17 @@ export default defineComponent({
   },
   props: {
     ...bsCommonPickerTypes,
+    lazyRender: { // 是否延迟渲染下拉菜单的内容
+      type: Boolean,
+      default: true
+    },
     inputModelValue: { // 输入框的值
+      type: Array,
+      default () {
+        return [];
+      }
+    },
+    inputValueDisabled: { // 输入框的值是否为禁用或在禁用范围内
       type: Array,
       default () {
         return [];
@@ -143,7 +151,7 @@ export default defineComponent({
 
     // 下拉元素
     let bsPickerDropdownRef = ref<HTMLElement|null>(null);
-    let display = ref(false);
+    let display = ref(!props.lazyRender);
     let willVisible = ref(false);
     let visible = ref(false);
     let showDropdown = function (flag = true) {
@@ -203,7 +211,7 @@ export default defineComponent({
         result = [value2, value];
       }
 
-      ctx.emit('input', result, evt);
+      ctx.emit('input', result, evt, name);
       ctx.emit('update:inputModelValue', result);
     };
     let onInputFocus = function (evt: Event) {

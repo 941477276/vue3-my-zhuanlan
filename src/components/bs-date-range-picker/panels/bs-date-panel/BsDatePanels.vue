@@ -34,16 +34,30 @@
       <BsDatePanelAssemble
         ref="startDatePanelRef"
         picker-type="date"
+        :get-row-classname="getRowClassname"
         :get-cell-classname="setCellClassname"
+        :has-prefix-column="hasPrefixColumn"
         :use-model-value="false"
+        :disabled-date="disabledDate"
+        :date-render="dateRender"
+        :year-button-disabled="yearButtonDisabled"
+        :month-button-disabled="monthButtonDisabled"
+        :mode="mode"
         @update:modelValue="onDateCellClick"
         @panel-mode-change="onPanelModeChange"
         @view-date-change="onViewDateChange($event, 'start')"></BsDatePanelAssemble>
       <BsDatePanelAssemble
         ref="endDatePanelRef"
         picker-type="date"
+        :get-row-classname="getRowClassname"
         :get-cell-classname="setCellClassname"
+        :has-prefix-column="hasPrefixColumn"
         :use-model-value="false"
+        :disabled-date="disabledDate"
+        :date-render="dateRender"
+        :year-button-disabled="yearButtonDisabled"
+        :month-button-disabled="monthButtonDisabled"
+        :mode="mode"
         @update:modelValue="onDateCellClick"
         @panel-mode-change="onPanelModeChange"
         @view-date-change="onViewDateChange($event, 'end')"></BsDatePanelAssemble>
@@ -61,6 +75,7 @@ import {
   PropType, reactive, nextTick
 } from 'vue';
 import {
+  isFunction,
   NOOP
 } from '@vue/shared';
 import dayjs, { Dayjs } from 'dayjs';
@@ -70,6 +85,7 @@ import BsDatePanel from '../../../bs-date-picker/panels/bs-date-panel/BsDatePane
 import BsTimePicker from '../../../bs-time-picker/BsTimePicker.vue';
 // @ts-ignore
 import BsDatePanelAssemble from '../BsDatePanelAssemble';
+import { PickerType } from '../../bs-date-range-picker-types';
 
 const dateFormat = 'YYYY-MM-DD';
 export default defineComponent({
@@ -110,7 +126,17 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
+    mode: { // 面板的状态
+      type: String as PropType<PickerType>,
+      default: ''
+    },
     getRowClassname: { // 自定义表格行classname
+      type: Function,
+      default () {
+        return () => [];
+      }
+    },
+    getCellClassname: { // 自定义表格单元格classname
       type: Function,
       default () {
         return () => [];
@@ -292,6 +318,15 @@ export default defineComponent({
             if (hoverEndIsBeforeStart) {
               classnames.push('hover-end-is-before-hover-start');
             }
+          }
+        }
+        let getCellClassname = props.getCellClassname;
+        if (isFunction(getCellClassname)) {
+          let classname = getCellClassname(cellData, cellIndex, rowIndex, externalData);
+          if (!Array.isArray(classname)) {
+            classnames.push(classname);
+          } else {
+            classnames.push(...classname);
           }
         }
         // classnames.push('bs-picker-cell-range-hover');

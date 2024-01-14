@@ -8,6 +8,11 @@ $in-range-bg: #dfeafd;
     color: #fff;
     background-color: var(--primary);
   }
+  &.is-disabled{
+    .bs-picker-cell-inner{
+      background-color: #469bf7;
+    }
+  }
 }
 .bs-picker-cell-range-start{
   &:not(.bs-picker-cell-range-start-single)::before{

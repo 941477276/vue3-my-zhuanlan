@@ -95,9 +95,12 @@ export default defineComponent({
     let viewDates = ref<(Dayjs|null)[]>([]);
     // 显示的文本
     let viewDateText = ref<string[]>([]);
+    // 判断显示的日期是否禁用或在禁用范围内
+    let viewDatesIsDisabled = ref<boolean[]>([false, false]);
     let setViewDateTxt = function (dates: (Dayjs|null)[]) {
       if (dates.length == 0) {
         viewDateText.value = [];
+        viewDatesIsDisabled.value = [false, false];
         return;
       }
       let format = formatInner.value;
@@ -134,8 +137,16 @@ export default defineComponent({
         viewTextStart = dayjsInsStart ? dayjsInsStart.format(format) : '';
         viewTextEnd = dayjsInsEnd ? dayjsInsEnd.format(format) : '';
       }
+
       viewDateText.value = [viewTextStart, viewTextEnd];
+      let disabledDate = props.disabledDate;
+      if (isFunction(disabledDate)) {
+        let viewDatesIsDisabledRaw = viewDatesIsDisabled.value;
+        viewDatesIsDisabledRaw[0] = dayjsInsStart ? !!disabledDate(dayjsInsStart) : false;
+        viewDatesIsDisabledRaw[1] = dayjsInsEnd ? !!disabledDate(dayjsInsEnd) : false;
+      }
     };
+
     watch(() => props.modelValue, function (modelValue: (Dayjs|string)[]) {
       if (!modelValue || modelValue.length == 0) {
         dates.value = [];
@@ -441,7 +452,7 @@ export default defineComponent({
     // 开启输入与操作同步功能
     let isInputTextValid = true;
     // 输入框输入事件
-    let onInput = function (value: string[]) {
+    let onInput = function (value: string[], evt: InputEvent, inputName: string) {
       console.log('onInput 11');
       if (value.length == 0) {
         isInputTextValid = false;
@@ -514,7 +525,10 @@ export default defineComponent({
       if (startDateIns.isValid() && startDateIns.isValid()) {
         console.log('onInput 22');
         if (isFunction(disabledDate)) {
-          if (disabledDate(startDateIns) || disabledDate(endDateIns)) {
+          if (disabledDate(startDateIns) && inputName == 'start') {
+            return;
+          }
+          if (disabledDate(endDateIns) && inputName == 'end') {
             return;
           }
         }
@@ -585,6 +599,7 @@ export default defineComponent({
       inputPlaceholder,
       footerVisible,
       currentMode,
+      viewDatesIsDisabled,
 
       clear,
       hide,
@@ -610,7 +625,9 @@ export default defineComponent({
             return;
           }
         }
-        setDate(tempDates.value);
+        if (tempDates.value.length > 0) {
+          setDate(tempDates.value);
+        }
         hide();
       },
       onInput,
@@ -668,6 +685,12 @@ export default defineComponent({
       'date-render': this.dateRender,
       'disabled-date': this.disabledDate,
       'show-header': this.showHeader,
+      'dateRender': this.dateRender,
+      'showHeader': this.showHeader,
+      // 'pickerType': this.pickerType,
+      'mode': this.mode,
+      'yearButtonDisabled': this.yearButtonDisabled,
+      'monthButtonDisabled': this.monthButtonDisabled,
       'onUpdate:modelValue': this.onDatePanelModelValueChange
     };
 
@@ -794,6 +817,7 @@ export default defineComponent({
       size={ this.size }
       show-footer={ this.showFooter }
       input-model-value={ this.viewDateText }
+      input-value-disabled={ this.viewDatesIsDisabled }
       delive-context-to-form-item={ this.deliveContextToFormItem }
       disabled={ this.disabled }
       id={ this.pickerId }
@@ -802,6 +826,7 @@ export default defineComponent({
       input-readonly={ this.inputReadOnly }
       dropdown-class={ this.dropdownClass }
       native-attrs={ this.nativeAttrs }
+      lazy-render={ false }
       {
         ...{
           'onUpdate:inputModelValue': ($event: any) => { this.viewDateText = $event; }

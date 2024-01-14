@@ -129,6 +129,14 @@ export const bsDateRangePickerTypes = {
     default () {
       return {};
     }
+  },
+  yearButtonDisabled: { // 是否禁用年份按钮
+    type: Boolean,
+    default: false
+  },
+  monthButtonDisabled: { // 是否禁用月份按钮
+    type: Boolean,
+    default: false
   }
 };
 
