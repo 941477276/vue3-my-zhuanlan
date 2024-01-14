@@ -70,6 +70,14 @@ export const bsCommonPickerTypes = {
     default () {
       return {};
     }
+  },
+  teleported: { // // 是否使用 teleport。设置成true则下拉内容会被追加到 append-to 的位置
+    type: Boolean,
+    default: true
+  },
+  appendTo: { // 指示下拉内容将附加在哪一个网页元素上
+    type: [String, Object],
+    default: 'body'
   }
 };
 

@@ -826,6 +826,8 @@ export default defineComponent({
       input-readonly={ this.inputReadOnly }
       dropdown-class={ this.dropdownClass }
       native-attrs={ this.nativeAttrs }
+      teleported={ this.teleported }
+      appendTo={ this.appendTo }
       lazy-render={ false }
       {
         ...{
