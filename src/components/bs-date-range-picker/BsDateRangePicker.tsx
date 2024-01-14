@@ -528,7 +528,7 @@ export default defineComponent({
       if (!endDateIns) {
         endDateIns = dayjsUtil.strictDayjs(valueEnd, formatEnd);
       }
-      if (startDateIns.isValid() && startDateIns.isValid()) {
+      if (startDateIns.isValid() && endDateIns.isValid()) {
         console.log('onInput 22');
         if (isFunction(disabledDate)) {
           if (disabledDate(startDateIns) && inputName == 'start') {
@@ -734,22 +734,37 @@ export default defineComponent({
       // this.viewDates = this.viewDates?.month(viewDate.month());
     };
 
-    let panels: {[key: string]: () => VNode} = {
-      datePanel: () => {
-        /* return <BsDatePanel
-          ref="dateRef"
-          { ...panelcommonProps }
-          onYearClick={ onYearButtonClick }
-          onMonthClick={ onMonthButtonClick }
-          onViewDateChange={ onViewDateChange }></BsDatePanel>; */
+    let datePanelFn = (refName = 'dateRef') => {
+      return () => {
         return <BsDatePanels
-          ref="dateRef"
+          ref={ refName }
           { ...panelcommonProps }
+          {
+            ...(refName == 'dateRef' ? {} : {
+              timePanelProps: this.timePanelProps,
+              isDatetimeRange: true
+            })
+          }
           onYearClick={ onYearButtonClick }
           onMonthClick={ onMonthButtonClick }
           onViewDateChange={ onViewDateChange }
           onPreviewDatesChange={ this.onPreviewDatesChange }></BsDatePanels>;
-      },
+      };
+    };
+    let panels: {[key: string]: () => VNode} = {
+      datePanel: datePanelFn(),
+      dateTimePanel: datePanelFn('dateTimeRef'),
+      /* dateTimePanel: () => {
+        return <BsDateTimePanel
+          ref="dateTimeRef"
+          visible={ this.visible }
+          date-panel-props={ this.datePanelProps }
+          time-panel-props={ this.timePanelProps }
+          onYearClick={ onYearButtonClick }
+          onMonthClick={ onMonthButtonClick }
+          onViewDateChange={ onViewDateChange }
+          { ...panelcommonProps }></BsDateTimePanel>;
+      }, */
       weekPanel: () => {
         return <BsWeekPanel
           ref="weekRef"
@@ -784,17 +799,6 @@ export default defineComponent({
           ref="decadeRef"
           { ...panelcommonProps }
           onViewDateChange={ onViewDateChange }></BsDecadePanel>;
-      },
-      dateTimePanel: () => {
-        return <BsDateTimePanel
-          ref="dateTimeRef"
-          visible={ this.visible }
-          date-panel-props={ this.datePanelProps }
-          time-panel-props={ this.timePanelProps }
-          onYearClick={ onYearButtonClick }
-          onMonthClick={ onMonthButtonClick }
-          onViewDateChange={ onViewDateChange }
-          { ...panelcommonProps }></BsDateTimePanel>;
       }
     };
     let currentModePanel = panels[currentMode + 'Panel'];
@@ -817,8 +821,9 @@ export default defineComponent({
       </div>);
     };
 
-    let dropdownClass = `bs-${this.pickerType}-range-picker-dropdown`;
-    let pickerTypeClass = `bs-${this.pickerType}-range-editor`;
+    // let pickerType = this.pickerType?.toLowerCase() || '';
+    let dropdownClass = `bs-${pickerType?.toLowerCase()}-range-picker-dropdown`;
+    let pickerTypeClass = `bs-${pickerType?.toLowerCase()}-range-editor`;
     return (<BsCommonRangePicker
       ref="bsCommonPicker"
       suffix-icon="calendar"
