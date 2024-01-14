@@ -57,7 +57,7 @@ export const bsCommonPickerTypes = {
     type: String,
     default: 'bottom'
   },
-  inputReadOnly: { // 设置输入框为只读（避免在移动设备上打开虚拟键盘）
+  inputReadonly: { // 设置输入框为只读（避免在移动设备上打开虚拟键盘）
     type: Boolean,
     default: false
   },

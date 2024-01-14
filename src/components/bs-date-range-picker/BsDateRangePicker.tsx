@@ -229,7 +229,10 @@ export default defineComponent({
     // 输入框提示文字
     let inputPlaceholder = computed(function () {
       let placeholder = props.placeholder;
-      if (placeholder) {
+      if (typeof placeholder == 'string' && placeholder.length > 0) {
+        return [placeholder];
+      }
+      if (Array.isArray(placeholder) && placeholder.length > 0) {
         return placeholder;
       }
       let picker = props.pickerType;
@@ -239,7 +242,7 @@ export default defineComponent({
           pickerText = '日期';
           break;
         case 'dateTime':
-          pickerText = '时间';
+          pickerText = '日期时间';
           break;
         case 'week':
           pickerText = '周';
@@ -254,7 +257,10 @@ export default defineComponent({
           pickerText = '年份';
           break;
       }
-      return '请选择' + pickerText;
+      return [
+        '开始' + pickerText,
+        '结束' + pickerText
+      ];
     });
 
     // 是否显示footer
@@ -811,6 +817,8 @@ export default defineComponent({
       </div>);
     };
 
+    let dropdownClass = `bs-${this.pickerType}-range-picker-dropdown`;
+    let pickerTypeClass = `bs-${this.pickerType}-range-editor`;
     return (<BsCommonRangePicker
       ref="bsCommonPicker"
       suffix-icon="calendar"
@@ -822,9 +830,10 @@ export default defineComponent({
       disabled={ this.disabled }
       id={ this.pickerId }
       name={ this.name }
-      placeholder={ this.inputPlaceholder }
-      input-readonly={ this.inputReadOnly }
-      dropdown-class={ this.dropdownClass }
+      class={ pickerTypeClass }
+      input-placeholder={ this.inputPlaceholder }
+      input-readonly={ this.inputReadonly }
+      dropdown-class={ [this.dropdownClass, dropdownClass] }
       native-attrs={ this.nativeAttrs }
       teleported={ this.teleported }
       appendTo={ this.appendTo }

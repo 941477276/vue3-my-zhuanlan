@@ -1,24 +1,24 @@
 <template>
   <div
-    class="bs-datetime-range-editor"
+    class="bs-range-editor"
     :class="[
       {
         'is-focus': visible,
         'is-disabled': disabled,
-        'is-readonly': inputReadOnly
+        'is-readonly': inputReadonly
       },
-      size ? `bs-datetime-range-editor-${size}` : ''
+      size ? `bs-range-editor-${size}` : ''
     ]">
     <BsOnlyChild>
       <slot name="trigger">
         <div
-          class="bs-datetime-range-editor-input-wrap form-control"
+          class="bs-range-editor-input-wrap form-control"
           :class="{
             'is-valid': validateStatus === 'success',
             'is-invalid': validateStatus === 'error'
           }">
           <input
-            class="bs-datetime-range-editor-input"
+            class="bs-range-editor-input"
             type="text"
             autocomplete="off"
             ref="bsInputStartRef"
@@ -28,10 +28,10 @@
             }"
             :value="inputModelValue[0]"
             :disabled="disabled"
-            :id="bsCommonPickerId"
+            :id="bsCommonPickerId + '_input1'"
             :name="name"
-            :placeholder="placeholder"
-            :readonly="inputReadOnly"
+            :placeholder="inputPlaceholder[0]"
+            :readonly="inputReadonly"
             @input="onInput($event, 'start')"
             @focus="onInputFocus"
             @blur="onInputBlur"
@@ -40,7 +40,7 @@
             <BsiArrowLeftRight></BsiArrowLeftRight>
           </span>
           <input
-            class="bs-datetime-range-editor-input"
+            class="bs-range-editor-input"
             type="text"
             autocomplete="off"
             ref="bsInputEndRef"
@@ -50,15 +50,15 @@
             }"
             :value="inputModelValue[1]"
             :disabled="disabled"
-            :id="bsCommonPickerId"
+            :id="bsCommonPickerId + '_input2'"
             :name="name"
-            :placeholder="placeholder"
-            :readonly="inputReadOnly"
+            :placeholder="inputPlaceholder[1]"
+            :readonly="inputReadonly"
             @input="onInput($event, 'end')"
             @focus="onInputFocus"
             @blur="onInputBlur"
             @click="showDropdown" />
-          <div class="bs-datetime-range-editor-input-suffix" @click="handleInputSuffixClick">
+          <div class="bs-range-editor-input-suffix" @click="handleInputSuffixClick">
             <slot name="icon"><BsiCalendar></BsiCalendar></slot>
             <BsiXCircle v-if="inputModelValue.length > 0 && clearable && !disabled" class="clear-icon" @click.stop="handleClear"></BsiXCircle>
           </div>
@@ -136,6 +136,12 @@ export default defineComponent({
     },
     inputValueDisabled: { // 输入框的值是否为禁用或在禁用范围内
       type: Array,
+      default () {
+        return [];
+      }
+    },
+    inputPlaceholder: { // 输入框提示文字
+      type: [String, Array],
       default () {
         return [];
       }

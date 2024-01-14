@@ -45,7 +45,7 @@ export const bsDateRangePickerTypes = {
     type: Boolean,
     default: false
   },
-  inputReadOnly: { // 设置输入框为只读（避免在移动设备上打开虚拟键盘）
+  inputReadonly: { // 设置输入框为只读（避免在移动设备上打开虚拟键盘）
     type: Boolean,
     default: false
   },
@@ -89,8 +89,10 @@ export const bsDateRangePickerTypes = {
     default: null
   },
   placeholder: { // 输入框提示文字
-    type: String,
-    default: ''
+    type: [String, Array],
+    default () {
+      return [];
+    }
   },
   disabledDate: { // 禁用的日期
     type: Function,
