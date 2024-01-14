@@ -308,6 +308,16 @@ export default defineComponent({
       let valueFormat = props.valueFormat;
       let startValue;
       let endValue;
+
+      let disabledDate = props.disabledDate;
+      let startValueDisabled = false;
+      let endValueDisabled = false;
+      let getDateDisabled = function (dayjsIns: Dayjs) {
+        if (isFunction(disabledDate)) {
+          return !!disabledDate(dayjsIns);
+        }
+        return false;
+      };
       if (props.pickerType == 'dateTime') {
         let periodStart = '';
         let periodEnd = '';
@@ -319,6 +329,8 @@ export default defineComponent({
         if (!timePanelProps.valueFormat || !datePanelProps.valueFormat) {
           startValue = newDateStart.clone();
           endValue = newDateEnd.clone();
+          startValueDisabled = getDateDisabled(startValue);
+          endValueDisabled = getDateDisabled(endValue);
         } else {
           if (use12Hours) {
             periodStart = newDateStart.hour() > 12 ? 'pm' : 'am';
@@ -356,8 +368,12 @@ export default defineComponent({
           let dateValueEnd = newDateEnd.format(valueFormat);
           startValue = dateValueStart + ' ' + timeValueStart;
           endValue = dateValueEnd + ' ' + timeValueEnd;
+          startValueDisabled = getDateDisabled(newDateStart);
+          endValueDisabled = getDateDisabled(newDateEnd);
         }
       } else {
+        startValueDisabled = getDateDisabled(newDateStart);
+        endValueDisabled = getDateDisabled(newDateEnd);
         if (!valueFormat) {
           startValue = newDateStart.clone();
           endValue = newDateEnd.clone();
@@ -368,8 +384,17 @@ export default defineComponent({
       }
 
       // let value = !valueFormat ? date.clone() : date.format(valueFormat);
-      let result = [startValue, endValue];
-      dates.value = [newDateStart, newDateEnd];
+      let modelValue = props.modelValue || [];
+      let result: any[] = [];
+      // 防止用户输入的日期是被禁用的
+      result[0] = startValueDisabled ? modelValue[0] : startValue;
+      result[1] = endValueDisabled ? modelValue[1] : endValue;
+
+      let datesRaw = dates.value;
+      let newDates2: Dayjs[] = [];
+      result[0] = startValueDisabled ? datesRaw[0] : newDateStart;
+      result[1] = endValueDisabled ? datesRaw[1] : newDateEnd;
+      dates.value = newDates2;
       console.log('setDate 44');
       ctx.emit('update:modelValue', result);
       ctx.emit('change', result);

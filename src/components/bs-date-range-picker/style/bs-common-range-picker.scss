@@ -123,6 +123,21 @@
     }
   }
 }
+.bs-datetime-range-editor{
+  .bs-range-editor-input {
+    max-width: 12rem;
+  }
+  &.bs-range-editor-lg{
+    .bs-range-editor-input {
+      max-width: 14rem;
+    }
+  }
+  &.bs-range-editor-sm{
+    .bs-range-editor-input {
+      max-width: 10rem;
+    }
+  }
+}
 .bs-picker-range-separator{
   align-self: center;
   margin: 0 0.65rem 0 0.5rem;

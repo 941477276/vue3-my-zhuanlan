@@ -1,11 +1,12 @@
 <template>
   <div class="bs-picker-date-range-panels">
-    <div class="bs-picker-date-range-time-header">
+    <div v-if="isDatetimeRange" class="bs-picker-date-range-time-header">
       <input
         type="text"
         class="bs-picker-date-range-time-editor-input form-control form-control-sm"
         placeholder="开始日期"
         :value="startDateInputValue"
+        @input="onDateInput($event, 'start')"
         />
       <BsTimePicker
         :model-value="startDate"
@@ -20,6 +21,7 @@
         class="bs-picker-date-range-time-editor-input form-control form-control-sm"
         placeholder="结束日期"
         :value="endDateInputValue"
+        @input="onDateInput($event, 'end')"
       />
       <BsTimePicker
         :model-value="endDate"
@@ -81,7 +83,6 @@ import {
 import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil, isLeapYear, getMonthDays } from '../../../../utils/dayjsUtil';
 import { parents } from '@/utils/bs-util';
-import BsDatePanel from '../../../bs-date-picker/panels/bs-date-panel/BsDatePanel.vue';
 import BsTimePicker from '../../../bs-time-picker/BsTimePicker.vue';
 // @ts-ignore
 import BsDatePanelAssemble from '../BsDatePanelAssemble';
@@ -153,6 +154,16 @@ export default defineComponent({
       default () {
         return NOOP;
       }
+    },
+    isDatetimeRange: { // 是否为日期时间选择器
+      type: Boolean,
+      default: false
+    },
+    timePanelProps: { // 时间选择器属性
+      type: Object,
+      default () {
+        return {};
+      }
     }
   },
   emits: ['update:modelValue', 'viewDateChange', 'previewDatesChange'],
@@ -173,6 +184,40 @@ export default defineComponent({
       count: 0
     });
 
+    // 日期输入的值
+    let startDateInputValue = ref('');
+    let endDateInputValue = ref('');
+    // 设置日期输入框的值
+    let setDateInputValue = function () {
+      let hoverStartDateRaw = hoverStartDate.value;
+      let hoverEndDateRaw = hoverEndDate.value;
+
+      let hoverStartDateFormatted = hoverStartDateRaw ? hoverStartDateRaw.format(dateFormat) : '';
+      let hoverEndDateFormatted = hoverEndDateRaw ? hoverEndDateRaw.format(dateFormat) : '';
+
+      if (hoverEndDateFormatted && hoverEndDateRaw) {
+        if (!hoverEndIsBeforeStart) {
+          startDateInputValue.value = hoverStartDateFormatted;
+          endDateInputValue.value = hoverEndDateFormatted;
+        } else {
+          startDateInputValue.value = hoverEndDateFormatted;
+          endDateInputValue.value = hoverStartDateFormatted;
+        }
+        return;
+      }
+
+      let startDateRaw = startDate.value;
+      let endDateRaw = endDate.value;
+      if (!hoverStartDateFormatted && startDateRaw) {
+        hoverStartDateFormatted = startDateRaw.format(dateFormat);
+      }
+      if (!hoverEndDateFormatted && endDateRaw) {
+        hoverEndDateFormatted = endDateRaw.format(dateFormat);
+      }
+      startDateInputValue.value = hoverStartDateFormatted;
+      endDateInputValue.value = hoverEndDateFormatted;
+    };
+
     watch(() => props.modelValue, function (modelValue) {
       let [start, end] = modelValue;
       console.log('watch datePanels modelValue: ', modelValue);
@@ -185,19 +230,15 @@ export default defineComponent({
       });
     }, { immediate: true });
 
-    let startDateInputValue = ref('');
-    let endDateInputValue = ref('');
     watch([startDate, endDate], function ([startDateRaw, endDateRaw]) {
       if (!isHover.value) {
-        console.log('aaaa');
-        startDateInputValue.value = startDateRaw ? startDateRaw.format(dateFormat) : '';
-        endDateInputValue.value = endDateRaw ? endDateRaw.format(dateFormat) : '';
-        panelBodyExternalData.count++;
+        console.log('aaaa', startDateRaw, endDateRaw);
+        setDateInputValue();
       }
-    });
+    }, { immediate: true, flush: 'post' });
     watch([hoverStartDate, hoverEndDate], function ([startDateRaw, endDateRaw]) {
       console.log('bbbb');
-      panelBodyExternalData.count++;
+      /* panelBodyExternalData.count++;
       let hoverStartDateFormatted = startDateRaw ? startDateRaw.format(dateFormat) : '';
       let hoverEndDateFormatted = endDateRaw ? endDateRaw.format(dateFormat) : '';
       if (!hoverEndIsBeforeStart) {
@@ -206,7 +247,8 @@ export default defineComponent({
       } else {
         startDateInputValue.value = hoverEndDateFormatted;
         endDateInputValue.value = hoverStartDateFormatted;
-      }
+      } */
+      setDateInputValue();
       if (startDateRaw || endDateRaw) {
         let arr = !hoverEndIsBeforeStart ? [startDateRaw, endDateRaw] : [endDateRaw, startDateRaw];
         ctx.emit('previewDatesChange', arr);
@@ -428,7 +470,12 @@ export default defineComponent({
         // 解决在hover过程中，用户切换了面板模式，面板模式切换完成后，再次点击日期变成了选中日期，而非重新选择日期问题
         startDate.value = start || null;
         endDate.value = end || null;
-        hoverStartDate.value = hoverEndDate.value = null;
+        if (hoverStartDate.value) {
+          hoverStartDate.value = null;
+        }
+        if (hoverEndDate.value) {
+          hoverEndDate.value = null;
+        }
         console.log('面板模式切换事件');
       },
       // 面板显示的日期切换事件
@@ -454,6 +501,55 @@ export default defineComponent({
           if (viewDate.isBefore(panelViewDateStart, 'month') || viewDate.isSame(panelViewDateStart, 'month')) {
             setPanelViewDate(viewDate.month(viewDate.month() - 1), viewDate);
           }
+        }
+      },
+      // 日期输入框输入事件
+      onDateInput (evt: InputEvent, inputName: string) {
+        let value = (evt.target as HTMLInputElement).value;
+        console.log('onDateInput', value, inputName);
+        let startDateRaw = startDate.value;
+        let endDateRaw = endDate.value;
+        let newStartDate = startDateRaw;
+        let newEndDate = endDateRaw;
+        if (inputName == 'start') {
+          let startDayjsIns = dayjsUtil.strictDayjs(value, dateFormat);
+          if (startDayjsIns.isValid()) {
+            newStartDate = startDayjsIns;
+            if (startDateRaw) {
+              newStartDate = startDayjsIns.hour(startDateRaw.hour()).minute(startDateRaw.minute()).second(startDateRaw.second()).millisecond(startDateRaw.millisecond());
+            }
+            if (!endDateRaw) {
+              newEndDate = newStartDate.clone();
+            }
+            if (newStartDate.isAfter(newEndDate!)) {
+              newEndDate = newEndDate!.date(newEndDate!.date() + 1);
+            }
+          }
+        } else {
+          let endDayjsIns = dayjsUtil.strictDayjs(value, dateFormat);
+          console.log('endDayjsIns.isValid()', endDayjsIns.isValid());
+          if (endDayjsIns.isValid()) {
+            newEndDate = endDayjsIns;
+            if (endDateRaw) {
+              newEndDate = endDayjsIns.hour(endDateRaw.hour()).minute(endDateRaw.minute()).second(endDateRaw.second()).millisecond(endDateRaw.millisecond());
+            }
+            if (!startDateRaw) {
+              startDateRaw = newEndDate.clone();
+            }
+            if (newEndDate.isBefore(newStartDate!)) {
+              newStartDate = newStartDate!.date(newStartDate!.date() - 1);
+            }
+          }
+        }
+        console.log('onDateInput', 555, newStartDate, newEndDate, newStartDate != startDateRaw, newEndDate != endDateRaw);
+        if (newStartDate && newEndDate && (newStartDate != startDateRaw || newEndDate != endDateRaw)) {
+          console.log('onDateInput', 666);
+          startDate.value = newStartDate;
+          endDate.value = newEndDate;
+          // hoverStartDate.value = newStartDate;
+          // hoverEndDate.value = endDateRaw;
+          ctx.emit('previewDatesChange', [newStartDate, newEndDate]);
+          ctx.emit('update:modelValue', [newStartDate, newEndDate]);
         }
       }
     };
