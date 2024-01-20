@@ -422,6 +422,23 @@ export default defineComponent({
       hide(300);
     };
 
+    // 判断时间是否被禁用
+    let checkTimeAvailable = function (dayjsIns: Dayjs, use12Hours: boolean) {
+      let hour = dayjsIns.hour();
+      let minute = dayjsIns.minute();
+      let second = dayjsIns.second();
+      let { disabledHours, disabledMinutes, disabledSeconds } = props.timePanelProps;
+      // 如果时分秒被禁用，则用来的时分秒
+      let hourDisabled = isFunction(disabledHours) && !!disabledHours(hour, use12Hours);
+      let minuteDisabled = isFunction(disabledMinutes) && !!disabledMinutes(hour, minute, use12Hours);
+      let secondDisabled = isFunction(disabledSeconds) && !!disabledSeconds(hour, minute, second, use12Hours);
+      return {
+        hourDisabled,
+        minuteDisabled,
+        secondDisabled
+      };
+    };
+
     // 开启输入与操作同步功能
     let isInputTextValid = true;
     // 输入框输入事件
@@ -433,6 +450,7 @@ export default defineComponent({
       let format = formatInner.value;
       let pickerType = props.pickerType;
       let disabledDate = props.disabledDate;
+      let use12Hours = props.timePanelProps.use12Hours;
       isInputTextValid = false;
       if (pickerType == 'quarter' || pickerType == 'week') {
         let dayjsIns = pickerType == 'quarter' ? dayjsUtil.parseQuarter(value, format) : dayjsUtil.parseWeek(value, format, 'zh-cn');
@@ -458,7 +476,7 @@ export default defineComponent({
       let dayjsIns;
       let periods = '';
 
-      if (pickerType == 'dateTime' && typeof value == 'string') {
+      if (pickerType == 'dateTime' && typeof value == 'string' && use12Hours) {
         let upperCaseValue = value.toUpperCase();
         if (upperCaseValue.endsWith('AM')) {
           value = value.replace(/AM/i, '').trim();
@@ -481,11 +499,17 @@ export default defineComponent({
         if (isFunction(disabledDate) && disabledDate(dayjsIns)) {
           return;
         }
-        let hour = dayjsIns.hour();
-        if (periods == 'AM' && hour > 12) {
-          dayjsIns = dayjsIns.hour(hour - 12);
-        } else if (periods == 'PM' && hour < 12) {
-          dayjsIns = dayjsIns.hour(hour + 12);
+        if (pickerType == 'dateTime') {
+          let hour = dayjsIns.hour();
+          if (periods == 'AM' && hour > 12) {
+            dayjsIns = dayjsIns.hour(hour - 12);
+          } else if (periods == 'PM' && hour < 12) {
+            dayjsIns = dayjsIns.hour(hour + 12);
+          }
+          let timeAvailable = checkTimeAvailable(dayjsIns, use12Hours);
+          if (timeAvailable.hourDisabled || timeAvailable.minuteDisabled || timeAvailable.secondDisabled) {
+            return;
+          }
         }
         setDate(dayjsIns);
         isInputTextValid = true;
