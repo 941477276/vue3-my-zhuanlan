@@ -39,7 +39,8 @@
             :class="[
               {
                 'is-valid': validateStatus === 'success',
-                'is-invalid': validateStatus === 'error'
+                'is-invalid': validateStatus === 'error',
+                'date-is-disabled': inputValueDisabled
               },
               size ? `form-control-${size}` : ''
             ]"

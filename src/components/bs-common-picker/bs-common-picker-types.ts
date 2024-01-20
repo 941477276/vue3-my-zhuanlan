@@ -78,6 +78,10 @@ export const bsCommonPickerTypes = {
   appendTo: { // 指示下拉内容将附加在哪一个网页元素上
     type: [String, Object],
     default: 'body'
+  },
+  inputValueDisabled: { // 输入框的值是否被禁用或在禁用范围内
+    type: Boolean,
+    default: false
   }
 };
 

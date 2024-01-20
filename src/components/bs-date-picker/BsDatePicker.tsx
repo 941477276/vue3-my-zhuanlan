@@ -101,9 +101,12 @@ export default defineComponent({
     let viewDate = ref<Dayjs|null>();
     // 显示的文本
     let viewDateText = ref('');
+    // 判断显示的日期是否禁用或在禁用范围内
+    let viewDatesIsDisabled = ref<boolean>(false);
     let setViewDateTxt = function (modelValue: Dayjs|string) {
       if (!modelValue) {
         viewDateText.value = '';
+        viewDatesIsDisabled.value = false;
         return;
       }
       if (typeof modelValue === 'string') {
@@ -123,6 +126,7 @@ export default defineComponent({
       }
       if (!dayjsIns) {
         viewDateText.value = '';
+        viewDatesIsDisabled.value = false;
         return;
       }
       let viewText = '';
@@ -142,6 +146,10 @@ export default defineComponent({
         viewText = dayjsIns.format(format);
       }
       viewDateText.value = viewText;
+      let disabledDate = props.disabledDate;
+      if (isFunction(disabledDate)) {
+        viewDatesIsDisabled.value = dayjsIns ? !!disabledDate(dayjsIns) : false;
+      }
     };
     watch(() => props.modelValue, function (modelValue: Dayjs|string) {
       if (!modelValue) {
@@ -553,6 +561,7 @@ export default defineComponent({
       todayIsDisabled,
       footerVisible,
       currentMode,
+      viewDatesIsDisabled,
 
       clear,
       hide,
@@ -747,6 +756,7 @@ export default defineComponent({
       size={ this.size }
       show-footer={ this.showFooter }
       input-model-value={ this.viewDateText }
+      input-value-disabled={ this.viewDatesIsDisabled }
       delive-context-to-form-item={ this.deliveContextToFormItem }
       disabled={ this.disabled }
       id={ this.pickerId }
