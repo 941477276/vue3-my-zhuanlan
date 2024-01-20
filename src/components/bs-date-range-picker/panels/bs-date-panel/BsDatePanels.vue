@@ -9,10 +9,13 @@
         @input="onDateInput($event, 'start')"
         />
       <BsTimePicker
+        v-bind="timePanelProps"
+        value-format=""
         :model-value="startDate"
-        :disabled="isHover"
+        :disabled="timePanelProps.disabled || isHover"
         size="sm"
-        placeholder="开始时间"></BsTimePicker>
+        placeholder="开始时间"
+        @update:modelValue="onTimeChange($event, 'start')"></BsTimePicker>
 
       <span class="bs-picker-date-range-time-separator"></span>
 
@@ -24,11 +27,14 @@
         @input="onDateInput($event, 'end')"
       />
       <BsTimePicker
+        v-bind="timePanelProps"
+        value-format=""
         :model-value="endDate"
-        :disabled="isHover"
+        :disabled="timePanelProps.disabled || isHover"
         size="sm"
         placement="bottomEnd"
-        placeholder="结束时间"></BsTimePicker>
+        placeholder="结束时间"
+        @update:modelValue="onTimeChange($event, 'end')"></BsTimePicker>
     </div>
     <div
       class="bs-picker-date-range-panels-wrap"
@@ -309,7 +315,8 @@ export default defineComponent({
       onDateCellClick,
       onPanelModeChange,
       onPanelsWrapMousemove,
-      onViewDateChange
+      onViewDateChange,
+      onTimeChange
     } = useDatePanelsEvents({
       ctx,
       props,
@@ -411,7 +418,8 @@ export default defineComponent({
       onDateCellClick,
       onPanelModeChange,
       onPanelsWrapMousemove,
-      onViewDateChange
+      onViewDateChange,
+      onTimeChange
     };
   }
 });

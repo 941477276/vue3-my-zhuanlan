@@ -136,6 +136,17 @@ export function useDatePanelsEvents (options: UseDatePanelsEventsOptions) {
     }
     console.log('面板模式切换事件');
   };
+
+  // 获取时间信息
+  let getTimes = function (dayjsIns: Dayjs) {
+    return {
+      hour: dayjsIns.hour(),
+      minute: dayjsIns.minute(),
+      second: dayjsIns.second(),
+      millisecond: dayjsIns.millisecond()
+    };
+  };
+
   // 面板显示的日期切换事件
   let onViewDateChange = function (viewDate: Dayjs, panelName: string) {
     isHover.value = false;
@@ -174,7 +185,8 @@ export function useDatePanelsEvents (options: UseDatePanelsEventsOptions) {
       if (startDayjsIns.isValid()) {
         newStartDate = startDayjsIns;
         if (startDateRaw) {
-          newStartDate = startDayjsIns.hour(startDateRaw.hour()).minute(startDateRaw.minute()).second(startDateRaw.second()).millisecond(startDateRaw.millisecond());
+          let times = getTimes(startDateRaw);
+          newStartDate = startDayjsIns.hour(times.hour).minute(times.minute).second(times.second).millisecond(times.millisecond);
         }
         if (!endDateRaw) {
           newEndDate = newStartDate.clone();
@@ -189,7 +201,8 @@ export function useDatePanelsEvents (options: UseDatePanelsEventsOptions) {
       if (endDayjsIns.isValid()) {
         newEndDate = endDayjsIns;
         if (endDateRaw) {
-          newEndDate = endDayjsIns.hour(endDateRaw.hour()).minute(endDateRaw.minute()).second(endDateRaw.second()).millisecond(endDateRaw.millisecond());
+          let times = getTimes(endDateRaw);
+          newEndDate = endDayjsIns.hour(times.hour).minute(times.minute).second(times.second).millisecond(times.millisecond);
         }
         if (!startDateRaw) {
           startDateRaw = newEndDate.clone();
@@ -211,11 +224,57 @@ export function useDatePanelsEvents (options: UseDatePanelsEventsOptions) {
     }
   };
 
+  // 时间改变事件
+  let onTimeChange = function (timeValue: Dayjs, name: string) {
+    console.log('onTimeChange', timeValue, name);
+    let startDateRaw = startDate.value;
+    let endDateRaw = endDate.value;
+    let newStartDate = startDateRaw;
+    let newEndDate = endDateRaw;
+    if (name == 'start') {
+      if (!startDateRaw) {
+        newStartDate = timeValue;
+        if (!newEndDate) {
+          newEndDate = newStartDate.clone();
+        }
+      } else {
+        let times = getTimes(timeValue);
+        newStartDate = startDateRaw.hour(times.hour).minute(times.minute).second(times.second).millisecond(times.millisecond);
+        if (!endDateRaw) {
+          newEndDate = newStartDate.clone();
+        } else if (newStartDate.isAfter(newEndDate)) { // 开始时间比结束时间大
+          newEndDate = newEndDate!.hour(times.hour + 1);
+        }
+      }
+    } else {
+      if (!endDateRaw) {
+        newEndDate = timeValue;
+        if (!endDateRaw) {
+          endDateRaw = newEndDate.clone();
+        }
+      } else {
+        let times = getTimes(timeValue);
+        newEndDate = endDateRaw.hour(times.hour).minute(times.minute).second(times.second).millisecond(times.millisecond);
+        if (!startDateRaw) {
+          newStartDate = newEndDate.clone();
+        } else if (newEndDate.isBefore(newStartDate)) { // 结束时间比开始时间小
+          newStartDate = newEndDate!.hour(times.hour - 1);
+        }
+      }
+    }
+    if (newStartDate && newEndDate && (newStartDate != startDateRaw || newEndDate != endDateRaw)) {
+      startDate.value = newStartDate;
+      endDate.value = newEndDate;
+      ctx.emit('previewDatesChange', [newStartDate, newEndDate]);
+      ctx.emit('update:modelValue', [newStartDate, newEndDate]);
+    }
+  };
   return {
     onDateInput,
     onDateCellClick,
     onPanelModeChange,
     onPanelsWrapMousemove,
-    onViewDateChange
+    onViewDateChange,
+    onTimeChange
   };
 }

@@ -84,8 +84,8 @@ $in-range-bg: #dfeafd;
 .bs-picker-date-range-time-editor{
   padding: 0 0.5rem;
 }
-.bs-picker-date-range-time-editor-input,
-.bs-time-editor{
+.bs-picker-date-range-time-editor-input
+/*.bs-time-editor*/{
   flex: 1;
   width: 0;
   max-width: none!important;

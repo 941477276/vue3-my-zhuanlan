@@ -772,6 +772,7 @@ export default defineComponent({
           }
           onYearClick={ onYearButtonClick }
           onMonthClick={ onMonthButtonClick }
+          // @ts-ignore
           onViewDateChange={ onViewDateChange }
           onPreviewDatesChange={ this.onPreviewDatesChange }></BsDatePanels>;
       };
