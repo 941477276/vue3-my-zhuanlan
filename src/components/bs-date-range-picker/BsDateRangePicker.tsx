@@ -305,6 +305,7 @@ export default defineComponent({
       }
       console.log('setDate 22');
       let [newDateStart, newDateEnd] = newDates;
+      let [originDateStart, originDateEnd] = dates.value;
       let valueFormat = props.valueFormat;
       let startValue;
       let endValue;
@@ -343,7 +344,7 @@ export default defineComponent({
             use12Hours,
             date: newDateStart,
             period: periodStart,
-            originDate: date.value as Dayjs,
+            originDate: originDateStart!,
             disabledFns: {
               disabledHours,
               disabledMinutes,
@@ -356,7 +357,7 @@ export default defineComponent({
             use12Hours,
             date: newDateEnd,
             period: periodEnd,
-            originDate: date.value as Dayjs,
+            originDate: originDateEnd!,
             disabledFns: {
               disabledHours,
               disabledMinutes,
@@ -480,6 +481,23 @@ export default defineComponent({
       tempDates.value = newDates as Dayjs[];
     };
 
+    // 判断时间是否被禁用
+    let checkTimeAvailable = function (dayjsIns: Dayjs, use12Hours: boolean) {
+      let hour = dayjsIns.hour();
+      let minute = dayjsIns.minute();
+      let second = dayjsIns.second();
+      let { disabledHours, disabledMinutes, disabledSeconds } = props.timePanelProps;
+      // 如果时分秒被禁用，则用来的时分秒
+      let hourDisabled = isFunction(disabledHours) && !!disabledHours(hour, use12Hours);
+      let minuteDisabled = isFunction(disabledMinutes) && !!disabledMinutes(hour, minute, use12Hours);
+      let secondDisabled = isFunction(disabledSeconds) && !!disabledSeconds(hour, minute, second, use12Hours);
+      return {
+        hourDisabled,
+        minuteDisabled,
+        secondDisabled
+      };
+    };
+
     // 开启输入与操作同步功能
     let isInputTextValid = true;
     // 输入框输入事件
@@ -498,6 +516,7 @@ export default defineComponent({
       let endDateIns;
       let periodsStart = '';
       let periodsEnd = '';
+      let use12Hours = props.timePanelProps.use12Hours;
       isInputTextValid = false;
       /* if (pickerType == 'quarter' || pickerType == 'week') {
         let dayjsIns = pickerType == 'quarter' ? dayjsUtil.parseQuarter(value, format) : dayjsUtil.parseWeek(value, format, 'zh-cn');
@@ -525,25 +544,27 @@ export default defineComponent({
       if (pickerType == 'dateTime' && typeof valueStart == 'string') {
         let upperCaseValueStart = valueStart.toUpperCase();
         let upperCaseValueEnd = valueEnd.toUpperCase();
-        if (upperCaseValueStart.endsWith('AM')) {
-          valueStart = valueStart.replace(/AM/i, '').trim();
-          periodsStart = 'AM';
-        } else if (upperCaseValueStart.endsWith('PM')) {
-          valueStart = valueStart.replace(/PM/i, '').trim();
-          periodsStart = 'PM';
-        }
-        if (upperCaseValueEnd.endsWith('AM')) {
-          valueEnd = valueEnd.replace(/AM/i, '').trim();
-          periodsEnd = 'AM';
-        } else if (upperCaseValueEnd.endsWith('PM')) {
-          valueEnd = valueEnd.replace(/PM/i, '').trim();
-          periodsEnd = 'PM';
-        }
-        if (periodsStart) {
-          formatStart = formatStart.replace(/[a|p]/ig, '').trim();
-        }
-        if (periodsEnd) {
-          formatEnd = formatEnd.replace(/[a|p]/ig, '').trim();
+        if (use12Hours) {
+          if (upperCaseValueStart.endsWith('AM')) {
+            valueStart = valueStart.replace(/AM/i, '').trim();
+            periodsStart = 'AM';
+          } else if (upperCaseValueStart.endsWith('PM')) {
+            valueStart = valueStart.replace(/PM/i, '').trim();
+            periodsStart = 'PM';
+          }
+          if (upperCaseValueEnd.endsWith('AM')) {
+            valueEnd = valueEnd.replace(/AM/i, '').trim();
+            periodsEnd = 'AM';
+          } else if (upperCaseValueEnd.endsWith('PM')) {
+            valueEnd = valueEnd.replace(/PM/i, '').trim();
+            periodsEnd = 'PM';
+          }
+          if (periodsStart) {
+            formatStart = formatStart.replace(/[a|p]/ig, '').trim();
+          }
+          if (periodsEnd) {
+            formatEnd = formatEnd.replace(/[a|p]/ig, '').trim();
+          }
         }
       }
       // 开启严格校验，如不开启严格校验，当遇到格式如HH:mm:ss，输入框初始值为11:03:20，用户想改成11:30:20，当用户选中“03”然后再输入“3”时值就改变了
@@ -588,6 +609,14 @@ export default defineComponent({
             endDateIns = endDateIns.hour(endHour + 12);
           }
         }
+        if (pickerType == 'dateTime') {
+          let startTimeAvailable = checkTimeAvailable(startDateIns, use12Hours);
+          let endTimeAvailable = checkTimeAvailable(endDateIns, use12Hours);
+          if (startTimeAvailable.hourDisabled || startTimeAvailable.minuteDisabled || startTimeAvailable.secondDisabled || endTimeAvailable.hourDisabled || endTimeAvailable.minuteDisabled || endTimeAvailable.secondDisabled) {
+            return;
+          }
+        }
+
         setDate([startDateIns, endDateIns]);
         isInputTextValid = true;
       } else {
