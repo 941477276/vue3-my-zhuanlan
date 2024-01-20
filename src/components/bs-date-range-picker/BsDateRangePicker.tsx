@@ -541,30 +541,28 @@ export default defineComponent({
       } */
 
       let [valueStart, valueEnd] = value;
-      if (pickerType == 'dateTime' && typeof valueStart == 'string') {
+      if (pickerType == 'dateTime' && typeof valueStart == 'string' && use12Hours) {
         let upperCaseValueStart = valueStart.toUpperCase();
         let upperCaseValueEnd = valueEnd.toUpperCase();
-        if (use12Hours) {
-          if (upperCaseValueStart.endsWith('AM')) {
-            valueStart = valueStart.replace(/AM/i, '').trim();
-            periodsStart = 'AM';
-          } else if (upperCaseValueStart.endsWith('PM')) {
-            valueStart = valueStart.replace(/PM/i, '').trim();
-            periodsStart = 'PM';
-          }
-          if (upperCaseValueEnd.endsWith('AM')) {
-            valueEnd = valueEnd.replace(/AM/i, '').trim();
-            periodsEnd = 'AM';
-          } else if (upperCaseValueEnd.endsWith('PM')) {
-            valueEnd = valueEnd.replace(/PM/i, '').trim();
-            periodsEnd = 'PM';
-          }
-          if (periodsStart) {
-            formatStart = formatStart.replace(/[a|p]/ig, '').trim();
-          }
-          if (periodsEnd) {
-            formatEnd = formatEnd.replace(/[a|p]/ig, '').trim();
-          }
+        if (upperCaseValueStart.endsWith('AM')) {
+          valueStart = valueStart.replace(/AM/i, '').trim();
+          periodsStart = 'AM';
+        } else if (upperCaseValueStart.endsWith('PM')) {
+          valueStart = valueStart.replace(/PM/i, '').trim();
+          periodsStart = 'PM';
+        }
+        if (upperCaseValueEnd.endsWith('AM')) {
+          valueEnd = valueEnd.replace(/AM/i, '').trim();
+          periodsEnd = 'AM';
+        } else if (upperCaseValueEnd.endsWith('PM')) {
+          valueEnd = valueEnd.replace(/PM/i, '').trim();
+          periodsEnd = 'PM';
+        }
+        if (periodsStart) {
+          formatStart = formatStart.replace(/[a|p]/ig, '').trim();
+        }
+        if (periodsEnd) {
+          formatEnd = formatEnd.replace(/[a|p]/ig, '').trim();
         }
       }
       // 开启严格校验，如不开启严格校验，当遇到格式如HH:mm:ss，输入框初始值为11:03:20，用户想改成11:30:20，当用户选中“03”然后再输入“3”时值就改变了
@@ -589,27 +587,28 @@ export default defineComponent({
           return;
         }
         console.log('onInput 33');
-        let startHour = startDateIns.hour();
-        let endHour = endDateIns.hour();
-        if (periodsStart == 'AM') {
-          if (startHour > 12) {
-            startDateIns = startDateIns.hour(startHour - 12);
-          }
-        } else if (periodsStart == 'PM') {
-          if (startHour < 12) {
-            startDateIns = startDateIns.hour(startHour + 12);
-          }
-        }
-        if (periodsEnd == 'AM') {
-          if (endHour > 12) {
-            endDateIns = endDateIns.hour(endHour - 12);
-          }
-        } else if (periodsEnd == 'PM') {
-          if (endHour < 12) {
-            endDateIns = endDateIns.hour(endHour + 12);
-          }
-        }
         if (pickerType == 'dateTime') {
+          let startHour = startDateIns.hour();
+          let endHour = endDateIns.hour();
+          if (periodsStart == 'AM') {
+            if (startHour > 12) {
+              startDateIns = startDateIns.hour(startHour - 12);
+            }
+          } else if (periodsStart == 'PM') {
+            if (startHour < 12) {
+              startDateIns = startDateIns.hour(startHour + 12);
+            }
+          }
+          if (periodsEnd == 'AM') {
+            if (endHour > 12) {
+              endDateIns = endDateIns.hour(endHour - 12);
+            }
+          } else if (periodsEnd == 'PM') {
+            if (endHour < 12) {
+              endDateIns = endDateIns.hour(endHour + 12);
+            }
+          }
+
           let startTimeAvailable = checkTimeAvailable(startDateIns, use12Hours);
           let endTimeAvailable = checkTimeAvailable(endDateIns, use12Hours);
           if (startTimeAvailable.hourDisabled || startTimeAvailable.minuteDisabled || startTimeAvailable.secondDisabled || endTimeAvailable.hourDisabled || endTimeAvailable.minuteDisabled || endTimeAvailable.secondDisabled) {
