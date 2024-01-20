@@ -922,7 +922,7 @@ export default defineComponent({
         { $slots.footer ? $slots.footer() : null }
         <div class="bs-picker-btns">
           {/* <!--TODO 按钮的禁用问题--> */}
-          {/* <BsButton type="link" size="sm" disabled={ this.todayIsDisabled } onClick={ this.onNowBtnClick }>此刻</BsButton> */}
+          <BsButton class="bs-picker-cancel" type="link" size="sm" onClick={ this.hide }>取消</BsButton>
           <BsButton class="bs-picker-ok" type="primary" size="sm" onClick={ this.onConfirmBtnClick }>确定</BsButton>
         </div>
       </div> : null}
