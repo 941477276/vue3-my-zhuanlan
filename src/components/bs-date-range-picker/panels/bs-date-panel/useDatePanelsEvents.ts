@@ -153,8 +153,11 @@ export function useDatePanelsEvents (options: UseDatePanelsEventsOptions) {
 
     let [start, end] = props.modelValue;
     // 解决在hover过程中，用户切换了面板模式，面板模式切换完成后，再次点击日期变成了选中日期，而非重新选择日期问题
-    startDate.value = start || null;
-    endDate.value = end || null;
+    if (!startDate.value || !endDate.value) {
+      startDate.value = start || null;
+      endDate.value = end || null;
+    }
+
     hoverStartDate.value = hoverEndDate.value = null;
 
     console.log('面板显示的日期切换事件', viewDate);
