@@ -14,7 +14,7 @@ description:
 <template>
   <div>
     <!--<BsDateRangePicker v-model="date" data-size="sm" data-format="YYYY年MM月DD日" placeholder="请选择日期"></BsDateRangePicker>-->
-    <BsDateRangePicker class="aaa-inputer" clearable picker-type="dateTime" v-model="date" data-size="sm" :time-panel-props="timeProps" :disabled-date="setDisabledDate" :dropdown-class="dropdownClass"></BsDateRangePicker>
+    <BsDateRangePicker class="aaa-inputer" clearable picker-type="dateTime" v-model="date2" data-size="sm" :time-panel-props="timeProps" :disabled-date="setDisabledDate" :dropdown-class="dropdownClass"></BsDateRangePicker>
     <!--<BsDatePicker v-model="week" picker-type="week" placeholder="请选择周"></BsDatePicker>-->
     <!--<BsDatePicker v-model="month" picker-type="month" placeholder="请选择月份"></BsDatePicker>-->
     <!--<BsDatePicker v-model="quarter" picker-type="quarter" placeholder="请选择季度"></BsDatePicker>-->
@@ -26,7 +26,8 @@ description:
 <script setup>
 import { ref, watch } from 'vue';
 
-let date = ref([new Date('2023/05/05 12:00:00'), new Date('2023/08/15 12:00:00')]);
+let date = ref([]);
+let date2 = ref([new Date('2023/05/05 12:00:00'), new Date('2023/08/15 12:00:00')]);
 let week = ref('');
 let month = ref('');
 let quarter = ref('');
