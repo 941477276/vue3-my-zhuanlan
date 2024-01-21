@@ -705,8 +705,9 @@ export default defineComponent({
           });
         } */
         nextTick(function () {
+          let panelCom = refs[props.pickerType + 'Ref']?.value;
           // 重置面板
-          refs[props.pickerType + 'Ref']?.value?.resetPanelMode(false);
+          panelCom?.resetPanelMode(false);
         });
         ctx.emit('show');
       },

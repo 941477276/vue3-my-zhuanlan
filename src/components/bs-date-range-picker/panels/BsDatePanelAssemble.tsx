@@ -223,9 +223,10 @@ export default defineComponent({
       'onUpdate:modelValue': this.onDatePanelModelValueChange
     };
 
+    console.log('currentMode == pickerType', currentMode, pickerType);
     // 只有当前的面板类型与选择器类型一致时才需要添加这些属性，否则在用户切换面板后以下这些函数执行时可能会报错
     if (currentMode == pickerType) {
-      panelcommonProps.dataRender = this.dateRender;
+      panelcommonProps.dateRender = this.dateRender;
       panelcommonProps.disabledDate = this.disabledDate;
       panelcommonProps.getCellClassname = this.getCellClassname;
       panelcommonProps.getRowClassname = this.getRowClassname;

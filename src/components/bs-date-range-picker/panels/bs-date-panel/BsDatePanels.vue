@@ -410,8 +410,30 @@ export default defineComponent({
       },
       // 重置面板状态
       resetPanelMode (emitEvents: boolean) {
-        startDatePanelRef.value.setCurrentMode('date', null, emitEvents);
-        endDatePanelRef.value.setCurrentMode('date', null, emitEvents);
+        let startDatePanelCom = startDatePanelRef.value;
+        let endDatePanelCom = endDatePanelRef.value;
+        startDatePanelCom.setCurrentMode('date', null, emitEvents);
+        endDatePanelCom.setCurrentMode('date', null, emitEvents);
+        // 解决用户切换面板模式但并未切回与pickerType一致的面板就关闭了下拉弹窗，然后再次打开了弹出，此时面板中的月份显示不正确问题
+        let timer = setTimeout(function () {
+          clearTimeout(timer);
+          let startPanelViewDate = startDatePanelCom.getPanelViewDate();
+          let endPanelViewDate = endDatePanelCom.getPanelViewDate();
+          if (!startPanelViewDate && !endPanelViewDate) {
+            return;
+          }
+          if (startPanelViewDate && !endPanelViewDate) {
+            endPanelViewDate = startPanelViewDate.month(startPanelViewDate.month() + 1);
+          } else if (endPanelViewDate && !startPanelViewDate) {
+            startPanelViewDate = endPanelViewDate.month(endPanelViewDate.month() - 1);
+          }
+          console.log('resetPanelMode', startPanelViewDate, endPanelViewDate);
+          let startMonth = startPanelViewDate.month();
+          let endMonth = endPanelViewDate.month();
+          if (endMonth <= startMonth) {
+            endDatePanelCom.setPanelViewDate(startPanelViewDate.month(startMonth + 1));
+          }
+        }, 0);
       },
 
       onDateInput,
