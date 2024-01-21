@@ -422,15 +422,25 @@ export default defineComponent({
           if (!startPanelViewDate && !endPanelViewDate) {
             return;
           }
+          let modelValue = props.modelValue;
+          if (modelValue && modelValue.length > 0) { // 如果有值，优先使用值作为显示的面板日期
+            let start = modelValue[0] || dayjs();
+            setPanelViewDate(start, modelValue[1]);
+            return;
+          }
           if (startPanelViewDate && !endPanelViewDate) {
             endPanelViewDate = startPanelViewDate.month(startPanelViewDate.month() + 1);
           } else if (endPanelViewDate && !startPanelViewDate) {
             startPanelViewDate = endPanelViewDate.month(endPanelViewDate.month() - 1);
           }
+
           console.log('resetPanelMode', startPanelViewDate, endPanelViewDate);
+          let startYear = startPanelViewDate.year();
+          let endYear = endPanelViewDate.year();
           let startMonth = startPanelViewDate.month();
           let endMonth = endPanelViewDate.month();
-          if (endMonth <= startMonth) {
+
+          if (endYear < startYear || (endMonth <= startMonth)) {
             endDatePanelCom.setPanelViewDate(startPanelViewDate.month(startMonth + 1));
           }
         }, 0);
