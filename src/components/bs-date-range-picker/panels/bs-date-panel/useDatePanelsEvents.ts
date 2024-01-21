@@ -20,6 +20,13 @@ interface UseDatePanelsEventsOptions {
   setPanelViewDate: (startViewDate?: Dayjs|Date|null, endViewDate?: Dayjs|Date|null) => any;
 };
 
+const defaultTimeStr = '00:00:00'; // 默认时间
+const defaultTimes = {
+  hour: 0,
+  minute: 0,
+  second: 0,
+  millisecond: 0
+};
 export function useDatePanelsEvents (options: UseDatePanelsEventsOptions) {
   let {
     ctx,
@@ -38,16 +45,10 @@ export function useDatePanelsEvents (options: UseDatePanelsEventsOptions) {
     setPanelViewDate
   } = options;
 
-  let defaultTimeStr = '00:00:00'; // 默认时间
   // 根据时间获取时分秒的值
   let getTimeValueFromTimeString = function (timeStr: string) {
     if (timeStr == defaultTimeStr) {
-      return {
-        hour: 0,
-        minute: 0,
-        second: 0,
-        millisecond: 0
-      };
+      return defaultTimes;
     }
     let timeStrArr = timeStr.split(':');
     return {
