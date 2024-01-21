@@ -20,14 +20,12 @@ import {
   datePickerCtx,
   allowedPickerType
 } from './bs-date-range-picker-types';
-import BsDatePanel from './panels/bs-date-panel/BsDatePanel.vue';
 import BsDatePanels from './panels/bs-date-panel/BsDatePanels.vue';
 import BsMonthPanel from './panels/bs-month-panel/BsMonthPanel.vue';
 import BsQuarterPanel from './panels/bs-quarter-panel/BsQuarterPanel.vue';
 import BsYearPanel from './panels/bs-year-panel/BsYearPanel.vue';
 import BsDecadePanel from './panels/bs-decade-panel/BsDecadePanel.vue';
 import BsWeekPanel from './panels/bs-week-panel/BsWeekPanel.vue';
-import BsDateTimePanel from './panels/bs-date-time-panel/BsDateTimePanel.vue';
 import BsButton from '../bs-button/BsButton.vue';
 import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil } from '../../utils/dayjsUtil';
@@ -42,7 +40,7 @@ let pickerCounts: any = {
   year: 0,
   dateTime: 0
 };
-// js编写日历思路：https://www.cnblogs.com/zaijin-yang/p/12009727.html
+
 export default defineComponent({
   name: 'BsDateRangePicker',
   props: {
@@ -402,9 +400,9 @@ export default defineComponent({
       callFormItem('validate', 'change');
     };
     // 设置面板显示的日期
-    let setPanelViewDate = function (date: Date|Dayjs) {
+    let setPanelViewDate = function (startDate: Date|Dayjs, endDate?: Date|Dayjs) {
       let mode = currentMode.value || props.pickerType;
-      refs[mode + 'Ref']?.value?.setPanelViewDate(date);
+      refs[mode + 'Ref']?.value?.setPanelViewDate(startDate, endDate);
     };
     // 清空内容
     let clear = function () {
@@ -426,58 +424,9 @@ export default defineComponent({
       (bsCommonPicker.value as any)?.showDropdown(true);
     };
 
-    // 面板状态变换事件处理函数
-    let handlePickerModeChange = (mode: string, pickerType: string, newDate: Dayjs) => {
-      /* // 以当前面板中的日期为基础进行变换，没有则以选中的日期为基础进行变换，否则以当前日期为基础进行变换
-      let clonedDate = viewDates.value?.clone() || date.value?.clone() || dayjs();
-      let prevModeValue = prevMode.value;
-      let nextMode = pickerType;
-      let panelViewDate: Dayjs;
-      switch (mode) {
-        case 'decade':
-          // setDate(clonedDate ? clonedDate.year(newDate.year()) : newDate);
-          panelViewDate = clonedDate ? clonedDate.year(newDate.year()) : newDate;
-          nextMode = 'year';
-          break;
-        case 'year':
-          // setDate(clonedDate ? clonedDate.year(newDate.year()) : newDate);
-          panelViewDate = clonedDate ? clonedDate.year(newDate.year()) : newDate;
-          if (['decade', 'month'].includes(prevModeValue) && pickerType !== 'quarter') {
-            nextMode = 'month';
-          }
-          /!*  else {
-            nextMode = 'date';
-          } *!/
-          break;
-        case 'month':
-          // setDate(clonedDate ? clonedDate.month(newDate.month()) : newDate);
-          panelViewDate = clonedDate ? clonedDate.month(newDate.month()) : newDate;
-          break;
-      }
-      setCurrentMode(nextMode);
-      let timer = setTimeout(() => {
-        clearTimeout(timer);
-        // viewDate
-        viewDates.value = panelViewDate;
-        refs[nextMode + 'Ref']?.value?.setPanelViewDate(panelViewDate);
-      }, 0); */
-    };
-
     //  日期控件model-value值改变事件
     let onDatePanelModelValueChange = function (newDates: Dayjs|Dayjs[], hideDropdown: boolean) {
-      let pickerType = props.pickerType;
-      let mode = currentMode.value;
-      // 如果面板状态有值且面板状态不等于面板类型，此时用户只是在切换面板，并非在赋值
-      if (mode && (pickerType != mode)) {
-        handlePickerModeChange(mode, pickerType, newDates as Dayjs);
-        return;
-      }
-      // setDate(newDate);
-      if (typeof hideDropdown === 'boolean' && !hideDropdown) { // 判断是否隐藏下拉面板
-        return;
-      }
-      // 隐藏下拉面板
-      // hide(300);
+      console.log('onDatePanelModelValueChange', 1111, newDates, hideDropdown);
       tempDates.value = newDates as Dayjs[];
     };
 
@@ -645,7 +594,6 @@ export default defineComponent({
       currentMode
     });
 
-    let defaultPanelViewDate: any = null;
     return {
       bsCommonPicker,
       pickerId,
@@ -754,38 +702,11 @@ export default defineComponent({
       'onUpdate:modelValue': this.onDatePanelModelValueChange
     };
 
-    // 年份按钮点击事件
-    let onYearButtonClick = () => {
-      this.setCurrentMode('year');
-      let timer = setTimeout(() => {
-        clearTimeout(timer);
-        (this.$refs.yearRef as any)?.setPanelViewDate(this.viewDates);
-      }, 0);
-    };
-    // 月份按钮点击事件
-    let onMonthButtonClick = () => {
-      this.setCurrentMode('month');
-      let timer = setTimeout(() => {
-        clearTimeout(timer);
-        (this.$refs.monthRef as any)?.setPanelViewDate(this.viewDates);
-      }, 0);
-    };
-    // 十年按钮点击事件
-    let onDecadeClick = () => {
-      this.setCurrentMode('decade');
-      /* let timer = setTimeout(() => {
-        clearTimeout(timer);
-        (this.$refs.decadeRef as any)?.setPanelViewDate(this.viewDate);
-      }, 0); */
-    };
     let onViewDateChange = (viewDate: Dayjs) => {
       // this.viewDates = viewDate;
     };
     let onYearViewDateChange = (viewDate: Dayjs) => {
       // this.viewDates = this.viewDates?.year(viewDate.year());
-    };
-    let onMonthViewDateChange = (viewDate: Dayjs) => {
-      // this.viewDates = this.viewDates?.month(viewDate.month());
     };
 
     let datePanelFn = (refName = 'dateRef') => {
@@ -799,8 +720,6 @@ export default defineComponent({
               isDatetimeRange: true
             })
           }
-          onYearClick={ onYearButtonClick }
-          onMonthClick={ onMonthButtonClick }
           // @ts-ignore
           onViewDateChange={ onViewDateChange }
           onPreviewDatesChange={ this.onPreviewDatesChange }></BsDatePanels>;
@@ -809,44 +728,28 @@ export default defineComponent({
     let panels: {[key: string]: () => VNode} = {
       datePanel: datePanelFn(),
       dateTimePanel: datePanelFn('dateTimeRef'),
-      /* dateTimePanel: () => {
-        return <BsDateTimePanel
-          ref="dateTimeRef"
-          visible={ this.visible }
-          date-panel-props={ this.datePanelProps }
-          time-panel-props={ this.timePanelProps }
-          onYearClick={ onYearButtonClick }
-          onMonthClick={ onMonthButtonClick }
-          onViewDateChange={ onViewDateChange }
-          { ...panelcommonProps }></BsDateTimePanel>;
-      }, */
       weekPanel: () => {
         return <BsWeekPanel
           ref="weekRef"
           { ...panelcommonProps }
-          onYearClick={ onYearButtonClick }
-          onMonthClick={ onMonthButtonClick }
           onViewDateChange={ onViewDateChange }></BsWeekPanel>;
       },
       monthPanel: () => {
         return <BsMonthPanel
           ref="monthRef"
           { ...panelcommonProps }
-          onYearClick={ onYearButtonClick }
           onViewDateChange={ onViewDateChange }></BsMonthPanel>;
       },
       yearPanel: () => {
         return <BsYearPanel
           ref="yearRef"
           { ...panelcommonProps }
-          onDecadeClick={ onDecadeClick }
           onViewDateChange={ onYearViewDateChange }></BsYearPanel>;
       },
       quarterPanel: () => {
         return <BsQuarterPanel
           ref="quarterRef"
           { ...panelcommonProps }
-          onYearClick={ onYearButtonClick }
           onViewDateChange={ onViewDateChange }></BsQuarterPanel>;
       },
       decadePanel: () => {
