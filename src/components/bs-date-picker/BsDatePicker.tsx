@@ -629,13 +629,22 @@ export default defineComponent({
     };
 
     // 面板公共属性
-    let panelcommonProps = {
+    let panelcommonProps: Record<string, any> = {
       'model-value': this.date,
-      'date-render': this.dateRender,
-      'disabled-date': this.disabledDate,
+      // 'date-render': this.dateRender,
+      // 'disabled-date': this.disabledDate,
       'show-header': this.showHeader,
       'onUpdate:modelValue': this.onDatePanelModelValueChange
     };
+
+    console.log('currentMode == pickerType', currentMode, pickerType);
+    // 只有当前的面板类型与选择器类型一致时才需要添加这些属性，否则在用户切换面板后以下这些函数执行时可能会报错
+    if (!currentMode || currentMode == pickerType) {
+      panelcommonProps.dateRender = this.dateRender;
+      panelcommonProps.disabledDate = this.disabledDate;
+      panelcommonProps.getCellClassname = this.getCellClassname;
+      panelcommonProps.getRowClassname = this.getRowClassname;
+    }
 
     // 年份按钮点击事件
     let onYearButtonClick = () => {

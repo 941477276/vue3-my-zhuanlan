@@ -1,6 +1,6 @@
 <template>
   <div class="component-usage">
-    <a-space direction="vertical" :size="12" style="margin-top: 2rem;">
+    <!--<a-space direction="vertical" :size="12" style="margin-top: 2rem;">
       <a-date-picker
         v-model:value="value1"
         value-format="YYYY-MM-DD"
@@ -13,7 +13,7 @@
       <a-date-picker v-model:value="value3" picker="month" />
       <a-date-picker v-model:value="value4" picker="quarter" data-value-format="YYYY-[Q]Q" />
       <a-date-picker v-model:value="value5" picker="year" />
-    </a-space>
+    </a-space>-->
     <div>
       <h3>基本使用</h3>
       <Basic></Basic>

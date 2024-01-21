@@ -129,6 +129,18 @@ export const bsDatePickerTypes = {
     default () {
       return {};
     }
+  },
+  getRowClassname: { // 自定义表格行classname
+    type: Function,
+    default () {
+      return () => [];
+    }
+  },
+  getCellClassname: { // 自定义表格单元格classname
+    type: Function,
+    default () {
+      return () => [];
+    }
   }
 };
 
