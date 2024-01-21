@@ -58,8 +58,11 @@ export default defineComponent({
     // 面板当前状态
     let currentMode = ref('');
     let prevMode = ref(''); // 上一步的面板状态
-    let setCurrentMode = function (mode: string, panelViewDate?: Dayjs) {
-      ctx.emit('panel-mode-change', mode);
+    let setCurrentMode = function (mode: string, panelViewDate?: Dayjs, emitEvent?: boolean) {
+      if (emitEvent !== false) {
+        ctx.emit('panel-mode-change', mode);
+      }
+
       // 在宏任务中切换面板状态，防止错误的判断鼠标点击到了面板外面
       let timer = setTimeout(function () {
         clearTimeout(timer);

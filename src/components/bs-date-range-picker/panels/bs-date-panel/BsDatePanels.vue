@@ -409,9 +409,9 @@ export default defineComponent({
         return classnames;
       },
       // 重置面板状态
-      resetPanelMode () {
-        startDatePanelRef.value.setCurrentMode('date');
-        endDatePanelRef.value.setCurrentMode('date');
+      resetPanelMode (emitEvents: boolean) {
+        startDatePanelRef.value.setCurrentMode('date', null, emitEvents);
+        endDatePanelRef.value.setCurrentMode('date', null, emitEvents);
       },
 
       onDateInput,

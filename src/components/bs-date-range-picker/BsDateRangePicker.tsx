@@ -697,16 +697,16 @@ export default defineComponent({
           currentMode.value = allowedPickerType.includes(mode) ? mode : props.pickerType;
         }
         visible.value = true;
-        let panelViewDate = props.panelViewDate || now;
+        /* let panelViewDate = props.panelViewDate || now;
         if (!props.modelValue && (defaultPanelViewDate !== panelViewDate)) {
           nextTick(function () {
             defaultPanelViewDate = panelViewDate;
             setPanelViewDate(panelViewDate);
           });
-        }
+        } */
         nextTick(function () {
           // 重置面板
-          refs[props.pickerType + 'Ref']?.value?.resetPanelMode();
+          refs[props.pickerType + 'Ref']?.value?.resetPanelMode(false);
         });
         ctx.emit('show');
       },
