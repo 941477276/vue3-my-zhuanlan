@@ -211,17 +211,25 @@ export default defineComponent({
     } = this;
 
     // 面板公共属性
-    let panelcommonProps = {
+    let panelcommonProps: Record<string, any> = {
       'model-value': this.date,
-      'date-render': this.dateRender,
-      'disabled-date': this.disabledDate,
-      'get-cell-classname': this.getCellClassname,
-      'get-row-classname': this.getRowClassname,
+      // 'date-render': this.dateRender,
+      // 'disabled-date': this.disabledDate,
+      // 'get-cell-classname': this.getCellClassname,
+      // 'get-row-classname': this.getRowClassname,
       'yearButtonDisabled': this.yearButtonDisabled,
       'monthButtonDisabled': this.monthButtonDisabled,
       'showHeader': this.showHeader,
       'onUpdate:modelValue': this.onDatePanelModelValueChange
     };
+
+    // 只有当前的面板类型与选择器类型一致时才需要添加这些属性，否则在用户切换面板后以下这些函数执行时可能会报错
+    if (currentMode == pickerType) {
+      panelcommonProps.dataRender = this.dateRender;
+      panelcommonProps.disabledDate = this.disabledDate;
+      panelcommonProps.getCellClassname = this.getCellClassname;
+      panelcommonProps.getRowClassname = this.getRowClassname;
+    }
 
     // 年份按钮点击事件
     let onYearButtonClick = () => {
