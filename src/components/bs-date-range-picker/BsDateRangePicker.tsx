@@ -717,7 +717,8 @@ export default defineComponent({
           {
             ...(refName == 'dateRef' ? {} : {
               timePanelProps: this.timePanelProps,
-              isDatetimeRange: true
+              isDatetimeRange: true,
+              defaultTime: this.defaultTime
             })
           }
           // @ts-ignore

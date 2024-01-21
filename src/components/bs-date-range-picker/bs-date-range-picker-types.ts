@@ -147,6 +147,12 @@ export const bsDateRangePickerTypes = {
   appendTo: { // 指示下拉内容将附加在哪一个网页元素上
     type: [String, Object],
     default: 'body'
+  },
+  defaultTime: { // 选中日期后的默认具体时刻
+    type: Array,
+    default () {
+      return [];
+    }
   }
 };
 

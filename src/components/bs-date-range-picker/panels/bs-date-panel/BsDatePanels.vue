@@ -173,6 +173,12 @@ export default defineComponent({
       default () {
         return {};
       }
+    },
+    defaultTime: { // 选中日期后的默认具体时刻
+      type: Array,
+      default () {
+        return [];
+      }
     }
   },
   emits: ['update:modelValue', 'viewDateChange', 'previewDatesChange'],
