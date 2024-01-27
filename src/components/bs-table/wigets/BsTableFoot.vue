@@ -69,7 +69,7 @@ export default defineComponent({
   props: {
     ...bsTableFootProps
   },
-  setup (props: any, ctx: SetupContext) {
+  setup (props: any, ctx: any) {
     let rows = computed(function () {
       let { footerRows, footerMethod, columns, tableData } = props;
       let tableDataRaw = tableData!.map((row: BsTableRowData) => row.node);

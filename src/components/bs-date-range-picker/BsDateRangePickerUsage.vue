@@ -1,7 +1,7 @@
 <template>
   <div class="component-usage">
-    <!--<a-space direction="vertical" :size="12" style="margin-top: 2rem;">
-      <a-date-picker
+   <!-- <a-space direction="vertical" :size="12" style="margin-top: 2rem;">
+      &lt;!&ndash;<a-date-picker
         v-model:value="value1"
         value-format="YYYY-MM-DD"
         show-time
@@ -12,7 +12,8 @@
       <a-date-picker v-model:value="value2" picker="week" />
       <a-date-picker v-model:value="value3" picker="month" />
       <a-date-picker v-model:value="value4" picker="quarter" data-value-format="YYYY-[Q]Q" />
-      <a-date-picker v-model:value="value5" picker="year" />
+      <a-date-picker v-model:value="value5" picker="year" />&ndash;&gt;
+      <a-range-picker v-model:value="value6" :value-format="['YYYY-MM-DD hh:mm:ss', 'YYYY年MM月DD日 hh:mm:ss']"></a-range-picker>
     </a-space>-->
     <div>
       <h3>基本使用</h3>
@@ -122,6 +123,7 @@ export default defineComponent({
       value3: ref<Dayjs>(),
       value4: ref<Dayjs>(dayjs()),
       value5: ref<Dayjs>(),
+      value6: ref<Dayjs>(),
 
       date1,
       date2,

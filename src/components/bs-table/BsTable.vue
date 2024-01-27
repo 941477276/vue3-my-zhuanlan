@@ -188,7 +188,7 @@ export default defineComponent({
     BsTableFoot,
     BsTableFixedFooter
   },
-  setup (props: any, ctx: SetupContext) {
+  setup (props: any, ctx: any) {
     let tableId = `bs_table-${++bsTableCount}`;
     // 需要合并行的单元格信息
     let rowSpanCells: Record<string, BsTableRowSpanCellInfo> = reactive({});

@@ -4,7 +4,7 @@ import { dayjsUtil } from '../../../../utils/dayjsUtil';
 import { Ref, SetupContext } from 'vue';
 
 interface UseDatePanelsEventsOptions {
-  ctx: SetupContext;
+  ctx: any;
   props: any;
   dateFormat: string;
   hoverEndIsBeforeStart: Ref<boolean>;

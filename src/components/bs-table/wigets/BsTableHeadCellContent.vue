@@ -88,7 +88,7 @@ export default defineComponent({
       type: Function
     }
   },
-  setup (props: any, ctx: SetupContext) {
+  setup (props: any, ctx: any) {
     // 表格根节点上下文
     let tableRootCtx = inject(bsTableCtxKey)!;
 

@@ -149,8 +149,8 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
   var dropdownOffsetTop = dropdownOffset?.top || 0;
   var dropdownOffsetLeft = dropdownOffset?.left || 0;
 
-  var calcedDirection = null;
-  var directionCalcFlow = []; // 存储按流程计算方向的函数，当下拉菜单在某个方向上不能完全展示时会自动切换一个方向
+  var calcedDirection: any = null;
+  var directionCalcFlow: Record<string, any>[] = []; // 存储按流程计算方向的函数，当下拉菜单在某个方向上不能完全展示时会自动切换一个方向
   var handleBottom = function (isBottomRight: boolean, isCenter?: boolean) {
     // 当参照物在有滚动条的容器中且目标元素插入在body时需减去容器滚动条滚动的距离
     // var top = referenceOffset.top + referenceRect.height - (targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0);
@@ -160,9 +160,9 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     if (!isBottomRight && isCenter) {
       left -= (targetElRect.width - referenceRect.width) / 2;
     }
-    var bottom = null;
-    var right = null;
-   // var isInView = eleIsInView(targetEl, top, left, needSubtractScrollOffset);
+    var bottom: number|null = null;
+    var right: number|null = null;
+    // var isInView = eleIsInView(targetEl, top, left, needSubtractScrollOffset);
     top += dropdownOffsetTop;
     left += dropdownOffsetLeft;
     if (targetIsInBody) {
@@ -271,8 +271,8 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     top -= targetIsInBody ? referenceElWrapperScrollTop : 0;
     left -= targetIsInBody ? referenceElWrapperScrollLeft : 0;
     // var bottom = referenceOffset.top - targetElOffsetParentOffset.top - (targetElOffsetParentIsDocument ? referenceElWrapperScrollTop : 0) + referenceRect.height;
-    var bottom = null;
-    var right = null;
+    var bottom: number|null = null;
+    var right: number|null = null;
     if (targetIsInBody) {
       // 如果目标元素插入在body中，则bottom的值为浏览器可见高度减去参照元素至浏览器最顶端的距离，再加上参照元素滚动容器滚动滚动的距离即可
       // 实际为：浏览器可见高度-参照元素在可见高度内的位置-浏览器滚动条滚动的距离+参照元素滚动容器滚动滚动的距离
@@ -326,8 +326,8 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
     if (!isLeftBottom && isCenter) {
       top -= (targetElRect.height - referenceRect.height) / 2;
     }
-    var bottom = null;
-    var right = null;
+    var bottom: number|null = null;
+    var right: number|null = null;
 
     top += dropdownOffsetTop;
     left += dropdownOffsetLeft;
@@ -461,8 +461,8 @@ export function getDropdownDirection (referenceEl: HTMLElement, targetEl: HTMLEl
       }
     }
 
-    var bottom = null;
-    var right = null;
+    var bottom: number|null = null;
+    var right: number|null = null;
     if (isRightBottom) {
       if (targetIsInBody) {
         // 如果目标元素插入在body中，则bottom的值为浏览器可见高度减去参照元素至浏览器最顶端的距离，再加上参照元素滚动容器滚动滚动的距离即可

@@ -33,8 +33,11 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-var-requires': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
+    "@typescript-eslint/no-non-null-assertion": "off",
     'vue/no-setup-props-destructure': 'off',
     'no-var': 'off',
+    'no-return-assign': 'off',
     'no-template-curly-in-string': 'off', // 关闭不允许在普通字符串中使用字符串模板
     'eol-last': 'off' // 文件最后一行是否需添加一行空行
   }

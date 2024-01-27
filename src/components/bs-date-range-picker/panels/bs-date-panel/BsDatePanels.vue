@@ -182,7 +182,7 @@ export default defineComponent({
     }
   },
   emits: ['update:modelValue', 'viewDateChange', 'previewDatesChange'],
-  setup (props: any, ctx: SetupContext) {
+  setup (props: any, ctx: any) {
     let startDatePanelRef = ref();
     let endDatePanelRef = ref();
     // console.log('比较日期：', dayjsUtil.isBetween(dayjs(), dayjs('2023-11-18 00:00:00'), dayjs(), 'month'));
@@ -357,7 +357,7 @@ export default defineComponent({
       setCellClassname (cellData: any, cellIndex: number, rowIndex: number, externalData: Record<string, any>) {
         let dayjsIns = cellData.dayjsIns;
         let currentDateFormatted = dayjsIns.format(dateFormat);
-        let classnames = [];
+        let classnames: string[] = [];
         let startDateRaw = startDate.value;
         let endDateRaw = endDate.value;
 

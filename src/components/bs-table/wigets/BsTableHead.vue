@@ -100,7 +100,7 @@ export default defineComponent({
     BsCheckbox,
     BsTableCustomContent
   },
-  setup (props: any, ctx: SetupContext) {
+  setup (props: any, ctx: any) {
     let rootTableCtx = inject<BsTableContext>(bsTableCtxKey, {} as BsTableContext);
 
     let headThs = computed(function () {

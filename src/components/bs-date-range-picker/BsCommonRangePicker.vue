@@ -210,7 +210,7 @@ export default defineComponent({
     let onInput = function (evt: Event, name: string) {
       let value = (evt.target as HTMLInputElement)?.value;
       let value2 = '';
-      let result = [];
+      let result: string[] = [];
       if (name == 'start') {
         value2 = bsInputEndRef.value!.value;
         result = [value, value2];

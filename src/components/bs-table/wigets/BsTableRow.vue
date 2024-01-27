@@ -196,7 +196,7 @@ export default defineComponent({
     }
   },
   emits: ['expand-change'],
-  setup (props: any, ctx: SetupContext) {
+  setup (props: any, ctx: any) {
     let rootTableCtx = inject<BsTableContext>(bsTableCtxKey, {} as BsTableContext);
 
     // 有合并行的列

@@ -133,7 +133,7 @@ export default defineComponent({
       }
     }
   },
-  setup (props: any, ctx: SetupContext) {
+  setup (props: any, ctx: any) {
     provide('bsGlobalConfig', props);
     return () => {
       return renderSlot(ctx.slots, 'default', {

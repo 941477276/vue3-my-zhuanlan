@@ -17,6 +17,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
+    "noImplicitAny": false, // 是否在表达式和声明上有隐含的any类型时报错（即解决TS7026: JSX element implicitly has type ‘any’…错误）
     "types": [
       "webpack-env"
     ],

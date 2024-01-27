@@ -55,7 +55,7 @@ export default defineComponent({
   props: {
     ...bsTableHeadProps
   },
-  setup (props: any, ctx: SetupContext) {
+  setup (props: any, ctx: any) {
 
   }
 });
