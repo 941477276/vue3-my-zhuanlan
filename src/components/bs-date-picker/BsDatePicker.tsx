@@ -130,7 +130,7 @@ export default defineComponent({
         return;
       }
       let viewText = '';
-      if (pickerType == 'dateTime') {
+      if (pickerType == 'dateTime' && !props.format) {
         let { timePanelProps, datePanelProps } = props;
         let timePanelFormat = timePanelProps.format;
         let datePanelFormat = datePanelProps.format;
@@ -305,7 +305,7 @@ export default defineComponent({
       }
       let valueFormat = props.valueFormat;
       let value;
-      if (props.pickerType == 'dateTime') {
+      if (props.pickerType == 'dateTime' && !valueFormat) {
         let period = '';
         let timePanelProps = props.timePanelProps;
         let datePanelProps = props.datePanelProps;

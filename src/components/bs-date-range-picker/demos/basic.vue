@@ -14,7 +14,7 @@ description:
 <template>
   <div>
     <!--<BsDateRangePicker v-model="date" data-size="sm" data-format="YYYY年MM月DD日" placeholder="请选择日期"></BsDateRangePicker>-->
-    <BsDateRangePicker class="aaa-inputer" value-format="YYYY-MM-DD hh:mm:ss" clearable picker-type="dateTime" v-model="date" data-size="sm" :default-time="defaultValue" :time-panel-props="timeProps" :disabled-date="setDisabledDate" :dropdown-class="dropdownClass"></BsDateRangePicker>
+    <BsDateRangePicker class="aaa-inputer" value-format="YYYY-MM-DD hh:mm:ss" format="YYYY年MM月DD日 hh:mm:ss" clearable picker-type="dateTime" v-model="date" data-size="sm" :default-time="defaultValue" :time-panel-props="timeProps" :disabled-date="setDisabledDate" :dropdown-class="dropdownClass"></BsDateRangePicker>
     <!--<BsDatePicker v-model="week" picker-type="week" placeholder="请选择周"></BsDatePicker>-->
     <!--<BsDatePicker v-model="month" picker-type="month" placeholder="请选择月份"></BsDatePicker>-->
     <!--<BsDatePicker v-model="quarter" picker-type="quarter" placeholder="请选择季度"></BsDatePicker>-->
@@ -37,7 +37,7 @@ let defaultValue = ['09:00:00', '18:30:02'];
 
 watch(date, function (dateValue) {
   console.log('选定日期变化了：', dateValue);
-  console.log('格式化后的选定日期：', dateValue[0] && dateValue[0].format('YYYY-MM-DD hh:mm:ss'), dateValue[1] && dateValue[1].format('YYYY-MM-DD hh:mm:ss'));
+  // console.log('格式化后的选定日期：', dateValue[0] && dateValue[0].format('YYYY-MM-DD hh:mm:ss'), dateValue[1] && dateValue[1].format('YYYY-MM-DD hh:mm:ss'));
 });
 
 let dropdownClass = [

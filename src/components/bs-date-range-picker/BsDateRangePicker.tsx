@@ -118,7 +118,7 @@ export default defineComponent({
 
       let viewTextStart = '';
       let viewTextEnd = '';
-      /* if (pickerType == 'dateTime') {
+      if (pickerType == 'dateTime' && !props.format) {
         let { timePanelProps, datePanelProps } = props;
         let timePanelFormat = timePanelProps.format;
         let datePanelFormat = datePanelProps.format;
@@ -134,9 +134,7 @@ export default defineComponent({
       } else {
         viewTextStart = dayjsInsStart ? dayjsInsStart.format(format) : '';
         viewTextEnd = dayjsInsEnd ? dayjsInsEnd.format(format) : '';
-      } */
-      viewTextStart = dayjsInsStart ? dayjsInsStart.format(format) : '';
-      viewTextEnd = dayjsInsEnd ? dayjsInsEnd.format(format) : '';
+      }
 
       viewDateText.value = [viewTextStart, viewTextEnd];
       let disabledDate = props.disabledDate;
@@ -166,7 +164,7 @@ export default defineComponent({
           dayjsInsStart = dayjsUtil.parseWeek(valueStart, valueFormat || format, 'zh-cn');
           dayjsInsEnd = dayjsUtil.parseWeek(valueEnd, valueFormat || format, 'zh-cn');
         } else {
-          /* if (pickerType == 'dateTime') {
+          if (pickerType == 'dateTime') {
             let { timePanelProps, datePanelProps } = props;
             let timePanelValueFormat = timePanelProps.valueFormat;
             let datePanelValueFormat = datePanelProps.valueFormat;
@@ -211,7 +209,7 @@ export default defineComponent({
             if (typeof valueEnd == 'string') {
               dayjsInsEnd = getDayjsInsByValue(valueEnd.toUpperCase());
             }
-          } */
+          }
           if (!dayjsInsStart) {
             dayjsInsStart = dayjsUtil.parseToDayjs(valueStart, valueFormat || format);
           }
@@ -319,7 +317,7 @@ export default defineComponent({
         }
         return false;
       };
-      /* if (props.pickerType == 'dateTime') {
+      if (props.pickerType == 'dateTime' && !valueFormat) {
         let periodStart = '';
         let periodEnd = '';
         let timePanelProps = props.timePanelProps;
@@ -382,17 +380,8 @@ export default defineComponent({
           startValue = newDateStart.format(valueFormat);
           endValue = newDateEnd.format(valueFormat);
         }
-      } */
-      console.log('valueFormat', valueFormat);
-      startValueDisabled = getDateDisabled(newDateStart);
-      endValueDisabled = getDateDisabled(newDateEnd);
-      if (!valueFormat) {
-        startValue = newDateStart.clone();
-        endValue = newDateEnd.clone();
-      } else {
-        startValue = newDateStart.format(valueFormat);
-        endValue = newDateEnd.format(valueFormat);
       }
+      console.log('valueFormat', valueFormat);
 
       // let value = !valueFormat ? date.clone() : date.format(valueFormat);
       let modelValue = props.modelValue || [];
