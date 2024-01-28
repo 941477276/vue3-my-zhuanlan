@@ -240,7 +240,7 @@ export default defineComponent({
       endDate.value = end || null;
 
       nextTick(function () {
-        let viewDateStart = start || dayjs();
+        let viewDateStart = start || (!start && !end ? dayjs() : null);
         setPanelViewDate(viewDateStart, end);
       });
     }, { immediate: true });
@@ -430,7 +430,7 @@ export default defineComponent({
           }
           let modelValue = props.modelValue;
           if (modelValue && modelValue.length > 0) { // 如果有值，优先使用值作为显示的面板日期
-            let start = modelValue[0] || dayjs();
+            let start = modelValue[0]/*  || dayjs() */;
             setPanelViewDate(start, modelValue[1]);
             return;
           }
