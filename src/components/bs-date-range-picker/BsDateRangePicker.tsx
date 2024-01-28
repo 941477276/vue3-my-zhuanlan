@@ -626,13 +626,13 @@ export default defineComponent({
 
       onDatePanelModelValueChange,
       onConfirmBtnClick () {
-        if (props.pickerType === 'dateTime') {
+        /* if (props.pickerType === 'dateTime') {
           if (!props.modelValue) {
             // setDate(dayjs());
             hide(300);
             return;
           }
-        }
+        } */
         if (tempDates.value.length > 0) {
           setDate(tempDates.value);
         }

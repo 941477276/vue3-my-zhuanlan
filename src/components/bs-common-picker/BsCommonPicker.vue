@@ -61,26 +61,28 @@
         </div>
       </slot>
     </BsOnlyChild>
-    <BsDropdownTransition
-      v-if="display"
-      :reference-ref="triggerRef"
-      :try-all-placement="false"
-      :set-min-width="setMinWidth"
-      :will-visible="willVisible"
-      :placement="placement"
-      @before-enter="$emit('show')"
-      @after-enter="$emit('shown')"
-      @after-leave="$emit('hidden')">
-      <div
-        ref="bsPickerDropdownRef"
-        v-show="visible"
-        class="bs-picker-dropdown"
-        :class="dropdownClass">
-        <div class="bs-picker-panel-container">
-          <slot></slot>
+    <teleport :disabled="!teleported" :to="appendTo">
+      <BsDropdownTransition
+        v-if="display"
+        :reference-ref="triggerRef"
+        :try-all-placement="false"
+        :set-min-width="setMinWidth"
+        :will-visible="willVisible"
+        :placement="placement"
+        @before-enter="$emit('show')"
+        @after-enter="$emit('shown')"
+        @after-leave="$emit('hidden')">
+        <div
+          ref="bsPickerDropdownRef"
+          v-show="visible"
+          class="bs-picker-dropdown"
+          :class="dropdownClass">
+          <div class="bs-picker-panel-container">
+            <slot></slot>
+          </div>
         </div>
-      </div>
-    </BsDropdownTransition>
+      </BsDropdownTransition>
+    </teleport>
   </div>
 </template>
 
