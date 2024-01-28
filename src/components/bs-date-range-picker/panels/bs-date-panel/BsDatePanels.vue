@@ -143,13 +143,13 @@ export default defineComponent({
     getRowClassname: { // 自定义表格行classname
       type: Function,
       default () {
-        return () => [];
+        return [];
       }
     },
     getCellClassname: { // 自定义表格单元格classname
       type: Function,
       default () {
-        return () => [];
+        return [];
       }
     },
     onYearClick: { // 年份按钮点击事件

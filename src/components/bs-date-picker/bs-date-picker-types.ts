@@ -133,13 +133,13 @@ export const bsDatePickerTypes = {
   getRowClassname: { // 自定义表格行classname
     type: Function,
     default () {
-      return () => [];
+      return [];
     }
   },
   getCellClassname: { // 自定义表格单元格classname
     type: Function,
     default () {
-      return () => [];
+      return [];
     }
   }
 };
