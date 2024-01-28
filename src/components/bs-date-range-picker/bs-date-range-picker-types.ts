@@ -37,10 +37,10 @@ export const bsDateRangePickerTypes = {
     type: Boolean,
     default: true
   },
-  showFooter: { // 是否显示底部
+  /* showFooter: { // 是否显示底部
     type: Boolean,
     default: null
-  },
+  }, */
   disabled: { // 是否禁用
     type: Boolean,
     default: false

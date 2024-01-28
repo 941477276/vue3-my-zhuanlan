@@ -96,3 +96,27 @@ $in-range-bg: #dfeafd;
   width: 1rem;
 }
 /*日期时间范围选择器 end*/
+
+//月份范围选择器
+.bs-picker-month-panel{
+  .bs-picker-cell-range-start{
+    &:not(.bs-picker-cell-range-start-single){
+      &::before{
+        top: calc(0.125rem + 10%);
+        bottom: calc(0.125rem + 10%);
+      }
+    }
+  }
+  .bs-picker-cell-range-end{
+    &:not(.bs-picker-cell-range-end-single){
+      &::before{
+        top: calc(0.125rem + 10%);
+        bottom: calc(0.125rem + 10%);
+      }
+    }
+  }
+  .bs-picker-cell-range-hover-end::after{
+    top: calc(0.125rem + 10%);
+    bottom: calc(0.125rem + 10%);
+  }
+}

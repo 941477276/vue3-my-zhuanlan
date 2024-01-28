@@ -14,6 +14,7 @@
     :show-header="false"
     :body-cells="tableBody"
     :get-cell-text="setCellText"
+    :get-row-classname="getRowClassname"
     :get-cell-classname="setCellClassname"
     :get-cell-title="setCellTitle"
     :get-cell-node="setCellNode"
@@ -29,7 +30,7 @@ import {
   ref,
   watch
 } from 'vue';
-import { NOOP } from '@vue/shared';
+import { isFunction, NOOP } from '@vue/shared';
 import PanelHeader from '../panel-header/PanelHeader.vue';
 import PanelBody from '../panel-body/PanelBody.vue';
 import dayjs, { Dayjs } from 'dayjs';
@@ -60,6 +61,18 @@ export default defineComponent({
       type: Boolean,
       default: true
     },
+    getRowClassname: { // 自定义表格行classname
+      type: Function,
+      default () {
+        return () => [];
+      }
+    },
+    getCellClassname: { // 自定义表格单元格classname
+      type: Function,
+      default () {
+        return [];
+      }
+    },
     onYearClick: {
       type: Function,
       default () {
@@ -67,9 +80,9 @@ export default defineComponent({
       }
     }
   },
-  emits: ['update:modelValue', 'viewDateChange'],
+  emits: ['update:modelValue', 'viewDateChange', 'cell-click'],
   setup (props: any, ctx: any) {
-    let now = dayjs();
+    // let now = dayjs();
     let monthValueNow = dayjs().format(defaultFormat);
     /* let panelViewDate = ref(dayjs(props.modelValue ? props.modelValue : undefined));
     let setPanelViewDate = (date: Dayjs, emitEvents = true) => {
@@ -101,13 +114,15 @@ export default defineComponent({
       let currentMonth = dayjsUtil.setDate(panelViewDate.value, 1);
       let monthsShort = dayjsUtil.locale.monthsShort('zh-cn');
       let disabledDate = props.disabledDate;
+      let year = panelViewDate.value.year();
       let tempMonthArr = monthsShort.map((monthName: string, index: number) => {
         let date = dayjsUtil.setMonth(currentMonth, index);
         return {
           monthName,
           date,
           dayjsIns: date,
-          disabled: typeof disabledDate === 'function' ? !!disabledDate(date, monthName) : false
+          disabled: typeof disabledDate === 'function' ? !!disabledDate(date, monthName) : false,
+          year
         };
       });
 
@@ -130,14 +145,17 @@ export default defineComponent({
         return;
       } */
       ctx.emit('update:modelValue', cellData.date);
+      ctx.emit('cell-click', cellData);
     };
 
     let dateRender = props.dateRender;
     return {
       yearName,
       tableBody,
+      panelViewDate,
+
       // 设置单元格的classname
-      setCellClassname (cellData: any, cellIndex: number) {
+      setCellClassname (cellData: any, cellIndex: number, rowIndex: number, externalData: Record<string, any>) {
         // let currentDate = panelViewDate.value;
         let modelValue = props.modelValue;
         let dayjsIns = cellData.date;
@@ -150,6 +168,13 @@ export default defineComponent({
         }
         if (cellData.disabled) {
           classnames.push('is-disabled');
+        }
+        let getCellClassnames = props.getCellClassname;
+        if (isFunction(getCellClassnames)) {
+          let extraCellClassnames = getCellClassnames(cellData, cellIndex, rowIndex, externalData);
+          if (extraCellClassnames) {
+            classnames.push(extraCellClassnames);
+          }
         }
         return classnames;
       },

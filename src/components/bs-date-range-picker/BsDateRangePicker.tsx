@@ -21,7 +21,7 @@ import {
   allowedPickerType
 } from './bs-date-range-picker-types';
 import BsDatePanels from './panels/bs-date-panel/BsDatePanels.vue';
-import BsMonthPanel from './panels/bs-month-panel/BsMonthPanel.vue';
+import BsMonthPanels from './panels/bs-month-panel/BsMonthPanels.vue';
 import BsQuarterPanel from './panels/bs-quarter-panel/BsQuarterPanel.vue';
 import BsYearPanel from './panels/bs-year-panel/BsYearPanel.vue';
 import BsDecadePanel from './panels/bs-decade-panel/BsDecadePanel.vue';
@@ -261,7 +261,7 @@ export default defineComponent({
       ];
     });
 
-    // 是否显示footer
+    /* // 是否显示footer
     let footerVisible = computed(function () {
       let pickerType = props.pickerType;
       let showFooter = props.showFooter;
@@ -271,7 +271,7 @@ export default defineComponent({
         }
       }
       return !!showFooter;
-    });
+    }); */
 
     // 组件ref
     let dateRef = ref<any>(null);
@@ -522,6 +522,7 @@ export default defineComponent({
       if (!endDateIns) {
         endDateIns = dayjsUtil.strictDayjs(valueEnd, formatEnd);
       }
+      console.log('date valid', startDateIns.isValid(), endDateIns.isValid());
       if (startDateIns.isValid() && endDateIns.isValid()) {
         console.log('onInput 22');
         if (isFunction(disabledDate)) {
@@ -605,7 +606,7 @@ export default defineComponent({
       dates,
       viewDates,
       inputPlaceholder,
-      footerVisible,
+      // footerVisible,
       currentMode,
       viewDatesIsDisabled,
 
@@ -737,10 +738,11 @@ export default defineComponent({
           onViewDateChange={ onViewDateChange }></BsWeekPanel>;
       },
       monthPanel: () => {
-        return <BsMonthPanel
+        return <BsMonthPanels
           ref="monthRef"
           { ...panelcommonProps }
-          onViewDateChange={ onViewDateChange }></BsMonthPanel>;
+          onViewDateChange={ onViewDateChange }
+          onPreviewDatesChange={ this.onPreviewDatesChange }></BsMonthPanels>;
       },
       yearPanel: () => {
         return <BsYearPanel
@@ -788,7 +790,7 @@ export default defineComponent({
       ref="bsCommonPicker"
       suffix-icon="calendar"
       size={ this.size }
-      show-footer={ this.showFooter }
+      /* show-footer={ this.showFooter } */
       input-model-value={ this.viewDateText }
       input-value-disabled={ this.viewDatesIsDisabled }
       delive-context-to-form-item={ this.deliveContextToFormItem }
@@ -824,7 +826,8 @@ export default defineComponent({
         { pickerContent?.() }
         { this.showSidebar && this.sidebarInRight ? sideBar() : null }
       </div>
-      {(this.footerVisible && (!currentMode || pickerType == currentMode)) ? <div class="bs-picker-footer">
+      {/* {(this.footerVisible && (!currentMode || pickerType == currentMode)) ? <div class="bs-picker-footer"> */}
+      {(!currentMode || pickerType == currentMode) ? <div class="bs-picker-footer">
         { $slots.footer ? $slots.footer() : null }
         <div class="bs-picker-btns">
           {/* <!--TODO 按钮的禁用问题--> */}
