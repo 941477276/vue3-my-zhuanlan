@@ -181,6 +181,7 @@ export default defineComponent({
           return {
             type: showCheckbox ? 'checkbox' : (!showCheckbox && showRadio ? 'radio' : ''),
             checkStrictly,
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
             onSelectChange () {} // 选中项发生变化事件
           };
         }

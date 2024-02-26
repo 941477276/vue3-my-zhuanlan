@@ -211,7 +211,7 @@ export default defineComponent({
         if (props.lazy && !labels) {
           console.warn('labels is required when lazy=true!');
         }
-        console.log('watch modelValue', !!treeRef.value)
+        console.log('watch modelValue', !!treeRef.value);
         if (treeRef.value) {
           labels = labels || [];
           let labelsFromTree = (treeRef.value as any).getCheckedNodesLabel();
@@ -222,7 +222,7 @@ export default defineComponent({
               labelItem.label = labels[index].label;
             }
           });
-          console.log('labelsFromTree', labelsFromTree)
+          console.log('labelsFromTree', labelsFromTree);
           viewText.value = labelsFromTree.map((labelItem: PlainObject) => {
             return {
               ...labelItem,
@@ -252,6 +252,7 @@ export default defineComponent({
         return;
       }
       let target = evt.target! as HTMLElement;
+      // @ts-ignore
       if (treeRef.value && (elementContains((treeRef.value as any).$el, target) || (treeRef.value as any).$el === target)) {
         return;
       }
