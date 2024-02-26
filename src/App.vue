@@ -49,9 +49,9 @@
     <!--<div class="box">
       <BsTagUsage></BsTagUsage>
     </div>-->
-    <!--<div class="box">
+    <div class="box">
       <BsProgressUsage></BsProgressUsage>
-    </div>-->
+    </div>
     <!--<div class="box">
       <BsTabsUsage></BsTabsUsage>
     </div>-->
@@ -115,9 +115,9 @@
     <!--<div class="box">
       <BsDatePickerUsage></BsDatePickerUsage>
     </div>-->
-    <div class="box">
+    <!--<div class="box">
       <BsDateRangePickerUsage></BsDateRangePickerUsage>
-    </div>
+    </div>-->
     <!--<div class="box">
       <BsBackTopUsage></BsBackTopUsage>
     </div>-->
