@@ -1,10 +1,11 @@
 <template>
   <svg class="bs-progress-circle-svg" viewBox="0 0 100 100">
-    <BsProgressCircleDefs v-if="!!gradientColor" :gradient-color="gradientColor" :gradient-id="gradientId"></BsProgressCircleDefs>
+    <BsProgressCircleDefs v-if="realColor.isGradient" :gradient-color="realColor.color" :gradient-id="gradientId"></BsProgressCircleDefs>
     <path :d="pathFirstStyles.pathString" :stroke-width="strokeWidth" :stroke-linecap="strokeLinecap" fill="none" fill-opacity="0" class="bs-progress-circle-track"
       :style="pathFirstStyles.pathStyle"></path>
     <path :d="pathStyles.pathString" :stroke-width="percentageNumber <= 0 ? 0 : strokeWidth" :stroke-linecap="strokeLinecap" fill="none"
-       :class="!gradientColor ? 'bs-progress-circle-path' : 'bs-progress-circle-stroke-path'" :style="pathStyles.pathStyle" :stroke="!!gradientColor ? `url(#${gradientId})` : null"></path>
+       :class="['bs-progress-circle-path', !!realColor.color ? 'bs-progress-circle-path-custom-stroke' : '']" :style="pathStyles.pathStyle"
+       :stroke="!!realColor.color ? (realColor.isGradient ? `url(#${gradientId})` : realColor.color) : null"></path>
   </svg>
 </template>
 
@@ -142,8 +143,8 @@ export default defineComponent({
       return getPathStyles(0, percentageVal, '', strokeWidth, gapDegree, gapPos.value);
     });
 
-    // 渐变色
-    let gradientColor = computed(function () {
+    // 真实颜色
+    let realColor = computed(function () {
       let {
         color
       } = props;
@@ -151,27 +152,55 @@ export default defineComponent({
       if (typeof color === 'function') {
         color = color(percentageVal);
       }
-      if (getType(color) != 'object') {
-        return '';
+
+      if (typeof color == 'string') {
+        return {
+          isGradient: false,
+          color
+        };
       }
-      let newColor = {
-        ...color
+      if (Array.isArray(color)) {
+        let result = {
+          isGradient: false,
+          color: ''
+        };
+        // 根据当前进度显示不同的颜色
+        let colorItem = color.sort((item1, item2) => item1.percentage - item2.percentage).find(item => percentageVal <= (item.percentage || 0));
+        if (!colorItem) {
+          return result;
+        }
+        result.color = colorItem.color;
+        return result;
+      }
+
+      let isObj = getType(color) == 'object';
+      if (isObj) {
+        let newColor = {
+          ...color
+        };
+        if (newColor.from) {
+          newColor[0] = newColor.from;
+          delete newColor.from;
+        }
+        if (newColor.to) {
+          newColor[100] = newColor.to;
+          delete newColor.to;
+        }
+        return {
+          isGradient: true,
+          color: newColor
+        };
+      }
+      return {
+        isGradient: false,
+        color: ''
       };
-      if (newColor.from) {
-        newColor[0] = newColor.from;
-        delete newColor.from;
-      }
-      if (newColor.to) {
-        newColor[100] = newColor.to;
-        delete newColor.to;
-      }
-      return newColor;
     });
 
     return {
       // text,
       gradientId: 'bs-progress-gradient_' + bsProgressCircleCount,
-      gradientColor,
+      realColor,
       percentageNumber,
       pathFirstStyles,
       pathStyles

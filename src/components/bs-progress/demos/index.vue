@@ -22,7 +22,7 @@ import StripedAnimation from './striped-animation.vue';
 import Circle from './circle.vue';
 import Dashboard from './dashboard.vue';
 import StrokeLinecap from './stroke-linecap.vue';
-import GradientColor from './gradient-color.vue';
+import GradientColor from './circle-custom-color.vue';
 
 export default defineComponent({
   name: 'DemoIndex',

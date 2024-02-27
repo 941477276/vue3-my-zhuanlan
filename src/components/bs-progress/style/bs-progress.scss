@@ -4,7 +4,7 @@
 .bs-progress-circle-track{
  stroke: #e5e5e5;
 }
-.bs-progress-circle-path{
+.bs-progress-circle-path:not(.bs-progress-circle-path-custom-stroke){
   stroke: var(--primary);
 }
 .bs-progress-circle{

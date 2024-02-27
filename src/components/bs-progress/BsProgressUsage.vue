@@ -66,7 +66,7 @@ import StripedAnimation from './demos/striped-animation.vue';
 import Circle from './demos/circle.vue';
 import Dashboard from './demos/dashboard.vue';
 import StrokeLinecap from './demos/stroke-linecap.vue';
-import GradientColor from './demos/gradient-color.vue';
+import GradientColor from './demos/circle-custom-color.vue';
 export default defineComponent({
   name: 'BsTagUsage',
   components: {

@@ -77,7 +77,7 @@ export default defineComponent({
       }
       if (Array.isArray(color)) {
         // 根据当前进度显示不同的颜色
-        let colorItem = color.find(item => percentageVal < (item.percentage || 0));
+        let colorItem = color.sort((item1, item2) => item1.percentage - item2.percentage).find(item => percentageVal <= (item.percentage || 0));
         if (!colorItem) {
           return '';
         }
