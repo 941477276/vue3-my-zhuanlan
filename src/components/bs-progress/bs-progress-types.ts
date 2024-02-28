@@ -84,9 +84,6 @@ export const bsProgressCircleProps = {
     type: String as PropType<BsStrokeLinecap>,
     default: 'round'
   },
-  size: { // 进度条的尺寸
-    type: Number
-  },
   status: { // 状态
     type: String as PropType<BsProgressStatus>
   }
