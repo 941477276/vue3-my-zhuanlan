@@ -120,13 +120,26 @@ export function useDatePanelsEvents (options: UseDatePanelsEventsOptions) {
     };
 
     let dayjsIns = cellData;
+    // 如果hoverStartDate、hoverEndDate没有值，且startDate有值，那么就是modelValue有值
+    let isNoHover = !hoverStartDate.value && !hoverEndDate.value;
     if (startDateRaw) {
       if (!endDateRaw) {
         console.log(111, startDate.value, endDate.value);
+        let newStart = startDateRaw;
+        let newEnd = dayjsIns;
         // hoverStartDate.value = hoverEndDate.value = null;
         // endDate.value = dayjsIns;
         setStartAndEndDate('startHover', null);
         setStartAndEndDate('endHover', null);
+        if (isNoHover) {
+          if (newEnd.isBefore(newStart, 'date')) {
+            let temp = newStart;
+            newStart = newEnd;
+            newEnd = temp;
+          }
+          setStartAndEndDate('start', newStart);
+          ctx.emit('previewDatesChange', [newStart, newEnd]);
+        }
         setStartAndEndDate('end', dayjsIns);
         isHover.value = false;
         update(startDate.value!, endDate.value!);
@@ -149,10 +162,25 @@ export function useDatePanelsEvents (options: UseDatePanelsEventsOptions) {
         setStartAndEndDate('end', null);
         console.log(333, startDate.value, endDate.value);
       } else {
+        let newStart = dayjsIns;
+        let newEnd = endDateRaw;
         hoverStartDate.value = hoverEndDate.value = null;
+        if (isNoHover) {
+          if (newStart.isAfter(newEnd, 'date')) {
+            let temp = newEnd;
+            newEnd = newStart;
+            newStart = temp;
+            console.log('123456');
+          }
+          setStartAndEndDate('start', newStart);
+          setStartAndEndDate('end', newEnd);
+          ctx.emit('previewDatesChange', [newStart, newEnd]);
+        } else {
+          setStartAndEndDate('start', newStart);
+        }
         // 当endDate有值，但startDate没有值，说明用户一开始框选的结束时间比开始时间要小，程序自动将开始时间变成了结束时间
         // startDate.value = dayjsIns;
-        setStartAndEndDate('start', dayjsIns);
+        // setStartAndEndDate('start', dayjsIns);
         isHover.value = false;
         update(startDate.value!, endDate.value!);
         console.log(444, startDate.value, endDate.value);
