@@ -15,10 +15,10 @@ import {
 } from '../../bs-date-picker/bs-date-picker-types';
 import BsDatePanel from '../../bs-date-picker/panels/bs-date-panel/BsDatePanel.vue';
 import BsMonthPanel from '../../bs-date-picker/panels/bs-month-panel/BsMonthPanel.vue';
-import BsQuarterPanel from '../../bs-date-picker/panels/bs-quarter-panel/BsQuarterPanel.vue';
+// import BsQuarterPanel from '../../bs-date-picker/panels/bs-quarter-panel/BsQuarterPanel.vue';
 import BsYearPanel from '../../bs-date-picker/panels/bs-year-panel/BsYearPanel.vue';
 import BsDecadePanel from '../../bs-date-picker/panels/bs-decade-panel/BsDecadePanel.vue';
-import BsWeekPanel from '../../bs-date-picker/panels/bs-week-panel/BsWeekPanel.vue';
+// import BsWeekPanel from '../../bs-date-picker/panels/bs-week-panel/BsWeekPanel.vue';
 // import BsDateTimePanel from '../../bs-date-picker/panels/bs-date-time-panel/BsDateTimePanel.vue';
 import dayjs, { Dayjs } from 'dayjs';
 import { bsDatePanelProps } from '../../bs-date-picker/panels/bs-date-panel/bs-date-panel-props';
@@ -281,14 +281,14 @@ export default defineComponent({
     let panels: { [key: string]: () => VNode } = {
       datePanel: datePanel,
       // dateTimePanel: datePanel,
-      weekPanel: () => {
+      /* weekPanel: () => {
         return <BsWeekPanel
           ref="weekRef"
           {...panelcommonProps}
           onYearClick={onYearButtonClick}
           onMonthClick={onMonthButtonClick}
           onViewDateChange={onViewDateChange}></BsWeekPanel>;
-      },
+      }, */
       monthPanel: () => {
         return <BsMonthPanel
           ref="monthRef"
@@ -303,13 +303,13 @@ export default defineComponent({
           onDecadeClick={onDecadeClick}
           onViewDateChange={onViewDateChange}></BsYearPanel>;
       },
-      quarterPanel: () => {
+      /* quarterPanel: () => {
         return <BsQuarterPanel
           ref="quarterRef"
           {...panelcommonProps}
           onYearClick={onYearButtonClick}
           onViewDateChange={onViewDateChange}></BsQuarterPanel>;
-      },
+      }, */
       decadePanel: () => {
         return <BsDecadePanel
           ref="decadeRef"

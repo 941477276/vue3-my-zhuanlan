@@ -26,7 +26,7 @@ import BsYearPanels from './panels/bs-year-panel/BsYearPanels.vue';
 /* import BsQuarterPanel from './panels/bs-quarter-panel/BsQuarterPanel.vue';
 import BsYearPanel from './panels/bs-year-panel/BsYearPanel.vue';
 import BsDecadePanel from './panels/bs-decade-panel/BsDecadePanel.vue'; */
-import BsWeekPanel from './panels/bs-week-panel/BsWeekPanel.vue';
+// import BsWeekPanel from './panels/bs-week-panel/BsWeekPanel.vue';
 import BsButton from '../bs-button/BsButton.vue';
 import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil, formatDate } from '../../utils/dayjsUtil';
@@ -734,12 +734,12 @@ export default defineComponent({
     let panels: {[key: string]: () => VNode} = {
       datePanel: datePanelFn(),
       dateTimePanel: datePanelFn('dateTimeRef'),
-      weekPanel: () => {
+      /* weekPanel: () => {
         return <BsWeekPanel
           ref="weekRef"
           { ...panelcommonProps }
           onViewDateChange={ onViewDateChange }></BsWeekPanel>;
-      },
+      }, */
       monthPanel: () => {
         return <BsMonthPanels
           ref="monthRef"

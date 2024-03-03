@@ -1,7 +1,7 @@
 import { PropType, ExtractPropTypes, Ref, InjectionKey } from 'vue';
 import { BsSize } from '../types';
 
-export type PickerType = 'date' | 'dateTime' | 'week' | 'month' |'quarter' | 'year';
+export type PickerType = 'date' | 'dateTime'/*  | 'week' */ | 'month'/*  |'quarter' */ | 'year';
 
 export type DatePickerCtx = {
   ctx: any;
