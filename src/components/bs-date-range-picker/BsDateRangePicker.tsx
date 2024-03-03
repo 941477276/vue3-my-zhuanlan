@@ -22,13 +22,14 @@ import {
 } from './bs-date-range-picker-types';
 import BsDatePanels from './panels/bs-date-panel/BsDatePanels.vue';
 import BsMonthPanels from './panels/bs-month-panel/BsMonthPanels.vue';
-import BsQuarterPanel from './panels/bs-quarter-panel/BsQuarterPanel.vue';
+import BsYearPanels from './panels/bs-year-panel/BsYearPanels.vue';
+/* import BsQuarterPanel from './panels/bs-quarter-panel/BsQuarterPanel.vue';
 import BsYearPanel from './panels/bs-year-panel/BsYearPanel.vue';
-import BsDecadePanel from './panels/bs-decade-panel/BsDecadePanel.vue';
+import BsDecadePanel from './panels/bs-decade-panel/BsDecadePanel.vue'; */
 import BsWeekPanel from './panels/bs-week-panel/BsWeekPanel.vue';
 import BsButton from '../bs-button/BsButton.vue';
 import dayjs, { Dayjs } from 'dayjs';
-import { dayjsUtil } from '../../utils/dayjsUtil';
+import { dayjsUtil, formatDate } from '../../utils/dayjsUtil';
 import { getUpdateModelValue } from '../../components/bs-time-picker/useTimePicker';
 import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
 
@@ -39,6 +40,14 @@ let pickerCounts: any = {
   quarter: 0,
   year: 0,
   dateTime: 0
+};
+const defaultFormatMap: any = {
+  date: 'YYYY-MM-DD',
+  dateTime: 'YYYY-MM-DD',
+  week: 'YYYY-wo',
+  month: 'YYYY-MM',
+  quarter: 'YYYY-[Q]Q',
+  year: 'YYYY'
 };
 
 export default defineComponent({
@@ -60,16 +69,9 @@ export default defineComponent({
         return format;
       }
       let pickerType = props.pickerType;
-      let formatMap: any = {
-        date: 'YYYY-MM-DD',
-        dateTime: 'YYYY-MM-DD',
-        week: 'YYYY-wo',
-        month: 'YYYY-MM',
-        quarter: 'YYYY-[Q]Q',
-        year: 'YYYY'
-      };
-      formatMap.dateTime += props.timePanelProps.use12Hours ? ' hh:mm:ss' : ' HH:mm:ss';
-      let formatValue = formatMap[pickerType];
+
+      defaultFormatMap.dateTime += props.timePanelProps.use12Hours ? ' hh:mm:ss' : ' HH:mm:ss';
+      let formatValue = defaultFormatMap[pickerType];
       return formatValue;
     });
 
@@ -386,6 +388,7 @@ export default defineComponent({
       // let value = !valueFormat ? date.clone() : date.format(valueFormat);
       let modelValue = props.modelValue || [];
       let result: any[] = [];
+      console.log('setDate', startValueDisabled, endValueDisabled);
       // 防止用户输入的日期是被禁用的
       result[0] = startValueDisabled ? modelValue[0] : startValue;
       result[1] = endValueDisabled ? modelValue[1] : endValue;
@@ -745,11 +748,12 @@ export default defineComponent({
           onPreviewDatesChange={ this.onPreviewDatesChange }></BsMonthPanels>;
       },
       yearPanel: () => {
-        return <BsYearPanel
+        return <BsYearPanels
           ref="yearRef"
           { ...panelcommonProps }
-          onViewDateChange={ onYearViewDateChange }></BsYearPanel>;
-      },
+          onViewDateChange={ onViewDateChange }
+          onPreviewDatesChange={ this.onPreviewDatesChange }></BsYearPanels>;
+      }/* ,
       quarterPanel: () => {
         return <BsQuarterPanel
           ref="quarterRef"
@@ -761,7 +765,7 @@ export default defineComponent({
           ref="decadeRef"
           { ...panelcommonProps }
           onViewDateChange={ onViewDateChange }></BsDecadePanel>;
-      }
+      } */
     };
     let currentModePanel = panels[currentMode + 'Panel'];
     let pickerContent = currentModePanel || panels[pickerType + 'Panel'];

@@ -5,7 +5,7 @@
       @mousemove="onPanelsWrapMousemove">
       <BsDatePanelAssemble
         ref="startDatePanelRef"
-        picker-type="month"
+        picker-type="year"
         :get-row-classname="getRowClassname"
         :get-cell-classname="setCellClassname"
         :has-prefix-column="hasPrefixColumn"
@@ -15,12 +15,13 @@
         :year-button-disabled="yearButtonDisabled"
         :month-button-disabled="monthButtonDisabled"
         :mode="mode"
+        :panel-decade-count="15"
         @update:modelValue="onDateCellClick"
         @panel-mode-change="onPanelModeChange"
         @view-date-change="onViewDateChange($event, 'start')"></BsDatePanelAssemble>
       <BsDatePanelAssemble
         ref="endDatePanelRef"
-        picker-type="month"
+        picker-type="year"
         :get-row-classname="getRowClassname"
         :get-cell-classname="setCellClassname"
         :has-prefix-column="hasPrefixColumn"
@@ -30,6 +31,7 @@
         :year-button-disabled="yearButtonDisabled"
         :month-button-disabled="monthButtonDisabled"
         :mode="mode"
+        :panel-decade-count="15"
         @update:modelValue="onDateCellClick"
         @panel-mode-change="onPanelModeChange"
         @view-date-change="onViewDateChange($event, 'end')"></BsDatePanelAssemble>
@@ -54,15 +56,15 @@ import {
   NOOP
 } from '@vue/shared';
 import dayjs, { Dayjs } from 'dayjs';
-import { dayjsUtil, isLeapYear, getMonthDays } from '../../../../utils/dayjsUtil';
+import { dayjsUtil, isLeapYear, getDecade, yearDecadeCount } from '../../../../utils/dayjsUtil';
 // @ts-ignore
 import BsDatePanelAssemble from '../BsDatePanelAssemble';
 import { PickerType } from '../../bs-date-range-picker-types';
-import { useMonthPanelsEvents } from './useMonthPanelsEvents';
+import { useYearPanelsEvents } from './useYearPanelsEvents';
 
-const dateFormat = 'YYYY-MM';
+const dateFormat = 'YYYY';
 export default defineComponent({
-  name: 'BsMonthPanels',
+  name: 'BsYearPanels',
   components: {
     BsDatePanelAssemble
   },
@@ -233,15 +235,10 @@ export default defineComponent({
         let endViewDateYear = endViewDate.year();
         // let sameYear = false;
         console.log(3333, startViewDateYear, endViewDateYear);
-        if (endViewDateYear <= startViewDateYear) {
-          endViewDate = endViewDate.year(startViewDateYear + 1);
+        if (endViewDateYear - startViewDateYear <= yearDecadeCount) {
+          endViewDate = endViewDate.year(startViewDateYear + yearDecadeCount);
           // sameYear = true;
-        }/*  else if (startViewDateYear == endViewDateYear) {
-          sameYear = true;
         }
-        if (sameYear && endViewDate.month() <= startViewDateMonth) {
-          endViewDate = endViewDate.month(startViewDateMonth + 1);
-        } */
       }
       (startDatePanelRef.value as any)?.setPanelViewDate(startViewDate);
       (endDatePanelRef.value as any)?.setPanelViewDate(endViewDate);
@@ -263,7 +260,7 @@ export default defineComponent({
       onPanelModeChange,
       onPanelsWrapMousemove,
       onViewDateChange
-    } = useMonthPanelsEvents({
+    } = useYearPanelsEvents({
       ctx,
       props,
       dateFormat,
@@ -305,8 +302,9 @@ export default defineComponent({
         // let yearMonthFormat = 'YYYY-MM';
         // let currentYearMonth = dayjsIns.format(yearMonthFormat);
         let currentYear = dayjsIns.year();
+        let decadeInfo = cellData.decade;
         // 判断年份是否在显示的面板年份中
-        let dateIsInCurrentPanelViewMonth = currentYear == cellData.year;
+        let dateIsInCurrentPanelViewMonth = (currentYear >= decadeInfo.startYear) && (currentYear <= decadeInfo.endYear);
 
         if (startDateRaw?.format(dateFormat) == currentDateFormatted && dateIsInCurrentPanelViewMonth) {
           classnames.push('bs-picker-cell-range-start');
@@ -324,7 +322,7 @@ export default defineComponent({
 
         if (startDateRaw && endDateRaw) {
           // 日期在开始与结束日期之间且日期必须在当前显示的面板中
-          if (dayjsUtil.isBetween(dayjsIns, startDateRaw, endDateRaw, 'month') && dateIsInCurrentPanelViewMonth) {
+          if (dayjsUtil.isBetween(dayjsIns, startDateRaw, endDateRaw, 'year') && dateIsInCurrentPanelViewMonth) {
             // console.log(dayjsIns.format(format) + '在开始结束日期之间');
             classnames.push('bs-picker-cell-in-range');
           }
@@ -334,7 +332,7 @@ export default defineComponent({
         if (hoverStartDateRaw && hoverEndDateRaw) {
           let hoverStartEqualHoverEnd = hoverStartDateRaw.format(dateFormat) == hoverEndDateRaw.format(dateFormat);
           // console.log('dayjsIns, hoverStartDateRaw, hoverEndDateRaw', dayjsIns, hoverStartDateRaw, hoverEndDateRaw, dayjsUtil.isBetween(dayjsIns, hoverStartDateRaw, hoverEndDateRaw, 'date', '(]'));
-          if (!hoverStartEqualHoverEnd && dayjsUtil.isBetween(dayjsIns, hoverStartDateRaw, hoverEndDateRaw, 'month', '(]') && dateIsInCurrentPanelViewMonth) {
+          if (!hoverStartEqualHoverEnd && dayjsUtil.isBetween(dayjsIns, hoverStartDateRaw, hoverEndDateRaw, 'year', '(]') && dateIsInCurrentPanelViewMonth) {
             classnames.push('bs-picker-cell-range-hover');
           }
           if (!hoverStartEqualHoverEnd && hoverEndDateRaw.format(dateFormat) == currentDateFormatted && dateIsInCurrentPanelViewMonth) {
@@ -362,13 +360,14 @@ export default defineComponent({
         console.log('调用了resetPanelMode');
         let startDatePanelCom = startDatePanelRef.value;
         let endDatePanelCom = endDatePanelRef.value;
-        startDatePanelCom.setCurrentMode('month', null, emitEvents);
-        endDatePanelCom.setCurrentMode('month', null, emitEvents);
+        startDatePanelCom.setCurrentMode('year', null, emitEvents);
+        endDatePanelCom.setCurrentMode('year', null, emitEvents);
         // 解决用户切换面板模式但并未切回与pickerType一致的面板就关闭了下拉弹窗，然后再次打开了弹出，此时面板中的月份显示不正确问题
         let timer = setTimeout(function () {
           clearTimeout(timer);
           let startPanelViewDate = startDatePanelCom.getPanelViewDate();
           let endPanelViewDate = endDatePanelCom.getPanelViewDate();
+          // 组件初始化完成后且未设置任何值的情况下startPanelViewDate、endPanelViewDate都会为空
           if (!startPanelViewDate && !endPanelViewDate) {
             return;
           }
@@ -379,19 +378,19 @@ export default defineComponent({
             return;
           }
           if (startPanelViewDate && !endPanelViewDate) {
-            endPanelViewDate = startPanelViewDate.year(startPanelViewDate.year() + 1);
+            // +10年
+            endPanelViewDate = startPanelViewDate.year(startPanelViewDate.year() + yearDecadeCount);
           } else if (endPanelViewDate && !startPanelViewDate) {
-            startPanelViewDate = endPanelViewDate.year(endPanelViewDate.year() - 1);
+            // -10年
+            startPanelViewDate = endPanelViewDate.year(endPanelViewDate.year() - yearDecadeCount);
           }
 
           console.log('resetPanelMode', startPanelViewDate, endPanelViewDate);
           let startYear = startPanelViewDate.year();
           let endYear = endPanelViewDate.year();
-          // let startMonth = startPanelViewDate.month();
-          // let endMonth = endPanelViewDate.month();
 
-          if (endYear < startYear/*  || (endMonth <= startMonth) */) {
-            endDatePanelCom.setPanelViewDate(startPanelViewDate.year(startYear + 1));
+          if (endYear - startYear <= yearDecadeCount) {
+            endDatePanelCom.setPanelViewDate(startPanelViewDate.year(startYear + yearDecadeCount));
           }
         }, 0);
       },

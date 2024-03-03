@@ -1,6 +1,6 @@
 import { Dayjs } from 'dayjs';
 import { parents } from '../../../../utils/bs-util';
-import { dayjsUtil } from '../../../../utils/dayjsUtil';
+import { dayjsUtil, yearDecadeCount } from '../../../../utils/dayjsUtil';
 import { Ref, SetupContext } from 'vue';
 
 interface UseDatePanelsEventsOptions {
@@ -20,7 +20,7 @@ interface UseDatePanelsEventsOptions {
   setPanelViewDate: (startViewDate?: Dayjs|Date|null, endViewDate?: Dayjs|Date|null) => any;
 };
 
-export function useMonthPanelsEvents (options: UseDatePanelsEventsOptions) {
+export function useYearPanelsEvents (options: UseDatePanelsEventsOptions) {
   let {
     ctx,
     props,
@@ -106,7 +106,6 @@ export function useMonthPanelsEvents (options: UseDatePanelsEventsOptions) {
     };
 
     let dayjsIns = cellData;
-    // TODO 日期时间选择器也钥加上这个判断
     // 如果hoverStartDate、hoverEndDate没有值，且startDate有值，那么就是modelValue有值
     let isNoHover = !hoverStartDate.value && !hoverEndDate.value;
     if (startDateRaw) {
@@ -119,7 +118,7 @@ export function useMonthPanelsEvents (options: UseDatePanelsEventsOptions) {
         setStartAndEndDate('startHover', null);
         setStartAndEndDate('endHover', null);
         if (isNoHover) {
-          if (newEnd.isBefore(newStart, 'month')) {
+          if (newEnd.isBefore(newStart, 'year')) {
             let temp = newStart;
             newStart = newEnd;
             newEnd = temp;
@@ -153,7 +152,7 @@ export function useMonthPanelsEvents (options: UseDatePanelsEventsOptions) {
         let newEnd = endDateRaw;
         hoverStartDate.value = hoverEndDate.value = null;
         if (isNoHover) {
-          if (newStart.isAfter(newEnd, 'month')) {
+          if (newStart.isAfter(newEnd, 'year')) {
             let temp = newEnd;
             newEnd = newStart;
             newStart = temp;
@@ -205,14 +204,14 @@ export function useMonthPanelsEvents (options: UseDatePanelsEventsOptions) {
     let endDateRaw = endDate.value;
     // console.log('onPanelsWrapMousemove 555', dayjsIns!.format(dateFormat));
 
-    if (startDateRaw && dayjsIns.isBefore(startDateRaw, 'month')) {
+    if (startDateRaw && dayjsIns.isBefore(startDateRaw, 'year')) {
       console.log('hover结束日期比选择的开始日期小');
       // endDate.value = startDateRaw;
       setStartAndEndDate('end', startDateRaw);
       // startDate.value = null;
       setStartAndEndDate('start', null);
       hoverEndIsBeforeStart.value = true;
-    } else if (endDateRaw && dayjsIns.isAfter(endDateRaw, 'month')) {
+    } else if (endDateRaw && dayjsIns.isAfter(endDateRaw, 'year')) {
       console.log('hover结束日期比选择的结束日期大');
       /* startDate.value = hoverStartDate.value;
       endDate.value = null; */
@@ -257,15 +256,18 @@ export function useMonthPanelsEvents (options: UseDatePanelsEventsOptions) {
     console.log('面板显示的日期切换事件', viewDate);
     let panelViewDateStart: Dayjs|null = null;
     let panelViewDateEnd: Dayjs|null = null;
+    let viewDateYear = viewDate.year();
     if (panelName == 'start') {
       panelViewDateEnd = endDatePanelRef.value.getPanelViewDate();
-      if (viewDate.isAfter(panelViewDateEnd, 'year') || viewDate.isSame(panelViewDateEnd, 'year')) {
-        setPanelViewDate(viewDate, viewDate.year(viewDate.year() + 1));
+      let panelViewDateEndYear = panelViewDateEnd!.year();
+      if (viewDateYear - panelViewDateEndYear >= yearDecadeCount) {
+        setPanelViewDate(viewDate, viewDate.year(viewDate.year() + yearDecadeCount));
       }
     } else {
       panelViewDateStart = startDatePanelRef.value.getPanelViewDate();
-      if (viewDate.isBefore(panelViewDateStart, 'year') || viewDate.isSame(panelViewDateStart, 'year')) {
-        setPanelViewDate(viewDate.year(viewDate.year() - 1), viewDate);
+      let panelViewDateStartYear = panelViewDateStart!.year();
+      if (viewDateYear - panelViewDateStartYear <= yearDecadeCount) {
+        setPanelViewDate(viewDate.year(viewDate.year() - yearDecadeCount), viewDate);
       }
     }
   };

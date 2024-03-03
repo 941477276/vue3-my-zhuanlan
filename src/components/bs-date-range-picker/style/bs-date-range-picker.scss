@@ -98,7 +98,8 @@ $in-range-bg: #dfeafd;
 /*日期时间范围选择器 end*/
 
 //月份范围选择器
-.bs-picker-month-panel{
+.bs-picker-month-panel,
+.bs-picker-year-panel{
   .bs-picker-cell-range-start{
     &:not(.bs-picker-cell-range-start-single){
       &::before{
@@ -120,3 +121,12 @@ $in-range-bg: #dfeafd;
     bottom: calc(0.125rem + 10%);
   }
 }
+
+// 年份选择器
+.bs-year-range-picker-dropdown{
+  .bs-picker-decade-panel{
+    .bs-picker-table{
+      height: 15.5rem;
+    }
+  }
+ }

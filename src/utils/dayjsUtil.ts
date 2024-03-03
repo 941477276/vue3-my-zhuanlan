@@ -136,6 +136,73 @@ export function getMonthDays (year: number, month: number): number {
   return monthDays[month];
 };
 
+export const yearDecadeCount = 10;
+export const decadeDistanceCount = yearDecadeCount * 10;
+
+/**
+ * 获取当前年份所处的十年区间
+ * @param currentYear {number|Dayjs|Date} 当前年份
+ */
+export function getDecade (currentYear: number|Dayjs|Date) {
+  let fullYear: number;
+  if (currentYear instanceof Date) {
+    fullYear = currentYear.getFullYear();
+  } else if (typeof currentYear == 'number') {
+    fullYear = currentYear;
+  } else {
+    fullYear = currentYear.year();
+  }
+  let startYear = Math.floor(fullYear / yearDecadeCount) * yearDecadeCount;
+  let endYear = startYear + yearDecadeCount - 1;
+
+  return {
+    currentYear: fullYear,
+    startYear,
+    endYear
+  };
+}
+
+/**
+ * 获取下一个十年区间信息
+ * @param currentYear
+ */
+export function getNextDecade (currentYear: number|Dayjs|Date) {
+  let decadeInfo = getDecade(currentYear);
+  decadeInfo.startYear += yearDecadeCount;
+  decadeInfo.endYear += yearDecadeCount;
+  return decadeInfo;
+}
+
+/**
+ * 获取上一个十年区间信息
+ * @param currentYear
+ */
+export function getPrevDecade (currentYear: number|Dayjs|Date) {
+  let decadeInfo = getDecade(currentYear);
+  decadeInfo.startYear -= yearDecadeCount;
+  decadeInfo.endYear -= yearDecadeCount;
+  return decadeInfo;
+}
+
+/**
+ * 格式化日期
+ * @param dateValue 日期
+ * @param formatter 格式
+ */
+export function formatDate (dateValue: string|number|Dayjs|Date, formatter: string) {
+  let valueType = typeof dateValue;
+  if (!dateValue) {
+    return dateValue;
+  }
+  if (valueType == 'string') {
+    return dateValue;
+  }
+  if (dateValue instanceof Date || valueType == 'number') {
+    dateValue = dayjs(dateValue);
+  }
+  return (dateValue as Dayjs).format(formatter);
+}
+
 export const dayjsUtil = {
   addYear: (dayIns: Dayjs, diff: number) => dayIns.add(diff, 'year'),
   addMonth: (dayIns: Dayjs, diff: number) => dayIns.add(diff, 'month'),

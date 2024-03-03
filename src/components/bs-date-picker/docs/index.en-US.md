@@ -33,6 +33,7 @@ A control for entering or selecting a date
 | valueFormatSpliter | The connector between format templates, only valid when pickerType=dateTime | string | `' '` | |
 | datePanelProps | date picker props, only valid when pickerType=dateTime | object | {} | |
 | timePanelProps | time picker props, only valid when pickerType=dateTime | object | {} | |
+| panelDecadeCount | The number of dates displayed in the decade range selector panel   | number        | 12         |  |
 | placeholder | placeholder attribute of the input box | string | | |
 | name | the name attribute of the input box | string | | |
 | dropdownClass | Extra classname for dropdown | `string`/`array`/`object` | | |

@@ -22,7 +22,6 @@ import BsWeekPanel from '../../bs-date-picker/panels/bs-week-panel/BsWeekPanel.v
 // import BsDateTimePanel from '../../bs-date-picker/panels/bs-date-time-panel/BsDateTimePanel.vue';
 import dayjs, { Dayjs } from 'dayjs';
 import { bsDatePanelProps } from '../../bs-date-picker/panels/bs-date-panel/bs-date-panel-props';
-import { newMessages } from 'async-validator/dist-types/messages';
 
 let pickerCounts: any = {
   date: 0,
@@ -46,6 +45,10 @@ export default defineComponent({
     useModelValue: { // 是否使用modelValue
       type: Boolean,
       default: true
+    },
+    panelDecadeCount: { // 面板中显示的十年日期数量
+      type: Number,
+      default: 12
     },
     ...bsDatePanelProps
   },
@@ -260,12 +263,12 @@ export default defineComponent({
       this.viewDate = viewDate;
       this.emitViewDateChange(viewDate);
     };
-    let onYearViewDateChange = (viewDate: Dayjs) => {
+    /* let onYearViewDateChange = (viewDate: Dayjs) => {
       this.viewDate = this.viewDate?.year(viewDate.year());
-    };
-    let onMonthViewDateChange = (viewDate: Dayjs) => {
+    }; */
+    /* let onMonthViewDateChange = (viewDate: Dayjs) => {
       this.viewDate = this.viewDate?.month(viewDate.month());
-    };
+    }; */
 
     let datePanel = () => {
       return <BsDatePanel
@@ -298,7 +301,7 @@ export default defineComponent({
           ref="yearRef"
           {...panelcommonProps}
           onDecadeClick={onDecadeClick}
-          onViewDateChange={onYearViewDateChange}></BsYearPanel>;
+          onViewDateChange={onViewDateChange}></BsYearPanel>;
       },
       quarterPanel: () => {
         return <BsQuarterPanel
@@ -310,6 +313,7 @@ export default defineComponent({
       decadePanel: () => {
         return <BsDecadePanel
           ref="decadeRef"
+          panelDecadeCount={this.panelDecadeCount}
           {...panelcommonProps}
           onViewDateChange={onViewDateChange}></BsDecadePanel>;
       }

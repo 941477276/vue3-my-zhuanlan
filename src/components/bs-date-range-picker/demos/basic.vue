@@ -13,10 +13,10 @@ description:
 
 <template>
   <div>
-    <BsDateRangePicker v-model="date" data-size="sm" data-format="YYYY年MM月DD日"></BsDateRangePicker>
+    <!--<BsDateRangePicker v-model="date" data-size="sm" data-format="YYYY年MM月DD日"></BsDateRangePicker>-->
     <!--<BsDateRangePicker class="aaa-inputer" value-format="YYYY-MM-DD hh:mm:ss" format="YYYY年MM月DD日 hh:mm:ss" clearable picker-type="dateTime" v-model="date" data-size="sm" :default-time="defaultValue" :time-panel-props="timeProps" :disabled-date="setDisabledDate" :dropdown-class="dropdownClass"></BsDateRangePicker>-->
     <!--<BsDateRangePicker class="aaa-inputer" clearable picker-type="month" format="YYYY年MM月" v-model="month" data-size="sm" :disabled-date="setDisabledMonth" :dropdown-class="dropdownClass"></BsDateRangePicker>-->
-    <!--<BsDateRangePicker class="aaa-inputer" clearable picker-type="year" v-model="year" data-size="sm" :data-disabled-date="setDisabledMonth" :dropdown-class="dropdownClass"></BsDateRangePicker>-->
+    <BsDateRangePicker class="aaa-inputer" clearable picker-type="year" v-model="year" data-size="sm" data-value-format="YYYY年" :disabled-date="setDisabledYear" :dropdown-class="dropdownClass"></BsDateRangePicker>
     <!--<BsDatePicker v-model="week" picker-type="week" placeholder="请选择周"></BsDatePicker>-->
     <!--<BsDatePicker v-model="month" picker-type="month" placeholder="请选择月份"></BsDatePicker>-->
     <!--<BsDatePicker v-model="quarter" picker-type="quarter" placeholder="请选择季度"></BsDatePicker>-->
@@ -31,9 +31,9 @@ import { ref, watch } from 'vue';
 let date = ref([null, new Date('2023/05/05 12:00:00')]);
 // let date2 = ref([new Date('2023/05/05 12:00:00'), new Date('2023/08/15 12:00:00')]);
 let week = ref('');
-let month = ref(['', '2023-07']);
+let month = ref(['', '2023-09']);
 let quarter = ref('');
-let year = ref([]);
+let year = ref(['', '2019']);
 let decade = ref('');
 let defaultValue = ['09:00:00', '18:30:02'];
 
@@ -75,6 +75,13 @@ let setDisabledMonth = function (dayjsIns) {
   let month = dayjsIns.month() + 1;
   // console.log('month', month);
   return [3, 6, 9, 10].includes(month);
+};
+
+let setDisabledYear = function (dayjsIns) {
+  // console.log('setDisabledMonth', dayjsIns);
+  let year = dayjsIns.year();
+  // console.log('month', month);
+  return year % 3 == 0;
 };
 </script>
 '
