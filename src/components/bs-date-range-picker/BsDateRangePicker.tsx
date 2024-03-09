@@ -77,15 +77,15 @@ export default defineComponent({
 
     // 面板当前状态
     let currentMode = ref('');
-    let prevMode = ref(''); // 上一步的面板状态
-    let setCurrentMode = function (mode: string) {
+    // let prevMode = ref(''); // 上一步的面板状态
+    /* let setCurrentMode = function (mode: string) {
       // 在宏任务中切换面板状态，防止错误的判断鼠标点击到了面板外面
       let timer = setTimeout(function () {
         clearTimeout(timer);
         prevMode.value = currentMode.value;
         currentMode.value = mode;
       }, 0);
-    };
+    }; */
 
     let date = ref<Dayjs|null>();
     let dates = ref<(Dayjs|null)[]>([]);
@@ -404,10 +404,10 @@ export default defineComponent({
       callFormItem('validate', 'change');
     };
     // 设置面板显示的日期
-    let setPanelViewDate = function (startDate: Date|Dayjs, endDate?: Date|Dayjs) {
+    /* let setPanelViewDate = function (startDate: Date|Dayjs, endDate?: Date|Dayjs) {
       let mode = currentMode.value || props.pickerType;
       refs[mode + 'Ref']?.value?.setPanelViewDate(startDate, endDate);
-    };
+    }; */
     // 清空内容
     let clear = function () {
       setDate();
@@ -617,8 +617,8 @@ export default defineComponent({
       hide,
       show,
       setValidateStatus,
-      setCurrentMode,
-      setPanelViewDate,
+      // setCurrentMode,
+      // setPanelViewDate,
 
       dateRef,
       weekRef,
@@ -710,9 +710,9 @@ export default defineComponent({
     let onViewDateChange = (viewDate: Dayjs) => {
       // this.viewDates = viewDate;
     };
-    let onYearViewDateChange = (viewDate: Dayjs) => {
+    /* let onYearViewDateChange = (viewDate: Dayjs) => {
       // this.viewDates = this.viewDates?.year(viewDate.year());
-    };
+    }; */
 
     let datePanelFn = (refName = 'dateRef') => {
       return () => {
