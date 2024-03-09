@@ -269,60 +269,8 @@ export function useMonthPanelsEvents (options: UseDatePanelsEventsOptions) {
       }
     }
   };
-  // 日期输入框输入事件
-  let onDateInput = function (evt: InputEvent, inputName: string) {
-    let value = (evt.target as HTMLInputElement).value;
-    console.log('onDateInput', value, inputName);
-    let startDateRaw = startDate.value;
-    let endDateRaw = endDate.value;
-    let newStartDate = startDateRaw;
-    let newEndDate = endDateRaw;
-    if (inputName == 'start') {
-      let startDayjsIns = dayjsUtil.strictDayjs(value, dateFormat);
-      if (startDayjsIns.isValid()) {
-        newStartDate = startDayjsIns;
-        /* if (startDateRaw) {
-          let times = getTimes(startDateRaw);
-          newStartDate = startDayjsIns.hour(times.hour).minute(times.minute).second(times.second).millisecond(times.millisecond);
-        } */
-        if (!endDateRaw) {
-          newEndDate = newStartDate.clone();
-        }
-        if (newStartDate.isAfter(newEndDate!)) {
-          newEndDate = newEndDate!.date(newEndDate!.date() + 1);
-        }
-      }
-    } else {
-      let endDayjsIns = dayjsUtil.strictDayjs(value, dateFormat);
-      console.log('endDayjsIns.isValid()', endDayjsIns.isValid());
-      if (endDayjsIns.isValid()) {
-        newEndDate = endDayjsIns;
-        /* if (endDateRaw) {
-          let times = getTimes(endDateRaw);
-          newEndDate = endDayjsIns.hour(times.hour).minute(times.minute).second(times.second).millisecond(times.millisecond);
-        } */
-        if (!startDateRaw) {
-          startDateRaw = newEndDate.clone();
-        }
-        if (newEndDate.isBefore(newStartDate!)) {
-          newStartDate = newStartDate!.date(newStartDate!.date() - 1);
-        }
-      }
-    }
-    console.log('onDateInput', 555, newStartDate, newEndDate, newStartDate != startDateRaw, newEndDate != endDateRaw);
-    if (newStartDate && newEndDate && (newStartDate != startDateRaw || newEndDate != endDateRaw)) {
-      console.log('onDateInput', 666);
-      startDate.value = newStartDate;
-      endDate.value = newEndDate;
-      // hoverStartDate.value = newStartDate;
-      // hoverEndDate.value = endDateRaw;
-      ctx.emit('previewDatesChange', [newStartDate, newEndDate]);
-      ctx.emit('update:modelValue', [newStartDate, newEndDate]);
-    }
-  };
 
   return {
-    onDateInput,
     onDateCellClick,
     onPanelModeChange,
     onPanelsWrapMousemove,

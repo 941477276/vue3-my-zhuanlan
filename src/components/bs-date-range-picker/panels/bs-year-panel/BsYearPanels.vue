@@ -205,7 +205,6 @@ export default defineComponent({
     };
 
     let {
-      onDateInput,
       onDateCellClick,
       onPanelModeChange,
       onPanelsWrapMousemove,
@@ -282,7 +281,6 @@ export default defineComponent({
         }, 0);
       },
 
-      onDateInput,
       onDateCellClick,
       onPanelModeChange,
       onPanelsWrapMousemove,
