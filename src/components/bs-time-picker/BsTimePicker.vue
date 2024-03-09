@@ -18,6 +18,8 @@
     :name="name"
     :dropdown-class="dropdownClass"
     :placement="placement"
+    :teleported="teleported"
+    :append-to="appendTo"
     @update:inputModelValue="hanleInputModelValueChange"
     @input="onInput"
     @blur="onInputBlur"

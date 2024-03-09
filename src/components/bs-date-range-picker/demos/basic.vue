@@ -14,9 +14,9 @@ description:
 <template>
   <div>
     <!--<BsDateRangePicker v-model="date" data-size="sm" data-format="YYYY年MM月DD日"></BsDateRangePicker>-->
-    <!--<BsDateRangePicker class="aaa-inputer" value-format="YYYY-MM-DD hh:mm:ss" format="YYYY年MM月DD日 hh:mm:ss" clearable picker-type="dateTime" v-model="date" data-size="sm" :default-time="defaultValue" :time-panel-props="timeProps" :disabled-date="setDisabledDate" :dropdown-class="dropdownClass"></BsDateRangePicker>-->
+    <BsDateRangePicker class="aaa-inputer" value-format="YYYY-MM-DD HH:mm:ss" format="YYYY年MM月DD日 HH:mm:ss" clearable picker-type="dateTime" v-model="date" data-size="sm" :default-time="defaultValue" :time-panel-props="timeProps" :disabled-date="setDisabledDate" :dropdown-class="dropdownClass"></BsDateRangePicker>
     <!--<BsDateRangePicker class="aaa-inputer" clearable picker-type="month" format="YYYY年MM月" v-model="month" data-size="sm" :disabled-date="setDisabledMonth" :dropdown-class="dropdownClass"></BsDateRangePicker>-->
-    <BsDateRangePicker class="aaa-inputer" clearable picker-type="year" v-model="year" data-size="sm" data-value-format="YYYY年" :disabled-date="setDisabledYear" :dropdown-class="dropdownClass"></BsDateRangePicker>
+    <!--<BsDateRangePicker class="aaa-inputer" clearable picker-type="year" v-model="year" data-size="sm" data-value-format="YYYY年" :disabled-date="setDisabledYear" :dropdown-class="dropdownClass"></BsDateRangePicker>-->
     <!--<BsDatePicker v-model="week" picker-type="week" placeholder="请选择周"></BsDatePicker>-->
     <!--<BsDatePicker v-model="month" picker-type="month" placeholder="请选择月份"></BsDatePicker>-->
     <!--<BsDatePicker v-model="quarter" picker-type="quarter" placeholder="请选择季度"></BsDatePicker>-->
@@ -53,7 +53,7 @@ let dropdownClass = [
 
 let timeProps = {
   disabledMinutes (hour, minute) {
-    console.log('minute', minute);
+    // console.log('minute', minute);
     return minute > 10 && minute < 20;
   }
 };

@@ -13,6 +13,7 @@
         value-format=""
         :model-value="startDate"
         :disabled="timePanelProps.disabled || isHover"
+        :teleported="false"
         size="sm"
         placeholder="开始时间"
         @update:modelValue="onTimeChange($event, 'start')"></BsTimePicker>
@@ -31,6 +32,7 @@
         value-format=""
         :model-value="endDate"
         :disabled="timePanelProps.disabled || isHover"
+        :teleported="false"
         size="sm"
         placement="bottomEnd"
         placeholder="结束时间"
