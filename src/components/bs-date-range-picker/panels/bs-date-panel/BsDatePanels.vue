@@ -328,14 +328,14 @@ export default defineComponent({
       // hoverEndIsBeforeStart,
 
       startDate,
-      endDate
+      endDate,
       /* hoverStartDate,
       hoverEndDate,
       isHover,
 
       startDatePanelRef,
-      endDatePanelRef,
-      setPanelViewDate */
+      endDatePanelRef, */
+      setPanelViewDate
     });
 
     return {

@@ -17,7 +17,7 @@ interface UseDatePanelsEventsOptions {
 
   // startDatePanelRef: Ref<any>;
   // endDatePanelRef: Ref<any>;
-  // setPanelViewDate: (startViewDate?: Dayjs|Date|null, endViewDate?: Dayjs|Date|null) => any;
+  setPanelViewDate: (startViewDate?: Dayjs|Date|null, endViewDate?: Dayjs|Date|null) => any;
 };
 
 const defaultTimeStr = '00:00:00'; // 默认时间
@@ -35,14 +35,14 @@ export function useDatePanelsEvents (options: UseDatePanelsEventsOptions) {
     // hoverEndIsBeforeStart,
 
     startDate,
-    endDate
+    endDate,
     // hoverStartDate,
     // hoverEndDate,
     // isHover,
 
     // startDatePanelRef,
     // endDatePanelRef,
-    // setPanelViewDate
+    setPanelViewDate
   } = options;
 
   // 根据时间获取时分秒的值
@@ -310,7 +310,7 @@ export function useDatePanelsEvents (options: UseDatePanelsEventsOptions) {
           newEndDate = newStartDate.clone();
         }
         if (newStartDate.isAfter(newEndDate!)) {
-          newEndDate = newEndDate!.date(newEndDate!.date() + 1);
+          newEndDate = newStartDate!.date(newStartDate!.date() + 1);
         }
       }
     } else {
@@ -326,7 +326,7 @@ export function useDatePanelsEvents (options: UseDatePanelsEventsOptions) {
           startDateRaw = newEndDate.clone();
         }
         if (newEndDate.isBefore(newStartDate!)) {
-          newStartDate = newStartDate!.date(newStartDate!.date() - 1);
+          newStartDate = newEndDate!.date(newEndDate!.date() - 1);
         }
       }
     }
@@ -337,6 +337,7 @@ export function useDatePanelsEvents (options: UseDatePanelsEventsOptions) {
       endDate.value = newEndDate;
       // hoverStartDate.value = newStartDate;
       // hoverEndDate.value = endDateRaw;
+      setPanelViewDate(newStartDate, newEndDate);
       ctx.emit('previewDatesChange', [newStartDate, newEndDate]);
       ctx.emit('update:modelValue', [newStartDate, newEndDate]);
     }
