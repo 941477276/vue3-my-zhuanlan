@@ -131,47 +131,6 @@ export default defineComponent({
   },
   emits: ['update:modelValue', 'viewDateChange', 'previewDatesChange'],
   setup (props: any, ctx: any) {
-    let {
-      startDatePanelRef,
-      endDatePanelRef,
-      startDate,
-      endDate,
-      hoverStartDate,
-      hoverEndDate,
-      isHover,
-      hoverEndIsBeforeStart,
-      panelBodyExternalData,
-      startDateInputValue,
-      endDateInputValue,
-
-      resetSelectedDates,
-      setCellClassname
-    } = usePanelsCommon('year', props);
-
-    watch(() => props.modelValue, function (modelValue) {
-      let [start, end] = modelValue;
-      console.log('watch datePanels modelValue: ', modelValue);
-      startDate.value = start || null;
-      endDate.value = end || null;
-
-      nextTick(function () {
-        let viewDateStart = start || (!start && !end ? dayjs() : null);
-        console.log('111调用setPanelViewDate', start, end);
-        setPanelViewDate(start, end);
-      });
-    }, { immediate: true });
-
-    watch([hoverStartDate, hoverEndDate], function ([startDateRaw, endDateRaw]) {
-      console.log('bbbb');
-
-      // setDateInputValue();
-      if (startDateRaw || endDateRaw) {
-        console.log('bbb-1');
-        let arr = !hoverEndIsBeforeStart.value ? [startDateRaw, endDateRaw] : [endDateRaw, startDateRaw];
-        ctx.emit('previewDatesChange', arr);
-      }
-    });
-
     // 设置面版显示日期
     let setPanelViewDate = function (startViewDate?: Dayjs|Date|null, endViewDate?: Dayjs|Date|null) {
       console.log('调用了setPanelViewDate', startViewDate, endViewDate);
@@ -205,10 +164,59 @@ export default defineComponent({
     };
 
     let {
+      startDatePanelRef,
+      endDatePanelRef,
+      startDate,
+      endDate,
+      hoverStartDate,
+      hoverEndDate,
+      isHover,
+      hoverEndIsBeforeStart,
+      panelBodyExternalData,
+      startDateInputValue,
+      endDateInputValue,
+
+      resetSelectedDates,
+      setCellClassname,
       onDateCellClick,
-      onPanelModeChange,
       onPanelsWrapMousemove,
+      onPanelModeChange,
       onViewDateChange
+    } = usePanelsCommon('year', {
+      props,
+      ctx,
+      setPanelViewDate
+    });
+
+    watch(() => props.modelValue, function (modelValue) {
+      let [start, end] = modelValue;
+      console.log('watch datePanels modelValue: ', modelValue);
+      startDate.value = start || null;
+      endDate.value = end || null;
+
+      nextTick(function () {
+        let viewDateStart = start || (!start && !end ? dayjs() : null);
+        console.log('111调用setPanelViewDate', start, end);
+        setPanelViewDate(start, end);
+      });
+    }, { immediate: true });
+
+    watch([hoverStartDate, hoverEndDate], function ([startDateRaw, endDateRaw]) {
+      console.log('bbbb');
+
+      // setDateInputValue();
+      if (startDateRaw || endDateRaw) {
+        console.log('bbb-1');
+        let arr = !hoverEndIsBeforeStart.value ? [startDateRaw, endDateRaw] : [endDateRaw, startDateRaw];
+        ctx.emit('previewDatesChange', arr);
+      }
+    });
+
+    /* let {
+      // onDateCellClick,
+      // onPanelModeChange,
+      // onPanelsWrapMousemove,
+      // onViewDateChange
     } = useYearPanelsEvents({
       ctx,
       props,
@@ -224,7 +232,7 @@ export default defineComponent({
       startDatePanelRef,
       endDatePanelRef,
       setPanelViewDate
-    });
+    }); */
 
     return {
       startDatePanelRef,

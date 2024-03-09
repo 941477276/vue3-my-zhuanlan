@@ -7,17 +7,17 @@ interface UseDatePanelsEventsOptions {
   ctx: any;
   props: any;
   dateFormat: string;
-  hoverEndIsBeforeStart: Ref<boolean>;
+  // hoverEndIsBeforeStart: Ref<boolean>;
 
   startDate: Ref<Dayjs|null>;
   endDate: Ref<Dayjs|null>;
-  hoverStartDate: Ref<Dayjs|null>;
-  hoverEndDate: Ref<Dayjs|null>;
-  isHover: Ref<boolean>;
+  // hoverStartDate: Ref<Dayjs|null>;
+  // hoverEndDate: Ref<Dayjs|null>;
+  // isHover: Ref<boolean>;
 
-  startDatePanelRef: Ref<any>;
-  endDatePanelRef: Ref<any>;
-  setPanelViewDate: (startViewDate?: Dayjs|Date|null, endViewDate?: Dayjs|Date|null) => any;
+  // startDatePanelRef: Ref<any>;
+  // endDatePanelRef: Ref<any>;
+  // setPanelViewDate: (startViewDate?: Dayjs|Date|null, endViewDate?: Dayjs|Date|null) => any;
 };
 
 const defaultTimeStr = '00:00:00'; // 默认时间
@@ -32,17 +32,17 @@ export function useDatePanelsEvents (options: UseDatePanelsEventsOptions) {
     ctx,
     props,
     dateFormat,
-    hoverEndIsBeforeStart,
+    // hoverEndIsBeforeStart,
 
     startDate,
-    endDate,
-    hoverStartDate,
-    hoverEndDate,
-    isHover,
+    endDate
+    // hoverStartDate,
+    // hoverEndDate,
+    // isHover,
 
-    startDatePanelRef,
-    endDatePanelRef,
-    setPanelViewDate
+    // startDatePanelRef,
+    // endDatePanelRef,
+    // setPanelViewDate
   } = options;
 
   // 根据时间获取时分秒的值
@@ -59,7 +59,7 @@ export function useDatePanelsEvents (options: UseDatePanelsEventsOptions) {
     };
   };
   // 设置开始和结束时间
-  let setStartAndEndDate = function (name: string, newDate: Dayjs|null) {
+  /* let setStartAndEndDate = function (name: string, newDate: Dayjs|null) {
     let [defaultTimeStart, defaultTimeEnd] = props.defaultTime || [];
     if (!defaultTimeStart) {
       defaultTimeStart = defaultTimeStr;
@@ -110,9 +110,9 @@ export function useDatePanelsEvents (options: UseDatePanelsEventsOptions) {
   // 日期面板单元格点击事件
   let onDateCellClick = function (cellData: any) {
     console.log('onStartDateCellClick', cellData);
-    /* if (dateSelectedCount > 1) {
+    /!* if (dateSelectedCount > 1) {
       dateSelectedCount = 0;
-    } */
+    } *!/
     let startDateRaw = startDate.value;
     let endDateRaw = endDate.value;
     let update = function (start: Dayjs, end: Dayjs) {
@@ -145,19 +145,19 @@ export function useDatePanelsEvents (options: UseDatePanelsEventsOptions) {
         update(startDate.value!, endDate.value!);
       } else {
         console.log(222, startDate.value, endDate.value);
-        /* startDate.value = hoverStartDate.value = dayjsIns; */
+        /!* startDate.value = hoverStartDate.value = dayjsIns; *!/
         setStartAndEndDate('startHover', dayjsIns);
         setStartAndEndDate('start', dayjsIns);
-        /* endDate.value = hoverEndDate.value = null; */
+        /!* endDate.value = hoverEndDate.value = null; *!/
         setStartAndEndDate('endHover', null);
         setStartAndEndDate('end', null);
       }
     } else {
       if (!endDateRaw) {
-        /* startDate.value = hoverStartDate.value = dayjsIns; */
+        /!* startDate.value = hoverStartDate.value = dayjsIns; *!/
         setStartAndEndDate('startHover', dayjsIns);
         setStartAndEndDate('start', dayjsIns);
-        /* endDate.value = hoverEndDate.value = null; */
+        /!* endDate.value = hoverEndDate.value = null; *!/
         setStartAndEndDate('endHover', null);
         setStartAndEndDate('end', null);
         console.log(333, startDate.value, endDate.value);
@@ -226,8 +226,8 @@ export function useDatePanelsEvents (options: UseDatePanelsEventsOptions) {
       hoverEndIsBeforeStart.value = true;
     } else if (endDateRaw && dayjsIns.isAfter(endDateRaw, 'date')) {
       console.log('hover结束日期比选择的结束日期大');
-      /* startDate.value = hoverStartDate.value;
-      endDate.value = null; */
+      /!* startDate.value = hoverStartDate.value;
+      endDate.value = null; *!/
       setStartAndEndDate('start', hoverStartDate.value);
       setStartAndEndDate('end', null);
       hoverEndIsBeforeStart.value = false;
@@ -250,7 +250,7 @@ export function useDatePanelsEvents (options: UseDatePanelsEventsOptions) {
       hoverEndDate.value = null;
     }
     console.log('面板模式切换事件');
-  };
+  }; */
 
   // 获取时间信息
   let getTimes = function (dayjsIns: Dayjs) {
@@ -263,7 +263,7 @@ export function useDatePanelsEvents (options: UseDatePanelsEventsOptions) {
   };
 
   // 面板显示的日期切换事件
-  let onViewDateChange = function (viewDate: Dayjs, panelName: string) {
+  /* let onViewDateChange = function (viewDate: Dayjs, panelName: string) {
     isHover.value = false;
 
     let [start, end] = props.modelValue;
@@ -289,7 +289,7 @@ export function useDatePanelsEvents (options: UseDatePanelsEventsOptions) {
         setPanelViewDate(viewDate.month(viewDate.month() - 1), viewDate);
       }
     }
-  };
+  }; */
   // 日期输入框输入事件
   let onDateInput = function (evt: InputEvent, inputName: string) {
     let value = (evt.target as HTMLInputElement).value;
@@ -389,10 +389,10 @@ export function useDatePanelsEvents (options: UseDatePanelsEventsOptions) {
   };
   return {
     onDateInput,
-    onDateCellClick,
-    onPanelModeChange,
-    onPanelsWrapMousemove,
-    onViewDateChange,
+    // onDateCellClick,
+    // onPanelModeChange,
+    // onPanelsWrapMousemove,
+    // onViewDateChange,
     onTimeChange
   };
 }
