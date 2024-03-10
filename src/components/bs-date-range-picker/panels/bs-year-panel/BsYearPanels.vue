@@ -51,26 +51,22 @@ import {
   reactive,
   nextTick
 } from 'vue';
-import {
-  isFunction,
-  NOOP
-} from '@vue/shared';
 import dayjs, { Dayjs } from 'dayjs';
 // @ts-ignore
 import BsDatePanelAssemble from '../BsDatePanelAssemble';
-import { PickerType } from '../../bs-date-range-picker-types';
-import { useYearPanelsEvents } from './useYearPanelsEvents';
 import { usePanelsCommon } from '../usePanelsCommon';
 import { yearDecadeCount } from '../../../../utils/dayjsUtil';
+import { rangePanelsCommonProps } from '../rangePanelsCommonProps';
 
-const dateFormat = 'YYYY';
+// const dateFormat = 'YYYY';
 export default defineComponent({
   name: 'BsYearPanels',
   components: {
     BsDatePanelAssemble
   },
   props: {
-    modelValue: {
+    ...rangePanelsCommonProps
+    /* modelValue: {
       type: Array as PropType<Dayjs[]>,
       default () {
         return [];
@@ -127,7 +123,7 @@ export default defineComponent({
       default () {
         return NOOP;
       }
-    }
+    } */
   },
   emits: ['update:modelValue', 'viewDateChange', 'previewDatesChange'],
   setup (props: any, ctx: any) {

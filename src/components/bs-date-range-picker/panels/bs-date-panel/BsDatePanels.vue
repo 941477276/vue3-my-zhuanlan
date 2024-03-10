@@ -87,17 +87,13 @@ import {
   reactive,
   nextTick
 } from 'vue';
-import {
-  isFunction,
-  NOOP
-} from '@vue/shared';
 import dayjs, { Dayjs } from 'dayjs';
 import BsTimePicker from '../../../bs-time-picker/BsTimePicker.vue';
 // @ts-ignore
 import BsDatePanelAssemble from '../BsDatePanelAssemble';
-import { PickerType } from '../../bs-date-range-picker-types';
 import { useDatePanelsEvents } from './useDatePanelsEvents';
 import { usePanelsCommon } from '../usePanelsCommon';
+import { rangePanelsCommonProps } from '../rangePanelsCommonProps';
 
 const dateFormat = 'YYYY-MM-DD';
 export default defineComponent({
@@ -108,7 +104,8 @@ export default defineComponent({
     BsTimePicker
   },
   props: {
-    modelValue: {
+    ...rangePanelsCommonProps,
+    /* modelValue: {
       type: Array as PropType<Dayjs[]>,
       default () {
         return [];
@@ -165,7 +162,7 @@ export default defineComponent({
       default () {
         return NOOP;
       }
-    },
+    }, */
     isDatetimeRange: { // 是否为日期时间选择器
       type: Boolean,
       default: false

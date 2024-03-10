@@ -49,25 +49,21 @@ import {
   reactive,
   nextTick
 } from 'vue';
-import {
-  isFunction,
-  NOOP
-} from '@vue/shared';
 import dayjs, { Dayjs } from 'dayjs';
 // @ts-ignore
 import BsDatePanelAssemble from '../BsDatePanelAssemble';
-import { PickerType } from '../../bs-date-range-picker-types';
-import { useMonthPanelsEvents } from './useMonthPanelsEvents';
 import { usePanelsCommon } from '../usePanelsCommon';
+import { rangePanelsCommonProps } from '../rangePanelsCommonProps';
 
-const dateFormat = 'YYYY-MM';
+// const dateFormat = 'YYYY-MM';
 export default defineComponent({
   name: 'BsMonthPanels',
   components: {
     BsDatePanelAssemble
   },
   props: {
-    modelValue: {
+    ...rangePanelsCommonProps
+    /* modelValue: {
       type: Array as PropType<Dayjs[]>,
       default () {
         return [];
@@ -124,7 +120,7 @@ export default defineComponent({
       default () {
         return NOOP;
       }
-    }
+    } */
   },
   emits: ['update:modelValue', 'viewDateChange', 'previewDatesChange'],
   setup (props: any, ctx: any) {
