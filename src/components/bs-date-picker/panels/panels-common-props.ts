@@ -1,10 +1,9 @@
 import { PropType } from 'vue';
+import { Dayjs } from 'dayjs';
 import { NOOP } from '@vue/shared';
-import { panelsCommonProps } from '../panels-common-props';
 
-export const bsDatePanelProps = {
-  ...panelsCommonProps,
-  /* modelValue: {
+export const panelsCommonProps = {
+  modelValue: {
     type: Object as PropType<Dayjs>,
     default: null
   },
@@ -19,20 +18,8 @@ export const bsDatePanelProps = {
   showHeader: { // 是否显头部
     type: Boolean,
     default: true
-  }, */
-  hasPrefixColumn: { // 是否有前置列
-    type: Boolean,
-    default: false
   },
-  yearButtonDisabled: { // 是否禁用年份按钮
-    type: Boolean,
-    default: false
-  },
-  monthButtonDisabled: { // 是否禁用月份按钮
-    type: Boolean,
-    default: false
-  },
-  /* getRowClassname: { // 自定义表格行classname
+  getRowClassname: { // 自定义表格行classname
     type: Function,
     default () {
       return [];
@@ -45,12 +32,6 @@ export const bsDatePanelProps = {
     }
   },
   onYearClick: { // 年份按钮点击事件
-    type: Function,
-    default () {
-      return NOOP;
-    }
-  }, */
-  onMonthClick: { // 月份按钮点击事件
     type: Function,
     default () {
       return NOOP;

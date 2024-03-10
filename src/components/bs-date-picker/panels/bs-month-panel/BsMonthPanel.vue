@@ -36,6 +36,7 @@ import PanelBody from '../panel-body/PanelBody.vue';
 import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil, getMonthDays } from '../../../../utils/dayjsUtil';
 import { usePanelViewDate } from '../../hooks/usePanelViewDate';
+import { panelsCommonProps } from '../panels-common-props';
 
 let defaultFormat = 'YYYY-MM';
 export default defineComponent({
@@ -45,7 +46,8 @@ export default defineComponent({
     PanelBody
   },
   props: {
-    modelValue: {
+    ...panelsCommonProps
+    /* modelValue: {
       type: Object as PropType<Dayjs>,
       default: null
     },
@@ -78,7 +80,7 @@ export default defineComponent({
       default () {
         return NOOP;
       }
-    }
+    } */
   },
   emits: ['update:modelValue', 'viewDateChange', 'cell-click'],
   setup (props: any, ctx: any) {

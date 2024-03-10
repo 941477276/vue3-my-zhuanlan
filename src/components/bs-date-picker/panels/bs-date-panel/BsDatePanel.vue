@@ -58,7 +58,7 @@ import { bsDatePanelProps } from './bs-date-panel-props';
 const totalCell = 42; // 单元格总数, 6行 * 7天（一周）
 const weekDayCount = 7;
 const defaultFormat = 'YYYY-MM-DD';
-let getDates = function (dayjsIns: Dayjs, count: number, yearMonth: string, disabledDate: (currentDate: Dayjs) => boolean) {
+const getDates = function (dayjsIns: Dayjs, count: number, yearMonth: string, disabledDate: (currentDate: Dayjs) => boolean) {
   let daysDateArr: any = [];
   let dayIndex = 1;
   while (dayIndex <= count) {
@@ -78,7 +78,7 @@ let getDates = function (dayjsIns: Dayjs, count: number, yearMonth: string, disa
  * @param date 当前日期
  * @param lang 国籍语言
  */
-let getPrevMonthDayCount = function (date: Dayjs, lang:string) {
+const getPrevMonthDayCount = function (date: Dayjs, lang:string) {
   // 周的第一天
   let firstDayOfWeek = dayjsUtil.locale.firstDayOfWeek(lang);
   // 月份的第一天

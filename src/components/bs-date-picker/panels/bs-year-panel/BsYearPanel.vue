@@ -36,8 +36,9 @@ import PanelBody from '../panel-body/PanelBody.vue';
 import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil, getDecade, getMonthDays, yearDecadeCount } from '../../../../utils/dayjsUtil';
 import { usePanelViewDate } from '../../hooks/usePanelViewDate';
+import { panelsCommonProps } from '../panels-common-props';
 
-let defaultFormat = 'YYYY';
+// let defaultFormat = 'YYYY';
 let panelYearCount = 12;
 export default defineComponent({
   name: 'BsYearPanel',
@@ -46,7 +47,8 @@ export default defineComponent({
     PanelBody
   },
   props: {
-    modelValue: {
+    ...panelsCommonProps,
+    /* modelValue: {
       type: Object as PropType<Dayjs>,
       default: null
     },
@@ -73,7 +75,7 @@ export default defineComponent({
       default () {
         return [];
       }
-    },
+    }, */
     onDecadeClick: {
       type: Function,
       default () {
