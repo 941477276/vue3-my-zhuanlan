@@ -194,8 +194,7 @@ export default defineComponent({
 
       nextTick(function () {
         let viewDateStart = start || (!start && !end ? dayjs() : null);
-        console.log('111调用setPanelViewDate', start, end);
-        setPanelViewDate(start, end);
+        setPanelViewDate(viewDateStart, end);
       });
     }, { immediate: true });
 
