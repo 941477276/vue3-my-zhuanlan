@@ -218,7 +218,12 @@ export const dayjsUtil = {
     if (!value) {
       return null;
     }
-    if (typeof value === 'string') {
+    let valueType = typeof value;
+    // 如果格式类型为年份，并且值为数字类型，那么需将其转为字符串类型，否则格式化不正确
+    if (valueType == 'number' && format == 'YYYY') {
+      value = value + '';
+    }
+    if (valueType === 'string') {
       return dayjs(value, format);
     } else {
       return dayjs(value);

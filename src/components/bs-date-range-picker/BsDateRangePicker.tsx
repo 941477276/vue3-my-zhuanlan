@@ -16,10 +16,9 @@ import {
 import BsCommonRangePicker from './BsCommonRangePicker.vue';
 import {
   bsDateRangePickerTypes,
-  PickerType,
-  datePickerCtx,
   allowedPickerType
 } from './bs-date-range-picker-types';
+import { datePickerCtx } from '../bs-date-picker/bs-date-picker-types';
 import BsDatePanels from './panels/bs-date-panel/BsDatePanels.vue';
 import BsMonthPanels from './panels/bs-month-panel/BsMonthPanels.vue';
 import BsYearPanels from './panels/bs-year-panel/BsYearPanels.vue';
