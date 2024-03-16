@@ -430,6 +430,31 @@ export function usePanelsCommon (panelType: PanelType, options = {} as UsePanels
     hoverEndIsBeforeStart.value = false;
   };
 
+  // 结束日期禁用函数
+  let dateDisabledStart = function (date: Dayjs) {
+    let disabledDateFn = props.disabledDate;
+    if (isFunction(disabledDateFn)) {
+      return disabledDateFn({
+        panel: 'start',
+        current: date,
+        range: [startDate.value?.clone(), endDate.value?.clone()]
+      });
+    }
+    return false;
+  };
+  // 结束日期禁用函数
+  let dateDisabledEnd = function (date: Dayjs) {
+    let disabledDateFn = props.disabledDate;
+    if (isFunction(disabledDateFn)) {
+      return disabledDateFn({
+        panel: 'end',
+        current: date,
+        range: [startDate.value?.clone(), endDate.value?.clone()]
+      });
+    }
+    return false;
+  };
+
   return {
     startDatePanelRef,
     endDatePanelRef,
@@ -448,6 +473,8 @@ export function usePanelsCommon (panelType: PanelType, options = {} as UsePanels
     onDateCellClick,
     onPanelsWrapMousemove,
     onViewDateChange,
-    onPanelModeChange
+    onPanelModeChange,
+    dateDisabledStart,
+    dateDisabledEnd
   };
 }

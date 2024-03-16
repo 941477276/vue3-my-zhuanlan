@@ -41,6 +41,14 @@ let pickerCounts: any = {
   year: 0,
   dateTime: 0
 };
+let defaultFormatMap: any = {
+  date: 'YYYY-MM-DD',
+  dateTime: 'YYYY-MM-DD',
+  week: 'YYYY-wo',
+  month: 'YYYY-MM',
+  quarter: 'YYYY-[Q]Q',
+  year: 'YYYY'
+};
 // js编写日历思路：https://www.cnblogs.com/zaijin-yang/p/12009727.html
 export default defineComponent({
   name: 'BsDatePicker',
@@ -67,21 +75,19 @@ export default defineComponent({
 
     // 格式模板
     let formatInner = computed(function () {
-      let format = props.format;
+      let {
+        format,
+        pickerType,
+        timePanelProps
+      } = props;
       if (format) {
         return format;
       }
-      let pickerType = props.pickerType;
-      let formatMap: any = {
-        date: 'YYYY-MM-DD',
-        dateTime: 'YYYY-MM-DD',
-        week: 'YYYY-wo',
-        month: 'YYYY-MM',
-        quarter: 'YYYY-[Q]Q',
-        year: 'YYYY'
-      };
-      formatMap.dateTime += props.timePanelProps.use12Hours ? ' hh:mm:ss' : ' HH:mm:ss';
-      let formatValue = formatMap[pickerType];
+
+      let formatValue = defaultFormatMap[pickerType];
+      if (pickerType == 'dateTime') {
+        formatValue += timePanelProps?.use12Hours ? ' hh:mm:ss' : ' HH:mm:ss';
+      }
       return formatValue;
     });
 

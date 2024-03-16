@@ -15,22 +15,16 @@
       <a-date-picker v-model:value="value5" picker="year" />&ndash;&gt;
       <a-range-picker v-model:value="value6" :value-format="['YYYY-MM-DD hh:mm:ss', 'YYYY年MM月DD日 hh:mm:ss']"></a-range-picker>
     </a-space>-->
-    <div>
+    <!--<div>
       <h3>基本使用</h3>
       <Basic></Basic>
-    </div>
+    </div>-->
 
     <!--<div>
       <hr>
-      <h3>选择时间</h3>
-      <DateTime></DateTime>
-    </div>
-
-    <div>
-      <hr>
       <h3>自定义渲染</h3>
       <CustomCell></CustomCell>
-    </div>
+    </div>-->
 
     <div>
       <hr>
@@ -38,7 +32,7 @@
       <Disabled></Disabled>
     </div>
 
-    <div>
+    <!--<div>
       <hr>
       <h3>带快捷按钮</h3>
       <Sidebar></Sidebar>
@@ -78,10 +72,9 @@ export default defineComponent({
   name: 'BsDateRangePickerUsage',
   components: {
     // BsDatePicker,
-    Basic
-    // DateTime,
+    // Basic,
     // CustomCell,
-    // Disabled,
+    Disabled
     // Sidebar,
     // PanelViewDate,
     // Size

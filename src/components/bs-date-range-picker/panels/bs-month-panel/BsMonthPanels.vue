@@ -10,7 +10,7 @@
         :get-cell-classname="setCellClassname"
         :has-prefix-column="hasPrefixColumn"
         :use-model-value="false"
-        :disabled-date="disabledDate"
+        :disabled-date="dateDisabledStart"
         :date-render="dateRender"
         :year-button-disabled="yearButtonDisabled"
         :month-button-disabled="monthButtonDisabled"
@@ -25,7 +25,7 @@
         :get-cell-classname="setCellClassname"
         :has-prefix-column="hasPrefixColumn"
         :use-model-value="false"
-        :disabled-date="disabledDate"
+        :disabled-date="dateDisabledEnd"
         :date-render="dateRender"
         :year-button-disabled="yearButtonDisabled"
         :month-button-disabled="monthButtonDisabled"
@@ -179,7 +179,9 @@ export default defineComponent({
       onDateCellClick,
       onPanelsWrapMousemove,
       onPanelModeChange,
-      onViewDateChange
+      onViewDateChange,
+      dateDisabledStart,
+      dateDisabledEnd
     } = usePanelsCommon('month', {
       props,
       ctx,
@@ -288,7 +290,9 @@ export default defineComponent({
       onDateCellClick,
       onPanelModeChange,
       onPanelsWrapMousemove,
-      onViewDateChange
+      onViewDateChange,
+      dateDisabledStart,
+      dateDisabledEnd
     };
   }
 });

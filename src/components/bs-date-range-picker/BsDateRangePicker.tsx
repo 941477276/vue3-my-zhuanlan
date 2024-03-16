@@ -31,6 +31,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil, formatDate } from '../../utils/dayjsUtil';
 import { getUpdateModelValue } from '../../components/bs-time-picker/useTimePicker';
 import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
+import { end } from '@popperjs/core';
 
 let pickerCounts: any = {
   date: 0,
@@ -63,14 +64,19 @@ export default defineComponent({
 
     // 格式模板
     let formatInner = computed(function () {
-      let format = props.format;
+      let {
+        format,
+        pickerType,
+        timePanelProps
+      } = props;
       if (format) {
         return format;
       }
-      let pickerType = props.pickerType;
 
-      defaultFormatMap.dateTime += props.timePanelProps.use12Hours ? ' hh:mm:ss' : ' HH:mm:ss';
       let formatValue = defaultFormatMap[pickerType];
+      if (pickerType == 'dateTime') {
+        formatValue += timePanelProps?.use12Hours ? ' hh:mm:ss' : ' HH:mm:ss';
+      }
       return formatValue;
     });
 
@@ -141,8 +147,16 @@ export default defineComponent({
       let disabledDate = props.disabledDate;
       if (isFunction(disabledDate)) {
         let viewDatesIsDisabledRaw = viewDatesIsDisabled.value;
-        viewDatesIsDisabledRaw[0] = dayjsInsStart ? !!disabledDate(dayjsInsStart) : false;
-        viewDatesIsDisabledRaw[1] = dayjsInsEnd ? !!disabledDate(dayjsInsEnd) : false;
+        viewDatesIsDisabledRaw[0] = dayjsInsStart ? !!disabledDate({
+          panel: 'start',
+          current: dayjsInsStart,
+          range: [dayjsInsStart, dayjsInsEnd]
+        }) : false;
+        viewDatesIsDisabledRaw[1] = dayjsInsEnd ? !!disabledDate({
+          panel: 'start',
+          current: dayjsInsEnd,
+          range: [dayjsInsStart, dayjsInsEnd]
+        }) : false;
       }
     };
 
@@ -174,6 +188,7 @@ export default defineComponent({
               tempFormat = datePanelValueFormat + props.valueFormatSpliter + timePanelValueFormat;
             }
             let getDayjsInsByValue = function (dateTimeValue: string) {
+              console.log('getDayjsInsByValue日期格式：', tempFormat, format);
               let dateTemp = dayjsUtil.parseToDayjs(dateTimeValue, tempFormat || format);
               if (!dateTemp) {
                 return null;
@@ -312,9 +327,13 @@ export default defineComponent({
       let disabledDate = props.disabledDate;
       let startValueDisabled = false;
       let endValueDisabled = false;
-      let getDateDisabled = function (dayjsIns: Dayjs) {
+      let getDateDisabled = function (dayjsIns: Dayjs, panelName: string, range: Dayjs[]) {
         if (isFunction(disabledDate)) {
-          return !!disabledDate(dayjsIns);
+          return !!disabledDate({
+            panel: panelName,
+            current: dayjsIns,
+            range
+          });
         }
         return false;
       };
@@ -329,8 +348,9 @@ export default defineComponent({
         if (!timePanelProps.valueFormat || !datePanelProps.valueFormat) {
           startValue = newDateStart.clone();
           endValue = newDateEnd.clone();
-          startValueDisabled = getDateDisabled(startValue);
-          endValueDisabled = getDateDisabled(endValue);
+          let range = [startValue, endValue];
+          startValueDisabled = getDateDisabled(startValue, 'start', range);
+          endValueDisabled = getDateDisabled(endValue, 'end', range);
         } else {
           if (use12Hours) {
             periodStart = newDateStart.hour() > 12 ? 'pm' : 'am';
@@ -368,12 +388,14 @@ export default defineComponent({
           let dateValueEnd = newDateEnd.format(valueFormat);
           startValue = dateValueStart + ' ' + timeValueStart;
           endValue = dateValueEnd + ' ' + timeValueEnd;
-          startValueDisabled = getDateDisabled(newDateStart);
-          endValueDisabled = getDateDisabled(newDateEnd);
+          let range = [newDateStart, newDateEnd];
+          startValueDisabled = getDateDisabled(newDateStart, 'start', range);
+          endValueDisabled = getDateDisabled(newDateEnd, 'end', range);
         }
       } else {
-        startValueDisabled = getDateDisabled(newDateStart);
-        endValueDisabled = getDateDisabled(newDateEnd);
+        let range = [newDateStart, newDateEnd];
+        startValueDisabled = getDateDisabled(newDateStart, 'start', range);
+        endValueDisabled = getDateDisabled(newDateEnd, 'end', range);
         if (!valueFormat) {
           startValue = newDateStart.clone();
           endValue = newDateEnd.clone();
@@ -528,10 +550,19 @@ export default defineComponent({
       if (startDateIns.isValid() && endDateIns.isValid()) {
         console.log('onInput 22');
         if (isFunction(disabledDate)) {
-          if (disabledDate(startDateIns) && inputName == 'start') {
+          let range = [startDateIns, endDateIns];
+          if (disabledDate({
+            current: startDateIns,
+            type: 'start',
+            range
+          }) && inputName == 'start') {
             return;
           }
-          if (disabledDate(endDateIns) && inputName == 'end') {
+          if (disabledDate({
+            current: endDateIns,
+            type: 'end',
+            range
+          }) && inputName == 'end') {
             return;
           }
         }

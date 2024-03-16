@@ -224,6 +224,7 @@ export const dayjsUtil = {
       value = value + '';
     }
     if (valueType === 'string') {
+      console.log('parseToDayjs', value, format);
       return dayjs(value, format);
     } else {
       return dayjs(value);
