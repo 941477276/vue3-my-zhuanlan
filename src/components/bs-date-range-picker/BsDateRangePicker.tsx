@@ -431,10 +431,10 @@ export default defineComponent({
       callFormItem('validate', 'change');
     };
     // 设置面板显示的日期
-    /* let setPanelViewDate = function (startDate: Date|Dayjs, endDate?: Date|Dayjs) {
+    let setPanelViewDate = function (startDate: Date|Dayjs, endDate?: Date|Dayjs) {
       let mode = currentMode.value || props.pickerType;
       refs[mode + 'Ref']?.value?.setPanelViewDate(startDate, endDate);
-    }; */
+    };
     // 清空内容
     let clear = function () {
       setDate();
@@ -654,7 +654,7 @@ export default defineComponent({
       show,
       setValidateStatus,
       // setCurrentMode,
-      // setPanelViewDate,
+      setPanelViewDate,
 
       dateRef,
       weekRef,
