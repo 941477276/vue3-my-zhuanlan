@@ -31,7 +31,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { dayjsUtil, formatDate } from '../../utils/dayjsUtil';
 import { getUpdateModelValue } from '../../components/bs-time-picker/useTimePicker';
 import { useDeliverContextToFormItem } from '../../hooks/useDeliverContextToFormItem';
-import { end } from '@popperjs/core';
+import { isNumber } from '@/utils/bs-util';
 
 let pickerCounts: any = {
   date: 0,
@@ -164,8 +164,8 @@ export default defineComponent({
       if (!modelValue || modelValue.length == 0) {
         dates.value = [];
       } else {
-        let dayjsInsStart;
-        let dayjsInsEnd;
+        let dayjsInsStart: Dayjs|null = null;
+        let dayjsInsEnd: Dayjs|null = null;
         let [valueStart, valueEnd] = modelValue;
         /* let valueStartType = getType(valueStart);
         let valueEndType = getType(valueEnd); */
@@ -319,6 +319,12 @@ export default defineComponent({
       }
       console.log('setDate 22');
       let [newDateStart, newDateEnd] = newDates;
+      if (newDateStart instanceof Date || isNumber(newDateStart)) {
+        newDateStart = dayjs(newDateStart);
+      }
+      if (newDateEnd instanceof Date || isNumber(newDateStart)) {
+        newDateEnd = dayjs(newDateEnd);
+      }
       let [originDateStart, originDateEnd] = dates.value;
       let valueFormat = props.valueFormat;
       let startValue;
@@ -658,6 +664,7 @@ export default defineComponent({
       decadeRef,
       dateTimeRef,
 
+      setDate,
       onDatePanelModelValueChange,
       onConfirmBtnClick () {
         /* if (props.pickerType === 'dateTime') {
