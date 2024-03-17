@@ -1,30 +1,15 @@
 <template>
   <div class="component-usage">
-   <!-- <a-space direction="vertical" :size="12" style="margin-top: 2rem;">
-      &lt;!&ndash;<a-date-picker
-        v-model:value="value1"
-        value-format="YYYY-MM-DD"
-        show-time
-        :defaultPickerValue="now"
-        :disabledDate="disabledDate"
-        :date-render="dateRender"/>
-      <bs-button @click="updateNow">修改defaultPickerValue</bs-button>
-      <a-date-picker v-model:value="value2" picker="week" />
-      <a-date-picker v-model:value="value3" picker="month" />
-      <a-date-picker v-model:value="value4" picker="quarter" data-value-format="YYYY-[Q]Q" />
-      <a-date-picker v-model:value="value5" picker="year" />&ndash;&gt;
-      <a-range-picker v-model:value="value6" :value-format="['YYYY-MM-DD hh:mm:ss', 'YYYY年MM月DD日 hh:mm:ss']"></a-range-picker>
-    </a-space>-->
-    <!--<div>
+    <div>
       <h3>基本使用</h3>
       <Basic></Basic>
-    </div>-->
+    </div>
 
-    <!--<div>
+    <div>
       <hr>
       <h3>自定义渲染</h3>
       <CustomCell></CustomCell>
-    </div>-->
+    </div>
 
     <div>
       <hr>
@@ -32,7 +17,13 @@
       <Disabled></Disabled>
     </div>
 
-    <!--<div>
+    <div>
+      <hr>
+      <h3>日期格式化</h3>
+      <Formatter></Formatter>
+    </div>
+
+    <div>
       <hr>
       <h3>带快捷按钮</h3>
       <Sidebar></Sidebar>
@@ -48,7 +39,7 @@
       <hr>
       <h3>不同大小</h3>
       <Size></Size>
-    </div>-->
+    </div>
   </div>
 </template>
 
@@ -58,12 +49,11 @@ import {
   h,
   defineComponent
 } from 'vue';
-import BsDateRangePicker from './BsDateRangePicker';
 import dayjs, { Dayjs } from 'dayjs';
 import Basic from './demos/basic.vue';
-import DateTime from './demos/date-time.vue';
 import CustomCell from './demos/custom-cell.vue';
 import Disabled from './demos/disabled.vue';
+import Formatter from './demos/formatter.vue';
 import Sidebar from './demos/sidebar.vue';
 import PanelViewDate from './demos/panl-view-date.vue';
 import Size from './demos/size.vue';
@@ -71,13 +61,13 @@ import Size from './demos/size.vue';
 export default defineComponent({
   name: 'BsDateRangePickerUsage',
   components: {
-    // BsDatePicker,
-    // Basic,
-    // CustomCell,
-    Disabled
-    // Sidebar,
-    // PanelViewDate,
-    // Size
+    Basic,
+    CustomCell,
+    Disabled,
+    Formatter,
+    Sidebar,
+    PanelViewDate,
+    Size
   },
   setup () {
     let disabledDate = function (currentDate: Dayjs) {

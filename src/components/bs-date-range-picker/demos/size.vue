@@ -14,11 +14,36 @@ description:
 <template>
   <div>
     <h6>Large input(<code>size=lg</code>)</h6>
-    <BsDatePicker v-model="date" size="lg" placeholder="Select date"></BsDatePicker>
+    <div class="mb-1rem">
+      <BsDateRangePicker v-model="date" size="lg"></BsDateRangePicker>
+    </div>
+    <div class="mb-1rem">
+      <BsDateRangePicker v-model="dateTime" size="lg" picker-type="dateTime"></BsDateRangePicker>
+    </div>
+    <div class="mb-1rem">
+      <BsDateRangePicker v-model="month" size="lg" picker-type="month"></BsDateRangePicker>
+    </div>
     <h6>Default input</h6>
-    <BsDatePicker v-model="date" placeholder="Select date"></BsDatePicker>
+    <div class="mb-1rem">
+      <BsDateRangePicker v-model="date"></BsDateRangePicker>
+    </div>
+    <div class="mb-1rem">
+      <BsDateRangePicker v-model="dateTime" picker-type="dateTime"></BsDateRangePicker>
+    </div>
+    <div class="mb-1rem">
+      <BsDateRangePicker v-model="month" picker-type="month"></BsDateRangePicker>
+    </div>
+
     <h6>Small input(<code>size=sm</code>)</h6>
-    <BsDatePicker v-model="date" size="sm" placeholder="Select date"></BsDatePicker>
+    <div class="mb-1rem">
+      <BsDateRangePicker v-model="date" size="sm"></BsDateRangePicker>
+    </div>
+    <div class="mb-1rem">
+      <BsDateRangePicker v-model="dateTime" size="sm" picker-type="dateTime"></BsDateRangePicker>
+    </div>
+    <div class="mb-1rem">
+      <BsDateRangePicker v-model="month" size="sm" picker-type="month"></BsDateRangePicker>
+    </div>
   </div>
 </template>
 
@@ -27,5 +52,13 @@ import {
   ref
 } from 'vue';
 
-let date = ref('');
+let date = ref([]);
+let dateTime = ref([]);
+let month = ref([]);
 </script>
+
+<style lang="scss" scoped>
+.mb-1rem{
+  margin-bottom: 1rem;
+}
+</style>
